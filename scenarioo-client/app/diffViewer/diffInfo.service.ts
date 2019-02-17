@@ -20,7 +20,7 @@ angular.module('scenarioo.services').service('DiffInfoService', DiffInfoService)
 function DiffInfoService() {
 
     function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
-        let elementsWithDiffInfo = [];
+        const elementsWithDiffInfo = [];
 
         angular.forEach(elements, function(element) {
             element.diffInfo = getDiffInfo(diffInfos, resolvePathValue(element, pathToName));
@@ -73,7 +73,7 @@ function DiffInfoService() {
         });
 
         if (targetPageAndStep === null) {
-            let removedPage = {
+            const removedPage = {
                 name: stepInfo.stepLink.pageName,
                 pageOccurrence: stepInfo.stepLink.pageOccurrence,
             };
@@ -81,7 +81,7 @@ function DiffInfoService() {
                 page: removedPage,
                 steps: [],
             };
-            let insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
+            const insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
             pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
@@ -93,8 +93,8 @@ function DiffInfoService() {
 
     function getInsertPosition(pagesAndSteps, stepIndex) {
         for (let i = 0; i < pagesAndSteps; i++) {
-            let steps = pagesAndSteps[i].steps;
-            let lastStepInPage = steps[steps.length - 1];
+            const steps = pagesAndSteps[i].steps;
+            const lastStepInPage = steps[steps.length - 1];
             if (lastStepInPage >= stepIndex) {
                 return i + 1;
             }
@@ -120,7 +120,7 @@ function DiffInfoService() {
     }
 
     function getRemovedDiffInfo() {
-        let diffInfo: any = {};
+        const diffInfo: any = {};
         diffInfo.changeRate = 100;
         diffInfo.isAdded = false;
         diffInfo.isRemoved = true;
@@ -128,7 +128,7 @@ function DiffInfoService() {
     }
 
     function getPageDiffInfo(pageAndStep) {
-        let diffInfo = {
+        const diffInfo = {
             changeRate: 0,
             added: 0,
             changed: 0,
@@ -160,7 +160,7 @@ function DiffInfoService() {
     function resolvePathValue(obj, path) {
         let current = obj;
         if (path) {
-            let paths = path.split('.');
+            const paths = path.split('.');
             for (let i = 0; i < paths.length; i++) {
                 if (current[paths[i]] === undefined) {
                     return undefined;

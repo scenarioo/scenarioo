@@ -23,13 +23,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
                         StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
 
-    let transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    let transformMetadataToTree = $filter('scMetadataTreeCreator');
+    const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    const transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     let selectedBranchAndBuild: any = {};
-    let useCaseName = $routeParams.useCaseName;
-    let scenarioName = $routeParams.scenarioName;
-    let labels = $location.search().labels;
+    const useCaseName = $routeParams.useCaseName;
+    const scenarioName = $routeParams.scenarioName;
+    const labels = $location.search().labels;
 
     $scope.step = null; // loaded later, in activation
     $scope.pageName = $routeParams.pageName;
@@ -110,10 +110,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 }
 
                 $scope.hasAnyLabels = function() {
-                    let hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                    let hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                    let hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
-                    let hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+                    const hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                    const hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                    const hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
+                    const hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
 
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
                 };
@@ -150,16 +150,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function createStepInformationTree(result) {
-        let stepDescription = result.stepDescription;
+        const stepDescription = result.stepDescription;
 
-        let stepInformation = {};
+        const stepInformation = {};
 
         if (angular.isDefined(stepDescription.title)) {
             stepInformation['Step title'] = stepDescription.title;
         }
 
         if (angular.isDefined(result.page)) {
-            let pageToRender = angular.copy(result.page);
+            const pageToRender = angular.copy(result.page);
             // Will be displayed separately
             delete pageToRender.labels;
             stepInformation['Page name'] = pageToRender;
@@ -332,7 +332,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         sessionStorage.setItem('activeTab', activeTab);
     }
     function getActiveTab() {
-        let activeTab: any = sessionStorage.getItem('activeTab');
+        const activeTab: any = sessionStorage.getItem('activeTab');
         if (activeTab == null) {
             return 0;
         }
@@ -348,13 +348,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             return undefined;
         }
 
-        let imageName = $scope.step.stepDescription.screenshotFileName;
+        const imageName = $scope.step.stepDescription.screenshotFileName;
 
         if (angular.isUndefined(imageName)) {
             return undefined;
         }
 
-        let selected = SelectedBranchAndBuildService.selected();
+        const selected = SelectedBranchAndBuildService.selected();
 
         $scope.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     }
@@ -397,8 +397,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         if (!$scope.step.diffInfo.changeRate || $scope.step.diffInfo.changeRate === 0 || $scope.step.diffInfo.isAdded) {
             $scope.diffScreenShotUrl = $scope.screenShotUrl;
         } else if ($scope.stepIdentifier) {
-            let branchAndBuild = SelectedBranchAndBuildService.selected();
-            let comparisonName = SelectedComparison.selected();
+            const branchAndBuild = SelectedBranchAndBuildService.selected();
+            const comparisonName = SelectedComparison.selected();
             $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
         }
     }
@@ -457,7 +457,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     };
 
     $scope.switchComparisonSingleScreenView = function() {
-        let viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
+        const viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
         $scope.setComparisonView(viewId);
     };
 
@@ -521,22 +521,22 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return url.split('#')[0];
     }
 
-    let getImageFileExtension = function() {
+    const getImageFileExtension = function() {
         if (angular.isUndefined($scope.step)) {
             return '';
         }
 
-        let imageFileName = $scope.step.stepDescription.screenshotFileName;
+        const imageFileName = $scope.step.stepDescription.screenshotFileName;
 
         if (!angular.isString(imageFileName)) {
             return '';
         }
 
-        let fileNameParts = imageFileName.split('.');
+        const fileNameParts = imageFileName.split('.');
         return fileNameParts[fileNameParts.length - 1];
     };
 
-    let getAllLabels = function() {
+    const getAllLabels = function() {
         let allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
             allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
@@ -544,7 +544,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return allLabels;
     };
 
-    let createLabelUrl = function(prefix, labelsForUrl) {
+    const createLabelUrl = function(prefix, labelsForUrl) {
         if (angular.isUndefined(labelsForUrl) || !angular.isArray(labelsForUrl) || labelsForUrl.length === 0) {
             return '';
         }
@@ -576,7 +576,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function goToIssue(issue) {
-        let selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id },
             function onSuccess(result) {

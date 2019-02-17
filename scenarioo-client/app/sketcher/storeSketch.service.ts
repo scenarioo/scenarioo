@@ -29,7 +29,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         addAlertCallback,
         successCallback;
 
-    let AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
+    const AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
         MODE_EDIT = 'edit';
 
@@ -46,7 +46,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         modeAfterSaving = inputData.mode;
         resetIds();
 
-        let issue = new IssueResource({
+        const issue = new IssueResource({
             branchName: inputData.branchName,
             name: inputData.issueName,
             description: inputData.issueDescription,
@@ -83,7 +83,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             return;
         }
 
-        let scenarioSketch: any = {
+        const scenarioSketch: any = {
             branchName: inputData.branchName,
             author: inputData.issueAuthor,
             issueId: issueIdAfterSavingIssue,
@@ -109,9 +109,9 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             return;
         }
 
-        let exportedSVG = DrawingPadService.exportDrawing();
+        const exportedSVG = DrawingPadService.exportDrawing();
 
-        let stepSketch = new StepSketchResource({
+        const stepSketch = new StepSketchResource({
             branchName: inputData.branchName,
             svgXmlString: exportedSVG,
             issueId: issueIdAfterSavingIssue,

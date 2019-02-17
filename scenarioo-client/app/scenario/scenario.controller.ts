@@ -21,7 +21,7 @@ function ScenarioController($filter, $routeParams,
           $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
           ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
-    let vm = this;
+    const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
     vm.useCase = {};
@@ -45,16 +45,16 @@ function ScenarioController($filter, $routeParams,
     vm.goToIssue = goToIssue;
     vm.comparisonInfo = SelectedComparison.info;
 
-    let useCaseName = $routeParams.useCaseName;
-    let scenarioName = $routeParams.scenarioName;
+    const useCaseName = $routeParams.useCaseName;
+    const scenarioName = $routeParams.scenarioName;
     let comparisonBranchName;
     let comparisonBuildName;
     let selectedBranchAndBuild;
     let pagesAndScenarios: any = [];
     let scenarioStatistics: any = {};
-    let showAllSteps = [];
-    let transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    let transformMetadataToTree = $filter('scMetadataTreeCreator');
+    const showAllSteps = [];
+    const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    const transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
@@ -83,14 +83,14 @@ function ScenarioController($filter, $routeParams,
                 scenarioStatistics = result.scenarioStatistics;
 
                 if (SelectedComparison.isDefined()) {
-                    let selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
+                    const selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
                     loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
                 }
 
                 loadRelatedIssues();
 
-                let hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
-                let hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
+                const hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
+                const hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
@@ -145,7 +145,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function expandAll() {
-        let numberOfPages = scenarioStatistics.numberOfPages;
+        const numberOfPages = scenarioStatistics.numberOfPages;
         for (let i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
@@ -182,7 +182,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function createScenarioInformationTree(scenario, statistics, useCase) {
-        let stepInformation: any = {};
+        const stepInformation: any = {};
         stepInformation['Use Case'] = useCase.name;
         if (useCase.description) {
             stepInformation['Use Case Description'] = useCase.description;
@@ -279,7 +279,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function goToIssue(issue) {
-        let selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id },
             function onSuccess(result) {

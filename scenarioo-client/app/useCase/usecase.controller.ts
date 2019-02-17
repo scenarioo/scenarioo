@@ -91,7 +91,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function goToFirstStep(useCaseName, scenarioName) {
-        let selected = SelectedBranchAndBuildService.selected();
+        const selected = SelectedBranchAndBuildService.selected();
 
         // FIXME This could be improved, if the scenario service
         // for finding all scenarios would also retrieve the name of the first page
@@ -109,7 +109,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function loadScenariosAndUseCase(selected) {
-        let useCaseName = $routeParams.useCaseName;
+        const useCaseName = $routeParams.useCaseName;
 
         ScenarioResource.get({
             branchName: selected.branch,
@@ -127,7 +127,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
 
         if (SelectedComparison.isDefined()) {
-            let selected = SelectedBranchAndBuildService.selected();
+            const selected = SelectedBranchAndBuildService.selected();
             loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.useCase.name);
         } else {
             vm.scenarios = result.scenarios;
@@ -176,7 +176,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function goToIssue(issue) {
-        let selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id},
             function onSuccess(result) {
@@ -185,7 +185,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function createUseCaseInformationTree(usecase) {
-        let usecaseInformation: any = {};
+        const usecaseInformation: any = {};
         usecaseInformation['Use Case'] = usecase.name;
         if (usecase.description) {
             usecaseInformation.Description = usecase.description;

@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('UseCasesTabController', UseC
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
-    let vm = this;
+    const vm = this;
     vm.table = {
         search: {searchTerm: ''},
         sort: {column: 'name', reverse: false},
@@ -41,16 +41,16 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     vm.getLabelStyle = getLabelStyle;
 
-    let transformMetadataToTree = $filter('scMetadataTreeCreator');
-    let transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    let dateTimeFormatter = $filter('scDateTime');
+    const transformMetadataToTree = $filter('scMetadataTreeCreator');
+    const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    const dateTimeFormatter = $filter('scDateTime');
 
     activate();
 
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
-        LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        LabelConfigurationsResource.query({}, (labelConfiguratins) => {
             vm.labelConfigurations = labelConfiguratins;
         });
     }
@@ -75,7 +75,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     function getLabelStyle(labelName) {
         if (vm.labelConfigurations) {
-            let labelConfig = vm.labelConfigurations[labelName];
+            const labelConfig = vm.labelConfigurations[labelName];
             if (labelConfig) {
                 return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
             }
@@ -84,40 +84,40 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     function loadUseCases(selected) {
         BranchesAndBuildsService.getBranchesAndBuilds()
-            .then(function onSuccess(branchesAndBuilds) {
+            .then((branchesAndBuilds) => {
                 vm.branchesAndBuilds = branchesAndBuilds;
 
                 UseCasesResource.query(
                     {branchName: selected.branch, buildName: selected.build},
-                    function onSuccess(useCases) {
+                    (useCases) => {
                         if (SelectedComparison.isDefined()) {
                             loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                         } else {
                             vm.useCases = useCases;
                         }
 
-                        let branch = vm.branchesAndBuilds.selectedBranch.branch;
-                        let build = vm.branchesAndBuilds.selectedBuild.build;
+                        const branch = vm.branchesAndBuilds.selectedBranch.branch;
+                        const build = vm.branchesAndBuilds.selectedBuild.build;
                         vm.branchInformationTree = createBranchInformationTree(branch);
                         vm.buildInformationTree = createBuildInformationTree(build);
                         vm.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
                         vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
                     });
-        });
+            });
     }
 
     function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
         if (useCases && baseBranchName && baseBuildName) {
             BuildDiffInfoResource.get(
-                {baseBranchName: baseBranchName, baseBuildName: baseBuildName, comparisonName: comparisonName},
-                function onSuccess(buildDiffInfo) {
+                {baseBranchName, baseBuildName, comparisonName},
+                (buildDiffInfo) => {
                     UseCaseDiffInfosResource.get(
-                        {baseBranchName: baseBranchName, baseBuildName: baseBuildName, comparisonName: comparisonName},
-                        function onSuccess(useCaseDiffInfos) {
+                        {baseBranchName, baseBuildName, comparisonName},
+                        (useCaseDiffInfos) => {
                             vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
                         },
                     );
-                }, function onFailure(error) {
+                }, (error) => {
                     throw error;
                 },
             );
@@ -125,13 +125,13 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function createBranchInformationTree(branch) {
-        let branchInformationTree: any = {};
+        const branchInformationTree: any = {};
         branchInformationTree.Description = branch.description;
         return transformMetadataToTree(branchInformationTree);
     }
 
     function createBuildInformationTree(build) {
-        let buildInformationTree: any = {};
+        const buildInformationTree: any = {};
         buildInformationTree.Date = dateTimeFormatter(build.date);
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;

@@ -18,11 +18,11 @@
 angular.module('scenarioo.services').service('SelectedComparison', SelectedComparisonService);
 
 function SelectedComparisonService($location, $rootScope, localStorageService) {
-    let COMPARISON_KEY = 'comparison';
-    let COMPARISON_DISABLED = 'Disabled';
+    const COMPARISON_KEY = 'comparison';
+    const COMPARISON_DISABLED = 'Disabled';
     let selectedComparison;
     let initialValuesFromUrlAndCookieLoaded = false;
-    let info = {isDefined: false};
+    const info = {isDefined: false};
 
     function getSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -48,7 +48,7 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
         let value;
 
         // check URL first, this has priority over the cookie value
-        let params = $location.search();
+        const params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
             localStorageService.set(key, value);

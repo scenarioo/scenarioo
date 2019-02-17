@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').service('ConfigService', function(ConfigResource, $rootScope) {
 
-    let CONFIG_LOADED_EVENT = 'configLoaded';
+    const CONFIG_LOADED_EVENT = 'configLoaded';
 
     let configData: any = {};
 
@@ -30,7 +30,7 @@ angular.module('scenarioo.services').service('ConfigService', function(ConfigRes
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
             $rootScope.getStatusStyleClass = function(buildStatus) {
-                let styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
+                const styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
                 if (angular.isUndefined(styleClassFromMapping)) {
                     return 'label-warning';
                 } else {
@@ -47,14 +47,14 @@ angular.module('scenarioo.services').service('ConfigService', function(ConfigRes
     }
 
     function getScenarioPropertiesInOverview() {
-        let stringValue = getValue('scenarioPropertiesInOverview');
+        const stringValue = getValue('scenarioPropertiesInOverview');
 
         let propertiesStringArray = [];
         if (angular.isString(stringValue) && stringValue.length > 0) {
             propertiesStringArray = stringValue.split(',');
         }
 
-        let properties = new Array(propertiesStringArray.length);
+        const properties = new Array(propertiesStringArray.length);
 
         for (let i = 0; i < propertiesStringArray.length; i++) {
             properties[i] = propertiesStringArray[i].trim();
@@ -63,7 +63,7 @@ angular.module('scenarioo.services').service('ConfigService', function(ConfigRes
         return properties;
     }
 
-    let serviceInstance = {
+    const serviceInstance = {
         CONFIG_LOADED_EVENT,
 
         getRawConfigDataCopy() {
