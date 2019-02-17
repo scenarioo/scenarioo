@@ -102,7 +102,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                 usecaseName: useCaseName,
                 scenarioName,
             },
-            function onSuccess(scenarioResult) {
+            (scenarioResult) => {
                 $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
             },
         );
@@ -145,7 +145,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                     comparisonName,
                     useCaseName,
                 },
-                function onSuccess(useCaseDiffInfo) {
+                (useCaseDiffInfo) => {
                     ScenarioDiffInfosResource.get(
                         {
                             baseBranchName,
@@ -153,11 +153,11 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                             comparisonName,
                             useCaseName,
                         },
-                        function onSuccess(scenarioDiffInfos) {
+                        (scenarioDiffInfos) => {
                             vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                         },
                     );
-                }, function onFailure() {
+                }, () => {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
                 },
             );
@@ -169,7 +169,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
             useCaseName: $routeParams.useCaseName,
-        }, function(result) {
+        }, (result) => {
             vm.relatedIssues = result;
             vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
@@ -179,7 +179,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id},
-            function onSuccess(result) {
+            (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     }

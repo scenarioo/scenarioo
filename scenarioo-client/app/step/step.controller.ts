@@ -60,15 +60,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         dialogClass: 'modal modal-huge',
     };
 
-    $scope.getPageNameUrlEncoded = function() {
-        return encodeURIComponent($scope.pageName);
-    };
+    $scope.getPageNameUrlEncoded = () => encodeURIComponent($scope.pageName);
 
-    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+    LabelConfigurationsResource.query({}, (labelConfigurations) => {
         $scope.labelConfigurations = labelConfigurations;
     });
 
-    $scope.showApplicationInfoPopup = function(tab) {
+    $scope.showApplicationInfoPopup = (tab) => {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
     };
 
@@ -90,7 +88,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 stepInPageOccurrence: $scope.stepInPageOccurrence,
                 labels,
             },
-            function success(result) {
+            (result) => {
                 $scope.stepIdentifier = result.stepIdentifier;
                 $scope.fallback = result.fallback;
                 $scope.step = result.step;
@@ -109,7 +107,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                     loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
                 }
 
-                $scope.hasAnyLabels = function() {
+                $scope.hasAnyLabels = () => {
                     const hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
                     const hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
                     const hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
@@ -123,7 +121,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
                 updateSketcherContextService();
             },
-            function error(result) {
+            (result) => {
                 $scope.stepNotFound = true;
                 $scope.httpResponse = {
                     status: result.status,
@@ -166,7 +164,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         }
 
         if (angular.isDefined(stepDescription.details)) {
-            angular.forEach(stepDescription.details, function(value, key) {
+            angular.forEach(stepDescription.details, (value, key) => {
                 stepInformation[key] = value;
             });
         }
@@ -317,13 +315,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     //  $route.reload necessary because of align diff and real image size
-    $scope.setActiveTab = function(activeTab) {
+    $scope.setActiveTab = (activeTab) => {
         storeActiveTab(activeTab);
         $route.reload();
     };
 
     //  $route.reload necessary because of annotation calculation
-    $scope.setDefaultTab = function() {
+    $scope.setDefaultTab = () => {
         storeActiveTab(0);
         $route.reload();
     };
@@ -371,13 +369,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function initBaseBuildName() {
-        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then(function(result) {
+        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then((result) => {
             $scope.baseBuildName = result;
         });
     }
 
     function initBaseBuild() {
-        BranchesAndBuildsService.getBuild(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then(function(result) {
+        BranchesAndBuildsService.getBuild(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then((result) => {
             if (result) {
                 $scope.baseBuild = result.build;
             }
@@ -385,7 +383,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function initComparisonBuild() {
-        BranchesAndBuildsService.getBuild($scope.comparisonBranchName, $scope.comparisonBuildName).then(function(result) {
+        BranchesAndBuildsService.getBuild($scope.comparisonBranchName, $scope.comparisonBuildName).then((result) => {
             if (result) {
                 $scope.comparisonBuild = result.build;
             }
@@ -406,7 +404,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
         BuildDiffInfoResource.get(
             {baseBranchName, baseBuildName, comparisonName},
-            function onSuccess(buildDiffInfo) {
+            (buildDiffInfo) => {
                 $scope.comparisonName = buildDiffInfo.name;
                 $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                 $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
@@ -414,7 +412,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 initBaseBuild();
                 initComparisonBuild();
                 loadStepDiffInfo();
-            }, function onFailure() {
+            }, () => {
                 $scope.comparisonName = '';
                 $scope.comparisonBranchName = '';
                 $scope.comparisonBuildName = '';
@@ -436,48 +434,42 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             scenarioName,
             stepIndex: $scope.stepIndex,
             },
-            function onSuccess(result) {
+            (result) => {
                 $scope.comparisonScreenshotName = result.comparisonScreenshotName;
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
                 initScreenshotURLs();
             },
-            function onFailure() {
+            () => {
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
                 initDiffScreenShotUrl();
             });
     }
 
-     $scope.setComparisonView = function(viewId) {
+     $scope.setComparisonView = (viewId) => {
         $scope.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    $scope.isComparisonView = function(viewId) {
-        return $scope.comparisonViewOptions.viewId === viewId;
-    };
+    $scope.isComparisonView = (viewId) => $scope.comparisonViewOptions.viewId === viewId;
 
-    $scope.switchComparisonSingleScreenView = function() {
+    $scope.switchComparisonSingleScreenView = () => {
         const viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
         $scope.setComparisonView(viewId);
     };
 
-    $scope.isComparisonChangesToBeHighlightedAvailable = function() {
-        return $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
-    };
+    $scope.isComparisonChangesToBeHighlightedAvailable = () => $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
 
-    $scope.isComparisonChangesHighlighted = function() {
+    $scope.isComparisonChangesHighlighted = () => {
         // highlighting is turned on, and there are changes in this screenshot to be highlighted
         return $scope.isComparisonChangesToBeHighlightedAvailable() && $scope.comparisonViewOptions.changesHighlighted;
     };
 
-    $scope.toggleComparisonChangesHighlighted = function() {
+    $scope.toggleComparisonChangesHighlighted = () => {
         $scope.comparisonViewOptions.changesHighlighted = !$scope.comparisonViewOptions.changesHighlighted;
         setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
     };
 
-    $scope.getComparisonViewHighlightChangesColor = function() {
-        return ConfigService.diffViewerDiffImageColor();
-    };
+    $scope.getComparisonViewHighlightChangesColor = () => ConfigService.diffViewerDiffImageColor();
 
     function getLocalStorageBool(storageKey) {
         return localStorageService.get(storageKey) !== 'false';
@@ -491,19 +483,15 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         localStorageService.set(storageKey, '' + value);
     }
 
-    $scope.go = function(step) {
+    $scope.go = (step) => {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
-    $scope.getCurrentUrlForSharing = function() {
-        return $location.absUrl() + createLabelUrl('&', getAllLabels());
-    };
+    $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
 
-    $scope.getCurrentUrl = function() {
-        return $location.absUrl();
-    };
+    $scope.getCurrentUrl = () => $location.absUrl();
 
-    $scope.getScreenshotUrlForSharing = function() {
+    $scope.getScreenshotUrlForSharing = () => {
         if (SelectedBranchAndBuildService.isDefined() !== true) {
             return undefined;
         }
@@ -521,7 +509,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return url.split('#')[0];
     }
 
-    const getImageFileExtension = function() {
+    const getImageFileExtension = () => {
         if (angular.isUndefined($scope.step)) {
             return '';
         }
@@ -536,7 +524,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return fileNameParts[fileNameParts.length - 1];
     };
 
-    const getAllLabels = function() {
+    const getAllLabels = () => {
         let allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
             allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
@@ -544,7 +532,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return allLabels;
     };
 
-    const createLabelUrl = function(prefix, labelsForUrl) {
+    const createLabelUrl = (prefix, labelsForUrl) => {
         if (angular.isUndefined(labelsForUrl) || !angular.isArray(labelsForUrl) || labelsForUrl.length === 0) {
             return '';
         }
@@ -552,7 +540,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         return prefix + 'labels=' + labelsForUrl.map(encodeURIComponent).join();
     };
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', () => {
         SharePageService.invalidateUrls();
         SketcherLinkService.hideCreateOrEditSketchLinkInBreadcrumbs();
     });
@@ -566,11 +554,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             pageName: $scope.pageName,
             pageOccurence: $scope.pageOccurrence,
             stepInPageOccurrence: $scope.stepInPageOccurrence,
-        }, function(result) {
+        }, (result) => {
             $scope.relatedIssues = result;
-            $scope.hasAnyRelatedIssues = function() {
-                return $scope.relatedIssues.length > 0;
-            };
+            $scope.hasAnyRelatedIssues = () => $scope.relatedIssues.length > 0;
             $scope.goToIssue = goToIssue;
         });
     }
@@ -579,7 +565,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id },
-            function onSuccess(result) {
+            (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     }
