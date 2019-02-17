@@ -17,13 +17,12 @@
 
 angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, LocalStorageService, GlobalHotkeysService) {
 
-    var STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
+    let STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
-        var metadataVisible = LocalStorageService.get(STEP_METADATA_VISIBLE + key);
+        let metadataVisible = LocalStorageService.get(STEP_METADATA_VISIBLE + key);
         if (metadataVisible === 'true') {
             scope.linkingVariable = true;
-        }
-        else if (metadataVisible === 'false') {
+        } else if (metadataVisible === 'false') {
             scope.linkingVariable = false;
         } else {
             // default
@@ -35,21 +34,21 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', function($w
         restrict: 'E',
         scope: {
             linkingVariable: '=',
-            localStorageKey: '@'
+            localStorageKey: '@',
         },
         template: require('./metaDataButton.html'),
-        link: function(scope: any) {
-            GlobalHotkeysService.registerGlobalHotkey('d', function () {
+        link(scope: any) {
+            GlobalHotkeysService.registerGlobalHotkey('d', function() {
                 scope.toggleShowingMetadata();
             });
         },
-        controller: function($scope) {
+        controller($scope) {
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = function() {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
             };
-        }
+        },
     };
 
 });

@@ -15,19 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scTree', function ($sce) {
+angular.module('scenarioo.directives').directive('scTree', function($sce) {
 
-    var ITEM = 'Item';
-    var CHILDREN = 'children';
+    let ITEM = 'Item';
+    let CHILDREN = 'children';
 
     function createTreeHtml(data) {
 
         if (!angular.isObject(data)) {
             return 'no data to display';
-        }
-        else if (angular.isObject(data) && angular.isArray(data)) {
-            var html = '';
-            angular.forEach(data, function (rootNode) {
+        } else if (angular.isObject(data) && angular.isArray(data)) {
+            let html = '';
+            angular.forEach(data, function(rootNode) {
                 html += getRootNodeHtml(rootNode);
             });
             return html;
@@ -36,7 +35,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getRootNodeHtml(rootNode) {
-        var html = '';
+        let html = '';
         if (angular.isDefined(rootNode.nodeLabel)) {
             html += '<ul><li>';
         }
@@ -52,15 +51,13 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
             // Handle special structural nodes with internal scenarioo keywords to not dsiplay those as usual nodes with usual labels.
             if (angular.isDefined(node.nodeLabel) && node.nodeLabel === ITEM) {
                 return getItemNodeHtml(node);
-            }
-            else if (angular.isDefined(node.nodeLabel) && node.nodeLabel === CHILDREN) {
+            } else if (angular.isDefined(node.nodeLabel) && node.nodeLabel === CHILDREN) {
                 return getChildrenNodeHtml(node);
             }
         }
         if (angular.isUndefined(node.nodeObjectType) || angular.isUndefined(node.nodeObjectName)) {
             return getUsualValueItemNodeHtml(node);
-        }
-        else {
+        } else {
             return getObjectNodeHtml(node);
         }
 
@@ -70,7 +67,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
      * HTML for a simple value item in the three structure (most trivial node).
      */
     function getUsualValueItemNodeHtml(node) {
-        var html = '';
+        let html = '';
         if (angular.isDefined(node.nodeLabel)) {
             html = getNodeTitleHtml(node);
         }
@@ -84,7 +81,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
      * HTML for a node representing an Object (with a special title from type and name)
      */
     function getObjectNodeHtml(node) {
-        var html = '<div class="sc-treeNodeObject">';
+        let html = '<div class="sc-treeNodeObject">';
         if (angular.isDefined(node.nodeLabel)) {
             html += '<div class="sc-treeNodeObjectTitle">';
             html += getNodeTitleHtml(node);
@@ -101,7 +98,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
      * HTML for an item in an ObjectTreeNode
      */
     function getItemNodeHtml(node) {
-        var html = '<div class="sc-treeNodeItem">';
+        let html = '<div class="sc-treeNodeItem">';
         if (angular.isDefined(node.childNodes)) {
             html += getChildNodesHtml(node.childNodes);
         }
@@ -113,7 +110,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
      * HTML for all children-Nodes in an ObjectTreeNode
      */
     function getChildrenNodeHtml(node) {
-        var html = '<div class="sc-treeNodeChildren">';
+        let html = '<div class="sc-treeNodeChildren">';
         if (angular.isDefined(node.childNodes)) {
             html += getChildNodesHtml(node.childNodes);
         }
@@ -126,20 +123,19 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeValueHtml(data) {
-        var href = '';
+        let href = '';
 
         if (angular.isUndefined(data.nodeValue)) {
             return '';
         }
 
         if (angular.isDefined(data.nodeObjectType) && angular.isDefined(data.nodeObjectName)) {
-            var hrefObjectType = encodeURIComponent(data.nodeObjectType);
-            var hrefObjectName = encodeURIComponent(data.nodeObjectName);
+            let hrefObjectType = encodeURIComponent(data.nodeObjectType);
+            let hrefObjectName = encodeURIComponent(data.nodeObjectName);
 
             href = '<a id="' + hrefObjectType + '_' + hrefObjectName + '" href="#/object/' +
                 hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
-        }
-        else {
+        } else {
             href = data.nodeValue;
         }
 
@@ -150,8 +146,8 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         if (angular.isUndefined(childNodes) || !angular.isArray(childNodes) || childNodes.length === 0) {
             return '';
         }
-        var html = '<ul>';
-        angular.forEach(childNodes, function (value) {
+        let html = '<ul>';
+        angular.forEach(childNodes, function(value) {
             html += '<li>' + getNodeHtml(value) + '</li>';
         });
         html += '</ul>';
@@ -162,13 +158,13 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         restrict: 'E',
         scope: {data: '=data'},
         template: '<div ng-bind-html="treeHtml" class="sc-tree"></div>',
-        link: function (scope: any) {
-            scope.$watch('data', function (newData) {
+        link(scope: any) {
+            scope.$watch('data', function(newData) {
                 /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
                  http://docs.angularjs.org/api/ng/service/$sce for more information
                  */
                 scope.treeHtml = $sce.trustAsHtml(createTreeHtml(newData));
             });
-        }
+        },
     };
 });

@@ -17,53 +17,53 @@
 
 /* global SVG:false */
 
-import * as angular from "angular";
+import * as angular from 'angular';
 declare const SVG: any;
 
-angular.module('scenarioo.services').service('DrawShapeService', function ($rootScope, ZoomPanService) {
+angular.module('scenarioo.services').service('DrawShapeService', function($rootScope, ZoomPanService) {
 
-    var SHAPE_SELECTED_EVENT = 'shapeSelected';
+    let SHAPE_SELECTED_EVENT = 'shapeSelected';
 
     return {
-        SHAPE_SELECTED_EVENT: SHAPE_SELECTED_EVENT,
+        SHAPE_SELECTED_EVENT,
 
-        registerShapeEvents: function (shape, isEditable) {
+        registerShapeEvents(shape, isEditable) {
 
             shape.addClass('shape');
 
-            shape.on('mouseup.shape', function () {
+            shape.on('mouseup.shape', function() {
                 $rootScope.$broadcast(SHAPE_SELECTED_EVENT, this);
             }, false);
 
-            shape.on('dragend', function () {
+            shape.on('dragend', function() {
                 ZoomPanService.updateZoomPan();
                 $rootScope.$broadcast('edit_drawing_event');
             });
 
-            shape.on('selected', function () {
+            shape.on('selected', function() {
                 ZoomPanService.disableZoomPan();
             });
-            shape.on('unselected', function () {
+            shape.on('unselected', function() {
                 ZoomPanService.enableZoomPan();
                 ZoomPanService.updateZoomPan();
             });
 
             if (isEditable) {
-                shape.on('dblclick', function () {
+                shape.on('dblclick', function() {
                     this.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
                     $rootScope.$broadcast('edit_drawing_event');
                 });
             }
         },
 
-        createNewShapeByClassName: function (drawingPad, shape) {
-            var self = this;
-            var classes = shape.attr('class');
-            var typeClass = classes.split(' ').filter(function (value) {
+        createNewShapeByClassName(drawingPad, shape) {
+            let self = this;
+            let classes = shape.attr('class');
+            let typeClass = classes.split(' ').filter(function(value) {
                 return value.indexOf('-shape') > -1;
             });
 
-            var newShape;
+            let newShape;
 
             switch (typeClass[0]) {
                 case 'border-shape':
@@ -88,8 +88,8 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     newShape = drawingPad.rectShape(shape.width(), shape.height(), shape.x(), shape.y());
             }
 
-            if(shape.type !== 'line') {
-                shape.each(function () {
+            if (shape.type !== 'line') {
+                shape.each(function() {
                     if (this instanceof SVG.Text) {
                         newShape.setText(self.getSVGText(this));
                     }
@@ -99,24 +99,24 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
             return newShape;
         },
 
-        getSVGText: function(SVGText) {
-            var text = '';
+        getSVGText(SVGText) {
+            let text = '';
 
-            var i = 0,
+            let i = 0,
                 total = SVGText.lines().length();
 
-            SVGText.lines().each(function () {
+            SVGText.lines().each(function() {
                 i++;
-                if(this.node.textContent.length > 0) {
+                if (this.node.textContent.length > 0) {
                     text += this.node.textContent;
 
-                    if(i < total) {
+                    if (i < total) {
                         text += '\n';
                     }
                 }
             });
 
             return text;
-        }
+        },
     };
 });

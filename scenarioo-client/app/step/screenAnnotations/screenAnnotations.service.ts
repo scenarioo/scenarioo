@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScreenAnnotationsService', function () {
+angular.module('scenarioo.services').factory('ScreenAnnotationsService', function() {
 
-    var service: any = {};
+    let service: any = {};
     service.hasPopup = hasPopup;
     service.getIconClass = getIconClass;
     service.getTitleText = getTitleText;
@@ -36,11 +36,9 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     function getTitleText(annotation) {
         if (annotation.title !== '') {
            return annotation.title;
-        }
-        else if (annotation.screenText !== '') {
+        } else if (annotation.screenText !== '') {
             return annotation.screenText;
-        }
-        else {
+        } else {
             return annotation.description;
         }
     }
@@ -48,8 +46,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     function getDescriptionSection(annotation) {
         if (getTitleText(annotation) === annotation.description) {
             return ''; // already displayed in title
-        }
-        else {
+        } else {
             return annotation.description;
         }
     }
@@ -57,14 +54,11 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     function getClickActionText(annotation) {
         if (annotation.clickActionText) {
             return annotation.clickActionText;
-        }
-        else if (annotation.clickAction === 'TO_NEXT_STEP') {
+        } else if (annotation.clickAction === 'TO_NEXT_STEP') {
             return 'Go to next step';
-        }
-        else if (annotation.clickAction === 'TO_URL') {
+        } else if (annotation.clickAction === 'TO_URL') {
             return 'Open ' + annotation.clickActionUrl;
-        }
-        else {
+        } else {
             return null; // no tooltip for missing click action (user can open popup for more info)
         }
     }
@@ -72,7 +66,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     function getIconClass(screenAnnotation) {
 
         // Icons from http://fortawesome.github.io/Font-Awesome/3.2.1/icons/
-        var styleToIconClassMap = {
+        let styleToIconClassMap = {
             CLICK: 'fa-hand-point-up',
             KEYBOARD: 'fa-keyboard',
             EXPECTED: 'fa-check-square',
@@ -81,13 +75,13 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
             WARN: 'fa-exclamation-triangle',
             INFO: 'fa-info-circle',
             HIGHLIGHT: 'fa-quote-right',
-            DEFAULT: 'fa-comment'
+            DEFAULT: 'fa-comment',
         };
 
         if (angular.isUndefined(screenAnnotation.style)) {
             return '';
         }
-        var styleClass = styleToIconClassMap[screenAnnotation.style];
+        let styleClass = styleToIconClassMap[screenAnnotation.style];
 
         if (angular.isUndefined(styleClass)) {
             return '';
@@ -95,6 +89,5 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
 
         return styleClass;
     }
-
 
 });

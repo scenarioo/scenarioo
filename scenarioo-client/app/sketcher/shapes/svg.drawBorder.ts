@@ -18,7 +18,7 @@
 /* global SVG:false */
 declare const SVG: any;
 
-SVG.DrawBorder = function (width, height, x, y) {
+SVG.DrawBorder = function(width, height, x, y) {
 
     this.constructor.call(this, SVG.create('rect'));
 
@@ -31,7 +31,7 @@ SVG.DrawBorder = function (width, height, x, y) {
 SVG.DrawBorder.prototype = new SVG.Shape();
 
 SVG.extend(SVG.Container, {
-    drawBorder: function (width, height, x, y) {
+    drawBorder(width, height, x, y) {
         return this.put(new SVG.DrawBorder(width, height, x, y));
-    }
+    },
 });

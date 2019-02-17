@@ -16,10 +16,10 @@
  */
 
 angular.module('scenarioo.services')
-    .factory('UrlContextExtractorService', function () {
+    .factory('UrlContextExtractorService', function() {
 
         return {
-            getContextPathFromUrl: getContextPathFromUrl
+            getContextPathFromUrl,
         };
 
         /**
@@ -27,27 +27,25 @@ angular.module('scenarioo.services')
          * @param url the current value of $location.absUrl()
          */
         function getContextPathFromUrl(url) {
-            var urlWithoutParamsOrHash = before(before(url, '?'), '#');
-            var contextPath = after(after(urlWithoutParamsOrHash, '//'), '/', '');
+            let urlWithoutParamsOrHash = before(before(url, '?'), '#');
+            let contextPath = after(after(urlWithoutParamsOrHash, '//'), '/', '');
             return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
         }
 
         function before(string, separator, optionalNotFoundResult?) {
-            var index = string.indexOf(separator);
+            let index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(0, index);
-            }
-            else {
+            } else {
                 return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
             }
         }
 
         function after(string, separator, optionalNotFoundResult?) {
-            var index = string.indexOf(separator);
+            let index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(index + separator.length, string.length);
-            }
-            else {
+            } else {
                 return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
             }
         }

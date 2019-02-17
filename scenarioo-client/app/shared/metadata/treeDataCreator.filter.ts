@@ -18,7 +18,7 @@
 /**
  * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */
-angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
+angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
 
     function createTreeData(data) {
         if (angular.isUndefined(data)) {
@@ -33,8 +33,8 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
     }
 
     function transformNode(node, nodeTitle) {
-        var transformedNode: any = {
-            nodeLabel: nodeTitle
+        let transformedNode: any = {
+            nodeLabel: nodeTitle,
         };
 
         if (angular.isArray(node)) {
@@ -49,22 +49,22 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
     }
 
     function createObjectChildNodes(node) {
-        var childNodes = [];
-        angular.forEach(node, function (value, key) {
+        let childNodes = [];
+        angular.forEach(node, function(value, key) {
             if (angular.isArray(value)) {
                 childNodes.push({
                     nodeLabel: key,
-                    childNodes: createArrayChildNodes(value)
+                    childNodes: createArrayChildNodes(value),
                 });
             } else if (angular.isObject(value)) {
                 childNodes.push({
                     nodeLabel: key,
-                    childNodes: createObjectChildNodes(value)
+                    childNodes: createObjectChildNodes(value),
                 });
             } else {
                 childNodes.push({
                     nodeLabel: key,
-                    nodeValue: value
+                    nodeValue: value,
                 });
             }
         });
@@ -73,16 +73,16 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
     }
 
     function createArrayChildNodes(array) {
-        var childNodes = [];
-        angular.forEach(array, function (element) {
+        let childNodes = [];
+        angular.forEach(array, function(element) {
             if (angular.isString(element)) {
                 childNodes.push({
-                    nodeLabel: element
+                    nodeLabel: element,
                 });
             } else {
                 childNodes.push({
                     nodeLabel: '',
-                    childNodes: createObjectChildNodes(element)
+                    childNodes: createObjectChildNodes(element),
                 });
             }
         });

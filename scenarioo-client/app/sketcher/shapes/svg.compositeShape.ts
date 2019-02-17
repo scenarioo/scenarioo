@@ -17,10 +17,10 @@
 
 /* global SVG:false */
 declare const SVG: any;
-import * as $ from "jquery"
+import * as $ from 'jquery';
 
-SVG.CompositeShape = function (width, height, x, y, options) {
-    var i;
+SVG.CompositeShape = function(width, height, x, y, options) {
+    let i;
 
     this.settings = {
         text: ''
@@ -39,12 +39,13 @@ SVG.CompositeShape = function (width, height, x, y, options) {
         , class: 'rect-shape'
         , minWidth: 70
         , minHeight: 48
-        , isNote: false
+        , isNote: false,
     };
 
     options = options || {};
-    for (i in options)
+    for (i in options) {
         this.settings[i] = options[i];
+    }
 
     this.constructor.call(this, SVG.create('svg'));
 
@@ -63,8 +64,8 @@ SVG.CompositeShape = function (width, height, x, y, options) {
         this.createNotePolygon();
     }
 
-    var halign = '';
-    if(this.settings.halign === 'center') {
+    let halign = '';
+    if (this.settings.halign === 'center') {
         halign = 'middle';
     } else if (this.settings.halign === 'right') {
         halign = 'end';
@@ -80,7 +81,7 @@ SVG.CompositeShape = function (width, height, x, y, options) {
             anchor: halign
             , size: this.settings.fontSize
             , family: this.settings.fontFamily
-            , weight: this.settings.fontWeight
+            , weight: this.settings.fontWeight,
         });
 
     this.registerAttrChangeEvent();
@@ -88,14 +89,13 @@ SVG.CompositeShape = function (width, height, x, y, options) {
 
 SVG.CompositeShape.prototype = new SVG.Nested();
 
-
 // Add methods
 SVG.extend(SVG.CompositeShape, {
 
-    update: function () {
+    update() {
         this.rect.attr({
             width: this.width()
-            , height: this.height()
+            , height: this.height(),
         });
 
         if (this.isNote) {
@@ -106,15 +106,15 @@ SVG.extend(SVG.CompositeShape, {
         this.updateValign();
     },
 
-    showText: function () {
+    showText() {
         this.textNode.show();
     },
 
-    hideText: function () {
+    hideText() {
         this.textNode.hide();
     },
 
-    setMinSizeIfSmaller: function () {
+    setMinSizeIfSmaller() {
         if (this.width() < this.settings.minWidth) {
             this.width(this.settings.minWidth);
         }
@@ -123,12 +123,12 @@ SVG.extend(SVG.CompositeShape, {
         }
     },
 
-    updateSizeIfTextisLarger: function () {
-        var textWidth = this.textNode.node.clientWidth;
-        var textHeight = this.textNode.node.clientHeight;
+    updateSizeIfTextisLarger() {
+        let textWidth = this.textNode.node.clientWidth;
+        let textHeight = this.textNode.node.clientHeight;
 
-        var newWidth = textWidth + 2 * this.settings.padding;
-        var newHeight = textHeight + 2 * this.settings.padding;
+        let newWidth = textWidth + 2 * this.settings.padding;
+        let newHeight = textHeight + 2 * this.settings.padding;
 
         if (this.width() < newWidth) {
             this.width(newWidth);
@@ -138,7 +138,7 @@ SVG.extend(SVG.CompositeShape, {
         }
     },
 
-    updateHalign: function () {
+    updateHalign() {
         switch (this.settings.halign) {
             case 'center':
                 this.textNode.x(this.width() / 2);
@@ -151,17 +151,16 @@ SVG.extend(SVG.CompositeShape, {
         }
     },
 
-    updateValign: function () {
-        var textHeight = 0;
+    updateValign() {
+        let textHeight = 0;
 
-        this.textNode.lines().each(function () {
+        this.textNode.lines().each(function() {
             textHeight += this.dy();
         });
 
-
         switch (this.settings.valign) {
             case 'middle':
-                if(textHeight > 0) {
+                if (textHeight > 0) {
                     this.textNode.y((this.height() - textHeight) / 2);
                 }
                 break;
@@ -173,27 +172,27 @@ SVG.extend(SVG.CompositeShape, {
         }
     },
 
-    getText: function () {
+    getText() {
         return this.textNode.text();
     },
 
-    setText: function (text) {
+    setText(text) {
         this.textNode.text(text);
     },
 
-    edit: function (zoomFactor, offset) {
+    edit(zoomFactor, offset) {
         zoomFactor = zoomFactor || 1;
         offset = offset || {x: 0, y: 0};
 
-        var self = this,
+        let self = this,
             shapeEditNodeId = self.id() + '-edit',
             workspaceNode = $(self.node).closest('div');
 
         self.hideText();
         self.unSelect();
 
-        var fontSize = this.settings.fontSize * zoomFactor;
-        var padding = this.settings.padding * zoomFactor;
+        let fontSize = this.settings.fontSize * zoomFactor;
+        let padding = this.settings.padding * zoomFactor;
 
         $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper">' +
         '<textarea class="shapeText" style="font-size:' + fontSize + 'px; font-weight:' + this.settings.fontWeight + '; padding:' +
@@ -205,16 +204,15 @@ SVG.extend(SVG.CompositeShape, {
             .css('left', self.x() * zoomFactor + offset.x)
             .css('top', self.y() * zoomFactor + offset.y);
 
-
-        $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
+        $('#' + shapeEditNodeId + ' textarea').on('blur', function() {
             self.setText($(this).val());
             self.showText();
             $(this).parent().remove();
         }).focus().val(self.getText());
     },
 
-    view: function () {
-        var shapeEditNodeId = this.id() + '-edit';
+    view() {
+        let shapeEditNodeId = this.id() + '-edit';
         this.setText($('#' + shapeEditNodeId + ' textarea').val());
         this.showText();
         $('#' + shapeEditNodeId).remove();
@@ -222,84 +220,84 @@ SVG.extend(SVG.CompositeShape, {
         this.updateSizeIfTextisLarger();
     },
 
-    createNotePolygon: function () {
+    createNotePolygon() {
         this.polygon = this.polygon('0,0').fill('#f1c40f').opacity(0.8);
         this.polyline = this.polyline('0,0').fill('none').stroke({width: 1}).opacity(0.2);
     },
 
-    updateNotePolygon: function () {
+    updateNotePolygon() {
         this.polygon.plot([
             [this.rect.width() - 15, 0],
             [this.rect.width(), 15],
             [this.rect.width(), this.rect.height()],
             [0, this.rect.height()],
-            [0, 0]
+            [0, 0],
         ]);
 
         this.polyline.plot([
             [this.rect.width() - 15, 0],
             [this.rect.width() - 15, 15],
-            [this.rect.width(), 15]
+            [this.rect.width(), 15],
         ]);
     },
 
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
-    registerAttrChangeEvent: function () {
-        var self = this;
-        (<any> window).MutationObserver = (<any> window).MutationObserver
-        || (<any> window).WebKitMutationObserver
-        || (<any> window).MozMutationObserver;
+    registerAttrChangeEvent() {
+        let self = this;
+        (window as any).MutationObserver = (window as any).MutationObserver
+        || (window as any).WebKitMutationObserver
+        || (window as any).MozMutationObserver;
 
-        if ((<any> window).MutationObserver || (<any> window).MutationObserver !== undefined) {
-            var target = self.node,
-                observer = new MutationObserver(function () {
+        if ((window as any).MutationObserver || (window as any).MutationObserver !== undefined) {
+            let target = self.node,
+                observer = new MutationObserver(function() {
                     self.update();
                 }),
                 config = {
-                    attributes: true // this is to watch for attribute changes.
+                    attributes: true, // this is to watch for attribute changes.
                 };
             observer.observe(target, config);
         } else {
-            self.on('DOMAttrModified.shape', function () {
+            self.on('DOMAttrModified.shape', function() {
                 self.update();
             });
         }
-    }
+    },
 });
 
 // Extend SVG container
 SVG.extend(SVG.Container, {
-    rectShape: function (width, height, x, y) {
+    rectShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y));
     },
-    borderShape: function (width, height, x, y) {
+    borderShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , stroke: '#e74c3c'
             , strokeWidth: 5
-            , class: 'border-shape'
+            , class: 'border-shape',
         }));
     },
-    noteShape: function (width, height, x, y) {
+    noteShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , strokeWidth: 0
             , isNote: true
             , class: 'note-shape'
             , minWidth: 120
-            , minHeight: 120
+            , minHeight: 120,
         }));
     },
-    textShape: function (width, height, x, y) {
+    textShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , fill: '#fff'
             , strokeWidth: 0
             , class: 'text-shape'
-            , minWidth: 120
+            , minWidth: 120,
         }));
     },
-    buttonShape: function (width, height, x, y) {
+    buttonShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y, {
             fill: '#3498db'
             , strokeWidth: 0
@@ -309,17 +307,17 @@ SVG.extend(SVG.Container, {
             , cornerRadius: 10
             , fontWeight: 'bold'
             , class: 'button-shape'
-            , minWidth: 100
+            , minWidth: 100,
         }));
     },
-    highlightShape: function (width, height, x, y) {
+    highlightShape(width, height, x, y) {
         return this.put(new SVG.CompositeShape(width, height, x, y, {
             fill: '#f1c40f'
             , opacity: 0.5
             , strokeWidth: 0
             , class: 'highlight-shape'
             , minWidth: 120
-            , minHeight: 30
+            , minHeight: 30,
         }));
-    }
+    },
 });

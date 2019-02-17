@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scCollapsablePanel', function (LocalStorageService) {
+angular.module('scenarioo.directives').directive('scCollapsablePanel', function(LocalStorageService) {
 
-    var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
+    let MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
     function initMetadataVisibilityAndExpandedSections(key) {
 
         // Set special metadata to expanded by default.
-        var majorStepPropertiesExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + key);
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
+        let majorStepPropertiesExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + key);
+        let isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
         if (!isMajorStepPropertiesExpandedSetToFalse) {
             LocalStorageService.set(MAIN_METADATA_SECTION_EXPANDED + key, 'true');
         }
@@ -37,16 +37,16 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
             title: '@',
             key: '@',
             initiallyExpanded: '@',
-            panelIndex: '@'
+            panelIndex: '@',
         },
-        link: function (scope: any) {
+        link(scope: any) {
             if (scope.initiallyExpanded === 'true') {
                 initMetadataVisibilityAndExpandedSections(scope.key);
             }
         },
-        controller: function ($scope) {
-            $scope.isMetadataExpanded = function (type) {
-                var metadataExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
+        controller($scope) {
+            $scope.isMetadataExpanded = function(type) {
+                let metadataExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
                 if (metadataExpanded === 'true') {
                     return true;
                 } else {
@@ -54,15 +54,15 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
                 }
             };
 
-            $scope.toggleMetadataExpanded = function (type) {
-                var metadataExpanded = !$scope.isMetadataExpanded(type);
+            $scope.toggleMetadataExpanded = function(type) {
+                let metadataExpanded = !$scope.isMetadataExpanded(type);
                 LocalStorageService.set(MAIN_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
             };
 
-            $scope.isMetadataCollapsed = function (type) {
+            $scope.isMetadataCollapsed = function(type) {
                 return !$scope.isMetadataExpanded(type);
             };
 
-        }
+        },
     };
 });
