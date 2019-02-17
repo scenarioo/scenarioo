@@ -70,9 +70,7 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
         return value;
     }
 
-    $rootScope.$watch(function() {
-        return $location.search()[COMPARISON_KEY];
-    }, function() {
+    $rootScope.$watch(() => $location.search()[COMPARISON_KEY], () => {
         setSelectedComparison();
     }, true);
 

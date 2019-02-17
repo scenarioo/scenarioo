@@ -22,12 +22,12 @@ function DiffInfoService() {
     function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
         const elementsWithDiffInfo = [];
 
-        angular.forEach(elements, function(element) {
+        angular.forEach(elements, (element) => {
             element.diffInfo = getDiffInfo(diffInfos, resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
 
-        angular.forEach(removedElements, function(removedElement) {
+        angular.forEach(removedElements, (removedElement) => {
             removedElement.diffInfo = getRemovedDiffInfo();
             elementsWithDiffInfo.push(removedElement);
         });
@@ -37,8 +37,8 @@ function DiffInfoService() {
 
     function enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
         let stepIndex = 0;
-        angular.forEach(pagesAndSteps, function(pageAndStep) {
-            angular.forEach(pageAndStep.steps, function(step) {
+        angular.forEach(pagesAndSteps, (pageAndStep) => {
+            angular.forEach(pageAndStep.steps, (step) => {
                 step.diffInfo = getDiffInfo(diffInfos, stepIndex++);
                 step.diffInfo.changed = 1;
                 step.diffInfo.added = 0;
@@ -46,11 +46,11 @@ function DiffInfoService() {
             });
         });
 
-        angular.forEach(removedSteps, function(removedStep) {
+        angular.forEach(removedSteps, (removedStep) => {
             addRemovedStep(pagesAndSteps, removedStep);
         });
 
-        angular.forEach(pagesAndSteps, function(pageAndStep) {
+        angular.forEach(pagesAndSteps, (pageAndStep) => {
             pageAndStep.page.diffInfo = getPageDiffInfo(pageAndStep);
         });
     }
@@ -66,7 +66,7 @@ function DiffInfoService() {
 
     function addRemovedStep(pagesAndSteps, stepInfo) {
         let targetPageAndStep = null;
-        angular.forEach(pagesAndSteps, function(pageAndStep) {
+        angular.forEach(pagesAndSteps, (pageAndStep) => {
             if (stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
                 targetPageAndStep = pageAndStep;
             }
@@ -137,7 +137,7 @@ function DiffInfoService() {
             isRemoved: false,
         };
         let stepChangeRateSum = 0;
-        angular.forEach(pageAndStep.steps, function(step) {
+        angular.forEach(pageAndStep.steps, (step) => {
             stepChangeRateSum += step.diffInfo.changeRate;
             if (step.diffInfo.isAdded) {
                 diffInfo.added++;
@@ -157,15 +157,15 @@ function DiffInfoService() {
         return diffInfo;
     }
 
-    function resolvePathValue(obj, path) {
+    function resolvePathValue(obj, pathConcatenated) {
         let current = obj;
-        if (path) {
-            const paths = path.split('.');
-            for (let i = 0; i < paths.length; i++) {
-                if (current[paths[i]] === undefined) {
+        if (pathConcatenated) {
+            const paths = pathConcatenated.split('.');
+            for (const path of paths) {
+                if (current[path] === undefined) {
                     return undefined;
                 } else {
-                    current = current[paths[i]];
+                    current = current[path];
                 }
             }
         }
