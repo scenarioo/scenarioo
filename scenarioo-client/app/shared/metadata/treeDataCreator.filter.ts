@@ -18,7 +18,7 @@
 /**
  * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */
-angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
+angular.module('scenarioo.filters').filter('scTreeDataCreator', () => {
 
     function createTreeData(data) {
         if (angular.isUndefined(data)) {
@@ -49,8 +49,8 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
     }
 
     function createObjectChildNodes(node) {
-        let childNodes = [];
-        angular.forEach(node, function(value, key) {
+        const childNodes = [];
+        angular.forEach(node, (value, key) => {
             if (angular.isArray(value)) {
                 childNodes.push({
                     nodeLabel: key,
@@ -73,8 +73,8 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
     }
 
     function createArrayChildNodes(array) {
-        let childNodes = [];
-        angular.forEach(array, function(element) {
+        const childNodes = [];
+        angular.forEach(array, (element) => {
             if (angular.isString(element)) {
                 childNodes.push({
                     nodeLabel: element,

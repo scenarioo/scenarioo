@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scFilterableTableTree', function(GlobalHotkeysService, TreeNodeService, $filter) {
+angular.module('scenarioo.directives')
+    .directive('scFilterableTableTree', (GlobalHotkeysService, TreeNodeService, $filter) => {
 
-    let textLimit = 400;
+    const textLimit = 400;
 
     return {
         restrict: 'AE',
@@ -43,7 +44,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 scope.nodeFilter = filter;
                 setDefaultTitleForFirstColumnToName();
 
-                angular.forEach(data, function(value, index) {
+                angular.forEach(data, (value, index) => {
                     createNode(value, 0, index);
                 });
             }
@@ -60,7 +61,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     return 'No item defined on node';
                 }
 
-                let newNode = {
+                const newNode = {
                     id,
                     name: node.item.name,
                     type: node.item.type,
@@ -78,7 +79,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 // Fill columnData and search field values that are searchable
                 newNode.searchFields.push(newNode.type);
                 newNode.searchFields.push(newNode.name);
-                angular.forEach(scope.columns, function(value) {
+                angular.forEach(scope.columns, (value) => {
                     let columnValue = node.details[value.propertyKey];
                     columnValue = extractFirstHtmlElementText(columnValue);
 
@@ -97,19 +98,19 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 scope.treemodel.push(newNode);
                 nodeFilter(newNode, scope.nodeFilter);
 
-                angular.forEach(node.children, function(value, index) {
+                angular.forEach(node.children, (value, index) => {
                     createNode(value, level + 1, id + '_' + index, newNode);
                     TreeNodeService.setIconName(newNode);
                 });
             }
 
             // Traverses the tree-view top-down for all childs
-            scope.toggleAllChilds = function(rootNode) {
+            scope.toggleAllChilds = (rootNode) => {
                 TreeNodeService.setNodeProperties(rootNode, !rootNode.isCollapsed, rootNode.isVisible);
                 collapseExpandChildren(rootNode, rootNode.isCollapsed);
             };
 
-            scope.formatNodeName = function(node) {
+            scope.formatNodeName = (node) => {
                 // Only format scenario and usecase as human readable (all other text have to be generated how they should be displayed, by specification)
                 let name = node.name;
                 if ((node.type === 'scenario') || (node.type === 'usecase')) {
@@ -119,8 +120,8 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             };
 
             function collapseExpandChildren(rootnode, parentIsCollapsed) {
-                angular.forEach(scope.treemodel, function(node) {
-                    let childNode = rootnode.children.indexOf(node.id) > -1;
+                angular.forEach(scope.treemodel, (node) => {
+                    const childNode = rootnode.children.indexOf(node.id) > -1;
 
                     if (childNode) {
                         TreeNodeService.setNodeProperties(node, parentIsCollapsed, !parentIsCollapsed);
@@ -129,7 +130,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 });
             }
 
-            scope.isNodeIconEmpty = function(node) {
+            scope.isNodeIconEmpty = (node) => {
                 if (node.icon === '' || angular.isUndefined(node.icon)) {
                     return true;
                 }
@@ -138,7 +139,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             };
 
             // Expand collapse only the current node
-            scope.toggleCollapseNode = function(rootNode) {
+            scope.toggleCollapseNode = (rootNode) => {
 
                 // When root is expanded, onClick provokes an collapse on all child's
                 if (!rootNode.isCollapsed && rootNode.children.length > 0) {
@@ -146,8 +147,8 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 } else {
                     TreeNodeService.setNodeProperties(rootNode, !rootNode.isCollapsed, rootNode.isVisible);
 
-                    angular.forEach(scope.treemodel, function(node) {
-                        let childNode = rootNode.children.indexOf(node.id) > -1;
+                    angular.forEach(scope.treemodel, (node) => {
+                        const childNode = rootNode.children.indexOf(node.id) > -1;
 
                         if (childNode) {
                             TreeNodeService.setNodeProperties(node, node.isCollapsed, !node.isVisible);
@@ -162,12 +163,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     return false;
                 }
 
-                let filterPattern = filter.toUpperCase();
-                let filters = filterPattern.split(' ');
-                let searchKeyFound = [];
+                const filterPattern = filter.toUpperCase();
+                const filters = filterPattern.split(' ');
+                const searchKeyFound = [];
 
-                for (let filterItem in filters) {
-                    for (let searchField in node.searchFields) {
+                for (const filterItem in filters) {
+                    for (const searchField in node.searchFields) {
                         if (node.searchFields[searchField] !== '') {
                             if ((angular.isDefined(node.searchFields[searchField]) &&
                                 node.searchFields[searchField].toUpperCase().search(filters[filterItem]) > -1)) {
@@ -194,7 +195,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
             function expandUpToRootNode(childNode) {
                 if (angular.isDefined(childNode)) {
-                    let parentNode = scope.treemodel[scope.treemodel.indexOf(childNode.parent)];
+                    const parentNode = scope.treemodel[scope.treemodel.indexOf(childNode.parent)];
 
                     if (angular.isDefined(parentNode)) {
                         TreeNodeService.setNodeProperties(parentNode, false, true);
@@ -205,7 +206,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             }
 
             function bindClearFilter() {
-                GlobalHotkeysService.registerPageHotkeyCode(27, function() {
+                GlobalHotkeysService.registerPageHotkeyCode(27, () => {
                     scope.filter = '';
                 });
             }
@@ -216,7 +217,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
             function getShortenedText(text) {
                 if (text.length > textLimit) {
-                    let shortenedText = text.substr(0, textLimit);
+                    const shortenedText = text.substr(0, textLimit);
                     return shortenedText + '...';
                 }
                 return text;
@@ -227,7 +228,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     return undefined;
                 }
 
-                let matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
+                const matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
 
                 if (matching !== null) {
                     // Only the first match will be processed
@@ -237,7 +238,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 return getShortenedText(columnValue);
             }
 
-            scope.$watchCollection('[treedata, filter]', function(newValues) {
+            scope.$watchCollection('[treedata, filter]', (newValues) => {
                 buildTreeModel(newValues[0], newValues[1]);
             });
         },

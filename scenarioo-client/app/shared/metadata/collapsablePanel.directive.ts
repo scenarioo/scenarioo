@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scCollapsablePanel', function(LocalStorageService) {
+angular.module('scenarioo.directives').directive('scCollapsablePanel', (LocalStorageService) => {
 
-    let MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
+    const MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
     function initMetadataVisibilityAndExpandedSections(key) {
 
         // Set special metadata to expanded by default.
-        let majorStepPropertiesExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + key);
-        let isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
+        const majorStepPropertiesExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + key);
+        const isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
         if (!isMajorStepPropertiesExpandedSetToFalse) {
             LocalStorageService.set(MAIN_METADATA_SECTION_EXPANDED + key, 'true');
         }
@@ -45,8 +45,8 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function(
             }
         },
         controller($scope) {
-            $scope.isMetadataExpanded = function(type) {
-                let metadataExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
+            $scope.isMetadataExpanded = (type) => {
+                const metadataExpanded = LocalStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
                 if (metadataExpanded === 'true') {
                     return true;
                 } else {
@@ -54,14 +54,12 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function(
                 }
             };
 
-            $scope.toggleMetadataExpanded = function(type) {
-                let metadataExpanded = !$scope.isMetadataExpanded(type);
+            $scope.toggleMetadataExpanded = (type) => {
+                const metadataExpanded = !$scope.isMetadataExpanded(type);
                 LocalStorageService.set(MAIN_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
             };
 
-            $scope.isMetadataCollapsed = function(type) {
-                return !$scope.isMetadataExpanded(type);
-            };
+            $scope.isMetadataCollapsed = (type) => !$scope.isMetadataExpanded(type);
 
         },
     };

@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scTree', function($sce) {
+angular.module('scenarioo.directives').directive('scTree', ($sce) => {
 
-    let ITEM = 'Item';
-    let CHILDREN = 'children';
+    const ITEM = 'Item';
+    const CHILDREN = 'children';
 
     function createTreeHtml(data) {
 
@@ -26,7 +26,7 @@ angular.module('scenarioo.directives').directive('scTree', function($sce) {
             return 'no data to display';
         } else if (angular.isObject(data) && angular.isArray(data)) {
             let html = '';
-            angular.forEach(data, function(rootNode) {
+            angular.forEach(data, (rootNode) => {
                 html += getRootNodeHtml(rootNode);
             });
             return html;
@@ -130,8 +130,8 @@ angular.module('scenarioo.directives').directive('scTree', function($sce) {
         }
 
         if (angular.isDefined(data.nodeObjectType) && angular.isDefined(data.nodeObjectName)) {
-            let hrefObjectType = encodeURIComponent(data.nodeObjectType);
-            let hrefObjectName = encodeURIComponent(data.nodeObjectName);
+            const hrefObjectType = encodeURIComponent(data.nodeObjectType);
+            const hrefObjectName = encodeURIComponent(data.nodeObjectName);
 
             href = '<a id="' + hrefObjectType + '_' + hrefObjectName + '" href="#/object/' +
                 hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
@@ -147,7 +147,7 @@ angular.module('scenarioo.directives').directive('scTree', function($sce) {
             return '';
         }
         let html = '<ul>';
-        angular.forEach(childNodes, function(value) {
+        angular.forEach(childNodes, (value) => {
             html += '<li>' + getNodeHtml(value) + '</li>';
         });
         html += '</ul>';
@@ -159,7 +159,7 @@ angular.module('scenarioo.directives').directive('scTree', function($sce) {
         scope: {data: '=data'},
         template: '<div ng-bind-html="treeHtml" class="sc-tree"></div>',
         link(scope: any) {
-            scope.$watch('data', function(newData) {
+            scope.$watch('data', (newData) => {
                 /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
                  http://docs.angularjs.org/api/ng/service/$sce for more information
                  */

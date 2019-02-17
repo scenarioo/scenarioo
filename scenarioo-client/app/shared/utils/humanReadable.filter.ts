@@ -15,29 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scHumanReadable', function() {
-    return function(input) {
-        let text = input;
-        if (text && text.length > 0) {
-            // First Char
-            text = text.charAt(0).toUpperCase() + text.substr(1);
-            // Underline
-            text = text.replace(/([_])/g, ' ');
+angular.module('scenarioo.filters').filter('scHumanReadable', () => (input) => {
+    let text = input;
+    if (text && text.length > 0) {
+        // First Char
+        text = text.charAt(0).toUpperCase() + text.substr(1);
+        // Underline
+        text = text.replace(/([_])/g, ' ');
 
-            // Camel Case
-            // example 1: ThisIsSomeText
-            let regex = /([a-z])([A-Z])/g;
-            let replaceFn: any = function(s, group0, group1) {
-                return group0 + ' ' + group1;
-            };
-            // example 2: ABadExample
-            text = text.replace(regex, replaceFn);
-            regex = /([A-Z])([A-Z])([a-z])/g;
-            replaceFn = function(s, group0, group1, group2) {
-                return group0 + ' ' + group1 + group2;
-            };
-            text = text.replace(regex, replaceFn);
-        }
-        return text;
-    };
+        // Camel Case
+        // example 1: ThisIsSomeText
+        let regex = /([a-z])([A-Z])/g;
+        let replaceFn: any = (s, group0, group1) => group0 + ' ' + group1;
+        // example 2: ABadExample
+        text = text.replace(regex, replaceFn);
+        regex = /([A-Z])([A-Z])([a-z])/g;
+        replaceFn = (s, group0, group1, group2) => group0 + ' ' + group1 + group2;
+        text = text.replace(regex, replaceFn);
+    }
+    return text;
 });

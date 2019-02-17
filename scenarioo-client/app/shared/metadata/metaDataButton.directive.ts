@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, LocalStorageService, GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, LocalStorageService, GlobalHotkeysService) => {
 
-    let STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
+    const STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
-        let metadataVisible = LocalStorageService.get(STEP_METADATA_VISIBLE + key);
+        const metadataVisible = LocalStorageService.get(STEP_METADATA_VISIBLE + key);
         if (metadataVisible === 'true') {
             scope.linkingVariable = true;
         } else if (metadataVisible === 'false') {
@@ -38,13 +38,13 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', function($w
         },
         template: require('./metaDataButton.html'),
         link(scope: any) {
-            GlobalHotkeysService.registerGlobalHotkey('d', function() {
+            GlobalHotkeysService.registerGlobalHotkey('d', () => {
                 scope.toggleShowingMetadata();
             });
         },
         controller($scope) {
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
-            $scope.toggleShowingMetadata = function() {
+            $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
             };

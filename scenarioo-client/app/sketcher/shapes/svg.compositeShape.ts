@@ -124,11 +124,11 @@ SVG.extend(SVG.CompositeShape, {
     },
 
     updateSizeIfTextisLarger() {
-        let textWidth = this.textNode.node.clientWidth;
-        let textHeight = this.textNode.node.clientHeight;
+        const textWidth = this.textNode.node.clientWidth;
+        const textHeight = this.textNode.node.clientHeight;
 
-        let newWidth = textWidth + 2 * this.settings.padding;
-        let newHeight = textHeight + 2 * this.settings.padding;
+        const newWidth = textWidth + 2 * this.settings.padding;
+        const newHeight = textHeight + 2 * this.settings.padding;
 
         if (this.width() < newWidth) {
             this.width(newWidth);
@@ -184,15 +184,15 @@ SVG.extend(SVG.CompositeShape, {
         zoomFactor = zoomFactor || 1;
         offset = offset || {x: 0, y: 0};
 
-        let self = this,
-            shapeEditNodeId = self.id() + '-edit',
-            workspaceNode = $(self.node).closest('div');
+        const self = this;
+        const shapeEditNodeId = self.id() + '-edit';
+        const workspaceNode = $(self.node).closest('div');
 
         self.hideText();
         self.unSelect();
 
-        let fontSize = this.settings.fontSize * zoomFactor;
-        let padding = this.settings.padding * zoomFactor;
+        const fontSize = this.settings.fontSize * zoomFactor;
+        const padding = this.settings.padding * zoomFactor;
 
         $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper">' +
         '<textarea class="shapeText" style="font-size:' + fontSize + 'px; font-weight:' + this.settings.fontWeight + '; padding:' +
@@ -212,7 +212,7 @@ SVG.extend(SVG.CompositeShape, {
     },
 
     view() {
-        let shapeEditNodeId = this.id() + '-edit';
+        const shapeEditNodeId = this.id() + '-edit';
         this.setText($('#' + shapeEditNodeId + ' textarea').val());
         this.showText();
         $('#' + shapeEditNodeId).remove();
@@ -243,22 +243,22 @@ SVG.extend(SVG.CompositeShape, {
 
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
     registerAttrChangeEvent() {
-        let self = this;
+        const self = this;
         (window as any).MutationObserver = (window as any).MutationObserver
         || (window as any).WebKitMutationObserver
         || (window as any).MozMutationObserver;
 
         if ((window as any).MutationObserver || (window as any).MutationObserver !== undefined) {
-            let target = self.node,
-                observer = new MutationObserver(function() {
-                    self.update();
-                }),
-                config = {
-                    attributes: true, // this is to watch for attribute changes.
-                };
+            const target = self.node;
+            const observer = new MutationObserver(() => {
+                self.update();
+            });
+            const config = {
+                attributes: true, // this is to watch for attribute changes.
+            };
             observer.observe(target, config);
         } else {
-            self.on('DOMAttrModified.shape', function() {
+            self.on('DOMAttrModified.shape', () => {
                 self.update();
             });
         }

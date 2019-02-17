@@ -20,9 +20,9 @@
 import * as angular from 'angular';
 declare const SVG: any;
 
-angular.module('scenarioo.services').service('DrawShapeService', function($rootScope, ZoomPanService) {
+angular.module('scenarioo.services').service('DrawShapeService', ($rootScope, ZoomPanService) => {
 
-    let SHAPE_SELECTED_EVENT = 'shapeSelected';
+    const SHAPE_SELECTED_EVENT = 'shapeSelected';
 
     return {
         SHAPE_SELECTED_EVENT,
@@ -35,15 +35,15 @@ angular.module('scenarioo.services').service('DrawShapeService', function($rootS
                 $rootScope.$broadcast(SHAPE_SELECTED_EVENT, this);
             }, false);
 
-            shape.on('dragend', function() {
+            shape.on('dragend', () => {
                 ZoomPanService.updateZoomPan();
                 $rootScope.$broadcast('edit_drawing_event');
             });
 
-            shape.on('selected', function() {
+            shape.on('selected', () => {
                 ZoomPanService.disableZoomPan();
             });
-            shape.on('unselected', function() {
+            shape.on('unselected', () => {
                 ZoomPanService.enableZoomPan();
                 ZoomPanService.updateZoomPan();
             });
@@ -57,11 +57,9 @@ angular.module('scenarioo.services').service('DrawShapeService', function($rootS
         },
 
         createNewShapeByClassName(drawingPad, shape) {
-            let self = this;
-            let classes = shape.attr('class');
-            let typeClass = classes.split(' ').filter(function(value) {
-                return value.indexOf('-shape') > -1;
-            });
+            const self = this;
+            const classes = shape.attr('class');
+            const typeClass = classes.split(' ').filter((value) => value.indexOf('-shape') > -1);
 
             let newShape;
 
@@ -102,8 +100,8 @@ angular.module('scenarioo.services').service('DrawShapeService', function($rootS
         getSVGText(SVGText) {
             let text = '';
 
-            let i = 0,
-                total = SVGText.lines().length();
+            let i = 0;
+            const total = SVGText.lines().length();
 
             SVGText.lines().each(function() {
                 i++;

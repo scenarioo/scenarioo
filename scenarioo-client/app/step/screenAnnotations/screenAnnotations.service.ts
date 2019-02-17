@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScreenAnnotationsService', function() {
+angular.module('scenarioo.services').factory('ScreenAnnotationsService', () => {
 
-    let service: any = {};
+    const service: any = {};
     service.hasPopup = hasPopup;
     service.getIconClass = getIconClass;
     service.getTitleText = getTitleText;
@@ -66,7 +66,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     function getIconClass(screenAnnotation) {
 
         // Icons from http://fortawesome.github.io/Font-Awesome/3.2.1/icons/
-        let styleToIconClassMap = {
+        const styleToIconClassMap = {
             CLICK: 'fa-hand-point-up',
             KEYBOARD: 'fa-keyboard',
             EXPECTED: 'fa-check-square',
@@ -81,7 +81,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
         if (angular.isUndefined(screenAnnotation.style)) {
             return '';
         }
-        let styleClass = styleToIconClassMap[screenAnnotation.style];
+        const styleClass = styleToIconClassMap[screenAnnotation.style];
 
         if (angular.isUndefined(styleClass)) {
             return '';
