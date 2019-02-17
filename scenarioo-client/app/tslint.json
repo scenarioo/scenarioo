@@ -16,7 +16,8 @@
         "ordered-imports": false,
         "no-console": false,
         "object-literal-sort-keys": false,
-        "jsdoc-format": false
+        "jsdoc-format": false,
+        "variable-name": false
     },
     "rulesDirectory": []
 }

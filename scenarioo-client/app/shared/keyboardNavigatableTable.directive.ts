@@ -49,68 +49,63 @@
 
  *
  */
-angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', function($parse, GlobalHotkeysService) {
-    return {
-        restrict: 'A',
-        scope: {
-            scKeyboardNavigatableTable: '@',
-            scKeyboardNavigatableTableHit: '=',
-        },
-        link(scope: any) {
-            let
-                parentScope: any = scope.$parent,
-                currentCollection,
-                currentCollectionLength;
+angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', ($parse, GlobalHotkeysService) => ({
+    restrict: 'A',
+    scope: {
+        scKeyboardNavigatableTable: '@',
+        scKeyboardNavigatableTableHit: '=',
+    },
+    link(scope: any) {
+        const parentScope = scope.$parent;
+        let currentCollection;
+        let currentCollectionLength;
 
+        parentScope.selectedRowIndex = 0;
+
+        scope.$watchCollection(() => parentScope[scope.scKeyboardNavigatableTable], (collection) => {
             parentScope.selectedRowIndex = 0;
+            currentCollection = collection;
+            if (angular.isDefined(collection)) {
+                currentCollectionLength = collection.length;
+            } else {
+                currentCollectionLength = 0;
+            }
+        });
 
-            scope.$watchCollection(function() {
-                return parentScope[scope.scKeyboardNavigatableTable];
-            }, function(collection) {
-                parentScope.selectedRowIndex = 0;
-                currentCollection = collection;
-                if (angular.isDefined(collection)) {
-                    currentCollectionLength = collection.length;
-                } else {
-                    currentCollectionLength = 0;
-                }
-            });
+        function selectPreviousRow() {
+            if (parentScope.selectedRowIndex > 0) {
+                parentScope.selectedRowIndex--;
+            }
+        }
 
-            function selectPreviousRow() {
-                if (parentScope.selectedRowIndex > 0) {
-                    parentScope.selectedRowIndex--;
-                }
+        function selectNextRow() {
+            if (parentScope.selectedRowIndex < (currentCollectionLength - 1)) {
+                parentScope.selectedRowIndex++;
+            }
+        }
+
+        function invokeCallback() {
+            if (angular.isUndefined(currentCollection) || currentCollectionLength < 1) {
+                return;
             }
 
-            function selectNextRow() {
-                if (parentScope.selectedRowIndex < (currentCollectionLength - 1)) {
-                    parentScope.selectedRowIndex++;
-                }
+            if (typeof scope.scKeyboardNavigatableTableHit === 'function') {
+                scope.scKeyboardNavigatableTableHit.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
             }
+        }
 
-            function invokeCallback() {
-                if (angular.isUndefined(currentCollection) || currentCollectionLength < 1) {
-                    return;
-                }
+        GlobalHotkeysService.registerPageHotkeyCode(38, () => {
+            // up arrow
+            selectPreviousRow();
+        });
+        GlobalHotkeysService.registerPageHotkeyCode(40, () => {
+            // down arrow
+            selectNextRow();
+        });
+        GlobalHotkeysService.registerPageHotkeyCode(13, () => {
+            // enter
+            invokeCallback();
+        });
 
-                if (typeof scope.scKeyboardNavigatableTableHit === 'function') {
-                    scope.scKeyboardNavigatableTableHit.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
-                }
-            }
-
-            GlobalHotkeysService.registerPageHotkeyCode(38, function() {
-                // up arrow
-                selectPreviousRow();
-            });
-            GlobalHotkeysService.registerPageHotkeyCode(40, function() {
-                // down arrow
-                selectNextRow();
-            });
-            GlobalHotkeysService.registerPageHotkeyCode(13, function() {
-                // enter
-                invokeCallback();
-            });
-
-        },
-    };
-});
+    },
+}));
