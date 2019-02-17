@@ -33,6 +33,10 @@ jobs:
           command: ./gradlew scenarioo-client:runLinter --no-daemon -s
           when: always
       - run:
+          name: TS lint App
+          command: ./gradlew scenarioo-client:runTsLint --no-daemon -s
+          when: always
+      - run:
           name: Archive generated example scenarioo docu data of Wikipedia
           command: |
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample

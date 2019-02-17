@@ -53,3 +53,7 @@ task runE2eCircleCi(type: NpmTask) {
 task runLinter(type: NpmTask) {
     args = ['run', 'lint-ci']
 }
+
+task runTsLint(type: NpmTask) {
+    args = ['run', 'lint:app']
+}
