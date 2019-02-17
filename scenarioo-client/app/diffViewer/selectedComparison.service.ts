@@ -18,11 +18,11 @@
 angular.module('scenarioo.services').service('SelectedComparison', SelectedComparisonService);
 
 function SelectedComparisonService($location, $rootScope, localStorageService) {
-    var COMPARISON_KEY = 'comparison';
-    var COMPARISON_DISABLED = 'Disabled';
-    var selectedComparison;
-    var initialValuesFromUrlAndCookieLoaded = false;
-    var info = {isDefined: false};
+    let COMPARISON_KEY = 'comparison';
+    let COMPARISON_DISABLED = 'Disabled';
+    let selectedComparison;
+    let initialValuesFromUrlAndCookieLoaded = false;
+    let info = {isDefined: false};
 
     function getSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -45,10 +45,10 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
     }
 
     function getFromLocalStorageOrUrl(key) {
-        var value;
+        let value;
 
         // check URL first, this has priority over the cookie value
-        var params = $location.search();
+        let params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
             localStorageService.set(key, value);
@@ -70,9 +70,9 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
         return value;
     }
 
-    $rootScope.$watch(function () {
+    $rootScope.$watch(function() {
         return $location.search()[COMPARISON_KEY];
-    }, function () {
+    }, function() {
         setSelectedComparison();
     }, true);
 
@@ -87,8 +87,8 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
     }
 
     return {
-        COMPARISON_KEY: COMPARISON_KEY,
-        COMPARISON_DISABLED: COMPARISON_DISABLED,
+        COMPARISON_KEY,
+        COMPARISON_DISABLED,
 
         /**
          * Returns the currently selected comparison.
@@ -100,7 +100,6 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
          */
         setSelected: setSelectedComparison,
 
-
         /**
          * Returns true only if comparison value is defined.
          */
@@ -109,6 +108,6 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
         /**
          * Returns object including isDefined information
          */
-        info: info
+        info,
     };
 }

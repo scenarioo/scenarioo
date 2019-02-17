@@ -19,32 +19,32 @@
  Waits for given milliseconds before entered filter criteria will be applied
  */
 
-angular.module('scenarioo.directives').directive('scDebounce', function ($timeout) {
+angular.module('scenarioo.directives').directive('scDebounce', function($timeout) {
     return {
         restrict: 'A',
         require: 'ngModel',
         priority: 99,
-        link: function (scope, elm, attr, ngModelController: any) {
+        link(scope, elm, attr, ngModelController: any) {
             if (attr.type === 'radio' || attr.type === 'checkbox') {
                 return;
             }
 
             elm.unbind('input');
 
-            var debounce;
-            elm.bind('input', function () {
+            let debounce;
+            elm.bind('input', function() {
                 $timeout.cancel(debounce);
-                debounce = $timeout(function () {
-                    scope.$apply(function () {
+                debounce = $timeout(function() {
+                    scope.$apply(function() {
                         ngModelController.$setViewValue(elm.val());
                     });
                 }, attr.ngDebounce || 400);
             });
-            elm.bind('blur', function () {
-                scope.$apply(function () {
+            elm.bind('blur', function() {
+                scope.$apply(function() {
                     ngModelController.$setViewValue(elm.val());
                 });
             });
-        }
+        },
     };
 });

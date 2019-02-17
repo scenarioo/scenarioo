@@ -10,12 +10,10 @@ export class LabelConfigurationService {
     constructor(private http: HttpClient) {
     }
 
-
     get(): Observable<any> {
         return this.http.get('rest/labelconfigurations');
     }
 }
-
 
 angular.module('scenarioo.services')
     .factory('labelConfigurationService', downgradeInjectable(LabelConfigurationService));

@@ -31,8 +31,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         search: {$: ''},
         sort: {
             column: 'scenario.name',
-            reverse: false
-        }
+            reverse: false,
+        },
     };
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
     vm.propertiesToShow = [];
@@ -59,7 +59,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadScenariosAndUseCase);
 
-        labelConfigurationService.get().subscribe(loadedLabelConfigurations => {
+        labelConfigurationService.get().subscribe((loadedLabelConfigurations) => {
             labelConfigurations = loadedLabelConfigurations;
         });
         $scope.comparisonInfo = SelectedComparison.info;
@@ -91,7 +91,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function goToFirstStep(useCaseName, scenarioName) {
-        var selected = SelectedBranchAndBuildService.selected();
+        let selected = SelectedBranchAndBuildService.selected();
 
         // FIXME This could be improved, if the scenario service
         // for finding all scenarios would also retrieve the name of the first page
@@ -100,21 +100,21 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                 branchName: selected.branch,
                 buildName: selected.build,
                 usecaseName: useCaseName,
-                scenarioName: scenarioName
+                scenarioName,
             },
             function onSuccess(scenarioResult) {
                 $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
-            }
+            },
         );
     }
 
     function loadScenariosAndUseCase(selected) {
-        var useCaseName = $routeParams.useCaseName;
+        let useCaseName = $routeParams.useCaseName;
 
         ScenarioResource.get({
             branchName: selected.branch,
             buildName: selected.build,
-            usecaseName: useCaseName
+            usecaseName: useCaseName,
         }, onUseCaseLoaded);
         vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 
@@ -127,7 +127,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
 
         if (SelectedComparison.isDefined()) {
-            var selected = SelectedBranchAndBuildService.selected();
+            let selected = SelectedBranchAndBuildService.selected();
             loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.useCase.name);
         } else {
             vm.scenarios = result.scenarios;
@@ -140,26 +140,26 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             UseCaseDiffInfoResource.get(
                 {
-                    'baseBranchName': baseBranchName,
-                    'baseBuildName': baseBuildName,
-                    'comparisonName': comparisonName,
-                    'useCaseName': useCaseName
+                    baseBranchName,
+                    baseBuildName,
+                    comparisonName,
+                    useCaseName,
                 },
                 function onSuccess(useCaseDiffInfo) {
                     ScenarioDiffInfosResource.get(
                         {
-                            'baseBranchName': baseBranchName,
-                            'baseBuildName': baseBuildName,
-                            'comparisonName': comparisonName,
-                            'useCaseName': useCaseName
+                            baseBranchName,
+                            baseBuildName,
+                            comparisonName,
+                            useCaseName,
                         },
                         function onSuccess(scenarioDiffInfos) {
                             vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        }
+                        },
                     );
                 }, function onFailure() {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
-                }
+                },
             );
         }
     }
@@ -168,24 +168,24 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName
-        }, function (result) {
+            useCaseName: $routeParams.useCaseName,
+        }, function(result) {
             vm.relatedIssues = result;
             vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
     }
 
     function goToIssue(issue) {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        let selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {'branchName': selectedBranch, 'issueId': issue.id},
+            {branchName: selectedBranch, issueId: issue.id},
             function onSuccess(result) {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     }
 
     function createUseCaseInformationTree(usecase) {
-        var usecaseInformation: any = {};
+        let usecaseInformation: any = {};
         usecaseInformation['Use Case'] = usecase.name;
         if (usecase.description) {
             usecaseInformation.Description = usecase.description;

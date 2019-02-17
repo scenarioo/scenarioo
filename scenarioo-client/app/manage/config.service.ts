@@ -15,26 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').service('ConfigService', function (ConfigResource, $rootScope) {
+angular.module('scenarioo.services').service('ConfigService', function(ConfigResource, $rootScope) {
 
-    var CONFIG_LOADED_EVENT = 'configLoaded';
+    let CONFIG_LOADED_EVENT = 'configLoaded';
 
-    var configData: any = {};
+    let configData: any = {};
 
     function getValue(key) {
         return configData[key];
     }
 
     function doLoad() {
-        ConfigResource.get({}, function (response) {
+        ConfigResource.get({}, function(response) {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
-            $rootScope.getStatusStyleClass = function (buildStatus) {
-                var styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
+            $rootScope.getStatusStyleClass = function(buildStatus) {
+                let styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
                 if (angular.isUndefined(styleClassFromMapping)) {
                     return 'label-warning';
-                }
-                else {
+                } else {
                     return styleClassFromMapping;
                 }
             };
@@ -48,42 +47,42 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
     }
 
     function getScenarioPropertiesInOverview() {
-        var stringValue = getValue('scenarioPropertiesInOverview');
+        let stringValue = getValue('scenarioPropertiesInOverview');
 
-        var propertiesStringArray = [];
+        let propertiesStringArray = [];
         if (angular.isString(stringValue) && stringValue.length > 0) {
             propertiesStringArray = stringValue.split(',');
         }
 
-        var properties = new Array(propertiesStringArray.length);
+        let properties = new Array(propertiesStringArray.length);
 
-        for (var i = 0; i < propertiesStringArray.length; i++) {
+        for (let i = 0; i < propertiesStringArray.length; i++) {
             properties[i] = propertiesStringArray[i].trim();
         }
 
         return properties;
     }
 
-    var serviceInstance = {
-        CONFIG_LOADED_EVENT: CONFIG_LOADED_EVENT,
+    let serviceInstance = {
+        CONFIG_LOADED_EVENT,
 
-        getRawConfigDataCopy: function () {
+        getRawConfigDataCopy() {
             return angular.copy(configData);
         },
 
         /**
          * Will fire event 'configLoaded'
          */
-        load: function () {
+        load() {
             doLoad();
         },
 
-        isLoaded: function () {
+        isLoaded() {
             return angular.isDefined(configData.defaultBuildName);
         },
 
-        updateConfiguration: function (newConfig, successCallback) {
-            ConfigResource.save(newConfig, function () {
+        updateConfiguration(newConfig, successCallback) {
+            ConfigResource.save(newConfig, function() {
                 if (successCallback) {
                     doLoad();
                     successCallback();
@@ -91,41 +90,41 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
             });
         },
 
-        defaultBranchAndBuild: function () {
+        defaultBranchAndBuild() {
             return {
                 branch: getValue('defaultBranchName'),
-                build: getValue('defaultBuildName')
+                build: getValue('defaultBuildName'),
             };
         },
 
-        scenarioPropertiesInOverview: function () {
+        scenarioPropertiesInOverview() {
             return getScenarioPropertiesInOverview();
         },
 
-        applicationName: function () {
+        applicationName() {
             return getValue('applicationName');
         },
 
-        applicationInformation: function () {
+        applicationInformation() {
             return getValue('applicationInformation');
         },
 
-        buildStateToClassMapping: function () {
+        buildStateToClassMapping() {
             return getBuildStateToClassMapping();
         },
 
-        expandPagesInScenarioOverview: function () {
+        expandPagesInScenarioOverview() {
             return getValue('expandPagesInScenarioOverview');
         },
 
-        branchSelectionListOrder: function () {
+        branchSelectionListOrder() {
             return getValue('branchSelectionListOrder');
         },
 
-        diffViewerDiffImageColor: function () {
+        diffViewerDiffImageColor() {
             // this ugly code comverts hex values of the form `0x123ab5` to `#123ab5`
             return '#' + ('00000' + getValue('diffImageColor')).toString().substr(-6);
-        }
+        },
 
     };
 

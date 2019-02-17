@@ -21,7 +21,7 @@ function ScenarioController($filter, $routeParams,
           $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
           ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
-    var vm = this;
+    let vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
     vm.useCase = {};
@@ -45,23 +45,22 @@ function ScenarioController($filter, $routeParams,
     vm.goToIssue = goToIssue;
     vm.comparisonInfo = SelectedComparison.info;
 
-    var useCaseName = $routeParams.useCaseName;
-    var scenarioName = $routeParams.scenarioName;
-    var comparisonBranchName;
-    var comparisonBuildName;
-    var selectedBranchAndBuild;
-    var pagesAndScenarios: any = [];
-    var scenarioStatistics: any = {};
-    var showAllSteps = [];
-    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    let useCaseName = $routeParams.useCaseName;
+    let scenarioName = $routeParams.scenarioName;
+    let comparisonBranchName;
+    let comparisonBuildName;
+    let selectedBranchAndBuild;
+    let pagesAndScenarios: any = [];
+    let scenarioStatistics: any = {};
+    let showAllSteps = [];
+    let transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    let transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    LabelConfigurationsResource.query({}, function (queriedlabelConfigurations) {
+    LabelConfigurationsResource.query({}, function(queriedlabelConfigurations) {
         vm.labelConfigurations = queriedlabelConfigurations;
     });
-
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -70,9 +69,9 @@ function ScenarioController($filter, $routeParams,
                 branchName: selected.branch,
                 buildName: selected.build,
                 usecaseName: useCaseName,
-                scenarioName: scenarioName
+                scenarioName,
             },
-            function (result) {
+            function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;
@@ -83,21 +82,21 @@ function ScenarioController($filter, $routeParams,
                 vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
                 scenarioStatistics = result.scenarioStatistics;
 
-                if(SelectedComparison.isDefined()) {
-                    var selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
+                if (SelectedComparison.isDefined()) {
+                    let selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
                     loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
                 }
 
                 loadRelatedIssues();
 
-                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
-                var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
+                let hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
+                let hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
                     vm.expandAll();
                 }
-            }
+            },
         );
     }
 
@@ -114,7 +113,7 @@ function ScenarioController($filter, $routeParams,
             return false;
         }
 
-        for (var i = 0; i < vm.pagesAndSteps.length; i++) {
+        for (let i = 0; i < vm.pagesAndSteps.length; i++) {
             if (isExpandPossibleForPage(vm.pagesAndSteps[i], i)) {
                 return true;
             }
@@ -132,7 +131,7 @@ function ScenarioController($filter, $routeParams,
             return false;
         }
 
-        for (var i = 0; i < vm.pagesAndSteps.length; i++) {
+        for (let i = 0; i < vm.pagesAndSteps.length; i++) {
             if (isCollapsePossibleForPage(vm.pagesAndSteps[i], i)) {
                 return true;
             }
@@ -146,14 +145,14 @@ function ScenarioController($filter, $routeParams,
     }
 
     function expandAll() {
-        var numberOfPages = scenarioStatistics.numberOfPages;
-        for (var i = 0; i < numberOfPages; i++) {
+        let numberOfPages = scenarioStatistics.numberOfPages;
+        for (let i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
     }
 
     function collapseAll() {
-        for (var i = 0; i < showAllSteps.length; i++) {
+        for (let i = 0; i < showAllSteps.length; i++) {
             showAllSteps[i] = false;
         }
     }
@@ -162,9 +161,9 @@ function ScenarioController($filter, $routeParams,
         if (angular.isUndefined(selectedBranchAndBuild)) {
             return undefined;
         }
-        var branch = selectedBranchAndBuild.branch;
-        var build = selectedBranchAndBuild.build;
-        if(SelectedComparison.isDefined() && stepIsRemoved) {
+        let branch = selectedBranchAndBuild.branch;
+        let build = selectedBranchAndBuild.build;
+        if (SelectedComparison.isDefined() && stepIsRemoved) {
             branch = comparisonBranchName;
             build = comparisonBuildName;
         }
@@ -183,13 +182,13 @@ function ScenarioController($filter, $routeParams,
     }
 
     function createScenarioInformationTree(scenario, statistics, useCase) {
-        var stepInformation: any = {};
+        let stepInformation: any = {};
         stepInformation['Use Case'] = useCase.name;
-        if(useCase.description) {
+        if (useCase.description) {
             stepInformation['Use Case Description'] = useCase.description;
         }
         stepInformation.Scenario = $filter('scHumanReadable')(scenario.name);
-        if(scenario.description) {
+        if (scenario.description) {
             stepInformation['Scenario Description'] = scenario.description;
         }
 
@@ -202,35 +201,35 @@ function ScenarioController($filter, $routeParams,
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         ScenarioDiffInfoResource.get(
             {
-                'baseBranchName': baseBranchName,
-                'baseBuildName': baseBuildName,
-                'comparisonName': comparisonName,
-                'useCaseName': useCaseName,
-                'scenarioName': scenarioName
+                baseBranchName,
+                baseBuildName,
+                comparisonName,
+                useCaseName,
+                scenarioName,
             },
             function onSuccess(scenarioDiffInfo) {
                 StepDiffInfosResource.get(
                     {
-                        'baseBranchName': baseBranchName,
-                        'baseBuildName': baseBuildName,
-                        'comparisonName': comparisonName,
-                        'useCaseName': useCaseName,
-                        'scenarioName': scenarioName
+                        baseBranchName,
+                        baseBuildName,
+                        comparisonName,
+                        useCaseName,
+                        scenarioName,
                     },
                     function onSuccess(stepDiffInfos) {
                         DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                    }
+                    },
                 );
             }, function onFailure(error) {
                 throw error;
-            }
+            },
         );
     }
 
     function isAddedUseCase(buildDiffInfo) {
         // ES 2015 find() method would be required here...
-        var isAddedUseCase = false;
-        angular.forEach(buildDiffInfo.addedElements, function (addedElement) {
+        let isAddedUseCase = false;
+        angular.forEach(buildDiffInfo.addedElements, function(addedElement) {
             if (addedElement === useCaseName) {
                 isAddedUseCase = true;
             }
@@ -239,9 +238,9 @@ function ScenarioController($filter, $routeParams,
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
-        angular.forEach(pagesAndSteps, function (pageAndStep) {
+        angular.forEach(pagesAndSteps, function(pageAndStep) {
             pageAndStep.page.diffInfo = {isAdded: true};
-            angular.forEach(pageAndStep.steps, function (step) {
+            angular.forEach(pageAndStep.steps, function(step) {
                 step.diffInfo = {isAdded: true};
             });
         });
@@ -250,7 +249,7 @@ function ScenarioController($filter, $routeParams,
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
             BuildDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                {baseBranchName, baseBuildName, comparisonName},
                 function onSuccess(buildDiffInfo) {
                     comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                     comparisonBuildName = buildDiffInfo.compareBuild.buildName;
@@ -262,27 +261,27 @@ function ScenarioController($filter, $routeParams,
                     }
                 }, function onFailure(error) {
                     throw error;
-                }
+                },
             );
         }
     }
 
-    function loadRelatedIssues(){
+    function loadRelatedIssues() {
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
             useCaseName: $routeParams.useCaseName,
-            scenarioName: $routeParams.scenarioName
-        }, function(result){
+            scenarioName: $routeParams.scenarioName,
+        }, function(result) {
             vm.relatedIssues = result;
             vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
     }
 
     function goToIssue(issue) {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        let selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {'branchName': selectedBranch, 'issueId': issue.id },
+            {branchName: selectedBranch, issueId: issue.id },
             function onSuccess(result) {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });

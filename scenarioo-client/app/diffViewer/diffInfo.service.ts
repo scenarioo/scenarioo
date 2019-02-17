@@ -15,20 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 angular.module('scenarioo.services').service('DiffInfoService', DiffInfoService);
 
 function DiffInfoService() {
 
     function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
-        var elementsWithDiffInfo = [];
+        let elementsWithDiffInfo = [];
 
-        angular.forEach(elements, function(element){
+        angular.forEach(elements, function(element) {
             element.diffInfo = getDiffInfo(diffInfos, resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
 
-        angular.forEach(removedElements, function(removedElement){
+        angular.forEach(removedElements, function(removedElement) {
             removedElement.diffInfo = getRemovedDiffInfo();
             elementsWithDiffInfo.push(removedElement);
         });
@@ -37,7 +36,7 @@ function DiffInfoService() {
     }
 
     function enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
-        var stepIndex = 0;
+        let stepIndex = 0;
         angular.forEach(pagesAndSteps, function(pageAndStep) {
             angular.forEach(pageAndStep.steps, function(step) {
                 step.diffInfo = getDiffInfo(diffInfos, stepIndex++);
@@ -57,7 +56,7 @@ function DiffInfoService() {
     }
 
     function enrichChangedStepWithDiffInfo(step, diffInfo) {
-        if(diffInfo){
+        if (diffInfo) {
             diffInfo.changed = 1;
             diffInfo.added = 0;
             diffInfo.removed = 0;
@@ -66,23 +65,23 @@ function DiffInfoService() {
     }
 
     function addRemovedStep(pagesAndSteps, stepInfo) {
-        var targetPageAndStep = null;
+        let targetPageAndStep = null;
         angular.forEach(pagesAndSteps, function(pageAndStep) {
-            if(stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
+            if (stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
                 targetPageAndStep = pageAndStep;
             }
         });
 
-        if(targetPageAndStep === null) {
-            var removedPage = {
+        if (targetPageAndStep === null) {
+            let removedPage = {
                 name: stepInfo.stepLink.pageName,
-                pageOccurrence: stepInfo.stepLink.pageOccurrence
+                pageOccurrence: stepInfo.stepLink.pageOccurrence,
             };
             targetPageAndStep = {
                 page: removedPage,
-                steps: []
+                steps: [],
             };
-            var insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
+            let insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
             pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
@@ -93,10 +92,10 @@ function DiffInfoService() {
     }
 
     function getInsertPosition(pagesAndSteps, stepIndex) {
-        for(var i = 0; i < pagesAndSteps; i++) {
-            var steps = pagesAndSteps[i].steps;
-            var lastStepInPage = steps[steps.length - 1];
-            if(lastStepInPage >= stepIndex) {
+        for (let i = 0; i < pagesAndSteps; i++) {
+            let steps = pagesAndSteps[i].steps;
+            let lastStepInPage = steps[steps.length - 1];
+            if (lastStepInPage >= stepIndex) {
                 return i + 1;
             }
         }
@@ -107,8 +106,8 @@ function DiffInfoService() {
         return enrichDiffInfo(diffInfos[key]);
     }
 
-    function enrichDiffInfo(diffInfo){
-        if(diffInfo) {
+    function enrichDiffInfo(diffInfo) {
+        if (diffInfo) {
             diffInfo.isAdded = false;
             diffInfo.isRemoved = false;
         } else {
@@ -121,7 +120,7 @@ function DiffInfoService() {
     }
 
     function getRemovedDiffInfo() {
-        var diffInfo: any = {};
+        let diffInfo: any = {};
         diffInfo.changeRate = 100;
         diffInfo.isAdded = false;
         diffInfo.isRemoved = true;
@@ -129,29 +128,29 @@ function DiffInfoService() {
     }
 
     function getPageDiffInfo(pageAndStep) {
-        var diffInfo = {
+        let diffInfo = {
             changeRate: 0,
             added: 0,
             changed: 0,
             removed: 0,
             isAdded: false,
-            isRemoved: false
+            isRemoved: false,
         };
-        var stepChangeRateSum = 0;
+        let stepChangeRateSum = 0;
         angular.forEach(pageAndStep.steps, function(step) {
             stepChangeRateSum += step.diffInfo.changeRate;
-            if(step.diffInfo.isAdded){
+            if (step.diffInfo.isAdded) {
                 diffInfo.added++;
-            } else if(step.diffInfo.isRemoved){
+            } else if (step.diffInfo.isRemoved) {
                 diffInfo.removed++;
-            } else if(step.diffInfo.changeRate > 0) {
+            } else if (step.diffInfo.changeRate > 0) {
                 diffInfo.changed++;
             }
         });
-        if(diffInfo.added === pageAndStep.steps.length) {
+        if (diffInfo.added === pageAndStep.steps.length) {
             diffInfo.isAdded = true;
         }
-        if(diffInfo.removed === pageAndStep.steps.length) {
+        if (diffInfo.removed === pageAndStep.steps.length) {
             diffInfo.isRemoved = true;
         }
         diffInfo.changeRate = stepChangeRateSum / pageAndStep.steps.length;
@@ -159,13 +158,13 @@ function DiffInfoService() {
     }
 
     function resolvePathValue(obj, path) {
-        var current = obj;
-        if(path) {
-            var paths = path.split('.');
-            for(var i = 0; i < paths.length; i++) {
-                if(current[paths[i]] === undefined){
+        let current = obj;
+        if (path) {
+            let paths = path.split('.');
+            for (let i = 0; i < paths.length; i++) {
+                if (current[paths[i]] === undefined) {
                     return undefined;
-                }else {
+                } else {
                     current = current[paths[i]];
                 }
             }
@@ -174,8 +173,8 @@ function DiffInfoService() {
     }
 
     return {
-        getElementsWithDiffInfos: getElementsWithDiffInfos,
-        enrichChangedStepWithDiffInfo: enrichChangedStepWithDiffInfo,
-        enrichPagesAndStepsWithDiffInfos: enrichPagesAndStepsWithDiffInfos
+        getElementsWithDiffInfos,
+        enrichChangedStepWithDiffInfo,
+        enrichPagesAndStepsWithDiffInfos,
     };
 }

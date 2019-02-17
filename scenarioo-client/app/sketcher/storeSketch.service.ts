@@ -20,7 +20,7 @@ angular.module('scenarioo.services').service('StoreSketchService', StoreSketchSe
 function StoreSketchService(LocalStorageService, SketcherContextService, StepSketchResource,
                             IssueResource, ScenarioSketchResource, $log, DrawingPadService) {
 
-    var savingSketch = false,
+    let savingSketch = false,
         issueIdAfterSavingIssue,
         scenarioSketchIdAfterSavingScenarioSketch,
         stepSketchIdAfterSavingStepSketch,
@@ -29,13 +29,13 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         addAlertCallback,
         successCallback;
 
-    var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
+    let AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
         MODE_EDIT = 'edit';
 
     function saveIssueAndScenarioSketchAndStepSketch(data, _addAlertCallback, _successCallback) {
         // Do not save it again if saving it's already in progress
-        if(savingSketch) {
+        if (savingSketch) {
             return;
         }
 
@@ -46,11 +46,11 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         modeAfterSaving = inputData.mode;
         resetIds();
 
-        var issue = new IssueResource({
+        let issue = new IssueResource({
             branchName: inputData.branchName,
             name: inputData.issueName,
             description: inputData.issueDescription,
-            author: inputData.issueAuthor
+            author: inputData.issueAuthor,
         });
 
         if (inputData.mode === MODE_CREATE) {
@@ -61,11 +61,11 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             issue.issueId = inputData.issueId;
         }
 
-        issue.$save(function (savedIssue) {
+        issue.$save(function(savedIssue) {
             issueIdAfterSavingIssue = savedIssue.issueId;
             saveScenarioSketch();
         },
-        function (error) {
+        function(error) {
             $log.error(error);
             sketchSavedWithError('Issue could not be saved');
         });
@@ -78,15 +78,15 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
     }
 
     function saveScenarioSketch() {
-        if(!issueIdAfterSavingIssue) {
-            sketchSavedWithError('Issue could not be saved.')
+        if (!issueIdAfterSavingIssue) {
+            sketchSavedWithError('Issue could not be saved.');
             return;
         }
 
-        var scenarioSketch: any = {
+        let scenarioSketch: any = {
             branchName: inputData.branchName,
             author: inputData.issueAuthor,
-            issueId: issueIdAfterSavingIssue
+            issueId: issueIdAfterSavingIssue,
         };
 
         if (inputData.scenarioSketchId && inputData.scenarioSketchId !== undefined) {
@@ -94,28 +94,28 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         }
 
         ScenarioSketchResource.save(scenarioSketch,
-            function (savedScenarioSketch) {
+            function(savedScenarioSketch) {
                 scenarioSketchIdAfterSavingScenarioSketch = savedScenarioSketch.scenarioSketchId;
                 saveStepSketch();
             },
-            function (error) {
+            function(error) {
                 sketchSavedWithError('Scenario sketch could not be saved.', error);
             });
     }
 
     function saveStepSketch() {
-        if(!scenarioSketchIdAfterSavingScenarioSketch) {
+        if (!scenarioSketchIdAfterSavingScenarioSketch) {
             sketchSavedWithError('Scenario sketch could not be saved.');
             return;
         }
 
-        var exportedSVG = DrawingPadService.exportDrawing();
+        let exportedSVG = DrawingPadService.exportDrawing();
 
-        var stepSketch = new StepSketchResource({
+        let stepSketch = new StepSketchResource({
             branchName: inputData.branchName,
             svgXmlString: exportedSVG,
             issueId: issueIdAfterSavingIssue,
-            scenarioSketchId: scenarioSketchIdAfterSavingScenarioSketch
+            scenarioSketchId: scenarioSketchIdAfterSavingScenarioSketch,
         }, {});
 
         if (inputData.mode === MODE_CREATE) {
@@ -126,11 +126,11 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             stepSketch.stepSketchId = inputData.stepSketchId;
         }
 
-        stepSketch.$save(function (savedStepSketch) {
+        stepSketch.$save(function(savedStepSketch) {
             stepSketchIdAfterSavingStepSketch = savedStepSketch.stepSketchId;
             sketchSuccessfullySaved();
         },
-        function (error) {
+        function(error) {
             $log.error(error);
             sketchSavedWithError('StepSketch could not be saved');
         });
@@ -145,7 +145,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             issueId: issueIdAfterSavingIssue,
             scenarioSketchId: scenarioSketchIdAfterSavingScenarioSketch,
             stepSketchId: stepSketchIdAfterSavingStepSketch,
-            mode: modeAfterSaving
+            mode: modeAfterSaving,
         });
 
         savingSketch = false;
@@ -161,14 +161,13 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         savingSketch = false;
     }
 
-
     return {
 
-        saveIssueAndScenarioSketchAndStepSketch: saveIssueAndScenarioSketchAndStepSketch,
+        saveIssueAndScenarioSketchAndStepSketch,
 
-        isSavingSketchInProgress: function() {
+        isSavingSketchInProgress() {
             return savingSketch;
-        }
+        },
 
     };
 

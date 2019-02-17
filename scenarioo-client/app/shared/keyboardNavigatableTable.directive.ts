@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * this directive provides keyboard navigation features for a table.
  * Up/Down arrows will navigate through the rows. on hitting the enter key, a callback is invoked, and
@@ -50,25 +49,24 @@
 
  *
  */
-angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', function ($parse, GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', function($parse, GlobalHotkeysService) {
     return {
         restrict: 'A',
         scope: {
             scKeyboardNavigatableTable: '@',
-            scKeyboardNavigatableTableHit: '='
+            scKeyboardNavigatableTableHit: '=',
         },
-        link: function (scope: any) {
-            var
+        link(scope: any) {
+            let
                 parentScope: any = scope.$parent,
                 currentCollection,
                 currentCollectionLength;
 
             parentScope.selectedRowIndex = 0;
 
-
-            scope.$watchCollection(function () {
+            scope.$watchCollection(function() {
                 return parentScope[scope.scKeyboardNavigatableTable];
-            }, function (collection) {
+            }, function(collection) {
                 parentScope.selectedRowIndex = 0;
                 currentCollection = collection;
                 if (angular.isDefined(collection)) {
@@ -90,7 +88,6 @@ angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', f
                 }
             }
 
-
             function invokeCallback() {
                 if (angular.isUndefined(currentCollection) || currentCollectionLength < 1) {
                     return;
@@ -101,19 +98,19 @@ angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', f
                 }
             }
 
-            GlobalHotkeysService.registerPageHotkeyCode(38, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(38, function() {
                 // up arrow
                 selectPreviousRow();
             });
-            GlobalHotkeysService.registerPageHotkeyCode(40, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(40, function() {
                 // down arrow
                 selectNextRow();
             });
-            GlobalHotkeysService.registerPageHotkeyCode(13, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(13, function() {
                 // enter
                 invokeCallback();
             });
 
-        }
+        },
     };
 });
