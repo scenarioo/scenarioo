@@ -19,32 +19,30 @@
  Waits for given milliseconds before entered filter criteria will be applied
  */
 
-angular.module('scenarioo.directives').directive('scDebounce', function($timeout) {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        priority: 99,
-        link(scope, elm, attr, ngModelController: any) {
-            if (attr.type === 'radio' || attr.type === 'checkbox') {
-                return;
-            }
+angular.module('scenarioo.directives').directive('scDebounce', ($timeout) => ({
+    restrict: 'A',
+    require: 'ngModel',
+    priority: 99,
+    link(scope, elm, attr, ngModelController: any) {
+        if (attr.type === 'radio' || attr.type === 'checkbox') {
+            return;
+        }
 
-            elm.unbind('input');
+        elm.unbind('input');
 
-            let debounce;
-            elm.bind('input', function() {
-                $timeout.cancel(debounce);
-                debounce = $timeout(function() {
-                    scope.$apply(function() {
-                        ngModelController.$setViewValue(elm.val());
-                    });
-                }, attr.ngDebounce || 400);
-            });
-            elm.bind('blur', function() {
-                scope.$apply(function() {
+        let debounce;
+        elm.bind('input', () => {
+            $timeout.cancel(debounce);
+            debounce = $timeout(() => {
+                scope.$apply(() => {
                     ngModelController.$setViewValue(elm.val());
                 });
+            }, attr.ngDebounce || 400);
+        });
+        elm.bind('blur', () => {
+            scope.$apply(() => {
+                ngModelController.$setViewValue(elm.val());
             });
-        },
-    };
-});
+        });
+    },
+}));

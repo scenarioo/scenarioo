@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').service('ConfigService', function(ConfigResource, $rootScope) {
+angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $rootScope) => {
 
     const CONFIG_LOADED_EVENT = 'configLoaded';
 
@@ -26,10 +26,10 @@ angular.module('scenarioo.services').service('ConfigService', function(ConfigRes
     }
 
     function doLoad() {
-        ConfigResource.get({}, function(response) {
+        ConfigResource.get({}, (response) => {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
-            $rootScope.getStatusStyleClass = function(buildStatus) {
+            $rootScope.getStatusStyleClass = (buildStatus) => {
                 const styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
                 if (angular.isUndefined(styleClassFromMapping)) {
                     return 'label-warning';
@@ -82,7 +82,7 @@ angular.module('scenarioo.services').service('ConfigService', function(ConfigRes
         },
 
         updateConfiguration(newConfig, successCallback) {
-            ConfigResource.save(newConfig, function() {
+            ConfigResource.save(newConfig, () => {
                 if (successCallback) {
                     doLoad();
                     successCallback();

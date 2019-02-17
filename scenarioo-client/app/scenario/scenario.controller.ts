@@ -58,7 +58,7 @@ function ScenarioController($filter, $routeParams,
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    LabelConfigurationsResource.query({}, function(queriedlabelConfigurations) {
+    LabelConfigurationsResource.query({}, (queriedlabelConfigurations) => {
         vm.labelConfigurations = queriedlabelConfigurations;
     });
 
@@ -71,7 +71,7 @@ function ScenarioController($filter, $routeParams,
                 usecaseName: useCaseName,
                 scenarioName,
             },
-            function(result) {
+            (result) => {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;
@@ -207,7 +207,7 @@ function ScenarioController($filter, $routeParams,
                 useCaseName,
                 scenarioName,
             },
-            function onSuccess(scenarioDiffInfo) {
+            (scenarioDiffInfo) => {
                 StepDiffInfosResource.get(
                     {
                         baseBranchName,
@@ -216,11 +216,11 @@ function ScenarioController($filter, $routeParams,
                         useCaseName,
                         scenarioName,
                     },
-                    function onSuccess(stepDiffInfos) {
+                    (stepDiffInfos) => {
                         DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
                     },
                 );
-            }, function onFailure(error) {
+            }, (error) => {
                 throw error;
             },
         );
@@ -228,19 +228,19 @@ function ScenarioController($filter, $routeParams,
 
     function isAddedUseCase(buildDiffInfo) {
         // ES 2015 find() method would be required here...
-        let isAddedUseCase = false;
-        angular.forEach(buildDiffInfo.addedElements, function(addedElement) {
+        let isUseCaseAdded = false;
+        angular.forEach(buildDiffInfo.addedElements, (addedElement) => {
             if (addedElement === useCaseName) {
-                isAddedUseCase = true;
+                isUseCaseAdded = true;
             }
         });
-        return isAddedUseCase;
+        return isUseCaseAdded;
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
-        angular.forEach(pagesAndSteps, function(pageAndStep) {
+        angular.forEach(pagesAndSteps, (pageAndStep) => {
             pageAndStep.page.diffInfo = {isAdded: true};
-            angular.forEach(pageAndStep.steps, function(step) {
+            angular.forEach(pageAndStep.steps, (step) => {
                 step.diffInfo = {isAdded: true};
             });
         });
@@ -250,7 +250,7 @@ function ScenarioController($filter, $routeParams,
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
             BuildDiffInfoResource.get(
                 {baseBranchName, baseBuildName, comparisonName},
-                function onSuccess(buildDiffInfo) {
+                (buildDiffInfo) => {
                     comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                     comparisonBuildName = buildDiffInfo.compareBuild.buildName;
 
@@ -259,7 +259,7 @@ function ScenarioController($filter, $routeParams,
                     } else {
                         loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
                     }
-                }, function onFailure(error) {
+                }, (error) => {
                     throw error;
                 },
             );
@@ -272,7 +272,7 @@ function ScenarioController($filter, $routeParams,
             buildName: SelectedBranchAndBuildService.selected().build,
             useCaseName: $routeParams.useCaseName,
             scenarioName: $routeParams.scenarioName,
-        }, function(result) {
+        }, (result) => {
             vm.relatedIssues = result;
             vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
@@ -282,7 +282,7 @@ function ScenarioController($filter, $routeParams,
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             {branchName: selectedBranch, issueId: issue.id },
-            function onSuccess(result) {
+            (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     }
