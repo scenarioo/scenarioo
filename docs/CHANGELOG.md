@@ -8,7 +8,7 @@
 * [#778 - Use Spring Security for REST endpoints](https://github.com/scenarioo/scenarioo/issues/788)
 
 With version 5, the Scenarioo application has been migrated to Spring Boot. 
-This also includes switching from servlet based security configuration to Spring security for some REST endpoints.
+Because of the switch, the security mechanism for uploading a build via REST endpoint has changed.
 For more details, please refer to the [Migration Guide](Migration-Guide.md)
 
 ## Version 4.0.1
