@@ -61,10 +61,9 @@ useCase('Browse object details')
                 await step('Reset search criteria with ESC');
             });
 
-        // Test is unstable, double click works randomly
         scenario('Double click')
             .description('Double click on root node expands all child nodes.')
-            .xit(async () => {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 await step('Display object details page');
                 await ObjectDetailsPage.clickCollapseAll();
@@ -73,7 +72,7 @@ useCase('Browse object details')
                 await step('Double click on root node to expand all children');
                 await ObjectDetailsPage.assertTreeNodeStatus('11', 'collapsed');
                 await ObjectDetailsPage.assertTreeNodeIsDisplayed('12');
-                await step('All childs are visible and expanded');
+                await step('All children are visible and expanded');
             });
 
     });
