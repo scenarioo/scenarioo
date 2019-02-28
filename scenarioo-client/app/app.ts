@@ -26,7 +26,7 @@ angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
-require('./shared/utils/number.filter');
+import './shared/utils/number.filter';
 
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
@@ -73,6 +73,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     ConfigService.load();
 });
 
+// needs to stay here ?
 import './build';
 import './manage';
 import './objectRepository/objectRepository.controller';
@@ -89,6 +90,5 @@ import {AppModule} from "./app.module";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 
 
-// angular.bootstrap(document, ['scenarioo']);
 platformBrowserDynamic().bootstrapModule(AppModule);
 

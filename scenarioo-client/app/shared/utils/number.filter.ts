@@ -15,19 +15,5 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scDateOnly', function ($filter) {
-
-    var DATE_FILTER = $filter('date');
-
-    return function (date) {
-        if(typeof date === 'undefined') {
-            return '';
-        }
-        if(typeof date === 'string' && date === '') {
-            return '';
-        }
-
-        return DATE_FILTER(date, 'longDate');
-    };
-
-});
+angular.module('scenarioo.filters')
+    .filter('scRoundUp', () => (input) => Math.ceil(input));
