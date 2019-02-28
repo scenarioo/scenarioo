@@ -11,7 +11,6 @@ import './navigation/breadcrumbs/breadcrumbs.service';
 import './navigation/breadcrumbs/breadcrumbs.directive';
 import './navigation/breadcrumbs/sketcherLink.service';
 import './sortableColumn.directive';
-import './applicationStatus.service';
 import './metadata/tree.directive';
 import './filterableTableTree/filterableTableTree.directive';
 import './keyboardNavigatableTable.directive';
