@@ -49,7 +49,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             loadComparisonsOfCurrentBuild();
         });
 
-        ApplicationStatusService.getApplicationStatus().then(function(status) {
+        ApplicationStatusService.getApplicationStatus().subscribe(status => {
             vm.version = status.version;
         });
     }
@@ -101,7 +101,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             // Check for unique comparison name
             vm.validationMessage = null;
             vm.comparisonsOfCurrentBuild.forEach(function (comparison) {
-                if (comparison.name == vm.comparisonName) {
+                if (comparison.name === vm.comparisonName) {
                     vm.validationMessage = 'Comparison with that name already exists on selected target build'
                 }
             });

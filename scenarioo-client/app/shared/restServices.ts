@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import "./scenarioService.config";
-import './services/applicationStatus.service';
 import "./services/scenariooResource.service";
 import "./services/branchesResource.service";
 import "./services/buildImportStatesResource.service";

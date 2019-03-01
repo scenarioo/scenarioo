@@ -39,7 +39,7 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
             vm.comparisons = comparisons;
         });
 
-        ApplicationStatusService.getApplicationStatus().then(function(status) {
+        ApplicationStatusService.getApplicationStatus().subscribe(status => {
             vm.version = status.version;
         });
 

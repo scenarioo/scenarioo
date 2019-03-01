@@ -15,11 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationController', NavigationController);
+angular.module('scenarioo.controllers')
+    .controller('NavigationController', NavigationController);
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
-                              SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService, ConfigService,
-                              GlobalHotkeysService, BuildDiffInfosResource, ApplicationStatusService) {
+                              SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
+                              ConfigService,
+                              GlobalHotkeysService,
+                              BuildDiffInfosResource,
+                              SearchEngineStatusService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
@@ -42,7 +46,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         var searchTerm = $scope.globalSearch.queryString;
 
         // If the search term is blank nothing happens
-        if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
+        if (!angular.isString(searchTerm) || searchTerm.trim() === '') {
             return;
         }
 
@@ -53,8 +57,8 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         $location.url(searchUrl);
     };
 
-    function loadSearchEngineRunning () {
-        ApplicationStatusService.isSearchEngineRunning().then(function(result) {
+    function loadSearchEngineRunning() {
+        SearchEngineStatusService.isSearchEngineRunning().subscribe((result) => {
             $scope.isSearchEngineRunning = result.running;
         });
     }
@@ -69,7 +73,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     }
 
     function loadComparisonBuilds() {
-        if($scope.branchesAndBuilds && $scope.branchesAndBuilds.selectedBranch && $scope.branchesAndBuilds.selectedBuild) {
+        if ($scope.branchesAndBuilds && $scope.branchesAndBuilds.selectedBranch && $scope.branchesAndBuilds.selectedBuild) {
             var baseBranchName = $scope.branchesAndBuilds.selectedBranch.branch.name;
             var baseBuildName = $scope.branchesAndBuilds.selectedBuild.linkName;
             BuildDiffInfosResource.query(
@@ -77,14 +81,14 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                 function onSuccess(buildDiffInfos) {
                     $scope.comparisonBuilds = buildDiffInfos;
                     var preSelectedComparison = SelectedComparison.selected();
-                    var selectedComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
-                    angular.forEach($scope.comparisonBuilds, function(comparisonBuild) {
-                        if(comparisonBuild.name === preSelectedComparison) {
+                    var selectedComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
+                    angular.forEach($scope.comparisonBuilds, function (comparisonBuild) {
+                        if (comparisonBuild.name === preSelectedComparison) {
                             selectedComparison = comparisonBuild;
                         }
                     });
                     SelectedComparison.setSelected(selectedComparison.name);
-                    if(selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
+                    if (selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
                         $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
                     $scope.selectedComparison = selectedComparison;
@@ -97,7 +101,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         }
     }
 
-    function resetComparisonSelection(){
+    function resetComparisonSelection() {
         $scope.comparisonBuilds = [];
         SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
         $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
@@ -118,13 +122,13 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         loadComparisonBuilds();
     };
 
-    $scope.setComparisonBuild = function(comparisonBuild) {
+    $scope.setComparisonBuild = function (comparisonBuild) {
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
         $scope.selectedComparison = comparisonBuild;
     };
 
-    $scope.disableComparison = function() {
-        var disabledComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
+    $scope.disableComparison = function () {
+        var disabledComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
         $scope.setComparisonBuild(disabledComparison);
     };
 

@@ -38,7 +38,7 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
             calculateConfiguredBranch();
         });
 
-        ApplicationStatusService.getApplicationStatus().then(function(status) {
+        ApplicationStatusService.getApplicationStatus().subscribe(status => {
 
             vm.version = status.version;
             vm.configuration = status.configuration;

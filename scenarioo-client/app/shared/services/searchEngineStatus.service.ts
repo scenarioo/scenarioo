@@ -23,38 +23,18 @@ import {SearchEngineStatus} from "./searchEngineStatus";
 
 declare var angular: angular.IAngularStatic;
 
-export interface Configuration {
-    // TODO: Not filled with content yet.
-}
-
-interface ApplicationVersion {
-    version: string;
-    buildDate: string;
-    apiVersion: string;
-    aggregatedDataFormatVersion: string;
-    documentationVersion: string;
-
-}
-
-export interface ApplicationStatus {
-    configuration: Configuration;
-    documentationDataDirectory: string;
-    searchEngineStatus: SearchEngineStatus;
-    version: ApplicationVersion;
-
-}
 
 @Injectable()
-export class ApplicationStatusService {
+export class SearchEngineStatusService {
     constructor(private httpClient: HttpClient) {
 
     }
 
-
-    getApplicationStatus(): Observable<ApplicationStatus> {
-        return this.httpClient.get<ApplicationStatus>("rest/configuration/applicationStatus");
+    isSearchEngineRunning(): Observable<SearchEngineStatus> {
+        return this.httpClient.get<SearchEngineStatus>("rest/searchEngineStatus");
     }
 }
 
+
 angular.module('scenarioo.services')
-    .factory('ApplicationStatusService', downgradeInjectable(ApplicationStatusService));
+    .factory('SearchEngineStatusService', downgradeInjectable(SearchEngineStatusService));

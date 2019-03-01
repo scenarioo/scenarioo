@@ -6,6 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
 import {VersionResource} from "./shared/services/versionResource.service";
+import {SearchEngineStatusService} from "./shared/services/searchEngineStatus.service";
+import {ApplicationStatusService} from "./shared/services/applicationStatus.service";
 
 @NgModule({
     declarations: [
@@ -23,6 +25,8 @@ import {VersionResource} from "./shared/services/versionResource.service";
     providers: [
         LabelConfigurationService,
         VersionResource,
+        SearchEngineStatusService,
+        ApplicationStatusService,
     ]
 })
 export class AppModule {
