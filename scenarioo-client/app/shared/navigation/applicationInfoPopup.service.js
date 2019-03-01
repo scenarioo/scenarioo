@@ -69,11 +69,9 @@ angular.module('scenarioo.services').factory('ApplicationInfoPopupService', func
         $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
     });
 
-    VersionResource.get(
-        function onSuccess(result) {
-            $scope.version = result;
-        }
-    );
+    VersionResource.get().subscribe(result => {
+        $scope.version = result;
+    });
 
     $scope.closeInfoModal = function () {
         $uibModalInstance.dismiss('cancel');

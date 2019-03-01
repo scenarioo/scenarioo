@@ -5,6 +5,7 @@ import {LabelMetadataComponent} from './step/label-metadata/label-metadata.compo
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
+import {VersionResource} from "./shared/services/versionResource.service";
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import {HttpClientModule} from '@angular/common/http';
     ],
     providers: [
         LabelConfigurationService,
+        VersionResource,
     ]
 })
 export class AppModule {
