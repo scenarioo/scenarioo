@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Version} from "../services/versionResource.service";
+import {Version} from "../../services/versionResource.service";
 import * as angular from "angular";
 
 angular.module('scenarioo.services')
