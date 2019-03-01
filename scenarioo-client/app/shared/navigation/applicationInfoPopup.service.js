@@ -15,65 +15,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ApplicationInfoPopupService', function (LocalStorageService, $uibModal) {
+angular.module('scenarioo.services')
+    .factory('ApplicationInfoPopupService', function (LocalStorageService, $uibModal) {
 
-    var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
+        var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
 
-    // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
-    var modalIsCurrentlyOpen = false;
+        // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
+        var modalIsCurrentlyOpen = false;
 
-    function showApplicationInfoPopupIfRequired() {
-        if (userVisitsAppForTheFirstTime() === true) {
-            showApplicationInfoPopup();
-        }
-
-        function userVisitsAppForTheFirstTime() {
-            if (LocalStorageService.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
-                return false;
+        function showApplicationInfoPopupIfRequired() {
+            if (userVisitsAppForTheFirstTime() === true) {
+                showApplicationInfoPopup();
             }
-            LocalStorageService.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
-            return true;
+
+            function userVisitsAppForTheFirstTime() {
+                if (LocalStorageService.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
+                    return false;
+                }
+                LocalStorageService.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
+                return true;
+            }
         }
-    }
 
-    function showApplicationInfoPopup() {
-        if (modalIsCurrentlyOpen === true) {
-            return;
+        function showApplicationInfoPopup() {
+            if (modalIsCurrentlyOpen === true) {
+                return;
+            }
+
+            modalIsCurrentlyOpen = true;
+            var modalInstance = $uibModal.open({
+                template: require('./applicationInfoPopup.html'),
+                controller: 'ApplicationInfoController',
+                windowClass: 'modal-small about-popup',
+                backdropFade: true
+            });
+
+            modalInstance.result.finally(function () {
+                modalIsCurrentlyOpen = false;
+            });
         }
 
-        modalIsCurrentlyOpen = true;
-        var modalInstance = $uibModal.open({
-            template: require('./applicationInfoPopup.html'),
-            controller: 'ApplicationInfoController',
-            windowClass: 'modal-small about-popup',
-            backdropFade: true
-        });
+        return {
+            PREVIOUSLY_VISITED_COOKIE_NAME: PREVIOUSLY_VISITED_COOKIE_NAME,
 
-        modalInstance.result.finally(function () {
-            modalIsCurrentlyOpen = false;
-        });
-    }
+            showApplicationInfoPopupIfRequired: showApplicationInfoPopupIfRequired,
 
-    return {
-        PREVIOUSLY_VISITED_COOKIE_NAME: PREVIOUSLY_VISITED_COOKIE_NAME,
+            showApplicationInfoPopup: showApplicationInfoPopup
+        };
 
-        showApplicationInfoPopupIfRequired: showApplicationInfoPopupIfRequired,
-
-        showApplicationInfoPopup: showApplicationInfoPopup
-    };
-
-}).controller('ApplicationInfoController', function ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) {
-    $scope.$watch(function () {
-        return ConfigService.applicationInformation();
-    }, function (applicationInformation) {
-        $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
     });
-
-    VersionResource.get().subscribe(result => {
-        $scope.version = result;
-    });
-
-    $scope.closeInfoModal = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-});
