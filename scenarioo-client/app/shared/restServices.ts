@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 import "./scenarioService.config";
 import './services/applicationStatus.service';
 import "./services/scenariooResource.service";
@@ -24,7 +23,6 @@ import "./services/buildImportLogResource.service";
 import "./services/buildReimportResource.service";
 import "./services/buildImport.service";
 import "./services/pageVariant.service";
-import "./services/useCase.service";
 import "./services/fullTextSearch.service";
 import "./services/stepResource.service";
 import "./services/configResource.service";
