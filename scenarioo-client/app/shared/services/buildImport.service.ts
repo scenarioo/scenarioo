@@ -19,6 +19,21 @@ angular.module('scenarioo.services')
 
 
     .factory('BuildImportService', function (ScenariooResource, $q) {
+
+
+        function getPromise($q, fn) {
+            return function (parameters) {
+                var deferred = $q.defer();
+                fn(parameters, function (result) {
+                    deferred.resolve(result);
+                }, function (error) {
+                    deferred.reject(error);
+                });
+                return deferred.promise;
+            };
+        }
+
+
         var buildImportService = ScenariooResource('/builds/updateAndImport', {});
         buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
             return buildImportService.get(parameters, fnSuccess, fnError);
