@@ -40,9 +40,9 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         BranchesResource.query({}, function (branches) {
             var branchesWithoutAliases = [];
             var index;
-            for(index = 0; index < branches.length; index++) {
+            for (index = 0; index < branches.length; index++) {
                 var branch = branches[index];
-                if(!branch.isAlias) {
+                if (!branch.isAlias) {
                     branchesWithoutAliases.push(branch);
                 }
             }
@@ -72,7 +72,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function loadBranchAliases() {
-        BranchAliasesResource.query({}, function (branchAliases) {
+        BranchAliasesResource.get().subscribe(branchAliases => {
             branchAliases.push(createEmptyAlias());
             vm.branchAliases = branchAliases;
         });
@@ -100,9 +100,10 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
             return;
         }
 
-        BranchAliasesResource.save(branchAliasesToSave, function() {
-            $rootScope.$broadcast('branchesUpdated');
-        });
+        BranchAliasesResource.save(branchAliasesToSave)
+            .subscribe(() => {
+                $rootScope.$broadcast('branchesUpdated');
+            });
 
         vm.successfullyUpdatedBranchAliases = true;
     }
