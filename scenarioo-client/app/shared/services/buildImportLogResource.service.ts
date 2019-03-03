@@ -15,17 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services')
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {downgradeInjectable} from "@angular/upgrade/static";
 
-    .factory('BuildImportLogResource', function ($http) {
-        return {
-            get: function (branchName, buildName, onSuccess, onError) {
-                var callURL = 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({
-                    method: 'GET', url: callURL, headers: {
-                        'Accept': 'text/plain'
-                    }
-                }).success(onSuccess).error(onError);
-            }
-        };
-    });
+declare var angular: angular.IAngularStatic;
+
+@Injectable()
+export class BuildImportLogResource {
+    url = "rest/builds/importLogs/";
+
+    constructor(private httpClient: HttpClient) {
+    }
+
+    get(branchName: string, buildName: string): Observable<string> {
+        let urlWithBranchAndBuild = `${this.url}${encodeURIComponent(branchName)}/${encodeURIComponent(buildName)}`;
+        return this.httpClient.get(urlWithBranchAndBuild,
+            {
+                headers: {'Accept': 'text/plain'},
+                responseType: 'text'
+            });
+    }
+}
+
+angular.module('scenarioo.services')
+    .factory('BuildImportLogResource', downgradeInjectable(BuildImportLogResource));

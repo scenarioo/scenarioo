@@ -54,27 +54,30 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     }
 
     function goToBuild(build) {
-        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
-            $uibModal.open({
-                template: require('./buildImportDetails.html'),
-                controller: 'BuildImportDetailsController',
-                controllerAs: 'vm',
-                windowClass: 'modal-wide',
-                resolve: {
-                    build: function () {
-                        return build;
-                    },
-                    log: function () {
-                        return log;
-                    },
-                    getStyleClassForBuildImportStatus: function () {
-                        return vm.getStyleClassForBuildImportStatus;
+        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName)
+            .toPromise()
+            .then(log => {
+                $uibModal.open({
+                    template: require('./buildImportDetails.html'),
+                    controller: 'BuildImportDetailsController',
+                    controllerAs: 'vm',
+                    windowClass: 'modal-wide',
+                    resolve: {
+                        build: function () {
+                            return build;
+                        },
+                        log: function () {
+                            return log;
+                        },
+                        getStyleClassForBuildImportStatus: function () {
+                            return vm.getStyleClassForBuildImportStatus;
+                        }
                     }
-                }
+                });
+            })
+            .catch(error => {
+                throw error;
             });
-        }, error => {
-            throw error;
-        });
     }
 
     function reimportBuild(build) {

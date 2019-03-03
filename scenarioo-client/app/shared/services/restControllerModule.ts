@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {UpgradeModule} from "@angular/upgrade/static";
+
 import {EmptyResponseBodyErrorInterceptor} from "./emptyResponseBodyErrorInterceptor";
 import {VersionResource} from "./versionResource.service";
 import {SearchEngineStatusService} from "./searchEngineStatus.service";
@@ -8,13 +8,13 @@ import {ApplicationStatusService} from "./applicationStatus.service";
 import {BranchAliasesResource} from "./branchAliasResource.service";
 import {BranchesResource} from "./branchesResource.service";
 import {BuildImportService} from "./buildImport.service";
+import {BuildImportLogResource} from "./buildImportLogResource.service";
 
 @NgModule({
     declarations: [],
     entryComponents: [],
     imports: [
         HttpClientModule,
-        UpgradeModule,
     ],
     providers: [
         {
@@ -28,9 +28,10 @@ import {BuildImportService} from "./buildImport.service";
         BranchAliasesResource,
         BranchesResource,
         BuildImportService,
+        BuildImportLogResource,
     ]
 })
 export class RestControllerModule {
-    constructor(private upgrade: UpgradeModule) {
+    constructor() {
     }
 }
