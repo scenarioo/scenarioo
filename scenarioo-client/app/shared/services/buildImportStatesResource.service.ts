@@ -1,22 +1,41 @@
-/* scenarioo-client
- * Copyright (C) 2014, scenarioo.org Development Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {downgradeInjectable} from "@angular/upgrade/static";
+import {BuildInfo} from "./branchesResource.service";
+
+declare var angular: angular.IAngularStatic;
+
+export interface BuildIdentifier {
+    branchName: string;
+    buildName: string;
+}
+
+export interface BuildImportSummary {
+    identifier: BuildIdentifier;
+    buildDescription: BuildInfo;
+    buildStatistics: {
+        numberOfFailedScenarios: number,
+        numberOfFailedUseCases: number,
+        numberOfSuccessfulScenarios: number,
+        numberOfSuccessfulUseCases: number
+    };
+    importDate: string;
+    status: string;
+    statusMessage: string;
+}
+
+@Injectable()
+export class BuildImportStatesResource {
+    url = "rest/builds/buildImportSummaries";
+
+    constructor(private httpClient: HttpClient) {
+    }
+
+    get(): Observable<BuildImportSummary[]> {
+        return this.httpClient.get<BuildImportSummary[]>(this.url);
+    }
+}
 
 angular.module('scenarioo.services')
-
-    .factory('BuildImportStatesResource', function (ScenariooResource) {
-        return ScenariooResource('/builds/buildImportSummaries', {}, {});
-    });
+    .factory('BuildImportStatesResource', downgradeInjectable(BuildImportStatesResource));

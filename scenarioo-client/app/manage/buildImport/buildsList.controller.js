@@ -44,9 +44,10 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     activate();
 
     function activate() {
-        BuildImportStatesResource.query({}, buildImportStates => {
-            vm.buildImportStates = buildImportStates;
-        });
+        BuildImportStatesResource.get()
+            .subscribe(buildImportStates => {
+                vm.buildImportStates = buildImportStates;
+            });
     }
 
     function resetSearchField() {

@@ -9,6 +9,7 @@ import {BranchAliasesResource} from "./branchAliasResource.service";
 import {BranchesResource} from "./branchesResource.service";
 import {BuildImportService} from "./buildImport.service";
 import {BuildImportLogResource} from "./buildImportLogResource.service";
+import {BuildImportStatesResource} from "./buildImportStatesResource.service";
 
 @NgModule({
     declarations: [],
@@ -29,6 +30,7 @@ import {BuildImportLogResource} from "./buildImportLogResource.service";
         BranchesResource,
         BuildImportService,
         BuildImportLogResource,
+        BuildImportStatesResource,
     ]
 })
 export class RestControllerModule {
