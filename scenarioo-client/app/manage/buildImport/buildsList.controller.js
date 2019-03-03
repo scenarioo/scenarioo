@@ -25,7 +25,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     vm.buildImportStates = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
-    
+
     vm.updatingBuildsInProgress = false;
     var styleClassesForBuildImportStatus = {
         'SUCCESS': 'label-success',
@@ -44,7 +44,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     activate();
 
     function activate() {
-        BuildImportStatesResource.query({}, function(buildImportStates) {
+        BuildImportStatesResource.query({}, buildImportStates => {
             vm.buildImportStates = buildImportStates;
         });
     }
@@ -61,19 +61,25 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
                 controllerAs: 'vm',
                 windowClass: 'modal-wide',
                 resolve: {
-                    build: function () { return build; },
-                    log: function() { return log; },
-                    getStyleClassForBuildImportStatus: function() { return vm.getStyleClassForBuildImportStatus; }
+                    build: function () {
+                        return build;
+                    },
+                    log: function () {
+                        return log;
+                    },
+                    getStyleClassForBuildImportStatus: function () {
+                        return vm.getStyleClassForBuildImportStatus;
+                    }
                 }
             });
-        }, function(error) {
+        }, error => {
             throw error;
         });
     }
 
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
-        BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName },
+        BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName},
             buildImportFinished, buildImportFinished);
     }
 
@@ -88,7 +94,9 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function importAndUpdateBuilds() {
         vm.updatingBuildsInProgress = true;
-        BuildImportService.updateData({}).then(buildImportFinished, buildImportFinished);
+        BuildImportService.updateData()
+            .toPromise()
+            .then(buildImportFinished, buildImportFinished);
     }
 
     function buildImportFinished() {

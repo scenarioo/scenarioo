@@ -7,6 +7,7 @@ import {SearchEngineStatusService} from "./searchEngineStatus.service";
 import {ApplicationStatusService} from "./applicationStatus.service";
 import {BranchAliasesResource} from "./branchAliasResource.service";
 import {BranchesResource} from "./branchesResource.service";
+import {BuildImportService} from "./buildImport.service";
 
 @NgModule({
     declarations: [],
@@ -26,6 +27,7 @@ import {BranchesResource} from "./branchesResource.service";
         ApplicationStatusService,
         BranchAliasesResource,
         BranchesResource,
+        BuildImportService,
     ]
 })
 export class RestControllerModule {

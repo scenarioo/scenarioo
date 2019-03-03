@@ -15,28 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {downgradeInjectable} from "@angular/upgrade/static";
+
+declare var angular: angular.IAngularStatic;
+
+@Injectable()
+export class BuildImportService {
+    url = "rest/builds/updateAndImport";
+
+    constructor(private httpClient: HttpClient) {
+
+    }
+
+    updateData(): Observable<any> {
+        return this.httpClient.get(this.url);
+    }
+}
+
 angular.module('scenarioo.services')
-
-
-    .factory('BuildImportService', function (ScenariooResource, $q) {
-
-
-        function getPromise($q, fn) {
-            return function (parameters) {
-                var deferred = $q.defer();
-                fn(parameters, function (result) {
-                    deferred.resolve(result);
-                }, function (error) {
-                    deferred.reject(error);
-                });
-                return deferred.promise;
-            };
-        }
-
-
-        var buildImportService = ScenariooResource('/builds/updateAndImport', {});
-        buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return buildImportService.get(parameters, fnSuccess, fnError);
-        });
-        return buildImportService;
-    });
+    .factory('BuildImportService', downgradeInjectable(BuildImportService));
