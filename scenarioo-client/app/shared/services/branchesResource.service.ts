@@ -5,10 +5,36 @@ import {downgradeInjectable} from "@angular/upgrade/static";
 
 declare var angular: angular.IAngularStatic;
 
-interface BranchAlias {
+export interface Branch {
     name: string;
-    referencedBranch: string;
     description: string;
+    details: any;
+}
+
+export interface BuildDetails {
+    // TODO: BuildDetails are maps of additional properties.
+}
+
+export interface BuildInfo {
+    name: string;
+    revision: string;
+    date: string; // TODO: DateTime
+    status: string;
+    details: BuildDetails;
+}
+
+export interface BuildLink {
+    displayName: string;
+    build: BuildInfo;
+    linkName: string;
+}
+
+export interface BranchBuild {
+    alias: boolean;
+    isAlias: boolean;
+    branch: Branch;
+    builds: BuildLink;
+
 }
 
 @Injectable()
@@ -17,8 +43,8 @@ export class BranchesResource {
 
     }
 
-    query(): Observable<BranchAlias[]> {
-        return this.httpClient.get<any>("rest/branches");
+    query(): Observable<BranchBuild[]> {
+        return this.httpClient.get<BranchBuild[]>("rest/branches");
     }
 }
 

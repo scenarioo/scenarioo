@@ -7,7 +7,7 @@ import {_throw} from 'rxjs/observable/throw';
 
 declare var angular: angular.IAngularStatic;
 
-interface BranchAlias {
+export interface BranchAlias {
     name: string;
     referencedBranch: string;
     description: string;
@@ -21,7 +21,7 @@ export class BranchAliasesResource {
 
 
     get(): Observable<BranchAlias[]> {
-        return this.httpClient.get<any>("rest/branchaliases")
+        return this.httpClient.get<BranchAlias[]>("rest/branchaliases")
             .pipe(catchError(BranchAliasesResource.handleError));
     }
 
