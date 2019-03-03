@@ -33,10 +33,10 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
 
     function activate() {
 
-        BranchesResource.query({}, function (branches) {
-            vm.branches = branches;
-            calculateConfiguredBranch();
-        });
+        BranchesResource.query().subscribe(branches => {
+                vm.branches = branches;
+                calculateConfiguredBranch();
+            });
 
         ApplicationStatusService.getApplicationStatus().subscribe(status => {
 

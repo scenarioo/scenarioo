@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', Br
 
 function BranchAliasesController($rootScope, BranchAliasesResource, BranchesResource) {
 
-    var vm = this;
+    const vm = this;
     vm.branches = [];
     vm.branchAliases = [];
     vm.uniqueError = false;
@@ -37,11 +37,11 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function loadBranchesWithoutAliases() {
-        BranchesResource.query({}, function (branches) {
-            var branchesWithoutAliases = [];
-            var index;
+        BranchesResource.query().subscribe(branches => {
+            const branchesWithoutAliases = [];
+            let index;
             for (index = 0; index < branches.length; index++) {
-                var branch = branches[index];
+                const branch = branches[index];
                 if (!branch.isAlias) {
                     branchesWithoutAliases.push(branch);
                 }
@@ -53,9 +53,9 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
 
     function deleteEntry(aliasName) {
         if (aliasName !== '') {
-            var index;
+            let index;
             for (index = 0; index < vm.branchAliases.length; index++) {
-                var branchAlias = vm.branchAliases[index];
+                const branchAlias = vm.branchAliases[index];
                 if (branchAlias.name === aliasName) {
                     vm.branchAliases.splice(index, 1);
                     break;
@@ -65,7 +65,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function aliasNameChanged() {
-        var aliasName = vm.branchAliases[vm.branchAliases.length - 1].name;
+        const aliasName = vm.branchAliases[vm.branchAliases.length - 1].name;
         if (aliasName !== '') {
             vm.branchAliases.push(createEmptyAlias());
         }
@@ -86,10 +86,10 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         vm.uniqueError = false;
         vm.successfullyUpdatedBranchAliases = false;
 
-        var branchAliasesToSave = [];
-        var index;
+        const branchAliasesToSave = [];
+        let index;
         for (index = 0; index < vm.branchAliases.length; index++) {
-            var branchAlias = vm.branchAliases[index];
+            const branchAlias = vm.branchAliases[index];
             if (branchAlias.name !== '') {
                 branchAliasesToSave.push(branchAlias);
             }
@@ -109,8 +109,8 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function areBuildAliasesUnique(buildAliases) {
-        var unique = true;
-        var aliasesMap = {};
+        let unique = true;
+        const aliasesMap = {};
         angular.forEach(buildAliases, function (buildAlias) {
             if (aliasesMap[buildAlias.name] === undefined) {
                 aliasesMap[buildAlias.name] = '';
