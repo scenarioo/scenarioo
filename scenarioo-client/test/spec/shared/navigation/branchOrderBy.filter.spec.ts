@@ -18,7 +18,7 @@
 'use strict';
 
 import {Observable} from "rxjs";
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 
 const CFG_LAST_BUILD_DATE_DESCENDING = {'branchSelectionListOrder': 'last-build-date-descending'};
 const CFG_NAME_ASCENDING = {'branchSelectionListOrder': 'name-ascending'};

@@ -17,7 +17,7 @@
 
 
 import {addRoutes} from "./app.routes";
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 import './vendor'
 import './styles/scenarioo.less'
 

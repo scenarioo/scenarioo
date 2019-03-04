@@ -18,7 +18,7 @@
 'use strict';
 
 import {Observable} from "rxjs";
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 import {Configuration} from "../../../app/shared/services/applicationStatus.service";
 
 describe('ConfigService', () => {
@@ -50,10 +50,10 @@ describe('ConfigService', () => {
         expect(ConfigService).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server', inject((ConfigService, $rootScope, $httpBackend) => {
+    it('should be able to load config from server', inject((ConfigService, $rootScope) => {
         spyOn($rootScope, '$broadcast').and.callThrough();
 
-        loadConfigFromService(ConfigService, $httpBackend);
+        loadConfigFromService(ConfigService);
 
         expect($rootScope.$broadcast).toHaveBeenCalledWith(ConfigService.CONFIG_LOADED_EVENT);
 
@@ -61,8 +61,8 @@ describe('ConfigService', () => {
         expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
-    it('contains build state to css class mapping as a map', inject((ConfigService, $httpBackend) => {
-        loadConfigFromService(ConfigService, $httpBackend);
+    it('contains build state to css class mapping as a map', inject((ConfigService) => {
+        loadConfigFromService(ConfigService);
 
         const buildStateToClassMapping = ConfigService.buildStateToClassMapping();
 
@@ -73,8 +73,8 @@ describe('ConfigService', () => {
         expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
-    it('contains additional columns for scenario overview', inject((ConfigService, $httpBackend) => {
-        loadConfigFromService(ConfigService, $httpBackend);
+    it('contains additional columns for scenario overview', inject((ConfigService) => {
+        loadConfigFromService(ConfigService);
 
         const columns = ConfigService.scenarioPropertiesInOverview();
 
@@ -84,7 +84,7 @@ describe('ConfigService', () => {
         expect(columns[1]).toBe('configuration');
     }));
 
-    function loadConfigFromService(ConfigService, $httpBackend) {
+    function loadConfigFromService(ConfigService) {
         spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(DUMMY_CONFIG_RESPONSE));
         ConfigService.load();
     }

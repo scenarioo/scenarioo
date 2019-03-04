@@ -17,7 +17,7 @@
 
 'use strict';
 
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 import {Observable} from "rxjs";
 
 describe('GeneralSettingsController', () => {

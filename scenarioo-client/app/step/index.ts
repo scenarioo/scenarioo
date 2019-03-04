@@ -1,6 +1,6 @@
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './label-metadata/label-metadata.component';
-import * as angular from 'angular';
+declare var angular: angular.IAngularStatic;
 
 import './screenAnnotations/annotatedScreenshot.directive';
 import './screenAnnotations/screenAnnotationsButton.directive';

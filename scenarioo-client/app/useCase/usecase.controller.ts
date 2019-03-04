@@ -16,7 +16,7 @@
  */
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
-import * as angular from 'angular';
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 

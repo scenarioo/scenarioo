@@ -16,7 +16,7 @@
  */
 
 import * as $ from "jquery"
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
                                                                             $filter, $sce, $uibModal, BreadcrumbsService,
@@ -32,9 +32,9 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
-            scope.createComparison = createComparison
+            scope.createComparison = createComparison;
 
-            var navParameters: any = [];
+            var navParameters: any;
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)

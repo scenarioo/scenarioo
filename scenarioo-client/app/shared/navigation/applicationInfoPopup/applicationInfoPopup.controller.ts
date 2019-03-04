@@ -16,7 +16,7 @@
  */
 
 import {Version} from "../../services/versionResource.service";
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {

@@ -18,7 +18,7 @@
 'use strict';
 
 import {Observable} from "rxjs";
-import * as angular from "angular";
+declare var angular: angular.IAngularStatic;
 
 describe('Controller: ApplicationInfoController', () => {
 

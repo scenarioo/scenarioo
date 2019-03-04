@@ -16,7 +16,7 @@
  */
 
 'use strict';
-import * as angular from 'angular';
+declare var angular: angular.IAngularStatic;
 import 'rxjs/add/observable/of';
 import {Observable} from "rxjs";
 

@@ -16,7 +16,7 @@
  */
 
 import {Configuration} from "../shared/services/applicationStatus.service";
-import angular = require("angular");
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $rootScope) => {
 
