@@ -16,24 +16,45 @@
  */
 
 'use strict';
+import * as angular from 'angular';
+import 'rxjs/add/observable/of';
+import {Observable} from "rxjs";
+
 
 describe('StepController', function () {
 
-    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, BuildDiffInfoResource, StepDiffInfoResource,
-        SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
+    let $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource,
+        BuildDiffInfoResource, StepDiffInfoResource,
+        SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData,
+        RelatedIssueResource;
 
-    var STEP_INFORMATION_TREE = {
+    const STEP_INFORMATION_TREE = {
         childNodes: [
-            { nodeLabel: 'Step title', nodeValue: 'Search results' },
-            { nodeLabel: 'Page name', childNodes: [ ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
-            { nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
-            { nodeLabel: 'Build status', nodeValue: 'success' }
+            {nodeLabel: 'Step title', nodeValue: 'Search results'},
+            {
+                nodeLabel: 'Page name',
+                childNodes: [],
+                nodeValue: 'searchResults.jsp',
+                nodeObjectName: 'searchResults.jsp'
+            },
+            {nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
+            {nodeLabel: 'Build status', nodeValue: 'success'}
         ]
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("BranchesResource", {
+            query: () => {
+            }
+        });
+    }));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_, _SelectedBranchAndBuildService_, _DiffInfoService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
+                                _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_,
+                                _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
+                                _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -61,15 +82,26 @@ describe('StepController', function () {
         LocalStorageService.clearAll();
     }));
 
-    describe('scenario is found', function() {
+    describe('scenario is found', function () {
 
-        beforeEach(function() {
+        beforeEach(function () {
             $routeParams.stepInPageOccurrence = 1;
-            $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService, DiffInfoService: DiffInfoService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+            $controller('StepController', {
+                $scope: $scope,
+                $routeParams: $routeParams,
+                $location: $location,
+                $q: $q,
+                $window: $window,
+                ConfigService: ConfigService,
+                ScenarioResource: ScenarioResource,
+                StepResource: StepResource,
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService,
+                DiffInfoService: DiffInfoService,
+                ApplicationInfoPopupService: {},
+                SharePagePopupService: {}
+            });
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
-            spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
+            spyOn(BranchesResource, 'query').and.returnValue(Observable.of({}));
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
@@ -176,18 +208,18 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/Find Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/1');
         });
 
-        it('getCurrentUrlForSharing returns the current URL plus the step labels.', function() {
+        it('getCurrentUrlForSharing returns the current URL plus the step labels.', function () {
             loadPageContent();
 
-            var url = $scope.getCurrentUrlForSharing();
+            const url = $scope.getCurrentUrlForSharing();
 
             expect(url).toBe('http://server/#?comparison=Disabled&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
-        it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function() {
+        it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function () {
             loadPageContent();
 
-            var url = $scope.getScreenshotUrlForSharing();
+            const url = $scope.getScreenshotUrlForSharing();
 
             expect(url).toBe('http://server/rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
@@ -204,28 +236,38 @@ describe('StepController', function () {
         }
 
         function queryRelatedIssuesFake() {
-            var DATA = {
+            const DATA = {
                 0:
-                {
-                    id: '1',
-                    name: 'fakeTestingIssue',
-                    firstScenarioSketchId: '1'
-                }
+                    {
+                        id: '1',
+                        name: 'fakeTestingIssue',
+                        firstScenarioSketchId: '1'
+                    }
             };
 
-            return function(params, onSuccess) {
+            return function (params, onSuccess) {
                 onSuccess(DATA);
             };
         }
     });
 
-    describe('step is not found', function() {
+    describe('step is not found', function () {
 
-        beforeEach(function() {
+        beforeEach(function () {
             $routeParams.stepInPageOccurrence = 42;
-            $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+            $controller('StepController', {
+                $scope: $scope,
+                $routeParams: $routeParams,
+                $location: $location,
+                $q: $q,
+                $window: $window,
+                ConfigService: ConfigService,
+                ScenarioResource: ScenarioResource,
+                StepResource: StepResource,
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService,
+                ApplicationInfoPopupService: {},
+                SharePagePopupService: {}
+            });
         });
 
         it('requested step is not found', function () {
@@ -253,11 +295,9 @@ describe('StepController', function () {
     });
 
     function getEmptyData() {
-        var DATA = {
+        const DATA = {};
 
-        };
-
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }
