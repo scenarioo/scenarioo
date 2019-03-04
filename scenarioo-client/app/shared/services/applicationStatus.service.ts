@@ -23,8 +23,17 @@ import {SearchEngineStatus} from "./searchEngineStatus";
 
 declare var angular: angular.IAngularStatic;
 
+export interface ApplicationInformation {
+}
+
 export interface Configuration {
-    // TODO: Not filled with content yet.
+    scenarioPropertiesInOverview: string;
+    defaultBuildName: string;
+    defaultBranchName: string;
+    buildstates: {
+        [key: string]: string;
+    };
+    applicationInformation: ApplicationInformation;
 }
 
 interface ApplicationVersion {

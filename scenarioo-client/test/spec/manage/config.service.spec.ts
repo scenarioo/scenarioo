@@ -17,30 +17,40 @@
 
 'use strict';
 
-describe('ConfigService', function () {
+import {Observable} from "rxjs";
+import * as angular from "angular";
+import {Configuration} from "../../../app/shared/services/applicationStatus.service";
 
-    var BUILD_STATE_FAILED = 'failed',
+describe('ConfigService', () => {
+
+    const BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
-        DUMMY_CONFIG_RESPONSE = {
-                'defaultBuildName': 'current',
-                'scenarioPropertiesInOverview': 'userProfile, configuration',
-                'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-                'buildstates': {
-                    BUILD_STATE_FAILED: 'label-important',
-                    BUILD_STATE_SUCCESS: 'label-success',
-                    BUILD_STATE_WARNING: 'label-warning'
-                },
-                'defaultBranchName': 'trunk'
+        DUMMY_CONFIG_RESPONSE: Configuration = {
+            defaultBuildName: 'current',
+            scenarioPropertiesInOverview: 'userProfile, configuration',
+            applicationInformation: 'This is my personal copy of Scenarioo :-)',
+            buildstates: {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            },
+            defaultBranchName: 'trunk'
         };
+    const ConfigResourceMock = {
+        get: () => Observable.of<Configuration>(angular.copy(DUMMY_CONFIG_RESPONSE))
+    };
 
-    beforeEach(angular.mock.module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
 
-    it('should inject ConfigService', inject(function (ConfigService) {
+    it('should inject ConfigService', inject(ConfigService => {
         expect(ConfigService).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server', inject(function (ConfigService, $rootScope, $httpBackend) {
+    it('should be able to load config from server', inject((ConfigService, $rootScope, $httpBackend) => {
         spyOn($rootScope, '$broadcast').and.callThrough();
 
         loadConfigFromService(ConfigService, $httpBackend);
@@ -51,10 +61,10 @@ describe('ConfigService', function () {
         expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
-    it('contains build state to css class mapping as a map', inject(function (ConfigService, $httpBackend) {
+    it('contains build state to css class mapping as a map', inject((ConfigService, $httpBackend) => {
         loadConfigFromService(ConfigService, $httpBackend);
 
-        var buildStateToClassMapping = ConfigService.buildStateToClassMapping();
+        const buildStateToClassMapping = ConfigService.buildStateToClassMapping();
 
         expect(buildStateToClassMapping).toBeDefined();
         expect(getSize(buildStateToClassMapping)).toBe(3);
@@ -63,10 +73,10 @@ describe('ConfigService', function () {
         expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
-    it('contains additional columns for scenario overview', inject(function (ConfigService, $httpBackend) {
+    it('contains additional columns for scenario overview', inject((ConfigService, $httpBackend) => {
         loadConfigFromService(ConfigService, $httpBackend);
 
-        var columns = ConfigService.scenarioPropertiesInOverview();
+        const columns = ConfigService.scenarioPropertiesInOverview();
 
         expect(columns).toBeDefined();
         expect(getSize(columns)).toBe(2);
@@ -75,13 +85,12 @@ describe('ConfigService', function () {
     }));
 
     function loadConfigFromService(ConfigService, $httpBackend) {
-        $httpBackend.when('GET', 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(DUMMY_CONFIG_RESPONSE));
         ConfigService.load();
-        $httpBackend.flush();
     }
 
     function getSize(object) {
-        var size = 0, key;
+        let size = 0, key;
         for (key in object) {
             if (object.hasOwnProperty(key)) {
                 size++;

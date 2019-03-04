@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {Configuration} from "../shared/services/applicationStatus.service";
+import angular = require("angular");
+
 angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $rootScope) => {
 
     const CONFIG_LOADED_EVENT = 'configLoaded';
@@ -81,7 +84,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
             return angular.isDefined(configData.defaultBuildName);
         },
 
-        updateConfiguration(newConfig, successCallback) {
+        updateConfiguration(newConfig: Configuration, successCallback) {
             ConfigResource.save(newConfig).subscribe(() => {
                 if (successCallback) {
                     doLoad();

@@ -20,7 +20,7 @@ export class ConfigResource {
     }
 
     save(config: Configuration): Observable<Configuration> {
-        return this.httpClient.post(this.url, config);
+        return this.httpClient.post<Configuration>(this.url, config);
     }
 }
 
