@@ -17,19 +17,31 @@
 
 'use strict';
 
-describe('Controller: ApplicationInfoController', function () {
+import {Observable} from "rxjs";
+import * as angular from "angular";
+
+describe('Controller: ApplicationInfoController', () => {
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    var $scope,
+    let $scope,
         ConfigService,
-        $httpBackend,
         TestData;
 
-    beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _TestData_) {
+
+
+    let VersionResourceMock = {
+        get: () => Observable.of()
+    };
+
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("VersionResource", VersionResourceMock);
+    }));
+
+    beforeEach(inject(($controller, $rootScope, ConfigMock, _TestData_) => {
         ConfigService = ConfigMock;
         $scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
         TestData = _TestData_;
         $controller('ApplicationInfoController', {
             $scope: $scope,
@@ -38,11 +50,7 @@ describe('Controller: ApplicationInfoController', function () {
         });
     }));
 
-    it('should update applicationInformation if it changes in ConfigService', function () {
-        var VERSION_URL = 'rest/version';
-        $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
-        $httpBackend.flush();
-
+    it('should update applicationInformation if it changes in ConfigService', () => {
         expect($scope.applicationInformation).toBeUndefined();
 
         ConfigService.setApplicationInformation('abc');

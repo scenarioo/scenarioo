@@ -21,7 +21,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 
-describe('UseCaseController', function () {
+describe('UseCaseController', () => {
 
     const BRANCH = 'branch_123',
         BUILD = 'build_123',
@@ -30,11 +30,19 @@ describe('UseCaseController', function () {
     let $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
         SelectedBranchAndBuildService, $location, RelatedIssueResource;
     let labelConfigurationService: any;
+    let ConfigResourceMock = {
+        get: () => Observable.of({})
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
-                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService) {
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
+
+    beforeEach(inject(($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
+                       ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService) => {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -67,7 +75,7 @@ describe('UseCaseController', function () {
         }
     ));
 
-    it('should load all scenarios and and the selected use case', function () {
+    it('should load all scenarios and and the selected use case', () => {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
@@ -100,7 +108,7 @@ describe('UseCaseController', function () {
             scenarios: getFakeScenarios()
         };
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }
@@ -115,7 +123,7 @@ describe('UseCaseController', function () {
                 }
         };
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }
@@ -131,7 +139,7 @@ describe('UseCaseController', function () {
     function getEmptyData() {
         const DATA = {};
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }

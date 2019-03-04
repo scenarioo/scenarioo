@@ -10,6 +10,7 @@ import {BranchesResource} from "./branchesResource.service";
 import {BuildImportService} from "./buildImport.service";
 import {BuildImportLogResource} from "./buildImportLogResource.service";
 import {BuildImportStatesResource} from "./buildImportStatesResource.service";
+import {ConfigResource} from "./configResource.service";
 
 @NgModule({
     declarations: [],
@@ -31,6 +32,7 @@ import {BuildImportStatesResource} from "./buildImportStatesResource.service";
         BuildImportService,
         BuildImportLogResource,
         BuildImportStatesResource,
+        ConfigResource,
     ]
 })
 export class RestControllerModule {

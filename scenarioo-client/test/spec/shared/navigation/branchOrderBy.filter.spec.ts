@@ -17,12 +17,15 @@
 
 'use strict';
 
-var CFG_LAST_BUILD_DATE_DESCENDING = {'branchSelectionListOrder': 'last-build-date-descending'};
-var CFG_NAME_ASCENDING = {'branchSelectionListOrder': 'name-ascending'};
-var CFG_NAME_DESCENDING = {'branchSelectionListOrder': 'name-descending'};
-var CFG_PROP_NOT_SET = {};
+import {Observable} from "rxjs";
+import * as angular from "angular";
 
-var DEFAULT_INPUT = [
+const CFG_LAST_BUILD_DATE_DESCENDING = {'branchSelectionListOrder': 'last-build-date-descending'};
+const CFG_NAME_ASCENDING = {'branchSelectionListOrder': 'name-ascending'};
+const CFG_NAME_DESCENDING = {'branchSelectionListOrder': 'name-descending'};
+const CFG_PROP_NOT_SET = {};
+
+const DEFAULT_INPUT = [
     {
         isAlias: false,
         branch: {
@@ -51,27 +54,32 @@ var DEFAULT_INPUT = [
 
 describe('Filter scBranchOrderBy', function () {
 
-    var ConfigService, $httpBackend, TestData;
+    let ConfigService, TestData;
 
-    var scBranchOrderByFilter;
+    let scBranchOrderByFilter;
+
+    let ConfigResourceMock = {
+        get: () => Observable.of({})
+    };
+
 
     beforeEach(async function () {
         angular.mock.module('scenarioo.controllers');
-        angular.mock.module('scenarioo.services');
+        angular.mock.module('scenarioo.services', ($provide) => {
+            $provide.value("ConfigResource", ConfigResourceMock);
+        });
         angular.mock.module('scenarioo.filters');
     });
 
     function initConfig(config) {
-        inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_) {
+        inject(function ($filter, _ConfigService_, _TestData_) {
 
             ConfigService = _ConfigService_;
-            $httpBackend = _$httpBackend_;
             TestData = _TestData_;
 
-            $httpBackend.whenGET('rest/configuration').respond(config);
+            spyOn(ConfigResourceMock, 'get').and.returnValue(Observable.of(config));
 
             ConfigService.load();
-            $httpBackend.flush();
 
             scBranchOrderByFilter = $filter('scBranchOrderBy');
         });
@@ -84,15 +92,15 @@ describe('Filter scBranchOrderBy', function () {
         });
 
         it('string', function () {
-            var result = scBranchOrderByFilter('someString');
+            const result = scBranchOrderByFilter('someString');
             expect(result).toEqual('someString');
         });
         it('object', function () {
-            var result = scBranchOrderByFilter({some: 'object'});
+            const result = scBranchOrderByFilter({some: 'object'});
             expect(result).toEqual({some: 'object'});
         });
         it('number', function () {
-            var result = scBranchOrderByFilter(1);
+            const result = scBranchOrderByFilter(1);
             expect(result).toEqual(1);
         });
     });
@@ -103,7 +111,7 @@ describe('Filter scBranchOrderBy', function () {
         });
 
         it('alias branches first', function () {
-            var inputArray = [
+            const inputArray = [
                 {
                     isAlias: false,
                     branch: {
@@ -129,7 +137,7 @@ describe('Filter scBranchOrderBy', function () {
             ];
 
 
-            var result = scBranchOrderByFilter(inputArray);
+            const result = scBranchOrderByFilter(inputArray);
 
             expect(result[0].branch.name).toEqual('B');
             expect(result[1].branch.name).toEqual('A');
@@ -137,7 +145,7 @@ describe('Filter scBranchOrderBy', function () {
 
         it('then alphabetically (not case sensitive!)', function () {
 
-            var inputArray = [
+            const inputArray = [
                 {
                     isAlias: true,
                     branch: {
@@ -164,7 +172,7 @@ describe('Filter scBranchOrderBy', function () {
                 }
             ];
 
-            var result = scBranchOrderByFilter(inputArray);
+            const result = scBranchOrderByFilter(inputArray);
 
             expect(result[0].branch.name).toEqual('aa');
             expect(result[1].branch.name).toEqual('Ae');
@@ -174,7 +182,7 @@ describe('Filter scBranchOrderBy', function () {
 
         it('then by newest build date', function () {
 
-            var inputArray = [
+            const inputArray = [
                 {
                     isAlias: false,
                     branch: {
@@ -221,7 +229,7 @@ describe('Filter scBranchOrderBy', function () {
                 }
             ];
 
-            var result = scBranchOrderByFilter(inputArray);
+            const result = scBranchOrderByFilter(inputArray);
 
             expect(result[0].branch.name).toEqual('aa');
             expect(result[1].branch.name).toEqual('be');
@@ -238,7 +246,7 @@ describe('Filter scBranchOrderBy', function () {
 
         it('then alphabetically (not case sensitive!)', function () {
 
-            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+            const result = scBranchOrderByFilter(DEFAULT_INPUT);
 
             expect(result[0].branch.name).toEqual('release-1.3');
             expect(result[1].branch.name).toEqual('release-1.4');
@@ -255,7 +263,7 @@ describe('Filter scBranchOrderBy', function () {
 
         it('then alphabetically (not case sensitive!)', function () {
 
-            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+            const result = scBranchOrderByFilter(DEFAULT_INPUT);
 
             expect(result[0].branch.name).toEqual('release-1.3');
             expect(result[1].branch.name).toEqual('release-1.4');
@@ -272,7 +280,7 @@ describe('Filter scBranchOrderBy', function () {
 
         it('then alphabetically (not case sensitive!)', function () {
 
-            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+            const result = scBranchOrderByFilter(DEFAULT_INPUT);
 
             expect(result[0].branch.name).toEqual('release-1.4');
             expect(result[1].branch.name).toEqual('release-1.3');

@@ -26,7 +26,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
     }
 
     function doLoad() {
-        ConfigResource.get({}, (response) => {
+        ConfigResource.get().subscribe(response => {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
             $rootScope.getStatusStyleClass = (buildStatus) => {
@@ -63,7 +63,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
         return properties;
     }
 
-    const serviceInstance = {
+    return {
         CONFIG_LOADED_EVENT,
 
         getRawConfigDataCopy() {
@@ -82,12 +82,12 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
         },
 
         updateConfiguration(newConfig, successCallback) {
-            ConfigResource.save(newConfig, () => {
+            ConfigResource.save(newConfig).subscribe(() => {
                 if (successCallback) {
                     doLoad();
                     successCallback();
                 }
-            });
+            })
         },
 
         defaultBranchAndBuild() {
@@ -127,6 +127,4 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
         },
 
     };
-
-    return serviceInstance;
 });

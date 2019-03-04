@@ -17,52 +17,63 @@
 
 'use strict';
 
-describe('SelectedBranchAndBuildService', function () {
+import {Observable} from "rxjs";
+import * as angular from "angular";
 
-    var SelectedBranchAndBuildService, ConfigService, LocalStorageService, $location, $rootScope, $httpBackend;
-    var BRANCH_COOKIE = 'branch_cookie';
-    var BUILD_COOKIE = 'build_cookie';
-    var BRANCH_URL = 'branch_url';
-    var BUILD_URL = 'build_url';
-    var BRANCH_CONFIG = 'branch_config';
-    var BUILD_CONFIG = 'build_config';
+describe('SelectedBranchAndBuildService', () => {
 
-    var DUMMY_CONFIG_RESPONSE = {
-            'defaultBuildName': BUILD_CONFIG,
-            'defaultBranchName': BRANCH_CONFIG,
-            'scenarioPropertiesInOverview': 'userProfile, configuration',
-            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-            'buildstates': {
-                BUILD_STATE_FAILED: 'label-important',
-                BUILD_STATE_SUCCESS: 'label-success',
-                BUILD_STATE_WARNING: 'label-warning'
-            }
+    let SelectedBranchAndBuildService, ConfigService, LocalStorageService,
+        $location, $rootScope;
+    const BRANCH_COOKIE = 'branch_cookie';
+    const BUILD_COOKIE = 'build_cookie';
+    const BRANCH_URL = 'branch_url';
+    const BUILD_URL = 'build_url';
+    const BRANCH_CONFIG = 'branch_config';
+    const BUILD_CONFIG = 'build_config';
+
+    const DUMMY_CONFIG_RESPONSE = {
+        'defaultBuildName': BUILD_CONFIG,
+        'defaultBranchName': BRANCH_CONFIG,
+        'scenarioPropertiesInOverview': 'userProfile, configuration',
+        'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+        'buildstates': {
+            BUILD_STATE_FAILED: 'label-important',
+            BUILD_STATE_SUCCESS: 'label-success',
+            BUILD_STATE_WARNING: 'label-warning'
+        }
+    };
+    let ConfigResourceMock = {
+        get: () => Observable.of(DUMMY_CONFIG_RESPONSE)
     };
 
     beforeEach(angular.mock.module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
 
-    beforeEach(inject(function (_SelectedBranchAndBuildService_, _ConfigService_, _LocalStorageService_, _$location_, _$rootScope_, _$httpBackend_) {
+    beforeEach(inject((_SelectedBranchAndBuildService_, _ConfigService_,
+                       _LocalStorageService_, _$location_, _$rootScope_) => {
         SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
         ConfigService = _ConfigService_;
         LocalStorageService = _LocalStorageService_;
 
         $location = _$location_;
         $rootScope = _$rootScope_;
-        $httpBackend = _$httpBackend_;
     }));
 
-    it('has undefined branch and build cookies by default', function () {
+    it('has undefined branch and build cookies by default', () => {
         branchAndBuildInLocalStorageIsNotSet();
     });
 
-    describe('when the config is not yet loaded', function () {
-        it('has undefined values if no cookies or url parameters are set', function () {
+    describe('when the config is not yet loaded', () => {
+        it('has undefined values if no cookies or url parameters are set', () => {
             LocalStorageService.clearAll();
             expect(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]).toBeUndefined();
             expect(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY]).toBeUndefined();
         });
 
-        it('has the cookie values if cookies are set', function () {
+        it('has the cookie values if cookies are set', () => {
             setBranchAndBuildInCookie();
 
             expect(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_COOKIE);
@@ -71,7 +82,7 @@ describe('SelectedBranchAndBuildService', function () {
             expect(LocalStorageService.get(SelectedBranchAndBuildService.BUILD_KEY)).toBe(BUILD_COOKIE);
         });
 
-        it('has the url parameter values, if cookies and url parameters are set', function () {
+        it('has the url parameter values, if cookies and url parameters are set', () => {
             setBranchAndBuildInCookie();
             setBranchAndBuildInUrlParameters();
 
@@ -82,8 +93,8 @@ describe('SelectedBranchAndBuildService', function () {
         });
     });
 
-    describe('when the config is loaded', function () {
-        it('uses the default values from the configuration, if no cookies or url parameters are set', function () {
+    describe('when the config is loaded', () => {
+        it('uses the default values from the configuration, if no cookies or url parameters are set', () => {
             branchAndBuildInLocalStorageIsNotSet();
             branchAndBuildInUrlParametersIsNotSet();
 
@@ -97,7 +108,7 @@ describe('SelectedBranchAndBuildService', function () {
             expect($location.search()[SelectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_CONFIG);
         });
 
-        it('uses the cookie values if they were already set, but only because there are no url parameters set', function () {
+        it('uses the cookie values if they were already set, but only because there are no url parameters set', () => {
             setBranchAndBuildInCookie();
 
             loadConfigFromService();
@@ -110,7 +121,7 @@ describe('SelectedBranchAndBuildService', function () {
             expect($location.search()[SelectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_COOKIE);
         });
 
-        it('uses the url parameter values if they are set, with priority over the cookie values', function () {
+        it('uses the url parameter values if they are set, with priority over the cookie values', () => {
             setBranchAndBuildInCookie();
             setBranchAndBuildInUrlParameters();
 
@@ -125,8 +136,8 @@ describe('SelectedBranchAndBuildService', function () {
         });
     });
 
-    describe('when url parameter changes', function () {
-        it('updates the selection', function () {
+    describe('when url parameter changes', () => {
+        it('updates the selection', () => {
             branchAndBuildInLocalStorageIsNotSet();
             branchAndBuildInUrlParametersIsNotSet();
 
@@ -137,14 +148,14 @@ describe('SelectedBranchAndBuildService', function () {
         });
     });
 
-    describe('when branch and build selection changes to a new valid state', function () {
-        it('all registered callbacks are called', function () {
+    describe('when branch and build selection changes to a new valid state', () => {
+        it('all registered callbacks are called', () => {
             branchAndBuildInLocalStorageIsNotSet();
             branchAndBuildInUrlParametersIsNotSet();
 
-            var selectedFromCallback;
+            let selectedFromCallback;
 
-            SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
+            SelectedBranchAndBuildService.callOnSelectionChange(selected => {
                 selectedFromCallback = selected;
             });
 
@@ -167,17 +178,17 @@ describe('SelectedBranchAndBuildService', function () {
         });
     });
 
-    describe('when a callback is registered and valid data is already available', function () {
-        it('calls the callback immediately', function () {
+    describe('when a callback is registered and valid data is already available', () => {
+        it('calls the callback immediately', () => {
             branchAndBuildInLocalStorageIsNotSet();
             branchAndBuildInUrlParametersIsNotSet();
 
             $location.url('/new/path/?branch=' + BRANCH_URL + '&build=' + BUILD_URL);
             $rootScope.$apply();
 
-            var selectedFromCallback;
+            let selectedFromCallback;
 
-            SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
+            SelectedBranchAndBuildService.callOnSelectionChange(selected => {
                 selectedFromCallback = selected;
             });
 
@@ -198,9 +209,7 @@ describe('SelectedBranchAndBuildService', function () {
     }
 
     function loadConfigFromService() {
-        $httpBackend.when('GET', 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         ConfigService.load();
-        $httpBackend.flush();
     }
 
     function branchAndBuildInLocalStorageIsNotSet() {

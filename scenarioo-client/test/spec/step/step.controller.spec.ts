@@ -20,12 +20,13 @@ import * as angular from 'angular';
 import 'rxjs/add/observable/of';
 import {Observable} from "rxjs";
 
-
 describe('StepController', function () {
 
-    let $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource,
+    let $scope, $routeParams, $location, $q, $window, ConfigService,
+        ScenarioResource, StepResource,
         BuildDiffInfoResource, StepDiffInfoResource,
-        SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData,
+        SelectedBranchAndBuildService, DiffInfoService, BranchesResource,
+        $controller, $httpBackend, TestData,
         RelatedIssueResource;
 
     const STEP_INFORMATION_TREE = {
@@ -42,6 +43,11 @@ describe('StepController', function () {
         ]
     };
 
+
+    let ConfigResourceMock = {
+        get: () => Observable.of(angular.copy(TestData.CONFIG))
+    };
+
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
@@ -49,6 +55,7 @@ describe('StepController', function () {
             query: () => {
             }
         });
+        $provide.value("ConfigResource", ConfigResourceMock);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
@@ -213,7 +220,7 @@ describe('StepController', function () {
 
             const url = $scope.getCurrentUrlForSharing();
 
-            expect(url).toBe('http://server/#?comparison=Disabled&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe('http://server/#?branch=trunk&build=current&comparison=Disabled&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function () {
@@ -279,7 +286,9 @@ describe('StepController', function () {
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
-            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled&branch=trunk&build=current');
+            expect($scope.getCurrentUrl()).toEqual(
+                'http://server/#?branch=trunk&build=current&comparison=Disabled'
+            );
         });
 
         function tryToLoadNotExistingStep() {

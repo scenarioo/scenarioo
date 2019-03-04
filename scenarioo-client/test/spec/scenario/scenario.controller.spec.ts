@@ -17,26 +17,47 @@
 
 'use strict';
 
+import * as angular from "angular";
+import {Observable} from "rxjs";
+import {Configuration} from "../../../app/shared/services/applicationStatus.service";
+
 describe('ScenarioController', function () {
 
-    var $scope, $httpBackend, $routeParams, ConfigService, TestData, ScenarioController, RelatedIssueResource;
+    let $scope, $httpBackend, $routeParams, ConfigService, TestData,
+        ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
+
+    let ConfigResourceMock = {
+        get: () => Observable.of(angular.copy(TestData.CONFIG))
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
+
+
+    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_,
+                                _TestData_, LocalStorageService, _RelatedIssueResource_,
+                                _SelectedBranchAndBuildService_, _ConfigService_,
+    ) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
-        ConfigService = _ConfigService_;
         TestData = _TestData_;
         RelatedIssueResource = _RelatedIssueResource_;
+        ConfigService = _ConfigService_;
+
+        SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
 
         $routeParams.useCaseName = 'SearchUseCase';
         $routeParams.scenarioName = 'NotFoundScenario';
 
         LocalStorageService.clearAll();
 
-        ScenarioController = $controller('ScenarioController', {$scope: $scope, ConfigService: ConfigService});
+        ScenarioController = $controller('ScenarioController', {
+            $scope: $scope
+        });
 
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
     }));
@@ -48,19 +69,19 @@ describe('ScenarioController', function () {
     });
 
     it('creates the correct link to a step', function () {
-        var link = ScenarioController.getLinkToStep('searchPage.html', 2, 0);
+        const link = ScenarioController.getLinkToStep('searchPage.html', 2, 0);
         expect(link).toBe('#/step/SearchUseCase/NotFoundScenario/searchPage.html/2/0');
     });
 
     it('creates empty image link, if branch and build selection is unknown', function () {
-        var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
+        const imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBeUndefined();
     });
 
     it('creates the correct image link, if selected branch and build is known', function () {
         givenScenarioIsLoaded();
 
-        var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
+        const imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBe('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
@@ -133,13 +154,14 @@ describe('ScenarioController', function () {
         expectAllPagesAreExpanded();
     });
 
-    function givenScenarioIsLoaded(config?) {
+    function givenScenarioIsLoaded(config?: Configuration) {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;
         }
+        spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(config));
 
-        $httpBackend.whenGET('rest/configuration').respond(config);
-        $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario')
+            .respond(TestData.SCENARIO);
         $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         ConfigService.load();
@@ -153,16 +175,16 @@ describe('ScenarioController', function () {
     }
 
     function queryRelatedIssuesFake() {
-        var DATA = {
+        const DATA = {
             0:
-            {
-                id: '1',
-                name: 'fakeTestingIssue',
-                firstScenarioSketchId: '1'
-            }
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
         };
 
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }

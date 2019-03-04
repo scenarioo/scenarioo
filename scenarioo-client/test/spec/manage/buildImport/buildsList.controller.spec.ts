@@ -17,33 +17,42 @@
 
 'use strict';
 
-describe('BuildsListController', function () {
+import * as angular from "angular";
+import {Observable} from "rxjs";
 
-    var $location, $httpBackend, TestData, $scope, BuildsListController;
+describe('BuildsListController', () => {
+
+    let $location, TestData, $scope, BuildsListController;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("BuildImportStatesResource", {
+            get: () => {
+            }
+        });
+        $provide.value("BuildImportService", {});
+        $provide.value("BuildReimportResource", {});
+        $provide.value("BuildImportLogResource", {});
+    }));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _TestData_) {
+    beforeEach(inject(($controller, $rootScope, _$location_, _TestData_, _BuildImportStatesResource_) => {
             $location = _$location_;
-            $httpBackend = _$httpBackend_;
             TestData = _TestData_;
+            spyOn(_BuildImportStatesResource_, 'get')
+                .and
+                .returnValue(Observable.of(TestData.BUILD_IMPORT_STATES));
 
             $scope = $rootScope.$new();
 
-            var BUILD_IMPORT_STATES_URL = 'rest/builds/buildImportSummaries';
-
-            $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
-
-            BuildsListController = $controller('BuildsListController', {$scope: $scope, $uibModal: null });
+            BuildsListController = $controller('BuildsListController', {$scope: $scope, $uibModal: null});
         }
     ));
 
-    it('loads builds in the beginning', function () {
+    it('loads builds in the beginning', () => {
 
         $location.url('/?branch=release-branch-2014-01-16&build=example-build');
         $scope.$apply();
-
-        $httpBackend.flush();
 
         expect(angular.equals(BuildsListController.buildImportStates, TestData.BUILD_IMPORT_STATES)).toBeTruthy();
     });

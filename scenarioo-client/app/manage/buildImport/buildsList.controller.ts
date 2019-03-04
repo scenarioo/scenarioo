@@ -17,7 +17,8 @@
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
 
-function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource,
+function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource,
+                              BuildImportService, BuildReimportResource,
                               BuildImportLogResource) {
 
     var vm = this;

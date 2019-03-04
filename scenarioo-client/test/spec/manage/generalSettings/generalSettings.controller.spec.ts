@@ -17,72 +17,105 @@
 
 'use strict';
 
-describe('GeneralSettingsController', function () {
+import * as angular from "angular";
+import {Observable} from "rxjs";
 
-    var $rootScope, $controller, BranchesResource, ConfigService, $httpBackend, $scope, ConfigCtrl, TestData;
+describe('GeneralSettingsController', () => {
+
+    let $rootScope, $controller, ConfigService, $httpBackend, $scope, ConfigCtrl, TestData;
+
+    let BranchResourceMock = {
+        query: () => {
+        }
+    };
+    let SearchEngineStatusMock = {
+        isSearchEngineRunning: () => {
+        }
+    };
+    let ApplicationStatusMock = {
+        getApplicationStatus: () => {
+        }
+    };
+    let ConfigResourceMock = {
+        get: () => {
+        }
+    };
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _ConfigService_, _$httpBackend_, _TestData_) {
-        $rootScope = _$rootScope_;
-        $controller = _$controller_;
-        BranchesResource = _BranchesResource_;
-        ConfigService = _ConfigService_;
-        $httpBackend = _$httpBackend_;
-        TestData = _TestData_;
+        $provide.value("BranchesResource", BranchResourceMock);
 
-        $httpBackend.whenGET('rest/branches').respond(TestData.BRANCHES);
-        $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET('rest/version').respond(TestData.VERSION);
-        $httpBackend.whenGET('rest/searchEngineStatus').respond({'searchEngineRunning':false});
-        $httpBackend.whenGET('rest/configuration/applicationStatus').respond({
-            'searchEngineRunning':false,
-            'version': TestData.VERSION,
-            'configuration': TestData.CONFIG
-        });
-        $httpBackend.whenGET('rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
-
-        $scope = $rootScope.$new();
-        ConfigCtrl = $controller('GeneralSettingsController', {$scope: $scope, BranchesResource: BranchesResource, ConfigService: ConfigService});
+        $provide.value("SearchEngineStatusService", SearchEngineStatusMock);
+        $provide.value("ApplicationStatusService", ApplicationStatusMock);
+        $provide.value("ConfigResource", ConfigResourceMock);
     }));
 
-    describe('when page is loaded', function () {
-        it('loads and displays the config from the server', function () {
-            expect(ConfigCtrl).toBeDefined();
-            expect(ConfigCtrl.configuration).toEqual({});
+    beforeEach(inject((_$rootScope_, _$controller_,
+                       _SearchEngineStatusService_,
+                       _ApplicationStatusService_,
+                       _ConfigService_, _$httpBackend_, _TestData_) => {
+            $rootScope = _$rootScope_;
+            $controller = _$controller_;
+            ConfigService = _ConfigService_;
+            $httpBackend = _$httpBackend_;
+            TestData = _TestData_;
 
-            $httpBackend.flush();
+            spyOn(BranchResourceMock, 'query')
+                .and.returnValue(Observable.of(TestData.BRANCHES));
+            spyOn(SearchEngineStatusMock, 'isSearchEngineRunning')
+                .and.returnValue(Observable.of({'searchEngineRunning': false}));
+            spyOn(ApplicationStatusMock, 'getApplicationStatus')
+                .and.returnValue(Observable.of({
+                'searchEngineRunning': false,
+                'version': TestData.VERSION,
+                'configuration': angular.copy(TestData.CONFIG)
+            }));
+
+            spyOn(ConfigResourceMock, 'get')
+                .and.returnValue(Observable.of(angular.copy(TestData.CONFIG)));
+
+            $httpBackend.whenGET('rest/version').respond(TestData.VERSION);
+            $httpBackend.whenGET('rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
+
+            $scope = $rootScope.$new();
+            ConfigCtrl = $controller('GeneralSettingsController', {
+                $scope: $scope,
+                ConfigService: ConfigService
+            });
+            ConfigService.load();
+        }
+    ))
+    ;
+
+    describe('when page is loaded', () => {
+        it('loads and displays the config from the server', () => {
+            expect(ConfigCtrl).toBeDefined();
 
             expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
         });
 
-        it('loads all branches and builds', function () {
-            expect(ConfigCtrl.branches).toEqual([]);
-            expect(ConfigCtrl.configuredBranch).toEqual({});
-
-            $httpBackend.flush();
-
+        it('loads all branches and builds', () => {
             expect(ConfigCtrl.branches.length).toEqual(3);
             expect(ConfigCtrl.configuredBranch.branch.name).toEqual('trunk');
         });
     });
 
-    describe('when reset button is clicked', function () {
-        it('resets the config to the loaded values', function () {
+    describe('when reset button is clicked', () => {
+        it('resets the config to the loaded values', () => {
             changeAllValues();
 
             ConfigCtrl.resetConfiguration();
-            $httpBackend.flush();
 
             expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
         });
     });
 
-    describe('when the save button is clicked', function () {
-        it('saves the edited config', function () {
+    describe('when the save button is clicked', () => {
+        it('saves the edited config', () => {
             spyOn(ConfigService, 'updateConfiguration');
-
-            $httpBackend.flush();
 
             changeAllValues();
 
