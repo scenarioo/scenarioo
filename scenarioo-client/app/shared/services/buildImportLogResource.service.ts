@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class BuildImportLogResource {
-    url = "rest/builds/importLogs/";
+    url = 'rest/builds/importLogs/';
 
     constructor(private httpClient: HttpClient) {
     }
 
     get(branchName: string, buildName: string): Observable<string> {
-        let urlWithBranchAndBuild = `${this.url}${encodeURIComponent(branchName)}/${encodeURIComponent(buildName)}`;
+        const urlWithBranchAndBuild = `${this.url}${encodeURIComponent(branchName)}/${encodeURIComponent(buildName)}`;
         return this.httpClient.get(urlWithBranchAndBuild,
             {
-                headers: {'Accept': 'text/plain'},
-                responseType: 'text'
+                headers: {Accept: 'text/plain'},
+                responseType: 'text',
             });
     }
 }

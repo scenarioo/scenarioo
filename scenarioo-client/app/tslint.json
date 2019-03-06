@@ -18,7 +18,8 @@
         "object-literal-sort-keys": false,
         "jsdoc-format": false,
         "variable-name": false,
-        "forin": false
+        "forin": false,
+        "interface-name": false
     },
     "rulesDirectory": []
 }

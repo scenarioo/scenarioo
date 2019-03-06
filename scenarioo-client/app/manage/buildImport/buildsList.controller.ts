@@ -21,20 +21,20 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
                               BuildImportService, BuildReimportResource,
                               BuildImportLogResource) {
 
-    var vm = this;
+    const vm = this;
 
     vm.buildImportStates = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
 
     vm.updatingBuildsInProgress = false;
-    var styleClassesForBuildImportStatus = {
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-default',
-        'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary',
-        'OUTDATED': 'label-warning'
+    const styleClassesForBuildImportStatus = {
+        SUCCESS: 'label-success',
+        FAILED: 'label-danger',
+        UNPROCESSED: 'label-default',
+        QUEUED_FOR_PROCESSING: 'label-info',
+        PROCESSING: 'label-primary',
+        OUTDATED: 'label-warning',
     };
     vm.resetSearchField = resetSearchField;
     vm.goToBuild = goToBuild;
@@ -46,7 +46,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function activate() {
         BuildImportStatesResource.get()
-            .subscribe(buildImportStates => {
+            .subscribe((buildImportStates) => {
                 vm.buildImportStates = buildImportStates;
             });
     }
@@ -58,26 +58,20 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     function goToBuild(build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName)
             .toPromise()
-            .then(log => {
+            .then((log) => {
                 $uibModal.open({
                     template: require('./buildImportDetails.html'),
                     controller: 'BuildImportDetailsController',
                     controllerAs: 'vm',
                     windowClass: 'modal-wide',
                     resolve: {
-                        build: function () {
-                            return build;
-                        },
-                        log: function () {
-                            return log;
-                        },
-                        getStyleClassForBuildImportStatus: function () {
-                            return vm.getStyleClassForBuildImportStatus;
-                        }
-                    }
+                        build: () => build,
+                        log: () => log,
+                        getStyleClassForBuildImportStatus: () => vm.getStyleClassForBuildImportStatus,
+                    },
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 throw error;
             });
     }
@@ -89,7 +83,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     }
 
     function getStyleClassForBuildImportStatus(status) {
-        var styleClassFromMapping = styleClassesForBuildImportStatus[status];
+        const styleClassFromMapping = styleClassesForBuildImportStatus[status];
         if (angular.isUndefined(styleClassFromMapping)) {
             return 'label-warning';
         } else {
@@ -109,5 +103,3 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
         $route.reload();
     }
 }
-
-

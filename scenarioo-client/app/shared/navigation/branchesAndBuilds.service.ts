@@ -20,7 +20,7 @@ angular.module('scenarioo.services')
 
         const getBranchesAndBuildsData = () => {
             const deferred = $q.defer();
-            BranchesResource.query().subscribe(branches => {
+            BranchesResource.query().subscribe((branches) => {
                 if (branches.length === 0) {
                     deferred.reject('Branch list empty!');
                     return;

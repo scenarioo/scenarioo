@@ -17,10 +17,10 @@
 
 angular.module('scenarioo.services')
 
-    .factory('BuildReimportResource', function (ScenariooResource) {
+    .factory('BuildReimportResource', (ScenariooResource) => {
         return ScenariooResource('/builds/:branchName/:buildName/import',
             {
                 branchName: '@branchName',
-                buildName: '@buildName'
+                buildName: '@buildName',
             }, {});
     });

@@ -1,4 +1,4 @@
 angular.module('scenarioo.services')
-    .factory('ComparisonsResource', function (ScenariooResource) {
+    .factory('ComparisonsResource', (ScenariooResource) => {
         return ScenariooResource('/comparisons', {}, {});
     });

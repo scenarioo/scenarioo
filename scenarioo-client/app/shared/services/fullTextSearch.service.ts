@@ -1,29 +1,27 @@
 angular.module('scenarioo.services')
 
-    .factory('FullTextSearchService', function (ScenariooResource, $q) {
-        function getPromise($q, fn) {
-            return function (parameters) {
-                var deferred = $q.defer();
-                fn(parameters, function (result) {
+    .factory('FullTextSearchService', (ScenariooResource, $q) => {
+        function getPromise(fn) {
+            return (parameters) => {
+                const deferred = $q.defer();
+                fn(parameters, (result) => {
                     deferred.resolve(result);
-                }, function (error) {
+                }, (error) => {
                     deferred.reject(error);
                 });
                 return deferred.promise;
             };
         }
 
-        var searchService = ScenariooResource('/branch/:branchName/build/:buildName/search?q=:q',
+        const searchService = ScenariooResource('/branch/:branchName/build/:buildName/search?q=:q',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
                 q: '@q',
-                includeHtml: '@includeHtml'
+                includeHtml: '@includeHtml',
             }, {});
 
-        searchService.search = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return searchService.get(parameters, fnSuccess, fnError);
-        });
+        searchService.search = getPromise((parameters, fnSuccess, fnError) => searchService.get(parameters, fnSuccess, fnError));
 
         return searchService;
     });

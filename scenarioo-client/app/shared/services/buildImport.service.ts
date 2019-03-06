@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class BuildImportService {
-    url = "rest/builds/updateAndImport";
+    url = 'rest/builds/updateAndImport';
 
     constructor(private httpClient: HttpClient) {
 

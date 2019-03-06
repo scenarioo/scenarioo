@@ -1,4 +1,4 @@
 angular.module('scenarioo.services')
-    .factory('LabelConfigurationsListResource', function (ScenariooResource) {
+    .factory('LabelConfigurationsListResource', (ScenariooResource) => {
         return ScenariooResource('/labelconfigurations/list', {}, {});
     });

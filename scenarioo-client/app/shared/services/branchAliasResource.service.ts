@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {catchError} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {catchError} from 'rxjs/operators';
 import {_throw} from 'rxjs/observable/throw';
 
 declare var angular: angular.IAngularStatic;
@@ -19,14 +19,13 @@ export class BranchAliasesResource {
 
     }
 
-
     get(): Observable<BranchAlias[]> {
-        return this.httpClient.get<BranchAlias[]>("rest/branchaliases")
+        return this.httpClient.get<BranchAlias[]>('rest/branchaliases')
             .pipe(catchError(BranchAliasesResource.handleError));
     }
 
     save(branchAliases: BranchAlias[]) {
-        return this.httpClient.post("rest/branchaliases", branchAliases, {})
+        return this.httpClient.post('rest/branchaliases', branchAliases, {})
             .pipe(catchError(BranchAliasesResource.handleError));
 
     }
@@ -45,7 +44,7 @@ export class BranchAliasesResource {
         // return an observable with a user-facing error message
         return _throw(
             'Something bad happened; please try again later.');
-    };
+    }
 }
 
 angular.module('scenarioo.services')

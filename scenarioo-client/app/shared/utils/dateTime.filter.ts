@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scDateTime', $filter => {
+angular.module('scenarioo.filters').filter('scDateTime', ($filter) => {
 
     const DATE_FILTER = $filter('date');
 
-    return function (date) {
-        if(typeof date === 'undefined') {
+    return (date) => {
+        if (typeof date === 'undefined') {
             return '';
         }
-        if(typeof date === 'string' && date === '') {
+        if (typeof date === 'string' && date === '') {
             return '';
         }
 

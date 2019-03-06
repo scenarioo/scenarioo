@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
@@ -12,10 +12,10 @@ export interface Branch {
 }
 
 export interface BuildDetails {
-    // TODO: BuildDetails are maps of additional properties.
+    [key: string]: object;
 }
 
-export interface BuildInfo {
+export interface Build {
     name: string;
     revision: string;
     date: string; // TODO: DateTime
@@ -25,7 +25,7 @@ export interface BuildInfo {
 
 export interface BuildLink {
     displayName: string;
-    build: BuildInfo;
+    build: Build;
     linkName: string;
 }
 
@@ -44,7 +44,7 @@ export class BranchesResource {
     }
 
     query(): Observable<BranchBuild[]> {
-        return this.httpClient.get<BranchBuild[]>("rest/branches");
+        return this.httpClient.get<BranchBuild[]>('rest/branches');
     }
 }
 

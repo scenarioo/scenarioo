@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {BuildInfo} from "./branchesResource.service";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {Build} from './branchesResource.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -13,12 +13,12 @@ export interface BuildIdentifier {
 
 export interface BuildImportSummary {
     identifier: BuildIdentifier;
-    buildDescription: BuildInfo;
+    buildDescription: Build;
     buildStatistics: {
         numberOfFailedScenarios: number,
         numberOfFailedUseCases: number,
         numberOfSuccessfulScenarios: number,
-        numberOfSuccessfulUseCases: number
+        numberOfSuccessfulUseCases: number,
     };
     importDate: string;
     status: string;
@@ -27,7 +27,7 @@ export interface BuildImportSummary {
 
 @Injectable()
 export class BuildImportStatesResource {
-    url = "rest/builds/buildImportSummaries";
+    url = 'rest/builds/buildImportSummaries';
 
     constructor(private httpClient: HttpClient) {
     }

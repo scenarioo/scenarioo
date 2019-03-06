@@ -39,7 +39,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuilds);
 
     $scope.globalSearch = {
-        queryString: ''
+        queryString: '',
     };
 
     $scope.search = () => {
@@ -65,7 +65,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.isSearchEngineRunning = loadSearchEngineRunning();
 
     function loadBranchesAndBuilds() {
-        BranchesAndBuildsService.getBranchesAndBuilds().then(branchesAndBuilds => {
+        BranchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
             $scope.branchesAndBuilds = branchesAndBuilds;
             loadComparisonBuilds();
         });
@@ -76,12 +76,12 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             const baseBranchName = $scope.branchesAndBuilds.selectedBranch.branch.name;
             const baseBuildName = $scope.branchesAndBuilds.selectedBuild.linkName;
             BuildDiffInfosResource.query(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName},
-                buildDiffInfos => {
+                {baseBranchName, baseBuildName},
+                (buildDiffInfos) => {
                     $scope.comparisonBuilds = buildDiffInfos;
                     const preSelectedComparison = SelectedComparison.selected();
                     let selectedComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
-                    angular.forEach($scope.comparisonBuilds, comparisonBuild => {
+                    angular.forEach($scope.comparisonBuilds, (comparisonBuild) => {
                         if (comparisonBuild.name === preSelectedComparison) {
                             selectedComparison = comparisonBuild;
                         }
@@ -93,7 +93,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                     $scope.selectedComparison = selectedComparison;
                 }, () => {
                     resetComparisonSelection();
-                }
+                },
             );
         } else {
             resetComparisonSelection();
@@ -107,7 +107,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         $scope.selectedComparison = undefined;
     }
 
-    $scope.setBranch = branch => {
+    $scope.setBranch = (branch) => {
         $scope.branchesAndBuilds.selectedBranch = branch;
         LocalStorageService.remove(SelectedBranchAndBuildService.BUILD_KEY);
         LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
@@ -121,7 +121,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         loadComparisonBuilds();
     };
 
-    $scope.setComparisonBuild = comparisonBuild => {
+    $scope.setComparisonBuild = (comparisonBuild) => {
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
         $scope.selectedComparison = comparisonBuild;
     };

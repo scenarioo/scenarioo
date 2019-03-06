@@ -15,16 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {SearchEngineStatus} from "./searchEngineStatus";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {SearchEngineStatus} from './searchEngineStatus';
 
 declare var angular: angular.IAngularStatic;
-
-export interface ApplicationInformation {
-}
 
 export interface Configuration {
     scenarioPropertiesInOverview: string;
@@ -33,7 +30,7 @@ export interface Configuration {
     buildstates: {
         [key: string]: string;
     };
-    applicationInformation: ApplicationInformation;
+    applicationInformation: string;
 }
 
 interface ApplicationVersion {
@@ -59,9 +56,8 @@ export class ApplicationStatusService {
 
     }
 
-
     getApplicationStatus(): Observable<ApplicationStatus> {
-        return this.httpClient.get<ApplicationStatus>("rest/configuration/applicationStatus");
+        return this.httpClient.get<ApplicationStatus>('rest/configuration/applicationStatus');
     }
 }
 

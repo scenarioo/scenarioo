@@ -1,15 +1,14 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {Configuration} from "./applicationStatus.service";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {Configuration} from './applicationStatus.service';
 
 declare var angular: angular.IAngularStatic;
 
-
 @Injectable()
 export class ConfigResource {
-    url = "rest/configuration";
+    url = 'rest/configuration';
 
     constructor(private httpClient: HttpClient) {
 

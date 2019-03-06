@@ -1,14 +1,14 @@
 angular.module('scenarioo.services')
-    .factory('ComparisonRecalculateResource', function (ScenariooResource) {
+    .factory('ComparisonRecalculateResource', (ScenariooResource) => {
         return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/recalculate',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                comparisonName: '@comparisonName'
+                comparisonName: '@comparisonName',
             },
             {
                 post: {
-                    method: 'POST'
-                }
+                    method: 'POST',
+                },
             });
     });

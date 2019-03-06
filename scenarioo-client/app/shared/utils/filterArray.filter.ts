@@ -25,7 +25,7 @@ angular.module('scenarioo.filters')
         function objectContainsAllSearchElements(object, filterString: string): boolean {
             const searchElements = filterString.split(' ');
 
-            for (let i in searchElements) {
+            for (const i in searchElements) {
                 if (typeof searchElements[i] === 'string') {
                     if (!objectContainsString(object, searchElements[i])) {
                         return false;
@@ -38,7 +38,7 @@ angular.module('scenarioo.filters')
         function objectContainsString(object, string: string): boolean {
             let returnTrue = false;
 
-            angular.forEach(object, function (property) {
+            angular.forEach(object, (property) => {
                 if (!returnTrue) {
                     if (typeof property === 'string') {
                         if (contains(property, string)) {
@@ -53,7 +53,7 @@ angular.module('scenarioo.filters')
             return returnTrue;
         }
 
-        return function (array: any[], filterString: string) {
+        return (array: any[], filterString: string) => {
 
             if (!angular.isArray(array)) {
                 return array;
@@ -64,7 +64,7 @@ angular.module('scenarioo.filters')
 
             const filteredModel = [];
 
-            angular.forEach(array, arrayElement => {
+            angular.forEach(array, (arrayElement) => {
                 if (typeof arrayElement === 'object') {
                     if (objectContainsAllSearchElements(arrayElement, filterString)) {
                         filteredModel.push(arrayElement);

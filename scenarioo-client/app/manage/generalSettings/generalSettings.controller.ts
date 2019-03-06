@@ -33,12 +33,12 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
 
     function activate() {
 
-        BranchesResource.query().subscribe(branches => {
+        BranchesResource.query().subscribe((branches) => {
             vm.branches = branches;
             calculateConfiguredBranch();
         });
 
-        ApplicationStatusService.getApplicationStatus().subscribe(status => {
+        ApplicationStatusService.getApplicationStatus().subscribe((status) => {
             vm.version = status.version;
             vm.configuration = status.configuration;
             vm.searchEngineStatus = status.searchEngineStatus;
@@ -55,9 +55,9 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
             return;
         }
 
-        for (let index = 0; index < vm.branches.length; index++) {
-            if (vm.branches[index].branch.name === vm.configuration.defaultBranchName) {
-                vm.configuredBranch = vm.branches[index];
+        for (const branch of vm.branches) {
+            if (branch.branch.name === vm.configuration.defaultBranchName) {
+                vm.configuredBranch = branch;
             }
         }
     }
@@ -70,7 +70,7 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
     function updateConfiguration() {
         vm.successfullyUpdatedConfiguration = false;
 
-        ConfigService.updateConfiguration(vm.configuration, function () {
+        ConfigService.updateConfiguration(vm.configuration, () => {
             vm.successfullyUpdatedConfiguration = true;
         });
     }

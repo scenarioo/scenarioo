@@ -1,7 +1,7 @@
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 export interface Version {
     aggregatedDataFormatVersion: string;
@@ -18,12 +18,11 @@ export class VersionResource {
     }
 
     get(): Observable<Version> {
-        return this.httpClient.get<Version>("rest/version");
+        return this.httpClient.get<Version>('rest/version');
     }
 }
 
 declare var angular: angular.IAngularStatic;
-
 
 angular.module('scenarioo.services')
     .factory('VersionResource', downgradeInjectable(VersionResource));

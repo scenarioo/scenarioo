@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ComparisonsController', Comp
 
 function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService, ApplicationStatusService) {
 
-    var vm = this;
+    const vm = this;
 
     vm.comparisons = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'date', reverse: true}, filtering: false};
@@ -35,11 +35,11 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     activate();
 
     function activate() {
-        ComparisonsResource.query({}, function(comparisons) {
+        ComparisonsResource.query({}, (comparisons) => {
             vm.comparisons = comparisons;
         });
 
-        ApplicationStatusService.getApplicationStatus().subscribe(status => {
+        ApplicationStatusService.getApplicationStatus().subscribe((status) => {
             vm.version = status.version;
         });
 
@@ -56,15 +56,19 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
             controllerAs: 'vm',
             windowClass: 'modal-wide',
             resolve: {
-                comparison: function () {
+                comparison() {
                     return comparison;
-                }
-            }
+                },
+            },
         });
     }
 
     function recalculateComparison(comparison) {
-        ComparisonRecalculateResource.post({branchName: comparison.baseBuild.branchName, buildName: comparison.baseBuild.buildName, comparisonName: comparison.name },
+        ComparisonRecalculateResource.post({
+                branchName: comparison.baseBuild.branchName,
+                buildName: comparison.baseBuild.buildName,
+                comparisonName: comparison.name,
+            },
             refresh, refresh);
     }
 
@@ -73,5 +77,3 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     }
 
 }
-
-

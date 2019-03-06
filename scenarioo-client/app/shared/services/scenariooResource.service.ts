@@ -16,11 +16,11 @@
  */
 
 angular.module('scenarioo.services')
-    /**
-     * All resources in Scenarioo must be based on this ScenariooResource.
-     */
-    .factory('ScenariooResource', function ($resource) {
-        return function (url, paramDefaults, actions) {
+/**
+ * All resources in Scenarioo must be based on this ScenariooResource.
+ */
+    .factory('ScenariooResource', ($resource) => {
+        return (url, paramDefaults, actions) => {
             return $resource('rest' + url, paramDefaults, actions);
         };
-    })
+    });

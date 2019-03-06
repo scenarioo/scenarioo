@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {SearchEngineStatus} from "./searchEngineStatus";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {SearchEngineStatus} from './searchEngineStatus';
 
 declare var angular: angular.IAngularStatic;
-
 
 @Injectable()
 export class SearchEngineStatusService {
@@ -31,10 +30,9 @@ export class SearchEngineStatusService {
     }
 
     isSearchEngineRunning(): Observable<SearchEngineStatus> {
-        return this.httpClient.get<SearchEngineStatus>("rest/searchEngineStatus");
+        return this.httpClient.get<SearchEngineStatus>('rest/searchEngineStatus');
     }
 }
-
 
 angular.module('scenarioo.services')
     .factory('SearchEngineStatusService', downgradeInjectable(SearchEngineStatusService));

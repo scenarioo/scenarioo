@@ -1,5 +1,5 @@
 angular.module('scenarioo.services')
-    .factory('StepResource', function (ScenariooResource) {
+    .factory('StepResource', (ScenariooResource) => {
         return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
             {
                 branchName: '@branchName',
@@ -9,6 +9,6 @@ angular.module('scenarioo.services')
                 pageName: '@pageName',
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence',
-                labels: '@labels'
+                labels: '@labels',
             }, {});
-    })
+    });

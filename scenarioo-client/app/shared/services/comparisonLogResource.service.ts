@@ -1,17 +1,17 @@
 angular.module('scenarioo.services')
-    .factory('ComparisonLogResource', function (ScenariooResource) {
+    .factory('ComparisonLogResource', (ScenariooResource) => {
         return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/log',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                comparisonName: '@comparisonName'
+                comparisonName: '@comparisonName',
             }, {
                 get: {
                     method: 'GET',
-                    headers: {'Accept': 'text/plain'},
-                    transformResponse: function (data) {
+                    headers: {Accept: 'text/plain'},
+                    transformResponse(data) {
                         return {content: data};
-                    }
-                }
+                    },
+                },
             });
     });

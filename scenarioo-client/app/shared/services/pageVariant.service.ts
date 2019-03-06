@@ -1,26 +1,24 @@
 angular.module('scenarioo.services')
 
-    .factory('PageVariantService', function (ScenariooResource, $q) {
-        function getPromise($q, fn) {
-            return function (parameters) {
-                var deferred = $q.defer();
-                fn(parameters, function (result) {
+    .factory('PageVariantService', (ScenariooResource, $q) => {
+        function getPromise(fn) {
+            return (parameters) => {
+                const deferred = $q.defer();
+                fn(parameters, (result) => {
                     deferred.resolve(result);
-                }, function (error) {
+                }, (error) => {
                     deferred.reject(error);
                 });
                 return deferred.promise;
             };
         }
 
-        var pageVariantService = ScenariooResource('/branch/:branchName/build/:buildName/search/pagevariants/',
+        const pageVariantService = ScenariooResource('/branch/:branchName/build/:buildName/search/pagevariants/',
             {
                 branchName: '@branchName',
-                buildName: '@buildName'
+                buildName: '@buildName',
             }, {});
 
-        pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return pageVariantService.get(parameters, fnSuccess, fnError);
-        });
+        pageVariantService.getPageVariantCount = getPromise((parameters, fnSuccess, fnError) => pageVariantService.get(parameters, fnSuccess, fnError));
         return pageVariantService;
-    })
+    });

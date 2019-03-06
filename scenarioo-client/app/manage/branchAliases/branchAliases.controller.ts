@@ -37,7 +37,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function loadBranchesWithoutAliases() {
-        BranchesResource.query().subscribe(branches => {
+        BranchesResource.query().subscribe((branches) => {
             const branchesWithoutAliases = [];
             let index;
             for (index = 0; index < branches.length; index++) {
@@ -72,7 +72,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function loadBranchAliases() {
-        BranchAliasesResource.get().subscribe(branchAliases => {
+        BranchAliasesResource.get().subscribe((branchAliases) => {
             branchAliases.push(createEmptyAlias());
             vm.branchAliases = branchAliases;
         });
@@ -111,7 +111,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     function areBuildAliasesUnique(buildAliases) {
         let unique = true;
         const aliasesMap = {};
-        angular.forEach(buildAliases, function (buildAlias) {
+        angular.forEach(buildAliases, (buildAlias) => {
             if (aliasesMap[buildAlias.name] === undefined) {
                 aliasesMap[buildAlias.name] = '';
             } else {
@@ -126,7 +126,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         return {
             name: '',
             referencedBranch: '',
-            description: ''
+            description: '',
         };
     }
 }

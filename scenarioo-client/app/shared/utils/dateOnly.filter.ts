@@ -19,7 +19,7 @@ angular.module('scenarioo.filters').filter('scDateOnly', ($filter) => {
 
     const DATE_FILTER = $filter('date');
 
-    return function (date) {
+    return (date) => {
         if (typeof date === 'undefined') {
             return '';
         }
