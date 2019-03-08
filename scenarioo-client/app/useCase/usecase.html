@@ -106,15 +106,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="useCaseView-labels" initially-expanded="false"
                               ng-show="useCase.hasAnyLabels">
-            <div class="sc-tree">
-                <ul>
-                    <li>
-                        Use case:
-                        <span ng-repeat="label in useCase.useCase.labels.labels" class="label label-info sc-label"
-                              ng-style="useCase.getLabelStyle(label)">{{label}}</span>
-                    </li>
-                </ul>
-            </div>
+            <sc-label-metadata [use-case-labels]="useCase.useCase.labels.labels"
+                               [label-configurations]="vm.labelConfigurations">
+            </sc-label-metadata>
         </sc-collapsable-panel>
 
         <!-- Metadata -->

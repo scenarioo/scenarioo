@@ -115,7 +115,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         $scope.branchesAndBuilds.selectedBuild = build;
         LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuildService.BUILD_KEY, build.linkName);
-        loadComparisonBuilds($scope.branchesAndBuilds.selectedBranch.branch.name, $scope.branchesAndBuilds.selectedBuild.linkName);
+        loadComparisonBuilds();
     };
 
     $scope.setComparisonBuild = function(comparisonBuild) {

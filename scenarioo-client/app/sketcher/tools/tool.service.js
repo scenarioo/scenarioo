@@ -17,6 +17,7 @@
 
 /* eslint no-console:0 */
 
+
 angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
 
     return function () {

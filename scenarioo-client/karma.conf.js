@@ -29,16 +29,22 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'app/app.js',
+            'node_modules/babel-polyfill/browser.js',
+            'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'test/mock/*.ts',
-            'test/spec/**/*.js',
+            'app/app.ts',
+            'app/*.ts',
+            'app/!(components)/**/*.ts',
+            'test/mock/**/*.ts',
             'test/spec/**/*.ts'
         ],
 
         preprocessors: {
-            'app/app.js': ['webpack'],
-            'test/mock/*.ts': ['webpack'],
+            'node_modules/angular/angular.js': ['webpack'],
+            'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
+            'app/*.ts': ['webpack'],
+            'app/!(components)/**/*.ts': ['webpack'],
+            'test/mock/**/*.ts': ['webpack'],
             'test/spec/**/*.ts': ['webpack']
         },
 
@@ -58,6 +64,7 @@ module.exports = function (config) {
             'karma-chrome-launcher',
             'karma-webpack'
         ],
+
 
         // list of files to exclude
         exclude: [],
@@ -92,6 +99,7 @@ module.exports = function (config) {
         browserDisconnectTimeout : 10000,
         browserDisconnectTolerance : 1,
         browserNoActivityTimeout : 60000, //by default 10000
+
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

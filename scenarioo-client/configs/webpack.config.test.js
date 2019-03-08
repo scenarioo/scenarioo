@@ -1,6 +1,4 @@
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 require('css-loader');
 
@@ -59,7 +57,10 @@ var webpackConfig = {
             $: 'jquery',
             jquery: 'jquery',
             'window.jQuery': 'jquery',
-        })
+        }),
+        // Fixes Critical dependency: the request of a dependency is an expression
+        // https://github.com/angular/angular/issues/20357
+        new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
     ]
 };
 

@@ -1,0 +1,24 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "quotemark": [true, "single", "avoid-escape", "avoid-template"],
+        "no-floating-promises": [true, "PromiseLike"],
+        "await-promise": [true, "PromiseLike"],
+        "member-access": false,
+        "indent": false,
+        "align": false,
+        "member-ordering": false,
+        "max-line-length": false,
+        "ordered-imports": false,
+        "no-console": false,
+        "object-literal-sort-keys": false,
+        "jsdoc-format": false,
+        "variable-name": false,
+        "forin": false
+    },
+    "rulesDirectory": []
+}

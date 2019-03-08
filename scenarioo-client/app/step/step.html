@@ -324,31 +324,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- labels -->
         <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
-                              ng-show="hasAnyLabels()">
-            <div class="sc-tree">
-                <ul>
-                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
-                        Use case:
-                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label"
-                              ng-style="getLabelStyle(label)">{{label}}</span>
-                    </li>
-                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
-                        Scenario:
-                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label"
-                              ng-style="getLabelStyle(label)">{{label}}</span>
-                    </li>
-                    <li id="step-labels" ng-show="step.stepDescription.labels.labels">
-                        Step:
-                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label"
-                              ng-style="getLabelStyle(label)">{{label}}</span>
-                    </li>
-                    <li id="page-labels" ng-show="step.page.labels.labels">
-                        Page:
-                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label"
-                              ng-style="getLabelStyle(label)">{{label}}</span>
-                    </li>
-                </ul>
-            </div>
+                              ng-if="hasAnyLabels()">
+            <sc-label-metadata [scenario-labels]="scenarioLabels.labels"
+                               [use-case-labels]="useCaseLabels.labels"
+                               [step-labels]="step.stepDescription.labels.labels"
+                               [page-labels]="step.page.labels.labels"
+                               [label-configurations]="labelConfigurations">
+            </sc-label-metadata>
         </sc-collapsable-panel>
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>

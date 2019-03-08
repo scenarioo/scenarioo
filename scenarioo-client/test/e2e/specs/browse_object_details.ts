@@ -69,10 +69,10 @@ useCase('Browse object details')
                 await ObjectDetailsPage.clickCollapseAll();
                 await step('Click collapse all');
                 await ObjectDetailsPage.doubleClickOnNode('0');
-                await step('Double click on root node to expand all childs');
+                await step('Double click on root node to expand all children');
                 await ObjectDetailsPage.assertTreeNodeStatus('11', 'collapsed');
                 await ObjectDetailsPage.assertTreeNodeIsDisplayed('12');
-                await step('All childs are visible and expanded');
+                await step('All children are visible and expanded');
             });
 
     });

@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global SVG:false */
 
 angular.module('scenarioo.controllers').controller('SketcherEditorController', SketcherEditorController);
 
