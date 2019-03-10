@@ -57,9 +57,10 @@ function ScenarioController($filter, $routeParams,
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    LabelConfigurationsResource.query({}, (queriedlabelConfigurations) => {
-        vm.labelConfigurations = queriedlabelConfigurations;
-    });
+    LabelConfigurationsResource.query()
+        .subscribe((queriedlabelConfigurations) => {
+            vm.labelConfigurations = queriedlabelConfigurations;
+        });
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;

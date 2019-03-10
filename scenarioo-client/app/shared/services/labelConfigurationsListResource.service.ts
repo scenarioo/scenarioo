@@ -6,7 +6,7 @@ import {downgradeInjectable} from '@angular/upgrade/static';
 declare var angular: angular.IAngularStatic;
 
 export interface LabelConfiguration {
-    name: string;
+    name?: string;
     backgroundColor: string;
     foregroundColor: string;
 }

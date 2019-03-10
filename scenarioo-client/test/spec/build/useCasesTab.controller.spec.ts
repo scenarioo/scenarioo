@@ -17,10 +17,18 @@
 
 'use strict';
 
+import {Observable} from 'rxjs';
+
+declare var angular: angular.IAngularStatic;
+
 describe('UseCasesTabController', function () {
 
-    var $location, $scope;
-    var useCasesTabController;
+    let $location, $scope;
+    let useCasesTabController;
+
+    let LabelConfigurationsResourceMock = {
+        query: () => Observable.of({}),
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -28,9 +36,10 @@ describe('UseCasesTabController', function () {
         $provide.value('BranchesAndBuildsService', {});
         $provide.value('SelectedBranchAndBuildService', {
             callOnSelectionChange: () => {
-            }
+            },
         });
         $provide.value('UseCasesResource', {});
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
     }));
 
     beforeEach(inject(function ($controller, $rootScope, _$location_) {
@@ -38,7 +47,7 @@ describe('UseCasesTabController', function () {
 
             $scope = $rootScope.$new();
             useCasesTabController = $controller('UseCasesTabController', {$scope: $scope});
-        }
+        },
     ));
 
     it('has no usecases and builds set in the beginning', function () {
@@ -49,7 +58,7 @@ describe('UseCasesTabController', function () {
     it('navigates to use case when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        var dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};
+        const dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};
         useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');

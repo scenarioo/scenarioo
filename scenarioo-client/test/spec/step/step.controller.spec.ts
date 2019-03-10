@@ -36,26 +36,32 @@ describe('StepController', function () {
                 nodeLabel: 'Page name',
                 childNodes: [],
                 nodeValue: 'searchResults.jsp',
-                nodeObjectName: 'searchResults.jsp'
+                nodeObjectName: 'searchResults.jsp',
             },
             {nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
-            {nodeLabel: 'Build status', nodeValue: 'success'}
-        ]
+            {nodeLabel: 'Build status', nodeValue: 'success'},
+        ],
     };
 
 
     let ConfigResourceMock = {
-        get: () => Observable.of(angular.copy(TestData.CONFIG))
+        get: () => Observable.of(angular.copy(TestData.CONFIG)),
     };
+
+    let LabelConfigurationsResourceMock = {
+        query: () => Observable.of({}),
+    };
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
         $provide.value("BranchesResource", {
             query: () => {
-            }
+            },
         });
         $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
@@ -105,7 +111,7 @@ describe('StepController', function () {
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 DiffInfoService: DiffInfoService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {}
+                SharePagePopupService: {},
             });
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             spyOn(BranchesResource, 'query').and.returnValue(Observable.of({}));
@@ -235,7 +241,6 @@ describe('StepController', function () {
             $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
-            $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
             ConfigService.load();
             $httpBackend.flush();
@@ -248,8 +253,8 @@ describe('StepController', function () {
                     {
                         id: '1',
                         name: 'fakeTestingIssue',
-                        firstScenarioSketchId: '1'
-                    }
+                        firstScenarioSketchId: '1',
+                    },
             };
 
             return function (params, onSuccess) {
@@ -273,7 +278,7 @@ describe('StepController', function () {
                 StepResource: StepResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {}
+                SharePagePopupService: {},
             });
         });
 
@@ -287,7 +292,7 @@ describe('StepController', function () {
             expect($scope.httpResponse.url).toEqual('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
             expect($scope.getCurrentUrl()).toEqual(
-                'http://server/#?branch=trunk&build=current&comparison=Disabled'
+                'http://server/#?branch=trunk&build=current&comparison=Disabled',
             );
         });
 
@@ -295,7 +300,6 @@ describe('StepController', function () {
             $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
-            $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
             ConfigService.load();
             $httpBackend.flush();

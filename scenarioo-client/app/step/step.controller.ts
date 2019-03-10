@@ -39,10 +39,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.activeTab = getActiveTab();
 
     $scope.comparisonViewOptions = {
-        viewId : getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
-        changesHighlighted : getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
+        viewId: getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
+        changesHighlighted: getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
         diffImageColor: undefined,
-     };
+    };
 
     activate();
 
@@ -62,9 +62,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     $scope.getPageNameUrlEncoded = () => encodeURIComponent($scope.pageName);
 
-    LabelConfigurationsResource.query({}, (labelConfigurations) => {
-        $scope.labelConfigurations = labelConfigurations;
-    });
+    LabelConfigurationsResource.query()
+        .subscribe((labelConfigurations) => {
+            $scope.labelConfigurations = labelConfigurations;
+        });
 
     $scope.showApplicationInfoPopup = (tab) => {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
@@ -329,6 +330,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function storeActiveTab(activeTab) {
         sessionStorage.setItem('activeTab', activeTab);
     }
+
     function getActiveTab() {
         const activeTab: string = sessionStorage.getItem('activeTab');
         if (activeTab == null) {
@@ -359,7 +361,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     // This URL is only used internally, not for sharing
     function initScreenshotURLs() {
-        initComparisonScreenshotUrl ();
+        initComparisonScreenshotUrl();
         initDiffScreenShotUrl();
     }
 
@@ -397,7 +399,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         } else if ($scope.stepIdentifier) {
             const branchAndBuild = SelectedBranchAndBuildService.selected();
             const comparisonName = SelectedComparison.selected();
-            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex);
         }
     }
 
@@ -427,12 +429,12 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         // see http://stackoverflow.com/questions/22113286/prevent-http-errors-from-being-logged-in-browser-console
         StepDiffInfoResource.get(
             {
-            baseBranchName: SelectedBranchAndBuildService.selected().branch,
-            baseBuildName: SelectedBranchAndBuildService.selected().build,
-            comparisonName: $scope.comparisonName,
-            useCaseName,
-            scenarioName,
-            stepIndex: $scope.stepIndex,
+                baseBranchName: SelectedBranchAndBuildService.selected().branch,
+                baseBuildName: SelectedBranchAndBuildService.selected().build,
+                comparisonName: $scope.comparisonName,
+                useCaseName,
+                scenarioName,
+                stepIndex: $scope.stepIndex,
             },
             (result) => {
                 $scope.comparisonScreenshotName = result.comparisonScreenshotName;
@@ -445,7 +447,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             });
     }
 
-     $scope.setComparisonView = (viewId) => {
+    $scope.setComparisonView = (viewId) => {
         $scope.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
@@ -564,7 +566,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function goToIssue(issue) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id },
+            {branchName: selectedBranch, issueId: issue.id},
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });

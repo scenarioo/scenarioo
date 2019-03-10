@@ -29,11 +29,15 @@ describe('ScenarioController', function () {
     let ConfigResourceMock = {
         get: () => Observable.of(angular.copy(TestData.CONFIG))
     };
+    let LabelConfigurationsResourceMock = {
+        query: () => Observable.of({}),
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
     }));
 
 
@@ -162,7 +166,6 @@ describe('ScenarioController', function () {
 
         $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario')
             .respond(TestData.SCENARIO);
-        $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         ConfigService.load();
         $httpBackend.flush();

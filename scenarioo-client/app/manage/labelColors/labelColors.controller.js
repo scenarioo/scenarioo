@@ -89,8 +89,10 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
         });
 
         if (everythingIsValid) {
-            LabelConfigurationsResource.save(labelConfigurationsAsMap);
-            vm.successfullyUpdatedLabelConfigurations = true;
+            LabelConfigurationsResource.save(labelConfigurationsAsMap)
+                .subscribe(function () {
+                    vm.successfullyUpdatedLabelConfigurations = true;
+                });
         }
     }
 
