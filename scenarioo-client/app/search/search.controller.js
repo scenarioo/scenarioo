@@ -38,14 +38,15 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     function doSearch() {
         var selected = SelectedBranchAndBuildService.selected();
 
-        FullTextSearchService.search({
-                q: vm.searchTerm,
-                includeHtml: vm.includeHtml,
+        FullTextSearchService.search(
+            {
                 buildName: selected.build,
                 branchName: selected.branch
-            }
-        ).then(function onSuccess(response) {
-            if(response.errorMessage) {
+            },
+            vm.searchTerm,
+            vm.includeHtml
+        ).then(function (response) {
+            if (response.errorMessage) {
                 vm.showSearchFailed = true;
                 vm.errorMessage = response.errorMessage;
             } else {
@@ -53,8 +54,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                 vm.hits = response.searchTree.hits;
                 vm.totalHits = response.searchTree.totalHits;
             }
-        },
-        function onError(error) {
+        }).catch(function () {
             vm.showSearchFailed = true;
         });
     }
