@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ComparisonDetailsController'
 
 function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, ComparisonLogResource, comparison) {
 
-    var vm = this;
+    const vm = this;
     vm.comparison = comparison;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
     vm.cancel = cancel;
@@ -38,5 +38,3 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
     }
 
 }
-
-

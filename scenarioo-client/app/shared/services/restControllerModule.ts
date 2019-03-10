@@ -14,6 +14,8 @@ import {ConfigResource} from './configResource.service';
 import {BuildReimportResource} from './buildReimportResource.service';
 import {ComparisonCreateResource} from './comparisonCreateResource.service';
 import {ComparisonLogResource} from './comparisonLogResource.service';
+import {ComparisonRecalculateResource} from './comparisonRecalculateResource.service';
+import {ComparisonsResource} from './comparisonsResource.service';
 
 @NgModule({
     declarations: [],
@@ -39,6 +41,9 @@ import {ComparisonLogResource} from './comparisonLogResource.service';
         BuildReimportResource,
         ComparisonCreateResource,
         ComparisonLogResource,
+        ComparisonRecalculateResource,
+        ComparisonsResource,
     ],
 })
-export class RestControllerModule {}
+export class RestControllerModule {
+}

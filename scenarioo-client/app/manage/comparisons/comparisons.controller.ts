@@ -23,7 +23,8 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
 
     vm.comparisons = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'date', reverse: true}, filtering: false};
-    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
+    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn"
+                             // directive.
 
     vm.resetSearchField = resetSearchField;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
@@ -35,9 +36,10 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     activate();
 
     function activate() {
-        ComparisonsResource.query({}, (comparisons) => {
-            vm.comparisons = comparisons;
-        });
+        ComparisonsResource.query()
+            .subscribe((comparisons) => {
+                vm.comparisons = comparisons;
+            });
 
         ApplicationStatusService.getApplicationStatus().subscribe((status) => {
             vm.version = status.version;
@@ -64,12 +66,12 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     }
 
     function recalculateComparison(comparison) {
-        ComparisonRecalculateResource.post({
-                branchName: comparison.baseBuild.branchName,
-                buildName: comparison.baseBuild.buildName,
-                comparisonName: comparison.name,
-            },
-            refresh, refresh);
+        ComparisonRecalculateResource.recalculate(comparison.name, {
+            branchName: comparison.baseBuild,
+            buildName: comparison.baseBuild,
+        })
+            .catch(refresh)
+            .then(refresh);
     }
 
     function refresh() {
