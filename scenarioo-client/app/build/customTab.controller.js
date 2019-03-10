@@ -40,7 +40,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
 
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
-        // Initialization on registration of this listener and on all changes to the build selection:
+            // Initialization on registration of this listener and on all changes to the build selection:
             vm.selectedBranchAndBuild = selected;
             vm.selectedTab = getSelectedTabFromUrl();
             loadContent();
@@ -78,10 +78,10 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
             })
             .then(function () {
                 CustomTabContentResource.get({
-                    'branchName': vm.selectedBranchAndBuild.branch,
-                    'buildName': vm.selectedBranchAndBuild.build,
-                    'tabId': vm.selectedTab
-                }, function onSuccess(result) {
+                    branchName: vm.selectedBranchAndBuild.branch,
+                    buildName: vm.selectedBranchAndBuild.build,
+                }, vm.selectedTab)
+                    .toPromise().then(function (result) {
                     vm.tabContentTree = result.tree;
                 });
             });

@@ -16,6 +16,7 @@ import {ComparisonCreateResource} from './comparisonCreateResource.service';
 import {ComparisonLogResource} from './comparisonLogResource.service';
 import {ComparisonRecalculateResource} from './comparisonRecalculateResource.service';
 import {ComparisonsResource} from './comparisonsResource.service';
+import {CustomTabContentResource} from './customTabContentResource.service';
 
 @NgModule({
     declarations: [],
@@ -43,6 +44,7 @@ import {ComparisonsResource} from './comparisonsResource.service';
         ComparisonLogResource,
         ComparisonRecalculateResource,
         ComparisonsResource,
+        CustomTabContentResource,
     ],
 })
 export class RestControllerModule {
