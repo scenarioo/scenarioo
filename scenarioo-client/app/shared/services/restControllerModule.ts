@@ -18,6 +18,7 @@ import {ComparisonRecalculateResource} from './comparisonRecalculateResource.ser
 import {ComparisonsResource} from './comparisonsResource.service';
 import {CustomTabContentResource} from './customTabContentResource.service';
 import {FullTextSearchService} from './fullTextSearch.service';
+import {LabelConfigurationsListResource} from './labelConfigurationsListResource.service';
 
 @NgModule({
     declarations: [],
@@ -47,6 +48,7 @@ import {FullTextSearchService} from './fullTextSearch.service';
         ComparisonsResource,
         CustomTabContentResource,
         FullTextSearchService,
+        LabelConfigurationsListResource,
     ],
 })
 export class RestControllerModule {

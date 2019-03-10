@@ -75,27 +75,31 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
         vm.colorMissing = [];
         var labelConfigurationsAsMap = {};
         var everythingIsValid = true;
-        angular.forEach(vm.labelConfigurations, function(value, key) {
-            if(value.name !== '') {
-                if(!value.backgroundColor) {
+        angular.forEach(vm.labelConfigurations, function (value, key) {
+            if (value.name !== '') {
+                if (!value.backgroundColor) {
                     everythingIsValid = false;
                     vm.colorMissing[key] = true;
                 }
-                labelConfigurationsAsMap[value.name] = {'backgroundColor': value.backgroundColor, 'foregroundColor': value.foregroundColor};
+                labelConfigurationsAsMap[value.name] = {
+                    'backgroundColor': value.backgroundColor,
+                    'foregroundColor': value.foregroundColor
+                };
             }
         });
 
-        if(everythingIsValid) {
+        if (everythingIsValid) {
             LabelConfigurationsResource.save(labelConfigurationsAsMap);
             vm.successfullyUpdatedLabelConfigurations = true;
         }
     }
 
     function loadLabelConfigurations() {
-        LabelConfigurationsListResource.query({}, function (labelConfigurations) {
-            labelConfigurations.push(createEmptyLabelConfiguration());
-            vm.labelConfigurations = labelConfigurations;
-        });
+        LabelConfigurationsListResource.query()
+            .subscribe(function (labelConfigurations) {
+                labelConfigurations.push(createEmptyLabelConfiguration());
+                vm.labelConfigurations = labelConfigurations;
+            });
     }
 
     function selectColor(labelConfiguration, color) {
