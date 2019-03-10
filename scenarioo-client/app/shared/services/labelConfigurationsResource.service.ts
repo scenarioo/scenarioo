@@ -29,4 +29,3 @@ export class LabelConfigurationsResource {
 
 angular.module('scenarioo.services')
     .factory('LabelConfigurationsResource', downgradeInjectable(LabelConfigurationsResource));
-

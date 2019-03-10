@@ -17,7 +17,7 @@ export class FullTextSearchService {
             .get<any>(`rest/branch/${buildInfo.branchName}/build/${buildInfo.buildName}/search`,
                 {
                     params: {
-                        query: query,
+                        query,
                         includeHtml: includeHtmlAsString,
                     },
                 })
