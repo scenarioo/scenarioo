@@ -12,6 +12,7 @@ import {BuildImportLogResource} from './buildImportLogResource.service';
 import {BuildImportStatesResource} from './buildImportStatesResource.service';
 import {ConfigResource} from './configResource.service';
 import {BuildReimportResource} from './buildReimportResource.service';
+import {ComparisonCreateResource} from './comparisonCreateResource.service';
 
 @NgModule({
     declarations: [],
@@ -35,6 +36,7 @@ import {BuildReimportResource} from './buildReimportResource.service';
         BuildImportStatesResource,
         ConfigResource,
         BuildReimportResource,
+        ComparisonCreateResource,
     ],
 })
 export class RestControllerModule {}

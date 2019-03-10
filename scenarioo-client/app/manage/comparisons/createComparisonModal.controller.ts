@@ -155,7 +155,8 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     }
 
     function isEqualBuild(buildIdentifier, branch, build) {
-        // if it is an alias, the name is somehow stored in the description field (very dirty, but that is how it currently is)
+        // if it is an alias, the name is somehow stored in the description field (very dirty, but that is how it
+        // currently is)
         const branchNameToCompare = branch.isAlias ? branch.branch.description : branch.branch.name;
         return buildIdentifier.branchName === branchNameToCompare && buildIdentifier.buildName === build.build.name;
     }
@@ -165,7 +166,8 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     }
 
     function isValidInput() {
-        // if there is no message the user can click on create - but this might trigger revalidation, which might still block him!
+        // if there is no message the user can click on create - but this might trigger revalidation, which might still
+        // block him!
         return !vm.validationMessage;
     }
 
@@ -177,14 +179,21 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             return;
         }
 
-        ComparisonCreateResource.post({
+        const baseBranchInfo = {
             branchName: vm.baseBranch.branch.name,
             buildName: vm.baseBuild.build.name,
-            comparisonName: vm.comparisonName,
-        }, {
-                branchName: vm.comparisonBranch.branch.name,
-                buildName: vm.comparisonBuild.build.name,
-        }, onSuccessCreation, onFailedCreation);
+
+        };
+        const comparisonBranchInfo = {
+            branchName: vm.comparisonBranch.branch.name,
+            buildName: vm.comparisonBuild.build.name,
+        };
+
+        ComparisonCreateResource.createComparision(vm.comparisonName,
+            baseBranchInfo,
+            comparisonBranchInfo)
+            .then(onSuccessCreation)
+            .catch(onFailedCreation);
 
     }
 
