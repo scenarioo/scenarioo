@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/rest/branches/{branchName}/builds/{buildName}/v/{tabId}")
+@RequestMapping("/rest/branches/{branchName}/builds/{buildName}/customTabObjects/{tabId}")
 public class CustomTabsResource extends AbstractBuildContentResource {
 
 	@GetMapping
