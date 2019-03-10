@@ -27,13 +27,10 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
     activate();
 
     function activate() {
-        ComparisonLogResource.get({
-            branchName: comparison.baseBuild.branchName,
-            buildName: comparison.baseBuild.buildName,
-            comparisonName: comparison.name
-        }, function(response) {
-            vm.log = response.content;
-        });
+        ComparisonLogResource.logComparision(comparison.name, comparison.baseBuild)
+            .then((log) => {
+                vm.log = log;
+            });
     }
 
     function cancel() {
