@@ -78,8 +78,9 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
-        BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName},
-            buildImportFinished, buildImportFinished);
+        BuildReimportResource.get(build.identifier.branchName, build.identifier.buildName)
+            .toPromise()
+            .then(buildImportFinished, buildImportFinished);
     }
 
     function getStyleClassForBuildImportStatus(status) {
