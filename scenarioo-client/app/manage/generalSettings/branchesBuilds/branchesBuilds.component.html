@@ -1,0 +1,61 @@
+<h2>Branches and Builds</h2>
+<div [formGroup]="branchesBuildsForm">
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Default Branch
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        uib-tooltip="Branch to select by default for first-time visitors."></span>
+        </div>
+        <div class="col-lg-9">
+            <select formControlName="defaultBranchName" class="form-control">
+                <option [value]="branch.branch.name" *ngFor="let branch of branchBuilds">{{branch.branch.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Default Build
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        uib-tooltip="Build to select by default for first-time visitors."></span>
+        </div>
+        <div class="col-lg-9">
+            <select formControlName="defaultBuildName" class="form-control">
+                <option [value]="build.linkName" *ngFor="let build of configuredBranch.builds">{{build.linkName}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row sc-space-bottom ">
+        <div class="col-lg-3">Most Recent Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                 uib-tooltip="An alias build name for always refering to the most recent build inside a branch (no matter whether the build was successful or not)."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" formControlName="aliasForMostRecentBuild" class="form-control"/>
+        </div>
+    </div>
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Last Successful Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                     uib-tooltip="An alias build name for always refering to the last build that was successful inside a branch."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" formControlName="aliasForLastSuccessfulBuild" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Create last successful scenario build
+            <span class="glyphicon glyphicon-info-sign"
+                  uib-tooltip="Creates a virtual build containing the latest successful scenarios aggregated over all builds of a branch "></span>
+        </div>
+        <div class="col-lg-9">
+            <label>
+                <input type="radio" formControlName="createLastSuccessfulScenarioBuild" [value]="true"/>
+                yes
+            </label>&nbsp;&nbsp;&nbsp;
+            <label>
+                <input type="radio" formControlName="createLastSuccessfulScenarioBuild" [value]="false"/>
+                no
+            </label>
+        </div>
+    </div>
+</div>
