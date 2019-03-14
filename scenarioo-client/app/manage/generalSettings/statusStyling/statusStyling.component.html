@@ -1,3 +1,17 @@
-<h1>GeneralSettings by fapl</h1>
+<h2>Status Styling &nbsp;<span class="glyphicon glyphicon-info-sign"
+    uib-tooltip="This status styles can currently only be changed in the scenario config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span>
+</h2>
 
+<div class="row sc-space-bottom" *ngFor="let key of objectKeys(configuration.buildstates)" [formGroup]="statusStylingForm">
+    <div class="col-lg-3">
+        <b>{{ key }}</b>
+    </div>
 
+    <div class="col-lg-1">
+        <span class="glyphicon glyphicon-arrow-right"></span>
+    </div>
+
+    <div class="col-lg-8">
+        <span [ngClass]="configuration.buildstates[key]" class="label">{{ configuration.buildstates[key] }}</span>
+    </div>
+</div>

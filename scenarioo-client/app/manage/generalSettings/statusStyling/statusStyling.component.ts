@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Configuration} from "../../../shared/services/applicationStatus.service";
 

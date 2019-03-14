@@ -1,14 +1,14 @@
 <h2>Display Options</h2>
 
-<div class="row sc-space-bottom">
+<div class="row sc-space-bottom" [formGroup]="displayOptionsForm">
     <div class="col-lg-3">Default state of pages in scenario overview</div>
     <div class="col-lg-9">
         <label>
-            <input type="radio" name="expandPages" [(ngModel)]="configuration.expandPagesInScenarioOverview" [value]="false"/>
+            <input type="radio" [value]="false" formControlName="expandPagesInScenarioOverview"/>
                 collapsed
         </label>&nbsp;&nbsp;&nbsp;
         <label>
-            <input type="radio" name="expandPages" [(ngModel)]="configuration.expandPagesInScenarioOverview" [value]="true"/>
+            <input type="radio" [value]="true" formControlName="expandPagesInScenarioOverview"/>
             expanded
         </label>
     </div>

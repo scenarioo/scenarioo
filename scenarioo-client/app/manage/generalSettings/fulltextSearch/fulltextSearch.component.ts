@@ -1,6 +1,6 @@
-import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, AfterContentInit, OnChanges} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Configuration} from "../../../shared/services/applicationStatus.service";
+import {ApplicationStatus} from "../../../shared/services/applicationStatus.service";
 
 
 @Component({
@@ -9,7 +9,7 @@ import {Configuration} from "../../../shared/services/applicationStatus.service"
     styles: [require('./fulltextSearch.component.css').toString()],
 })
 export class FulltextSearchComponent implements OnChanges, OnInit {
-    @Input() configuration: Configuration;
+    @Input() applicationStatus: ApplicationStatus;
     @Output() formReady = new EventEmitter<FormGroup>();
     fulltextSearchForm: FormGroup;
 
@@ -23,7 +23,7 @@ export class FulltextSearchComponent implements OnChanges, OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         this.initForm();
-        if (changes.configuration) {
+        if (changes.searchEngineStatus) {
             this.fulltextSearchForm.patchValue({});
         }
     }
