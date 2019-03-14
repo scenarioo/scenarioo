@@ -35,7 +35,11 @@ describe('ConfigService', () => {
                 BUILD_STATE_SUCCESS: 'label-success',
                 BUILD_STATE_WARNING: 'label-warning'
             },
-            defaultBranchName: 'trunk'
+            defaultBranchName: 'trunk',
+            createLastSuccessfulScenarioBuild: false,
+            aliasForLastSuccessfulBuild: 'recent-successful',
+            aliasForMostRecentBuild: 'most-recent',
+            applicationName: 'Scenarioo'
         };
     const ConfigResourceMock = {
         get: () => Observable.of<Configuration>(angular.copy(DUMMY_CONFIG_RESPONSE))

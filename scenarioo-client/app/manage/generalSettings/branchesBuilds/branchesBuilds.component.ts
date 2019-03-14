@@ -30,9 +30,9 @@ export class BranchesBuildsComponent implements OnChanges, OnInit {
             this.branchesBuildsForm.patchValue({
                 defaultBranchName: this.configuration.defaultBranchName,
                 defaultBuildName: this.configuration.defaultBuildName,
-                aliasForMostRecentBuild: "TODO", // TODO: where does this value come from?!
-                aliasForLastSuccessfulBuild: "TODO", // TODO: where does this value come from?!
-                createLastSuccessfulScenarioBuild: false // TODO: where does this value come from?!
+                aliasForMostRecentBuild: this.configuration.aliasForMostRecentBuild,
+                aliasForLastSuccessfulBuild: this.configuration.aliasForLastSuccessfulBuild,
+                createLastSuccessfulScenarioBuild: this.configuration.createLastSuccessfulScenarioBuild
             });
         }
     }

@@ -54,9 +54,9 @@
         <status-styling [configuration]="applicationStatus.configuration" (formReady)="formInitialized('statusStylingForm', $event)"></status-styling>
     </div>
 
-    <div class="alert alert-success fade-out sc-space-top" ng-show="vm.successfullyUpdatedConfiguration">
+    <div class="alert alert-success fade-out sc-space-top" *ngIf="successfullyUpdatedConfiguration">
         The configuration has been successfully updated.
-        <a (click)="vm.successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
+        <a (click)="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
            style="color: #468847">
             <i class="fas fa-times"></i>
         </a>
@@ -71,4 +71,3 @@
 
 </form>
 
-{{settingsForm.value | json}}

@@ -31,6 +31,10 @@ export interface Configuration {
         [key: string]: string;
     };
     applicationInformation: string;
+    aliasForLastSuccessfulBuild: string;
+    aliasForMostRecentBuild: string;
+    createLastSuccessfulScenarioBuild: boolean;
+    applicationName: string;
 }
 
 export interface ApplicationVersion {
