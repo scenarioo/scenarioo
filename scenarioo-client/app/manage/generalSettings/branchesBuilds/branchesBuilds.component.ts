@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, AfterContentInit, OnChanges} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Configuration} from "../../../shared/services/applicationStatus.service";
 import {BranchBuild} from "../../../shared/services/branchesResource.service";

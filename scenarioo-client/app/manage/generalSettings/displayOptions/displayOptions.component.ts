@@ -1,6 +1,6 @@
-import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApplicationStatus, Configuration} from "../../../shared/services/applicationStatus.service";
+import {Configuration} from "../../../shared/services/applicationStatus.service";
 
 
 @Component({
@@ -8,7 +8,7 @@ import {ApplicationStatus, Configuration} from "../../../shared/services/applica
     template: require('./displayOptions.component.html'),
     styles: [require('./displayOptions.component.css').toString()],
 })
-export class DisplayOptionsComponent implements OnInit {
+export class DisplayOptionsComponent implements OnInit, OnChanges {
     @Input() configuration: Configuration;
     @Output() formReady = new EventEmitter<FormGroup>();
     displayOptionsForm: FormGroup;
@@ -17,8 +17,26 @@ export class DisplayOptionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.displayOptionsForm = this.fb.group({ });
+        this.initForm();
         this.formReady.emit(this.displayOptionsForm);
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        this.initForm();
+        if(changes.configuration) {
+            this.displayOptionsForm.patchValue({
+                // TODO: where does the config value come from?!
+                // expandPagesInScenarioOverview: this.configuration.???
+                expandPagesInScenarioOverview: false
+            });
+        }
+    }
+
+    initForm(): void {
+        if (!this.displayOptionsForm) {
+            this.displayOptionsForm = this.fb.group({
+                expandPagesInScenarioOverview: null
+            });
+        }
+    }
 }

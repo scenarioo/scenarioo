@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 
-
 <uib-tabset class="step-panes" active="vm.activeIndex">
     <uib-tab ng-repeat="tab in vm.tabs" heading="{{tab.title}}" select="vm.setSelectedTabInUrl(tab.index)">
         <ng-include src="vm.getLazyTabContentViewUrl(tab.index)"/>

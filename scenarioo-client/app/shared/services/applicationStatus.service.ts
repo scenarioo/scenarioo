@@ -33,7 +33,7 @@ export interface Configuration {
     applicationInformation: string;
 }
 
-interface ApplicationVersion {
+export interface ApplicationVersion {
     version: string;
     buildDate: string;
     apiVersion: string;

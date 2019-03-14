@@ -1,59 +1,61 @@
-<div [formGroup]="displayOptionsForm">
+<div [formGroup]="fulltextSearchForm">
 
     <h2>Full Text Search</h2>
 
     <div id="sc-search-not-configured-message" class="row sc-space-bottom"
-         ng-show="vm.searchEngineStatus && !vm.searchEngineStatus.endpointConfigured" ng-cloak>
+         *ngIf="!applicationStatus.searchEngineStatus && !applicationStatus.searchEngineStatus.endpointConfigured">
         <div class="col-lg-12">
             Full text search is <span class="sc-service-disabled">disabled</span>. <br/>
             See <a
-            href="http://www.scenarioo.org/docs/{{vm.version.documentationVersion}}/features/full-text-search/setup.html"
+            href="http://www.scenarioo.org/docs/{{applicationStatus.version.documentationVersion}}/features/full-text-search/setup.html"
             target="_blank">Setup instructions for Full Text Search</a> on how to configure and setup Full text
             search for Scenarioo.
         </div>
     </div>
 
-    <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
-        <div class="col-lg-3">Elasticsearch Endpoint
-            &nbsp;<span class="glyphicon glyphicon-info-sign"
-                        uib-tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. You can change the endpoint in the elasticSearchEndpoint tag in config.xml."></span>
-        </div>
-        <div class="col-lg-9" id="sc-configured-search-endpoint">
-            {{vm.searchEngineStatus.endpoint}}
-        </div>
-    </div>
+    <div *ngIf="applicationStatus.searchEngineStatus.endpointConfigured">
 
-    <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
-        <div class="col-lg-3">Elasticsearch Cluster Name
-            &nbsp;<span class="glyphicon glyphicon-info-sign"
-                        uib-tooltip="Elasticsearch cluster name used for scenarioo. Can be configured in config.xml in your scenarioo data directory."></span>
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Elasticsearch Endpoint
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. You can change the endpoint in the elasticSearchEndpoint tag in config.xml."></span>
+            </div>
+            <div class="col-lg-9" id="sc-configured-search-endpoint">
+                {{applicationStatus.searchEngineStatus.endpoint}}
+            </div>
         </div>
-        <div class="col-lg-9" id="sc-configured-search-cluster-name">
-            {{vm.configuration.elasticSearchClusterName}}
-        </div>
-    </div>
 
-    <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
-        <div class="col-lg-3">Elasticsearch Status
-            &nbsp;<span class="glyphicon glyphicon-info-sign"
-                        uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Elasticsearch Cluster Name
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Elasticsearch cluster name used for scenarioo. Can be configured in config.xml in your scenarioo data directory."></span>
+            </div>
+            <div class="col-lg-9" id="sc-configured-search-cluster-name">
+                {{applicationStatus.configuration.elasticSearchClusterName}}
+            </div>
         </div>
-        <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" ng-show="!vm.searchEngineStatus.running">
-    <span class="sc-service-disabled">
-    Not running / reachable
-    <span class="glyphicon glyphicon-exclamation-sign"></span>
-    </span>
-        </div>
-        <div id="sc-search-endpoint-is-reachable" class="col-lg-9" ng-show="vm.searchEngineStatus.running">
-            <span class="sc-service-enabled">Running and reachable</span>
-        </div>
-    </div>
 
-    <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
-        <div class="col-lg-12">
-            See <a
-            href="http://www.scenarioo.org/docs/{{vm.version.documentationVersion}}/features/full-text-search/setup.html"
-            target="_blank">Setup Instructions for Full Text Search</a> for more information.
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Elasticsearch Status
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
+            </div>
+            <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" *ngIf="!applicationStatus.searchEngineStatus.running">
+        <span class="sc-service-disabled">
+        Not running / reachable
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+        </span>
+            </div>
+            <div id="sc-search-endpoint-is-reachable" class="col-lg-9" *ngIf="applicationStatus.searchEngineStatus.running">
+                <span class="sc-service-enabled">Running and reachable</span>
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-12">
+                See <a href="http://www.scenarioo.org/docs/{{applicationStatus.version.documentationVersion}}/features/full-text-search/setup.html" target="_blank">
+                Setup Instructions for Full Text Search</a> for more information.
+            </div>
         </div>
     </div>
 </div>

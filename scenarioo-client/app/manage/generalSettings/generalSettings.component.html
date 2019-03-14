@@ -1,10 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<form [formGroup]="settingsForm" class="configuration">
+
+    <div *ngIf="applicationStatus">
+        <h2>General</h2>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Documentation Data Directory Path
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Absolute path to the directory where the config.xml file and generated documentation data is stored (web server needs read & write access to this folder)"></span>
+            </div>
+            <div class="col-lg-9">
+                {{applicationStatus.documentationDataDirectory}}
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Application Name
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Name of your documented application. Is shown in the browser title bar and in the navigation bar."></span>
+            </div>
+            <div class="col-lg-9">
+                <input type="text" formControlName="applicationName" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Application Welcome Message
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Application specific welcome message to show to users of your scenarioo documentation in info popup dialog. This is the place to explain to your stakeholders how your scenarioo documentation is structured. It is also recommended to place an email link here, where your stakeholders could ask questions or give feedback about the documentation."></span>
+            </div>
+            <div class="col-lg-9">
+                <textarea formControlName="applicationInformation" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="applicationStatus">
+        <fulltext-search [applicationStatus]="applicationStatus" (formReady)="formInitialized('fulltextSearchForm', $event)"></fulltext-search>
+    </div>
+
+    <div *ngIf="applicationStatus && branchBuilds">
+        <branches-builds [configuration]="applicationStatus.configuration" [branchBuilds]="branchBuilds" [configuredBranch]="configuredBranch" (formReady)="formInitialized('branchesBuildsForm', $event)"></branches-builds>
+    </div>
+
+    <div *ngIf="applicationStatus">
+        <additional-columns [configuration]="applicationStatus.configuration" (formReady)="formInitialized('additionalColumnsForm', $event)"></additional-columns>
+    </div>
+
+    <div *ngIf="applicationStatus">
+        <display-options [configuration]="applicationStatus.configuration" (formReady)="formInitialized('displayOptionsForm', $event)"></display-options>
+    </div>
+
+    <div *ngIf="applicationStatus">
+        <status-styling [configuration]="applicationStatus.configuration" (formReady)="formInitialized('statusStylingForm', $event)"></status-styling>
+    </div>
+
+    <div class="alert alert-success fade-out sc-space-top" ng-show="vm.successfullyUpdatedConfiguration">
+        The configuration has been successfully updated.
+        <a (click)="vm.successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
+           style="color: #468847">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+
+    <div class="row sc-space-top">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" (click)="resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
+            <input type="button" (click)="updateConfiguration()" value="Save" class="btn btn-wide btn-primary"/>
+        </div>
+    </div>
+
+</form>
+
+{{settingsForm.value | json}}
