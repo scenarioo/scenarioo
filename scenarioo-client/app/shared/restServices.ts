@@ -21,7 +21,6 @@ import "./services/buildImportStatesResource.service";
 import "./services/buildImportLogResource.service";
 import "./services/buildReimportResource.service";
 import "./services/buildImport.service";
-import "./services/pageVariant.service";
 import "./services/fullTextSearch.service";
 import "./services/stepResource.service";
 import "./services/configResource.service";
