@@ -75,6 +75,11 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 		configurer.favorPathExtension(false);
 	}
 
+	/**
+	 * Spring Boot uses the StrictHttpFirewall. By default it blocks requests containing URL encoded percent signs.
+	 * In the Scenarioo End to End Tests this occurs in the scenario "Use breadcrumbs > Tooltip in breadcrumbs".
+	 * If this feature is not disabled then an Internal Server Error is shown to the user.
+	 */
 	@Bean
 	public HttpFirewall allowUrlEncodedPercentHttpFirewall() {
 		StrictHttpFirewall firewall = new StrictHttpFirewall();
