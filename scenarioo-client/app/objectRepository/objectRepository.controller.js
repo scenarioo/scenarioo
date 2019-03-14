@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
 function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService,
                                     TreeNodeService, ReferenceTreeNavigationService, $filter) {
 
-   var vm = this;
+    var vm = this;
 
     vm.treemodel = [];
     vm.object = {};
@@ -50,9 +50,10 @@ function ObjectRepositoryController($routeParams, $location, ObjectIndexListReso
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                objectType: objectType,
-                objectName: objectName
             },
+            objectType,
+            objectName
+        ).subscribe(
             function (result) {
                 vm.object = result;
                 var transformedMetaDataTree = transformMetadataToTree(result.object.details);

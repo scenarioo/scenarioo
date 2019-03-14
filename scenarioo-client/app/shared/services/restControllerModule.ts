@@ -20,6 +20,7 @@ import {CustomTabContentResource} from './customTabContentResource.service';
 import {FullTextSearchService} from './fullTextSearch.service';
 import {LabelConfigurationsListResource} from './labelConfigurationsListResource.service';
 import {LabelConfigurationsResource} from './labelConfigurationsResource.service';
+import {ObjectIndexListResource} from "./objectIndexListResource.service";
 
 @NgModule({
     declarations: [],
@@ -51,6 +52,8 @@ import {LabelConfigurationsResource} from './labelConfigurationsResource.service
         FullTextSearchService,
         LabelConfigurationsListResource,
         LabelConfigurationsResource,
+        ObjectIndexListResource,
+        
     ],
 })
 export class RestControllerModule {
