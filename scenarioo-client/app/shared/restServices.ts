@@ -30,7 +30,6 @@ import "./services/versionResource.service";
 import "./services/branchAliasResource.service";
 import "./services/customTabContentResource.service";
 import "./services/objectIndexListResource.service";
-import "./services/useCasesResources.service";
 import "./services/labelConfigurationsListResource.service";
 import "./services/labelConfigurationsResource.service";
 import "./services/comparisonsResource.service";

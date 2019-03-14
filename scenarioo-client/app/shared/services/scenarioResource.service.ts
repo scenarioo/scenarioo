@@ -43,7 +43,7 @@ interface Details {
     [key: string]: any;
 }
 
-interface Labels {
+export interface Labels {
     labels: string[];
     empty: boolean;
 }
