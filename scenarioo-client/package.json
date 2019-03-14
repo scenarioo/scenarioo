@@ -22,7 +22,7 @@
         "webpack-dev-server": "webpack-dev-server",
         "start": "webpack-dev-server -d --inline --progress --port 8500",
         "start-dev": "webpack-dev-server -d --inline --progress --port 8500 --watch",
-        "lint": "npm run lint-js && npm run lint-ts-e2e",
+        "lint": "npm run lint-js && npm run lint-ts-e2e && npm run lint:app",
         "lint-ci": "eslint \"app/**/*.js\" \"test/**/*.js\" -f junit -o ../test-results/lint/eslint.xml; tslint \"test/e2e/**/*.ts\" --project tsconfig.json --format junit -o -o ../test-results/lint/tslint.xml",
         "lint-js": "eslint \"app/**/*.js\" \"test/**/*.js\"",
         "lint-ts-e2e": "tslint \"test/e2e/**/*.ts\" --project tsconfig.json",
