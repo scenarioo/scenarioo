@@ -27,7 +27,6 @@ import "./services/stepResource.service";
 import "./services/configResource.service";
 import "./services/useCasesResource.service";
 import "./services/scenarioResource.service";
-import "./services/objectsForTypeResource.service";
 import "./services/versionResource.service";
 import "./services/branchAliasResource.service";
 import "./services/customTabContentResource.service";
