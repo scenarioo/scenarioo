@@ -23,7 +23,7 @@ import {Observable} from "rxjs";
 describe('StepController', function () {
 
     let $scope, $routeParams, $location, $q, $window, ConfigService,
-        ScenarioResource, StepResource,
+        StepResource,
         BuildDiffInfoResource, StepDiffInfoResource,
         SelectedBranchAndBuildService, DiffInfoService, BranchesResource,
         $controller, $httpBackend, TestData,
@@ -51,6 +51,10 @@ describe('StepController', function () {
     let LabelConfigurationsResourceMock = {
         query: () => Observable.of({}),
     };
+    let ScenarioResourceMock = {
+        get: () => Observable.of({}),
+        getUseCaseScenarios: () => Observable.of({})
+    };
 
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
@@ -62,10 +66,11 @@ describe('StepController', function () {
         });
         $provide.value("ConfigResource", ConfigResourceMock);
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value("ScenarioResource", ScenarioResourceMock);
     }));
 
     beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
-                                _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_,
+                                _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_,
                                 _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
                                 _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) {
         $scope = _$rootScope_.$new();
@@ -74,7 +79,6 @@ describe('StepController', function () {
         $q = _$q_;
         $window = _$window_;
         ConfigService = _ConfigService_;
-        ScenarioResource = _ScenarioResource_;
         RelatedIssueResource = _RelatedIssueResource_;
         StepResource = _StepResource_;
         BuildDiffInfoResource = _BuildDiffInfoResource_;
@@ -106,7 +110,7 @@ describe('StepController', function () {
                 $q: $q,
                 $window: $window,
                 ConfigService: ConfigService,
-                ScenarioResource: ScenarioResource,
+                ScenarioResource: ScenarioResourceMock,
                 StepResource: StepResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 DiffInfoService: DiffInfoService,
@@ -274,7 +278,7 @@ describe('StepController', function () {
                 $q: $q,
                 $window: $window,
                 ConfigService: ConfigService,
-                ScenarioResource: ScenarioResource,
+                ScenarioResource: ScenarioResourceMock,
                 StepResource: StepResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 ApplicationInfoPopupService: {},

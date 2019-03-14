@@ -1,11 +1,10 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {BuildInfo} from "./comparisonCreateResource.service";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {BuildInfo} from './comparisonCreateResource.service';
 
 declare var angular: angular.IAngularStatic;
-
 
 @Injectable()
 export class ObjectIndexListResource {

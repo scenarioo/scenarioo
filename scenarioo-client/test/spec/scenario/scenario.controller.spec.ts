@@ -17,6 +17,8 @@
 
 'use strict';
 
+import {UseCaseScenarios} from "../../../app/shared/services/scenarioResource.service";
+
 declare var angular: angular.IAngularStatic;
 import {Observable} from "rxjs";
 import {Configuration} from "../../../app/shared/services/applicationStatus.service";
@@ -32,12 +34,21 @@ describe('ScenarioController', function () {
     let LabelConfigurationsResourceMock = {
         query: () => Observable.of({}),
     };
+    let ScenarioResourceMock = {
+        get: () => Observable.of(TestData.SCENARIO),
+        getUseCaseScenarios: () => Observable.of<UseCaseScenarios>({
+            useCase: TestData.SCENARIO.useCase,
+            scenarios: [TestData.SCENARIO.scenario]
+        })
+    };
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         $provide.value("ConfigResource", ConfigResourceMock);
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value("ScenarioResource", ScenarioResourceMock);
     }));
 
 
@@ -163,12 +174,11 @@ describe('ScenarioController', function () {
             config = TestData.CONFIG;
         }
         spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(config));
-
-        $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario')
-            .respond(TestData.SCENARIO);
+        spyOn(ScenarioResourceMock, "getUseCaseScenarios").and.returnValue(Observable.of(TestData.SCENARIO));
 
         ConfigService.load();
-        $httpBackend.flush();
+        $scope.$apply();
+
     }
 
     function expectAllPagesAreExpanded() {
