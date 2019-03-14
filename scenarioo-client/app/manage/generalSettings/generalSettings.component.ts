@@ -16,6 +16,8 @@ export class GeneralSettingsComponent implements OnInit {
     branchBuilds: BranchBuild[];
     configuredBranch: BranchBuild;
 
+    successfullyUpdatedConfiguration: boolean;
+
     constructor(
         private fb: FormBuilder,
         private br: BranchesResource,
@@ -43,12 +45,10 @@ export class GeneralSettingsComponent implements OnInit {
 
     populateForm(): void {
         this.settingsForm.patchValue({
-           applicationName: "TODO", // TODO: where does this value come from?
+           applicationName: this.applicationStatus.configuration.applicationName,
            applicationInformation: this.applicationStatus.configuration.applicationInformation
         });
     }
-
-    // TODO: reset, update via ConfigService
 
     calculateConfiguredBranch(): void {
         if (!this.branchBuilds || !this.applicationStatus || !this.applicationStatus.configuration) {
@@ -64,6 +64,19 @@ export class GeneralSettingsComponent implements OnInit {
 
     formInitialized(name: string, form: FormGroup): void {
         this.settingsForm.setControl(name, form);
+    }
+
+    resetConfiguration(): void {
+        // vm.configuration = ConfigService.getRawConfigDataCopy();
+        this.calculateConfiguredBranch();
+    }
+
+    updateConfiguration(): void {
+        this.successfullyUpdatedConfiguration = false;
+
+        // ConfigService.updateConfiguration(vm.configuration, () => {
+        //     this.successfullyUpdatedConfiguration = true;
+        // });
     }
 
 }
