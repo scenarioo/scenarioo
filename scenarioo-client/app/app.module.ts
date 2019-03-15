@@ -12,6 +12,7 @@ import {DisplayOptionsComponent} from "./manage/generalSettings/displayOptions/d
 import {AdditionalColumnsComponent} from "./manage/generalSettings/additionalColumns/additionalColumns.component";
 import {BranchesBuildsComponent} from "./manage/generalSettings/branchesBuilds/branchesBuilds.component";
 import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/fulltextSearch.component";
+import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/f
         AdditionalColumnsComponent,
         BranchesBuildsComponent,
         GeneralSettingsComponent,
-        FulltextSearchComponent
+        FulltextSearchComponent,
+        LabelColorsComponent
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -30,7 +32,8 @@ import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/f
         AdditionalColumnsComponent,
         BranchesBuildsComponent,
         GeneralSettingsComponent,
-        FulltextSearchComponent
+        FulltextSearchComponent,
+        LabelColorsComponent
     ],
     imports: [
         BrowserModule,
