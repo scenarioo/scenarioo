@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function ($location, $rootScope, LocalStorageService, ConfigService) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function ($location, $rootScope, LocalStorageService, NewConfigService) {
 
     var BRANCH_KEY = 'branch';
     var BUILD_KEY = 'build';
@@ -39,8 +39,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         };
     }
 
-
-    $rootScope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
+    NewConfigService.configLoaded$.subscribe(() => {
         calculateSelectedBranchAndBuild();
     });
 
@@ -68,7 +67,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         }
 
         // If URL and cookie do not specify a value, we use the default from the config
-        value = ConfigService.defaultBranchAndBuild()[key];
+        value = NewConfigService.defaultBranchAndBuild()[key];
         if (angular.isDefined(value)) {
             LocalStorageService.set(key, value);
             $location.search(key, value);

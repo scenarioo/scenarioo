@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Version} from "../../services/versionResource.service";
+import {Version} from '../../services/versionResource.service';
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
-        $scope.$watch(function () {
+        $scope.$watch(function() {
             return ConfigService.applicationInformation();
-        }, function (applicationInformation) {
+        }, function(applicationInformation) {
             $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
         });
 
@@ -30,7 +30,7 @@ angular.module('scenarioo.services')
             $scope.version = result;
         });
 
-        $scope.closeInfoModal = function () {
+        $scope.closeInfoModal = function() {
             $uibModalInstance.dismiss('cancel');
         };
     });

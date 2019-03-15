@@ -1,7 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Configuration} from "../../../shared/services/applicationStatus.service";
-
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Configuration} from '../../../shared/services/applicationStatus.service';
 
 @Component({
     selector: 'display-options',
@@ -23,11 +22,9 @@ export class DisplayOptionsComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         this.initForm();
-        if(changes.configuration) {
+        if (changes.configuration) {
             this.displayOptionsForm.patchValue({
-                // TODO: where does the config value come from?!
-                // expandPagesInScenarioOverview: this.configuration.???
-                expandPagesInScenarioOverview: false
+                expandPagesInScenarioOverview: this.configuration.expandPagesInScenarioOverview
             });
         }
     }
@@ -35,7 +32,7 @@ export class DisplayOptionsComponent implements OnInit, OnChanges {
     initForm(): void {
         if (!this.displayOptionsForm) {
             this.displayOptionsForm = this.fb.group({
-                expandPagesInScenarioOverview: null
+                expandPagesInScenarioOverview: null,
             });
         }
     }

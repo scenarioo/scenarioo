@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
-import {BranchBuild, BranchesResource} from "../../shared/services/branchesResource.service";
-import {ApplicationStatus, ApplicationStatusService} from "../../shared/services/applicationStatus.service";
+import {BranchBuild, BranchesResource} from '../../shared/services/branchesResource.service';
+import {ApplicationStatus, ApplicationStatusService} from '../../shared/services/applicationStatus.service';
+import {NewConfigService} from '../new-config.service';
 
 @Component({
     selector: 'general-settings',
@@ -19,34 +20,34 @@ export class GeneralSettingsComponent implements OnInit {
     successfullyUpdatedConfiguration: boolean;
 
     constructor(
-        private fb: FormBuilder,
-        private br: BranchesResource,
-        // private cs: ConfigService,
-        private ass: ApplicationStatusService
+        private formBuilder: FormBuilder,
+        private branchesResource: BranchesResource,
+        private configService: NewConfigService,
+        private appStatusService: ApplicationStatusService,
     ) { }
 
     ngOnInit() {
-        this.br.query().subscribe((branches) => {
+        this.branchesResource.query().subscribe((branches) => {
             this.branchBuilds = branches;
             this.calculateConfiguredBranch();
         });
 
-        this.ass.getApplicationStatus().subscribe((status: ApplicationStatus) => {
+        this.appStatusService.getApplicationStatus().subscribe((status: ApplicationStatus) => {
             this.applicationStatus = status;
             this.calculateConfiguredBranch();
             this.populateForm();
         });
 
-        this.settingsForm = this.fb.group({
+        this.settingsForm = this.formBuilder.group({
             applicationName: null,
-            applicationInformation: null
+            applicationInformation: null,
         });
     }
 
     populateForm(): void {
         this.settingsForm.patchValue({
            applicationName: this.applicationStatus.configuration.applicationName,
-           applicationInformation: this.applicationStatus.configuration.applicationInformation
+           applicationInformation: this.applicationStatus.configuration.applicationInformation,
         });
     }
 
@@ -67,16 +68,16 @@ export class GeneralSettingsComponent implements OnInit {
     }
 
     resetConfiguration(): void {
-        // vm.configuration = ConfigService.getRawConfigDataCopy();
+        this.applicationStatus.configuration = this.configService.getRawConfigDataCopy();
         this.calculateConfiguredBranch();
     }
 
     updateConfiguration(): void {
         this.successfullyUpdatedConfiguration = false;
 
-        // ConfigService.updateConfiguration(vm.configuration, () => {
-        //     this.successfullyUpdatedConfiguration = true;
-        // });
+        this.configService.updateConfiguration(this.applicationStatus.configuration, () => {
+            this.successfullyUpdatedConfiguration = true;
+        });
     }
 
 }

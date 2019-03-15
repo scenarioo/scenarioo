@@ -15,44 +15,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as $ from "jquery"
+import * as $ from 'jquery';
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
+angular.module('scenarioo.directives').directive('scBreadcrumbs', function($routeParams, $location, $route, $compile,
                                                                             $filter, $sce, $uibModal, BreadcrumbsService,
                                                                             SharePagePopupService, SketcherLinkService) {
-    var limit = 50;
+    const limit = 50;
 
     return {
         restrict: 'E',
         priority: 0,
         replace: true,
         template: require('./breadcrumbs.html'),
-        link: function (scope: any) {
+        link(scope: any) {
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
             scope.createComparison = createComparison;
 
-            var navParameters: any;
-            var breadcrumbId = $route.current.$$route.breadcrumbId;
+            let navParameters: any;
+            const breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
             navParameters = getNavigationParameters();
 
-            var navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
+            const navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
-            angular.forEach(navElements, function (breadcrumbItem) {
+            angular.forEach(navElements, function(breadcrumbItem) {
 
                 // Create breadcrumb objects
-                var isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
-                var breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
-                var breadcrumb = {
+                const isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
+                const breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
+                const breadcrumb = {
                     text: breadcrumbLabelText,
                     tooltip: breadcrumbItem.textForTooltip,
                     showTooltip: isLabelTextShortened,
                     href: '#' + breadcrumbItem.route,
-                    isLast: breadcrumbItem.isLastNavigationElement
+                    isLast: breadcrumbItem.isLastNavigationElement,
                 };
 
                 // make sure we can bind html to view
@@ -62,14 +62,14 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
             scope.email = {
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
-                link: encodeURIComponent($location.absUrl())
+                link: encodeURIComponent($location.absUrl()),
             };
 
-            scope.showStepLinks = function () {
+            scope.showStepLinks = function() {
                 SharePagePopupService.showShareStepPopup();
             };
 
-        }
+        },
     };
 
     function createComparison() {
@@ -77,7 +77,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             template: require('../../../manage/comparisons/createComparisonModal.html'),
             controller: 'CreateComparisonModalController',
             controllerAs: 'vm',
-            windowClass: 'modal-small'
+            windowClass: 'modal-small',
         });
     }
 
@@ -94,13 +94,13 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             stepInPageOccurrence: parseInt($routeParams.stepInPageOccurrence, 10),
             objectType: $routeParams.objectType,
             objectName: $routeParams.objectName,
-            searchTerm: encodeURIComponent($('<div/>').text($routeParams.searchTerm).html())
+            searchTerm: encodeURIComponent($('<div/>').text($routeParams.searchTerm).html()),
         };
     }
 
     function getShortenedText(text) {
         if (text.length > limit) {
-            var shortenedText = text.substr(0, limit);
+            const shortenedText = text.substr(0, limit);
             return shortenedText + '...';
         }
         return text;

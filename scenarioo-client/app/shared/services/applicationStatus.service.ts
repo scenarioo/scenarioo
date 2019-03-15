@@ -35,6 +35,9 @@ export interface Configuration {
     aliasForMostRecentBuild: string;
     createLastSuccessfulScenarioBuild: boolean;
     applicationName: string;
+    expandPagesInScenarioOverview: boolean;
+    branchSelectionListOrder: string;
+    diffImageColor: string;
 }
 
 export interface ApplicationVersion {

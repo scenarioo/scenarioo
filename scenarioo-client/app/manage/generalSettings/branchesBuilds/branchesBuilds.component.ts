@@ -1,8 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Configuration} from "../../../shared/services/applicationStatus.service";
-import {BranchBuild} from "../../../shared/services/branchesResource.service";
-
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Configuration} from '../../../shared/services/applicationStatus.service';
+import {BranchBuild} from '../../../shared/services/branchesResource.service';
 
 @Component({
     selector: 'branches-builds',
@@ -32,7 +31,7 @@ export class BranchesBuildsComponent implements OnChanges, OnInit {
                 defaultBuildName: this.configuration.defaultBuildName,
                 aliasForMostRecentBuild: this.configuration.aliasForMostRecentBuild,
                 aliasForLastSuccessfulBuild: this.configuration.aliasForLastSuccessfulBuild,
-                createLastSuccessfulScenarioBuild: this.configuration.createLastSuccessfulScenarioBuild
+                createLastSuccessfulScenarioBuild: this.configuration.createLastSuccessfulScenarioBuild,
             });
         }
     }
@@ -44,7 +43,7 @@ export class BranchesBuildsComponent implements OnChanges, OnInit {
                 defaultBuildName: null,
                 aliasForMostRecentBuild: null,
                 aliasForLastSuccessfulBuild: null,
-                createLastSuccessfulScenarioBuild: null
+                createLastSuccessfulScenarioBuild: null,
             });
         }
     }

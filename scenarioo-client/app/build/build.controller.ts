@@ -22,7 +22,7 @@
  */
 angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
-function BuildController($scope, $location, ConfigService) {
+function BuildController($scope, $location, NewConfigService) {
 
     const vm = this;
     vm.tabs = undefined;
@@ -39,28 +39,26 @@ function BuildController($scope, $location, ConfigService) {
                 index: 0,
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'build/useCasesTab.html'
-            }
+                contentViewUrl: 'build/useCasesTab.html',
+            },
         ];
         vm.tabIndices.usecases = 0;
     }
 
-
     function activate() {
-        // Load configuration and trigger definition of tabs from config.
-        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
-            const config = ConfigService.getRawConfigDataCopy();
+
+        NewConfigService.configLoaded$.subscribe(() => {
+            const config = NewConfigService.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
             defineLastStaticTabs();
             selectTabFromUrl();
         });
-        ConfigService.load();
+        NewConfigService.load();
 
         $scope.$watch(() => $location.path(), () => {
             selectTabFromUrl();
         });
-
 
     }
 
@@ -71,7 +69,7 @@ function BuildController($scope, $location, ConfigService) {
                 tabId: customTab.id,
                 title: customTab.tabTitle,
                 columns: customTab.customObjectDetailColumns,
-                contentViewUrl: 'build/customTab.html'
+                contentViewUrl: 'build/customTab.html',
             });
             vm.tabIndices[customTab.id] = index + 1;
         });
@@ -83,7 +81,7 @@ function BuildController($scope, $location, ConfigService) {
             index: i,
             tabId: 'sketches',
             title: 'Sketches',
-            contentViewUrl: 'build/sketchesTab.html'
+            contentViewUrl: 'build/sketchesTab.html',
         });
         vm.tabIndices.sketches = i;
     }

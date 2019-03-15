@@ -39,7 +39,10 @@ describe('ConfigService', () => {
             createLastSuccessfulScenarioBuild: false,
             aliasForLastSuccessfulBuild: 'recent-successful',
             aliasForMostRecentBuild: 'most-recent',
-            applicationName: 'Scenarioo'
+            applicationName: 'Scenarioo',
+            expandPagesInScenarioOverview: false,
+            branchSelectionListOrder: '123',
+            diffImageColor: '0x7fff7e00'
         };
     const ConfigResourceMock = {
         get: () => Observable.of<Configuration>(angular.copy(DUMMY_CONFIG_RESPONSE))

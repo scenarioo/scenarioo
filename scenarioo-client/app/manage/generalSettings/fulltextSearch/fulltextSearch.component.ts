@@ -1,7 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, SimpleChanges, Input, OnChanges} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApplicationStatus} from "../../../shared/services/applicationStatus.service";
-
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {ApplicationStatus} from '../../../shared/services/applicationStatus.service';
 
 @Component({
     selector: 'fulltext-search',
