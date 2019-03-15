@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {ConfigResource} from '../shared/services/configResource.service';
 import {Configuration} from '../shared/services/applicationStatus.service';
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
