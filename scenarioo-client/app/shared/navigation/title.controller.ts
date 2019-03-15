@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('TitleController', TitleContr
 
 function TitleController($scope, NewConfigService) {
 
-  var vm = this;
+  let vm = this;
   vm.text = '';
 
   activate();

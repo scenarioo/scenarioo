@@ -17,13 +17,13 @@
 
 angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function ($location, $rootScope, LocalStorageService, NewConfigService) {
 
-    var BRANCH_KEY = 'branch';
-    var BUILD_KEY = 'build';
+    const BRANCH_KEY = 'branch';
+    const BUILD_KEY = 'build';
 
-    var selectedBranch;
-    var selectedBuild;
-    var initialValuesFromUrlAndCookieLoaded = false;
-    var selectionChangeCallbacks = [];
+    let selectedBranch;
+    let selectedBuild;
+    let initialValuesFromUrlAndCookieLoaded = false;
+    let selectionChangeCallbacks = [];
 
     function getSelectedBranchAndBuild() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -49,10 +49,10 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
     }
 
     function getFromLocalStorageOrUrl(key) {
-        var value;
+        let value;
 
         // check URL first, this has priority over the cookie value
-        var params = $location.search();
+        let params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
             LocalStorageService.set(key, value);
@@ -99,14 +99,14 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
 
     function registerSelectionChangeCallback(callback) {
         addCallback(selectionChangeCallbacks, callback);
-        var selected = getSelectedBranchAndBuild();
+        let selected = getSelectedBranchAndBuild();
         if (isBranchAndBuildDefined()) {
             callback(selected);
         }
     }
 
     function addCallback(callbackList, newCallback) {
-        var callbackListContainsNewCallback = false;
+        let callbackListContainsNewCallback = false;
         angular.forEach(callbackList, function(callback){
             if(callback.toString() === newCallback.toString()) {
                 callbackListContainsNewCallback = true;
