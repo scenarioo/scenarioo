@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {ConfigResource} from '../shared/services/configResource.service';
-import {Configuration} from "../shared/services/applicationStatus.service";
+import {Configuration} from '../shared/services/applicationStatus.service';
 import {Observable, Subject} from "rxjs";
 
 declare var angular: angular.IAngularStatic;
@@ -92,7 +92,7 @@ export class NewConfigService {
     defaultBranchAndBuild() {
         return {
             branch: this.configData.defaultBranchName,
-            build: this.configData.defaultBuildName
+            build: this.configData.defaultBuildName,
         };
     }
 

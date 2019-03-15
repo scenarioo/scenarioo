@@ -26,7 +26,7 @@ function TitleController($scope, NewConfigService) {
 
   function activate() {
 
-      NewConfigService.configLoaded$.subscribe(() => {
+          NewConfigService.configLoaded$.subscribe((val) => {
           vm.text = 'Scenarioo ' + NewConfigService.applicationName()
       });
 

@@ -39,7 +39,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         };
     }
 
-    NewConfigService.configLoaded$.subscribe(() => {
+    NewConfigService.configLoaded$.subscribe((val) => {
         calculateSelectedBranchAndBuild();
     });
 

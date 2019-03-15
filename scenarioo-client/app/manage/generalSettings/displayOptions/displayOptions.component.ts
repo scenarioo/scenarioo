@@ -24,7 +24,7 @@ export class DisplayOptionsComponent implements OnInit, OnChanges {
         this.initForm();
         if (changes.configuration) {
             this.displayOptionsForm.patchValue({
-                expandPagesInScenarioOverview: this.configuration.expandPagesInScenarioOverview
+                expandPagesInScenarioOverview: this.configuration.expandPagesInScenarioOverview,
             });
         }
     }
