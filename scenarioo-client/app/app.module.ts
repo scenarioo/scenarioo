@@ -6,13 +6,16 @@ import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import { HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from "./shared/services/restControllerModule";
+import {LabelColorsComponent} from './manage/labelColors/labelColors.component';
 
 @NgModule({
     declarations: [
-        LabelMetadataComponent
+        LabelMetadataComponent,
+        LabelColorsComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
+        LabelColorsComponent,
     ],
     imports: [
         BrowserModule,

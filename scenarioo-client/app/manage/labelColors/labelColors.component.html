@@ -1,0 +1,49 @@
+<div>
+    <form name="labelConfigurationsForm">
+        <table class="table table-curved table-responsive" id="label-configurations-table">
+            <thead>
+            <tr>
+                <th>Label Name</th>
+                <th>Color</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let labelConfiguration of labelConfigurations; let i = index;" id="label-configuration-{{i}}">
+                <td>
+                    <label>
+                        <input type="text" class="ng-pristine ng-valid form-control" [value]="labelConfiguration.name" (input)="labelConfiguration.name = $event.target.value; addNewRow()" name="labelName" />
+                    </label>
+                </td>
+                <td style="vertical-align: middle;">
+                    <ul class="sc-color-chooser">
+                        <li *ngFor="let color of availableColors">
+
+                                <span [ngStyle]="{'background-color': color.backgroundColor}" class="sc-color-field" (click)="selectColor(labelConfiguration, color)"
+                                      [ngClass]="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
+                        </li>
+                    </ul>
+
+                    <span *ngIf="colorMissing[i]" class="sc-error-span">Please choose a color</span>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-small btn-danger" value="Delete" (click)="deleteEntry(labelConfiguration)" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-success fade-out" id="changed-label-config-successfully" [hidden]="!successfullyUpdatedLabelConfigurations">
+            The label configurations have been successfully updated.
+            <a (click)="successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover" style="color: #468847">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+
+        <div class="row sc-space-top-large">
+            <div class="col-lg-12" style="text-align: right">
+                <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="reset()"/>
+                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()" ng-disabled="labelConfigurationsForm.$invalid"/>
+            </div>
+        </div>
+    </form>
+</div>
