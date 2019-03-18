@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {ConfigResource} from '../shared/services/configResource.service';
 import {Configuration} from '../shared/services/applicationStatus.service';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -15,20 +15,6 @@ export class NewConfigService {
     configLoaded$ = this.configLoadedSubject.asObservable();
 
     constructor(private configResource: ConfigResource) {
-        this.configData = new class implements Configuration {
-            aliasForLastSuccessfulBuild: string;
-            aliasForMostRecentBuild: string;
-            applicationInformation: string;
-            applicationName: string;
-            buildstates: { [key: string]: string };
-            createLastSuccessfulScenarioBuild: boolean;
-            defaultBranchName: string;
-            defaultBuildName: string;
-            scenarioPropertiesInOverview: string;
-            expandPagesInScenarioOverview: boolean;
-            branchSelectionListOrder: string;
-            diffImageColor: string;
-        };
     }
 
     getRawConfigDataCopy() {

@@ -16,11 +16,12 @@
  */
 
 import * as $ from 'jquery';
+
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function($routeParams, $location, $route, $compile,
-                                                                            $filter, $sce, $uibModal, BreadcrumbsService,
-                                                                            SharePagePopupService, SketcherLinkService) {
+angular.module('scenarioo.directives').directive('scBreadcrumbs', ($routeParams, $location, $route, $compile,
+                                                                   $filter, $sce, $uibModal, BreadcrumbsService,
+                                                                   SharePagePopupService, SketcherLinkService) => {
     const limit = 50;
 
     return {
@@ -42,7 +43,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function($rout
 
             const navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
-            angular.forEach(navElements, function(breadcrumbItem) {
+            angular.forEach(navElements, (breadcrumbItem) => {
 
                 // Create breadcrumb objects
                 const isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
@@ -65,7 +66,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function($rout
                 link: encodeURIComponent($location.absUrl()),
             };
 
-            scope.showStepLinks = function() {
+            scope.showStepLinks = () => {
                 SharePagePopupService.showShareStepPopup();
             };
 

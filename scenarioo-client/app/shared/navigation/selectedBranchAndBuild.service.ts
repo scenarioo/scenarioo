@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function($location, $rootScope, LocalStorageService, NewConfigService) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', ($location, $rootScope, LocalStorageService, NewConfigService) => {
 
     const BRANCH_KEY = 'branch';
     const BUILD_KEY = 'build';
@@ -39,7 +39,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         };
     }
 
-    NewConfigService.configLoaded$.subscribe((val) => {
+    NewConfigService.configLoaded$.subscribe(() => {
         calculateSelectedBranchAndBuild();
     });
 
@@ -75,17 +75,15 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         return value;
     }
 
-    $rootScope.$watch(function() {
-        return $location.search();
-    }, function() {
+    $rootScope.$watch(() => $location.search(), () => {
         calculateSelectedBranchAndBuild();
     }, true);
 
     $rootScope.$watch(getSelectedBranchAndBuild,
-        function(selected) {
+        (selected) => {
             if (isBranchAndBuildDefined()) {
-                for (let i = 0; i < selectionChangeCallbacks.length; i++) {
-                    selectionChangeCallbacks[i](selected);
+                for (const callback of  selectionChangeCallbacks) {
+                    callback(selected);
                 }
             }
         }, true);
@@ -107,7 +105,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
 
     function addCallback(callbackList, newCallback) {
         let callbackListContainsNewCallback = false;
-        angular.forEach(callbackList, function(callback) {
+        angular.forEach(callbackList, (callback) => {
             if (callback.toString() === newCallback.toString()) {
                 callbackListContainsNewCallback = true;
             }
