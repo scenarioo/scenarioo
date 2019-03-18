@@ -19,7 +19,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {SearchEngineStatus} from './searchEngineStatus';
+import {SearchEngineStatus} from './searchEngineStatus.service';
+
 
 declare var angular: angular.IAngularStatic;
 
