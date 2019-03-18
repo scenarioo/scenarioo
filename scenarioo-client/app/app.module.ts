@@ -28,12 +28,7 @@ import {NewConfigService} from "./manage/new-config.service";
     ],
     entryComponents: [
         LabelMetadataComponent,
-        StatusStylingComponent,
-        DisplayOptionsComponent,
-        AdditionalColumnsComponent,
-        BranchesBuildsComponent,
         GeneralSettingsComponent,
-        FulltextSearchComponent,
         LabelColorsComponent
     ],
     imports: [
