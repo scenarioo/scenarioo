@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('TitleController', TitleController);
 
-function TitleController($scope, NewConfigService) {
+function TitleController($scope, ConfigService) {
 
   const vm = this;
   vm.text = '';
@@ -26,8 +26,8 @@ function TitleController($scope, NewConfigService) {
 
   function activate() {
 
-          NewConfigService.configLoaded$.subscribe((val) => {
-          vm.text = 'Scenarioo ' + NewConfigService.applicationName();
+      $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
+          vm.text = 'Scenarioo ' + ConfigService.applicationName();
       });
 
   }

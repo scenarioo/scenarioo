@@ -20,13 +20,13 @@ angular.module('scenarioo.controllers')
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
-                              NewConfigService,
+                              ConfigService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
                               SearchEngineStatusService) {
 
-    NewConfigService.configLoaded$.subscribe(() => {
-        $scope.applicationName = NewConfigService.applicationName();
+    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
+        $scope.applicationName = ConfigService.applicationName();
     });
 
     $scope.$on('branchesUpdated', () => {

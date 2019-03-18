@@ -22,7 +22,7 @@
  */
 angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
-function BuildController($scope, $location, NewConfigService) {
+function BuildController($scope, $location, ConfigService) {
 
     const vm = this;
     vm.tabs = undefined;
@@ -47,14 +47,15 @@ function BuildController($scope, $location, NewConfigService) {
 
     function activate() {
 
-        NewConfigService.configLoaded$.subscribe(() => {
-            const config = NewConfigService.getRawConfigDataCopy();
+        // Load configuration and trigger definition of tabs from config.
+        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
+            const config = ConfigService.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
             defineLastStaticTabs();
             selectTabFromUrl();
         });
-        NewConfigService.load();
+        ConfigService.load();
 
         $scope.$watch(() => $location.path(), () => {
             selectTabFromUrl();
