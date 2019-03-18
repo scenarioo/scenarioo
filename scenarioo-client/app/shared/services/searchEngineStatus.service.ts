@@ -11,7 +11,6 @@ export interface SearchEngineStatus {
     endpoint: string;
 }
 
-
 @Injectable()
 export class SearchEngineStatusService {
     constructor(private httpClient: HttpClient) {

@@ -21,7 +21,6 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {SearchEngineStatus} from './searchEngineStatus.service';
 
-
 declare var angular: angular.IAngularStatic;
 
 export interface Configuration {
