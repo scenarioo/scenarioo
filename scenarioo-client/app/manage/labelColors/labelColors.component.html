@@ -1,5 +1,5 @@
 <div>
-    <form name="labelConfigurationsForm">
+    <form #labelConfigurationsForm = "ngForm">
         <table class="table table-curved table-responsive" id="label-configurations-table">
             <thead>
             <tr>
@@ -42,7 +42,7 @@
         <div class="row sc-space-top-large">
             <div class="col-lg-12" style="text-align: right">
                 <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="reset()"/>
-                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()" ng-disabled="labelConfigurationsForm.$invalid"/>
+                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()" [disabled]="labelConfigurationsForm.invalid"/>
             </div>
         </div>
     </form>
