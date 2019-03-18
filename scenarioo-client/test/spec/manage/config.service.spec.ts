@@ -42,7 +42,8 @@ describe('ConfigService', () => {
             applicationName: 'Scenarioo',
             expandPagesInScenarioOverview: false,
             branchSelectionListOrder: '123',
-            diffImageColor: '0x7fff7e00'
+            diffImageColor: '0x7fff7e00',
+            elasticSearchClusterName: 'elasticsearch',
         };
     const ConfigResourceMock = {
         get: () => Observable.of<Configuration>(angular.copy(DUMMY_CONFIG_RESPONSE))

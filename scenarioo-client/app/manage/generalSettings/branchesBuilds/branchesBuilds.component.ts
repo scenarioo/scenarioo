@@ -20,7 +20,19 @@ export class BranchesBuildsComponent implements OnChanges, OnInit {
 
     ngOnInit() {
         this.initForm();
+        this.listenToFormChanges();
         this.formReady.emit(this.branchesBuildsForm);
+    }
+
+    listenToFormChanges() {
+        const valueChanges$ = this.branchesBuildsForm.valueChanges;
+        valueChanges$.subscribe( (val) => {
+            this.configuration.defaultBuildName = val.defaultBuildName;
+            this.configuration.defaultBranchName = val.defaultBranchName;
+            this.configuration.aliasForLastSuccessfulBuild = val.aliasForLastSuccessfulBuild;
+            this.configuration.aliasForMostRecentBuild = val.aliasForMostRecentBuild;
+            this.configuration.createLastSuccessfulScenarioBuild = val.createLastSuccessfulScenarioBuild;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {

@@ -17,6 +17,7 @@ export class AdditionalColumnsComponent implements OnChanges, OnInit {
 
     ngOnInit() {
         this.initForm();
+        this.listenToFormChanges();
         this.formReady.emit(this.additionalColumnsForm);
     }
 
@@ -25,6 +26,13 @@ export class AdditionalColumnsComponent implements OnChanges, OnInit {
         if (changes.configuration) {
             this.additionalColumnsForm.patchValue({scenarioPropertiesInOverview: this.configuration.scenarioPropertiesInOverview});
         }
+    }
+
+    listenToFormChanges() {
+        const valueChanges$ = this.additionalColumnsForm.valueChanges;
+        valueChanges$.subscribe( (val) => {
+            this.configuration.scenarioPropertiesInOverview = val.scenarioPropertiesInOverview;
+        });
     }
 
     initForm(): void {

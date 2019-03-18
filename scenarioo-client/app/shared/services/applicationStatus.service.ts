@@ -38,6 +38,7 @@ export interface Configuration {
     expandPagesInScenarioOverview: boolean;
     branchSelectionListOrder: string;
     diffImageColor: string;
+    elasticSearchClusterName: string;
 }
 
 export interface ApplicationVersion {

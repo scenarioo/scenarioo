@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {BranchBuild, BranchesResource} from '../../shared/services/branchesResource.service';
-import {ApplicationStatus, ApplicationStatusService} from '../../shared/services/applicationStatus.service';
+import {ApplicationStatus, ApplicationStatusService, Configuration} from '../../shared/services/applicationStatus.service';
 import {MigratedConfigService} from '../migrated-config.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class GeneralSettingsComponent implements OnInit {
     settingsForm: FormGroup;
 
     applicationStatus: ApplicationStatus;
+    configuration: Configuration;
     branchBuilds: BranchBuild[];
     configuredBranch: BranchBuild;
 
@@ -24,7 +25,8 @@ export class GeneralSettingsComponent implements OnInit {
         private branchesResource: BranchesResource,
         private configService: MigratedConfigService,
         private appStatusService: ApplicationStatusService,
-    ) { }
+    ) {
+    }
 
     ngOnInit() {
         this.branchesResource.query().subscribe((branches) => {
@@ -34,6 +36,7 @@ export class GeneralSettingsComponent implements OnInit {
 
         this.appStatusService.getApplicationStatus().subscribe((status: ApplicationStatus) => {
             this.applicationStatus = status;
+            this.configuration = status.configuration;
             this.calculateConfiguredBranch();
             this.populateForm();
         });
@@ -42,22 +45,32 @@ export class GeneralSettingsComponent implements OnInit {
             applicationName: null,
             applicationInformation: null,
         });
+
+        this.listenToFormChanges();
+    }
+
+    listenToFormChanges() {
+        const valueChanges$ = this.settingsForm.valueChanges;
+        valueChanges$.subscribe((val) => {
+            this.configuration.applicationName = val.applicationName;
+            this.configuration.applicationInformation = val.applicationInformation;
+        });
     }
 
     populateForm(): void {
         this.settingsForm.patchValue({
-           applicationName: this.applicationStatus.configuration.applicationName,
-           applicationInformation: this.applicationStatus.configuration.applicationInformation,
+            applicationName: this.configuration.applicationName,
+            applicationInformation: this.configuration.applicationInformation,
         });
     }
 
     calculateConfiguredBranch(): void {
-        if (!this.branchBuilds || !this.applicationStatus || !this.applicationStatus.configuration) {
+        if (!this.branchBuilds || !this.applicationStatus || !this.configuration) {
             return;
         }
 
         for (const branch of this.branchBuilds) {
-            if (branch.branch.name !== this.applicationStatus.configuration.defaultBranchName) {
+            if (branch.branch.name !== this.configuration.defaultBranchName) {
                 this.configuredBranch = branch;
             }
         }
@@ -68,14 +81,15 @@ export class GeneralSettingsComponent implements OnInit {
     }
 
     resetConfiguration(): void {
-        this.applicationStatus.configuration = this.configService.getRawConfigDataCopy();
+        this.configuration = this.configService.getRawConfigDataCopy();
         this.calculateConfiguredBranch();
+        this.populateForm();
     }
 
     updateConfiguration(): void {
         this.successfullyUpdatedConfiguration = false;
 
-        this.configService.updateConfiguration(this.applicationStatus.configuration, () => {
+        this.configService.updateConfiguration(this.configuration, () => {
             this.successfullyUpdatedConfiguration = true;
         });
     }

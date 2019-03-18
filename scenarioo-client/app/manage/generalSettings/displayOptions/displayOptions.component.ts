@@ -17,7 +17,15 @@ export class DisplayOptionsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.initForm();
+        this.listenToFormChanges();
         this.formReady.emit(this.displayOptionsForm);
+    }
+
+    listenToFormChanges() {
+        const valueChanges$ = this.displayOptionsForm.valueChanges;
+        valueChanges$.subscribe( (val) => {
+            this.configuration.expandPagesInScenarioOverview = val.expandPagesInScenarioOverview;
+        });
     }
 
     ngOnChanges(changes: SimpleChanges) {

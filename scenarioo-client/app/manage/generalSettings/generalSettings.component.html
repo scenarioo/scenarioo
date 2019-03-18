@@ -39,19 +39,19 @@
     </div>
 
     <div *ngIf="applicationStatus && branchBuilds">
-        <branches-builds [configuration]="applicationStatus.configuration" [branchBuilds]="branchBuilds" [configuredBranch]="configuredBranch" (formReady)="formInitialized('branchesBuildsForm', $event)"></branches-builds>
+        <branches-builds [configuration]="configuration" [branchBuilds]="branchBuilds" [configuredBranch]="configuredBranch" (formReady)="formInitialized('branchesBuildsForm', $event)"></branches-builds>
     </div>
 
     <div *ngIf="applicationStatus">
-        <additional-columns [configuration]="applicationStatus.configuration" (formReady)="formInitialized('additionalColumnsForm', $event)"></additional-columns>
+        <additional-columns [configuration]="configuration" (formReady)="formInitialized('additionalColumnsForm', $event)"></additional-columns>
     </div>
 
     <div *ngIf="applicationStatus">
-        <display-options [configuration]="applicationStatus.configuration" (formReady)="formInitialized('displayOptionsForm', $event)"></display-options>
+        <display-options [configuration]="configuration" (formReady)="formInitialized('displayOptionsForm', $event)"></display-options>
     </div>
 
     <div *ngIf="applicationStatus">
-        <status-styling [configuration]="applicationStatus.configuration" (formReady)="formInitialized('statusStylingForm', $event)"></status-styling>
+        <status-styling [configuration]="configuration" (formReady)="formInitialized('statusStylingForm', $event)"></status-styling>
     </div>
 
     <div class="alert alert-success fade-out sc-space-top" *ngIf="successfullyUpdatedConfiguration">
