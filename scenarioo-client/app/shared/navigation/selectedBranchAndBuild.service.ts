@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function ($location, $rootScope, LocalStorageService, NewConfigService) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', function($location, $rootScope, LocalStorageService, NewConfigService) {
 
     const BRANCH_KEY = 'branch';
     const BUILD_KEY = 'build';
@@ -23,7 +23,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
     let selectedBranch;
     let selectedBuild;
     let initialValuesFromUrlAndCookieLoaded = false;
-    let selectionChangeCallbacks = [];
+    const selectionChangeCallbacks = [];
 
     function getSelectedBranchAndBuild() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -35,7 +35,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
 
         return {
             branch: selectedBranch,
-            build: selectedBuild
+            build: selectedBuild,
         };
     }
 
@@ -52,7 +52,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         let value;
 
         // check URL first, this has priority over the cookie value
-        let params = $location.search();
+        const params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
             LocalStorageService.set(key, value);
@@ -75,16 +75,16 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
         return value;
     }
 
-    $rootScope.$watch(function () {
+    $rootScope.$watch(function() {
         return $location.search();
-    }, function () {
+    }, function() {
         calculateSelectedBranchAndBuild();
     }, true);
 
     $rootScope.$watch(getSelectedBranchAndBuild,
-        function (selected) {
+        function(selected) {
             if (isBranchAndBuildDefined()) {
-                for (var i = 0; i < selectionChangeCallbacks.length; i++) {
+                for (let i = 0; i < selectionChangeCallbacks.length; i++) {
                     selectionChangeCallbacks[i](selected);
                 }
             }
@@ -99,7 +99,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
 
     function registerSelectionChangeCallback(callback) {
         addCallback(selectionChangeCallbacks, callback);
-        let selected = getSelectedBranchAndBuild();
+        const selected = getSelectedBranchAndBuild();
         if (isBranchAndBuildDefined()) {
             callback(selected);
         }
@@ -107,19 +107,19 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
 
     function addCallback(callbackList, newCallback) {
         let callbackListContainsNewCallback = false;
-        angular.forEach(callbackList, function(callback){
-            if(callback.toString() === newCallback.toString()) {
+        angular.forEach(callbackList, function(callback) {
+            if (callback.toString() === newCallback.toString()) {
                 callbackListContainsNewCallback = true;
             }
         });
-        if(!callbackListContainsNewCallback) {
+        if (!callbackListContainsNewCallback) {
             callbackList.push(newCallback);
         }
     }
 
     return {
-        BRANCH_KEY: BRANCH_KEY,
-        BUILD_KEY: BUILD_KEY,
+        BRANCH_KEY,
+        BUILD_KEY,
 
         /**
          * Returns the currently selected branch and build as a map with the keys 'branch' and 'build'.
@@ -141,7 +141,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuildService', fu
          * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
          *   the callback is not called.
          */
-        callOnSelectionChange: registerSelectionChangeCallback
+        callOnSelectionChange: registerSelectionChangeCallback,
     };
 
 });
