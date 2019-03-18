@@ -4,7 +4,7 @@ import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
-import { HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from "./shared/services/restControllerModule";
 
 @NgModule({
