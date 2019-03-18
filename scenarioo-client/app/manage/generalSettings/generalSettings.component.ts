@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {BranchBuild, BranchesResource} from '../../shared/services/branchesResource.service';
 import {ApplicationStatus, ApplicationStatusService} from '../../shared/services/applicationStatus.service';
-import {NewConfigService} from '../new-config.service';
+import {MigratedConfigService} from '../migrated-config.service';
 
 @Component({
     selector: 'general-settings',
@@ -22,7 +22,7 @@ export class GeneralSettingsComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private branchesResource: BranchesResource,
-        private configService: NewConfigService,
+        private configService: MigratedConfigService,
         private appStatusService: ApplicationStatusService,
     ) { }
 

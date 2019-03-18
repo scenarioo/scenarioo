@@ -13,7 +13,7 @@ import {AdditionalColumnsComponent} from "./manage/generalSettings/additionalCol
 import {BranchesBuildsComponent} from "./manage/generalSettings/branchesBuilds/branchesBuilds.component";
 import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/fulltextSearch.component";
 import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
-import {NewConfigService} from "./manage/new-config.service";
+import {MigratedConfigService} from "./manage/migrated-config.service";
 
 @NgModule({
     declarations: [
@@ -41,7 +41,7 @@ import {NewConfigService} from "./manage/new-config.service";
     ],
     providers: [
         LabelConfigurationService,
-        NewConfigService,
+        MigratedConfigService,
     ]
 })
 export class AppModule {

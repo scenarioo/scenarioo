@@ -7,7 +7,7 @@ import {Subject} from 'rxjs';
 declare var angular: angular.IAngularStatic;
 
 @Injectable()
-export class NewConfigService {
+export class MigratedConfigService {
 
     configData: Configuration;
 
@@ -112,4 +112,4 @@ export class NewConfigService {
     }
 }
 
-angular.module('scenarioo.services').factory('NewConfigService', downgradeInjectable(NewConfigService));
+angular.module('scenarioo.services').factory('NewConfigService', downgradeInjectable(MigratedConfigService));
