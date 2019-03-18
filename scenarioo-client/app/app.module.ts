@@ -14,6 +14,7 @@ import {BranchesBuildsComponent} from "./manage/generalSettings/branchesBuilds/b
 import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/fulltextSearch.component";
 import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
 import {MigratedConfigService} from "./manage/migrated-config.service";
+import {RootScopeService} from "./shared/rootscope.service";
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {MigratedConfigService} from "./manage/migrated-config.service";
     providers: [
         LabelConfigurationService,
         MigratedConfigService,
+        RootScopeService,
     ]
 })
 export class AppModule {

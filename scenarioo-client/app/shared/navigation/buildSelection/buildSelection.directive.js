@@ -16,7 +16,7 @@
  */
 
 angular.module('scenarioo.directives').directive('scBuildSelection', function ($rootScope, $routeParams, $location, $route, $compile,
-                                                                               $filter, $sce, $uibModal, BranchesAndBuildsService) {
+                                                                               $filter, $sce, $uibModal, BranchesAndBuildsService, RootScopeService) {
     return {
         restrict: 'E',
         replace: true,
@@ -48,7 +48,7 @@ angular.module('scenarioo.directives').directive('scBuildSelection', function ($
     }
 
     function getStatusStyleClass(status) {
-        return $rootScope.getStatusStyleClass && $rootScope.getStatusStyleClass(status);
+        return RootScopeService.getStatusStyleClass && RootScopeService.getStatusStyleClass(status);
     }
 
 });

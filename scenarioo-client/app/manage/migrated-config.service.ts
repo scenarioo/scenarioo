@@ -3,6 +3,7 @@ import {downgradeInjectable} from '@angular/upgrade/static';
 import {ConfigResource} from '../shared/services/configResource.service';
 import {Configuration} from '../shared/services/applicationStatus.service';
 import {Subject} from 'rxjs';
+import {RootScopeService} from '../shared/rootscope.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,7 +15,7 @@ export class MigratedConfigService {
     private configLoadedSubject = new Subject<boolean>();
     configLoaded$ = this.configLoadedSubject.asObservable();
 
-    constructor(private configResource: ConfigResource) {
+    constructor(private configResource: ConfigResource, private rootScopeService: RootScopeService) {
     }
 
     getRawConfigDataCopy() {
@@ -25,18 +26,7 @@ export class MigratedConfigService {
     load(): void {
         this.configResource.get().subscribe((response) => {
             this.configData = response;
-
-            // TODO: needs to be implemented for Angular without using $rootScope (e.g. in shared service)
-            // $rootScope.buildStateToClassMapping = this.configData.buildstates;
-            // $rootScope.getStatusStyleClass = (buildStatus) => {
-            //     const styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
-            //     if (styleClassFromMapping == null) {
-            //         return 'label-warning';
-            //     } else {
-            //         return styleClassFromMapping;
-            //     }
-            // };
-
+            this.rootScopeService.buildStateToClassMapping = this.configData.buildstates;
             this.configLoadedSubject.next(true);
         });
     }
@@ -76,10 +66,12 @@ export class MigratedConfigService {
     }
 
     defaultBranchAndBuild() {
-        return {
-            branch: this.configData.defaultBranchName,
-            build: this.configData.defaultBuildName,
-        };
+        if (this.configData) {
+            return {
+                branch: this.configData.defaultBranchName,
+                build: this.configData.defaultBuildName,
+            };
+        }
     }
 
     scenarioPropertiesInOverview() {
@@ -112,4 +104,4 @@ export class MigratedConfigService {
     }
 }
 
-angular.module('scenarioo.services').factory('NewConfigService', downgradeInjectable(MigratedConfigService));
+angular.module('scenarioo.services').factory('MigratedConfigService', downgradeInjectable(MigratedConfigService));
