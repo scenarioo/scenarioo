@@ -6,7 +6,7 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class RootScopeService {
 
-    buildStateToClassMapping;
+    buildStateToClassMapping = {};
 
     getStatusStyleClass(buildStatus: string) {
         const styleClassFromMapping = this.buildStateToClassMapping[buildStatus];
