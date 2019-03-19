@@ -1,5 +1,6 @@
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LabelColorsComponent} from './labelColors/labelColors.component';
+import {BranchAliasesComponent} from './branchAliases/branchAliases.component';
 
 declare var angular: angular.IAngularStatic;
 
@@ -15,4 +16,5 @@ import './comparisons/createComparisonModal.controller';
 import './comparisons/comparisonStatusMapper.service';
 
 angular.module('scenarioo.directives')
-    .directive('labelColors', downgradeComponent({component: LabelColorsComponent}) as angular.IDirectiveFactory);
+    .directive('labelColors', downgradeComponent({component: LabelColorsComponent}) as angular.IDirectiveFactory)
+    .directive('branchAliases', downgradeComponent({component: BranchAliasesComponent}) as angular.IDirectiveFactory);

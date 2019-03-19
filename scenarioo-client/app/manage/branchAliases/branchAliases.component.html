@@ -1,5 +1,5 @@
 <div>
-    <form name="branchAliasesForm">
+    <form #branchAliasesForm="ngForm">
         <table class="table table-curved table-responsive" >
             <thead>
             <tr>
@@ -10,27 +10,27 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let branchAlias in branchAliases">
+            <tr *ngFor="let branchAlias of branchAliases">
                 <td>
                     <label>
-                        <input type="text" class="ng-pristine ng-valid form-control" [(ngModel)]="branchAlias.name" (ngModelChange)="aliasNameChanged()" name="aliasName"/>
+                        <input type="text" class="ng-pristine ng-valid form-control" [value]="branchAlias.name" (input)="branchAlias.name = $event.target.value; aliasNameChanged()" name="aliasName" />
                     </label>
                 </td>
                 <td>
 
                     <label>
-                        <select [(ngModel)]="branchAlias.referencedBranch"
-                                class="form-control"
+                        <select class="form-control"
                                 [required]="branchAlias.name !== ''"
-                                name="referencedBranch">
+                                name="referencedBranch"
+                                (change)="branchAlias.referencedBranch = $event.target.value">
                             <option value=""></option>
-                            <option *ngFor="let branch in branches"  >{{branch.branch.name}}</option>
+                            <option *ngFor="let branchBuild of branches" [value]="branchBuild.branch.name" [selected]="branchAlias.referencedBranch == branchBuild.branch.name">{{branchBuild.branch.name}}</option>
                         </select>
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="text" class="ng-pristine ng-valid form-control" [(ngModel)]="branchAlias.description" name="aliasDescription"  />
+                        <input type="text" class="ng-pristine ng-valid form-control" [value]="branchAlias.description" (input)="branchAlias.description = $event.target.value" name="aliasDescription"/>
                     </label>
                 </td>
                 <td>
@@ -53,7 +53,7 @@
         <div class="row sc-space-top-large">
             <div class="col-lg-12" style="text-align: right">
                 <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="reset()"/>
-                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()" [disabled]="!branchAliasesForm.$invalid"/>
+                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()"  [disabled]="branchAliasesForm.invalid"/>
             </div>
         </div>
     </form>

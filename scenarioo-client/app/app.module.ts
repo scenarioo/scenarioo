@@ -7,15 +7,19 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import { HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from "./shared/services/restControllerModule";
 import {LabelColorsComponent} from './manage/labelColors/labelColors.component';
+import {BranchAliasesComponent} from "./manage/branchAliases/branchAliases.component";
+import {BranchAliasService} from "./shared/services/branchAlias.service";
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         LabelColorsComponent,
+        BranchAliasesComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
         LabelColorsComponent,
+        BranchAliasesComponent,
     ],
     imports: [
         BrowserModule,
@@ -26,6 +30,7 @@ import {LabelColorsComponent} from './manage/labelColors/labelColors.component';
     ],
     providers: [
         LabelConfigurationService,
+        BranchAliasService,
     ]
 })
 export class AppModule {

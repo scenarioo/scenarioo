@@ -23,13 +23,15 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                               ConfigService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
-                              SearchEngineStatusService) {
+                              SearchEngineStatusService,
+                              BranchAliasService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
         $scope.applicationName = ConfigService.applicationName();
     });
 
-    $scope.$on('branchesUpdated', () => {
+
+    BranchAliasService.branchesLoaded$.subscribe(() => {
         loadBranchesAndBuilds();
     });
 
