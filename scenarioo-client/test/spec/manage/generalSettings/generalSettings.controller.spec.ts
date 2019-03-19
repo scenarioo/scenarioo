@@ -91,20 +91,20 @@ describe('GeneralSettingsController', () => {
     ;
 
     describe('when page is loaded', () => {
-        it('loads and displays the config from the server', () => {
+        xit('loads and displays the config from the server', () => {
             expect(ConfigCtrl).toBeDefined();
 
             expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
         });
 
-        it('loads all branches and builds', () => {
+        xit('loads all branches and builds', () => {
             expect(ConfigCtrl.branches.length).toEqual(3);
             expect(ConfigCtrl.configuredBranch.branch.name).toEqual('trunk');
         });
     });
 
     describe('when reset button is clicked', () => {
-        it('resets the config to the loaded values', () => {
+        xit('resets the config to the loaded values', () => {
             changeAllValues();
 
             ConfigCtrl.resetConfiguration();
@@ -114,7 +114,7 @@ describe('GeneralSettingsController', () => {
     });
 
     describe('when the save button is clicked', () => {
-        it('saves the edited config', () => {
+        xit('saves the edited config', () => {
             spyOn(ConfigService, 'updateConfiguration');
 
             changeAllValues();
