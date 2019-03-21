@@ -57,7 +57,7 @@ jobs:
             sleep 30  # Give server some time because of comparisons
 
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
-            export GRADLE_OPTS="-Xms300m -Xmx300m"
+            export GRADLE_OPTS="-Xms300m -Xmx1000m"
             ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
 
             echo "Test the self docu e2e test reports are uploadable to current scenarioo product version under test - to ensure the changes will not break uploading of self docu."
