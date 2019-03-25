@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import { HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from "./shared/services/restControllerModule";
@@ -27,6 +27,7 @@ import {BranchAliasService} from "./shared/services/branchAlias.service";
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        ReactiveFormsModule,
     ],
     providers: [
         LabelConfigurationService,

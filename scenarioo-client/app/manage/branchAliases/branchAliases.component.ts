@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {BranchAliasesResource} from '../../shared/services/branchAliasResource.service';
 import {BranchAliasService} from "../../shared/services/branchAlias.service";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -19,6 +20,11 @@ export class BranchAliasesComponent implements OnInit {
 
     branchResource: BranchesResource;
     branchAliasesResource: BranchAliasesResource;
+
+    branchAliasForm = new FormGroup({
+        aliasNameInput: new FormControl(),
+        referencedBranchInput: new FormControl(),
+    });
 
     constructor(branchResource: BranchesResource, branchAliasesResource: BranchAliasesResource, branchAliasService : BranchAliasService) {
         this.branchResource = branchResource;
@@ -88,10 +94,7 @@ export class BranchAliasesComponent implements OnInit {
             this.uniqueError = true;
             return;
         }
-        console.log(branchAliasesToSave);
         this.branchAliasesResource.save(branchAliasesToSave).subscribe(() => {
-            console.log("Save function called");
-            //     $rootScope.$broadcast('branchesUpdated');
             this.branchAliasService.branchesLoadedSubject.next(true);
             });
         this.successfullyUpdatedBranchAliases = true;

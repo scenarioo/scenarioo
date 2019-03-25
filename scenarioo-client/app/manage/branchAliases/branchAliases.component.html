@@ -1,60 +1,59 @@
-<div>
-    <form #branchAliasesForm="ngForm">
-        <table class="table table-curved table-responsive" >
-            <thead>
-            <tr>
-                <th>Alias Name</th>
-                <th>Referenced Branch</th>
-                <th>Description</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let branchAlias of branchAliases">
-                <td>
-                    <label>
-                        <input type="text" class="ng-pristine ng-valid form-control" [value]="branchAlias.name" (input)="branchAlias.name = $event.target.value; aliasNameChanged()" name="aliasName" />
-                    </label>
-                </td>
-                <td>
+<form [formGroup]="branchAliasForm">
+    <table class="table table-curved table-responsive" >
+        <thead>
+        <tr>
+            <th>Alias Name</th>
+            <th>Referenced Branch</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let branchAlias of branchAliases">
+            <td>
+                <label>
+                    <input type="text" class="ng-pristine ng-valid form-control" formControlName="aliasNameInput" [value]="branchAlias.name" (input)="branchAlias.name = $event.target.value; aliasNameChanged()" name="aliasName" />
+                </label>
+            </td>
 
-                    <label>
-                        <select class="form-control"
-                                [required]="branchAlias.name !== ''"
-                                name="referencedBranch"
-                                (change)="branchAlias.referencedBranch = $event.target.value">
-                            <option value=""></option>
-                            <option *ngFor="let branchBuild of branches" [value]="branchBuild.branch.name" [selected]="branchAlias.referencedBranch == branchBuild.branch.name">{{branchBuild.branch.name}}</option>
-                        </select>
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="text" class="ng-pristine ng-valid form-control" [value]="branchAlias.description" (input)="branchAlias.description = $event.target.value" name="aliasDescription"/>
-                    </label>
-                </td>
-                <td>
-                    <input type="button" class="btn btn-small btn-danger" value="Delete" (click)="deleteEntry(branchAlias.name)" />
-                </td>
-            </tr>
-            </tbody>
-        </table>
+            <td>
+                <label>
+                    <select class="form-control" formControlName="referencedBranchInput" [required]="branchAlias.name !== ''" name="referencedBranch" (change)="branchAlias.referencedBranch = $event.target.value">
+                        <option [value]=""></option>
+                        <option *ngFor="let b of branches" [selected]="branchAlias.referencedBranch == b.branch.name" [value]="b.branch.name">{{b.branch.name}}</option>
+                        <!--<option [selected]="branchAlias.referencedBranch == branches[0].branch.name" [value]="branches[0].branch.name" >{{branches[0].branch.name}}</option>-->
+                        <!--<option [selected]="branchAlias.referencedBranch == branches[1].branch.name" [value]="branches[1].branch.name" >{{branches[1].branch.name}}</option>-->
+                        <!--<option *ngFor="let branchBuild of branches" [selected]="branchAlias.referencedBranch == branchBuild.branch.name" [value]="branchBuild.branch.name" >{{branchBuild.branch.name}}</option>-->
+                    </select>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" class="ng-pristine ng-valid form-control" [value]="branchAlias.description" (input)="branchAlias.description = $event.target.value" name="aliasDescription"/>
+                </label>
+            </td>
+            <td>
+                <input type="button" class="btn btn-small btn-danger" value="Delete" (click)="deleteEntry(branchAlias.name)" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <div class="alert alert-success fade-out" id="updated-branch-aliases-successfully" [hidden]="!successfullyUpdatedBranchAliases">
-            The branch aliases have been successfully updated.
-            <a (click)="successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
-                class="fas fa-times"></i></a>
+    <div class="alert alert-success fade-out" id="updated-branch-aliases-successfully" [hidden]="!successfullyUpdatedBranchAliases">
+        The branch aliases have been successfully updated.
+        <a (click)="successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
+            class="fas fa-times"></i></a>
+    </div>
+
+    <div class="alert alert-danger fade-out" [hidden]="!uniqueError" id="duplicateAliasErrorId">
+        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
+    </div>
+
+    <div class="row sc-space-top-large">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="reset()"/>
+            <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()"  [disabled]="branchAliasForm.invalid"/>
         </div>
+    </div>
+</form>
 
-        <div class="alert alert-danger fade-out" [hidden]="!uniqueError" id="duplicateAliasErrorId">
-            <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
-        </div>
-
-        <div class="row sc-space-top-large">
-            <div class="col-lg-12" style="text-align: right">
-                <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="reset()"/>
-                <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="save()"  [disabled]="branchAliasesForm.invalid"/>
-            </div>
-        </div>
-    </form>
-</div>
