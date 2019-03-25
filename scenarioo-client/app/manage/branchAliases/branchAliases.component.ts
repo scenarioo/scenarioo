@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {BranchAliasesResource} from '../../shared/services/branchAliasResource.service';
 import {BranchAliasService} from "../../shared/services/branchAlias.service";
-import {FormControl, FormGroup} from "@angular/forms";
-
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
     selector: 'branch-aliases',
@@ -21,10 +20,9 @@ export class BranchAliasesComponent implements OnInit {
     branchResource: BranchesResource;
     branchAliasesResource: BranchAliasesResource;
 
-    branchAliasForm = new FormGroup({
-        aliasNameInput: new FormControl(),
-        referencedBranchInput: new FormControl(),
-    });
+    aliasNameInput = new FormControl('', Validators.required);
+    referencedBranchInput = new FormControl('', Validators.required);
+
 
     constructor(branchResource: BranchesResource, branchAliasesResource: BranchAliasesResource, branchAliasService : BranchAliasService) {
         this.branchResource = branchResource;
