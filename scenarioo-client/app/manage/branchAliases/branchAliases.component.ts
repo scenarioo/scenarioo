@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {BranchAliasesResource} from '../../shared/services/branchAliasResource.service';
-import {BranchAliasService} from "../../shared/services/branchAlias.service";
-import {FormControl, Validators} from "@angular/forms";
+import {BranchAliasService} from '../../shared/services/branchAlias.service';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
     selector: 'branch-aliases',
@@ -21,13 +21,31 @@ export class BranchAliasesComponent implements OnInit {
     branchAliasesResource: BranchAliasesResource;
 
     aliasNameInput = new FormControl('', Validators.required);
-    referencedBranchInput = new FormControl('', Validators.required);
+    referencedBranchInputControls = [];
 
-
-    constructor(branchResource: BranchesResource, branchAliasesResource: BranchAliasesResource, branchAliasService : BranchAliasService) {
+    constructor(branchResource: BranchesResource, branchAliasesResource: BranchAliasesResource, branchAliasService: BranchAliasService) {
         this.branchResource = branchResource;
         this.branchAliasesResource = branchAliasesResource;
         this.branchAliasService = branchAliasService;
+    }
+
+    checkValidity(): boolean {
+        if (this.referencedBranchInputControls.length <= 0) {
+            return true;
+        }
+        for (const control of this.referencedBranchInputControls.slice(0, this.referencedBranchInputControls.length - 1)) {
+            if (control.invalid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    setupFormControls(): void {
+        this.referencedBranchInputControls = [];
+        for (const branchAlias of this.branchAliases) {
+            this.referencedBranchInputControls.push(new FormControl(branchAlias.referencedBranch, Validators.required));
+        }
     }
 
     ngOnInit(): void {
@@ -38,7 +56,7 @@ export class BranchAliasesComponent implements OnInit {
     loadBranchesWithoutAliases(): void {
         this.branchResource.query().subscribe((branches) => {
             const branchesWithoutAliases = [];
-            for (let branch of branches) {
+            for (const branch of branches) {
                 if (!branch.isAlias) {
                     branchesWithoutAliases.push(branch);
                 }
@@ -63,6 +81,7 @@ export class BranchAliasesComponent implements OnInit {
         const aliasName = this.branchAliases[this.branchAliases.length - 1].name;
         if (aliasName !== '') {
             this.branchAliases.push(BranchAliasesComponent.createEmptyAlias());
+            this.referencedBranchInputControls.push(new FormControl('', Validators.required));
         }
     }
 
@@ -70,6 +89,7 @@ export class BranchAliasesComponent implements OnInit {
         this.branchAliasesResource.get().subscribe((branchAliases) => {
             branchAliases.push(BranchAliasesComponent.createEmptyAlias());
             this.branchAliases = branchAliases;
+            this.setupFormControls();
         });
     }
 
@@ -82,7 +102,7 @@ export class BranchAliasesComponent implements OnInit {
         this.successfullyUpdatedBranchAliases = false;
 
         const branchAliasesToSave = [];
-        for (let branchAlias of this.branchAliases) {
+        for (const branchAlias of this.branchAliases) {
             if (branchAlias.name !== '') {
                 branchAliasesToSave.push(branchAlias);
             }

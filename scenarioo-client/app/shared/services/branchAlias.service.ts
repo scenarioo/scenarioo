@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {Subject} from "rxjs";
-import {downgradeInjectable} from "@angular/upgrade/static";
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
