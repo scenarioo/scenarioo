@@ -1,0 +1,69 @@
+<div>
+    <div class="row sc-space-bottom" [hidden]="false">
+        <div class="col-lg-9">
+            See <a href="http://www.scenarioo.org/docs/{{version.documentationVersion}}/features/diff-viewer/diff-viewer.html"
+                   target="_blank">DiffViewer Documentation</a> for more information on how to configure automatic calculated Comparisons.
+        </div>
+    </div>
+    <div class="row sc-space-bottom" [hidden]="false">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="comparisonsSearchField"
+                       data-toggle="tooltip" title="type words separated by spaces to search for"
+                       [value] = "table.search.searchTerm" (input)="table.search.searchTerm = $event.target.value"
+                        placeholder="Search comparison ..."/>
+                <span class="input-group-btn">
+                    <button type="button" (click)="resetSearchField()" class="btn btn-default">reset</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <span (click)="refresh()" class="glyphicon glyphicon-refresh link pull-right" style="color: #2374B7;">
+                <span style="font-family: sans-serif">Refresh</span>
+            </span>
+        </div>
+    </div>
+    <!-- TABLE -->
+    <table ng-table="tableParams" name="table" class="table table-curved table-responsive " ngDefaultControl [(ngModel)]="sort">
+        <thead>
+        <tr>
+            <th sc-sortable-column="baseBuild.branchName">Branch</th>
+            <th sc-sortable-column="baseBuild.buildName">Build</th>
+            <th sc-sortable-column="name">Comparison Name</th>
+            <th sc-sortable-column="changeRate">Change Rate</th>
+            <th sc-sortable-column="calculationDate">Calculation Date</th>
+            <th sc-sortable-column="status">Comparison Status</th>
+            <th>Details & Log</th>
+            <th>Recalculate</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let comparison of comparisons | customBranchFilter: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse"> <!-- orderBy: table.sort.column: table.sort.reverse -->
+            <td>{{comparison.baseBuild.branchName}}</td>
+            <td>{{comparison.baseBuild.buildName }}</td>
+            <td>{{comparison.name}}</td>
+            <td sc-diff-info-icon color="#877219" *ngIf="comparison.status=='SUCCESS'; else emptyEntry" diff-info="comparison" element-type="build" child-element-type="use case"></td>
+            <ng-template #emptyEntry>
+                <td></td>
+            </ng-template>
+            <td>{{comparison.calculationDate | date : 'MMMM dd, yyyy, h:mm a'}}</td>
+            <td>
+                <span [ngClass]="[comparisonStatusMapperService.getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+            </td>
+            <td>
+                <!--TODO:  move link and ngIf in the comparison.modalContent.ts-->
+                <!--<a class="link" (click)="toggleModal(i)"-->
+                   <!--uib-tooltip="Show comparison log and details" tooltip-placement="bottom">-->
+                    <!--<i class="fas fa-list-alt fa-fw"></i>  Details & Log-->
+                <!--</a>-->
+                <comparison-modal [comparison]="comparison"></comparison-modal>
+
+            </td>
+            <td>
+                <a class="link" (click)="recalculateComparison(comparison)" uib-tooltip="Recalculate this comparison" tooltip-placement="bottom"><i class="fas fa-sync fa-fw"></i> Recalculate</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

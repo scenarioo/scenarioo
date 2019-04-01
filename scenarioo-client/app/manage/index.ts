@@ -6,6 +6,7 @@ import {AdditionalColumnsComponent} from "./generalSettings/additionalColumns/ad
 import {BranchesBuildsComponent} from "./generalSettings/branchesBuilds/branchesBuilds.component";
 import {FulltextSearchComponent} from "./generalSettings/fulltextSearch/fulltextSearch.component";
 import {LabelColorsComponent} from './labelColors/labelColors.component';
+import {ComparisonComponent} from "./comparisons/comparison.component";
 
 declare var angular: angular.IAngularStatic;
 
@@ -15,10 +16,10 @@ import './buildImport/buildsList.controller';
 import './buildImport/buildImportDetails.controller';
 import './generalSettings/generalSettings.controller';
 import './branchAliases/branchAliases.controller';
-import './comparisons/comparisons.controller';
-import './comparisons/comparisonDetails.controller';
-import './comparisons/createComparisonModal.controller';
-import './comparisons/comparisonStatusMapper.service';
+// import './comparisons/comparisons.controller';
+// import './comparisons/comparisonDetails.controller';
+// import './comparisons/createComparisonModal.controller';
+// import './comparisons/comparisonStatusMapper.service';
 
 angular.module('scenarioo.directives')
     .directive('generalSettings', downgradeComponent({component: GeneralSettingsComponent}) as angular.IDirectiveFactory)
@@ -27,4 +28,5 @@ angular.module('scenarioo.directives')
     .directive('additionalColumns', downgradeComponent({component: AdditionalColumnsComponent}) as angular.IDirectiveFactory)
     .directive('displayOptions', downgradeComponent({component: DisplayOptionsComponent}) as angular.IDirectiveFactory)
     .directive('statusStyling', downgradeComponent({component: StatusStylingComponent}) as angular.IDirectiveFactory)
-    .directive('labelColors', downgradeComponent({component: LabelColorsComponent}) as angular.IDirectiveFactory);
+    .directive('labelColors', downgradeComponent({component: LabelColorsComponent}) as angular.IDirectiveFactory)
+    .directive('comparison', downgradeComponent({component: ComparisonComponent}) as angular.IDirectiveFactory);

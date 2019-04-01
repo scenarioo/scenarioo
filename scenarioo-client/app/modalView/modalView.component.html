@@ -1,0 +1,15 @@
+<div id="modal-window" class="modal fade-scale  in" role="alert">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{title}}</h3>
+            </div>
+            <div class="modal-body">
+                <ng-content></ng-content>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="onActionClick(action)" *ngFor="let action of actions"> {{action}}</button>
+            </div>
+        </div>
+    </div>
+</div>

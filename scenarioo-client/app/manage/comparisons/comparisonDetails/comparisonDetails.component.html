@@ -1,0 +1,60 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title">Comparison {{ comparison.name }}
+            on Build {{ comparison.baseBuild.branchName}}/{{ comparison.baseBuild.buildName }}</h1>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-2"><p>Status</p></div>
+            <div class="col-md-3">
+                <span [ngClass]="[getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"><p>Change Rate</p></div>
+            <div class="col-md-6">
+                <sc-diff-info-icon *ngIf="comparison.status=='SUCCESS'" diff-info="vm.comparison"
+                                   element-type="build" child-element-type="use case"><br/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"><p>Calculation Date</p></div>
+            <div class="col-md-6">{{ comparison.calculationDate | scDateTime }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Build</h3>
+
+                <p>
+                    Branch: {{ comparison.baseBuild.branchName }}<br/>
+                    Build: {{ comparison.baseBuild.buildName }}<br/>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Compared Build</h3>
+
+                <p>
+                    Branch: {{ comparison.compareBuild.branchName }}<br/>
+                    Build: {{ comparison.compareBuild.buildName }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Comparison Log</h3>
+                <textarea id="comparisonLog" class="form-control" rows="10" wrap="off" readonly="true"
+                          title="the output of the comparison task on the server">{{ log }}</textarea>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" (click)="cancel()">Close</button>
+    </div>
+</div>

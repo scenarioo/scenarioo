@@ -1,0 +1,58 @@
+<a class="link" (click)="toggleActive()"
+   uib-tooltip="Show comparison log and details" tooltip-placement="bottom">
+    <i class="fas fa-list-alt fa-fw"></i>  Details & Log
+</a>
+<!--STATUS -->
+<div *ngIf="isActive">
+    <modal-view title="Comparison {{comparison.name}} on Build {{comparison.baseBuild.branchName}}/{{comparison.baseBuild.buildName}}" [actions]='["close"]' (modalClosed)="toggleActive()">
+        <div class="row">
+            <div class="col-md-2"><p>Status</p></div>
+            <div class="col-md-3">
+                <span [ngClass]="[comparisonStatusMapperService.getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+            </div>
+        </div>
+
+        <!--VERTICAL BAR-->
+        <div class="row">
+            <div class="col-md-2"><p>Change Rate</p></div>
+            <div class="col-md-6">
+                TODO
+                <!--<sc-diff-info-icon ng-if="vm.comparison.status=='SUCCESS'" diff-info="vm.comparison"-->
+                <!--element-type="build" child-element-type="use case"><br/>-->
+            </div>
+        </div>
+
+        <!--CALCULATION DATE-->
+        <div class="row">
+            <div class="col-md-2"><p>Calculation Date</p></div>
+            <div class="col-md-6">{{ comparison.calculationDate | date : 'MMMM dd, yyyy, h:mm a'}}</div>
+        </div>
+
+        <!--BUILD-->
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Build</h3>
+                <p>
+                    Branch: {{ comparison.baseBuild.branchName }}<br/>
+                    Build: {{ comparison.baseBuild.buildName }}<br/>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Compared Build</h3>
+                <p>
+                    Branch: {{ comparison.compareBuild.branchName }}<br/>
+                    Build: {{ comparison.compareBuild.buildName }}
+                </p>
+            </div>
+        </div>
+
+        <!--COMPARISON LOG-->
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Comparison Log</h3>
+                <textarea id="comparisonLog" class="form-control" rows="10" wrap="off" readonly="true"
+                          title="the output of the comparison task on the server">{{comparisonLog}}</textarea>
+            </div>
+        </div>
+    </modal-view>
+</div>

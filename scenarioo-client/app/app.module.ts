@@ -13,6 +13,13 @@ import {AdditionalColumnsComponent} from "./manage/generalSettings/additionalCol
 import {BranchesBuildsComponent} from "./manage/generalSettings/branchesBuilds/branchesBuilds.component";
 import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/fulltextSearch.component";
 import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
+import {ComparisonComponent} from "./manage/comparisons/comparison.component";
+import {ComparisonStatusMapperService} from "./manage/comparisons/comparisonStatusMapper.service";
+import {SearchPipe} from "./manage/comparisons/search.pipe";
+import {DiffInfoIconDirective} from "./diffViewer/diffInfoIcon/diffInfoIcon.directive";
+import {OrderByPipe} from "./manage/comparisons/order.pipe";
+import {ModalViewComponent} from "./modalView/modalView.component";
+import {ComparisonModalContent} from "./modalView/comparisonModalView/comparison.modalContent";
 
 @NgModule({
     declarations: [
@@ -23,7 +30,13 @@ import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
         BranchesBuildsComponent,
         GeneralSettingsComponent,
         FulltextSearchComponent,
-        LabelColorsComponent
+        LabelColorsComponent,
+        ComparisonComponent,
+        SearchPipe,
+        OrderByPipe,
+        DiffInfoIconDirective,
+        ModalViewComponent,
+        ComparisonModalContent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -33,7 +46,8 @@ import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
         BranchesBuildsComponent,
         GeneralSettingsComponent,
         FulltextSearchComponent,
-        LabelColorsComponent
+        LabelColorsComponent,
+        ComparisonComponent,
     ],
     imports: [
         BrowserModule,
@@ -45,6 +59,7 @@ import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
     ],
     providers: [
         LabelConfigurationService,
+        ComparisonStatusMapperService,
     ]
 })
 export class AppModule {
