@@ -42,7 +42,7 @@
             <td>{{comparison.baseBuild.branchName}}</td>
             <td>{{comparison.baseBuild.buildName }}</td>
             <td>{{comparison.name}}</td>
-            <td sc-diff-info-icon color="#877219" *ngIf="comparison.status=='SUCCESS'; else emptyEntry" diff-info="comparison" element-type="build" child-element-type="use case"></td>
+            <td><sc-diff-info-icon *ngIf="comparison.status=='SUCCESS'; else emptyEntry" [diffInfo]="comparison" [elementType]="'build'" [childElementType]="'use case'"></sc-diff-info-icon></td>
             <ng-template #emptyEntry>
                 <td></td>
             </ng-template>

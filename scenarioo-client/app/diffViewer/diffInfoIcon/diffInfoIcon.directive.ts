@@ -1,7 +1,9 @@
-import {Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges} from "@angular/core";
+import {Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges} from "@angular/core";
 
-@Directive ({
-    selector: '[sc-diff-info-icon]'
+@Component ({
+    selector: 'sc-diff-info-icon',
+    template: require('./diffInfoIcon.component.html')
+
 })
 
 export class DiffInfoIconDirective implements OnChanges{
@@ -11,11 +13,9 @@ export class DiffInfoIconDirective implements OnChanges{
     unchangedPercentage = '';
 
     restrict;
-    diffInfo = {isAdded: 0, added: 0, isRemoved: 100, removed: 100, changeRate: 5, changed: 5}; // TODO: Get values from data source -> Where?
-    elementType;
-    childElementType;
-    // template: require('./diffInfoIcon.html');
-    @Input() color: string;
+    @Input()diffInfo; // TODO: Get values from data source -> Where?
+    @Input()elementType;
+    @Input()childElementType;
 
     // controller: DiffInfoIconController;
     // controllerAs: 'vm';
@@ -30,7 +30,7 @@ export class DiffInfoIconDirective implements OnChanges{
     }
 
     @HostListener('mouseenter') onMouseEnter(){
-        this.highlight(this.color || 'red');
+
     }
 
     private highlight(color: string) {

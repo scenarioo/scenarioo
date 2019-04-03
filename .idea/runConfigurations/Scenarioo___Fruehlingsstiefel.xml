@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Scenarioo - Fruehlingsstiefel" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="scenarioo-server_main" />
+    <module name="org.scenarioo.scenarioo-server.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.scenarioo.ScenariooViewerApplication" />
     <option name="VM_PARAMETERS" value="-Dspring.security.user.password=changeit" />
     <option name="ALTERNATIVE_JRE_PATH" />
