@@ -41,8 +41,7 @@ var exportsConfig = {
                 '--disable-infobars',
                 '--window-size=1280,800',
                 '--headless',
-                '--disable-gpu',
-                '--disable-dev-shm-usage'
+                '--disable-gpu'
             ]
         },
     },

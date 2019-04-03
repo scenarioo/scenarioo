@@ -36,8 +36,7 @@ var exportsConfig = {
         chromeOptions: {
             args : [
                 'disable-infobars',
-                'window-size=1280,800',
-                '--disable-dev-shm-usage'
+                'window-size=1280,800'
             ]
         },
     },
