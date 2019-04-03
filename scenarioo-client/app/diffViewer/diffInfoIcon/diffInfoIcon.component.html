@@ -1,0 +1,13 @@
+<div class="diff-info-wrapper">
+    <div class="progress sc-diff-changes" tooltip-html="infoText" tooltip-placement="right" tooltip-class="diff-icon-tooltip">
+        <div class="progress-bar progress-bar-warning" role="progressbar" [ngStyle]="{ 'width': changedPercentage }"></div>
+        <div class="progress-bar progress-bar-success" role="progressbar" [ngStyle]="{ 'width': addedPercentage }"></div>
+        <div class="progress-bar progress-bar-danger" role="progressbar" [ngStyle]="{ 'width' : removedPercentage }"></div>
+        <div class="progress-bar progress-bar-default" role="progressbar"  [ngStyle]="{ 'width' : unchangedPercentage}"></div>
+        <div class="change-rate">
+            <span *ngIf="displayPercentageChanged()">{{diffInfo.changeRate | number:'.0-0'}}%</span>
+            <span *ngIf="diffInfo.isAdded" class="added">added</span>
+            <span *ngIf="diffInfo.isRemoved" class="removed">removed</span>
+        </div>
+    </div>
+</div>
