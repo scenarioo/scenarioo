@@ -1,10 +1,11 @@
 # Development Environment Setup
 
 This guide helps you setting up all the tools you need to make a contribution to the Scenarioo source code using
-IntelliJ. This is the recommended setup, which means we are most likely able to support you in case of issues.
+IntelliJ. 
 
-The guide sometimes assumes that you use Windows. There are some additional notes for Ubuntu users documented under
-[Development Environment on Ubuntu](Development-Environment-Ubuntu.md).
+This is the recommended setup, which means we are most likely able to support you in case of issues.
+
+There are some additional notes for Ubuntu users documented under [Development Environment on Ubuntu](Development-Environment-Ubuntu.md).
 
 
 ## Documentation for Developers
@@ -12,87 +13,74 @@ The guide sometimes assumes that you use Windows. There are some additional note
 The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of Scenarioo 
 development. This is the state of our documentation on develop branch.
 
-If our automated docs publishing on develop branch works, that docu should be up to date (you can verify it on jenkins in the scenarioo/develop job).
-
-If not, you can find the newest sources of our documentation here:
+Alternatively, you can find the newest sources of our documentation here:
 https://github.com/scenarioo/scenarioo/tree/develop/docs 
-(or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page).
 
-If during setup you find some information that is outdated in the documentation please help to improve it and contribute the changes as a Pull Request. Thanks a lot!
+If during setup you find some information that is outdated in the documentation please help to improve it and contribute the changes as a Pull Request. 
+You can click the "Edit this page" link on top of these pages to navigate directly to the edit window of said page.
 
+Thanks a lot!
 
 ## Install Tools
 
- * Git
- * Java JDK 1.8
- * Tomcat 7 (recommended), 8 or 9
- * node 8.11.2 (comes with npm 5.6.0)
- * Elasticsearch 5.6.9 (see [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch-5.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
- * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
+The following tools should be installed and running on your computer:
+
+ * Git (most recent version)
+ * Java JDK (1.8)
+ * Node.js (8.11+)
+ * IntelliJ IDEA Ultimate (most recent version) 
+   * Ask @bruderol if you want to use an open source license for it
+   
+To work with the Full Text Search feature, you additionally need the following:
+
+ * Elasticsearch (5+)
+   * See [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details
 
    
 ## Setup and Use of Git
 
- * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at 
-   http://git-scm.com/book
-
- * Keep in mind to **always commit with Unix style line endings**, also if you are working on Windows (make sure to configure GIT accordingly, if not yet!). 
- 
+ * For most things you will work with the IntelliJ GIT client or use the GIT command line
+     * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at http://git-scm.com/book
+     * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
+ * Always commit with Unix style line endings
     * **For Windows:** We recommend to use following setting to ensure unix style line endings:
        ```
        git config --global core.autocrlf input
        ```
-      If you not want to set this globaly, please set it at least for the Scenarioo projects.
+      If you don't want to set this globally, please set it at least for the Scenarioo projects.
       See for more info: https://help.github.com/articles/dealing-with-line-endings/
-      
- * **Make sure that you personalize your GIT by setting your username and email for commits (!! important !!)**:
+ * Make sure that you personalize your GIT by setting your username and email for commits:
 
      ```
       $ git config --global user.name "John Doe"             
       $ git config --global user.email johndoe@example.com
      ```
-     **IMPORTANT - Set correct email: Make sure to configure the same email as registered in your github account**, otherwise your commits will not be recognized as contributions by you on github! 
+     :warning: Make sure to configure the same email as registered in your github account
      See also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
      
- * **Checkout major repo:**
-    ```
-    git clone https://github.com/scenarioo/scenarioo.git
-    ```
-    * In case of troubles with `Filename too long` errors on windows:
-    
-        ```
-        cd scenarioo
-        git config core.longpaths true
-        git checkout -f HEAD
-        ```
-        (if that does not help, check you have a new version of the windows git client!)
-
- * For most things you will work with the IntelliJ GIT client or use the GIT command line
-     * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
-     * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
-
- * Please refer to our **[Branching Strategy](Branching-strategy.md) about how we use branches and create releases**.
-
- * (optional) you can use whatever other GIT tools you need
-    * for working with github, github desktop might be helpful: https://desktop.github.com/
-    * on the linux developer VM we had once following additional tools installed (probably not needed when working with IntelliJ):
-       * gitk : Very rich functionality
-       * git gui : gui to stage, stash, commit and push your changes 
-       * gitg : Simple git interface (very nice git history tree)
-       * giggle : more of a git viewer to review changes in the files graphically
+ * Please refer to our [Branching Strategy](Branching-strategy.md) for more information about how we use branches and create releases
 
 
 ## Get the Sources
 
-You need to clone at least the following repositories:
+For a start, clone the following repositories:
 
- * https://github.com/scenarioo/scenarioo
- * https://github.com/scenarioo/scenarioo-java
+```
+    git clone https://github.com/scenarioo/scenarioo.git
+    git clone https://github.com/scenarioo/scenarioo-java.git
+```
 
 There are more interesting repositories with more examples and other writer libraries available under https://github.com/scenarioo
 
-But this two repositories should be sufficient for most usual developers.
+**For Windows:** In case of troubles with `Filename too long` errors
+    
+```
+cd scenarioo
+git config core.longpaths true
+git checkout -f HEAD
+```
 
+Also make sure you have an up-to-date version of Git installed.
 
 ## Setup Projects in IntelliJ
 
@@ -145,20 +133,20 @@ But this two repositories should be sufficient for most usual developers.
    you should see in the log output that it is importing the example documentation data properly.
   
  * To start the web server for serving the Angular JS frontend (scenarioo-client)
-   proceed as following (or as described in the Developer Guide, see below):
+   proceed as following:
    ```
    cd scenarioo-client
    npm install
    npm start
-   # then open the browser to browse the application 
-   # on given URL, usually http://localhost:8500
-   # if you change files in the client the browser will refresh automatically
    ```
+
+ * Then open the browser to browse the application on the given URL, usually http://localhost:8500
+   * If you change files in the client the browser will refresh automatically
 
 
 ## Developer Guide
 
-For more informations on how to develop, build and test Scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
+For more information on how to develop, build and test Scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
    
 ## Testing the Setup
     
