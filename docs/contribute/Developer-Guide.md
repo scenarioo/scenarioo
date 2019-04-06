@@ -7,6 +7,26 @@ This page describes how to build, test, run the Scenarioo Viewer Webapp locally 
 You need a correctly setup development environment for working on Scenarioo as described here: 
 [Development Environment Setup](Development-Environment-Setup.md)
 
+## Idea for developer guide
+
+### Run tests
+
+* Run test suites (./gradlew clean test)
+* Run e2e tests (integrate from e2e tests page)
+  * Reset test data
+  * Run tests
+  * Debug tests
+  * Update chrome driver manually
+* Working with writer libraries
+  * scenarioo-java integration
+  * set snapshot version (?)
+  * run tests
+* Using standalone Tomcat instead of Spring Boot
+  * Install and configure Tomcat in IntelliJ
+  * Build WAR file for deployment
+* Update client packages
+* anything else?
+
 ## Build, Test and Run the Scenarioo Viewer Web App
 
 This process describes how you clean update all your sources and build everything needed to properly run the demo locally and to run tests:

@@ -54,8 +54,8 @@ To work with the Full Text Search feature, you additionally need the following:
  * Make sure that you personalize your GIT by setting your username and email for commits:
 
      ```
-      $ git config --global user.name "John Doe"             
-      $ git config --global user.email johndoe@example.com
+     git config --global user.name "John Doe"             
+     git config --global user.email johndoe@example.com
      ```
      :warning: Make sure to configure the same email as registered in your github account
      See also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
@@ -68,7 +68,7 @@ To work with the Full Text Search feature, you additionally need the following:
 Clone the Scenarioo viewer application repository:
 
 ```
-    git clone https://github.com/scenarioo/scenarioo.git
+git clone https://github.com/scenarioo/scenarioo.git
 ```
 
 For working on the viewer application, this is enough. See the [Developer Guide](Developer-Guide.md) for more information on how to work with the writer libraries as well.
