@@ -9,8 +9,6 @@ You need a correctly setup development environment for working on Scenarioo as d
 
 ## Idea for developer guide
 
-### Run tests
-
 * Run test suites (./gradlew clean test)
 * Run e2e tests (integrate from e2e tests page)
   * Reset test data
@@ -117,3 +115,46 @@ Therefore I think we should use fix versions for all dependencies!
 (this replaced old comment, which was: "Only the bugfix version shall be dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.")
 
 Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests?) and inform developers in case new npm version is needed!
+
+
+## Stuff taken over from other sites
+
+### scenarioo-java setup
+
+Move senarioo-java parts to Developer Guide, this document here should be as condensed as possible to have a working setup
+
+ * Configure a run configuration to run the installed [Tomcat 8](http://tomcat.apache.org) from IntelliJ
+     * set the tomcat path to tomcat 8 installation
+     * set it running on port 8080     
+     * on "Deployment" tab: 
+        * choose `+` to deploy the artifact from "External Source ..."
+        * select `scenarioo-latest.war` from `sceanrioo-server/build/libs/`
+        * Choose to run the gradle `scenarioo-server:war` before launch
+        * IMPORTANT - Application context: `/scenarioo` 
+        * See also https://stackoverflow.com/questions/27610259/building-war-with-gradle-debugging-with-intellij-idea
+        * You can use `Control+F9` to trigger update of classes when server is running
+     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+         * do not forget to also set the same in the "debug" mode!
+ 
+ * Next, execute the "Scenarioo - Generate Testdata" run configuration
+    * or on command-line run: `./gradlew -p scenarioo-docu-generation-example clean test`
+ This is done when running the build task already, nice!
+ 
+ 
+### from old setup to be integrated in this development setup instructions here
+ 
+  * check your JavaScript code against our `.eslintrc` file!
+  
+### Tests to be done with new setup and developer guide pages
+ 
+  - [ ] build and install scenarioo-java library (using gradle)
+  - [ ] debugging the server (yes, check!)
+  - [ ] run karma tests
+  - [ ] run e2e-tests (runs very fast and very stable!)
+  - [ ] develop ScenariooJS library
+  - [ ] build ScenariooJS library
+  - [ ] test ScenariooJS library (including e2e test example)
+  - [ ] change something in the writer library and link to it in server during development
+  - [ ] release new writer library
+  - [ ] release new web app (should work, when JVM is set to 1.7 for gradle)
+  - [ ] release scenariooJS Library
