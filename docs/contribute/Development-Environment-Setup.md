@@ -21,7 +21,9 @@ You can click the "Edit this page" link on top of these pages to navigate direct
 
 Thanks a lot!
 
-## Install Tools
+## Quick Setup
+
+### Install Tools
 
 The following tools should be installed and running on your computer:
 
@@ -34,10 +36,10 @@ The following tools should be installed and running on your computer:
 To work with the Full Text Search feature, you additionally need the following:
 
  * Elasticsearch (5+)
-   * See [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details
+   * See the [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details on how to setup.
 
    
-## Setup Git
+### Setup Git
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at http://git-scm.com/book
@@ -61,7 +63,7 @@ To work with the Full Text Search feature, you additionally need the following:
  * Please refer to our [Branching Strategy](Branching-strategy.md) for more information about how we use branches and create releases
 
 
-## Get the Sources
+### Get the Sources
 
 Clone the Scenarioo viewer application repository:
 
@@ -82,12 +84,12 @@ git checkout -f HEAD
 
 Also make sure you have an up-to-date version of Git installed.
 
-## Build and run the application
+### Build and run the application
 
  * Install the following IntelliJ IDEA plugins if you don't have them already:
    * NodeJs
-   * .ignore
    * Karma
+   * .ignore
                  
  * Import Scenarioo by using "New project from existing sources":
    * Choose 'scenarioo' folder
@@ -118,32 +120,15 @@ Also make sure you have an up-to-date version of Git installed.
 
  * Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
    * :warning: The `/` at the end of the URL is mandatory!
-   * If you change files in the client the browser will refresh automatically
+   * If you change files in the client code, the browser will refresh automatically
 
 
 ## Developer Guide
 
-For more information on how to develop, build and test Scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
-   
-## Testing the Setup
-    
-### What has been tested and works with this setup
+Great, by now you should be ready to work on your first issues!
 
- [x] build and install scenarioo-java library (using gradle)
- [x] debugging the server (yes, check!)
- [x] run karma tests
- [x] run e2e-tests (runs very fast and very stable!)
- [x] develop ScenariooJS library
- [x] build ScenariooJS library
- [x] test ScenariooJS library (including e2e test example)
- 
-## Not yet tested 
- 
- * change something in the writer library and link to it in server during development
- * release new writer library
- * release new web app (should work, when JVM is set to 1.7 for gradle)
- * release scenariooJS Library
- 
+For more information on how to develop, build and test Scenarioo properly, head over to the [Developer Guide](Developer-Guide.md)!
+   
 ## Known Issues
 
 ### General Issues
@@ -152,11 +137,9 @@ For more information on how to develop, build and test Scenarioo properly, pleas
 
 ## Open points - To be considered / improved / solved
 
-### Note to self
+### scenarioo-java setup
 
 Move senarioo-java parts to Developer Guide, this document here should be as condensed as possible to have a working setup
-
-### To delete
 
  * Configure a run configuration to run the installed [Tomcat 8](http://tomcat.apache.org) from IntelliJ
      * set the tomcat path to tomcat 8 installation
@@ -174,12 +157,26 @@ Move senarioo-java parts to Developer Guide, this document here should be as con
  * Next, execute the "Scenarioo - Generate Testdata" run configuration
     * or on command-line run: `./gradlew -p scenarioo-docu-generation-example clean test`
  This is done when running the build task already, nice!
+ 
+### summarize above what is known to work
+
+ What has been tested and works with this setup 
+ 
+  [x] build and install scenarioo-java library (using gradle)
+  [x] debugging the server (yes, check!)
+  [x] run karma tests
+  [x] run e2e-tests (runs very fast and very stable!)
+  [x] develop ScenariooJS library
+  [x] build ScenariooJS library
+  [x] test ScenariooJS library (including e2e test example)
+  
+ Not yet tested 
+  
+  * change something in the writer library and link to it in server during development
+  * release new writer library
+  * release new web app (should work, when JVM is set to 1.7 for gradle)
+  * release scenariooJS Library
 
 ### from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
-
-### should be improved
-
- * automation (skript or run config) to reset config before running e2e tests.
- * in general some run configs, maybe also some templates etc. that we can share for working more fast in IntelliJ.
