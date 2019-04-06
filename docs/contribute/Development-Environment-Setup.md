@@ -37,7 +37,7 @@ To work with the Full Text Search feature, you additionally need the following:
    * See [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details
 
    
-## Setup and Use of Git
+## Setup Git
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at http://git-scm.com/book
@@ -63,14 +63,14 @@ To work with the Full Text Search feature, you additionally need the following:
 
 ## Get the Sources
 
-For a start, clone the following repositories:
+Clone the Scenarioo viewer application repository:
 
 ```
     git clone https://github.com/scenarioo/scenarioo.git
-    git clone https://github.com/scenarioo/scenarioo-java.git
 ```
 
-There are more interesting repositories with more examples and other writer libraries available under https://github.com/scenarioo
+For working on the viewer application, this is enough. See the [Developer Guide](Developer-Guide.md) for more information on how to work with the writer libraries as well.
+For a complete list of all repositories, check https://github.com/scenarioo.
 
 **For Windows:** In case of troubles with `Filename too long` errors
     
@@ -82,65 +82,42 @@ git checkout -f HEAD
 
 Also make sure you have an up-to-date version of Git installed.
 
-## Setup Projects in IntelliJ
+## Build and run the application
 
- * Install IntelliJ Plugins (this list is not yet consolidated):
-     * Gradle (probably already included, but not sure)
-     * NodeJs (if not already included ?? not sure about that)
-     * .gitignore plugin
-     * Karma plugin (IntelliJ recommends this!)
-     * Markdown Plugins:
-         * Make sure to only use "Markdown support" by Jetbrains (it is now the best and should be part of IntelliJ)
-         * disbale any other "Markdown"-Plugins (if you have, otherwise you might not be able to see and use the nice preview that comes with "Markdown support")
-         * Make sure to use the new nice "JavaFX"-preview for markdown under Settings/Markdown/Preview (you will like that!)
-         * after changing those plugins settings you might have to restart IntelliJ to let the changes take effect.
-         * if you open a markdown file you should see a blue MD icon in the file's editor tab, and be able to choose a side-by-side View wirh Preview that looks nicely (in editor's toolbar).
+ * Install the following IntelliJ IDEA plugins if you don't have them already:
+   * NodeJs
+   * .ignore
+   * Karma
                  
- * Import Scenarioo web app by using "New project from existing sources":
-     * choose 'scenarioo' folder
-     * Import "From external model: Gradle" and use the gradle wrapper (default settings)
- * By using **"File/New module"** you can add additional repositories to be part of the same project setup in one IntelliJ window:
-     * Import 'scenarioo-java' by using "New module from existing sources":
-     * choose 'scenarioo-java' folder
-     * Import "from external model: Gradle" and use the gradle wrapper (default settings)
-     
- * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
-    * scenarioo-java: `clean build install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
-    * scenarioo: `clean build`
-         * take care to configure JVM 1.8 as runtime JVM for gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
-         * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
-
- * Configure a run configuration to run the installed [Tomcat 8](http://tomcat.apache.org) from IntelliJ
-     * set the tomcat path to tomcat 8 installation
-     * set it running on port 8080     
-     * on "Deployment" tab: 
-        * choose `+` to deploy the artifact from "External Source ..."
-        * select `scenarioo-latest.war` from `sceanrioo-server/build/libs/`
-        * Choose to run the gradle `scenarioo-server:war` before launch
-        * IMPORTANT - Application context: `/scenarioo` 
-        * See also https://stackoverflow.com/questions/27610259/building-war-with-gradle-debugging-with-intellij-idea
-        * You can use `Control+F9` to trigger update of classes when server is running
-     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
-         * do not forget to also set the same in the "debug" mode!
+ * Import Scenarioo by using "New project from existing sources":
+   * Choose 'scenarioo' folder
+   * Import "From external model: Gradle" and use the gradle wrapper (default settings)
+   
+ * Build the viewer application by executing the "Scenarioo - Full Clean Build" run configuration
+   * or on command-line run: `./gradlew clean build bootWar`
+   * :warning: Make sure JVM 1.8 is configured as runtime JVM for Gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
+   * **On Windows:** If you get some Python errors during "npmInstall" task, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
     
- * Run all tests of the sub-project "scenarioodocu-generation-example" to generate Scenarioo example documentation data in Folder "build/scenarioDocuExample"
-    * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
-    * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'
-    * it is recommended to remember a run config for this step to regenerate test data when needed. 
-    * **Hint for e2e tests:** This will bring the test data into the correct state (including viewer configuration in file config.xml) for running the e2e tests. It is required to rerun these tests before you execute e2e tests.
-          
- * Start the tomcat server by using the run configuration:
-   you should see in the log output that it is importing the example documentation data properly.
-  
- * To start the web server for serving the Angular JS frontend (scenarioo-client)
-   proceed as following:
+ * Execute the "Scenarioo - Fruehligsstiefel" run configuration
+   * or on command-line run: 
+   ```
+   # Set the path to the example data in your environment variables (system-dependent)
+   export SCENARIOO_DATA=&lt;your-project-source-path&gt;/scenarioo-docu-generation-example/build/scenarioDocuExample 
+   ./gradlew bootRun
+   ```
+
+   * This starts the viewer application backend as a standalone Spring Boot app
+   * You should see in the log output that it is importing the example documentation data properly.
+   
+ * Finally, start serving the frontend:
    ```
    cd scenarioo-client
-   npm install
    npm start
    ```
+   * This will spawn a webpack development server locally
 
- * Then open the browser to browse the application on the given URL, usually http://localhost:8500
+ * Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
+   * :warning: The `/` at the end of the URL is mandatory!
    * If you change files in the client the browser will refresh automatically
 
 
@@ -174,6 +151,29 @@ For more information on how to develop, build and test Scenarioo properly, pleas
  * There seems to be an issue, when not using JVM 1.8 for gradle. But when this is currently configured to 1.8, it works well :-) Has been documented above accordingly.
 
 ## Open points - To be considered / improved / solved
+
+### Note to self
+
+Move senarioo-java parts to Developer Guide, this document here should be as condensed as possible to have a working setup
+
+### To delete
+
+ * Configure a run configuration to run the installed [Tomcat 8](http://tomcat.apache.org) from IntelliJ
+     * set the tomcat path to tomcat 8 installation
+     * set it running on port 8080     
+     * on "Deployment" tab: 
+        * choose `+` to deploy the artifact from "External Source ..."
+        * select `scenarioo-latest.war` from `sceanrioo-server/build/libs/`
+        * Choose to run the gradle `scenarioo-server:war` before launch
+        * IMPORTANT - Application context: `/scenarioo` 
+        * See also https://stackoverflow.com/questions/27610259/building-war-with-gradle-debugging-with-intellij-idea
+        * You can use `Control+F9` to trigger update of classes when server is running
+     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+         * do not forget to also set the same in the "debug" mode!
+ 
+ * Next, execute the "Scenarioo - Generate Testdata" run configuration
+    * or on command-line run: `./gradlew -p scenarioo-docu-generation-example clean test`
+ This is done when running the build task already, nice!
 
 ### from old setup to be integrated in this development setup instructions here
 
