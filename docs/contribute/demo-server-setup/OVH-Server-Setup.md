@@ -72,4 +72,4 @@ An additional test is that when you try to connect with a new OpenSSH session us
 Circle CI needs the SSH public key to deploy the server after changes were committed. This is documented on the [Circle CI page](../circle-ci.md#Deploy-key-pair).
 
 ## Update DNS lookup address
-Finally, DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server.
+Finally, the DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server.
