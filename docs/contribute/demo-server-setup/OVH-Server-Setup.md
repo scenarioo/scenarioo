@@ -1,4 +1,4 @@
-#OVH Server Setup
+# OVH Server Setup
 After logging in to the So You Start web interface you can trigger a reinstall of the server. In the wizard the configuration of the server can be selected.
 
 ## Server Installation
