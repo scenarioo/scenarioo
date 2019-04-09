@@ -39,11 +39,10 @@
   * [Release Docker Image](contribute/Building-the-Docker-Image.md)   
   * [Release Scenarioo Writer Libraries](contribute/Release-Scenarioo-Writer-Library.md) 
   * [CI and Demo Server](contribute/Build-Server.md)
-  * [CI & Tools Installation/Configuration](contribute/ci-server-setup/README.md)
-    * [Nginx Proxy](contribute/ci-server-setup/nginx.md)        
-    * [Docker Installation](contribute/ci-server-setup/docker.md)
-    * [Elasticsearch](contribute/ci-server-setup/Elasticsearch.md)
-    * [Tomcat](contribute/ci-server-setup/tomcat.md)
+    * [Circle CI](contribute/circle-ci.md)
+  * [Demo Server Installation/Configuration](contribute/demo-server-setup/README.md)
+    * [OVH Server Setup](contribute/demo-server-setup/OVH-Server-Setup.md)        
+    * [Nginx Proxy](contribute/demo-server-setup/nginx.md)        
     
     
 * [Version Changelog](CHANGELOG.md)    
