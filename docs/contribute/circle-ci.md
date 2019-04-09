@@ -13,7 +13,7 @@ In Circle CI environment vars are grouped in contexts. We store all variables in
 
 The following variables are needed:
  * `TOMCAT_USER_PASSWORD`: Used to secure the publish scenarioo docu endpoint. Defaults to: 'scenarioo' and user is always 'scenarioo'.
- * `CIRLCE_TOKEN`: Used to download WAR and scenarioo docu artifacts from CircleCI
+ * `CIRCLE_TOKEN`: Used to download WAR and scenarioo docu artifacts from CircleCI
  * `DOCU_GIT_USERPASS`: `user:password` Used to publish our docu with gitbook.
  
 ## SSH Keys
@@ -34,8 +34,8 @@ To commit to the `scenarioo-infrastructure` repository we need to configure an S
 To deploy the server using ansible we need an authorized key pair of the host we want to deploy to.
 
 * Add the private key here: https://circleci.com/gh/scenarioo/scenarioo-infrastructure/edit#ssh
+* Remove the old private key that was present before at https://circleci.com/gh/scenarioo/scenarioo-infrastructure
 * Add the fingerprint of the SSH key to the deploy job in `.circleci/config.yml` of the `scenarioo/scenarioo-infrastructure` repository
-
 
 ## Debugging
 
@@ -49,5 +49,3 @@ To deploy the server using ansible we need an authorized key pair of the host we
         * `ps -eo size,pid,user,command --sort -size | awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' |cut -d "" -f2 | cut -d "-" -f1`
         * `top`
         * Limit memory of gradle, elastic search and wherever else you can
-    
-
