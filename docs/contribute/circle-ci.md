@@ -33,8 +33,9 @@ To commit to the `scenarioo-infrastructure` repository we need to configure an S
 
 To deploy the server using ansible we need an authorized key pair of the host we want to deploy to.
 
-* Add the private key here: https://circleci.com/gh/scenarioo/scenarioo-infrastructure/edit#ssh
-* Remove the old private key that was present before at https://circleci.com/gh/scenarioo/scenarioo-infrastructure
+* Go to https://circleci.com/gh/scenarioo/scenarioo-infrastructure/edit#ssh
+* Remove the existing private key of the old server 
+* Add the new private key.
 * Add the fingerprint of the SSH key to the deploy job in `.circleci/config.yml` of the `scenarioo/scenarioo-infrastructure` repository
 
 ## Debugging
