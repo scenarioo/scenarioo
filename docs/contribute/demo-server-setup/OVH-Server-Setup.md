@@ -1,7 +1,8 @@
 # OVH Server Setup
-After logging in to the So You Start web interface you can trigger a reinstall of the server. In the wizard the configuration of the server can be selected.
 
 ## Server Installation
+After logging in to the [So You Start web interface](https://eu.soyoustart.com/manager/?lang=en_uk#/login) you can trigger a reinstall of the server. In the wizard the configuration of the server can be selected.
+
 ### Step 1: Template Selection
 We currently use an Ubuntu Server Template with a Custom Installation.
 
@@ -44,7 +45,7 @@ Connect to the server using SSH (with username and password).
 cd ~/.ssh
 vi  authorized_keys2
 ```
-add public key to the end of the file and save it.
+add the public key to the end of the file and save it.
 
 Test that login with the public key works by opening another OpenSSH session where you use the private key as authorization.
 
@@ -70,6 +71,11 @@ An additional test is that when you try to connect with a new OpenSSH session us
 
 ### Updating public key on Circle CI
 Circle CI needs the SSH public key to deploy the server after changes were committed. This is documented on the [Circle CI page](../circle-ci.md#Deploy-key-pair).
+
+### Updating Scenarioo infrastructure
+Scenarioo Infrastructure needs to know the IP address of the new server, so that it can connect and update it.
+
+Set the IP address of the new Server under "mainserver" in [scenarioo-infrastructure\hosts\hosts_demoserver_ovh](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/hosts/hosts_demoserver_ovh).
 
 ## Update DNS lookup address
 Finally, the DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server.
