@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" id="target">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Target Build
@@ -82,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" id="compareWith">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Compare with
@@ -129,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row" ng-if="vm.validationMessage">
             <div class="col-md-12">
-                <uib-alert type="danger">
+                <uib-alert type="danger" id="validationMessage">
                     {{vm.validationMessage}}
                 </uib-alert>
             </div>
@@ -139,7 +139,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal" ng-click="vm.cancel()">Cancel</button>
-        <button class="btn btn-primary" ng-click="vm.createComparison()">Create</button>
+        <button class="btn btn-primary" ng-click="vm.createComparison()" id="createComparisonBtn">Create</button>
     </div>
 
 </div>
