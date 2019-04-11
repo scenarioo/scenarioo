@@ -8,7 +8,7 @@ import ComparisonsPage from '../pages/comparisonsPage';
 const NUMBER_OF_COMPARISONS_IN_TEST = 15;
 
 useCase('Create comparison')
-    .description('Create new comparison from last successful to specific build.')
+    .description('Create a new comparison from last successful to a specific build.')
     .describe(() => {
 
         beforeEach(async () => {
@@ -22,10 +22,8 @@ useCase('Create comparison')
                 await step('display the create comparison dialog');
 
                 await CreateComparisonDialog.enterComparisonName('To Projectstart');
-                await step('enter comparison name');
-
                 await CreateComparisonDialog.assertComparisonAlreadyExistsError();
-                await step('error displayed that comparison with that name already exists');
+                await step('enter existing comparison name and  error displayed that comparison with that name already exists');
             });
 
         scenario('Creating comparison without comparison branch')
@@ -38,10 +36,9 @@ useCase('Create comparison')
                 await step('enter comparison name');
 
                 await CreateComparisonDialog.createBranch();
-                await step('create branch');
+                await step('create branch pressed and error displayed that a comparison branch is needed');
 
                 await CreateComparisonDialog.assertComparisonBranchNeededError();
-                await step('error displayed that a comparison branch is needed');
             });
 
         scenario('Creating comparison with comparison branch')
@@ -49,14 +46,26 @@ useCase('Create comparison')
             .it(async () => {
 
                 await ComparisonsPage.goToPage();
-                await step('comparisons page');
                 await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST);
+                await step('comparisons page');
 
                 await CreateComparisonDialog.clickCreateComparisonLink();
                 await step('create comparison dialog opened');
 
                 await CreateComparisonDialog.enterComparisonName('Comparison');
                 await step('comparison name entered');
+
+                await CreateComparisonDialog.openTargetBranchSelectionDropdown();
+                await step('target branch dropdown opened');
+
+                await CreateComparisonDialog.chooseTargetBranch('Development');
+                await step('development branch selected');
+
+                await CreateComparisonDialog.openTargetBuildSelectionDropdown();
+                await step('target build dropdown opened');
+
+                await CreateComparisonDialog.chooseTargetBuild('last successful');
+                await step('target build selected');
 
                 await CreateComparisonDialog.openComparisonBranchSelectionDropdown();
                 await step('comparison branch dropdown opened');
@@ -68,15 +77,13 @@ useCase('Create comparison')
                 await step('comparison build dropdown opened');
 
                 await CreateComparisonDialog.chooseComparisonBuild('2014-02-21');
-                await step('build selected');
+                await step('comparison build selected');
 
                 await CreateComparisonDialog.createBranch();
                 await step('branch created');
 
                 await ComparisonsPage.clickRefreshLink();
-                await step('comparisons refreshed');
-
                 await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST + 1);
-                await step('comparisons asserted');
+                await step('comparisons refreshed and asserted');
             });
     });

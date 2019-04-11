@@ -12,6 +12,21 @@ class CreateComparisonDialog {
         const comparisonNameField = element(by.id('comparisonName'));
         return comparisonNameField.sendKeys(comparisonName);
     }
+    async openTargetBranchSelectionDropdown() {
+        return element.all(by.partialLinkText('Branch:')).first().click();
+    }
+
+    async openTargetBuildSelectionDropdown() {
+        return element.all(by.partialLinkText('Build:')).first().click();
+    }
+
+    async chooseTargetBranch(branchName) {
+        return $('#target #branchSelectionDropdown .dropdown-menu').all(by.partialLinkText(branchName)).first().click();
+    }
+
+    async chooseTargetBuild(buildName) {
+        return $('#target #build-selection-dropdown .dropdown-menu').all(by.partialLinkText(buildName)).first().click();
+    }
 
     async openComparisonBranchSelectionDropdown() {
         return element.all(by.partialLinkText('Branch:')).get(1).click();
