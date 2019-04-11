@@ -39,6 +39,29 @@ useCase('Create comparison')
                 await CreateComparisonDialog.assertComparisonBranchNeededError();
             });
 
+        scenario('Creating comparison existing branch combination')
+            .it(async () => {
+
+                await CreateComparisonDialog.clickCreateComparisonLink();
+                await step('create comparison dialog opened');
+
+                await CreateComparisonDialog.enterComparisonName('Existing Comparison');
+                await step('comparison name entered');
+
+                await CreateComparisonDialog.openComparisonBranchSelectionDropdown();
+                await step('comparison branch dropdown opened');
+
+                await CreateComparisonDialog.chooseComparisonBranch('Production');
+                await step('production branch selected');
+
+                await CreateComparisonDialog.openComparisonBuildSelectionDropdown();
+                await step('comparison build dropdown opened');
+
+                await CreateComparisonDialog.chooseComparisonBuild('2014-01-20');
+                await CreateComparisonDialog.assertComparisonOfSelectedBuildsExistsError();
+                await step('error displayed that a comparison with the selected builds already exists.');
+            });
+
         scenario('Creating comparison with comparison branch')
             .description('A comparison with a comparison branch can be created')
             .it(async () => {

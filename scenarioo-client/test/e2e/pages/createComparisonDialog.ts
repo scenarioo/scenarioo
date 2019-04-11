@@ -54,6 +54,10 @@ class CreateComparisonDialog {
         await this.assertValidationMessage('Please choose branch and build to compare with!');
     }
 
+    async assertComparisonOfSelectedBuildsExistsError() {
+        await this.assertValidationMessage('Comparison of selected builds already exists!');
+    }
+
     private async assertValidationMessage(expectedMessage: string) {
         await expect(element(by.id('validationMessage')).isPresent()).toBe(true);
         await expect(element(by.id('validationMessage')).getText()).toContain(expectedMessage);
