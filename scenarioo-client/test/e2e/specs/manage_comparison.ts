@@ -43,7 +43,7 @@ useCase('Manage comparisons')
 
         scenario('Comparison details and log')
             .description('Comparisons details and log can be viewed')
-            .fit(async () => {
+            .it(async () => {
                 await ComparisonsPage.goToPage();
                 await ComparisonsPage.openComparisonDetails(1);
                 await step('Comparison Details and Log opened');
