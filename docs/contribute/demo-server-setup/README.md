@@ -16,7 +16,8 @@ Ansible checks for every configured step if it has changed in the configuration,
 A full deployment with installation of all components takes about 15 minutes on Circle CI, a deployment where only branches have changed takes about 5 minutes.
 
 ## What is installed on the Demo Server?
-All the tools and packages that will be installed can be found in the scenarioo-infrastructure repo 
+All the tools and packages that will be installed can be found in the respective Ansible playbooks in the scenarioo-infrastructure repo:
+
 * Docker (with various dependent packages) & ElasticSearch [see scenarioo-infrastructure\roles\docker\tasks\main.yml](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/roles/docker/tasks/main.yml)
 * Tomcat [scenarioo-infrastructure\roles\tomcat\tasks\main.yml](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/roles/tomcat/tasks/main.yml)
 * [Nginx](nginx.md) as a proxy [scenarioo-infrastructure\roles\nginx\tasks\main.yml](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/roles/nginx/tasks/main.yml)
