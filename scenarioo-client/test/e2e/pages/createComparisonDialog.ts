@@ -1,17 +1,19 @@
 'use strict';
 
 import {$, by, element} from 'protractor';
+import * as Utils from '../util';
 
 class CreateComparisonDialog {
 
     async clickCreateComparisonLink() {
-        return element(by.id('createComparisonBtn')).click();
+        return Utils.clickElementById('createComparisonBtn');
     }
 
     async enterComparisonName(comparisonName) {
         const comparisonNameField = element(by.id('comparisonName'));
         return comparisonNameField.sendKeys(comparisonName);
     }
+
     async openTargetBranchSelectionDropdown() {
         return element.all(by.partialLinkText('Branch:')).first().click();
     }
@@ -58,7 +60,7 @@ class CreateComparisonDialog {
     }
 
     async createBranch() {
-        return element(by.id('createComparisonBtn')).click();
+        return Utils.clickElementById('createComparisonBtn');
     }
 }
 

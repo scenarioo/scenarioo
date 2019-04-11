@@ -12,17 +12,44 @@ class ComparisonsPage {
     }
 
     async getNumberOfComparisons() {
-        const rows = this.comparisonsTable.all(by.css('tbody tr'));
-        return rows.count();
+        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+        return await elements.count();
     }
+
     async assertNumberOfComparisons(expectedCount) {
-        const rows = this.comparisonsTable.all(by.css('tbody tr'));
-        return expect(rows.count()).toBe(expectedCount);
+        return Utils.assertNumberOfTableRows(this.comparisonsTable, expectedCount);
     }
 
     async clickRefreshLink() {
-        return element(by.id('refreshComparisons')).click();
+        return Utils.clickElementById('refreshComparisons');
+    }
+
+    async clickResetButton() {
+        return Utils.clickElementById('resetComparisonsSearchField');
+    }
+
+    async filterComparisons(comparisonName) {
+        const comparisonsSearchField = element(by.id('comparisonsSearchField'));
+        return comparisonsSearchField.sendKeys(comparisonName);
+    }
+
+    async assertComparisonStatus(rowIndex, status) {
+        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        const cells = row.all(by.tagName('td'));
+        return expect(cells.get(5).getText()).toBe(status);
+    }
+
+    async recalculateComparison(rowIndex) {
+        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        return row.element(by.linkText('Recalculate')).click();
+    }
+
+    async openComparisonDetails(rowIndex) {
+        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        return row.element(by.partialLinkText('Details')).click();
     }
 }
-
 export default new ComparisonsPage();

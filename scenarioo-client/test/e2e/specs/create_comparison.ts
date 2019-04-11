@@ -5,8 +5,6 @@ import * as Utils from '../util';
 import CreateComparisonDialog from '../pages/createComparisonDialog';
 import ComparisonsPage from '../pages/comparisonsPage';
 
-const NUMBER_OF_COMPARISONS_IN_TEST = 15;
-
 useCase('Create comparison')
     .description('Create a new comparison from last successful to a specific build.')
     .describe(() => {
@@ -46,7 +44,7 @@ useCase('Create comparison')
             .it(async () => {
 
                 await ComparisonsPage.goToPage();
-                await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST);
+                const comparisonsCount = ComparisonsPage.getNumberOfComparisons();
                 await step('comparisons page');
 
                 await CreateComparisonDialog.clickCreateComparisonLink();
@@ -83,7 +81,7 @@ useCase('Create comparison')
                 await step('branch created');
 
                 await ComparisonsPage.clickRefreshLink();
-                await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST + 1);
+                await ComparisonsPage.assertNumberOfComparisons(await comparisonsCount + 1);
                 await step('comparisons refreshed and asserted');
             });
     });
