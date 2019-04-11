@@ -40,6 +40,7 @@ useCase('Create comparison')
             });
 
         scenario('Creating comparison existing branch combination')
+            .description('A comparison with an existing branch and build combination cannot be created.')
             .it(async () => {
 
                 await CreateComparisonDialog.clickCreateComparisonLink();
