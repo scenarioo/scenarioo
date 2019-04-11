@@ -17,8 +17,11 @@ class ComparisonsPage {
     }
     async assertNumberOfComparisons(expectedCount) {
         const rows = this.comparisonsTable.all(by.css('tbody tr'));
-        // + 1 due to empty row
-        return expect(rows.count()).toBe(expectedCount + 1);
+        return expect(rows.count()).toBe(expectedCount);
+    }
+
+    async clickRefreshLink() {
+        return element(by.id('refreshComparisons')).click();
     }
 }
 

@@ -46,13 +46,14 @@ useCase('Create comparison')
 
         scenario('Creating comparison with comparison branch')
             .description('A comparison with a comparison branch can be created')
-            .xit(async () => {
+            .it(async () => {
 
                 await ComparisonsPage.goToPage();
                 await step('comparisons page');
+                await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST);
 
                 await CreateComparisonDialog.clickCreateComparisonLink();
-                await step('display the create comparison dialog');
+                await step('create comparison dialog opened');
 
                 await CreateComparisonDialog.enterComparisonName('Comparison');
                 await step('comparison name entered');
@@ -70,9 +71,12 @@ useCase('Create comparison')
                 await step('build selected');
 
                 await CreateComparisonDialog.createBranch();
-                await step('create branch');
+                await step('branch created');
+
+                await ComparisonsPage.clickRefreshLink();
+                await step('comparisons refreshed');
 
                 await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST + 1);
-                await step('branch created');
+                await step('comparisons asserted');
             });
     });
