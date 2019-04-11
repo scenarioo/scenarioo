@@ -7,7 +7,6 @@ import ComparisonsPage from '../pages/comparisonsPage';
 
 const NUMBER_OF_COMPARISONS_IN_TEST = 15;
 
-
 useCase('Create comparison')
     .description('Create new comparison from last successful to specific build.')
     .describe(() => {
@@ -74,6 +73,6 @@ useCase('Create comparison')
                 await step('create branch');
 
                 await ComparisonsPage.assertNumberOfComparisons(NUMBER_OF_COMPARISONS_IN_TEST + 1);
-                await step('branch created')
+                await step('branch created');
             });
     });
