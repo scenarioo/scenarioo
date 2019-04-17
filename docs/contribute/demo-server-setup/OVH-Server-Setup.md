@@ -78,4 +78,4 @@ Scenarioo Infrastructure needs to know the IP address of the new server, so that
 Set the IP address of the new Server under "mainserver" in [scenarioo-infrastructure\hosts\hosts_demoserver_ovh](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/hosts/hosts_demoserver_ovh).
 
 ## Update DNS lookup address
-Finally, the DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server.
+Finally, the DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server. To do this inform bruderol, who manages the DNS entry.
