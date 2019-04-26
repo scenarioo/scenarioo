@@ -85,4 +85,5 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     ConfigService.load();
 });
 
+// tslint:disable-next-line
 platformBrowserDynamic().bootstrapModule(AppModule);

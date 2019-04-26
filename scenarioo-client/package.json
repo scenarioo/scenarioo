@@ -29,7 +29,7 @@
         "lint-js:fix": "eslint --fix 'app/**/*.js' 'test/**/*.js''",
         "lint-ts-e2e": "tslint 'test/e2e/**/*.ts' --project tsconfig.json",
         "lint-ts-e2e:fix": "tslint --fix 'test/e2e/**/*.ts' --project tsconfig.json",
-        "lint:app": "tslint 'app/**/*.ts' -c app/tslint.json",
+        "lint:app": "tslint --project tsconfig.json 'app/**/*.ts' -c app/tslint.json",
         "lint:app:fix": "tslint --fix 'app/**/*.ts' -c app/tslint.json"
     },
     "dependencies": {
