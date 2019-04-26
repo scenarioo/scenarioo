@@ -46,7 +46,7 @@ angular.module('scenarioo.services')
         };
 
         function getBranch(loadedData, branchName) {
-            return loadedData.branches.find((branch) => branch.name === branchName);
+            return loadedData.branches.find((currentBranch) => currentBranch.branch.name === branchName);
         }
 
         function getBuild(branch, buildName) {
