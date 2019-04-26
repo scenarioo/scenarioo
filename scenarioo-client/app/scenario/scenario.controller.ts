@@ -67,10 +67,10 @@ function ScenarioController($filter, $routeParams,
         ScenarioResource.get(
             {
                 branchName: selected.branch,
-                buildName: selected.build
+                buildName: selected.build,
             },
             useCaseName,
-            scenarioName
+            scenarioName,
         ).subscribe((result) => {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);

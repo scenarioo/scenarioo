@@ -102,7 +102,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                 buildName: selected.build,
             },
             useCaseName,
-            scenarioName
+            scenarioName,
         ).subscribe(
             (scenarioResult) => {
                 $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
@@ -117,7 +117,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                 branchName: selected.branch,
                 buildName: selected.build,
             },
-            useCaseName
+            useCaseName,
         ).subscribe(onUseCaseLoaded);
         vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 

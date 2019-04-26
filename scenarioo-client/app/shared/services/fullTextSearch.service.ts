@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 

@@ -39,12 +39,11 @@ function BuildController($scope, $location, ConfigService) {
                 index: 0,
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'build/useCasesTab.html'
-            }
+                contentViewUrl: 'build/useCasesTab.html',
+            },
         ];
         vm.tabIndices.usecases = 0;
     }
-
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
@@ -61,7 +60,6 @@ function BuildController($scope, $location, ConfigService) {
             selectTabFromUrl();
         });
 
-
     }
 
     function defineCustomTabsFromConfig(config) {
@@ -71,7 +69,7 @@ function BuildController($scope, $location, ConfigService) {
                 tabId: customTab.id,
                 title: customTab.tabTitle,
                 columns: customTab.customObjectDetailColumns,
-                contentViewUrl: 'build/customTab.html'
+                contentViewUrl: 'build/customTab.html',
             });
             vm.tabIndices[customTab.id] = index + 1;
         });
@@ -83,7 +81,7 @@ function BuildController($scope, $location, ConfigService) {
             index: i,
             tabId: 'sketches',
             title: 'Sketches',
-            contentViewUrl: 'build/sketchesTab.html'
+            contentViewUrl: 'build/sketchesTab.html',
         });
         vm.tabIndices.sketches = i;
     }

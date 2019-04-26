@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {catchError} from 'rxjs/operators';
-import handleError from "../utils/httpErrorHandling";
+import handleError from '../utils/httpErrorHandling';
 
 declare var angular: angular.IAngularStatic;
 

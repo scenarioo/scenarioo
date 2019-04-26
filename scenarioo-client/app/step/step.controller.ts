@@ -116,7 +116,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         StepResource.get(
             {
                 branchName: selected.branch,
-                buildName: selected.build
+                buildName: selected.build,
             },
             useCaseName,
             scenarioName,
@@ -125,7 +125,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             $scope.stepInPageOccurrence,
             labels,
         )
-            .subscribe(result => stepResultToVm(result, selected),
+            .subscribe((result) => stepResultToVm(result, selected),
                 (error) => {
                     $scope.stepNotFound = true;
                     $scope.httpResponse = {
@@ -135,7 +135,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                         data: error.data,
                     };
                 },
-            )
+            );
 
     }
 
@@ -341,7 +341,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         if (activeTab == null) {
             return 0;
         }
-        if (activeTab === "2" && !$scope.comparisonInfo.isDefined) {
+        if (activeTab === '2' && !$scope.comparisonInfo.isDefined) {
             return 0;
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab, 10) : 0;

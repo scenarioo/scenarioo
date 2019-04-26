@@ -7,20 +7,20 @@ export function addRoutes($routeProvider) {
             template: require('./build/build.html'),
             controller: 'BuildController',
             controllerAs: 'main',
-            breadcrumbId: 'main'
+            breadcrumbId: 'main',
         })
         .when('/manage', {
             template: require('./manage/manage.html'),
             controller: 'ManageController',
             controllerAs: 'vm',
-            breadcrumbId: 'manage'
+            breadcrumbId: 'manage',
         })
         .when('/usecase/:useCaseName', {
             template: require('./useCase/usecase.html'),
             controller: 'UseCaseController',
             controllerAs: 'useCase',
             useCaseName: '@useCaseName',
-            breadcrumbId: 'usecase'
+            breadcrumbId: 'usecase',
         })
         .when('/scenario/:useCaseName/:scenarioName', {
             template: require('./scenario/scenario.html'),
@@ -28,14 +28,14 @@ export function addRoutes($routeProvider) {
             controllerAs: 'vm',
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName',
-            breadcrumbId: 'scenario'
+            breadcrumbId: 'scenario',
         })
         .when('/search/:searchTerm', {
             template: require('./search/search.html'),
             controller: 'SearchController',
             controllerAs: 'vm',
             breadcrumbId: 'search',
-            searchTerm: '@searchTerm'
+            searchTerm: '@searchTerm',
         })
         .when('/object/:objectType/:objectName', {
             template: require('./objectRepository/objectRepository.html'),
@@ -43,7 +43,7 @@ export function addRoutes($routeProvider) {
             controllerAs: 'vm',
             objectType: '@objectType',
             objectName: '@objectName',
-            breadcrumbId: 'object'
+            breadcrumbId: 'object',
         })
         .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
             template: require('./step/step.html'),
@@ -53,18 +53,18 @@ export function addRoutes($routeProvider) {
             pageName: '@pageName',
             pageOccurrence: '@pageOccurrence',
             stepInPageOccurrence: '@stepInPageOccurrence',
-            breadcrumbId: 'step'
+            breadcrumbId: 'step',
         })
         .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
             template: require('./sketcher/stepSketch.html'),
             controller: 'StepSketchController',
             controllerAs: 'vm',
-            breadcrumbId: 'stepsketch'
+            breadcrumbId: 'stepsketch',
         })
         .when('/editor', {
             template: require('./sketcher/sketcherEditor.html'),
             controller: 'SketcherEditorController',
-            controllerAs: 'vm'
+            controllerAs: 'vm',
         })
         .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
             template: require('./sketcher/sketcherEditor.html'),
@@ -72,9 +72,9 @@ export function addRoutes($routeProvider) {
             controllerAs: 'vm',
             issueId: '@issueId',
             scenarioSketchId: '@scenarioSketchId',
-            stepSketchId: '@stepSketchId'
+            stepSketchId: '@stepSketchId',
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/',
         });
 }

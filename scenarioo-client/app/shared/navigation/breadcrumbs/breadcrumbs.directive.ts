@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as $ from "jquery"
+import * as $ from 'jquery';
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
-                                                                            $filter, $sce, $uibModal, BreadcrumbsService,
-                                                                            SharePagePopupService, SketcherLinkService) {
+angular.module('scenarioo.directives').directive('scBreadcrumbs', ($routeParams, $location, $route, $compile,
+                                                                   $filter, $sce, $uibModal, BreadcrumbsService,
+                                                                   SharePagePopupService, SketcherLinkService) => {
     const limit = 50;
 
     return {
@@ -29,7 +29,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
         priority: 0,
         replace: true,
         template: require('./breadcrumbs.html'),
-        link: function (scope: any) {
+        link(scope: any) {
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
@@ -42,7 +42,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
             const navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
-            angular.forEach(navElements, function (breadcrumbItem) {
+            angular.forEach(navElements, (breadcrumbItem) => {
 
                 // Create breadcrumb objects
                 const isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
@@ -52,7 +52,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
                     tooltip: breadcrumbItem.textForTooltip,
                     showTooltip: isLabelTextShortened,
                     href: '#' + breadcrumbItem.route,
-                    isLast: breadcrumbItem.isLastNavigationElement
+                    isLast: breadcrumbItem.isLastNavigationElement,
                 };
 
                 // make sure we can bind html to view
@@ -62,14 +62,14 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
             scope.email = {
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
-                link: encodeURIComponent($location.absUrl())
+                link: encodeURIComponent($location.absUrl()),
             };
 
-            scope.showStepLinks = function () {
+            scope.showStepLinks = () => {
                 SharePagePopupService.showShareStepPopup();
             };
 
-        }
+        },
     };
 
     function createComparison() {
@@ -77,7 +77,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             template: require('../../../manage/comparisons/createComparisonModal.html'),
             controller: 'CreateComparisonModalController',
             controllerAs: 'vm',
-            windowClass: 'modal-small'
+            windowClass: 'modal-small',
         });
     }
 
@@ -94,7 +94,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             stepInPageOccurrence: parseInt($routeParams.stepInPageOccurrence, 10),
             objectType: $routeParams.objectType,
             objectName: $routeParams.objectName,
-            searchTerm: encodeURIComponent($('<div/>').text($routeParams.searchTerm).html())
+            searchTerm: encodeURIComponent($('<div/>').text($routeParams.searchTerm).html()),
         };
     }
 

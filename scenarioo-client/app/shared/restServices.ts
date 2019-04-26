@@ -1,2 +1,2 @@
-import "./scenarioService.config";
-import "./services/scenariooResource.service";
+import './scenarioService.config';
+import './services/scenariooResource.service';

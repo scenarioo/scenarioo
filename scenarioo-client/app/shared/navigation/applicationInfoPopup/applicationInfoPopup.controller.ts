@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Version} from "../../services/versionResource.service";
+import {Version} from '../../services/versionResource.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
-        $scope.$watch(ConfigService.applicationInformation, applicationInformation => {
+        $scope.$watch(ConfigService.applicationInformation, (applicationInformation) => {
             $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
         });
 
