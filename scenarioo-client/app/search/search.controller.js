@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {_throw, catchError} from 'rxjs';
-
 angular.module('scenarioo.controllers').controller('SearchController', function ($routeParams, $location, FullTextSearchService,
                                                                                  SelectedBranchAndBuildService, ReferenceTreeNavigationService, LocalStorageService) {
     const LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
@@ -49,10 +47,6 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                 vm.searchTerm,
                 vm.includeHtml
             )
-            .pipe(catchError(e => {
-                vm.showSearchFailed = true;
-                return _throw(e);
-            }))
             .subscribe(response => {
                 if (response.errorMessage) {
                     vm.showSearchFailed = true;
@@ -62,7 +56,9 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                     vm.hits = response.searchTree.hits;
                     vm.totalHits = response.searchTree.totalHits;
                 }
-            })
+            }, ()=> {
+                vm.showSearchFailed = true;
+            });
 
 
     }

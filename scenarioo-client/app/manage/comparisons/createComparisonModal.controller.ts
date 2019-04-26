@@ -15,9 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {catchError} from 'rxjs/operators';
-import {_throw} from 'rxjs/observable/throw';
-
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
 function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
@@ -197,11 +194,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             .createComparision(vm.comparisonName,
                 baseBranchInfo,
                 comparisonBranchInfo)
-            .pipe(catchError((e) => {
-                onFailedCreation();
-                return _throw(e);
-            }))
-            .subscribe(onSuccessCreation);
+            .subscribe(onSuccessCreation, onFailedCreation);
 
     }
 
