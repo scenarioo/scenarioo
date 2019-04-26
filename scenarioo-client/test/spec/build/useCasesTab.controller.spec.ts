@@ -21,12 +21,12 @@ import {Observable} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
-describe('UseCasesTabController', function () {
+describe('UseCasesTabController', () => {
 
     let $location, $scope;
     let useCasesTabController;
 
-    let LabelConfigurationsResourceMock = {
+    const LabelConfigurationsResourceMock = {
         query: () => Observable.of({}),
     };
 
@@ -42,20 +42,20 @@ describe('UseCasesTabController', function () {
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
     }));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_) {
+    beforeEach(inject(($controller, $rootScope, _$location_) => {
             $location = _$location_;
 
             $scope = $rootScope.$new();
             useCasesTabController = $controller('UseCasesTabController', {$scope: $scope});
-        },
+        }
     ));
 
-    it('has no usecases and builds set in the beginning', function () {
+    it('has no usecases and builds set in the beginning', () => {
         expect(useCasesTabController.useCases.length).toBe(0);
         expect(useCasesTabController.branchesAndBuilds.length).toBe(0);
     });
 
-    it('navigates to use case when link is clicked', function () {
+    it('navigates to use case when link is clicked', () => {
         expect($location.path()).toBe('');
 
         const dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};

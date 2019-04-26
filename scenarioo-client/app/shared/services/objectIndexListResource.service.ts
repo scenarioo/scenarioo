@@ -8,7 +8,6 @@ declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class ObjectIndexListResource {
-    url = 'rest/builds/buildImportSummaries';
 
     constructor(private httpClient: HttpClient) {
     }

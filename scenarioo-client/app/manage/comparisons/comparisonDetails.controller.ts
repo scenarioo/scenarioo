@@ -28,9 +28,7 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
 
     function activate() {
         ComparisonLogResource.logComparision(comparison.name, comparison.baseBuild)
-            .then((log) => {
-                vm.log = log;
-            });
+            .subscribe((log) => vm.log = log);
     }
 
     function cancel() {

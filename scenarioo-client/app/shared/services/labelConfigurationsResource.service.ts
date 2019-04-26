@@ -12,7 +12,7 @@ export interface LabelConfigurationMap {
 
 @Injectable()
 export class LabelConfigurationsResource {
-    url = 'rest/labelconfigurations';
+    private url = 'rest/labelconfigurations';
 
     constructor(private httpClient: HttpClient) {
 

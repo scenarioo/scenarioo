@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {_throw, catchError} from "rxjs";
+
 angular.module('scenarioo.controllers').controller('SearchController', function ($routeParams, $location, FullTextSearchService,
                                                                                  SelectedBranchAndBuildService, ReferenceTreeNavigationService, LocalStorageService) {
-    var LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
+    const LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
 
-    var vm = this;
+    const vm = this;
 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
@@ -36,27 +38,33 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     doSearch();
 
     function doSearch() {
-        var selected = SelectedBranchAndBuildService.selected();
+        const selected = SelectedBranchAndBuildService.selected();
 
-        FullTextSearchService.search(
-            {
-                buildName: selected.build,
-                branchName: selected.branch
-            },
-            vm.searchTerm,
-            vm.includeHtml
-        ).then(function (response) {
-            if (response.errorMessage) {
+        FullTextSearchService
+            .search(
+                {
+                    buildName: selected.build,
+                    branchName: selected.branch
+                },
+                vm.searchTerm,
+                vm.includeHtml
+            )
+            .pipe(catchError(e => {
                 vm.showSearchFailed = true;
-                vm.errorMessage = response.errorMessage;
-            } else {
-                vm.results.resultSet = response.searchTree.results;
-                vm.hits = response.searchTree.hits;
-                vm.totalHits = response.searchTree.totalHits;
-            }
-        }).catch(function () {
-            vm.showSearchFailed = true;
-        });
+                return _throw(e);
+            }))
+            .subscribe(response => {
+                if (response.errorMessage) {
+                    vm.showSearchFailed = true;
+                    vm.errorMessage = response.errorMessage;
+                } else {
+                    vm.results.resultSet = response.searchTree.results;
+                    vm.hits = response.searchTree.hits;
+                    vm.totalHits = response.searchTree.totalHits;
+                }
+            })
+
+
     }
 
     function changeIncludeHtml() {

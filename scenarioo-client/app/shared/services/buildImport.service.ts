@@ -7,7 +7,7 @@ declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class BuildImportService {
-    url = 'rest/builds/updateAndImport';
+    private url = 'rest/builds/updateAndImport';
 
     constructor(private httpClient: HttpClient) {
 

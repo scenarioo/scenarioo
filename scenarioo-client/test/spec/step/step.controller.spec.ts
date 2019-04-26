@@ -44,18 +44,18 @@ describe('StepController', () => {
     };
 
 
-    let ConfigResourceMock = {
+    const ConfigResourceMock = {
         get: () => Observable.of(angular.copy(TestData.CONFIG)),
     };
 
-    let StepResourceMock = {
+    const StepResourceMock = {
         get: () => Observable.of(TestData.STEP),
     };
 
-    let LabelConfigurationsResourceMock = {
+    const LabelConfigurationsResourceMock = {
         query: () => Observable.of({}),
     };
-    let ScenarioResourceMock = {
+    const ScenarioResourceMock = {
         get: () => Observable.of({}),
         getUseCaseScenarios: () => Observable.of({})
     };
@@ -66,7 +66,7 @@ describe('StepController', () => {
         // TODO: Remove after AngularJS Migration.
         $provide.value("BranchesResource", {
             query: () => {
-            },
+            }
         });
         $provide.value("ConfigResource", ConfigResourceMock);
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
@@ -74,8 +74,8 @@ describe('StepController', () => {
         $provide.value("StepResource", StepResourceMock);
     }));
 
-    beforeEach(inject( (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
-                                _BuildDiffInfoResource_, _StepDiffInfoResource_,
+    beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
+                       _BuildDiffInfoResource_, _StepDiffInfoResource_,
                        _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
                        _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) => {
         $scope = _$rootScope_.$new();
@@ -246,8 +246,6 @@ describe('StepController', () => {
         });
 
         function loadPageContent() {
-            //$httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-
             spyOn(StepResourceMock, 'get').and.returnValue(Observable.of(TestData.STEP));
 
             ConfigService.load();

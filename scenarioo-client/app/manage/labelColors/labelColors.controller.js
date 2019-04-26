@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('LabelColorsController', Labe
 
 function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsListResource) {
 
-    var vm = this;
+    const vm = this;
     vm.availableColors = [{'backgroundColor': '#e11d21', 'foregroundColor': '#FFFFFF'},
         {'backgroundColor': '#eb6420', 'foregroundColor': '#FFFFFF'},
         {'backgroundColor': '#fbca04', 'foregroundColor': '#000000'},
@@ -49,9 +49,9 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
 
     function deleteEntry(labelName) {
         if (labelName !== '') {
-            var index;
+            let index;
             for (index = 0; index < vm.labelConfigurations.length; index++) {
-                var labelConfiguration = vm.labelConfigurations[index];
+                const labelConfiguration = vm.labelConfigurations[index];
                 if (labelConfiguration.name === labelName) {
                     vm.labelConfigurations.splice(index, 1);
                     break;
@@ -61,7 +61,7 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
     }
 
     function labelNameChanged() {
-        var labelName = vm.labelConfigurations[vm.labelConfigurations.length - 1].name;
+        const labelName = vm.labelConfigurations[vm.labelConfigurations.length - 1].name;
         if (labelName !== '') {
             vm.labelConfigurations.push(createEmptyLabelConfiguration());
         }
@@ -73,9 +73,9 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
 
     function save() {
         vm.colorMissing = [];
-        var labelConfigurationsAsMap = {};
-        var everythingIsValid = true;
-        angular.forEach(vm.labelConfigurations, function (value, key) {
+        const labelConfigurationsAsMap = {};
+        let everythingIsValid = true;
+        angular.forEach(vm.labelConfigurations, (value, key) => {
             if (value.name !== '') {
                 if (!value.backgroundColor) {
                     everythingIsValid = false;
@@ -90,7 +90,7 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
 
         if (everythingIsValid) {
             LabelConfigurationsResource.save(labelConfigurationsAsMap)
-                .subscribe(function () {
+                .subscribe(() => {
                     vm.successfullyUpdatedLabelConfigurations = true;
                 });
         }
@@ -98,7 +98,7 @@ function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsL
 
     function loadLabelConfigurations() {
         LabelConfigurationsListResource.query()
-            .subscribe(function (labelConfigurations) {
+            .subscribe(labelConfigurations => {
                 labelConfigurations.push(createEmptyLabelConfiguration());
                 vm.labelConfigurations = labelConfigurations;
             });

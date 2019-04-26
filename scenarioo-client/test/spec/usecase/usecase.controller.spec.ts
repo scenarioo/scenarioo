@@ -30,10 +30,10 @@ describe('UseCaseController', () => {
     let $scope, routeParams, controller, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
         SelectedBranchAndBuildService, $location, RelatedIssueResource;
     let labelConfigurationService: any;
-    let ConfigResourceMock = {
+    const ConfigResourceMock = {
         get: () => Observable.of({})
     };
-    let ScenarioResourceMock = {
+    const ScenarioResourceMock = {
         get: () => Observable.of({}),
         getUseCaseScenarios: () => getFindAllScenariosFake()
     };
