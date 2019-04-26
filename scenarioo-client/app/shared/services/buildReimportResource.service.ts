@@ -15,9 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scRoundUp', function () {
+angular.module('scenarioo.services')
 
-    return function(input) {
-        return Math.ceil(input);
-    };
-});
+    .factory('BuildReimportResource', (ScenariooResource) => {
+        return ScenariooResource('/builds/:branchName/:buildName/import',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+            }, {});
+    });

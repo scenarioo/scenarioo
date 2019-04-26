@@ -15,18 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ApplicationStatusService', function (ScenariooResource) {
+import {Version} from "../../services/versionResource.service";
+declare var angular: angular.IAngularStatic;
 
-    var SearchEngineStatusResource = ScenariooResource('/searchEngineStatus', {});
-    var ApplicationStatusResource = ScenariooResource('/configuration/applicationStatus', {});
+angular.module('scenarioo.services')
+    .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
+        $scope.$watch(function () {
+            return ConfigService.applicationInformation();
+        }, function (applicationInformation) {
+            $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
+        });
 
-    return {
-        isSearchEngineRunning: function() {
-            return SearchEngineStatusResource.get().$promise;
-        },
+        VersionResource.get().subscribe((result: Version) => {
+            $scope.version = result;
+        });
 
-        getApplicationStatus: function() {
-            return ApplicationStatusResource.get().$promise;
-        }
-    }
-});
+        $scope.closeInfoModal = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });

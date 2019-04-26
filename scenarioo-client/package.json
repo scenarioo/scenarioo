@@ -26,7 +26,8 @@
         "lint-ci": "eslint \"app/**/*.js\" \"test/**/*.js\" -f junit -o ../test-results/lint/eslint.xml; tslint \"test/e2e/**/*.ts\" --project tsconfig.json --format junit -o -o ../test-results/lint/tslint.xml",
         "lint-js": "eslint \"app/**/*.js\" \"test/**/*.js\"",
         "lint-ts-e2e": "tslint \"test/e2e/**/*.ts\" --project tsconfig.json",
-        "lint:app": "tslint app/**/*/*.ts -c app/tslint.json"
+        "lint:app": "tslint app/**/*/*.ts -c app/tslint.json",
+        "lint:app:fix": "tslint --fix app/**/*/*.ts -c app/tslint.json"
     },
     "dependencies": {
         "@angular/common": "5.x.x",

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import * as angular from 'angular';
+declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class LabelConfigurationService {

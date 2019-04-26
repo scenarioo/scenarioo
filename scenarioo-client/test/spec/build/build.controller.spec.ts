@@ -17,48 +17,56 @@
 
 'use strict';
 
-describe('BuildController', function () {
+import {Observable} from "rxjs";
+declare var angular: angular.IAngularStatic;
 
-    var $location, $httpBackend, TestData, $scope, BuildController;
+describe('BuildController', () => {
+
+
+    let $location, TestData, $scope, BuildController;
+
+    let ConfigResourceMock = {
+        get: () => Observable.of(angular.copy(TestData.CONFIG))
+    };
+
+    beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _TestData_) {
+    beforeEach(inject(($controller, $rootScope, _$location_, _TestData_) => {
             $location = _$location_;
-            $httpBackend = _$httpBackend_;
             TestData = _TestData_;
-
-            var BRANCHES_URL = 'rest/branches';
-            $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
-
-        $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
 
             $scope = $rootScope.$new();
             BuildController = $controller('BuildController', {$scope: $scope});
         }
     ));
 
-    it('has no builds set in the beginning', function () {
+    it('has no builds set in the beginning', () => {
         expect($scope.branchesAndBuilds).toBeUndefined();
     });
 
-    it('has a first static tab that is initialized with main use cases content', function () {
+    it('has a first static tab that is initialized with main use cases content', () => {
         $scope.$apply();
-        $httpBackend.flush();
         expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[0].index)).toEqual('build/useCasesTab.html');
     });
 
-    it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {
+    it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', () => {
         $scope.$apply();
-        $httpBackend.flush();
         expect(BuildController.tabs[1].tabId).toEqual('calls');
         expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[1])).toEqual(null);
     });
 
-    it('loads custom tab when url parameter for tab points to a custom tab', function () {
+    it('loads custom tab when url parameter for tab points to a custom tab', () => {
         $location.url('/?tab=calls');
         $scope.$apply();
-        $httpBackend.flush();
+
+        expect(BuildController.tabs.length).toEqual(3);
         expect(BuildController.tabs[1].tabId).toEqual('calls');
         expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[1].index)).toEqual('build/customTab.html');
     });

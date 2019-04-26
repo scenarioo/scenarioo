@@ -18,9 +18,8 @@
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-          $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
-          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
-
+                            $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
+                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -281,7 +280,7 @@ function ScenarioController($filter, $routeParams,
     function goToIssue(issue) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id },
+            {branchName: selectedBranch, issueId: issue.id},
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });

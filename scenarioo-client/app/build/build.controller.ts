@@ -24,7 +24,7 @@ angular.module('scenarioo.controllers').controller('BuildController', BuildContr
 
 function BuildController($scope, $location, ConfigService) {
 
-    var vm = this;
+    const vm = this;
     vm.tabs = undefined;
     vm.getLazyTabContentViewUrl = getLazyTabContentViewUrl;
     vm.setSelectedTabInUrl = setSelectedTabInUrl;
@@ -48,8 +48,8 @@ function BuildController($scope, $location, ConfigService) {
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
-        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
-            var config = ConfigService.getRawConfigDataCopy();
+        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
+            const config = ConfigService.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
             defineLastStaticTabs();
@@ -57,11 +57,15 @@ function BuildController($scope, $location, ConfigService) {
         });
         ConfigService.load();
 
-        selectTabFromUrl();
+        $scope.$watch(() => $location.path(), () => {
+            selectTabFromUrl();
+        });
+
+
     }
 
     function defineCustomTabsFromConfig(config) {
-        angular.forEach(config.customObjectTabs, function (customTab, index) {
+        angular.forEach(config.customObjectTabs, (customTab, index) => {
             vm.tabs.push({
                 index: index + 1,
                 tabId: customTab.id,
@@ -74,7 +78,7 @@ function BuildController($scope, $location, ConfigService) {
     }
 
     function defineLastStaticTabs() {
-        var i = vm.tabs.length;
+        const i = vm.tabs.length;
         vm.tabs.push({
             index: i,
             tabId: 'sketches',
@@ -93,16 +97,16 @@ function BuildController($scope, $location, ConfigService) {
     }
 
     function setSelectedTabInUrl(tabIndex) {
-        var tabId = vm.tabs[tabIndex].tabId;
+        const tabId = vm.tabs[tabIndex].tabId;
         if ($location.search().tab !== tabId) {
             $location.search('tab', tabId);
         }
     }
 
     function selectTabFromUrl() {
-        var params = $location.search();
+        const params = $location.search();
         if (params && angular.isDefined(params.tab)) {
-            var tab = getTabById(params.tab);
+            const tab = getTabById(params.tab);
             if (tab) {
                 vm.activeIndex = tab.index;
             }
@@ -110,7 +114,7 @@ function BuildController($scope, $location, ConfigService) {
     }
 
     function getTabById(tabId) {
-        var index = vm.tabIndices[tabId];
+        const index = vm.tabIndices[tabId];
         if (angular.isDefined(index)) {
             return vm.tabs[index];
         } else {

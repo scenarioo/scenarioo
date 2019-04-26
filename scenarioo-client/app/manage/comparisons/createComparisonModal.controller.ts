@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('CreateComparisonModalControl
 
 function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
 
-    var vm = this;
+    const vm = this;
 
     vm.branchesAndBuilds = {};
     vm.comparisonName = '';
@@ -49,24 +49,25 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             loadComparisonsOfCurrentBuild();
         });
 
-        ApplicationStatusService.getApplicationStatus().then(function(status) {
+        ApplicationStatusService.getApplicationStatus().subscribe((status) => {
             vm.version = status.version;
         });
     }
 
     function loadComparisonsOfCurrentBuild() {
-        var baseBranchName = vm.baseBranch.branch.name;
-        var baseBuildName = vm.baseBuild.linkName;
+        const baseBranchName = vm.baseBranch.branch.name;
+        const baseBuildName = vm.baseBuild.linkName;
         BuildDiffInfosResource.query(
-            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName},
-            function onSuccess(buildDiffInfos) {
+            {baseBranchName, baseBuildName},
+            (buildDiffInfos) => {
                 vm.comparisonsOfCurrentBuild = buildDiffInfos;
                 validateDistinctBuilds();
-            }, function onFailure() {
+            },
+            () => {
                 vm.comparisonsOfCurrentBuild = [];
                 validateDistinctBuilds();
-            }
-        )
+            },
+        );
     }
 
     function setBaseBranch(branch) {
@@ -100,9 +101,9 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
         } else {
             // Check for unique comparison name
             vm.validationMessage = null;
-            vm.comparisonsOfCurrentBuild.forEach(function (comparison) {
-                if (comparison.name == vm.comparisonName) {
-                    vm.validationMessage = 'Comparison with that name already exists on selected target build'
+            vm.comparisonsOfCurrentBuild.forEach((comparison) => {
+                if (comparison.name === vm.comparisonName) {
+                    vm.validationMessage = 'Comparison with that name already exists on selected target build';
                 }
             });
             return !vm.validationMessage;
@@ -146,7 +147,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
 
     function validateSelectedComparisonNotYetExists() {
         vm.validationMessage = null;
-        vm.comparisonsOfCurrentBuild.forEach(function (comparison) {
+        vm.comparisonsOfCurrentBuild.forEach((comparison) => {
             if (isEqualBuild(comparison.baseBuild, vm.baseBranch, vm.baseBuild) && isEqualBuild(comparison.compareBuild, vm.comparisonBranch, vm.comparisonBuild)) {
                 vm.validationMessage = 'Comparison of selected builds already exists!';
             }
@@ -156,7 +157,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
 
     function isEqualBuild(buildIdentifier, branch, build) {
         // if it is an alias, the name is somehow stored in the description field (very dirty, but that is how it currently is)
-        var branchNameToCompare = branch.isAlias ? branch.branch.description : branch.branch.name;
+        const branchNameToCompare = branch.isAlias ? branch.branch.description : branch.branch.name;
         return buildIdentifier.branchName === branchNameToCompare && buildIdentifier.buildName === build.build.name;
     }
 
@@ -180,10 +181,10 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
         ComparisonCreateResource.post({
             branchName: vm.baseBranch.branch.name,
             buildName: vm.baseBuild.build.name,
-            comparisonName: vm.comparisonName
+            comparisonName: vm.comparisonName,
         }, {
-                branchName: vm.comparisonBranch.branch.name,
-                buildName: vm.comparisonBuild.build.name
+            branchName: vm.comparisonBranch.branch.name,
+            buildName: vm.comparisonBuild.build.name,
         }, onSuccessCreation, onFailedCreation);
 
     }
@@ -202,5 +203,3 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     }
 
 }
-
-

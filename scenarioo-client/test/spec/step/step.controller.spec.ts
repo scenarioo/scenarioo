@@ -16,24 +16,52 @@
  */
 
 'use strict';
+declare var angular: angular.IAngularStatic;
+import 'rxjs/add/observable/of';
+import {Observable} from "rxjs";
 
-describe('StepController', function () {
+describe('StepController', () => {
 
-    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, BuildDiffInfoResource, StepDiffInfoResource,
-        SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
+    let $scope, $routeParams, $location, $q, $window, ConfigService,
+        ScenarioResource, StepResource,
+        BuildDiffInfoResource, StepDiffInfoResource,
+        SelectedBranchAndBuildService, DiffInfoService, BranchesResource,
+        $controller, $httpBackend, TestData,
+        RelatedIssueResource;
 
-    var STEP_INFORMATION_TREE = {
+    const STEP_INFORMATION_TREE = {
         childNodes: [
-            { nodeLabel: 'Step title', nodeValue: 'Search results' },
-            { nodeLabel: 'Page name', childNodes: [ ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
-            { nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
-            { nodeLabel: 'Build status', nodeValue: 'success' }
+            {nodeLabel: 'Step title', nodeValue: 'Search results'},
+            {
+                nodeLabel: 'Page name',
+                childNodes: [],
+                nodeValue: 'searchResults.jsp',
+                nodeObjectName: 'searchResults.jsp'
+            },
+            {nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
+            {nodeLabel: 'Build status', nodeValue: 'success'}
         ]
     };
 
-    beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_, _SelectedBranchAndBuildService_, _DiffInfoService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
+    let ConfigResourceMock = {
+        get: () => Observable.of(angular.copy(TestData.CONFIG))
+    };
+
+    beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("BranchesResource", {
+            query: () => {
+            }
+        });
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
+
+    beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
+                       _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_,
+                       _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
+                       _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) => {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -61,30 +89,41 @@ describe('StepController', function () {
         LocalStorageService.clearAll();
     }));
 
-    describe('scenario is found', function() {
+    describe('scenario is found', () => {
 
-        beforeEach(function() {
+        beforeEach(() => {
             $routeParams.stepInPageOccurrence = 1;
-            $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService, DiffInfoService: DiffInfoService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+            $controller('StepController', {
+                $scope: $scope,
+                $routeParams: $routeParams,
+                $location: $location,
+                $q: $q,
+                $window: $window,
+                ConfigService: ConfigService,
+                ScenarioResource: ScenarioResource,
+                StepResource: StepResource,
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService,
+                DiffInfoService: DiffInfoService,
+                ApplicationInfoPopupService: {},
+                SharePagePopupService: {}
+            });
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
-            spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
+            spyOn(BranchesResource, 'query').and.returnValue(Observable.of({}));
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
 
-        it('loads the step data', function () {
+        it('loads the step data', () => {
             loadPageContent();
             expect($scope.step).toEqual(TestData.STEP.step);
         });
 
-        it('shows specific step information', function () {
+        it('shows specific step information', () => {
             loadPageContent();
             expect($scope.stepInformationTree).toEqual(STEP_INFORMATION_TREE);
         });
 
-        it('loads the stepNavigation and the stepStatistics into scope', function () {
+        it('loads the stepNavigation and the stepStatistics into scope', () => {
             loadPageContent();
             expect($scope.stepNavigation).toEqual(TestData.STEP.stepNavigation);
             expect($scope.stepStatistics).toEqual(TestData.STEP.stepStatistics);
@@ -95,7 +134,7 @@ describe('StepController', function () {
             expect($scope.getNumberOfStepsInCurrentPageForDisplay()).toBe(2);
         });
 
-        it('isFirstStep()', function () {
+        it('isFirstStep()', () => {
             loadPageContent();
             expect($scope.isFirstStep()).toBeFalsy();
 
@@ -103,7 +142,7 @@ describe('StepController', function () {
             expect($scope.isFirstStep()).toBeTruthy();
         });
 
-        it('isLastStep()', function () {
+        it('isLastStep()', () => {
             loadPageContent();
             expect($scope.isLastStep()).toBeFalsy();
 
@@ -111,7 +150,7 @@ describe('StepController', function () {
             expect($scope.isLastStep()).toBeTruthy();
         });
 
-        it('isFirstPage()', function () {
+        it('isFirstPage()', () => {
             loadPageContent();
             expect($scope.isFirstPage()).toBeFalsy();
 
@@ -119,7 +158,7 @@ describe('StepController', function () {
             expect($scope.isFirstPage()).toBeTruthy();
         });
 
-        it('isLastPage()', function () {
+        it('isLastPage()', () => {
             loadPageContent();
             expect($scope.isLastPage()).toBeFalsy();
 
@@ -128,7 +167,7 @@ describe('StepController', function () {
         });
 
 
-        it('goToPreviousStep()', function () {
+        it('goToPreviousStep()', () => {
             loadPageContent();
 
             $scope.goToPreviousStep();
@@ -136,7 +175,7 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
         });
 
-        it('goToNextStep()', function () {
+        it('goToNextStep()', () => {
             loadPageContent();
 
             $scope.goToNextStep();
@@ -144,7 +183,7 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/uc/sc/searchResults.jsp/0/1');
         });
 
-        it('goToPreviousPage()', function () {
+        it('goToPreviousPage()', () => {
             loadPageContent();
 
             $scope.goToPreviousPage();
@@ -152,7 +191,7 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
         });
 
-        it('goToNextPage()', function () {
+        it('goToNextPage()', () => {
             loadPageContent();
 
             $scope.goToNextPage();
@@ -160,7 +199,7 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/uc/sc/contentPage.jsp/0/0');
         });
 
-        it('goToPreviousVariant()', function () {
+        it('goToPreviousVariant()', () => {
             loadPageContent();
 
             $scope.goToPreviousVariant();
@@ -168,7 +207,7 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/Find Page/find_page_no_result/searchResults.jsp/0/0');
         });
 
-        it('goToNextVariant()', function () {
+        it('goToNextVariant()', () => {
             loadPageContent();
 
             $scope.goToNextVariant();
@@ -176,18 +215,18 @@ describe('StepController', function () {
             expect($location.path()).toBe('/step/Find Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/1');
         });
 
-        it('getCurrentUrlForSharing returns the current URL plus the step labels.', function() {
+        it('getCurrentUrlForSharing returns the current URL plus the step labels.', () => {
             loadPageContent();
 
-            var url = $scope.getCurrentUrlForSharing();
+            const url = $scope.getCurrentUrlForSharing();
 
-            expect(url).toBe('http://server/#?comparison=Disabled&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe('http://server/#?branch=trunk&build=current&comparison=Disabled&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
-        it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function() {
+        it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', () => {
             loadPageContent();
 
-            var url = $scope.getScreenshotUrlForSharing();
+            const url = $scope.getScreenshotUrlForSharing();
 
             expect(url).toBe('http://server/rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
@@ -204,31 +243,41 @@ describe('StepController', function () {
         }
 
         function queryRelatedIssuesFake() {
-            var DATA = {
+            const DATA = {
                 0:
-                {
-                    id: '1',
-                    name: 'fakeTestingIssue',
-                    firstScenarioSketchId: '1'
-                }
+                    {
+                        id: '1',
+                        name: 'fakeTestingIssue',
+                        firstScenarioSketchId: '1'
+                    }
             };
 
-            return function(params, onSuccess) {
+            return (params, onSuccess) => {
                 onSuccess(DATA);
             };
         }
     });
 
-    describe('step is not found', function() {
+    describe('step is not found', () => {
 
-        beforeEach(function() {
+        beforeEach(() => {
             $routeParams.stepInPageOccurrence = 42;
-            $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+            $controller('StepController', {
+                $scope: $scope,
+                $routeParams: $routeParams,
+                $location: $location,
+                $q: $q,
+                $window: $window,
+                ConfigService: ConfigService,
+                ScenarioResource: ScenarioResource,
+                StepResource: StepResource,
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService,
+                ApplicationInfoPopupService: {},
+                SharePagePopupService: {}
+            });
         });
 
-        it('requested step is not found', function () {
+        it('requested step is not found', () => {
             tryToLoadNotExistingStep();
 
             $scope.$apply();
@@ -237,7 +286,9 @@ describe('StepController', function () {
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
-            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled&branch=trunk&build=current');
+            expect($scope.getCurrentUrl()).toEqual(
+                'http://server/#?branch=trunk&build=current&comparison=Disabled'
+            );
         });
 
         function tryToLoadNotExistingStep() {
@@ -253,11 +304,9 @@ describe('StepController', function () {
     });
 
     function getEmptyData() {
-        var DATA = {
+        const DATA = {};
 
-        };
-
-        return function(params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }

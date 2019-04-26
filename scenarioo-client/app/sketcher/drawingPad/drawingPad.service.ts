@@ -17,7 +17,7 @@
 
 /* global SVG:false */
 import * as $ from 'jquery';
-import * as angular from 'angular';
+declare var angular: angular.IAngularStatic;
 
 declare const SVG: any;
 

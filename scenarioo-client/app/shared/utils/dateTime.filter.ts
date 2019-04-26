@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scDateOnly', function ($filter) {
+angular.module('scenarioo.filters').filter('scDateTime', ($filter) => {
 
-    var DATE_FILTER = $filter('date');
+    const DATE_FILTER = $filter('date');
 
-    return function (date) {
-        if(typeof date === 'undefined') {
+    return (date) => {
+        if (typeof date === 'undefined') {
             return '';
         }
-        if(typeof date === 'string' && date === '') {
+        if (typeof date === 'string' && date === '') {
             return '';
         }
 
-        return DATE_FILTER(date, 'longDate');
+        return DATE_FILTER(date, 'longDate') + ', ' + DATE_FILTER(date, 'shortTime');
     };
 
 });

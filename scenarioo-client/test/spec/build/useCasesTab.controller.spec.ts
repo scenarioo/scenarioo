@@ -23,12 +23,21 @@ describe('UseCasesTabController', function () {
     var useCasesTabController;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after complete AngularJs -> Angular Migration
+        $provide.value('BranchesAndBuildsService', {});
+        $provide.value('SelectedBranchAndBuildService', {
+            callOnSelectionChange: () => {
+            }
+        });
+        $provide.value('UseCasesResource', {});
+    }));
 
     beforeEach(inject(function ($controller, $rootScope, _$location_) {
             $location = _$location_;
 
-        $scope = $rootScope.$new();
-        useCasesTabController = $controller('UseCasesTabController', {$scope: $scope});
+            $scope = $rootScope.$new();
+            useCasesTabController = $controller('UseCasesTabController', {$scope: $scope});
         }
     ));
 
@@ -40,7 +49,7 @@ describe('UseCasesTabController', function () {
     it('navigates to use case when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        var dummyUseCase = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
+        var dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};
         useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
