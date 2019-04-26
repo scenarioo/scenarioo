@@ -57,8 +57,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function goToBuild(build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName)
-            .toPromise()
-            .then((log) => {
+            .subscribe((log) => {
                 $uibModal.open({
                     template: require('./buildImportDetails.html'),
                     controller: 'BuildImportDetailsController',
@@ -70,9 +69,6 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
                         getStyleClassForBuildImportStatus: () => vm.getStyleClassForBuildImportStatus,
                     },
                 });
-            })
-            .catch((error) => {
-                throw error;
             });
     }
 

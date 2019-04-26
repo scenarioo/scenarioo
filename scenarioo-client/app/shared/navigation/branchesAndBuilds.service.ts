@@ -46,24 +46,12 @@ angular.module('scenarioo.services')
         };
 
         function getBranch(loadedData, branchName) {
-            let index;
-            for (index = 0; index < loadedData.branches.length; index++) {
-                if (loadedData.branches[index].branch.name === branchName) {
-                    return loadedData.branches[index];
-                }
-            }
-
+            return loadedData.branches.find(branch => branch.name === branchName);
         }
 
         function getBuild(branch, buildName) {
-            let index;
             if (angular.isDefined(branch)) {
-                const allBuildsOnSelectedBranch = branch.builds;
-                for (index = 0; index < branch.builds.length; index++) {
-                    if (allBuildsOnSelectedBranch[index].linkName === buildName) {
-                        return allBuildsOnSelectedBranch[index];
-                    }
-                }
+                return branch.builds.find(build => build.linkName === buildName);
             }
         }
 

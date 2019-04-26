@@ -16,12 +16,13 @@
  */
 
 import * as $ from "jquery"
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
                                                                             $filter, $sce, $uibModal, BreadcrumbsService,
                                                                             SharePagePopupService, SketcherLinkService) {
-    var limit = 50;
+    const limit = 50;
 
     return {
         restrict: 'E',
@@ -34,20 +35,19 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             scope.sketcherLink = SketcherLinkService;
             scope.createComparison = createComparison;
 
-            var navParameters: any;
-            var breadcrumbId = $route.current.$$route.breadcrumbId;
+            const breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
-            navParameters = getNavigationParameters();
+            const navParameters = getNavigationParameters();
 
-            var navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
+            const navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
             angular.forEach(navElements, function (breadcrumbItem) {
 
                 // Create breadcrumb objects
-                var isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
-                var breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
-                var breadcrumb = {
+                const isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
+                const breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
+                const breadcrumb = {
                     text: breadcrumbLabelText,
                     tooltip: breadcrumbItem.textForTooltip,
                     showTooltip: isLabelTextShortened,
@@ -100,7 +100,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
     function getShortenedText(text) {
         if (text.length > limit) {
-            var shortenedText = text.substr(0, limit);
+            const shortenedText = text.substr(0, limit);
             return shortenedText + '...';
         }
         return text;

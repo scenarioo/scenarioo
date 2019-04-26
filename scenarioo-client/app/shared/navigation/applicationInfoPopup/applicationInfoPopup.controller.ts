@@ -20,9 +20,7 @@ declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
-        $scope.$watch(function () {
-            return ConfigService.applicationInformation();
-        }, function (applicationInformation) {
+        $scope.$watch(ConfigService.applicationInformation, applicationInformation => {
             $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
         });
 
@@ -30,7 +28,7 @@ angular.module('scenarioo.services')
             $scope.version = result;
         });
 
-        $scope.closeInfoModal = function () {
+        $scope.closeInfoModal = () => {
             $uibModalInstance.dismiss('cancel');
         };
     });
