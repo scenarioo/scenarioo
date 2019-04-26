@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {_throw, catchError} from "rxjs";
+import {_throw, catchError} from 'rxjs';
 
 angular.module('scenarioo.controllers').controller('SearchController', function ($routeParams, $location, FullTextSearchService,
                                                                                  SelectedBranchAndBuildService, ReferenceTreeNavigationService, LocalStorageService) {
