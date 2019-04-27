@@ -17,30 +17,45 @@
 
 'use strict';
 
-declare var angular: angular.IAngularStatic;
+import {UseCaseScenarios} from "../../../app/shared/services/scenarioResource.service";
 import {Observable} from "rxjs";
 import {Configuration} from "../../../app/shared/services/applicationStatus.service";
 
-describe('ScenarioController', function () {
+declare var angular: angular.IAngularStatic;
+
+describe('ScenarioController', () => {
 
     let $scope, $httpBackend, $routeParams, ConfigService, TestData,
         ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
 
-    let ConfigResourceMock = {
+    const ConfigResourceMock = {
         get: () => Observable.of(angular.copy(TestData.CONFIG))
     };
+    const LabelConfigurationsResourceMock = {
+        query: () => Observable.of({}),
+    };
+    const ScenarioResourceMock = {
+        get: () => Observable.of(TestData.SCENARIO),
+        getUseCaseScenarios: () => Observable.of<UseCaseScenarios>({
+            useCase: TestData.SCENARIO.useCase,
+            scenarios: [TestData.SCENARIO.scenario]
+        })
+    };
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value("ScenarioResource", ScenarioResourceMock);
     }));
 
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_,
-                                _TestData_, LocalStorageService, _RelatedIssueResource_,
-                                _SelectedBranchAndBuildService_, _ConfigService_,
-    ) {
+    beforeEach(inject(($rootScope, $controller, _$httpBackend_, _$routeParams_,
+                       _TestData_, LocalStorageService, _RelatedIssueResource_,
+                       _SelectedBranchAndBuildService_, _ConfigService_,
+    ) => {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
@@ -62,43 +77,43 @@ describe('ScenarioController', function () {
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
     }));
 
-    it('clears search field when resetSearchField() is called', function () {
+    it('clears search field when resetSearchField() is called', () => {
         ScenarioController.searchFieldText = 'test';
         ScenarioController.resetSearchField();
         expect(ScenarioController.searchFieldText).toBe('');
     });
 
-    it('creates the correct link to a step', function () {
+    it('creates the correct link to a step', () => {
         const link = ScenarioController.getLinkToStep('searchPage.html', 2, 0);
         expect(link).toBe('#/step/SearchUseCase/NotFoundScenario/searchPage.html/2/0');
     });
 
-    it('creates empty image link, if branch and build selection is unknown', function () {
+    it('creates empty image link, if branch and build selection is unknown', () => {
         const imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBeUndefined();
     });
 
-    it('creates the correct image link, if selected branch and build is known', function () {
+    it('creates the correct image link, if selected branch and build is known', () => {
         givenScenarioIsLoaded();
 
         const imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBe('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
-    it('does not show all steps of a page by default', function () {
+    it('does not show all steps of a page by default', () => {
         expect(ScenarioController.showAllStepsForPage(0)).toBeFalsy();
         expect(ScenarioController.showAllStepsForPage(1)).toBeFalsy();
         expect(ScenarioController.showAllStepsForPage(2)).toBeFalsy();
     });
 
-    it('can toggle the showPageForAllSteps property', function () {
+    it('can toggle the showPageForAllSteps property', () => {
         ScenarioController.toggleShowAllStepsForPage(5);
         expect(ScenarioController.showAllStepsForPage(5)).toBeTruthy();
         ScenarioController.toggleShowAllStepsForPage(5);
         expect(ScenarioController.showAllStepsForPage(5)).toBeFalsy();
     });
 
-    it('hides the "expand all" button, if all expandable pages are already expanded', function () {
+    it('hides the "expand all" button, if all expandable pages are already expanded', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.toggleShowAllStepsForPage(0);
@@ -107,14 +122,14 @@ describe('ScenarioController', function () {
         expect(ScenarioController.isExpandAllPossible()).toBeFalsy();
     });
 
-    it('shows the "expand all" button, if at least one expandable page is collapsed', function () {
+    it('shows the "expand all" button, if at least one expandable page is collapsed', () => {
         givenScenarioIsLoaded();
 
         expect(ScenarioController.isExpandAllPossible()).toBeTruthy();
     });
 
 
-    it('hides the "collapse all" button, if all pages are collapsed already', function () {
+    it('hides the "collapse all" button, if all pages are collapsed already', () => {
         givenScenarioIsLoaded();
 
         // all pages are collapsed by default
@@ -122,7 +137,7 @@ describe('ScenarioController', function () {
         expect(ScenarioController.isCollapseAllPossible()).toBeFalsy();
     });
 
-    it('shows the "collapse all" button, if at least one collapsable page is expanded', function () {
+    it('shows the "collapse all" button, if at least one collapsable page is expanded', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.toggleShowAllStepsForPage(1);
@@ -130,7 +145,7 @@ describe('ScenarioController', function () {
         expect(ScenarioController.isCollapseAllPossible()).toBeTruthy();
     });
 
-    it('collapses all pages if the user clicks "collapse all"', function () {
+    it('collapses all pages if the user clicks "collapse all"', () => {
         ScenarioController.toggleShowAllStepsForPage(2);
         ScenarioController.toggleShowAllStepsForPage(5);
         ScenarioController.collapseAll();
@@ -139,14 +154,14 @@ describe('ScenarioController', function () {
     });
 
 
-    it('expands all pages if the user clicks "expand all"', function () {
+    it('expands all pages if the user clicks "expand all"', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.expandAll();
         expectAllPagesAreExpanded();
     });
 
-    it('expands all pages, if this is the default set in the config', function () {
+    it('expands all pages, if this is the default set in the config', () => {
         ConfigService.getRaw = true;
 
         givenScenarioIsLoaded(TestData.CONFIG_PAGES_EXPANDED);
@@ -159,13 +174,11 @@ describe('ScenarioController', function () {
             config = TestData.CONFIG;
         }
         spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(config));
-
-        $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario')
-            .respond(TestData.SCENARIO);
-        $httpBackend.whenGET('rest/labelconfigurations').respond({});
+        spyOn(ScenarioResourceMock, "getUseCaseScenarios").and.returnValue(Observable.of(TestData.SCENARIO));
 
         ConfigService.load();
-        $httpBackend.flush();
+        $scope.$apply();
+
     }
 
     function expectAllPagesAreExpanded() {
@@ -184,7 +197,7 @@ describe('ScenarioController', function () {
                 }
         };
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }

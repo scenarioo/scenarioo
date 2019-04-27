@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
 function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService,
                                     TreeNodeService, ReferenceTreeNavigationService, $filter) {
 
-   var vm = this;
+    const vm = this;
 
     vm.treemodel = [];
     vm.object = {};
@@ -33,9 +33,9 @@ function ObjectRepositoryController($routeParams, $location, ObjectIndexListReso
     vm.expandAndCollapseTree = expandAndCollapseTree;
     vm.resetSearchField = resetSearchField;
 
-    var objectType = $routeParams.objectType;
-    var objectName = $routeParams.objectName;
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    const objectType = $routeParams.objectType;
+    const objectName = $routeParams.objectName;
+    const transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     activate();
 
@@ -50,14 +50,14 @@ function ObjectRepositoryController($routeParams, $location, ObjectIndexListReso
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                objectType: objectType,
-                objectName: objectName
             },
-            function (result) {
-                vm.object = result;
-                var transformedMetaDataTree = transformMetadataToTree(result.object.details);
-                vm.metadataTree = transformedMetaDataTree.childNodes;
-            });
+            objectType,
+            objectName
+        ).subscribe((result) => {
+            vm.object = result;
+            const transformedMetaDataTree = transformMetadataToTree(result.object.details);
+            vm.metadataTree = transformedMetaDataTree.childNodes;
+        });
     }
 
     // Entry point when a tree entry is clicked

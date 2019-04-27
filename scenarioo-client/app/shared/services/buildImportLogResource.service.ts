@@ -24,7 +24,7 @@ declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class BuildImportLogResource {
-    url = 'rest/builds/importLogs/';
+    private url = 'rest/builds/importLogs/';
 
     constructor(private httpClient: HttpClient) {
     }

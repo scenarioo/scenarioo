@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ComparisonDetailsController'
 
 function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, ComparisonLogResource, comparison) {
 
-    var vm = this;
+    const vm = this;
     vm.comparison = comparison;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
     vm.cancel = cancel;
@@ -27,13 +27,8 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
     activate();
 
     function activate() {
-        ComparisonLogResource.get({
-            branchName: comparison.baseBuild.branchName,
-            buildName: comparison.baseBuild.buildName,
-            comparisonName: comparison.name
-        }, function(response) {
-            vm.log = response.content;
-        });
+        ComparisonLogResource.logComparision(comparison.name, comparison.baseBuild)
+            .subscribe((log) => vm.log = log);
     }
 
     function cancel() {
@@ -41,5 +36,3 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
     }
 
 }
-
-

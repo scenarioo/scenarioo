@@ -16,14 +16,14 @@
  */
 
 'use strict';
-declare var angular: angular.IAngularStatic;
 import 'rxjs/add/observable/of';
 import {Observable} from "rxjs";
+
+declare var angular: angular.IAngularStatic;
 
 describe('StepController', () => {
 
     let $scope, $routeParams, $location, $q, $window, ConfigService,
-        ScenarioResource, StepResource,
         BuildDiffInfoResource, StepDiffInfoResource,
         SelectedBranchAndBuildService, DiffInfoService, BranchesResource,
         $controller, $httpBackend, TestData,
@@ -36,17 +36,30 @@ describe('StepController', () => {
                 nodeLabel: 'Page name',
                 childNodes: [],
                 nodeValue: 'searchResults.jsp',
-                nodeObjectName: 'searchResults.jsp'
+                nodeObjectName: 'searchResults.jsp',
             },
             {nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
-            {nodeLabel: 'Build status', nodeValue: 'success'}
-        ]
+            {nodeLabel: 'Build status', nodeValue: 'success'},
+        ],
     };
 
 
-    let ConfigResourceMock = {
-        get: () => Observable.of(angular.copy(TestData.CONFIG))
+    const ConfigResourceMock = {
+        get: () => Observable.of(angular.copy(TestData.CONFIG)),
     };
+
+    const StepResourceMock = {
+        get: () => Observable.of(TestData.STEP),
+    };
+
+    const LabelConfigurationsResourceMock = {
+        query: () => Observable.of({}),
+    };
+    const ScenarioResourceMock = {
+        get: () => Observable.of({}),
+        getUseCaseScenarios: () => Observable.of({})
+    };
+
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -56,10 +69,13 @@ describe('StepController', () => {
             }
         });
         $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value("ScenarioResource", ScenarioResourceMock);
+        $provide.value("StepResource", StepResourceMock);
     }));
 
     beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
-                       _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_,
+                       _BuildDiffInfoResource_, _StepDiffInfoResource_,
                        _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
                        _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) => {
         $scope = _$rootScope_.$new();
@@ -68,9 +84,7 @@ describe('StepController', () => {
         $q = _$q_;
         $window = _$window_;
         ConfigService = _ConfigService_;
-        ScenarioResource = _ScenarioResource_;
         RelatedIssueResource = _RelatedIssueResource_;
-        StepResource = _StepResource_;
         BuildDiffInfoResource = _BuildDiffInfoResource_;
         StepDiffInfoResource = _StepDiffInfoResource_;
         BranchesResource = _BranchesResource_;
@@ -100,13 +114,13 @@ describe('StepController', () => {
                 $q: $q,
                 $window: $window,
                 ConfigService: ConfigService,
-                ScenarioResource: ScenarioResource,
-                StepResource: StepResource,
+                ScenarioResource: ScenarioResourceMock,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 DiffInfoService: DiffInfoService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {}
+                SharePagePopupService: {},
             });
+
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             spyOn(BranchesResource, 'query').and.returnValue(Observable.of({}));
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
@@ -232,13 +246,11 @@ describe('StepController', () => {
         });
 
         function loadPageContent() {
-            $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
-            $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
-            $httpBackend.whenGET('rest/labelconfigurations').respond({});
+            spyOn(StepResourceMock, 'get').and.returnValue(Observable.of(TestData.STEP));
 
             ConfigService.load();
-            $httpBackend.flush();
+
+            $scope.$apply();
             expect($scope.stepNotFound).toBeFalsy();
         }
 
@@ -248,8 +260,8 @@ describe('StepController', () => {
                     {
                         id: '1',
                         name: 'fakeTestingIssue',
-                        firstScenarioSketchId: '1'
-                    }
+                        firstScenarioSketchId: '1',
+                    },
             };
 
             return (params, onSuccess) => {
@@ -269,11 +281,11 @@ describe('StepController', () => {
                 $q: $q,
                 $window: $window,
                 ConfigService: ConfigService,
-                ScenarioResource: ScenarioResource,
-                StepResource: StepResource,
+                ScenarioResource: ScenarioResourceMock,
+                StepResource: StepResourceMock,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {}
+                SharePagePopupService: {},
             });
         });
 
@@ -285,20 +297,23 @@ describe('StepController', () => {
             expect($scope.httpResponse.status).toEqual(500);
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
-            expect($scope.httpResponse.data).toEqual('');
             expect($scope.getCurrentUrl()).toEqual(
-                'http://server/#?branch=trunk&build=current&comparison=Disabled'
+                'http://server/#?branch=trunk&build=current&comparison=Disabled',
             );
         });
 
         function tryToLoadNotExistingStep() {
             $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
-            $httpBackend.whenGET('rest/labelconfigurations').respond({});
+            spyOn(StepResourceMock, 'get').and.returnValue(Observable.throw({
+                status: 500,
+                config: {
+                    method: "GET",
+                    url: 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42'
+                }
+            }));
 
             ConfigService.load();
-            $httpBackend.flush();
         }
 
     });

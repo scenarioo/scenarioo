@@ -17,9 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('SearchController', function ($routeParams, $location, FullTextSearchService,
                                                                                  SelectedBranchAndBuildService, ReferenceTreeNavigationService, LocalStorageService) {
-    var LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
+    const LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
 
-    var vm = this;
+    const vm = this;
 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
@@ -36,27 +36,31 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     doSearch();
 
     function doSearch() {
-        var selected = SelectedBranchAndBuildService.selected();
+        const selected = SelectedBranchAndBuildService.selected();
 
-        FullTextSearchService.search({
-                q: vm.searchTerm,
-                includeHtml: vm.includeHtml,
-                buildName: selected.build,
-                branchName: selected.branch
-            }
-        ).then(function onSuccess(response) {
-            if(response.errorMessage) {
+        FullTextSearchService
+            .search(
+                {
+                    buildName: selected.build,
+                    branchName: selected.branch
+                },
+                vm.searchTerm,
+                vm.includeHtml
+            )
+            .subscribe(response => {
+                if (response.errorMessage) {
+                    vm.showSearchFailed = true;
+                    vm.errorMessage = response.errorMessage;
+                } else {
+                    vm.results.resultSet = response.searchTree.results;
+                    vm.hits = response.searchTree.hits;
+                    vm.totalHits = response.searchTree.totalHits;
+                }
+            }, ()=> {
                 vm.showSearchFailed = true;
-                vm.errorMessage = response.errorMessage;
-            } else {
-                vm.results.resultSet = response.searchTree.results;
-                vm.hits = response.searchTree.hits;
-                vm.totalHits = response.searchTree.totalHits;
-            }
-        },
-        function onError(error) {
-            vm.showSearchFailed = true;
-        });
+            });
+
+
     }
 
     function changeIncludeHtml() {
