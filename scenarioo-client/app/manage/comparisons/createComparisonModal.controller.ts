@@ -59,10 +59,11 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
         const baseBuildName = vm.baseBuild.linkName;
         BuildDiffInfosResource.query(
             {baseBranchName, baseBuildName},
-            function onSuccess(buildDiffInfos) {
+            (buildDiffInfos) => {
                 vm.comparisonsOfCurrentBuild = buildDiffInfos;
                 validateDistinctBuilds();
-            }, function onFailure() {
+            },
+            () => {
                 vm.comparisonsOfCurrentBuild = [];
                 validateDistinctBuilds();
             },
@@ -189,11 +190,11 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             buildName: vm.comparisonBuild.build.name,
         };
 
-        ComparisonCreateResource.createComparision(vm.comparisonName,
-            baseBranchInfo,
-            comparisonBranchInfo)
-            .then(onSuccessCreation)
-            .catch(onFailedCreation);
+        ComparisonCreateResource
+            .createComparision(vm.comparisonName,
+                baseBranchInfo,
+                comparisonBranchInfo)
+            .subscribe(onSuccessCreation, onFailedCreation);
 
     }
 

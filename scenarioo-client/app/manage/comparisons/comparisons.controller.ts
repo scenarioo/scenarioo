@@ -66,12 +66,12 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     }
 
     function recalculateComparison(comparison) {
-        ComparisonRecalculateResource.recalculate(comparison.name, {
-            branchName: comparison.baseBuild,
-            buildName: comparison.baseBuild,
-        })
-            .catch(refresh)
-            .then(refresh);
+        ComparisonRecalculateResource
+            .recalculate(comparison.name, {
+                branchName: comparison.baseBuild,
+                buildName: comparison.baseBuild,
+            })
+            .subscribe(refresh);
     }
 
     function refresh() {

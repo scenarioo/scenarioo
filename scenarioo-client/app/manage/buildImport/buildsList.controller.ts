@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
 
@@ -57,8 +58,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function goToBuild(build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName)
-            .toPromise()
-            .then((log) => {
+            .subscribe((log) => {
                 $uibModal.open({
                     template: require('./buildImportDetails.html'),
                     controller: 'BuildImportDetailsController',
@@ -70,17 +70,14 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
                         getStyleClassForBuildImportStatus: () => vm.getStyleClassForBuildImportStatus,
                     },
                 });
-            })
-            .catch((error) => {
-                throw error;
             });
     }
 
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
         BuildReimportResource.get(build.identifier.branchName, build.identifier.buildName)
-            .toPromise()
-            .then(buildImportFinished, buildImportFinished);
+            .tap(() => vm.updatingBuildsInProgress = false)
+            .subscribe(buildImportFinished);
     }
 
     function getStyleClassForBuildImportStatus(status) {
@@ -95,8 +92,8 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     function importAndUpdateBuilds() {
         vm.updatingBuildsInProgress = true;
         BuildImportService.updateData()
-            .toPromise()
-            .then(buildImportFinished, buildImportFinished);
+            .tap(() => vm.updatingBuildsInProgress = false)
+            .subscribe(buildImportFinished);
     }
 
     function buildImportFinished() {

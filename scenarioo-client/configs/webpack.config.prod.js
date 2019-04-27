@@ -14,7 +14,7 @@ var webpackConfig = merge(commonConfig, {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             mangle: false
-        })
+        }),
     ]
 });
 

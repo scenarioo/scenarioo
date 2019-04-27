@@ -35,11 +35,10 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', ($routeParams,
             scope.sketcherLink = SketcherLinkService;
             scope.createComparison = createComparison;
 
-            let navParameters: any;
             const breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
-            navParameters = getNavigationParameters();
+            const navParameters = getNavigationParameters();
 
             const navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 

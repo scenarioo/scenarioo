@@ -44,7 +44,7 @@ import {RootScopeService} from "./shared/rootscope.service";
         LabelConfigurationService,
         MigratedConfigService,
         RootScopeService,
-    ]
+    ],
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {

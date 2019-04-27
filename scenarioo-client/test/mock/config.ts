@@ -43,9 +43,7 @@ angular.module('scenarioo.services').service('ConfigMock', function () {
             };
         },
 
-        applicationInformation: function() {
-            return this.appInfo;
-        },
+        applicationInformation: () => this.appInfo,
 
         setSelectedBranch: function (branch) {
             this.branch = branch;
@@ -55,7 +53,7 @@ angular.module('scenarioo.services').service('ConfigMock', function () {
             this.build = build;
         },
 
-        setApplicationInformation: function(applicationInformation) {
+        setApplicationInformation: (applicationInformation) => {
             this.appInfo = applicationInformation;
         },
 

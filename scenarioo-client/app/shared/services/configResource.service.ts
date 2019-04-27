@@ -8,7 +8,7 @@ declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class ConfigResource {
-    url = 'rest/configuration';
+    private url = 'rest/configuration';
 
     constructor(private httpClient: HttpClient) {
 

@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {Build} from './branchesResource.service';
-import {BuildImportSummary} from './buildImportStatesResource.service';
 
 declare var angular: angular.IAngularStatic;
 

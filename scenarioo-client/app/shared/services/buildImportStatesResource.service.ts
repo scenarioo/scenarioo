@@ -27,7 +27,7 @@ export interface BuildImportSummary {
 
 @Injectable()
 export class BuildImportStatesResource {
-    url = 'rest/builds/buildImportSummaries';
+    private url = 'rest/builds/buildImportSummaries';
 
     constructor(private httpClient: HttpClient) {
     }

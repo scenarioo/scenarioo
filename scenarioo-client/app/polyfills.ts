@@ -1,10 +1,6 @@
 import 'core-js/client/shim';
 import 'reflect-metadata';
-//require('zone.js/dist/zone');
-//import 'ts-helpers';
-
-import 'intl';  // Run `npm install --save intl`.
-
+import 'intl'; // Run `npm install --save intl`.
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';
@@ -27,11 +23,10 @@ import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
 
 import 'zone.js/dist/zone'; // Included with Angular CLI.
+// require('zone.js/dist/zone');
+// import 'ts-helpers';
 
-
-if (process.env.ENV === 'build') {
-
-} else {
-    Error['stackTraceLimit'] = Infinity;
-   // require('zone.js/dist/long-stack-trace-zone');
+if (process.env.ENV !== 'build') {
+    Error.stackTraceLimit = Infinity;
+    // require('zone.js/dist/long-stack-trace-zone');
 }

@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {Observable} from 'rxjs';
 
+declare var angular: angular.IAngularStatic;
+
 export interface Version {
     aggregatedDataFormatVersion: string;
     apiVersion: string;
@@ -21,8 +23,6 @@ export class VersionResource {
         return this.httpClient.get<Version>('rest/version');
     }
 }
-
-declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .factory('VersionResource', downgradeInjectable(VersionResource));
