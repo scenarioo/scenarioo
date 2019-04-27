@@ -5,16 +5,16 @@ import {LabelMetadataComponent} from './step/label-metadata/label-metadata.compo
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
-import {RestControllerModule} from "./shared/services/restControllerModule";
-import {StatusStylingComponent} from "./manage/generalSettings/statusStyling/statusStyling.component";
-import {GeneralSettingsComponent} from "./manage/generalSettings/generalSettings.component";
-import {DisplayOptionsComponent} from "./manage/generalSettings/displayOptions/displayOptions.component";
-import {AdditionalColumnsComponent} from "./manage/generalSettings/additionalColumns/additionalColumns.component";
-import {BranchesBuildsComponent} from "./manage/generalSettings/branchesBuilds/branchesBuilds.component";
-import {FulltextSearchComponent} from "./manage/generalSettings/fulltextSearch/fulltextSearch.component";
-import {LabelColorsComponent} from "./manage/labelColors/labelColors.component";
-import {MigratedConfigService} from "./manage/migrated-config.service";
-import {RootScopeService} from "./shared/rootscope.service";
+import {StatusStylingComponent} from './manage/generalSettings/statusStyling/statusStyling.component';
+import {GeneralSettingsComponent} from './manage/generalSettings/generalSettings.component';
+import {DisplayOptionsComponent} from './manage/generalSettings/displayOptions/displayOptions.component';
+import {AdditionalColumnsComponent} from './manage/generalSettings/additionalColumns/additionalColumns.component';
+import {BranchesBuildsComponent} from './manage/generalSettings/branchesBuilds/branchesBuilds.component';
+import {FulltextSearchComponent} from './manage/generalSettings/fulltextSearch/fulltextSearch.component';
+import {LabelColorsComponent} from './manage/labelColors/labelColors.component';
+import {MigratedConfigService} from './manage/migrated-config.service';
+import {RootScopeService} from './shared/rootscope.service';
+import {RestControllerModule} from './shared/services/restController.module';
 
 @NgModule({
     declarations: [
@@ -25,12 +25,12 @@ import {RootScopeService} from "./shared/rootscope.service";
         BranchesBuildsComponent,
         GeneralSettingsComponent,
         FulltextSearchComponent,
-        LabelColorsComponent
+        LabelColorsComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
         GeneralSettingsComponent,
-        LabelColorsComponent
+        LabelColorsComponent,
     ],
     imports: [
         BrowserModule,
@@ -38,7 +38,7 @@ import {RootScopeService} from "./shared/rootscope.service";
         FormsModule,
         ReactiveFormsModule,
         UpgradeModule,
-        RestControllerModule
+        RestControllerModule,
     ],
     providers: [
         LabelConfigurationService,
