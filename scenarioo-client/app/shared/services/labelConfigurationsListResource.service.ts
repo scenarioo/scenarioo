@@ -2,14 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {ILabelConfiguration} from "../../generated-types/backend-types";
 
 declare var angular: angular.IAngularStatic;
 
-export interface LabelConfiguration {
-    name?: string;
-    backgroundColor: string;
-    foregroundColor: string;
-}
 
 @Injectable()
 export class LabelConfigurationsListResource {
@@ -19,8 +15,8 @@ export class LabelConfigurationsListResource {
 
     }
 
-    query(): Observable<LabelConfiguration[]> {
-        return this.httpClient.get<LabelConfiguration[]>(this.url);
+    query(): Observable<ILabelConfiguration[]> {
+        return this.httpClient.get<ILabelConfiguration[]>(this.url);
     }
 }
 

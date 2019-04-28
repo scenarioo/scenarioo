@@ -19,36 +19,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {SearchEngineStatus} from './searchEngineStatus.service';
+import {IApplicationStatus} from "../../generated-types/backend-types";
 
 declare var angular: angular.IAngularStatic;
-
-export interface Configuration {
-    scenarioPropertiesInOverview: string;
-    defaultBuildName: string;
-    defaultBranchName: string;
-    buildstates: {
-        [key: string]: string;
-    };
-    applicationInformation: string;
-}
-
-interface ApplicationVersion {
-    version: string;
-    buildDate: string;
-    apiVersion: string;
-    aggregatedDataFormatVersion: string;
-    documentationVersion: string;
-
-}
-
-export interface ApplicationStatus {
-    configuration: Configuration;
-    documentationDataDirectory: string;
-    searchEngineStatus: SearchEngineStatus;
-    version: ApplicationVersion;
-
-}
 
 @Injectable()
 export class ApplicationStatusService {
@@ -56,8 +29,8 @@ export class ApplicationStatusService {
 
     }
 
-    getApplicationStatus(): Observable<ApplicationStatus> {
-        return this.httpClient.get<ApplicationStatus>('rest/configuration/applicationStatus');
+    getApplicationStatus(): Observable<IApplicationStatus> {
+        return this.httpClient.get<IApplicationStatus>('rest/configuration/applicationStatus');
     }
 }
 

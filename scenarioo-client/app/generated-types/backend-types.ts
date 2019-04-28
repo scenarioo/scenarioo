@@ -124,6 +124,13 @@ export interface IUseCaseSummary {
     labels: ILabels;
 }
 
+export interface IBranchBuilds {
+    branch: IBranch;
+    builds: IBuildLink[];
+    alias: boolean;
+    isAlias: boolean;
+}
+
 export interface IComparisonConfiguration {
     name: string;
     baseBranchName: string;
@@ -220,6 +227,17 @@ export interface ISearchTree {
 export interface ILabels {
     labels: string[];
     empty: boolean;
+}
+
+export interface IBranch extends ISerializable, IDetailable {
+    name: string;
+    description: string;
+}
+
+export interface IBuildLink extends ISerializable {
+    displayName: string;
+    linkName: string;
+    build: IBuild;
 }
 
 export interface ICustomObjectDetailColumn {

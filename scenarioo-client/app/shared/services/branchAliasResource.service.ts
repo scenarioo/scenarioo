@@ -4,14 +4,9 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {catchError} from 'rxjs/operators';
 import handleError from '../utils/httpErrorHandling';
+import {IBranchAlias} from "../../generated-types/backend-types";
 
 declare var angular: angular.IAngularStatic;
-
-export interface BranchAlias {
-    name: string;
-    referencedBranch: string;
-    description: string;
-}
 
 @Injectable()
 export class BranchAliasesResource {
@@ -19,12 +14,12 @@ export class BranchAliasesResource {
 
     }
 
-    get(): Observable<BranchAlias[]> {
-        return this.httpClient.get<BranchAlias[]>('rest/branchaliases')
+    get(): Observable<IBranchAlias[]> {
+        return this.httpClient.get<IBranchAlias[]>('rest/branchaliases')
             .pipe(catchError(handleError));
     }
 
-    save(branchAliases: BranchAlias[]): Observable<void> {
+    save(branchAliases: IBranchAlias[]): Observable<void> {
         return this.httpClient.post('rest/branchaliases', branchAliases, {})
             .pipe(catchError(handleError));
     }
