@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
-import {IScenarioDetails, IUseCaseScenarios} from "../../generated-types/backend-types";
+import {IScenarioDetails, IUseCaseScenarios} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 

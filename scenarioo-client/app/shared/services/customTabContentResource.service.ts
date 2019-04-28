@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
-import {ICustomObjectTabTree} from "../../generated-types/backend-types";
+import {ICustomObjectTabTree} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 

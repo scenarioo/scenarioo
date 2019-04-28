@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {catchError} from 'rxjs/operators';
 import handleError from '../utils/httpErrorHandling';
-import {IBranchAlias} from "../../generated-types/backend-types";
+import {IBranchAlias} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 

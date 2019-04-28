@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {IConfiguration} from "../generated-types/backend-types";
+import {IConfiguration} from '../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
