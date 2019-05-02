@@ -17,9 +17,8 @@
 
 'use strict';
 
-import {UseCaseScenarios} from "../../../app/shared/services/scenarioResource.service";
 import {Observable} from "rxjs";
-import {Configuration} from "../../../app/shared/services/applicationStatus.service";
+import {IConfiguration, IUseCaseScenarios} from "../../../app/generated-types/backend-types";
 
 declare var angular: angular.IAngularStatic;
 
@@ -36,7 +35,7 @@ describe('ScenarioController', () => {
     };
     const ScenarioResourceMock = {
         get: () => Observable.of(TestData.SCENARIO),
-        getUseCaseScenarios: () => Observable.of<UseCaseScenarios>({
+        getUseCaseScenarios: () => Observable.of<IUseCaseScenarios>({
             useCase: TestData.SCENARIO.useCase,
             scenarios: [TestData.SCENARIO.scenario]
         })
@@ -169,7 +168,7 @@ describe('ScenarioController', () => {
         expectAllPagesAreExpanded();
     });
 
-    function givenScenarioIsLoaded(config?: Configuration) {
+    function givenScenarioIsLoaded(config?: IConfiguration) {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;
         }

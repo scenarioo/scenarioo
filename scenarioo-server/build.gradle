@@ -23,7 +23,49 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/build-java.gradle"
 apply plugin: 'org.springframework.boot'
+apply plugin: 'cz.habarta.typescript-generator'
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.13.489'
+    }
+}
+generateTypeScript {
+    classes = [
+            'org.scenarioo.model.configuration.Configuration',
+            'org.scenarioo.rest.configuration.ApplicationStatus',
+            'org.scenarioo.model.configuration.BranchAlias',
+            'org.scenarioo.dao.version.ApplicationVersion',
+            'org.scenarioo.model.docu.aggregates.branches.BuildImportSummary',
+            'org.scenarioo.model.diffViewer.BuildDiffInfo',
+            'org.scenarioo.model.diffViewer.ScenarioDiffInfo',
+            'org.scenarioo.model.diffViewer.StepDiffInfo',
+            'org.scenarioo.model.diffViewer.UseCaseDiffInfo',
+            'org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree',
+            'org.scenarioo.model.docu.entities.generic.ObjectDescription',
+            'org.scenarioo.model.docu.aggregates.objects.ObjectIndex',
+            'org.scenarioo.rest.objectRepository.StepReference',
+            'org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios',
+            'org.scenarioo.rest.scenario.dto.ScenarioDetails',
+            'org.scenarioo.rest.search.SearchResponse',
+            'org.scenarioo.rest.search.SearchEngineStatus',
+            'org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary',
+            'org.scenarioo.model.docu.aggregates.branches.BranchBuilds',
+    ]
+
+    addTypeNamePrefix = 'I'
+    noFileComment = true
+    outputFile = '../scenarioo-client/app/generated-types/backend-types.ts'
+    outputFileType = 'implementationFile'
+    outputKind = 'module'
+    jsonLibrary = 'jackson2'
+
+}
 
 dependencies {
     compile 'com.google.guava:guava-base'

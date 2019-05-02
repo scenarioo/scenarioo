@@ -18,15 +18,30 @@
 'use strict';
 
 import {Observable} from "rxjs";
+import {IConfiguration} from "../../../app/generated-types/backend-types";
+
 declare var angular: angular.IAngularStatic;
-import {Configuration} from "../../../app/shared/services/applicationStatus.service";
 
 describe('ConfigService', () => {
 
     const BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
-        DUMMY_CONFIG_RESPONSE: Configuration = {
+        DUMMY_CONFIG_RESPONSE: IConfiguration = {
+            aliasForLastSuccessfulBuild: '',
+            aliasForMostRecentBuild: '',
+            buildStatusForSuccessfulBuilds: '',
+            branchAliases: [],
+            comparisonConfigurations: [],
+            labelConfigurations: undefined,
+            customObjectTabs: [],
+            elasticSearchEndpoint: '',
+            elasticSearchClusterName: '',
+            branchSelectionListOrder: '',
+            diffImageColor: '',
+            createLastSuccessfulScenarioBuild: false,
+            expandPagesInScenarioOverview: false,
+            applicationName: '',
             defaultBuildName: 'current',
             scenarioPropertiesInOverview: 'userProfile, configuration',
             applicationInformation: 'This is my personal copy of Scenarioo :-)',
@@ -38,7 +53,7 @@ describe('ConfigService', () => {
             defaultBranchName: 'trunk'
         };
     const ConfigResourceMock = {
-        get: () => Observable.of<Configuration>(angular.copy(DUMMY_CONFIG_RESPONSE))
+        get: () => Observable.of<IConfiguration>(angular.copy(DUMMY_CONFIG_RESPONSE))
     };
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {

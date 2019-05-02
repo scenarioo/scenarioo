@@ -3,23 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
+import {ICustomObjectTabTree} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
-
-interface CustomObjectTabTreeNodeDetails {
-    description: string;
-}
-
-interface CustomObjectTabTreeNode {
-    name: string;
-    type: string;
-    details?: CustomObjectTabTreeNodeDetails;
-    children: CustomObjectTabTreeNode[];
-}
-
-interface CustomObjectTabTree {
-    tree: CustomObjectTabTreeNode[];
-}
 
 @Injectable()
 export class CustomTabContentResource {
@@ -27,8 +13,8 @@ export class CustomTabContentResource {
 
     }
 
-    get(buildInfo: BuildInfo, tabId: number): Observable<CustomObjectTabTree> {
-        return this.httpClient.get<CustomObjectTabTree>(`rest/branches/${buildInfo.branchName}/builds/${buildInfo.buildName}/customTabObjects/${tabId}`);
+    get(buildInfo: BuildInfo, tabId: number): Observable<ICustomObjectTabTree> {
+        return this.httpClient.get<ICustomObjectTabTree>(`rest/branches/${buildInfo.branchName}/builds/${buildInfo.buildName}/customTabObjects/${tabId}`);
     }
 }
 

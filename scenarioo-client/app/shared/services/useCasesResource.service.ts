@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
-import {Labels} from './scenarioResource.service';
+import {ILabels} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -12,7 +12,7 @@ interface UseCaseSummary {
     name: string;
     description: string;
     numberOfScenarios: number;
-    labels: Labels;
+    labels: ILabels;
 }
 
 @Injectable()

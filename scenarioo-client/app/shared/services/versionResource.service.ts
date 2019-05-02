@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {Observable} from 'rxjs';
+import {IApplicationVersion} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -19,8 +20,8 @@ export class VersionResource {
 
     }
 
-    get(): Observable<Version> {
-        return this.httpClient.get<Version>('rest/version');
+    get(): Observable<IApplicationVersion> {
+        return this.httpClient.get<IApplicationVersion>('rest/version');
     }
 }
 
