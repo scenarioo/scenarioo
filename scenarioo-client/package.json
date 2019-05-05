@@ -105,7 +105,7 @@
         "style-loader": "^0.18.2",
         "ts-loader": "3.1.1",
         "ts-node": "3.3.0",
-        "tslint": "^5.10.0",
+        "tslint": "^5.11.0",
         "url-loader": "^0.5.9",
         "wait-on": "^3.1.0",
         "webpack": "2.5.0",

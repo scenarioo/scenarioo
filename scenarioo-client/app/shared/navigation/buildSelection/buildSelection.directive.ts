@@ -18,7 +18,7 @@
 angular.module('scenarioo.directives')
     .directive('scBuildSelection', ($rootScope, $routeParams, $location, $route, $compile,
                                     $filter, $sce, $uibModal, BranchesAndBuildsService,
-                                    ConfigurationService,) => {
+                                    ConfigurationService) => {
         return {
             restrict: 'E',
             replace: true,
@@ -27,14 +27,14 @@ angular.module('scenarioo.directives')
                 branchesAndBuilds: '=',
                 selectedBranch: '=',
                 selectedBuild: '=',
-                onBuildChange: '&'
+                onBuildChange: '&',
             },
             link: (scope: any) => {
                 scope.getDisplayNameForBuild = getDisplayNameForBuild;
                 scope.isBuildAlias = isBuildAlias;
                 scope.isLastSuccessfulScenariosBuild = isLastSuccessfulScenariosBuild;
                 scope.getStatusStyleClass = getStatusStyleClass;
-            }
+            },
         };
 
         function getDisplayNameForBuild(build, returnShortText) {

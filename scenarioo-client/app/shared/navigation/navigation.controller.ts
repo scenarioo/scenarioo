@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers')
@@ -26,9 +27,9 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                               ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
-                              SearchEngineStatusService,) {
+                              SearchEngineStatusService) {
 
-    ConfigurationService.applicationName().subscribe(name => {
+    ConfigurationService.applicationName().subscribe((name) => {
         $scope.applicationName = name;
     });
 

@@ -51,7 +51,7 @@ function BuildController($scope, $location, ConfigurationService: ConfigurationS
     }
 
     function activate() {
-        ConfigurationService.getConfiguration().subscribe(configuration => {
+        ConfigurationService.getConfiguration().subscribe((configuration) => {
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(configuration);
             defineLastStaticTabs();

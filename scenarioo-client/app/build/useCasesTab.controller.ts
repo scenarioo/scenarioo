@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers')
@@ -24,7 +25,7 @@ angular.module('scenarioo.controllers')
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource,
                                BuildDiffInfoResource, UseCaseDiffInfosResource,
-                               ConfigurationService: ConfigurationService,) {
+                               ConfigurationService: ConfigurationService) {
 
     const vm = this;
     vm.table = {

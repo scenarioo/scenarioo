@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.filters')
@@ -47,7 +48,7 @@ function scBranchOrderByFilter(ConfigurationService: ConfigurationService) {
                 return orderByNameDescending(branchA, branchB);
             case 'last-build-date-descending':
                 return orderByLastBuildDateDescending(branchA, branchB);
-            case 'name-ascending':  //also the default behavior
+            case 'name-ascending':  // also the default behavior
             default:
                 return orderByNameAscending(branchA, branchB);
         }
@@ -89,7 +90,7 @@ function scBranchOrderByFilter(ConfigurationService: ConfigurationService) {
         }
     }
 
-    return input => {
+    return (input) => {
 
         if (!angular.isArray(input)) {
             return input;

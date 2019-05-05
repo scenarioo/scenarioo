@@ -27,7 +27,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
                            SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
                            ConfigurationService: ConfigurationService,
-                           labelConfigurationService: LabelConfigurationService,) {
+                           labelConfigurationService: LabelConfigurationService) {
 
     const vm = this;
 
@@ -129,7 +129,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             useCaseName,
         ).subscribe(onUseCaseLoaded);
 
-        ConfigurationService.scenarioPropertiesInOverview().subscribe(value => {
+        ConfigurationService.scenarioPropertiesInOverview().subscribe((value) => {
             vm.propertiesToShow = value;
         });
     }

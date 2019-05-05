@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('StepController', StepController);
@@ -25,7 +26,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
                         StepDiffInfoResource, DiffInfoService, localStorageService,
-                        ConfigurationService: ConfigurationService,) {
+                        ConfigurationService: ConfigurationService) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');

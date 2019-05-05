@@ -22,7 +22,7 @@ angular.module('scenarioo.controllers').controller('BuildsListController', Build
 
 function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource,
                               BuildImportService, BuildReimportResource,
-                              BuildImportLogResource, ConfigurationService: ConfigurationService,) {
+                              BuildImportLogResource, ConfigurationService: ConfigurationService) {
 
     const vm = this;
 

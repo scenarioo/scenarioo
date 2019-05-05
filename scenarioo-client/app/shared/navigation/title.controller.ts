@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('TitleController', TitleController);
@@ -25,7 +26,7 @@ function TitleController(ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.text = '';
 
-    ConfigurationService.applicationName().subscribe(name => {
+    ConfigurationService.applicationName().subscribe((name) => {
         vm.text = `Scenarioo ${name}`;
     });
 }

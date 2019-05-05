@@ -15,10 +15,10 @@ export class ConfigurationService {
     // TODO remove eventually. It's hard to migrate such code. Thus this workaround.
     private _config: IConfiguration;
 
-    private updateConfigurationSubject = configuration => {
+    private updateConfigurationSubject = (configuration) => {
         this.configuration.next(configuration);
         this._config = configuration;
-    };
+    }
 
     constructor(private configResource: ConfigResource) {
         this.configResource.get().subscribe(this.updateConfigurationSubject);
@@ -26,7 +26,7 @@ export class ConfigurationService {
 
     updateConfiguration(configuration: IConfiguration): Observable<IConfiguration> {
         return this.configResource.save(configuration)
-            .pipe(tap(this.updateConfigurationSubject))
+            .pipe(tap(this.updateConfigurationSubject));
     }
 
     getConfiguration(): Observable<IConfiguration> {
@@ -35,12 +35,12 @@ export class ConfigurationService {
 
     applicationName(): Observable<string> {
         return this.configuration.asObservable().pipe(
-            map(configuration => configuration.applicationName));
+            map((configuration) => configuration.applicationName));
     }
 
     applicationInformation(): Observable<string> {
         return this.configuration.asObservable().pipe(
-            map(configuration => configuration.applicationInformation)
+            map((configuration) => configuration.applicationInformation),
         );
     }
 
@@ -58,7 +58,7 @@ export class ConfigurationService {
 
     scenarioPropertiesInOverview(): Observable<string[]> {
         return this.getConfiguration().pipe(
-            map(configuration => {
+            map((configuration) => {
                 const stringValue = configuration.scenarioPropertiesInOverview;
 
                 let propertiesStringArray = [];
@@ -73,7 +73,7 @@ export class ConfigurationService {
                 }
 
                 return properties;
-            })
+            }),
         );
 
     }
@@ -92,7 +92,7 @@ export class ConfigurationService {
     }
 
     getStatusStyleClass(buildStatus): string {
-        if(!this._config) {
+        if (!this._config) {
             return 'label-warning';
         }
         const styleClassFromMapping = this._config.buildstates[buildStatus];
@@ -101,7 +101,7 @@ export class ConfigurationService {
         } else {
             return styleClassFromMapping;
         }
-    };
+    }
 
 }
 

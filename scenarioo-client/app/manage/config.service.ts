@@ -23,7 +23,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
 
     const CONFIG_LOADED_EVENT = 'configLoaded';
 
-    let configData: IConfiguration = undefined;
+    let configData: IConfiguration;
 
     function getValue(key) {
         return configData[key];

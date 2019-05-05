@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
@@ -24,7 +25,7 @@ function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
                             RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource,
-                            StepDiffInfosResource, ConfigurationService: ConfigurationService,) {
+                            StepDiffInfosResource, ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};

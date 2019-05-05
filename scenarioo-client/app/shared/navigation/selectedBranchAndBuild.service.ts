@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
@@ -39,7 +40,7 @@ angular.module('scenarioo.services')
 
             return {
                 branch: selectedBranch,
-                build: selectedBuild
+                build: selectedBuild,
             };
         }
 
@@ -82,7 +83,7 @@ angular.module('scenarioo.services')
         }, true);
 
         $rootScope.$watch(getSelectedBranchAndBuild,
-            selected => {
+            (selected) => {
                 if (isBranchAndBuildDefined()) {
                     for (let i = 0; i < selectionChangeCallbacks.length; i++) {
                         selectionChangeCallbacks[i](selected);
@@ -107,7 +108,7 @@ angular.module('scenarioo.services')
 
         function addCallback(callbackList, newCallback) {
             let callbackListContainsNewCallback = false;
-            angular.forEach(callbackList, callback => {
+            angular.forEach(callbackList, (callback) => {
                 if (callback.toString() === newCallback.toString()) {
                     callbackListContainsNewCallback = true;
                 }
@@ -118,8 +119,8 @@ angular.module('scenarioo.services')
         }
 
         return {
-            BRANCH_KEY: BRANCH_KEY,
-            BUILD_KEY: BUILD_KEY,
+            BRANCH_KEY,
+            BUILD_KEY,
 
             /**
              * Returns the currently selected branch and build as a map with the keys 'branch' and 'build'.
@@ -141,7 +142,7 @@ angular.module('scenarioo.services')
              * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
              *   the callback is not called.
              */
-            callOnSelectionChange: registerSelectionChangeCallback
+            callOnSelectionChange: registerSelectionChangeCallback,
         };
 
     });
