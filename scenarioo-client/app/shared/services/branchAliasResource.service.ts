@@ -20,7 +20,7 @@ export class BranchAliasesResource {
     }
 
     save(branchAliases: IBranchAlias[]): Observable<void> {
-        return this.httpClient.post('rest/branchaliases', branchAliases, {})
+        return this.httpClient.post<void>('rest/branchaliases', branchAliases, {})
             .pipe(catchError(handleError));
     }
 }

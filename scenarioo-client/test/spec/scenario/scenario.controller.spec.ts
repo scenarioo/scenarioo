@@ -17,8 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
-import {IConfiguration, IUseCaseScenarios} from "../../../app/generated-types/backend-types";
+import {of} from 'rxjs';
+import {IConfiguration, IUseCaseScenarios} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,14 +28,14 @@ describe('ScenarioController', () => {
         ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
 
     const ConfigResourceMock = {
-        get: () => Observable.of(angular.copy(TestData.CONFIG))
+        get: () => of(angular.copy(TestData.CONFIG))
     };
     const LabelConfigurationsResourceMock = {
-        query: () => Observable.of({}),
+        query: () => of({}),
     };
     const ScenarioResourceMock = {
-        get: () => Observable.of(TestData.SCENARIO),
-        getUseCaseScenarios: () => Observable.of<IUseCaseScenarios>({
+        get: () => of(TestData.SCENARIO),
+        getUseCaseScenarios: () => of<IUseCaseScenarios>({
             useCase: TestData.SCENARIO.useCase,
             scenarios: [TestData.SCENARIO.scenario]
         })
@@ -172,8 +172,8 @@ describe('ScenarioController', () => {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;
         }
-        spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(config));
-        spyOn(ScenarioResourceMock, "getUseCaseScenarios").and.returnValue(Observable.of(TestData.SCENARIO));
+        spyOn(ConfigResourceMock, "get").and.returnValue(of(config));
+        spyOn(ScenarioResourceMock, "getUseCaseScenarios").and.returnValue(of(TestData.SCENARIO));
 
         ConfigService.load();
         $scope.$apply();

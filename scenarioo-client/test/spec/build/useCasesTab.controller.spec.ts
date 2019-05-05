@@ -17,7 +17,7 @@
 
 'use strict';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -27,7 +27,7 @@ describe('UseCasesTabController', () => {
     let useCasesTabController;
 
     const LabelConfigurationsResourceMock = {
-        query: () => Observable.of({}),
+        query: () => of({}),
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));

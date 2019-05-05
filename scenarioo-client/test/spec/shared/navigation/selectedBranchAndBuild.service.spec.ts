@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
 
 describe('SelectedBranchAndBuildService', () => {
@@ -43,7 +44,7 @@ describe('SelectedBranchAndBuildService', () => {
         }
     };
     let ConfigResourceMock = {
-        get: () => Observable.of(DUMMY_CONFIG_RESPONSE)
+        get: () => of(DUMMY_CONFIG_RESPONSE)
     };
 
     beforeEach(angular.mock.module('scenarioo.services'));

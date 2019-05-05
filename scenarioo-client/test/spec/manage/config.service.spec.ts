@@ -17,8 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
-import {IConfiguration} from "../../../app/generated-types/backend-types";
+import {of} from 'rxjs';
+import {IConfiguration} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -53,7 +53,7 @@ describe('ConfigService', () => {
             defaultBranchName: 'trunk'
         };
     const ConfigResourceMock = {
-        get: () => Observable.of<IConfiguration>(angular.copy(DUMMY_CONFIG_RESPONSE))
+        get: () => of<IConfiguration>(angular.copy(DUMMY_CONFIG_RESPONSE))
     };
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -100,7 +100,7 @@ describe('ConfigService', () => {
     }));
 
     function loadConfigFromService(ConfigService) {
-        spyOn(ConfigResourceMock, "get").and.returnValue(Observable.of(DUMMY_CONFIG_RESPONSE));
+        spyOn(ConfigResourceMock, "get").and.returnValue(of(DUMMY_CONFIG_RESPONSE));
         ConfigService.load();
     }
 

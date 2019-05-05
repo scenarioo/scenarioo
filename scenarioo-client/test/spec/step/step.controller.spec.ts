@@ -1,3 +1,5 @@
+import {of, throwError as observableThrowError} from 'rxjs';
+
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
  *
@@ -16,8 +18,6 @@
  */
 
 'use strict';
-import 'rxjs/add/observable/of';
-import {Observable} from "rxjs";
 
 declare var angular: angular.IAngularStatic;
 
@@ -45,19 +45,19 @@ describe('StepController', () => {
 
 
     const ConfigResourceMock = {
-        get: () => Observable.of(angular.copy(TestData.CONFIG)),
+        get: () => of(angular.copy(TestData.CONFIG)),
     };
 
     const StepResourceMock = {
-        get: () => Observable.of(TestData.STEP),
+        get: () => of(TestData.STEP),
     };
 
     const LabelConfigurationsResourceMock = {
-        query: () => Observable.of({}),
+        query: () => of({}),
     };
     const ScenarioResourceMock = {
-        get: () => Observable.of({}),
-        getUseCaseScenarios: () => Observable.of({})
+        get: () => of({}),
+        getUseCaseScenarios: () => of({})
     };
 
 
@@ -122,7 +122,7 @@ describe('StepController', () => {
             });
 
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
-            spyOn(BranchesResource, 'query').and.returnValue(Observable.of({}));
+            spyOn(BranchesResource, 'query').and.returnValue(of({}));
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
@@ -246,7 +246,7 @@ describe('StepController', () => {
         });
 
         function loadPageContent() {
-            spyOn(StepResourceMock, 'get').and.returnValue(Observable.of(TestData.STEP));
+            spyOn(StepResourceMock, 'get').and.returnValue(of(TestData.STEP));
 
             ConfigService.load();
 
@@ -305,7 +305,7 @@ describe('StepController', () => {
         function tryToLoadNotExistingStep() {
             $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            spyOn(StepResourceMock, 'get').and.returnValue(Observable.throw({
+            spyOn(StepResourceMock, 'get').and.returnValue(observableThrowError({
                 status: 500,
                 config: {
                     method: "GET",

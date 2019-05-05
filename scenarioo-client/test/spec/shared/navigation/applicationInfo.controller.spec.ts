@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
 
 describe('Controller: ApplicationInfoController', () => {
@@ -31,7 +32,7 @@ describe('Controller: ApplicationInfoController', () => {
 
 
     let VersionResourceMock = {
-        get: () => Observable.of()
+        get: () => of()
     };
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {

@@ -18,7 +18,7 @@
 'use strict';
 
 declare var angular: angular.IAngularStatic;
-import {Observable} from "rxjs";
+import {Observable, of} from 'rxjs';
 
 describe('GeneralSettingsController', () => {
 
@@ -64,18 +64,18 @@ describe('GeneralSettingsController', () => {
             TestData = _TestData_;
 
             spyOn(BranchResourceMock, 'query')
-                .and.returnValue(Observable.of(TestData.BRANCHES));
+                .and.returnValue(of(TestData.BRANCHES));
             spyOn(SearchEngineStatusMock, 'isSearchEngineRunning')
-                .and.returnValue(Observable.of({'searchEngineRunning': false}));
+                .and.returnValue(of({'searchEngineRunning': false}));
             spyOn(ApplicationStatusMock, 'getApplicationStatus')
-                .and.returnValue(Observable.of({
+                .and.returnValue(of({
                 'searchEngineRunning': false,
                 'version': TestData.VERSION,
                 'configuration': angular.copy(TestData.CONFIG)
             }));
 
             spyOn(ConfigResourceMock, 'get')
-                .and.returnValue(Observable.of(angular.copy(TestData.CONFIG)));
+                .and.returnValue(of(angular.copy(TestData.CONFIG)));
 
             $httpBackend.whenGET('rest/version').respond(TestData.VERSION);
             $httpBackend.whenGET('rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
