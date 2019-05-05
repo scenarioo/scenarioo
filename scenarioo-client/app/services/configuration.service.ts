@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {IConfiguration} from '../generated-types/backend-types';
 import {ConfigResource} from '../shared/services/configResource.service';
@@ -7,7 +7,7 @@ import {map, tap} from 'rxjs/operators';
 
 
 @Injectable()
-export class ConfigurationService implements OnInit {
+export class ConfigurationService {
 
     private configuration = new Subject<IConfiguration>();
 
@@ -20,9 +20,6 @@ export class ConfigurationService implements OnInit {
     };
 
     constructor(private configResource: ConfigResource) {
-    }
-
-    ngOnInit(): void {
         this.configResource.get().subscribe(this.updateConfigurationSubject);
     }
 

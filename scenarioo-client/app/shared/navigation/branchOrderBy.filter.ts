@@ -16,10 +16,10 @@
  */
 import {ConfigurationService} from '../../services/configuration.service';
 
-angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', scBranchOrderByFilter]);
+angular.module('scenarioo.filters')
+    .filter('scBranchOrderBy', ['ConfigurationService', scBranchOrderByFilter]);
 
 function scBranchOrderByFilter(ConfigurationService: ConfigurationService) {
-
 
     /**
      * comparator function that will order given branch resource objects as follows:

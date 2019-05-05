@@ -22,12 +22,12 @@ angular.module('scenarioo.controllers')
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
-                              ConfigurationSerivce: ConfigurationService,
+                              ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
                               SearchEngineStatusService,) {
 
-    ConfigurationSerivce.applicationName().subscribe(name => {
+    ConfigurationService.applicationName().subscribe(name => {
         $scope.applicationName = name;
     });
 
