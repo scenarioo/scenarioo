@@ -15,18 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../../services/configuration.service';
+
 angular.module('scenarioo.controllers')
     .controller('NavigationController', NavigationController);
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
-                              ConfigService,
+                              ConfigurationSerivce: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
-                              SearchEngineStatusService) {
+                              SearchEngineStatusService,) {
 
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
-        $scope.applicationName = ConfigService.applicationName();
+    ConfigurationSerivce.applicationName().subscribe(name => {
+        $scope.applicationName = name;
     });
 
     $scope.$on('branchesUpdated', () => {

@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
+import {ConfigurationService} from './services/configuration.service';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import {RestControllerModule} from './shared/services/restController.module';
     ],
     providers: [
         LabelConfigurationService,
+        ConfigurationService,
     ],
 })
 export class AppModule {

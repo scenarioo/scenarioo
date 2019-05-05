@@ -23,5 +23,6 @@ export class ConfigResource {
     }
 }
 
+// TODO remove downgrade as we should not have any references to it
 angular.module('scenarioo.services')
     .factory('ConfigResource', downgradeInjectable(ConfigResource));
