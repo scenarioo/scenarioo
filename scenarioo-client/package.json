@@ -33,14 +33,14 @@
         "lint:app:fix": "tslint --fix 'app/**/*.ts' -c app/tslint.json"
     },
     "dependencies": {
-        "@angular/common": "6.1.10",
-        "@angular/compiler": "6.1.10",
-        "@angular/core": "6.1.10",
-        "@angular/forms": "6.1.10",
-        "@angular/platform-browser": "6.1.10",
-        "@angular/platform-browser-dynamic": "6.1.10",
-        "@angular/router": "6.1.10",
-        "@angular/upgrade": "6.1.10",
+        "@angular/common": "7.2.14",
+        "@angular/compiler": "7.2.14",
+        "@angular/core": "7.2.14",
+        "@angular/forms": "7.2.14",
+        "@angular/platform-browser": "7.2.14",
+        "@angular/platform-browser-dynamic": "7.2.14",
+        "@angular/router": "7.2.14",
+        "@angular/upgrade": "7.2.14",
         "@fortawesome/fontawesome": "^1.1.8",
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
         "@fortawesome/fontawesome-free-brands": "^5.0.13",
@@ -66,7 +66,7 @@
         "svg-pan-zoom": "github:ariutta/svg-pan-zoom#3.2.11",
         "ts-helpers": "^1.1.2",
         "twigs": "github:hatchteam/twigs#0.2.3",
-        "typescript": "2.8.4",
+        "typescript": "3.1.6",
         "zone.js": "~0.8.26"
     },
     "devDependencies": {
