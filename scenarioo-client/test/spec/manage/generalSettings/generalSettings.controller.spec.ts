@@ -17,12 +17,13 @@
 
 'use strict';
 
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
-import {Observable, of} from 'rxjs';
 
 describe('GeneralSettingsController', () => {
 
-    let $rootScope, $controller, ConfigService, $httpBackend, $scope, ConfigCtrl, TestData;
+    let $rootScope, $controller, ConfigurationService, $httpBackend, $scope, ConfigCtrl, TestData;
 
     let BranchResourceMock = {
         query: () => {
@@ -46,20 +47,20 @@ describe('GeneralSettingsController', () => {
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
 
-        $provide.value("BranchesResource", BranchResourceMock);
+        $provide.value('BranchesResource', BranchResourceMock);
 
-        $provide.value("SearchEngineStatusService", SearchEngineStatusMock);
-        $provide.value("ApplicationStatusService", ApplicationStatusMock);
-        $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value('SearchEngineStatusService', SearchEngineStatusMock);
+        $provide.value('ApplicationStatusService', ApplicationStatusMock);
+        $provide.value('ConfigResource', ConfigResourceMock);
     }));
 
     beforeEach(inject((_$rootScope_, _$controller_,
                        _SearchEngineStatusService_,
                        _ApplicationStatusService_,
-                       _ConfigService_, _$httpBackend_, _TestData_) => {
+                       _ConfigurationService_, _$httpBackend_, _TestData_) => {
             $rootScope = _$rootScope_;
             $controller = _$controller_;
-            ConfigService = _ConfigService_;
+            ConfigurationService = _ConfigurationService_;
             $httpBackend = _$httpBackend_;
             TestData = _TestData_;
 
@@ -83,9 +84,8 @@ describe('GeneralSettingsController', () => {
             $scope = $rootScope.$new();
             ConfigCtrl = $controller('GeneralSettingsController', {
                 $scope: $scope,
-                ConfigService: ConfigService
+                ConfigurationService: ConfigurationService
             });
-            ConfigService.load();
         }
     ))
     ;
@@ -115,13 +115,13 @@ describe('GeneralSettingsController', () => {
 
     describe('when the save button is clicked', () => {
         it('saves the edited config', () => {
-            spyOn(ConfigService, 'updateConfiguration');
+            spyOn(ConfigurationService, 'updateConfiguration');
 
             changeAllValues();
 
             ConfigCtrl.updateConfiguration();
 
-            expect(ConfigService.updateConfiguration).toHaveBeenCalled();
+            expect(ConfigurationService.updateConfiguration).toHaveBeenCalled();
         });
     });
 

@@ -15,13 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../../services/configuration.service';
+
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController(BranchesResource, ConfigService, ApplicationStatusService) {
+function GeneralSettingsController(BranchesResource, ConfigurationService: ConfigurationService, ApplicationStatusService) {
 
     const vm = this;
     vm.branches = [];
-    vm.configuration = {};
+    vm.configuration = undefined;
     vm.documentationDataDirectory = null;
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
@@ -63,14 +65,13 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
     }
 
     function resetConfiguration() {
-        vm.configuration = ConfigService.getRawConfigDataCopy();
+        vm.configuration = ConfigurationService.getRawCopy();
         calculateConfiguredBranch();
     }
 
     function updateConfiguration() {
         vm.successfullyUpdatedConfiguration = false;
-
-        ConfigService.updateConfiguration(vm.configuration, () => {
+        ConfigurationService.updateConfiguration(vm.configuration).subscribe(() => {
             vm.successfullyUpdatedConfiguration = true;
         });
     }

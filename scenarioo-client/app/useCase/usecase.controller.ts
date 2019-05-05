@@ -16,15 +16,17 @@
  */
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
+import {ConfigurationService} from '../services/configuration.service';
 
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
-function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
+function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
                            SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
-                           labelConfigurationService: LabelConfigurationService) {
+                           ConfigurationService: ConfigurationService,
+                           labelConfigurationService: LabelConfigurationService,) {
 
     const vm = this;
 
@@ -119,7 +121,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             },
             useCaseName,
         ).subscribe(onUseCaseLoaded);
-        vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
+        vm.propertiesToShow = ConfigurationService.scenarioPropertiesInOverview();
 
     }
 

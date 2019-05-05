@@ -66,9 +66,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     GlobalHotkeysService.registerGlobalHotkey('h', () => {
         $location.path('/');
     });
-
-    // Load config
-    ConfigService.load();
 });
 
 // needs to stay here

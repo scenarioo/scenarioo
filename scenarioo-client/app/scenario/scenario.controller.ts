@@ -15,11 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
-                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+                            PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
+                            RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource,
+                            StepDiffInfosResource, ConfigurationService: ConfigurationService,) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -93,7 +97,7 @@ function ScenarioController($filter, $routeParams,
                 const hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
-                if (ConfigService.expandPagesInScenarioOverview()) {
+                if (ConfigurationService.expandPagesInScenarioOverview()) {
                     vm.expandAll();
                 }
             },
