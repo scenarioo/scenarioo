@@ -75,6 +75,9 @@
         "@types/jasmine": "2.8.7",
         "@types/jasminewd2": "2.0.3",
         "angular-mocks": "1.5.2",
+        "babel-core": "6.26.3",
+        "babel-loader": "7.1.5",
+        "babel-preset-env": "1.7.0",
         "copy-webpack-plugin": "4.1.1",
         "css-loader": "0.28.1",
         "eslint": "4.10.0",
@@ -107,10 +110,7 @@
         "wait-on": "^3.1.0",
         "webpack": "2.5.0",
         "webpack-dev-server": "2.4.5",
-        "webpack-merge": "4.1.0",
-        "babel-loader": "7.1.5",
-        "babel-core": "6.26.3",
-        "babel-preset-env": "1.7.0"
+        "webpack-merge": "4.1.0"
     },
     "engines": {
         "node": ">=8.0.0"

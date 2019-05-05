@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {IConfiguration} from '../generated-types/backend-types';
 import {ConfigResource} from '../shared/services/configResource.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
