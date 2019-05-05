@@ -30,7 +30,6 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                            labelConfigurationService: LabelConfigurationService,) {
 
     const vm = this;
-    vm.getStatusStyleClass = getStatusStyleClass;
 
     vm.table = {
         search: {$: ''},
@@ -48,6 +47,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.relatedIssues = {};
     vm.hasAnyLabels = false;
     $scope.comparisonInfo = null; // initialized later in activate,  should be defined on vm as well (Style Guide!)
+    // It does not work if we don't use the scope variable directly. Any ideas?
+    $scope.getStatusStyleClass = getStatusStyleClass;
 
     vm.resetSearchField = resetSearchField;
     vm.handleClick = handleClick;
@@ -70,9 +71,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         $scope.comparisonInfo = SelectedComparison.info;
     }
 
-    function getStatusStyleClass() {
-        console.log('test ins');
-        return 'test';
+    function getStatusStyleClass(name) {
+        return ConfigurationService.getStatusStyleClass(name);
     }
 
     function resetSearchField() {

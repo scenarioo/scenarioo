@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs';
 import {IConfiguration} from '../generated-types/backend-types';
 import {ConfigResource} from '../shared/services/configResource.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
@@ -10,7 +10,7 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class ConfigurationService {
 
-    private configuration = new Subject<IConfiguration>();
+    private configuration = new ReplaySubject<IConfiguration>(1);
 
     // TODO remove eventually. It's hard to migrate such code. Thus this workaround.
     private _config: IConfiguration;
@@ -92,13 +92,15 @@ export class ConfigurationService {
     }
 
     getStatusStyleClass(buildStatus): string {
-        // const styleClassFromMapping = this._config.buildstates[buildStatus];
-        // if (styleClassFromMapping === undefined) {
-        //     return 'label-warning';
-        // } else {
-        //     return styleClassFromMapping;
-        // }
-        return 'label-warning';
+        if(!this._config) {
+            return 'label-warning';
+        }
+        const styleClassFromMapping = this._config.buildstates[buildStatus];
+        if (styleClassFromMapping === undefined) {
+            return 'label-warning';
+        } else {
+            return styleClassFromMapping;
+        }
     };
 
 }
