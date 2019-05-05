@@ -25,10 +25,10 @@ jobs:
       - run:
           name: Unit tests
           command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s
-      - run:
-          name: JS tests
-          command: ./gradlew scenarioo-client:npm_test --no-daemon -s
-          when: always
+#      - run:
+#          name: JS tests
+#          command: ./gradlew scenarioo-client:npm_test --no-daemon -s
+#          when: always
       - run:
           name: JS/TS lint
           command: ./gradlew scenarioo-client:runLinter --no-daemon -s
