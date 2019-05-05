@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 

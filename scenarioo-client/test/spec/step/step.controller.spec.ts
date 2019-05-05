@@ -64,14 +64,14 @@ describe('StepController', () => {
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
-        $provide.value("BranchesResource", {
+        $provide.value('BranchesResource', {
             query: () => {
             }
         });
-        $provide.value("ConfigResource", ConfigResourceMock);
-        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
-        $provide.value("ScenarioResource", ScenarioResourceMock);
-        $provide.value("StepResource", StepResourceMock);
+        $provide.value('ConfigResource', ConfigResourceMock);
+        $provide.value('LabelConfigurationsResource', LabelConfigurationsResourceMock);
+        $provide.value('ScenarioResource', ScenarioResourceMock);
+        $provide.value('StepResource', StepResourceMock);
     }));
 
     beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_,
@@ -308,7 +308,7 @@ describe('StepController', () => {
             spyOn(StepResourceMock, 'get').and.returnValue(observableThrowError({
                 status: 500,
                 config: {
-                    method: "GET",
+                    method: 'GET',
                     url: 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42'
                 }
             }));

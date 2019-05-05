@@ -14,13 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
 
 function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource,
                               BuildImportService, BuildReimportResource,
-                              BuildImportLogResource) {
+                              BuildImportLogResource, ConfigurationService: ConfigurationService,) {
 
     const vm = this;
 
@@ -42,6 +44,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     vm.reimportBuild = reimportBuild;
     vm.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
     vm.importAndUpdateBuilds = importAndUpdateBuilds;
+    vm.getStatusStyleClass = (state) => ConfigurationService.getStatusStyleClass(state);
 
     activate();
 

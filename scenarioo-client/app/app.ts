@@ -33,7 +33,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     .config(($routeProvider) => {
         addRoutes($routeProvider);
 
-    }).run(($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) => {
+    }).run(($rootScope, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) => {
 
     // These templates are loaded dynamically, thus we preload it and put it into our template cache.
     $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));

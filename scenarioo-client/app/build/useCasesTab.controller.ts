@@ -15,11 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers')
     .controller('UseCasesTabController', UseCasesTabController);
 
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
-                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
+                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource,
+                               BuildDiffInfoResource, UseCaseDiffInfosResource,
+                               ConfigurationService: ConfigurationService,) {
 
     const vm = this;
     vm.table = {
@@ -39,6 +44,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.gotoUseCase = gotoUseCase;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
+    vm.getStatusStyleClass = (state) => ConfigurationService.getStatusStyleClass(state);
 
     vm.getLabelStyle = getLabelStyle;
 

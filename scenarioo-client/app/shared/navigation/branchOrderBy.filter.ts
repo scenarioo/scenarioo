@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import {ConfigurationService} from '../../services/configuration.service';
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.filters')
     .filter('scBranchOrderBy', ['ConfigurationService', scBranchOrderByFilter]);

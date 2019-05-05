@@ -66,7 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
                 </td>
                 <td>
-                    <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                    <span ng-class="[vm.getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
                 </td>
                 <td title="{{build.statusMessage}}"><span ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> </td>
                 <td>

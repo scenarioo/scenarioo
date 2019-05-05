@@ -23,6 +23,8 @@ import {IConfiguration} from '../generated-types/backend-types';
  *
  * The content of the tab is managed in different views and controller that are lazyly loaded through this controller and view (using include URL resolution lazyly).
  */
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
 function BuildController($scope, $location, ConfigurationService: ConfigurationService) {

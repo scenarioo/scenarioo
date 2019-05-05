@@ -5,6 +5,7 @@ import {ConfigResource} from '../shared/services/configResource.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {map, tap} from 'rxjs/operators';
 
+declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class ConfigurationService {
@@ -55,21 +56,26 @@ export class ConfigurationService {
         };
     }
 
-    scenarioPropertiesInOverview() {
-        const stringValue = this._config.scenarioPropertiesInOverview;
+    scenarioPropertiesInOverview(): Observable<string[]> {
+        return this.getConfiguration().pipe(
+            map(configuration => {
+                const stringValue = configuration.scenarioPropertiesInOverview;
 
-        let propertiesStringArray = [];
-        if (angular.isString(stringValue) && stringValue.length > 0) {
-            propertiesStringArray = stringValue.split(',');
-        }
+                let propertiesStringArray = [];
+                if (angular.isString(stringValue) && stringValue.length > 0) {
+                    propertiesStringArray = stringValue.split(',');
+                }
 
-        const properties = new Array(propertiesStringArray.length);
+                const properties: string[] = new Array(propertiesStringArray.length);
 
-        for (let i = 0; i < propertiesStringArray.length; i++) {
-            properties[i] = propertiesStringArray[i].trim();
-        }
+                for (let i = 0; i < propertiesStringArray.length; i++) {
+                    properties[i] = propertiesStringArray[i].trim();
+                }
 
-        return properties;
+                return properties;
+            })
+        );
+
     }
 
     expandPagesInScenarioOverview(): boolean {
@@ -84,6 +90,16 @@ export class ConfigurationService {
         // this ugly code comverts hex values of the form `0x123ab5` to `#123ab5`
         return '#' + ('00000' + this._config.diffImageColor).toString().substr(-6);
     }
+
+    getStatusStyleClass(buildStatus): string {
+        // const styleClassFromMapping = this._config.buildstates[buildStatus];
+        // if (styleClassFromMapping === undefined) {
+        //     return 'label-warning';
+        // } else {
+        //     return styleClassFromMapping;
+        // }
+        return 'label-warning';
+    };
 
 }
 

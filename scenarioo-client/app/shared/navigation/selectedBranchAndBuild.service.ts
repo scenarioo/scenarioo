@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .factory('SelectedBranchAndBuildService', ($location, $rootScope, LocalStorageService, ConfigurationService: ConfigurationService) => {

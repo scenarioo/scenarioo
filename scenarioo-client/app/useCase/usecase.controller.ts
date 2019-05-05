@@ -20,7 +20,8 @@ import {ConfigurationService} from '../services/configuration.service';
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
+angular.module('scenarioo.controllers')
+    .controller('UseCaseController', UseCaseController);
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
@@ -29,6 +30,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                            labelConfigurationService: LabelConfigurationService,) {
 
     const vm = this;
+    vm.getStatusStyleClass = getStatusStyleClass;
 
     vm.table = {
         search: {$: ''},
@@ -66,6 +68,11 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             labelConfigurations = loadedLabelConfigurations;
         });
         $scope.comparisonInfo = SelectedComparison.info;
+    }
+
+    function getStatusStyleClass() {
+        console.log('test ins');
+        return 'test';
     }
 
     function resetSearchField() {
@@ -121,8 +128,10 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             },
             useCaseName,
         ).subscribe(onUseCaseLoaded);
-        vm.propertiesToShow = ConfigurationService.scenarioPropertiesInOverview();
 
+        ConfigurationService.scenarioPropertiesInOverview().subscribe(value => {
+            vm.propertiesToShow = value;
+        });
     }
 
     function onUseCaseLoaded(result) {

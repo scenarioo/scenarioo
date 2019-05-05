@@ -1,4 +1,3 @@
-import './config.service';
 import './manage.controller';
 import './buildImport/buildsList.controller';
 import './buildImport/buildImportDetails.controller';
