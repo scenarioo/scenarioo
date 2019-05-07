@@ -149,7 +149,7 @@ jobs:
       - run:
           name: Deploy demo of branch
           command: |
-            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$(cat BUILD_NUM)" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" && rm BUILD_NUM
+            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$(cat BUILD_NUM)" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST"
       - run:
           name: Commit and push
           command: |
@@ -194,6 +194,27 @@ jobs:
             cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
 
+  publish_selfdocu_to_master:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/node:8-stretch
+    working_directory: ~/deploy
+    steps:
+      - attach_workspace: &attach_workspace
+        at: .
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-master
+          command: |
+            ARTIFACTS = `curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
+            DOCU_ARTIFACT=`echo $ARTIFACTS | jq -r '.[] | select(.path=="e2eScenariooDocu.zip") | .url'`
+            echo -e "docu artifact to be downloaded: ${$DOCU_ARTIFACT}"
+            curl $DOCU_ARTIFACT
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./dist/build-result-summary.txt
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
+          when: always
+
+
 workflows:
   version: 2
   build_and_deploy:
@@ -214,3 +235,8 @@ workflows:
                 - master
                 - develop
                 - /^release\/.*/
+      - publish_selfdocu_to_master:
+          filters:
+            branches:
+              only:
+                - develop
