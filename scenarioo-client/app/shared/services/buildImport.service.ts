@@ -14,7 +14,7 @@ export class BuildImportService {
     }
 
     updateData(): Observable<any> {
-        return this.httpClient.get(this.url);
+        return this.httpClient.get(this.url, {responseType: 'text'});
     }
 }
 
