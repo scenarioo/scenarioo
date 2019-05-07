@@ -2,7 +2,7 @@ package org.scenarioo.rest.builds;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.scenarioo.rest.integrationtest.IntegrationTestBase;
+import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test-application.properties")
-public class BranchBuildsResourceIntegrationTest extends IntegrationTestBase {
+public class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;

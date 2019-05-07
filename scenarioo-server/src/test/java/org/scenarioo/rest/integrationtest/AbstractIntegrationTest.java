@@ -1,6 +1,5 @@
 package org.scenarioo.rest.integrationtest;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.utils.TestResourceFile;
@@ -8,12 +7,12 @@ import org.scenarioo.utils.TestResourceFile;
 import java.io.File;
 
 /**
- * {@link IntegrationTestBase} configures the Server to use a predefined configuration with one branch, two builds and
+ * {@link AbstractIntegrationTest} configures the Server to use a predefined configuration with one branch, two builds and
  * two comparisons, which can then be used by the Integration Tests to get sensible answers from the server.
  * Since Spring Boot reuses the Server for multiple Integration Tests, we should only do this configuration once, for
  * the first Integration Tests that is started.
  */
-public class IntegrationTestBase {
+public abstract class AbstractIntegrationTest {
 
 	private static boolean integrationTestsStarted = false;
 
@@ -28,10 +27,5 @@ public class IntegrationTestBase {
 			ScenarioDocuBuildsManager.resetInstance();
 			integrationTestsStarted = true;
 		}
-	}
-
-	@AfterClass
-	public static void resetEnvironment() {
-		System.clearProperty("org.scenarioo.data");
 	}
 }

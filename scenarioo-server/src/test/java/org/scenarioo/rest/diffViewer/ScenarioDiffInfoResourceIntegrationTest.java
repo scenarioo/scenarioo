@@ -2,10 +2,8 @@ package org.scenarioo.rest.diffViewer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
-import org.scenarioo.rest.integrationtest.IntegrationTestBase;
+import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -14,17 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test-application.properties")
-public class ScenarioDiffInfoResourceIntegrationTest extends IntegrationTestBase {
+public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
