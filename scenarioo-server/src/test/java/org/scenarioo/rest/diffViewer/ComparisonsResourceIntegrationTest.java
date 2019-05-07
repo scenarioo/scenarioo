@@ -136,6 +136,6 @@ public class ComparisonsResourceIntegrationTest extends IntegrationTestBase {
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isIn(ComparisonCalculationStatus.PROCESSING.name(), ComparisonCalculationStatus.QUEUED_FOR_PROCESSING.name());
+		assertThat(response.getBody()).isIn(ComparisonCalculationStatus.SUCCESS.name(), ComparisonCalculationStatus.PROCESSING.name(), ComparisonCalculationStatus.QUEUED_FOR_PROCESSING.name());
 	}
 }
