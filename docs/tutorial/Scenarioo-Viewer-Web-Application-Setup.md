@@ -26,8 +26,14 @@ Further Release Candidate Versions are available through [Downloads & Links](../
      server.tomcat.accesslog.enabled=true
      server.tomcat.accesslog.directory=<absolute path to log-directory>
      ```
+2. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
+    
+    To configure a different directory to use add the following line to `config/application.properties` next to the downloaded war:  
+    ```
+    org.scenarioo.data=<path to a directory where scenarioo can store its data>
+    ```
 
-2. **Execute the WAR** file with Java, e.g 
+3. **Execute the WAR** file with Java, e.g 
      ```
      cd <war-location>
      java -jar scenarioo.war

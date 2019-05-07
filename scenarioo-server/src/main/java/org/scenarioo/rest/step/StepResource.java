@@ -72,7 +72,7 @@ public class StepResource {
 								   @RequestParam(value = "fallback", required = false) final boolean addFallbackInfo, @RequestParam(value = "labels", required = false) final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));

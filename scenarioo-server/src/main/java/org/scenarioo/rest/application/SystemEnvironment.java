@@ -17,13 +17,25 @@
 
 package org.scenarioo.rest.application;
 
+import org.springframework.core.env.Environment;
+
 /**
  * 
  */
 class SystemEnvironment {
 
+	private Environment environment;
+
+	SystemEnvironment(Environment environment) {
+		this.environment = environment;
+	}
+
 	String getScenariooDataDirectory() {
 		return System.getenv("SCENARIOO_DATA");
+	}
+
+	String getScenariooDataDirectoryFromSpringBootConfiguration() {
+		return environment.getProperty("org.scenarioo.data");
 	}
 
 	String getUserHome() {

@@ -41,7 +41,7 @@ public class UseCaseDiffInfoResource {
 			@PathVariable("baseBuildName") final String baseBuildName,
 			@PathVariable("comparisonName") final String comparisonName,
 			@PathVariable("useCaseName") final String useCaseName) {
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
 
@@ -53,7 +53,7 @@ public class UseCaseDiffInfoResource {
 	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathVariable("baseBranchName") final String baseBranchName,
 			@PathVariable("baseBuildName") final String baseBuildName,
 			@PathVariable("comparisonName") final String comparisonName) {
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance()
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		final List<UseCaseDiffInfo> useCaseDiffInfos = diffViewerDao.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),

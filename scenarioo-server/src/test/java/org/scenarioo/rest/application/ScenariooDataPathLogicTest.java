@@ -43,6 +43,17 @@ public class ScenariooDataPathLogicTest {
 	}
 
 	@Test
+	public void getDocumentationPath_WhenEnvironmentVariableIsNotPresent_ChosesSystemProperty() {
+		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
+		when(systemEnvironment.getScenariooDataDirectory()).thenReturn(null);
+		when(systemEnvironment.getScenariooDataDirectoryFromSpringBootConfiguration()).thenReturn("tmp/test");
+
+		String actual = logic.getDataPath(servletContext);
+
+		assertEquals("tmp/test", actual);
+	}
+
+	@Test
 	public void getDocumentationPath_WhenNoExternalConfigurationIsGiven_DefaultsToScenariooHomeFolder() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn(null);

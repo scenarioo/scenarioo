@@ -35,7 +35,7 @@ import java.util.List;
  */
 public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> {
 
-	protected static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+	protected final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
 
 	protected ComparisonParameters parameters;
