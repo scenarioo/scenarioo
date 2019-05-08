@@ -12,7 +12,7 @@ You need a correctly setup development environment for working on Scenarioo as d
    * or on command-line run: `./gradlew clean build bootWar`
    * **On Windows:** If you get some Python errors during "npmInstall" task, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
     
- 2. Execute the "Scenarioo - Fruehligsstiefel" run configuration
+ 2. Execute the "Scenarioo - Fruehlingsstiefel" run configuration
    * or on command-line run: 
    ```
    # Set the path to the example data in your environment variables (system-dependent)
@@ -48,7 +48,7 @@ On the command-line run:
    
 Or in IntelliJ 
     * run all java unit tests inside scenarioo/scenarioo-server
-    * run all java-script unit tests inside scenarioo/scenarioo-client:
+    * run all java-script karma unit tests inside scenarioo/scenarioo-client:
        `npm test`
    
 ## E2E Testing with Protractor
@@ -162,7 +162,8 @@ Scenarioo-Server, Scenarioo-Validator and Scenarioo-Docu-Generation-Example all 
      git pull
      ./gradlew clean build test install
      ```
-3. Now you can continue working with Scenarioo     
+3. Add `mavenLocal()` to the `repositories` block in `build-java.gradle`.
+4. Now you can continue working with Scenarioo. 
      
 ### Add scenarioo-java to IntelliJ
 
@@ -174,7 +175,11 @@ To fix issues in scenarioo-java you can import it into IntelliJ by using **"File
     cd scenarioo-java
     ./gradlew clean test
     ```
-    
+
+### Releasing scenario-java
+
+This is documented [here](https://github.com/scenarioo/scenarioo-java/blob/develop/docs/release-new-api.md) in the scenarioo-java project.    
+
 ### Switching to a SNAPSHOT version
 
 1. Increase the version number in `scenarioo-java/build.gradle` and append `-SNAPSHOT` to the `version` property.
@@ -185,6 +190,32 @@ To fix issues in scenarioo-java you can import it into IntelliJ by using **"File
 6. Run all tests (including E2E tests)
 7. Commit the changes in scenarioo in a branch and create a pull request.
 
+## Working with scenarioo-js
+Scenarioo-Client depends on scenarioo-js. The version used is defined in `package.json`. It is possible to use a scenarioo-js version from a specific branch, to check that the changes will still be compatible with scenarioo:
+```
+"scenarioo-js": "github:scenarioo/scenarioo-js#feature/scenarioo-676-remove-control-flow",
+```
+
+### Add scenarioo-js to IntelliJ
+
+To fix issues in scenarioo-java you can import it into IntelliJ.
+1. You need to clone the sources (if not yet):
+     ```
+     git clone https://github.com/scenarioo/scenarioo-js.git scenarioo-js
+     ```
+ 
+2. Import it into IntelliJ by using **"File/New/Module From Existing Sources"**.
+
+### Running all tests in scenarioo-js
+
+    ```
+    cd scenarioo-js
+    npm run test
+    ```
+
+### Releasing scenario-js
+
+This is documented [here](https://github.com/scenarioo/scenarioo-js/blob/develop/docs/contribute/release.md) in the scenarioo-js project.
 
 ## Installing Tomcat
 
