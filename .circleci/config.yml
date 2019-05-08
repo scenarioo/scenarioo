@@ -206,6 +206,9 @@ jobs:
       - attach_workspace: &attach_workspace
           at: .
       - run:
+          name: Configure Environment for Job
+          command: echo -e "export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`" >> $BASH_ENV
+      - run:
           name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-master
           command: |
             export ARTIFACTS=`curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
@@ -213,7 +216,6 @@ jobs:
             echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
             curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
-            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
           when: always
 
