@@ -8,48 +8,49 @@ You need a correctly setup development environment for working on Scenarioo as d
 [Development Environment Setup](Development-Environment-Setup.md)
 
 ## Build, Test and Run the Scenarioo Viewer Web App
- * Build the viewer application by executing the "Scenarioo - Full Clean Build" run configuration
+ 1. Build the viewer application by executing the "Scenarioo - Full Clean Build" run configuration
    * or on command-line run: `./gradlew clean build bootWar`
    * :warning: Make sure JVM 1.8 is configured as runtime JVM for Gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
    * **On Windows:** If you get some Python errors during "npmInstall" task, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
     
- * Execute the "Scenarioo - Fruehligsstiefel" run configuration
+ 2. Execute the "Scenarioo - Fruehligsstiefel" run configuration
    * or on command-line run: 
    ```
    # Set the path to the example data in your environment variables (system-dependent)
-   export SCENARIOO_DATA=&lt;your-project-source-path&gt;/scenarioo-docu-generation-example/build/scenarioDocuExample 
+   export SCENARIOO_DATA=<your-project-source-path>/scenarioo-docu-generation-example/build/scenarioDocuExample 
    ./gradlew bootRun
    ```
 
    * This starts the viewer application backend as a standalone Spring Boot app
    * You should see in the log output that it is importing the example documentation data properly.
    
- * Finally, start serving the frontend:
+ 3. Finally, start serving the frontend:
    ```
    cd scenarioo-client
    npm install
    npm start   
    ```
    Some remarks about this:
-   `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
+   * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
    * This will spawn a webpack development server locally
 
- * Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
+ 4. Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
    * :warning: The `/` at the end of the URL is mandatory!
    * If you change files in the client code, the browser will refresh automatically
    
- * Before you start to develop, you should check that all unit tests and E2E tests are successful, before you start to break them ;-) Make sure to run these tests regularly when you develop and to keep them successful:
-   * run all unit tests:
-     * run all java unit tests inside scenarioo/scenarioo-server
-     * run all java-script unit tests inside scenarioo/scenarioo-client:
-       `npm test`
-   * run all E2E tests (=web tests): see [E2E Testing](#run-e2e-tests)
+ 5. Before you start to develop, you should check that all [unit tests](#run-all-unit-tests) and [E2E tests](#e2e-testing-with-protractor) are successful, before you start to break them ;-) Make sure to run these tests regularly when you develop and to keep them successful.
 
 ## Run all unit tests
+
 On the command-line run: 
    ```
    ./gradlew clean test
    ```
+   
+Or in IntelliJ 
+    * run all java unit tests inside scenarioo/scenarioo-server
+    * run all java-script unit tests inside scenarioo/scenarioo-client:
+       `npm test`
    
 ## E2E Testing with Protractor
 
@@ -188,7 +189,7 @@ To fix issues in scenarioo-java you can import it into IntelliJ by using **"File
 
 ## Installing Tomcat
 
-With Spring Boot it is no longer necessary to install Tomcat separately. However, from before a release it might be sensible to check that Scenarioo also works when deployed into an external Tomcat.
+With Spring Boot it is no longer necessary to install Tomcat separately. However, before a release it might be sensible to check that Scenarioo also works when it is deployed into an external Tomcat.
 
 * Download and install the latest version of Tomcat 8.5.x.
 * Edit the "Scenarioo - Kater" run configuration so that it points to this Tomcat Application Server.
@@ -211,10 +212,10 @@ Packages should b specified statically.
 Example: ``` "gulp-ng-annotate": "2.0.2" ```.
 
 **Remark by Rolf:** I changed this from `2.0.x` to `2.0.2` to use the specific version even for minor version.
-Reason: we should never automatically use newer minor versions - experiences sho that it can always happen that even a minor update of a dependency makes Scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
-Therefore I think we should use fix versions for all dependencies! 
+Reason: we should never automatically use newer minor versions - experiences show that it can always happen that even a minor update of a dependency makes Scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
+Therefore I think we should use fixed versions for all dependencies! 
 
-Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case new npm version is needed!
+Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!
    
 ## Known Issues
 
