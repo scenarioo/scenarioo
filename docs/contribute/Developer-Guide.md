@@ -10,7 +10,6 @@ You need a correctly setup development environment for working on Scenarioo as d
 ## Build, Test and Run the Scenarioo Viewer Web App
  1. Build the viewer application by executing the "Scenarioo - Full Clean Build" run configuration
    * or on command-line run: `./gradlew clean build bootWar`
-   * :warning: Make sure JVM 1.8 is configured as runtime JVM for Gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
    * **On Windows:** If you get some Python errors during "npmInstall" task, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
     
  2. Execute the "Scenarioo - Fruehligsstiefel" run configuration
@@ -217,12 +216,6 @@ Therefore I think we should use fixed versions for all dependencies!
 
 Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!
    
-## Known Issues
-
-### General Issues
-
- * There seems to be an issue, when not using JVM 1.8 for gradle. But when this is currently configured to 1.8, it works well :-) Has been documented above accordingly.
-
 # Tests to be done with new setup and developer guide pages
  
   - [ ] build and install scenarioo-java library (using gradle)
