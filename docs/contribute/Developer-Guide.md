@@ -176,10 +176,6 @@ To fix issues in scenarioo-java you can import it into IntelliJ by using **"File
     ./gradlew clean test
     ```
 
-### Releasing scenario-java
-
-This is documented [here](https://github.com/scenarioo/scenarioo-java/blob/develop/docs/release-new-api.md) in the scenarioo-java project.    
-
 ### Switching to a SNAPSHOT version
 
 1. Increase the version number in `scenarioo-java/build.gradle` and append `-SNAPSHOT` to the `version` property.
@@ -190,7 +186,12 @@ This is documented [here](https://github.com/scenarioo/scenarioo-java/blob/devel
 6. Run all tests (including E2E tests)
 7. Commit the changes in scenarioo in a branch and create a pull request.
 
+### Releasing scenario-java
+
+This is documented [here](https://github.com/scenarioo/scenarioo-java/blob/develop/docs/release-new-api.md) in the scenarioo-java project.    
+
 ## Working with scenarioo-js
+
 Scenarioo-Client depends on scenarioo-js. The version used is defined in `package.json`. It is possible to use a scenarioo-js version from a specific branch, to check that the changes will still be compatible with scenarioo:
 ```
 "scenarioo-js": "github:scenarioo/scenarioo-js#feature/scenarioo-676-remove-control-flow",

@@ -1,16 +1,16 @@
 # Scenarioo CI/CD Build and Demo Server
 
 ## CI/CD Build Server
+
 Different build servers are used for the different projects (scenarioo, scenarioo-js and scenarioo-cs). An overview page with links to all three build servers can be accessed through
 http://ci.scenarioo.org or http://build.scenarioo.org (both forward to http://demo.scenarioo.org/overview/)
 
 ## Demos
 
-Latest release: http://demo.scenarioo.org
-
-Development for future release: http://demo.scenarioo.org/scenarioo-develop
-
-Your special feature or release branch (if it has a CI/CD-build-job): http://demo.scenarioo.org/scenarioo-{branch-name}
+* Latest release: http://demo.scenarioo.org
+* Development for future release: http://demo.scenarioo.org/scenarioo-develop
+* Your special feature or release branch (if it has a CI/CD-build-job): http://demo.scenarioo.org/scenarioo-{branch-name}
+* Overview over all deployed branches: http://demo.scenarioo.org/overview/
 
 ## Circle CI Pipeline
 
