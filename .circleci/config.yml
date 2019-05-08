@@ -217,6 +217,32 @@ jobs:
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
           when: always
 
+  publish_selfdocu_to_develop:
+    #we can't test against master at the moment, since it is running an older version. Thus we verify the functionality
+    # of this build job by redeploying the current demo to scenarioo-develop.
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/node:8-stretch
+    working_directory: ~/deploy
+    steps:
+      - run:
+          name: Install jq
+          command: sudo apt-get install jq
+      - attach_workspace: &attach_workspace
+        at: .
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-develop
+          command: |
+            ARTIFACTS = `curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
+            echo -e "artifacts list retrieved from circle ci: ${ARTIFACTS}"
+            DOCU_ARTIFACT=`echo $ARTIFACTS | jq -r '.[] | select(.path=="e2eScenariooDocu.zip") | .url'`
+            echo -e "docu artifact to be downloaded: ${$DOCU_ARTIFACT}"
+            curl $DOCU_ARTIFACT
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./dist/deploy-result-summary.txt
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
+          when: always
+
 
 workflows:
   version: 2
@@ -243,3 +269,9 @@ workflows:
             branches:
               only:
                 - develop
+      - publish_selfdocu_to_develop:
+          filters:
+            branches:
+              ignore:
+                - /--nodemo/
+                - /--no-demo/
