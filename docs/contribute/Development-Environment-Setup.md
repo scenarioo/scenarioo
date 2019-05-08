@@ -93,6 +93,8 @@ Also make sure you have an up-to-date version of Git installed.
  * Import Scenarioo by using "New project from existing sources":
    * Choose 'scenarioo' folder
    * Import "From external model: Gradle" and use the gradle wrapper (default settings)
+   * A dialog appears asking whether the existing .idea folder should be overwritten. Select `Yes`. :warning: This deletes all existing run configurations, thus you need to revert the changes (see next step).
+   * Do a revert of all changes: Menu `VCS > Git > Revert` -> `Revert`
    
 ## Developer Guide
 
