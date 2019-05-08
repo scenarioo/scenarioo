@@ -251,7 +251,7 @@ workflows:
       - build
       - deploy:
           requires:
-            - build
+            - publish_selfdocu_to_develop
           filters:
             branches:
               ignore:
