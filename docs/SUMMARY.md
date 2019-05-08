@@ -29,7 +29,6 @@
   * [Development Environment Setup](contribute/Development-Environment-Setup.md)
   * [Developer Guide](contribute/Developer-Guide.md)
   * [Coding Guidelines](contribute/Coding-guidelines.md)
-  * [End to End Testing](contribute/e2eTesting.md)
   * [Documentation & Webpage](contribute/Documentation-and-Webpage.md)
   * [Code of Conduct: Rules & Guidelines](contribute/Code-of-Conduct.md)
   * [Commit Rules](contribute/Commit-rules.md)
