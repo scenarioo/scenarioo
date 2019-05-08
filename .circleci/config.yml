@@ -265,11 +265,15 @@ workflows:
                 - develop
                 - /^release\/.*/
       - publish_selfdocu_to_master:
+          requires:
+            - build
           filters:
             branches:
               only:
                 - develop
       - publish_selfdocu_to_develop:
+          requires:
+            - build
           filters:
             branches:
               ignore:
