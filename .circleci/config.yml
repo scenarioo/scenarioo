@@ -213,7 +213,7 @@ jobs:
             echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
             curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
-            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./dist/build-result-summary.txt
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
           when: always
 
@@ -239,7 +239,7 @@ jobs:
             echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
             curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
-            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./dist/deploy-result-summary.txt
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)\n" >> ./deploy-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
           when: always
 
