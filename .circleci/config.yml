@@ -200,6 +200,9 @@ jobs:
       - image: circleci/node:8-stretch
     working_directory: ~/deploy
     steps:
+      - run:
+          name: Install jq
+          command: sudo apt-get install jq
       - attach_workspace: &attach_workspace
         at: .
       - run:
