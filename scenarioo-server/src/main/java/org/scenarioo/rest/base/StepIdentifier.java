@@ -64,7 +64,7 @@ public class StepIdentifier {
 	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
 			final int stepInPageOccurrence, final Set<String> labels) {
 		this.scenarioIdentifier = scenarioIdentifier;
-		this.pageName = patchPageName(pageName);
+		this.setPageName(pageName);
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 		this.labels = labels;
@@ -162,7 +162,7 @@ public class StepIdentifier {
 	}
 
 	public void setPageName(final String pageName) {
-		this.pageName = pageName;
+		this.pageName = patchPageName(pageName);
 	}
 
 	public int getPageOccurrence() {
