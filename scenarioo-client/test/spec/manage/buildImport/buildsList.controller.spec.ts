@@ -18,7 +18,7 @@
 'use strict';
 
 declare var angular: angular.IAngularStatic;
-import {Observable} from "rxjs";
+import {Observable, of} from 'rxjs';
 
 describe('BuildsListController', () => {
 
@@ -41,7 +41,7 @@ describe('BuildsListController', () => {
             TestData = _TestData_;
             spyOn(_BuildImportStatesResource_, 'get')
                 .and
-                .returnValue(Observable.of(TestData.BUILD_IMPORT_STATES));
+                .returnValue(of(TestData.BUILD_IMPORT_STATES));
 
             $scope = $rootScope.$new();
 

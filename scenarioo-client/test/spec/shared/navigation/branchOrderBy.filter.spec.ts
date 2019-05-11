@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
 
 const CFG_LAST_BUILD_DATE_DESCENDING = {'branchSelectionListOrder': 'last-build-date-descending'};
@@ -59,7 +60,7 @@ describe('Filter scBranchOrderBy', function () {
     let scBranchOrderByFilter;
 
     let ConfigResourceMock = {
-        get: () => Observable.of({})
+        get: () => of({})
     };
 
 
@@ -77,7 +78,7 @@ describe('Filter scBranchOrderBy', function () {
             ConfigService = _ConfigService_;
             TestData = _TestData_;
 
-            spyOn(ConfigResourceMock, 'get').and.returnValue(Observable.of(config));
+            spyOn(ConfigResourceMock, 'get').and.returnValue(of(config));
 
             ConfigService.load();
 

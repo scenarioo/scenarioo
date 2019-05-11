@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {_throw} from 'rxjs/observable/throw';
+import {throwError as _throw} from 'rxjs';
 
 export default function handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

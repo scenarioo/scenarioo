@@ -17,8 +17,8 @@
 
 'use strict';
 declare var angular: angular.IAngularStatic;
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import {Observable, of} from 'rxjs';
+
 
 
 describe('UseCaseController', () => {
@@ -31,10 +31,10 @@ describe('UseCaseController', () => {
         SelectedBranchAndBuildService, $location, RelatedIssueResource;
     let labelConfigurationService: any;
     const ConfigResourceMock = {
-        get: () => Observable.of({})
+        get: () => of({})
     };
     const ScenarioResourceMock = {
-        get: () => Observable.of({}),
+        get: () => of({}),
         getUseCaseScenarios: () => getFindAllScenariosFake()
     };
     beforeEach(angular.mock.module('scenarioo.controllers'));
@@ -57,7 +57,7 @@ describe('UseCaseController', () => {
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
             labelConfigurationService = {
                 get(): Observable<any> {
-                    return Observable.of({});
+                    return of({});
                 }
             };
 
@@ -111,7 +111,7 @@ describe('UseCaseController', () => {
             scenarios: getFakeScenarios()
         };
 
-        return Observable.of(DATA);
+        return of(DATA);
 
     }
 
