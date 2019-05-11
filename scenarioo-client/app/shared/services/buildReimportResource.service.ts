@@ -13,7 +13,7 @@ export class BuildReimportResource {
 
     get(branchName: string, buildName: string): Observable<any> {
         // Returns just OK or NOT_FOUND.
-        return this.httpClient.get(`rest/builds/${branchName}/${buildName}/import`);
+        return this.httpClient.get(`rest/builds/${branchName}/${buildName}/import`, {responseType: 'text'});
     }
 }
 

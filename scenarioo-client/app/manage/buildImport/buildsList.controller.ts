@@ -16,6 +16,8 @@
  */
 import {ConfigurationService} from '../../services/configuration.service';
 
+import {tap} from 'rxjs/operators';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
@@ -79,7 +81,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
         BuildReimportResource.get(build.identifier.branchName, build.identifier.buildName)
-            .tap(() => vm.updatingBuildsInProgress = false)
+            .pipe(tap(() => vm.updatingBuildsInProgress = false))
             .subscribe(buildImportFinished);
     }
 
@@ -95,7 +97,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     function importAndUpdateBuilds() {
         vm.updatingBuildsInProgress = true;
         BuildImportService.updateData()
-            .tap(() => vm.updatingBuildsInProgress = false)
+            .pipe(tap(() => vm.updatingBuildsInProgress = false))
             .subscribe(buildImportFinished);
     }
 
