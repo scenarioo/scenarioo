@@ -18,9 +18,12 @@ export class ConfigurationService {
     private updateConfigurationSubject = (configuration) => {
         this.configuration.next(configuration);
         this._config = configuration;
-    }
+    };
 
     constructor(private configResource: ConfigResource) {
+    }
+
+    loadConfigurationFromBackend() {
         this.configResource.get().subscribe(this.updateConfigurationSubject);
     }
 

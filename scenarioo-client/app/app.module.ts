@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -23,8 +23,16 @@ import {ConfigurationService} from './services/configuration.service';
         RestControllerModule,
     ],
     providers: [
-        LabelConfigurationService,
         ConfigurationService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (cs: ConfigurationService) => () => {
+                return cs.loadConfigurationFromBackend()
+            },
+            deps: [ConfigurationService],
+            multi: true
+        },
+        LabelConfigurationService,
     ],
 })
 export class AppModule {
