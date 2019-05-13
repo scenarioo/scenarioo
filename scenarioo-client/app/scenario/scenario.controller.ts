@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
-                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, UseCaseDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -198,6 +198,26 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
+    function loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        UseCaseDiffInfoResource.get(
+            {
+                baseBranchName,
+                baseBuildName,
+                comparisonName,
+                useCaseName
+            },
+            (useCaseDiffInfo) => {
+                if (isAddedScenario(useCaseDiffInfo)) {
+                    markPagesAndStepsAsAdded(pagesAndSteps);
+                } else {
+                    loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                }
+            }, (error) => {
+                throw error;
+            },
+        );
+    }
+
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         ScenarioDiffInfoResource.get(
             {
@@ -237,6 +257,17 @@ function ScenarioController($filter, $routeParams,
         return isUseCaseAdded;
     }
 
+    function isAddedScenario(useCaseDiffInfo) {
+        // ES 2015 find() method would be required here...
+        let isScenarioAdded = false;
+        angular.forEach(useCaseDiffInfo.addedElements, (addedElement) => {
+            if (addedElement === scenarioName) {
+                isScenarioAdded = true;
+            }
+        });
+        return isScenarioAdded;
+    }
+
     function markPagesAndStepsAsAdded(pagesAndSteps) {
         angular.forEach(pagesAndSteps, (pageAndStep) => {
             pageAndStep.page.diffInfo = {isAdded: true};
@@ -257,7 +288,7 @@ function ScenarioController($filter, $routeParams,
                     if (isAddedUseCase(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);
                     } else {
-                        loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                        loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
                     }
                 }, (error) => {
                     throw error;
