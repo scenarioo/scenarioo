@@ -74,7 +74,7 @@ useCase('Step - Comparison')
                 await StepPage.expectHighlightsButtonHidden();
                 await StepPage.assertStepNoComparisonScreenshot();
                 await StepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                await StepPage.expectSwitchComparisonSingleScreensButtonDisabled();
+                await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
                 await StepPage.expectStepComparisonOtherScreenViewIsDisabled();
                 await StepPage.expectStepComparisonLegendText('Added Step: No Comparison');
                 await step('Screen Comparison Side by Side for added step is displayed');
@@ -82,7 +82,7 @@ useCase('Step - Comparison')
                 await StepPage.showComparisonCurrentScreenView();
                 await StepPage.assertStepComparisonCurrentScreenViewIsActive();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
-                await StepPage.expectSwitchComparisonSingleScreensButtonDisabled();
+                await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
                 await StepPage.expectHighlightsButtonHidden();
                 await StepPage.assertStepNoComparisonScreenshot();
                 await StepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);

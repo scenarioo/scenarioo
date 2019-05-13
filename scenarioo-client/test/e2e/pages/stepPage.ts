@@ -222,8 +222,8 @@ class StepPage {
         return element(by.id('sc-step-comparison-switch-screens-button')).click();
     }
 
-    async expectSwitchComparisonSingleScreensButtonDisabled() {
-        return expect(element(by.id('sc-step-comparison-switch-screens-button')).getAttribute('disabled')).toEqual('true');
+    async expectSwitchComparisonSingleScreensButtonHidden() {
+        return expect(element(by.id('sc-step-comparison-switch-screens-button')).isPresent()).toBeFalsy();
     }
 
     async expectSwitchComparisonSingleScreensButtonEnabled() {
