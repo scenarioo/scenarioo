@@ -162,7 +162,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <button type="button" id="sc-step-comparison-other-screen-view-button"
                                 ng-class="{active: isComparisonView('OtherScreen') }"
-                                ng-disabled="step.diffInfo.isAdded"
+                                ng-show="!step.diffInfo.isAdded"
                                 ng-click="setComparisonView('OtherScreen')"
                                 class="btn btn-default">
                             <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="sc-step-comparison-icon"/>
@@ -174,7 +174,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <!-- Screen Version Switcher -->
                     <div class="btn-group" uib-tooltip="Switch Screen Versions">
                         <button type="button" id="sc-step-comparison-switch-screens-button" class="btn btn-default"
-                                ng-disabled="step.diffInfo.isAdded"
+                                ng-show="!step.diffInfo.isAdded"
                                 ng-click="switchComparisonSingleScreenView()">
                             <i class="fas fa-random"></i>
                         </button>
@@ -195,7 +195,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <span class="btn btn-no-btn" ng-if="isComparisonChangesHighlighted()" ng-style="{color: getComparisonViewHighlightChangesColor() }">
                             Highlighted Changes in Screen
                         </span>
-                        <span class="btn btn-no-btn" ng-if="step.diffInfo.isAdded">
+                        <span class="btn btn-no-btn added" ng-if="step.diffInfo.isAdded">
                             Added Step: No Comparison
                         </span>
                         <span class="btn btn-no-btn" ng-if="step.diffInfo.changeRate === 0">
