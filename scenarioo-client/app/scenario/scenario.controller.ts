@@ -204,7 +204,7 @@ function ScenarioController($filter, $routeParams,
                 baseBranchName,
                 baseBuildName,
                 comparisonName,
-                useCaseName
+                useCaseName,
             },
             (useCaseDiffInfo) => {
                 if (isAddedScenario(useCaseDiffInfo)) {

@@ -47,7 +47,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
-                //reload the page to ensure that highlighted changes are properly aligned.
+                // reload the page to ensure that highlighted changes are properly aligned.
                 $route.reload();
             };
         },
