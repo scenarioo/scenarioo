@@ -42,11 +42,13 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
                 scope.toggleShowingMetadata();
             });
         },
-        controller($scope) {
+        controller($scope, $route) {
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
+                //reload the page to ensure that highlighted changes are properly aligned.
+                $route.reload();
             };
         },
     };
