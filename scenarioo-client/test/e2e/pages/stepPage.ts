@@ -241,7 +241,7 @@ class StepPage {
     async assertStepComparisonSideBySideViewIsActive(otherScreenVisible: boolean) {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).not.toContain('active');
-        if(otherScreenVisible) {
+        if (otherScreenVisible) {
             await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
         }
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeTruthy();
@@ -251,7 +251,7 @@ class StepPage {
     async assertStepComparisonCurrentScreenViewIsActive(otherScreenVisible: boolean) {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).toContain('active');
-        if(otherScreenVisible) {
+        if (otherScreenVisible) {
             await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
         }
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeFalsy();
