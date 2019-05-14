@@ -47,8 +47,12 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
-                // reload the page to ensure that highlighted changes are properly aligned.
-                $route.reload();
+                // reload the page to ensure that highlighted changes are properly aligned
+                // if comparison highlights are activated and we are on the comparisons tab.
+                if ($route.current.scope.comparisonViewOptions && $route.current.scope.isComparisonChangesHighlighted()
+                    && sessionStorage.getItem('activeTab') == '2') {
+                    $route.reload();
+                }
             };
         },
     };
