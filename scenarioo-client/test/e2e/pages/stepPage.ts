@@ -238,18 +238,22 @@ class StepPage {
         return expect(element(by.id('comparison-tab')).isPresent()).toBeFalsy();
     }
 
-    async assertStepComparisonSideBySideViewIsActive() {
+    async assertStepComparisonSideBySideViewIsActive(otherScreenVisible: boolean) {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).not.toContain('active');
-        await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
+        if(otherScreenVisible) {
+            await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
+        }
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeTruthy();
         return expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeFalsy();
     }
 
-    async assertStepComparisonCurrentScreenViewIsActive() {
+    async assertStepComparisonCurrentScreenViewIsActive(otherScreenVisible: boolean) {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).toContain('active');
-        await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
+        if(otherScreenVisible) {
+            await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
+        }
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeFalsy();
         await expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeTruthy();
         await expect($('.sc-step-comparison-current-screenshot').isPresent()).toBeTruthy();
@@ -282,8 +286,8 @@ class StepPage {
         return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
     }
 
-    async expectStepComparisonOtherScreenViewIsDisabled() {
-        return expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('disabled')).toEqual('true');
+    async expectStepComparisonOtherScreenViewButtonHidden() {
+        return expect(element(by.id('sc-step-comparison-other-screen-view-button')).isPresent()).toBeFalsy();
     }
 
     async assertStepNoComparisonScreenshot() {
