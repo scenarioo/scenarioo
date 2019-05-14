@@ -135,21 +135,14 @@ npm test
 
 ## Install Viewer to Browse Output
 
-* Download [Tomcat 9](https://tomcat.apache.org)
+* Download the [latest Scenarioo Release](https://github.com/scenarioo/scenarioo/releases).
+ 
+* Configure the Scenarioo data directory where Scenarioo can store and read its data.  Create the file `application.properties` next to the downloaded war with the following line:  
+    ```
+    org.scenarioo.data=<path to a directory where scenarioo can store its data>
+    ```
 
-* Unzip Tomcat
-
-* Add line to `context.xml` of Tomcat pointing to the subfolder `scenarioo-output` of your project:
-
-```
-<Parameter name="scenariooDataDirectory" value="D:\Code\scenarioo-demo\scenarioo-output" override="true" />
-```
-
-* Download the [latest Scenarioo development build](http://build.scenarioo.org/jenkins/job/scenarioo-ci-pipeline/job/develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/). (This is currently required because the released version does not have the simple configuration option we use here yet).
-
-* Move Scenarioo `*.war` file into `webapps` folder of Tomcat and rename it to `scenarioo.war`.
-
-* Start up Tomcat using the startup script (`startup.bat` or `startup.sh` depending on your platform).
+* Start up Scenarioo with `java -jar scenarioo-x.y.z.war`.
 
 * Access Scenarioo viewer under: http://localhost:8080/scenarioo
 
