@@ -39,7 +39,7 @@ function CreateComparisonModalController($route, $routeParams, $uibModalInstance
     vm.cancel = cancel;
     vm.createComparison = createComparison;
 
-    vm.onComparisonsPage = $routeParams['tab'] == 'comparisons';
+    vm.onComparisonsPage = $routeParams['tab'] === 'comparisons';
     vm.route = $route;
 
     activate();

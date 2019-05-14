@@ -50,7 +50,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
                 // reload the page to ensure that highlighted changes are properly aligned
                 // if comparison highlights are activated and we are on the comparisons tab.
                 if ($route.current.scope.comparisonViewOptions && $route.current.scope.isComparisonChangesHighlighted()
-                    && sessionStorage.getItem('activeTab') == '2') {
+                    && sessionStorage.getItem('activeTab') === '2') {
                     $route.reload();
                 }
             };
