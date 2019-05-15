@@ -17,12 +17,14 @@
 
 'use strict';
 
+import {ReplaySubject} from 'rxjs';
+
 angular.module('scenarioo.services').service('ConfigMock', function () {
 
     return {
         branch: undefined,
         build: undefined,
-        appInfo: undefined,
+        appInfo: new ReplaySubject<String>(1),
 
         isLoaded: function () {
             return angular.isDefined(this.build) && angular.isDefined(this.build);
@@ -43,7 +45,9 @@ angular.module('scenarioo.services').service('ConfigMock', function () {
             };
         },
 
-        applicationInformation: () => this.appInfo,
+        applicationInformation: function() {
+            return this.appInfo.asObservable()
+        },
 
         setSelectedBranch: function (branch) {
             this.branch = branch;
@@ -53,8 +57,8 @@ angular.module('scenarioo.services').service('ConfigMock', function () {
             this.build = build;
         },
 
-        setApplicationInformation: (applicationInformation) => {
-            this.appInfo = applicationInformation;
+        setApplicationInformation: function(applicationInformation) {
+            this.appInfo.next(applicationInformation);
         },
 
         scenarioPropertiesInOverview: function () {
