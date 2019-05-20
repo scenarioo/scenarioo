@@ -37,9 +37,6 @@ describe('BuildController', () => {
             this.configuration.next(TestData.CONFIG);
             return this.configuration.asObservable();
         }
-        // getRawCopy: () => {
-        //     return TestData.CONFIG;
-        // }
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
