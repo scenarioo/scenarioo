@@ -46,9 +46,6 @@ describe('BuildController', () => {
         $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));
 
-
-    beforeEach(angular.mock.module('scenarioo.controllers'));
-
     beforeEach(inject(($controller, $rootScope, _$location_, _TestData_) => {
             $location = _$location_;
             TestData = _TestData_;
