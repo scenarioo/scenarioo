@@ -26,9 +26,6 @@ describe('ScenarioController', () => {
 
     let $scope, $httpBackend, $routeParams, ConfigurationService, TestData, ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
 
-    const ConfigResourceMock = {
-        get: () => of(angular.copy(TestData.CONFIG))
-    };
     const LabelConfigurationsResourceMock = {
         query: () => of({}),
     };
