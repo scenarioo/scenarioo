@@ -87,7 +87,6 @@ describe('ScenarioController', () => {
     ));
 
     it('clears search field when resetSearchField() is called', () => {
-        console.log(ScenarioController);
         ScenarioController.searchFieldText = 'test';
         ScenarioController.resetSearchField();
         expect(ScenarioController.searchFieldText).toBe('');
