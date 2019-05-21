@@ -40,15 +40,24 @@ describe('UseCaseController', () => {
         getUseCaseScenarios: () => getFindAllScenariosFake()
     };
     const ConfigurationServiceMock = {
-        configuration : new ReplaySubject<IConfiguration>(1),
-
-        getConfiguration: () => {
-            ConfigurationServiceMock.configuration.next(TestData.CONFIG);
-            return ConfigurationServiceMock.configuration.asObservable();
+        scenarioPropertiesInOverview: () => { return of()}
+    };
+    const SelectedBranchAndBuildServiceMock = {
+        callback: undefined,
+        selectedStep: { branch: undefined,
+                        build: undefined },
+        selected: () => {
+            return {
+                branch: SelectedBranchAndBuildServiceMock.selectedStep['branchName'],
+                build: SelectedBranchAndBuildServiceMock.selectedStep['buildName'],
+            };
         },
-        updateConfiguration: (newConfig: IConfiguration) => {
-            ConfigurationServiceMock.configuration.next(newConfig);
-        }
+        callOnSelectionChange: (callback) => {
+            SelectedBranchAndBuildServiceMock.callback = callback},
+        update: (newStep) => {
+            SelectedBranchAndBuildServiceMock.selectedStep = newStep;
+            SelectedBranchAndBuildServiceMock.callback(newStep);
+        },
     };
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
@@ -57,6 +66,7 @@ describe('UseCaseController', () => {
         $provide.value("ConfigResource", ConfigResourceMock);
         $provide.value("ScenarioResource", ScenarioResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
+        $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
     }));
 
     beforeEach(inject(($rootScope, $routeParams, $controller, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
@@ -93,8 +103,7 @@ describe('UseCaseController', () => {
         }
     ));
 
-    // TODO reactivate after AngularJS Migration. Automatically injecting SelectedBranchAndBuildService into the test does not work at the moment and there are too many dependencies to mock this class away.
-    xit('should load all scenarios and and the selected use case', () => {
+    it('should load all scenarios and and the selected use case', () => {
         spyOn(ScenarioResourceMock, 'getUseCaseScenarios').and.returnValue(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
@@ -106,10 +115,15 @@ describe('UseCaseController', () => {
         $location.url('/new/path/?branch=' + BRANCH + '&build=' + BUILD);
         $scope.$apply();
 
-        expect(SelectedBranchAndBuildService.selected().branch).toBe(BRANCH);
-        expect(SelectedBranchAndBuildService.selected().build).toBe(BUILD);
+        // TODO remove after AngularJS Migration and after removing SelectedBranchAndBuildServiceMock.
+        SelectedBranchAndBuildServiceMock.update({
+            branch: BRANCH,
+            build: BUILD});
 
-        $scope.$apply();
+        // TODO reactivate after AngularJS Migration and after removing SelectedBranchAndBuildServiceMock.
+        // expect(SelectedBranchAndBuildService.selected().branch).toBe(BRANCH);
+        // expect(SelectedBranchAndBuildService.selected().build).toBe(BUILD);
+        // $scope.$apply();
 
         expect(ScenarioResourceMock.getUseCaseScenarios).toHaveBeenCalledWith({
             'branchName': BRANCH,
