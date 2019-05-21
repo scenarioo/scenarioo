@@ -56,7 +56,7 @@ jobs:
               do
                 if [[ "$LINE0" = *"SKIPPED comparing base build: wikipedia-docu-example/2014-01-20 with defined comparison: To Projectstart"* ]]; then
                   exit 0
-                else if  [[ "$LINE0" = *"ERROR"* ]]; then
+                elif  [[ "$LINE0" = *"ERROR"* ]]; then
                   echo $LINE0
                   exit 1
                 fi
