@@ -54,7 +54,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             return;
         }
 
-        // Since angular odes not support encoded slashes in routes, we have to encode it twice.
+        // Since angular does not support encoded slashes in routes, we have to encode it twice.
         // See https://github.com/angular/angular.js/issues/10479
         const searchUrl = '/search/' + encodeURIComponent(encodeURIComponent(searchTerm));
         $location.url(searchUrl);
