@@ -42,8 +42,13 @@ describe('GeneralSettingsController', () => {
         }
     };
     let ConfigurationServiceMock = {
+        updateConfigurationCalled : false,
         getRawCopy: () => {
             return TestData.CONFIG;
+        },
+        updateConfiguration: () => {
+            ConfigurationServiceMock.updateConfigurationCalled = true;
+            return of();
         }
     };
 
@@ -119,16 +124,27 @@ describe('GeneralSettingsController', () => {
         });
     });
 
-    describe('when the save button is clicked', () => {
-        // reactivate after AngularJS migration.
-        xit('saves the edited config', () => {
-            spyOn(ConfigurationService, 'updateConfiguration');
+    // TODO reactivate after AngularJS migration.
+    // describe('when the save button is clicked', () => {
+    //     it('saves the edited config', () => {
+    //         spyOn(ConfigurationService, 'updateConfiguration');
+    //
+    //         changeAllValues();
+    //
+    //         ConfigCtrl.updateConfiguration();
+    //
+    //         expect(ConfigurationService.updateConfiguration).toHaveBeenCalled();
+    //     });
+    // });
 
+    // TODO remove after AngularJS migration
+    describe('when the save button is clicked', () => {
+        it('saves the edited config', () => {
             changeAllValues();
 
             ConfigCtrl.updateConfiguration();
 
-            expect(ConfigurationService.updateConfiguration).toHaveBeenCalled();
+            expect(ConfigurationServiceMock.updateConfigurationCalled).toBeTruthy();
         });
     });
 
