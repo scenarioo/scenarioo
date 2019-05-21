@@ -74,8 +74,8 @@ function scBranchOrderByFilter(ConfigurationService: ConfigurationService) {
         }
 
         // none is an alias -> order by build date DESC
-        const dateA = (branchA.builds.length != 0 ? branchA.builds[0].build.date : 0);
-        const dateB = (branchB.builds.length != 0 ? branchB.builds[0].build.date : 0);
+        const dateA = (branchA.builds.length !== 0 ? branchA.builds[0].build.date : 0);
+        const dateB = (branchB.builds.length !== 0 ? branchB.builds[0].build.date : 0);
 
         return compare(dateA, dateB) * -1;
     }

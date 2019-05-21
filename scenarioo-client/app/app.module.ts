@@ -27,10 +27,10 @@ import {ConfigurationService} from './services/configuration.service';
         {
             provide: APP_INITIALIZER,
             useFactory: (cs: ConfigurationService) => () => {
-                return cs.loadConfigurationFromBackend()
+                return cs.loadConfigurationFromBackend();
             },
             deps: [ConfigurationService],
-            multi: true
+            multi: true,
         },
         LabelConfigurationService,
     ],
