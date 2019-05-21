@@ -85,7 +85,7 @@ angular.module('scenarioo.services')
         $rootScope.$watch(getSelectedBranchAndBuild,
             (selected) => {
                 if (isBranchAndBuildDefined()) {
-                    for (var selectionChangeCallback of selectionChangeCallbacks) {
+                    for (let selectionChangeCallback of selectionChangeCallbacks) {
                         selectionChangeCallback(selected);
                     }
                 }
