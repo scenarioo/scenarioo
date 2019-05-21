@@ -41,6 +41,7 @@ describe('ScenarioController', () => {
     };
     const ConfigurationServiceMock = {
         configuration : new ReplaySubject<IConfiguration>(1),
+        expandPagesInScenarioOverviewValue : undefined,
 
         getConfiguration: () => {
             ConfigurationServiceMock.configuration.next(TestData.CONFIG);
@@ -48,10 +49,29 @@ describe('ScenarioController', () => {
         },
         updateConfiguration: (newConfig: IConfiguration) => {
             ConfigurationServiceMock.configuration.next(newConfig);
-        }
+            ConfigurationServiceMock.expandPagesInScenarioOverviewValue = newConfig['expandPagesInScenarioOverview'];
+            SelectedBranchAndBuildServiceMock.update(newConfig);
+        },
+        expandPagesInScenarioOverview: () => {
+            return ConfigurationServiceMock.expandPagesInScenarioOverviewValue;
+        },
     };
     const SelectedBranchAndBuildServiceMock = {
-        callOnSelectionChange: () => {}
+        callback: undefined,
+        selected: () => {
+            return {
+                branch: TestData.CONFIG['defaultBranchName'],
+                build: TestData.CONFIG['defaultBuildName'],
+            };
+        },
+        callOnSelectionChange: (callback) => {
+            SelectedBranchAndBuildServiceMock.callback = callback},
+        update: (newConfig) => {
+            SelectedBranchAndBuildServiceMock.callback({
+                branch: newConfig['defaultBranchName'],
+                build: newConfig['defaultBuildName'],
+            });
+        },
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
@@ -102,8 +122,7 @@ describe('ScenarioController', () => {
         expect(imageLink).toBeUndefined();
     });
 
-    // reactivate once AngularJS Migration is done
-    xit('creates the correct image link, if selected branch and build is known', () => {
+    it('creates the correct image link, if selected branch and build is known', () => {
         givenScenarioIsLoaded();
 
         const imageLink = ScenarioController.getScreenShotUrl('img.jpg');
@@ -132,8 +151,7 @@ describe('ScenarioController', () => {
         expect(ScenarioController.isExpandAllPossible()).toBeFalsy();
     });
 
-    // reactivate once AngularJS Migration is done
-    xit('shows the expand all button, if at least one expandable page is collapsed', () => {
+    it('shows the expand all button, if at least one expandable page is collapsed', () => {
         givenScenarioIsLoaded();
 
         expect(ScenarioController.isExpandAllPossible()).toBeTruthy();
@@ -148,8 +166,7 @@ describe('ScenarioController', () => {
         expect(ScenarioController.isCollapseAllPossible()).toBeFalsy();
     });
 
-    // reactivate once AngularJS Migration is done
-    xit('shows the collapse all button, if at least one collapsable page is expanded', () => {
+    it('shows the collapse all button, if at least one collapsable page is expanded', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.toggleShowAllStepsForPage(1);
@@ -166,16 +183,14 @@ describe('ScenarioController', () => {
     });
 
 
-    // reactivate once AngularJS Migration is done
-    xit('expands all pages if the user clicks expand all', () => {
+    it('expands all pages if the user clicks expand all', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.expandAll();
         expectAllPagesAreExpanded();
     });
 
-    // reactivate once AngularJS Migration is done
-    xit('expands all pages, if this is the default set in the config', () => {
+    it('expands all pages, if this is the default set in the config', () => {
         ConfigurationService.getRaw = true;
 
         givenScenarioIsLoaded(TestData.CONFIG_PAGES_EXPANDED);
