@@ -54,7 +54,7 @@ jobs:
             echo "Wait for Scenarioo to finish starting, importing the builds and processing the comparisons."
             ( tail -f -n0 test-results/scenarioo-server.log & ) | while read LINE0
               do
-                if \[ "$LINE0" = "SKIPPED comparing base build: wikipedia-docu-example/2014-01-20 with defined comparison: To Projectstart" \]; then
+                if [[ "$LINE0" = "SKIPPED comparing base build: wikipedia-docu-example/2014-01-20 with defined comparison: To Projectstart" ]]; then
                   exit 0
                 fi
               done
