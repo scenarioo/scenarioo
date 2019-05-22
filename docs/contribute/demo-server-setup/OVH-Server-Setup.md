@@ -7,6 +7,7 @@ After logging in to the [So You Start web interface](https://eu.soyoustart.com/m
 We currently use an Ubuntu Server Template with a Custom Installation.
 
 So on this first page select the Ubuntu Server 16.04 LTS (64bits) Template and check the checkbox next to "Custom Installation".
+
 ![InstallationStep1](images/ServerInstallation1.png)
 
 ### Step 2: Disk partitions
@@ -17,10 +18,12 @@ By default the server would be configured with four partitions (/, /boot, /home,
 3. Press Save
 
 It should then look like the following picture:
+
 ![InstallationStep2](images/ServerInstallation2.png)
 
 ### Step 3: Options
 On the options screen it is important to check the checkbox next to "Use the distribution kernel", beause OVH provides a custom kernel by default, which caused problems in the past in our project.
+
 ![InstallationStep3](images/ServerInstallation3.png)
 
 ### Step 4: Confirmation
@@ -30,7 +33,7 @@ The confirmation screen shows the selected template and the language. By pressin
 By default it is possible to connect to the server through SSH using a username and password. To make access more secure we only want to allow access with a whitelisted SSH key.
 
 ### Creating the SSH key
-Use PuttyGen (or another tool) to create an SSH key. 
+Use PuttyGen (or another tool) to create an SSH key for CircleCI. 
 
 Export the generated key as an OpenSSH key (in PuttyGen: Conversions > Export OpenSSH key) and save it as a *.pem file.
 
@@ -45,9 +48,16 @@ Connect to the server using SSH (with username and password).
 cd ~/.ssh
 vi  authorized_keys2
 ```
-add the public key to the end of the file and save it.
+add the public key to the end of the file and save it. The key should have the following format:
+```Bash
+ssh-rsa <public key> rsa-key-20190306
+```
 
 Test that login with the public key works by opening another OpenSSH session where you use the private key as authorization.
+
+If you are using PuTTY:
+* Set the correct Auto-login username under Connection > Data
+* Select the saved private key under Connection > SSH > Auth > Private key file for authentication
 
 ### Disabling password login
 When login with the private key works, you can disable the password login.
