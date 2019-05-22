@@ -44,8 +44,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
 
@@ -198,7 +197,7 @@ public class ComparisonExecutorTest {
 	public void testResolveComparisonConfigurationSameBranchAndSameBuild() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration4, BUILD_NAME_1);
-		assertTrue(result == null);
+		assertNull(result);
 	}
 
 	@Test

@@ -118,6 +118,10 @@ public class ComparisonExecutor {
 		return scheduleComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
+	public void scheduleComparisonFinishedLog() {
+		asyncComparisonExecutor.submit(() -> LOGGER.info("All Builds Imported and Comparisons Calculated."));
+	}
+
 	/**
 	 * Executes a comparison for the given build and comparison configuration in a separate thread.
 	 */

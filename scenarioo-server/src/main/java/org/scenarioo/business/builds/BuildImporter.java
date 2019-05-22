@@ -128,6 +128,12 @@ public class BuildImporter {
 			}
 		}
 
+		//After all Builds were imported and all Comparisons triggered, we want to log a successful completion message.
+		//Since the scheduling of comparisons only  happens after all builds are imported, we need to add a second
+		//Job into the queue to ensure that it is triggered last.
+		asyncBuildImportExecutor.submit(() ->
+			asyncBuildImportExecutor.submit(() -> comparisonExecutor.scheduleComparisonFinishedLog()));
+
 		return importNeededBuilds.size();
 	}
 
