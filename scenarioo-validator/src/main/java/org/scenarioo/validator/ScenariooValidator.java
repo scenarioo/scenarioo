@@ -1,6 +1,7 @@
 package org.scenarioo.validator;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -20,6 +21,7 @@ public class ScenariooValidator {
     private boolean doCleanDerivedFiles;
 
     public ScenariooValidator(File docuDirectory, boolean doCleanDerivedFiles) {
+		ApplicationVersionHolder.INSTANCE.initializeFromClassContext();
         this.docuDirectory = docuDirectory;
         this.doCleanDerivedFiles = doCleanDerivedFiles;
         this.validationBuildImporter = new ValidationBuildImporter(docuDirectory);

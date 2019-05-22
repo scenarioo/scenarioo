@@ -1,11 +1,14 @@
 package org.scenarioo.dao.configuration;
 
+import java.io.File;
+
 import org.scenarioo.model.configuration.Configuration;
 
 public interface ConfigurationDao {
 	
-	public abstract Configuration loadConfiguration();
+	public Configuration loadConfiguration();
 	
-	public abstract void updateConfiguration(final Configuration configuration);
+	public void updateConfiguration(final Configuration configuration);
 	
+	public File getConfigurationDirectory();
 }

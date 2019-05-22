@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -61,43 +61,40 @@ import org.scenarioo.utils.ResourceUtils;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either generated or already precalculated.
- * 
+ *
  * The DAO should in general only access data by reading one file and should not have to calculate additional data or
  * read a lot of different files or even strip unwanted data.
- * 
+ *
  * Data that is not available directly from a file should be precalculated in {@link ScenarioDocuAggregator} to make it
  * easily available for DAO.
- * 
+ *
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
  * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
 public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDao.class);
-	
+
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
-	
+
 	final File rootDirectory;
 	private final ScenarioDocuAggregationFiles files;
 	private final ScenarioDocuReader scenarioDocuReader;
-	
+
 	private LongObjectNamesResolver longObjectNameResolver = null;
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	
+
 	public ScenarioDocuAggregationDao(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
 		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 	}
-	
+
 	public ScenarioDocuAggregationDao(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
 		this(rootDirectory);
 		this.longObjectNameResolver = longObjectNameResolver;
 	}
-	
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadVersion(java.lang.String, java.lang.String)
-	 */
+
 	@Override
 	public String loadVersion(final BuildIdentifier buildIdentifier) {
 		File versionFile = files.getVersionFile(buildIdentifier);
@@ -119,7 +116,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenariosList(org.scenarioo.rest.base.BuildIdentifier)
 	 */
@@ -129,11 +126,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
 		return list.getUseCaseScenarios();
 	}
-	
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
-	 *      java.lang.String)
-	 */
+
 	@Override
 	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String useCaseName) {
 		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseName);
@@ -142,7 +135,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(buildIdentifier, useCaseName, useCaseWithScenarios);
 		return useCaseWithScenarios;
 	}
-	
+
 	private void enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(final BuildIdentifier buildIdentifier,
 			final String useCaseName, final UseCaseScenarios useCaseWithScenarios) {
 		if (!LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(buildIdentifier
@@ -151,9 +144,9 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		}
 		LastSuccessfulScenariosIndex index = LastSuccessfulScenariosIndexDao.loadLastSuccessfulScenariosIndex(
 				files.getRootDirectory(), buildIdentifier.getBranchName());
-		
+
 		Date latestImportedBuildDate = index.getLatestImportedBuildDate();
-		
+
 		for (ScenarioSummary scenario : useCaseWithScenarios.getScenarios()) {
 			// TODO Add the "old build date" to the ScenarioSummary on aggregation time and as a separate field.
 			Date buildDate = index.getBuildDateForScenario(useCaseName, scenario.getScenario().getName());
@@ -165,7 +158,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 							+ scenario.getScenario().getDescription());
 		}
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadScenarioPageSteps(org.scenarioo.rest.base.ScenarioIdentifier)
 	 */
@@ -178,14 +171,14 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 			return null;
 		}
 	}
-	
+
 	public void saveVersion(final BuildIdentifier buildIdentifier, final String currentFileFormatVersion) {
 		File versionFile = files.getVersionFile(buildIdentifier);
 		Properties versionProperties = new Properties();
 		versionProperties.setProperty(VERSION_PROPERTY_KEY, currentFileFormatVersion);
 		saveProperties(versionFile, versionProperties, "Scenarioo derived files format version");
 	}
-	
+
 	private void saveProperties(final File file, final Properties properties, final String comment) {
 		FileWriter fileWriter = null;
 		try {
@@ -203,12 +196,12 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File file = files.getUseCasesAndScenariosFile(buildIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenariosList, file);
 	}
-	
+
 	public void saveUseCaseScenarios(final BuildIdentifier buildIdentifier, final UseCaseScenarios useCaseScenarios) {
 		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseScenarios.getUseCase().getName());
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
-	
+
 	public void saveScenarioPageSteps(final BuildIdentifier buildIdentifier, final ScenarioPageSteps scenarioPageSteps) {
 		String usecaseName = scenarioPageSteps.getUseCase().getName();
 		String scenarioName = scenarioPageSteps.getScenario().getName();
@@ -216,25 +209,25 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File file = files.getScenarioStepsFile(scenarioIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(scenarioPageSteps, file);
 	}
-	
+
 	public boolean isObjectDescriptionSaved(final BuildIdentifier buildIdentifier,
 			final ObjectDescription objectDescription) {
 		return isObjectDescriptionSaved(buildIdentifier, objectDescription.getType(),
 				resolveObjectFileName(objectDescription.getName()));
 	}
-	
+
 	public boolean isObjectDescriptionSaved(final BuildIdentifier buildIdentifier, final String type, final String name) {
 		File objectFile = files.getObjectFile(buildIdentifier, type, resolveObjectFileName(name));
 		return objectFile.exists();
 	}
-	
+
 	public void saveObjectDescription(final BuildIdentifier buildIdentifier, final ObjectDescription objectDescription) {
 		File objectFile = files.getObjectFile(buildIdentifier, objectDescription.getType(),
 				resolveObjectFileName(objectDescription.getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectDescription, objectFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectDescription(org.scenarioo.rest.base.BuildIdentifier,
 	 *      org.scenarioo.model.docu.entities.generic.ObjectReference)
@@ -246,7 +239,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 				resolveObjectFileName(objectRef.getName()));
 		return loadObjectDescription(objectFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectDescription(java.io.File)
 	 */
@@ -254,14 +247,14 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	public ObjectDescription loadObjectDescription(final File file) {
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, file);
 	}
-	
+
 	public void saveObjectIndex(final BuildIdentifier buildIdentifier, final ObjectIndex objectIndex) {
 		File objectFile = files.getObjectIndexFile(buildIdentifier, objectIndex.getObject().getType(),
 				resolveObjectFileName(objectIndex.getObject().getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectIndex, objectFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectIndex(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String, java.lang.String)
@@ -273,7 +266,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File objectFile = files.getObjectIndexFile(buildIdentifier, objectType, objectFileName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectsList(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String)
@@ -284,20 +277,20 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File objectListFile = files.getObjectListFile(buildIdentifier, type);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectList.class, objectListFile);
 	}
-	
+
 	public void saveObjectsList(final BuildIdentifier buildIdentifier, final String type,
 			final ObjectList<ObjectDescription> objectList) {
 		File objectListFile = files.getObjectListFile(buildIdentifier, type);
 		ScenarioDocuXMLFileUtil.marshal(objectList, objectListFile);
 	}
-	
+
 	public void saveCustomObjectTabTree(final BuildIdentifier buildIdentifier, final String tabId,
 			final CustomObjectTabTree tree) {
 		File customObjectTabTreeFile = files.getCustomObjectTabTreeFile(buildIdentifier, tabId);
 		customObjectTabTreeFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(tree, customObjectTabTreeFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadCustomObjectTabTree(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String)
@@ -307,19 +300,19 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File customObjectTabTreeFile = files.getCustomObjectTabTreeFile(buildIdentifier, tabId);
 		return ScenarioDocuXMLFileUtil.unmarshal(CustomObjectTabTree.class, customObjectTabTreeFile);
 	}
-	
+
 	public ScenarioDocuAggregationFiles getFiles() {
 		return files;
 	}
-	
+
 	private String resolveObjectFileName(final String objectName) {
 		if (longObjectNameResolver == null) {
 			throw new IllegalStateException(
-					"Not allowed to access objects without having LongObjectNameResolver initialized properly on the DAO. Please use ScenarioDocuAggregationDAO constructor with addtional parameter to pass a LongObjectNamesResolver for current build that you try to access.");
+					"Not allowed to access objects without having LongObjectNameResolver initialized properly on the DAO. Please use ScenarioDocuAggregationDAO constructor with addtional parameters to pass a LongObjectNamesResolver for current build that you try to access.");
 		}
 		return longObjectNameResolver.resolveObjectFileName(objectName);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectIndexIfExistant(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String, java.lang.String)
@@ -335,7 +328,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadBuildImportSummaries()
 	 */
@@ -357,32 +350,28 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 			}
 		}
 	}
-	
+
 	public void saveBuildImportSummaries(final List<BuildImportSummary> summariesToSave) {
 		BuildImportSummaries summaries = new BuildImportSummaries(summariesToSave);
 		ScenarioDocuXMLFileUtil.marshal(summaries, files.getBuildStatesFile());
 	}
-	
+
 	public void saveLongObjectNamesIndex(final BuildIdentifier buildIdentifier,
 			final LongObjectNamesResolver longObjectNamesResolver) {
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(longObjectNamesResolver, longObjectNamesFile);
 	}
-	
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadLongObjectNamesIndex(java.lang.String,
-	 *      java.lang.String)
-	 */
+
 	@Override
 	public LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier) {
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		return ScenarioDocuXMLFileUtil.unmarshal(LongObjectNamesResolver.class, longObjectNamesFile);
 	}
-	
+
 	public File getBuildImportLogFile(final BuildIdentifier buildIdentifier) {
 		return files.getBuildImportLogFile(buildIdentifier);
 	}
-	
+
 	public void saveStepNavigation(final BuildIdentifier buildIdentifier, final StepLink stepLink,
 			final StepNavigation stepNavigation) {
 		File stepNavigationFile = files.getStepNavigationFile(
@@ -390,7 +379,7 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		stepNavigationFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(stepNavigation, stepNavigationFile);
 	}
-	
+
 	/**
 	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
 	 *      org.scenarioo.model.docu.aggregates.steps.StepLink)
@@ -399,17 +388,13 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
 		return loadStepNavigation(ScenarioIdentifier.fromStepLink(build, step), step.getStepIndex());
 	}
-	
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
-	 *      java.lang.String, java.lang.String, int)
-	 */
+
 	@Override
 	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
 		File stepNavigationFile = files.getStepNavigationFile(scenarioIdentifier, stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(StepNavigation.class, stepNavigationFile);
 	}
-	
+
 	/**
 	 * Delete the most important derived files, such that the build is considered as unprocessed again.
 	 */
@@ -421,21 +406,19 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		longObjectNamesFile.delete();
 	}
-	
+
 	@Override
 	public List<BuildLink> loadBuildLinks(final String branchName) {
 		List<ObjectFromDirectory<Build>> builds = scenarioDocuReader.loadBuilds(branchName);
-		
 		List<BuildLink> result = new ArrayList<BuildLink>();
 		for (ObjectFromDirectory<Build> build : builds) {
 			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
 			setSpecialDisplayNameForLastSuccessfulScenariosBuild(link);
 			result.add(link);
 		}
-		
 		return result;
 	}
-	
+
 	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(final BuildLink link) {
 		if (LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild().getName())) {
 			link.setDisplayName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);

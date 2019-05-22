@@ -16,12 +16,12 @@ import org.scenarioo.uitest.dummy.application.issues.WorkItem;
  * information into the the {@link Details} of the scenarios in the documentation.
  */
 public class IssuesTrackingAccessHelper {
-	
+
 	/**
 	 * This is an example how you could fill in WorkItems from your Issues Tracking tool into Scenarioo generic
 	 * application specific data (like {@link ObjectList} and {@link ObjectTreeNode} containing
 	 * {@link ObjectDescription}s).
-	 * 
+	 *
 	 * @param workItemIds
 	 *            the IDs of the work items (user stories in our example) that are attached to the test scenarios.
 	 * @return the data structure to fill into the documentation as a list of feature trees (features with epics as
@@ -37,7 +37,7 @@ public class IssuesTrackingAccessHelper {
 		}
 		return featureTrees;
 	}
-	
+
 	/**
 	 * Load a item with an id and all its parents as a stack of work items. Top level of the stack is the top level
 	 * parent, last item on the stack is the item (user story) with passed Id.
@@ -52,30 +52,30 @@ public class IssuesTrackingAccessHelper {
 		}
 		return items;
 	}
-	
+
 	/**
 	 * Adds the passed work items as a new branch of {@link ObjectDescription}s for this work items into the the target
 	 * tree nodes.
 	 */
 	public static void addItemsToTrees(final List<ObjectTreeNode<ObjectDescription>> targetTreeNodes,
 			final Stack<WorkItem> itemsToAdd) {
-		
+
 		// find or add top level item from stack
 		WorkItem topItem = itemsToAdd.pop();
 		ObjectTreeNode<ObjectDescription> node = findOrAddTreeNodeForWorkItem(targetTreeNodes, topItem);
-		
+
 		// recursively add following items to children
 		if (!itemsToAdd.isEmpty()) {
 			List<ObjectTreeNode<ObjectDescription>> children = node.getChildren();
 			addItemsToTrees(children, itemsToAdd);
 		}
 	}
-	
+
 	private static ObjectTreeNode<ObjectDescription> findOrAddTreeNodeForWorkItem(
 			final List<ObjectTreeNode<ObjectDescription>> targetTreeNodes,
 			final WorkItem item) {
-		
-		// Search existing item (no need to add again, if allready contained)
+
+		// Search existing item (no need to add again, if already contained)
 		String itemType = item.getType();
 		String uniqueItemName = createUniqueItemName(item);
 		for (ObjectTreeNode<ObjectDescription> node : targetTreeNodes) {
@@ -84,20 +84,20 @@ public class IssuesTrackingAccessHelper {
 				return node;
 			}
 		}
-		
+
 		// Node for work item was not found --> create and add it:
 		ObjectTreeNode<ObjectDescription> node = new ObjectTreeNode<ObjectDescription>();
 		node.setItem(createObjectDescriptionForWorkItem(item));
 		targetTreeNodes.add(node);
 		return node;
-		
+
 	}
-	
+
 	private static String createUniqueItemName(final WorkItem item) {
 		// use Id combined with title to get a unique but still human readable name for each work item
 		return item.getId() + " - " + item.getTitle();
 	}
-	
+
 	private static ObjectDescription createObjectDescriptionForWorkItem(final WorkItem item) {
 		ObjectDescription objectDesc = new ObjectDescription();
 		objectDesc.setType(item.getType());
@@ -105,5 +105,5 @@ public class IssuesTrackingAccessHelper {
 		objectDesc.addDetail("description", item.getDescription());
 		return objectDesc;
 	}
-	
+
 }

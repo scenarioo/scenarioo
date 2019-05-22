@@ -1,0 +1,71 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="SketchesTabController as vm">
+
+    <div ng-show="!vm.loading && vm.noIssuesExist" id="noIssuesFoundMessage">
+        <div class="alert alert-info" role="alert">
+            <p>No sketches exist yet. Go to a step in a scenario and click the "Create Sketch" button to create a sketch.</p>
+        </div>
+    </div>
+
+    <div ng-hide="vm.loading || vm.noIssuesExist">
+
+        <div class="row sc-space-top sc-space-bottom" >
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="issuesSearchField"
+                           data-toggle="tooltip" title="type words separated by spaces to search for"
+                           ng-model="vm.table.search.searchTerm" placeholder="Search sketches ..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-9 ">
+                &nbsp;
+            </div>
+        </div>
+
+        <table class="table table-curved table-hover table-responsive issue-table" sc-keyboard-navigatable-table="filtered" id="sc-sketches-list">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Related Use Case</th>
+                    <th>Related Scenario</th>
+                    <th>Created</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: vm.table.search.searchTerm)" ng-click="vm.goToStepSketch(issue)" class="link">
+                    <td>{{issue.name }}</td>
+                    <td>{{issue.description}}</td>
+                    <td>{{issue.author}}</td>
+                    <td>{{issue.relatedStep.usecaseName | scHumanReadable}}</td>
+                    <td>{{issue.relatedStep.scenarioName | scHumanReadable}}</td>
+                    <td>{{issue.dateCreated  | scDateTime}}</td>
+                    <td>{{issue.dateModified | scDateTime}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

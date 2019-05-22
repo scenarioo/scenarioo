@@ -10,12 +10,13 @@ import org.scenarioo.model.configuration.Configuration;
 public class ConfigurationDaoInMemory implements ConfigurationDao {
 	
 	private Configuration configuration = new Configuration();
+	private File documentationDataDirectory;
 	
 	public ConfigurationDaoInMemory(final File documentationDataDirectory) {
 		if (documentationDataDirectory == null) {
 			return;
 		}
-		configuration.setTestDocumentationDirPath(documentationDataDirectory.getAbsolutePath());
+		this.documentationDataDirectory = documentationDataDirectory;
 	}
 	
 	@Override
@@ -26,6 +27,11 @@ public class ConfigurationDaoInMemory implements ConfigurationDao {
 	@Override
 	public void updateConfiguration(final Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	@Override
+	public File getConfigurationDirectory() {
+		return documentationDataDirectory;
 	}
 	
 }

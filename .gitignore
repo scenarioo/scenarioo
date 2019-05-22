@@ -1,3 +1,15 @@
+# Ignore .idea files except basic run configurations
+/.idea
+!/.idea/codeStyleSettings.xml
+!/.idea/compiler.xml
+!/.idea/encodings.xml
+!/.idea/misc.xml
+!/.idea/artifacts/scenarioo*
+!/.idea/codeStyles
+!/.idea/runConfigurations
+!/.idea/inspectionProfiles
+
+
 classes/
 bin/
 *~
@@ -7,8 +19,6 @@ target/
 .tmp
 dist/
 node_modules/
-app/bower_components
-.idea
 .vm-update.log
 .gradle
 third-party
@@ -23,3 +33,15 @@ scenarioo-validator/build
 .classpath
 .settings
 *.iml
+npm-debug.log
+scenarioo-latest.war
+out
+docker/logs
+docker/scenarioo-ci/scenarioDocuExample
+docker/scenarioo-ci/scenarioo.war
+e2eScenariooDocu
+test-results
+
+
+
+

@@ -1,0 +1,38 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Scenarioo - Hafenarbeiter" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="JSONFilePath" value="" />
+        <option name="command" value="" />
+        <option name="commandLineOptions" value="" />
+        <option name="containerName" value="scenarioo" />
+        <option name="contextFolderPath" value="scenarioo-server/build/libs" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="scenarioo/webapp:dev-snapshot" />
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="8080" />
+              <option name="hostPort" value="8080" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker/scenarioo/Dockerfile" />
+        <option name="startBrowserSettings">
+          <browser url="http://127.0.0.1" />
+        </option>
+        <option name="volumeBindings">
+          <list>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/scenarioo/data" />
+              <option name="hostPath" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
+            </DockerVolumeBindingImpl>
+          </list>
+        </option>
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="-i -s -x test -x scenarioo-client:build -x scenarioo-validator:build" />
+    </method>
+  </configuration>
+</component>

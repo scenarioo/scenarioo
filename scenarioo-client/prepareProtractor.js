@@ -5,10 +5,13 @@ var jasmineReporters = require('jasmine-reporters');
  */
 function prepareProtractorForE2ETests() {
 
+    require("ts-node").register({
+        project: "test/e2e/tsconfig.json"
+    });
+
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
     setupFailOnConsoleError();
-    configureBrowserWindowSize();
     disableAnimations();
 
     /**
@@ -30,16 +33,7 @@ function prepareProtractorForE2ETests() {
         // this is also needed if scenarioo documenztation is not enabled
         var scenarioo = require('scenarioo-js');
         scenarioo.setupFluentDsl();
-        require('./test/protractorE2E/labelDefinitions');
-    }
-
-    /**
-     * Ensure to run tests allways in same resolution
-     */
-    function configureBrowserWindowSize() {
-        var width = 1280;
-        var height = 800;
-        browser.driver.manage().window().setSize(width, height);
+        require('./test/e2e/labelDefinitions');
     }
 
     function disableAnimations() {

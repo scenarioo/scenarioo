@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<useCase>
+<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Technical Corner Cases</name>
     <description>Just some meaningless dummy scenarios for testing some corner cases in the Scenarioo web application, like what happens when there are no pages or a page has only one variant in all scenarios etc.</description>
     <details>
         <entry>
             <key>Webtest Class</key>
-            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">org.scenarioo.uitest.example.testcases.TechnicalCornerCasesUITest</value>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">org.scenarioo.uitest.example.testcases.TechnicalCornerCasesUITest</value>
         </entry>
     </details>
     <labels>

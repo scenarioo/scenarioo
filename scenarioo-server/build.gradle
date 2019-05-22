@@ -1,38 +1,95 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+group = 'org.scenarioo'
 
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
+apply from: "${rootProject.projectDir}/build-java.gradle"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'cz.habarta.typescript-generator'
 
-sourceCompatibility=1.6
-targetCompatibility=1.6
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.13.489'
+    }
+}
+generateTypeScript {
+    classes = [
+            'org.scenarioo.model.configuration.Configuration',
+            'org.scenarioo.rest.configuration.ApplicationStatus',
+            'org.scenarioo.model.configuration.BranchAlias',
+            'org.scenarioo.dao.version.ApplicationVersion',
+            'org.scenarioo.model.docu.aggregates.branches.BuildImportSummary',
+            'org.scenarioo.model.diffViewer.BuildDiffInfo',
+            'org.scenarioo.model.diffViewer.ScenarioDiffInfo',
+            'org.scenarioo.model.diffViewer.StepDiffInfo',
+            'org.scenarioo.model.diffViewer.UseCaseDiffInfo',
+            'org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree',
+            'org.scenarioo.model.docu.entities.generic.ObjectDescription',
+            'org.scenarioo.model.docu.aggregates.objects.ObjectIndex',
+            'org.scenarioo.rest.objectRepository.StepReference',
+            'org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios',
+            'org.scenarioo.rest.scenario.dto.ScenarioDetails',
+            'org.scenarioo.rest.search.SearchResponse',
+            'org.scenarioo.rest.search.SearchEngineStatus',
+            'org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary',
+            'org.scenarioo.model.docu.aggregates.branches.BranchBuilds',
+    ]
+
+    addTypeNamePrefix = 'I'
+    noFileComment = true
+    outputFile = '../scenarioo-client/app/generated-types/backend-types.ts'
+    outputFileType = 'implementationFile'
+    outputKind = 'module'
+    jsonLibrary = 'jackson2'
+
+}
 
 dependencies {
-    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.3.Final'
-    compile 'com.google.guava:guava-base:r03'
-    compile 'org.apache.xmlgraphics:batik-transcoder:1.8'
-    compile 'org.apache.xmlgraphics:batik-codec:1.8'
-    compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
-    compile 'com.thetransactioncompany:cors-filter:2.5'
-    providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'com.google.guava:guava-base'
+    compile 'org.apache.xmlgraphics:batik-transcoder'
+    compile 'org.apache.xmlgraphics:batik-codec'
+    compile 'org.apache.xmlgraphics:xmlgraphics-commons'
+    compile 'com.thetransactioncompany:cors-filter'
+    compile 'org.elasticsearch:elasticsearch'
+    compile 'org.elasticsearch.client:transport'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'commons-io:commons-io'
+    compile 'commons-fileupload:commons-fileupload'
+
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    //These libraries are no longer provided in Java 9+, thus we need to add them manually
+    compile 'javax.xml.bind:jaxb-api'
+    compile 'com.sun.xml.bind:jaxb-core'
+    compile 'com.sun.xml.bind:jaxb-impl'
+    compile 'javax.activation:activation'
+
+    testCompile 'org.mockito:mockito-all'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 eclipse {
@@ -44,51 +101,108 @@ eclipse {
   }
 }
 
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
+task createVersionPropertiesFile {
+	doLast {
+		def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
+		def apiVersion = project.scenariooApiVersion
+		def documentationVersion = project.documentationVersion
 
-
-task printPathConfigInformationForNodeJSAndGrunt << {
-	if (project.hasProperty('pathToNodeJS')) {
-        println "Path to Node JS was configued as: " + pathToNodeJS  	
-    } else {
-    	println "Path to Node JS not specified, set property 'pathToNodeJS' in case the PATH variable is not set properly or not propagated to the client's build script."        
-    }
-    if (project.hasProperty('installGrunt')) {
-        println "installGrunt is specified, this will trigger installation of grunt in client build: " + installGrunt + " (this value should be 'installGrunt')"
-    } else {
-        println "installGrunt: property is undefined, this means grunt is assumed to be installed already."    
-    }
+		File versionFile = new File(sourceSets.main.output.classesDirs.getSingleFile().absolutePath + '/version.properties');
+		versionFile.write('version=' + versionWithGitCommit + '\n' +
+				'build-date=' + new Date() + '\n' +
+				'apiVersion=' + apiVersion + '\n' +
+				'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
+				'documentationVersion=' + documentationVersion + '\n')
+	}
 }
 
-task createVersionPropertiesFile << {
-	def aggregatorJavaFile = file('src/main/java/org/scenarioo/business/aggregator/ServerVersion.java').text
-	def aggregatorVersionRegex = /DERIVED_FILE_FORMAT_VERSION = \"(.*)\"\;/
-	def aggregatedDataFormatVersion = ( aggregatorJavaFile =~ aggregatorVersionRegex )[0][1]
-	def apiVersion = project.scenariooApiVersion
-	
-	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
-	versionFile.write('version=' + version + '\nbuild-date=' + new Date() +
-		'\napiVersion=' + apiVersion + '\naggregatedDataFormatVersion=' + aggregatedDataFormatVersion)
-}
-
-war {
-    from '../scenarioo-client/dist'
-    from(sourceSets.main.output.classesDir) {
-        into('WEB-INF/classes')
+bootJar {
+    from('../scenarioo-client/dist') {
+        into('static')
     }
-	archiveName 'scenarioo-' + version + '.war'
+    archiveName 'scenarioo-viewer-' + version + '.jar'
 }
 
-war.doLast {
+bootJar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-' + version + '.war')
-        rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + version + '.jar')
+        rename('scenarioo-viewer-' + version + '.jar', 'scenarioo-latest.jar')
     }
 }
 
+bootWar {
+    from('../scenarioo-client/dist') {
+        into('WEB-INF/classes/static')
+    }
+    archiveName 'scenarioo-viewer-' + version + '.war'
+}
+
+bootWar.doLast {
+    copy {
+        from ('build/libs/')
+        into ('build/libs/')
+        include('scenarioo-viewer-' + version + '.war')
+        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
+    }
+}
+
+bootWar.dependsOn createVersionPropertiesFile
 war.dependsOn createVersionPropertiesFile
-war.dependsOn ":scenarioo-client:gulp"
+bootWar.dependsOn ":scenarioo-client:build"
+war.dependsOn ":scenarioo-client:build"
+
+if(ossrhPassword) {
+    signing {
+        sign configurations.archives
+    }
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Scenarioo Viewer'
+                packaging 'war'
+                description 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
+                url 'http://www.scenarioo.org'
+
+                scm {
+                    connection 'https://github.com/scenarioo/scenarioo.git'
+                    developerConnection 'https://github.com/scenarioo/scenarioo.git'
+                    url 'https://github.com/scenarioo/scenarioo.git'
+                }
+
+                licenses {
+                    license {
+                        name 'GNU GENERAL PUBLIC LICENSE'
+                        url 'https://github.com/scenarioo/scenarioo/blob/develop/LICENSE.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'scenarioo'
+                        name 'Scenarioo'
+                        email 'contact@scenarioo.org'
+                    }
+                }
+            }
+        }
+    }
+}

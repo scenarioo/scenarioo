@@ -17,26 +17,25 @@
 
 package org.scenarioo.rest.builds;
 
-import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Resource for accessing branches and their contained available builds.
  */
-@Path("/rest/branches/")
+@RestController
+@RequestMapping("/rest/branches")
 public class BranchBuildsResource {
 
 	/**
 	 * Returns only the successfully aggregated/imported builds of each branch.
 	 */
-	@GET
-	@Produces({ "application/xml", "application/json" })
+	@GetMapping
 	public List<BranchBuilds> listBranchesAndBuilds() {
 		return ScenarioDocuBuildsManager.INSTANCE.getAvailableBuilds();
 	}

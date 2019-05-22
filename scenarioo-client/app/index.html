@@ -1,4 +1,5 @@
 <!doctype html>
+
 <!-- scenarioo-client
 Copyright (C) 2014, scenarioo.org Development Team
 
@@ -16,169 +17,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if gte IE 8]><!-->
-<html id="ng-app" ng-app="scenarioo" xmlns:ng="http://angularjs.org" twg-global-hotkeys xclass="no-js lt-ie9">
-<!--<![endif]-->
-<head ng-cloak>
+<html twg-global-hotkeys>
+
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title ng-controller="TitleCtrl as title" ng-bind="title.text">Scenarioo</title>
-    <meta name="description" content="">
+    <title ng-controller="TitleController as title" ng-bind="title.text">Scenarioo</title>
     <meta name="viewport" content="width=device-width">
-
-    <!-- build:vendorcss styles/vendor.css -->
-    <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="components/svg.select.js/dist/svg.select.css">
-    <!-- endbuild -->
-
-    <link rel="stylesheet" href="styles/scenarioo.css">
-
-    <!--[if lt IE 9]>
-    <link rel="stylesheet" href="styles/ie-hacks.css">
-    <![endif]-->
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
+</head>
+
+<body ng-cloak>
+
     <!--[if lte IE 8]>
-    <script type="text/javascript">
-        document.createElement("sc-breadcrumb");
-        document.createElement("sc-tree");
-        document.createElement("sc-filterableTableTree");
-        document.createElement("tabset");
-        document.createElement("tab");
-        document.createElement("ng-include");
-    </script>
+    <p>
+        Scenarioo does not support your browser (IE 8 or older). Please use a more recent browser, ideally Google Chrome
+        or Firefox.
+    </p>
     <![endif]-->
 
-</head>
-<body>
+    <div ng-include="'shared/navigation/navigation.html'" ng-controller="NavigationController"></div>
 
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
-    today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
-    experience this site.</p>
-<![endif]-->
-
-<!--[if lt IE 9]>
-<script src="components/es5-shim/es5-shim.js"></script>
-<script src="components/json3/lib/json3.min.js"></script>
-<![endif]-->
-
-<div ng-include="'views/navigation.html'" ng-controller="NavigationCtrl"></div>
-
-<div class="sc-container">
-    <div ng-view></div>
-</div>
-
-
-<!-- build:vendor vendor.js -->
-<script src="components/jquery/dist/jquery.min.js"></script>
-<script src="components/angular/angular.js"></script>
-<script src="components/angular-resource/angular-resource.js"></script>
-<script src="components/angular-sanitize/angular-sanitize.js"></script>
-<script src="components/angular-route/angular-route.js"></script>
-<script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<script src="components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-<script src="components/twigs/dist/twigs.js"></script>
-<script src="components/angular-i18n/angular-locale_en-us.js"></script>
-<script src="components/angular-i18n/angular-locale_de-de.js"></script>
-<script src="components/angular-i18n/angular-locale_de-ch.js"></script>
-<script src="components/svg.js/dist/svg.js"></script>
-<script src="components/svg.select.js/dist/svg.select.js"></script>
-<script src="components/svg.draggable.js/dist/svg.draggable.js"></script>
-<script src="components/svg.resize.js/dist/svg.resize.js"></script>
-<script src="components/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
-<script src="components/angular-unsavedChanges/dist/unsavedChanges.js"></script>
-<!-- endbuild -->
-
-
-<!-- build:sources sources.js -->
-<script src="scripts/app.js"></script>
-<script src="scripts/environment_config.js"></script>
-<script src="scripts/services/branchesAndBuilds.js"></script>
-<script src="scripts/services/config.js"></script>
-<script src="scripts/services/restServices.js"></script>
-<script src="scripts/services/urlUtil.service.js"></script>
-<script src="scripts/services/localStorage.service.js"></script>
-<script src="scripts/services/selectedBranchAndBuild.js"></script>
-<script src="scripts/services/applicationInfoPopup.js"></script>
-<script src="scripts/services/pageAndStepService.js"></script>
-<script src="scripts/services/treeNodeService.js"></script>
-<script src="scripts/services/sharePageService.js"></script>
-<script src="scripts/services/breadcrumbsService.js"></script>
-<script src="scripts/services/context.service.js"></script>
-<script src="scripts/directives/breadcrumbs.js"></script>
-<script src="scripts/directives/sortableColumn.js"></script>
-<script src="scripts/directives/tree.js"></script>
-<script src="scripts/directives/filterableTableTree.js"></script>
-<script src="scripts/directives/staticInclude.js"></script>
-<script src="scripts/directives/navigatorTable.js"></script>
-<script src="scripts/directives/debounce.js"></script>
-<script src="scripts/directives/metaDataButton.js"></script>
-<script src="scripts/directives/metaDataPanel.js"></script>
-<script src="scripts/directives/metaDataTree.js"></script>
-<script src="scripts/directives/collapsablePanel.js"></script>
-<script src="scripts/screenAnnotations/annotatedScreenshot.directive.js"></script>
-<script src="scripts/screenAnnotations/screenAnnotationsButton.directive.js"></script>
-<script src="scripts/controllers/navigation.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/mainUseCasesTab.js"></script>
-<script src="scripts/controllers/mainSketchesTab.controller.js"></script>
-<script src="scripts/controllers/mainCustomTab.js"></script>
-<script src="scripts/controllers/usecase.js"></script>
-<script src="scripts/controllers/scenario.js"></script>
-<script src="scripts/screenAnnotations/screenAnnotationInfoPopup.controller.js"></script>
-<script src="scripts/screenAnnotations/screenAnnotations.service.js"></script>
-<script src="scripts/controllers/step.js"></script>
-<script src="scripts/controllers/manage/manage.js"></script>
-<script src="scripts/controllers/manage/buildsList.js"></script>
-<script src="scripts/controllers/manage/buildImportDetails.js"></script>
-<script src="scripts/controllers/manage/configEditor.js"></script>
-<script src="scripts/controllers/title.js"></script>
-<script src="scripts/controllers/manage/branchAliases.js"></script>
-<script src="scripts/controllers/manage/labelConfigurations.js"></script>
-<script src="scripts/controllers/referenceTree.js"></script>
-<script src="scripts/filters/humanReadable.js"></script>
-<script src="scripts/filters/filterArray.js"></script>
-<script src="scripts/filters/branchOrderByFilter.js"></script>
-<script src="scripts/filters/treeDataCreator.js"></script>
-<script src="scripts/filters/treeDataOptimizer.js"></script>
-<script src="scripts/filters/metadataTreeCreator.js"></script>
-<script src="scripts/filters/metadataTreeListCreator.js"></script>
-<script src="scripts/filters/dateTime.js"></script>
-<script src="scripts/filters/date.js"></script>
-<script src="scripts/services/applicationInfoPopup.js"></script>
-<script src="scripts/services/shareStepPopup.js"></script>
-<script src="scripts/sketcher/sketcherRestClient.service.js"></script>
-<script src="scripts/sketcher/issue/issue.service.js"></script>
-<script src="scripts/sketcher/stepSketch.controller.js"></script>
-<script src="scripts/sketcher/shapes/svg.element.extended.js"></script>
-<script src="scripts/sketcher/shapes/svg.compositeShape.js"></script>
-<script src="scripts/sketcher/shapes/svg.drawBorder.js"></script>
-<script src="scripts/sketcher/shapes/drawShape.service.js"></script>
-<script src="scripts/sketcher/shapes/svg.lineShape.js"></script>
-<script src="scripts/sketcher/drawingPad/drawingPad.service.js"></script>
-<script src="scripts/sketcher/drawingPad/zoomPan.service.js"></script>
-<script src="scripts/sketcher/tools/tool.js"></script>
-<script src="scripts/sketcher/tools/drawTool.js"></script>
-<script src="scripts/sketcher/tools/compositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/selectTool.js"></script>
-<script src="scripts/sketcher/tools/rectCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/borderCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/noteCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/textCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/buttonCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/highlightCompositeDrawTool.js"></script>
-<script src="scripts/sketcher/tools/lineDrawTool.js"></script>
-<script src="scripts/sketcher/drawingPad/toolBox.service.js"></script>
-<script src="scripts/sketcher/stepSketch/stepSketch.service.js"></script>
-<script src="scripts/sketcher/editor.controller.js"></script>
-<!-- endbuild -->
+    <div class="sc-container">
+        <div ng-view></div>
+    </div>
 
 </body>
 </html>

@@ -1,0 +1,36 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          elasticsearch5
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     false
+# Short-Description: Runs Elasticsearch 5 through docker, as installed
+# Description:       Start/stop elasticsearch5
+### END INIT INFO
+
+DESC="test script"
+NAME=testone
+#DAEMON=
+
+do_start()
+{
+   docker start elasticsearch5
+}
+
+do_stop()
+{
+   docker stop elasticsearch5
+}
+
+case "$1" in
+   start)
+     do_start
+     ;;
+   stop)
+     do_stop
+     ;;
+esac
+
+exit 0

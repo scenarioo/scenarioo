@@ -1,0 +1,28 @@
+<li class="dropdown" uib-dropdown is-open="status.isBuildSelectionOpen" id="build-selection-dropdown">
+    <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+        <i class="fas fa-folder-open"></i>&nbsp;&nbsp;Build:
+        <span ng-show="isBuildAlias(selectedBuild)">
+            <i class="fas fa-share"></i>
+        </span>
+        <span ng-show="isLastSuccessfulScenariosBuild(selectedBuild)">
+            <i class="fas fa-check"></i>
+        </span>
+        {{getDisplayNameForBuild(selectedBuild, true)}} ({{selectedBuild.build.date | scDateOnly}})&nbsp;
+        <span ng-class="[getStatusStyleClass(selectedBuild.build.status), 'label']">{{selectedBuild.build.status}}</span>
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li ng-repeat="build in selectedBranch.builds">
+            <a ng-click="onBuildChange({build: build})">
+                <span ng-show="isBuildAlias(build)">
+                    <i class="fas fa-share"></i>
+                </span>
+                <span ng-show="isLastSuccessfulScenariosBuild(build)">
+                    <i class="fas fa-check"></i>
+                </span>
+                {{getDisplayNameForBuild(build, false)}} ({{build.build.date | scDateTime}})&nbsp;
+                <span ng-class="[getStatusStyleClass(build.build.status), 'label']">{{build.build.status}}</span>
+            </a>
+        </li>
+    </ul>
+</li>

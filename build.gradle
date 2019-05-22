@@ -1,4 +1,24 @@
-ext.scenariooApiVersion = '2.1.0'
+/**
+ * Used Version of Scenarioo Java Library for reading scenarioo docu data
+ */
+ext.scenariooApiVersion = '2.1.1'
+
+/**
+ * Internal scenarioo format version of produced aggregation data (internal server format version).
+ *
+ * On import this version is stored for each build, if the format of a build does not correspond to this format, the
+ * build is automatically reimported again (all aggregation data recalculated in new format).
+ *
+ * First part of the version corresponds to library version that is supported, second part of the version depends on
+ * internal aggregation format. the second part should be increased whenever something important is changed in the
+ * internal format or the way that the aggregator is caluclating internal data on builds.
+ */
+ext.scenariooAggregatedDataFormatVersion = '2.1.0'
+
+/**
+ * Name of the release branch of this scenarioo version, which is used for links to the versioned documentation.
+ */
+ext.documentationVersion = '4.0'
 
 /*
  * Gets the version name from the latest Git tag
@@ -13,40 +33,69 @@ def getVersionName = { ->
 	return stdout.toString().trim()
 }
 
+ext.versionWithGitCommit = getVersionName();
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		/* Newer versions of Spring Boot cause problems with ElasticSearch 5.6.9.
+		 * If we want to update then we need to thoroughly test ElasticSearch (web tests are fine)
+		 * and probably have set the versions of certain dependencies to a fixed value.
+		 */
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
+	}
+}
+
 allprojects {
-	apply plugin: 'idea'
 	apply plugin: 'eclipse'
+	apply plugin: 'io.spring.dependency-management'
 
 	group = 'org.scenarioo'
     version = getVersionName()
-    tasks.withType(JavaCompile) {
-	    sourceCompatibility = "1.6"
-	    targetCompatibility = "1.6"
+
+    wrapper {
+        gradleVersion = '4.10.3'
+    }
+
+	dependencyManagement {
+		dependencies {
+			dependency "org.scenarioo:scenarioo-java:${scenariooApiVersion}"
+
+			dependency 'com.google.guava:guava-base:r03'
+
+			dependency 'org.apache.xmlgraphics:batik-transcoder:1.8'
+			dependency 'org.apache.xmlgraphics:batik-codec:1.8'
+			dependency 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
+
+			dependency 'com.thetransactioncompany:cors-filter:2.5'
+
+			dependency 'org.elasticsearch:elasticsearch:5.6.9'
+			dependency 'org.elasticsearch.client:transport:5.6.9'
+
+			dependency 'org.apache.commons:commons-lang3:3.5'
+			dependency 'org.apache.commons:commons-collections4:4.1'
+			dependency 'commons-io:commons-io:2.5'
+			dependency 'commons-fileupload:commons-fileupload:1.2.1'
+
+			dependency 'commons-codec:commons-codec:1.10'
+			dependency 'commons-cli:commons-cli:1.3.1'
+
+			//These libraries are no longer provided in Java 9+, thus we need to add them manually
+			dependency 'javax.xml.bind:jaxb-api:2.2.11'
+			dependency 'com.sun.xml.bind:jaxb-core:2.2.11'
+			dependency 'com.sun.xml.bind:jaxb-impl:2.2.11'
+			dependency 'javax.activation:activation:1.1.1'
+
+			dependency 'log4j:log4j:1.2.17'
+			//Spring Boot 2.0.2 uses log4j 2.10.0 which has a known bug which is fixed in 2.11.0
+			dependency 'org.apache.logging.log4j:log4j-api:2.11.0'
+			dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
+
+			dependency 'junit:junit:4.12'
+			dependency 'org.assertj:assertj-core:3.10.0'
+			dependency 'org.mockito:mockito-all:1.9.5'
+		}
 	}
-}
-
-// TODO danielsuter extract to separate file
-configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example"), project(":scenarioo-validator")]) {
-    apply plugin: 'java'
-
-	repositories {
-		maven {
-         	url "https://raw.github.com/scenarioo/mvn-repo/master"
-        }
-	    mavenCentral()
-	    mavenLocal()
-	}
-
-	dependencies {
-		compile 'org.scenarioo:scenarioo-java:' + scenariooApiVersion
-		compile 'org.apache.commons:commons-lang3:3.0.1'
-		compile 'commons-io:commons-io:2.4'
-		compile 'commons-codec:commons-codec:1.2'
-		compile 'log4j:log4j:1.2.17'
-		testCompile 'junit:junit:4.11'
-	}
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
 }

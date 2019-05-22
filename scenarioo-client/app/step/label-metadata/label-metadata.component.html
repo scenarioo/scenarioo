@@ -1,0 +1,28 @@
+<div class="sc-tree">
+    <ul>
+        <li id="usecase-labels" *ngIf="useCaseLabels">
+            Use case:
+            <span *ngFor="let label of useCaseLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="scenario-labels" *ngIf="scenarioLabels">
+            Scenario:
+            <span *ngFor="let label of scenarioLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="step-labels" *ngIf="stepLabels">
+            Step:
+            <span *ngFor="let label of stepLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="page-labels" *ngIf="pageLabels">
+            Page:
+            <span *ngFor="let label of pageLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+    </ul>
+</div>
