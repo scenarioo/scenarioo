@@ -16,36 +16,48 @@
  */
 
 'use strict';
-import * as angular from 'angular';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+declare var angular: angular.IAngularStatic;
+import {Observable, of} from 'rxjs';
 
 
-describe('UseCaseController', function () {
+
+describe('UseCaseController', () => {
 
     const BRANCH = 'branch_123',
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    let $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+    let $scope, routeParams, controller, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
         SelectedBranchAndBuildService, $location, RelatedIssueResource;
     let labelConfigurationService: any;
-
+    const ConfigResourceMock = {
+        get: () => of({})
+    };
+    const ScenarioResourceMock = {
+        get: () => of({}),
+        getUseCaseScenarios: () => getFindAllScenariosFake()
+    };
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
-                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService) {
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value("ScenarioResource", ScenarioResourceMock);
+    }));
+
+    beforeEach(inject(($rootScope, $routeParams, $controller, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
+                       ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService) => {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
-            ScenarioResource = _ScenarioResource_;
+
             RelatedIssueResource = _RelatedIssueResource_;
             UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
             labelConfigurationService = {
                 get(): Observable<any> {
-                    return Observable.of({});
+                    return of({});
                 }
             };
 
@@ -57,7 +69,6 @@ describe('UseCaseController', function () {
                 $scope: $scope,
                 $routeParams: routeParams,
                 ConfigService: ConfigMock,
-                ScenarioResource: ScenarioResource,
                 RelatedIssueResource: RelatedIssueResource,
                 UseCaseDiffInfoResource: UseCaseDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
@@ -67,8 +78,8 @@ describe('UseCaseController', function () {
         }
     ));
 
-    it('should load all scenarios and and the selected use case', function () {
-        spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
+    it('should load all scenarios and and the selected use case', () => {
+        spyOn(ScenarioResourceMock, 'getUseCaseScenarios').and.returnValue(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
@@ -84,11 +95,11 @@ describe('UseCaseController', function () {
 
         $scope.$apply();
 
-        expect(ScenarioResource.get).toHaveBeenCalledWith({
+        expect(ScenarioResourceMock.getUseCaseScenarios).toHaveBeenCalledWith({
             'branchName': BRANCH,
             'buildName': BUILD,
-            'usecaseName': USE_CASE
-        }, jasmine.any(Function));
+        }, USE_CASE);
+
         expect(controller.useCase).toBeDefined();
         expect(controller.scenarios).toBeDefined();
         expect(controller.propertiesToShow).toBeDefined();
@@ -100,9 +111,8 @@ describe('UseCaseController', function () {
             scenarios: getFakeScenarios()
         };
 
-        return function (params, onSuccess) {
-            onSuccess(DATA);
-        };
+        return of(DATA);
+
     }
 
     function queryRelatedIssuesFake() {
@@ -115,7 +125,7 @@ describe('UseCaseController', function () {
                 }
         };
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }
@@ -131,7 +141,7 @@ describe('UseCaseController', function () {
     function getEmptyData() {
         const DATA = {};
 
-        return function (params, onSuccess) {
+        return (params, onSuccess) => {
             onSuccess(DATA);
         };
     }

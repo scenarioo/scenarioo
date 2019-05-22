@@ -15,18 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ApplicationStatusService', function (ScenariooResource) {
+angular.module('scenarioo.controllers').controller('ComparisonDetailsController', ComparisonDetailsController);
 
-    var SearchEngineStatusResource = ScenariooResource('/searchEngineStatus', {});
-    var ApplicationStatusResource = ScenariooResource('/configuration/applicationStatus', {});
+function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, ComparisonLogResource, comparison) {
 
-    return {
-        isSearchEngineRunning: function() {
-            return SearchEngineStatusResource.get().$promise;
-        },
+    const vm = this;
+    vm.comparison = comparison;
+    vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
+    vm.cancel = cancel;
 
-        getApplicationStatus: function() {
-            return ApplicationStatusResource.get().$promise;
-        }
+    activate();
+
+    function activate() {
+        ComparisonLogResource.logComparision(comparison.name, comparison.baseBuild)
+            .subscribe((log) => vm.log = log);
     }
-});
+
+    function cancel() {
+        $uibModalInstance.dismiss('cancel');
+    }
+
+}

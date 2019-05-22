@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
+angular.module('scenarioo.controllers')
+    .controller('UseCasesTabController', UseCasesTabController);
 
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
@@ -50,9 +51,10 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
-        LabelConfigurationsResource.query({}, (labelConfiguratins) => {
-            vm.labelConfigurations = labelConfiguratins;
-        });
+        LabelConfigurationsResource.query()
+            .subscribe((labelConfigurations) => {
+                vm.labelConfigurations = labelConfigurations;
+            });
     }
 
     function gotoUseCase(useCase) {
@@ -87,9 +89,8 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             .then((branchesAndBuilds) => {
                 vm.branchesAndBuilds = branchesAndBuilds;
 
-                UseCasesResource.query(
-                    {branchName: selected.branch, buildName: selected.build},
-                    (useCases) => {
+                UseCasesResource.query({branchName: selected.branch, buildName: selected.build})
+                    .subscribe((useCases) => {
                         if (SelectedComparison.isDefined()) {
                             loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                         } else {

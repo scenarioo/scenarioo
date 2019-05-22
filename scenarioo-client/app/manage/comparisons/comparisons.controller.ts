@@ -19,11 +19,12 @@ angular.module('scenarioo.controllers').controller('ComparisonsController', Comp
 
 function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService, ApplicationStatusService) {
 
-    var vm = this;
+    const vm = this;
 
     vm.comparisons = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'date', reverse: true}, filtering: false};
-    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
+    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn"
+                             // directive.
 
     vm.resetSearchField = resetSearchField;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
@@ -35,11 +36,12 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     activate();
 
     function activate() {
-        ComparisonsResource.query({}, function(comparisons) {
-            vm.comparisons = comparisons;
-        });
+        ComparisonsResource.query()
+            .subscribe((comparisons) => {
+                vm.comparisons = comparisons;
+            });
 
-        ApplicationStatusService.getApplicationStatus().then(function(status) {
+        ApplicationStatusService.getApplicationStatus().subscribe((status) => {
             vm.version = status.version;
         });
 
@@ -56,16 +58,20 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
             controllerAs: 'vm',
             windowClass: 'modal-wide',
             resolve: {
-                comparison: function () {
+                comparison() {
                     return comparison;
-                }
-            }
+                },
+            },
         });
     }
 
     function recalculateComparison(comparison) {
-        ComparisonRecalculateResource.post({branchName: comparison.baseBuild.branchName, buildName: comparison.baseBuild.buildName, comparisonName: comparison.name },
-            refresh, refresh);
+        ComparisonRecalculateResource
+            .recalculate(comparison.name, {
+                branchName: comparison.baseBuild.branchName,
+                buildName: comparison.baseBuild.buildName,
+            })
+            .subscribe(refresh);
     }
 
     function refresh() {
@@ -73,5 +79,3 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     }
 
 }
-
-

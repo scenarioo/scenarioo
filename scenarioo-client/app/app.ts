@@ -15,26 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {addRoutes} from './app.routes';
+import './vendor';
+import './styles/scenarioo.less';
 
-import {addRoutes} from "./app.routes";
-import * as angular from "angular";
-import './vendor'
-import './styles/scenarioo.less'
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
-require('./shared/utils/number.filter');
-
+import './shared/utils/number.filter';
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
-    .config(function ($routeProvider) {
+    .config(($routeProvider) => {
         addRoutes($routeProvider);
 
-    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) {
+    }).run(($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) => {
 
     // These templates are loaded dynamically, thus we preload it and put it into our template cache.
     $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));
@@ -48,24 +47,23 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
     $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
-
     // Initialze modals to close when the location changes
-    $rootScope.$on('$locationChangeSuccess', function () {
+    $rootScope.$on('$locationChangeSuccess', () => {
         $uibModalStack.dismissAll();
     });
 
-    $rootScope.$on('$viewContentLoaded', function () {
+    $rootScope.$on('$viewContentLoaded', () => {
         ApplicationInfoPopupService.showApplicationInfoPopupIfRequired();
     });
 
     // Register global hotkeys
-    GlobalHotkeysService.registerGlobalHotkey('m', function () {
+    GlobalHotkeysService.registerGlobalHotkey('m', () => {
         $location.path('/manage').search('tab=builds');
     });
-    GlobalHotkeysService.registerGlobalHotkey('c', function () {
+    GlobalHotkeysService.registerGlobalHotkey('c', () => {
         $location.path('/manage').search('tab=configuration');
     });
-    GlobalHotkeysService.registerGlobalHotkey('h', function () {
+    GlobalHotkeysService.registerGlobalHotkey('h', () => {
         $location.path('/');
     });
 
@@ -73,6 +71,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     ConfigService.load();
 });
 
+// needs to stay here
 import './build';
 import './manage';
 import './objectRepository/objectRepository.controller';
@@ -84,11 +83,8 @@ import './step';
 import './useCase/usecase.controller';
 import './diffViewer';
 
+import {AppModule} from './app.module';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
-import {AppModule} from "./app.module";
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-
-
-// angular.bootstrap(document, ['scenarioo']);
+// tslint:disable-next-line
 platformBrowserDynamic().bootstrapModule(AppModule);
-

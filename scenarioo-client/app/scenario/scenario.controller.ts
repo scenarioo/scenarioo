@@ -18,9 +18,8 @@
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-          $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
-          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
-
+                            $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
+                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -58,9 +57,10 @@ function ScenarioController($filter, $routeParams,
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    LabelConfigurationsResource.query({}, (queriedlabelConfigurations) => {
-        vm.labelConfigurations = queriedlabelConfigurations;
-    });
+    LabelConfigurationsResource.query()
+        .subscribe((queriedlabelConfigurations) => {
+            vm.labelConfigurations = queriedlabelConfigurations;
+        });
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -68,10 +68,10 @@ function ScenarioController($filter, $routeParams,
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
-                scenarioName,
             },
-            (result) => {
+            useCaseName,
+            scenarioName,
+        ).subscribe((result) => {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;
@@ -281,7 +281,7 @@ function ScenarioController($filter, $routeParams,
     function goToIssue(issue) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id },
+            {branchName: selectedBranch, issueId: issue.id},
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });

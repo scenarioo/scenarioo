@@ -17,33 +17,58 @@
 
 'use strict';
 
-describe('ConfigService', function () {
+import {of} from 'rxjs';
+import {IConfiguration} from '../../../app/generated-types/backend-types';
 
-    var BUILD_STATE_FAILED = 'failed',
+declare var angular: angular.IAngularStatic;
+
+describe('ConfigService', () => {
+
+    const BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
-        DUMMY_CONFIG_RESPONSE = {
-                'defaultBuildName': 'current',
-                'scenarioPropertiesInOverview': 'userProfile, configuration',
-                'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-                'buildstates': {
-                    BUILD_STATE_FAILED: 'label-important',
-                    BUILD_STATE_SUCCESS: 'label-success',
-                    BUILD_STATE_WARNING: 'label-warning'
-                },
-                'defaultBranchName': 'trunk'
+        DUMMY_CONFIG_RESPONSE: IConfiguration = {
+            aliasForLastSuccessfulBuild: '',
+            aliasForMostRecentBuild: '',
+            buildStatusForSuccessfulBuilds: '',
+            branchAliases: [],
+            comparisonConfigurations: [],
+            labelConfigurations: undefined,
+            customObjectTabs: [],
+            elasticSearchEndpoint: '',
+            elasticSearchClusterName: '',
+            branchSelectionListOrder: '',
+            diffImageColor: '',
+            createLastSuccessfulScenarioBuild: false,
+            expandPagesInScenarioOverview: false,
+            applicationName: '',
+            defaultBuildName: 'current',
+            scenarioPropertiesInOverview: 'userProfile, configuration',
+            applicationInformation: 'This is my personal copy of Scenarioo :-)',
+            buildstates: {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            },
+            defaultBranchName: 'trunk'
         };
+    const ConfigResourceMock = {
+        get: () => of<IConfiguration>(angular.copy(DUMMY_CONFIG_RESPONSE))
+    };
 
-    beforeEach(angular.mock.module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value("ConfigResource", ConfigResourceMock);
+    }));
 
-    it('should inject ConfigService', inject(function (ConfigService) {
+    it('should inject ConfigService', inject(ConfigService => {
         expect(ConfigService).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server', inject(function (ConfigService, $rootScope, $httpBackend) {
+    it('should be able to load config from server', inject((ConfigService, $rootScope) => {
         spyOn($rootScope, '$broadcast').and.callThrough();
 
-        loadConfigFromService(ConfigService, $httpBackend);
+        loadConfigFromService(ConfigService);
 
         expect($rootScope.$broadcast).toHaveBeenCalledWith(ConfigService.CONFIG_LOADED_EVENT);
 
@@ -51,10 +76,10 @@ describe('ConfigService', function () {
         expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
-    it('contains build state to css class mapping as a map', inject(function (ConfigService, $httpBackend) {
-        loadConfigFromService(ConfigService, $httpBackend);
+    it('contains build state to css class mapping as a map', inject((ConfigService) => {
+        loadConfigFromService(ConfigService);
 
-        var buildStateToClassMapping = ConfigService.buildStateToClassMapping();
+        const buildStateToClassMapping = ConfigService.buildStateToClassMapping();
 
         expect(buildStateToClassMapping).toBeDefined();
         expect(getSize(buildStateToClassMapping)).toBe(3);
@@ -63,10 +88,10 @@ describe('ConfigService', function () {
         expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
-    it('contains additional columns for scenario overview', inject(function (ConfigService, $httpBackend) {
-        loadConfigFromService(ConfigService, $httpBackend);
+    it('contains additional columns for scenario overview', inject((ConfigService) => {
+        loadConfigFromService(ConfigService);
 
-        var columns = ConfigService.scenarioPropertiesInOverview();
+        const columns = ConfigService.scenarioPropertiesInOverview();
 
         expect(columns).toBeDefined();
         expect(getSize(columns)).toBe(2);
@@ -74,14 +99,13 @@ describe('ConfigService', function () {
         expect(columns[1]).toBe('configuration');
     }));
 
-    function loadConfigFromService(ConfigService, $httpBackend) {
-        $httpBackend.when('GET', 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+    function loadConfigFromService(ConfigService) {
+        spyOn(ConfigResourceMock, "get").and.returnValue(of(DUMMY_CONFIG_RESPONSE));
         ConfigService.load();
-        $httpBackend.flush();
     }
 
     function getSize(object) {
-        var size = 0, key;
+        let size = 0, key;
         for (key in object) {
             if (object.hasOwnProperty(key)) {
                 size++;

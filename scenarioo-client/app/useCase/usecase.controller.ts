@@ -16,7 +16,8 @@
  */
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
-import * as angular from 'angular';
+
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
@@ -99,9 +100,10 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
-                scenarioName,
             },
+            useCaseName,
+            scenarioName,
+        ).subscribe(
             (scenarioResult) => {
                 $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
             },
@@ -111,11 +113,12 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     function loadScenariosAndUseCase(selected) {
         const useCaseName = $routeParams.useCaseName;
 
-        ScenarioResource.get({
-            branchName: selected.branch,
-            buildName: selected.build,
-            usecaseName: useCaseName,
-        }, onUseCaseLoaded);
+        ScenarioResource.getUseCaseScenarios({
+                branchName: selected.branch,
+                buildName: selected.build,
+            },
+            useCaseName,
+        ).subscribe(onUseCaseLoaded);
         vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 
     }

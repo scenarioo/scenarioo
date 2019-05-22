@@ -14,26 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import {tap} from 'rxjs/operators';
+
+declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
 
-function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource,
+function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource,
+                              BuildImportService, BuildReimportResource,
                               BuildImportLogResource) {
 
-    var vm = this;
+    const vm = this;
 
     vm.buildImportStates = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
-    
+
     vm.updatingBuildsInProgress = false;
-    var styleClassesForBuildImportStatus = {
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-default',
-        'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary',
-        'OUTDATED': 'label-warning'
+    const styleClassesForBuildImportStatus = {
+        SUCCESS: 'label-success',
+        FAILED: 'label-danger',
+        UNPROCESSED: 'label-default',
+        QUEUED_FOR_PROCESSING: 'label-info',
+        PROCESSING: 'label-primary',
+        OUTDATED: 'label-warning',
     };
     vm.resetSearchField = resetSearchField;
     vm.goToBuild = goToBuild;
@@ -44,9 +48,10 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     activate();
 
     function activate() {
-        BuildImportStatesResource.query({}, function(buildImportStates) {
-            vm.buildImportStates = buildImportStates;
-        });
+        BuildImportStatesResource.get()
+            .subscribe((buildImportStates) => {
+                vm.buildImportStates = buildImportStates;
+            });
     }
 
     function resetSearchField() {
@@ -54,31 +59,31 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     }
 
     function goToBuild(build) {
-        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
-            $uibModal.open({
-                template: require('./buildImportDetails.html'),
-                controller: 'BuildImportDetailsController',
-                controllerAs: 'vm',
-                windowClass: 'modal-wide',
-                resolve: {
-                    build: function () { return build; },
-                    log: function() { return log; },
-                    getStyleClassForBuildImportStatus: function() { return vm.getStyleClassForBuildImportStatus; }
-                }
+        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName)
+            .subscribe((log) => {
+                $uibModal.open({
+                    template: require('./buildImportDetails.html'),
+                    controller: 'BuildImportDetailsController',
+                    controllerAs: 'vm',
+                    windowClass: 'modal-wide',
+                    resolve: {
+                        build: () => build,
+                        log: () => log,
+                        getStyleClassForBuildImportStatus: () => vm.getStyleClassForBuildImportStatus,
+                    },
+                });
             });
-        }, function(error) {
-            throw error;
-        });
     }
 
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
-        BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName },
-            buildImportFinished, buildImportFinished);
+        BuildReimportResource.get(build.identifier.branchName, build.identifier.buildName)
+            .pipe(tap(() => vm.updatingBuildsInProgress = false))
+            .subscribe(buildImportFinished);
     }
 
     function getStyleClassForBuildImportStatus(status) {
-        var styleClassFromMapping = styleClassesForBuildImportStatus[status];
+        const styleClassFromMapping = styleClassesForBuildImportStatus[status];
         if (angular.isUndefined(styleClassFromMapping)) {
             return 'label-warning';
         } else {
@@ -88,7 +93,9 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
 
     function importAndUpdateBuilds() {
         vm.updatingBuildsInProgress = true;
-        BuildImportService.updateData({}).then(buildImportFinished, buildImportFinished);
+        BuildImportService.updateData()
+            .pipe(tap(() => vm.updatingBuildsInProgress = false))
+            .subscribe(buildImportFinished);
     }
 
     function buildImportFinished() {
@@ -96,5 +103,3 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
         $route.reload();
     }
 }
-
-

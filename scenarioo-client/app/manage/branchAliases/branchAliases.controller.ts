@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', Br
 
 function BranchAliasesController($rootScope, BranchAliasesResource, BranchesResource) {
 
-    var vm = this;
+    const vm = this;
     vm.branches = [];
     vm.branchAliases = [];
     vm.uniqueError = false;
@@ -37,12 +37,12 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function loadBranchesWithoutAliases() {
-        BranchesResource.query({}, function (branches) {
-            var branchesWithoutAliases = [];
-            var index;
-            for(index = 0; index < branches.length; index++) {
-                var branch = branches[index];
-                if(!branch.isAlias) {
+        BranchesResource.query().subscribe((branches) => {
+            const branchesWithoutAliases = [];
+            let index;
+            for (index = 0; index < branches.length; index++) {
+                const branch = branches[index];
+                if (!branch.isAlias) {
                     branchesWithoutAliases.push(branch);
                 }
             }
@@ -53,9 +53,9 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
 
     function deleteEntry(aliasName) {
         if (aliasName !== '') {
-            var index;
+            let index;
             for (index = 0; index < vm.branchAliases.length; index++) {
-                var branchAlias = vm.branchAliases[index];
+                const branchAlias = vm.branchAliases[index];
                 if (branchAlias.name === aliasName) {
                     vm.branchAliases.splice(index, 1);
                     break;
@@ -65,14 +65,14 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
     }
 
     function aliasNameChanged() {
-        var aliasName = vm.branchAliases[vm.branchAliases.length - 1].name;
+        const aliasName = vm.branchAliases[vm.branchAliases.length - 1].name;
         if (aliasName !== '') {
             vm.branchAliases.push(createEmptyAlias());
         }
     }
 
     function loadBranchAliases() {
-        BranchAliasesResource.query({}, function (branchAliases) {
+        BranchAliasesResource.get().subscribe((branchAliases) => {
             branchAliases.push(createEmptyAlias());
             vm.branchAliases = branchAliases;
         });
@@ -86,10 +86,10 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         vm.uniqueError = false;
         vm.successfullyUpdatedBranchAliases = false;
 
-        var branchAliasesToSave = [];
-        var index;
+        const branchAliasesToSave = [];
+        let index;
         for (index = 0; index < vm.branchAliases.length; index++) {
-            var branchAlias = vm.branchAliases[index];
+            const branchAlias = vm.branchAliases[index];
             if (branchAlias.name !== '') {
                 branchAliasesToSave.push(branchAlias);
             }
@@ -100,17 +100,18 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
             return;
         }
 
-        BranchAliasesResource.save(branchAliasesToSave, function() {
-            $rootScope.$broadcast('branchesUpdated');
-        });
+        BranchAliasesResource.save(branchAliasesToSave)
+            .subscribe(() => {
+                $rootScope.$broadcast('branchesUpdated');
+            });
 
         vm.successfullyUpdatedBranchAliases = true;
     }
 
     function areBuildAliasesUnique(buildAliases) {
-        var unique = true;
-        var aliasesMap = {};
-        angular.forEach(buildAliases, function (buildAlias) {
+        let unique = true;
+        const aliasesMap = {};
+        angular.forEach(buildAliases, (buildAlias) => {
             if (aliasesMap[buildAlias.name] === undefined) {
                 aliasesMap[buildAlias.name] = '';
             } else {
@@ -125,7 +126,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         return {
             name: '',
             referencedBranch: '',
-            description: ''
+            description: '',
         };
     }
 }

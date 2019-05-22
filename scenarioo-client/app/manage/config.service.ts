@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {IConfiguration} from '../generated-types/backend-types';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $rootScope) => {
 
     const CONFIG_LOADED_EVENT = 'configLoaded';
@@ -26,7 +30,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
     }
 
     function doLoad() {
-        ConfigResource.get({}, (response) => {
+        ConfigResource.get().subscribe((response) => {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
             $rootScope.getStatusStyleClass = (buildStatus) => {
@@ -63,7 +67,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
         return properties;
     }
 
-    const serviceInstance = {
+    return {
         CONFIG_LOADED_EVENT,
 
         getRawConfigDataCopy() {
@@ -81,8 +85,8 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
             return angular.isDefined(configData.defaultBuildName);
         },
 
-        updateConfiguration(newConfig, successCallback) {
-            ConfigResource.save(newConfig, () => {
+        updateConfiguration(newConfig: IConfiguration, successCallback) {
+            ConfigResource.save(newConfig).subscribe(() => {
                 if (successCallback) {
                     doLoad();
                     successCallback();
@@ -127,6 +131,4 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
         },
 
     };
-
-    return serviceInstance;
 });

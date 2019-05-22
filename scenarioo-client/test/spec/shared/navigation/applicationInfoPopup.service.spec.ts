@@ -17,32 +17,33 @@
 
 'use strict';
 
-describe('ApplicationInfoPopupService', function () {
+describe('ApplicationInfoPopupService', () => {
 
     beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(angular.mock.module(function ($provide) {
+    beforeEach(angular.mock.module($provide => {
         $provide.value('$uibModal', {
-                open: function () {
+                open: () => {
                 }
             }
         );
         $provide.value('ApplicationInfoController', {});
     }));
 
-    var ApplicationInfoPopupService, LocalStorageService, $uibModal, dummyPromise = {
+    let ApplicationInfoPopupService, LocalStorageService, $uibModal;
+    const dummyPromise = {
         result: {
-            finally: function () {
+            finally: () => {
             }
         }
     };
-    beforeEach(inject(function (_ApplicationInfoPopupService_, _LocalStorageService_, _$uibModal_) {
+    beforeEach(inject((_ApplicationInfoPopupService_, _LocalStorageService_, _$uibModal_) => {
         ApplicationInfoPopupService = _ApplicationInfoPopupService_;
         LocalStorageService = _LocalStorageService_;
         $uibModal = _$uibModal_;
     }));
 
-    it('shows the application info popup on first visit of the app', function () {
+    it('shows the application info popup on first visit of the app', () => {
         LocalStorageService.clearAll();
 
         spyOn($uibModal, 'open').and.returnValue(dummyPromise);
@@ -52,7 +53,7 @@ describe('ApplicationInfoPopupService', function () {
         expect($uibModal.open).toHaveBeenCalled();
     });
 
-    it('does not show the application info popup when the user returns to the app', function () {
+    it('does not show the application info popup when the user returns to the app', () => {
         LocalStorageService.clearAll();
         LocalStorageService.set(ApplicationInfoPopupService.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
@@ -63,52 +64,12 @@ describe('ApplicationInfoPopupService', function () {
         expect($uibModal.open).not.toHaveBeenCalled();
     });
 
-    it('shows opens a modal dialog', function () {
+    it('shows opens a modal dialog', () => {
         spyOn($uibModal, 'open').and.returnValue(dummyPromise);
 
         ApplicationInfoPopupService.showApplicationInfoPopup();
 
         expect($uibModal.open).toHaveBeenCalled();
-    });
-
-});
-
-describe('Controller: ApplicationInfoController', function () {
-
-    beforeEach(angular.mock.module('scenarioo.controllers'));
-
-    var $scope,
-        ConfigService,
-        $httpBackend,
-        TestData;
-
-    beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _TestData_) {
-        ConfigService = ConfigMock;
-        $scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-        TestData = _TestData_;
-        $controller('ApplicationInfoController', {
-            $scope: $scope,
-            ConfigService: ConfigMock,
-            $uibModalInstance: null
-        });
-    }));
-
-    it('should update applicationInformation if it changes in ConfigService', function () {
-        var VERSION_URL = 'rest/version';
-        $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
-        $httpBackend.flush();
-
-        expect($scope.applicationInformation).toBeUndefined();
-
-        ConfigService.setApplicationInformation('abc');
-
-        $scope.$digest();
-
-        /**
-         * $scope.applicationInfo is $sce wrapped!
-         */
-        expect($scope.applicationInformation.$$unwrapTrustedValue()).toBe('abc');
     });
 
 });

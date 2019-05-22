@@ -15,19 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scDateTime', function ($filter) {
+import {Version} from '../../services/versionResource.service';
 
-    var DATE_FILTER = $filter('date');
+declare var angular: angular.IAngularStatic;
 
-    return function (date) {
-        if(typeof date === 'undefined') {
-            return '';
-        }
-        if(typeof date === 'string' && date === '') {
-            return '';
-        }
+angular.module('scenarioo.services')
+    .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
+        $scope.$watch(ConfigService.applicationInformation, (applicationInformation) => {
+            $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
+        });
 
-        return DATE_FILTER(date, 'longDate') + ', ' + DATE_FILTER(date, 'shortTime');
-    };
+        VersionResource.get().subscribe((result: Version) => {
+            $scope.version = result;
+        });
 
-});
+        $scope.closeInfoModal = () => {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });
