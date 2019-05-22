@@ -50,6 +50,7 @@ public class ScenariooInitializer implements ServletContextInitializer {
 			initializeContextPath(servletContext);
 
 			LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
+			LOGGER.error(" Test failure to check if CI stops if a failure occurs during startup.");
 			ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
 		} catch(RuntimeException e) {
 			LOGGER.error("====================================================");
