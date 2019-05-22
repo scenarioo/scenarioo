@@ -17,10 +17,9 @@
 
 package org.scenarioo.business.diffViewer;
 
-import org.assertj.core.api.Assertions;
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -35,8 +34,10 @@ import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
+import org.scenarioo.utils.TestResourceFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -91,10 +92,11 @@ public class ComparisonExecutorTest {
 	private ComparisonExecutor comparisonExecutor;
 
 	@BeforeClass
-	public static void setUpClass() {
+	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
-		File diffViewerFolder = new File(ROOT_DIRECTORY, "scenarioo-application-data/diffViewer");
-		diffViewerFolder.mkdirs();
+		copyBuildXml(BUILD_NAME_1);
+		copyBuildXml(BUILD_NAME_2);
+		copyBuildXml(BUILD_NAME_3);
 
 		comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
 			BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
@@ -117,6 +119,13 @@ public class ComparisonExecutorTest {
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
+	private static void copyBuildXml(String buildName) throws IOException {
+		File buildFolder = new File(ROOT_DIRECTORY, BRANCH_NAME_1+"/"+ buildName);
+		buildFolder.mkdirs();
+		File buildxml = TestResourceFile.getResourceFile("org/scenarioo/business/diffViewer/"+buildName+"_build.xml");
+		FileUtils.copyFile(buildxml, new File(buildFolder, "build.xml"));
+	}
+
 	@Before
 	public void setUp() {
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_1)).thenReturn(BRANCH_NAME_1);
@@ -125,6 +134,10 @@ public class ComparisonExecutorTest {
 
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_1))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_1));
+		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_2))
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_2));
+		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_3))
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_3));
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_1));
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_2))
@@ -162,23 +175,19 @@ public class ComparisonExecutorTest {
 		assertThat(result.get(1)).isEqualToComparingFieldByField(comparisonConfiguration6);
 	}
 
-	// TODO Fix or delete
-	@Ignore
 	@Test
 	public void testResolveComparisonConfigurationLastSuccessfulSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-			comparisonConfiguration1, BUILD_NAME_1);
+			comparisonConfiguration1, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
-		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
+		assertEquals(BUILD_NAME_1, result.getComparisonBuildName());
 	}
 
-	// TODO Fix or delete
-	@Ignore
 	@Test
 	public void testResolveComparisonConfigurationMostRecentSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-			comparisonConfiguration2, BUILD_NAME_1);
+			comparisonConfiguration2, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_2, result.getComparisonBuildName());
