@@ -48,6 +48,10 @@ buildscript {
 	}
 }
 
+plugins {
+  id "org.sonarqube" version "2.7"
+}
+
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'io.spring.dependency-management'
