@@ -7,20 +7,6 @@ This is the recommended setup, which means we are most likely able to support yo
 
 There are some additional notes for Ubuntu users documented under [Development Environment on Ubuntu](Development-Environment-Ubuntu.md).
 
-
-## Documentation for Developers
-
-The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of Scenarioo 
-development. This is the state of our documentation on the develop branch.
-
-Alternatively, you can find the newest sources of our documentation here:
-https://github.com/scenarioo/scenarioo/tree/develop/docs 
-
-If during setup you find some information that is outdated in the documentation please help to improve it and contribute the changes as a Pull Request. 
-You can click the "Edit this page" link on top of these pages to navigate directly to the edit window of said page.
-
-Thanks a lot!
-
 ## Quick Setup
 
 ### Install Tools
@@ -32,13 +18,15 @@ The following tools should be installed and running on your computer:
  * Node.js (8.11+)
  * IntelliJ IDEA Ultimate (most recent version) 
    * Ask @bruderol if you want to use an open source license for it
+ * Docker (recommended)
    
-To work with the Full Text Search feature, you additionally need the following:
+To work with the Full Text Search feature, you additionally need one of the following:
 
+ * Docker
  * Elasticsearch (5+)
    * See the [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details on how to setup.
 
-   
+
 ### Setup Git
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
@@ -96,6 +84,18 @@ Also make sure you have an up-to-date version of Git installed.
    * A dialog appears asking whether the existing .idea folder should be overwritten. Select `Yes`. :warning: This deletes all existing run configurations, thus you need to revert the changes (see next step).
    * Do a revert of all changes: Menu `VCS > Git > Revert` -> `Revert`
    
+### Install and Configure Docker
+
+After installing Docker you need to make configuration changes for IntelliJ and ElasticSearch to work correctly.
+
+In Docker Settings:
+ * "General" > "Expose daemon on tcp://localhost:2375 without TLS"
+    * This is needed so that our IntelliJ Docker run configurations can connect to Docker
+ * "Advanced" > "Memory" > 4096MB (or more)
+    * The default is 2048MB, this is not enough, because ElasticSearch alone needs 2GB to start.
+ * "Shared Drives" > Share the drive where you checked out the Scenarioo repository
+    * This is needed if you want to use the "Scenarioo - Hafenarbeiter komponiert Dev Cluster" run configuration, because it accesses the war and the generated test data. 
+
 ## Developer Guide
 
 For more information on how to develop, build and test Scenarioo properly, head over to the [Developer Guide](Developer-Guide.md)!

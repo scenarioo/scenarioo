@@ -2,6 +2,19 @@
 
 This page describes how to build, test, run the Scenarioo Viewer Webapp locally for developers on their developer machine.
 
+## Documentation for Developers
+
+The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of Scenarioo 
+development. This is the state of our documentation on the develop branch.
+
+Alternatively, you can find the newest sources of our documentation here:
+https://github.com/scenarioo/scenarioo/tree/develop/docs 
+
+If during setup you find some information that is outdated in the documentation please help to improve it and contribute the changes as a Pull Request. 
+You can click the "Edit this page" link on top of these pages to navigate directly to the edit window of said page.
+
+Thanks a lot!
+
 ## Prerequisites
 
 You need a correctly setup development environment for working on Scenarioo as described here: 
@@ -115,6 +128,18 @@ scenario('First visit')
 ```
 **Caution!** Do not commit this change!
 
+### Run Fulltext search E2E Tests
+
+If you run the E2E Tests without ElasticSearch, it will result in three failing tests.
+
+To see those tests passing as well, you need to start ElasticSearch.
+
+The easiest way to achieve this is to use the "Scenarioo - Hafenarbeiter Gummiband Suche" run configuration. Execute this configuration and wait for ElasticSearch to start. Then restart the "Scenarioo - Fruehlingsstiefel" run configuration.
+
+To ensure that ElasticSearch works, navigate to [General Settings](http://localhost:8500/scenarioo/#/manage?tab=configuration) and verify that "ElasticSearch Status" is "Running and reachable".
+
+If it is the first time you started this ElasticSearch image, the search index might not be present yet. To verify this search for 'donate.jsp'. If no results appear, [reimport all builds](localhost:8500/scenarioo/#/manage?tab=builds). Or generate the testdata before starting "Scenarioo - Fruehlingsstiefel".
+
 ### Manually update ChromeDriver
 
 If there's a problem with ChromeDriver, try the following commands.
@@ -144,6 +169,23 @@ To achieve this do the following:
 
 ### Hot code replacement in the frontend
 This is done automatically when the frontend is deployed with `npm start`. After a change is saved the web page is automatically reloaded.
+
+### Docker Run Configurations
+
+To ease development some Docker run configurations are part of the Scenarioo repository:
+
+ * _Scenarioo - Hafenarbeiter_: This is the Docker image that we publish as part of the Scenarioo release. It builds and runs Scenarioo as standalone Spring Boot application.
+ * _Scenarioo - Hafenarbeiter Kater_: This Docker image builds Scenarioo and runs it inside a Tomcat server.
+ * _Scenarioo - Hafenarbeiter Gummiband Suche_: This Docker image starts ElasticSearch and exposes it on the default port, so that a running instance of Scenarioo can connect to it.
+ * _Scenarioo - Hafenarbeiter komponiert Dev Cluster_: This run configuration uses Docker compose to start two Docker images, one with ElasticSearch and one with Tomcat.
+ 
+#### Debugging Scenarioo running inside Docker
+
+If you use the _Scenarioo - Hafenarbeiter komponiert Dev Cluster_ run configuration and want to debug Scenarioo, you have to do the following:
+ 1. In the file [docker-compose.yml](https://github.com/scenarioo/scenarioo/blob/develop/docker/dev-tomcat-elasticsearch-cluster/docker-compose.yml) set "JPDA_SUSPEND" to "Y". **Important:** Do not commit this change.
+ 2. Start the run configuration. Tomcat will wait with starting and deploying Scenarioo until a debugging session has been connected. You should see this in the log: "Listening for transport dt_socket at address: 1043".
+ 3. Select the _Scenarioo - Debug Docker_ run configuration and debug it.
+ 4. In the Docker log you should see Tomcat and Scenarioo booting up. Execution will stop at breakpoints and you can debug as usual.
 
 ## Working with scenarioo-java
 
