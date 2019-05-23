@@ -37,6 +37,10 @@ jobs:
           name: TS lint App
           command: ./gradlew scenarioo-client:runTsLint --no-daemon -s
           when: always
+      - run: 
+          name: SonarQube
+          command: ./gradlew sonarqube -Dsonar.projectKey=scenarioo_scenarioo -Dsonar.organization=scenarioo -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=07ae70c9be9853d03a8d067e6788da279060953d
+          when: always
       - run:
           name: Archive generated example scenarioo docu data of Wikipedia
           command: |
