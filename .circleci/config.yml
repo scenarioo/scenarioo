@@ -202,6 +202,10 @@ jobs:
     working_directory: ~/smoketest
     steps:
       - checkout
+          - run:
+          name: Prepare environemnt
+          command: |
+            ./gradlew scenarioo-client:npmInstall --no-daemon -s
       - run:
           name: Smoketest develop demo
           command: |
