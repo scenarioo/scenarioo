@@ -25,27 +25,25 @@ describe('GeneralSettingsController', () => {
 
     let $rootScope, $controller, ConfigurationService, $httpBackend, $scope, ConfigCtrl, TestData;
 
-    let BranchResourceMock = {
+    const BranchResourceMock = {
         query: () => {
         }
     };
-    let SearchEngineStatusMock = {
+    const SearchEngineStatusMock = {
         isSearchEngineRunning: () => {
         }
     };
-    let ApplicationStatusMock = {
+    const ApplicationStatusMock = {
         getApplicationStatus: () => {
         }
     };
-    let ConfigResourceMock = {
+    const ConfigResourceMock = {
         get: () => {
         }
     };
-    let ConfigurationServiceMock = {
-        updateConfigurationCalled : false,
-        getRawCopy: () => {
-            return TestData.CONFIG;
-        },
+    const ConfigurationServiceMock = {
+        updateConfigurationCalled: false,
+        getRawCopy: () => TestData.CONFIG,
         updateConfiguration: () => {
             ConfigurationServiceMock.updateConfigurationCalled = true;
             return of();
@@ -114,15 +112,14 @@ describe('GeneralSettingsController', () => {
         });
     });
 
-    describe('when reset button is clicked', () => {
+    describe('when reset button is clicked', () =>
         it('resets the config to the loaded values', () => {
             changeAllValues();
 
             ConfigCtrl.resetConfiguration();
 
             expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
-        });
-    });
+        }));
 
     // TODO reactivate after AngularJS migration.
     // describe('when the save button is clicked', () => {
@@ -138,15 +135,14 @@ describe('GeneralSettingsController', () => {
     // });
 
     // TODO remove after AngularJS migration
-    describe('when the save button is clicked', () => {
+    describe('when the save button is clicked', () =>
         it('saves the edited config', () => {
             changeAllValues();
 
             ConfigCtrl.updateConfiguration();
 
             expect(ConfigurationServiceMock.updateConfigurationCalled).toBeTruthy();
-        });
-    });
+        }));
 
     function changeAllValues() {
         ConfigCtrl.configuration.defaultBuildName = 'new build';
