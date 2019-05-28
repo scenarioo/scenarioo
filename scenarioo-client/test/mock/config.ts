@@ -19,57 +19,40 @@
 
 import {ReplaySubject} from 'rxjs';
 
-angular.module('scenarioo.services').service('ConfigMock', function () {
+angular.module('scenarioo.services').service('ConfigMock', () => ({
+    branch: undefined,
+    build: undefined,
+    appInfo: new ReplaySubject<String>(1),
 
-    return {
-        branch: undefined,
-        build: undefined,
-        appInfo: new ReplaySubject<String>(1),
+    isLoaded: () => angular.isDefined(this.build) && angular.isDefined(this.build),
 
-        isLoaded: function () {
-            return angular.isDefined(this.build) && angular.isDefined(this.build);
-        },
+    selectedBranch: () => this.branch,
 
-        selectedBranch: function () {
-            return this.branch;
-        },
+    selectedBuild: () => this.build,
 
-        selectedBuild: function () {
-            return this.build;
-        },
+    selectedBuildAndBranch: () => ({
+        branch: this.selectedBranch(),
+        build: this.selectedBuild()
+    }),
 
-        selectedBuildAndBranch: function () {
-            return {
-                branch: this.selectedBranch(),
-                build: this.selectedBuild()
-            };
-        },
+    applicationInformation: () => this.appInfo.asObservable(),
 
-        applicationInformation: function() {
-            return this.appInfo.asObservable()
-        },
+    setSelectedBranch: (branch) => {
+        this.branch = branch;
+    },
 
-        setSelectedBranch: function (branch) {
-            this.branch = branch;
-        },
+    setSelectedBuild: (build) => {
+        this.build = build;
+    },
 
-        setSelectedBuild: function (build) {
-            this.build = build;
-        },
+    setApplicationInformation: (applicationInformation) => this.appInfo.next(applicationInformation),
 
-        setApplicationInformation: function(applicationInformation) {
-            this.appInfo.next(applicationInformation);
-        },
-
-        scenarioPropertiesInOverview: function () {
-            return [
-                {
-                    text: 'User Profile',
-                    property: 'details.properties.userProfile',
-                    attr: 'userProfile'
-                }
-            ];
-        }
-    };
-
-});
+    scenarioPropertiesInOverview: () =>
+        [
+            {
+                text: 'User Profile',
+                property: 'details.properties.userProfile',
+                attr: 'userProfile'
+            }
+        ]
+}));
