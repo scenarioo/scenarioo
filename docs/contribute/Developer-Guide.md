@@ -284,8 +284,4 @@ The following command creates an executable war file which contains a tomcat ser
 Packages should b specified statically. 
 Example: ``` "gulp-ng-annotate": "2.0.2" ```.
 
-**Remark by Rolf:** I changed this from `2.0.x` to `2.0.2` to use the specific version even for minor version.
-Reason: we should never automatically use newer minor versions - experiences show that it can always happen that even a minor update of a dependency makes Scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
-Therefore I think we should use fixed versions for all dependencies! 
-
 Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!
