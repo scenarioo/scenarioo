@@ -86,6 +86,8 @@ Also make sure you have an up-to-date version of Git installed.
    
 ### Install and Configure Docker
 
+If you want to use the ElasticSearch run configuration in IntelliJ to run the Full Text Search E2E tests, you have to install Docker and configure it correctly. Otherwise you can skip this step.
+
 After installing Docker you need to make configuration changes for IntelliJ and ElasticSearch to work correctly.
 
 In Docker Settings:
