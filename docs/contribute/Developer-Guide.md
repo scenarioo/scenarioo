@@ -289,17 +289,3 @@ Reason: we should never automatically use newer minor versions - experiences sho
 Therefore I think we should use fixed versions for all dependencies! 
 
 Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!
-   
-# Tests to be done with new setup and developer guide pages
- 
-  - [ ] build and install scenarioo-java library (using gradle)
-  - [ ] debugging the server (yes, check!)
-  - [ ] run karma tests
-  - [ ] run e2e-tests (runs very fast and very stable!)
-  - [ ] develop ScenariooJS library
-  - [ ] build ScenariooJS library
-  - [ ] test ScenariooJS library (including e2e test example)
-  - [ ] change something in the writer library and link to it in server during development
-  - [ ] release new writer library
-  - [ ] release new web app (should work, when JVM is set to 1.7 for gradle)
-  - [ ] release scenariooJS Library
