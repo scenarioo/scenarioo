@@ -20,7 +20,7 @@ public abstract class AbstractIntegrationTest {
 	public static void initEnvironment() {
 		if(!integrationTestsStarted) {
 			File testBranchFolder = TestResourceFile.getResourceFile("org/scenarioo/rest/testConfiguration");
-			System.setProperty("org.scenarioo.data", testBranchFolder.getAbsolutePath());
+			System.setProperty("scenarioo.data", testBranchFolder.getAbsolutePath());
 			//If the Integration Tests are run together with all other unit tests, then ScenarioDocuBuildsManager
 			// was already instantiated and it holds a reference to an invalid scenarioo data directory,
 			// which will lead to errors during server startup and thus failed Tests.

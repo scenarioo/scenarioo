@@ -43,13 +43,8 @@ class ScenariooDataPathLogic {
 				"scenariooDataDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "SCENARIOO_DATA environment variable";
+			configSource = "SCENARIOO_DATA environment variable or scenarioo.data application property";
 			configurationDirectory = systemEnvironment.getScenariooDataDirectory();
-		}
-
-		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "SCENARIOO_DATA system property";
-			configurationDirectory = systemEnvironment.getScenariooDataDirectoryFromSpringBootConfiguration();
 		}
 
 		if (StringUtils.isBlank(configurationDirectory)) {

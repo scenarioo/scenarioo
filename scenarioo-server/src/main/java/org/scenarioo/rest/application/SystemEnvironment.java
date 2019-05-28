@@ -31,11 +31,7 @@ class SystemEnvironment {
 	}
 
 	String getScenariooDataDirectory() {
-		return System.getenv("SCENARIOO_DATA");
-	}
-
-	String getScenariooDataDirectoryFromSpringBootConfiguration() {
-		return environment.getProperty("org.scenarioo.data");
+		return environment.getProperty("scenarioo.data");
 	}
 
 	String getUserHome() {

@@ -30,7 +30,7 @@ Further Release Candidate Versions are available through [Downloads & Links](../
     
     To configure a different directory to use add the following line to `application.properties` next to the downloaded war:  
     ```
-    org.scenarioo.data=<path to a directory where scenarioo can store its data>
+    scenarioo.data=<path to a directory where scenarioo can store its data>
     ```
 
 3. **Execute the WAR** file with Java, e.g 
