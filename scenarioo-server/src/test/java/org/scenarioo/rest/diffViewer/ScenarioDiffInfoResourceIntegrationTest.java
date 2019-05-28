@@ -7,6 +7,7 @@ import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
 
 
 @RunWith(SpringRunner.class)
@@ -30,8 +32,8 @@ public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegration
 		//act
 		ResponseEntity<ScenarioDiffInfo> response =
 			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioName/testScenario/scenarioDiffInfo", ScenarioDiffInfo.class);
+				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioName/testScenario/scenarioDiffInfo",
+					ScenarioDiffInfo.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -47,18 +49,19 @@ public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegration
 	@Test
 	public void testGetScenarioDiffInfos() {
 		//act
-		ResponseEntity<Map> response =
-			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioDiffInfos", Map.class);
+
+		ResponseEntity<Map<String, ScenarioDiffInfo>> response = testRestTemplate.exchange(
+			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioDiffInfos", GET,
+			noRequestEntity(),
+			new ParameterizedTypeReference<Map<String, ScenarioDiffInfo>>() {
+			});
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		//we expect at least two comparisons
 		assertThat(response.getBody().size()).isEqualTo(1);
-		assertThat(response.getBody().get("testScenario")).isInstanceOf(Map.class);
-		Map<String, Object> testScenario = (Map<String, Object>) response.getBody().get("testScenario");
-		assertThat(testScenario.get("name")).isEqualTo("testScenario");
+		ScenarioDiffInfo resultScenarioDiffInfo = response.getBody().get("testScenario");
+		assertThat(resultScenarioDiffInfo.getName()).isEqualTo("testScenario");
 	}
 }

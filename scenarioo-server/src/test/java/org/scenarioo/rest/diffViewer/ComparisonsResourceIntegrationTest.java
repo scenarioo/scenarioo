@@ -26,16 +26,11 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 
 	@Test
 	public void getCalculation_should_return_calculation() {
-		//arrange
-		HttpHeaders headers = new HttpHeaders();
-
-		HttpEntity<Object> entity = new HttpEntity<>(headers);
-
 		//act
 		ResponseEntity<BuildDiffInfo> response =
 			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparison", HttpMethod.GET, entity, BuildDiffInfo.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparison",
+					HttpMethod.GET, noRequestEntity(), BuildDiffInfo.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -55,8 +50,8 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 		//act
 		ResponseEntity<String> response =
 			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparison/log", HttpMethod.GET, entity, String.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparison/log",
+					HttpMethod.GET, entity, String.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -78,7 +73,8 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 		ResponseEntity<BuildDiffInfo> response =
 			testRestTemplate
 				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/testNewComparison/importAndCompare", HttpMethod.POST, entity, BuildDiffInfo.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/testNewComparison/importAndCompare",
+					HttpMethod.POST, entity, BuildDiffInfo.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -102,7 +98,8 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 		ResponseEntity<Object> response =
 			testRestTemplate
 				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/testNewAsyncComparison/calculate", HttpMethod.POST, entity, Object.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/testNewAsyncComparison/calculate",
+					HttpMethod.POST, entity, Object.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -115,7 +112,8 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 		ResponseEntity<Object> response =
 			testRestTemplate
 				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparisonReversed/recalculate", HttpMethod.POST, null, Object.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/testComparisonReversed/recalculate",
+					HttpMethod.POST, noRequestEntity(), Object.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -131,8 +129,8 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 		//act
 		ResponseEntity<String> response =
 			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.exchange("/rest/builds/testBranch/testBuild/comparisons/" + comparisonName + "/calculationStatus", HttpMethod.GET, entity, String.class);
+				.exchange("/rest/builds/testBranch/testBuild/comparisons/" + comparisonName + "/calculationStatus",
+					HttpMethod.GET, entity, String.class);
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

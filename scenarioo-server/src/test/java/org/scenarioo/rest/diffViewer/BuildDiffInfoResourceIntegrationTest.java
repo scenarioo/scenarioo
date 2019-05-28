@@ -8,15 +8,16 @@ import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
 
 
 @RunWith(SpringRunner.class)
@@ -46,19 +47,19 @@ public class BuildDiffInfoResourceIntegrationTest extends AbstractIntegrationTes
 	@Test
 	public void testGetBuildDiffInfos() {
 		//act
-		ResponseEntity<List> response =
-			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/buildDiffInfos", List.class);
+		ResponseEntity<List<BuildDiffInfo>> response = testRestTemplate.exchange(
+			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/buildDiffInfos", GET,
+			noRequestEntity(),
+			new ParameterizedTypeReference<List<BuildDiffInfo>>() {
+			});
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		//we expect at least two comparisons
 		assertThat(response.getBody().size()).isGreaterThan(1);
-		assertThat(response.getBody().get(0)).isInstanceOf(Map.class);
-		Map<String, Object> firstComparison = (Map<String, Object>) response.getBody().get(0);
-		assertThat(firstComparison.get("name")).isEqualTo("testComparison");
-		assertThat(firstComparison.get("status")).isEqualTo(ComparisonCalculationStatus.SUCCESS.name());
+		BuildDiffInfo resultBuildDiffInfo = response.getBody().get(0);
+		assertThat(resultBuildDiffInfo.getName()).isEqualTo("testComparison");
+		assertThat(resultBuildDiffInfo.getStatus()).isEqualTo(ComparisonCalculationStatus.SUCCESS.name());
 	}
 }

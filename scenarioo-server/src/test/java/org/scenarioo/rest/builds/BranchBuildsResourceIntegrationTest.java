@@ -49,9 +49,4 @@ public class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest
 			.extracting(BuildLink::getLinkName)
 			.contains("testBuild");
 	}
-
-	private HttpEntity<?> noRequestEntity() {
-		return null;
-	}
-
 }

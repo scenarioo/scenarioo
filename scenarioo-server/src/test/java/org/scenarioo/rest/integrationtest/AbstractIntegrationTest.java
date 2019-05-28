@@ -3,6 +3,7 @@ package org.scenarioo.rest.integrationtest;
 import org.junit.BeforeClass;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.utils.TestResourceFile;
+import org.springframework.http.HttpEntity;
 
 import java.io.File;
 
@@ -28,4 +29,9 @@ public abstract class AbstractIntegrationTest {
 			integrationTestsStarted = true;
 		}
 	}
+
+	protected HttpEntity<?> noRequestEntity() {
+		return null;
+	}
+
 }
