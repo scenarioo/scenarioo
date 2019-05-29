@@ -192,6 +192,7 @@ public class BuildImporter {
 
 		availableBuilds.removeBuild(buildIdentifier);
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
+		summary.setStatusMessage(null);
 		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 		aggregator.removeAggregatedDataForBuild();
 
