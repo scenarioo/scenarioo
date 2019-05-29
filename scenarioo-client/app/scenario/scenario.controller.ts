@@ -247,25 +247,15 @@ function ScenarioController($filter, $routeParams,
     }
 
     function isAddedUseCase(buildDiffInfo) {
-        // ES 2015 find() method would be required here...
-        let isUseCaseAdded = false;
-        angular.forEach(buildDiffInfo.addedElements, (addedElement) => {
-            if (addedElement === useCaseName) {
-                isUseCaseAdded = true;
-            }
+        return buildDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === useCaseName;
         });
-        return isUseCaseAdded;
     }
 
     function isAddedScenario(useCaseDiffInfo) {
-        // ES 2015 find() method would be required here...
-        let isScenarioAdded = false;
-        angular.forEach(useCaseDiffInfo.addedElements, (addedElement) => {
-            if (addedElement === scenarioName) {
-                isScenarioAdded = true;
-            }
+        return useCaseDiffInfo.addedElements.find((addedElement) => {
+           return addedElement === scenarioName;
         });
-        return isScenarioAdded;
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
