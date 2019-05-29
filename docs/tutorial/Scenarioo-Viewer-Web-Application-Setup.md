@@ -15,7 +15,7 @@ Further Release Candidate Versions are available through [Downloads & Links](../
 
 ## Installation and Setup
 ### Running Scenarioo as standalone application
-1. **Configure the context** under which the app should be deployed by creating the file `config/application.properties` next to the downloaded war, with the following entry
+1. **Configure the context** under which the app should be deployed by creating the file `application.properties` next to the downloaded war, with the following entry
      ```
      server.servlet.contextPath=/scenarioo
      ```
