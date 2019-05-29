@@ -63,8 +63,8 @@ class CreateComparisonDialog {
         await expect(element(by.id('validationMessage')).getText()).toContain(expectedMessage);
     }
 
-    async createBranch() {
-        return Utils.clickElementById('createComparisonBtn');
+    async createComparison() {
+        return Utils.clickElementById('createComparison');
     }
 }
 

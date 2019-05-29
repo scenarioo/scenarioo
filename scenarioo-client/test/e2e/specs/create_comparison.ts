@@ -33,8 +33,8 @@ useCase('Create comparison')
                 await CreateComparisonDialog.enterComparisonName('Comparison');
                 await step('enter comparison name');
 
-                await CreateComparisonDialog.createBranch();
-                await step('create branch pressed and error displayed that a comparison branch is needed');
+                await CreateComparisonDialog.createComparison();
+                await step('create pressed and error displayed that a comparison branch is needed');
 
                 await CreateComparisonDialog.assertComparisonBranchNeededError();
             });
@@ -101,8 +101,8 @@ useCase('Create comparison')
                 await CreateComparisonDialog.chooseComparisonBuild('2014-02-21');
                 await step('comparison build selected');
 
-                await CreateComparisonDialog.createBranch();
-                await step('branch created');
+                await CreateComparisonDialog.createComparison();
+                await step('comparison created');
 
                 await ComparisonsPage.clickRefreshLink();
                 await ComparisonsPage.assertNumberOfComparisons(await comparisonsCount + 1);
