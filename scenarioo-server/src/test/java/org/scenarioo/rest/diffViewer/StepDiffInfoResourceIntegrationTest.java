@@ -53,10 +53,10 @@ public class StepDiffInfoResourceIntegrationTest extends AbstractIntegrationTest
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		//we expect at least two comparisons
-		assertThat(response.getBody().size()).isEqualTo(2);
-		StepDiffInfo resultStepDiffInfo = response.getBody().get(0);
-		assertThat(resultStepDiffInfo.getComparisonScreenshotName()).isEqualTo("000.png");
+		assertThat(response.getBody())
+			.hasSize(2)
+			.extracting(0)
+			.extracting("comparisonScreenshotName")
+			.containsOnly("000.png");
 	}
 }

@@ -1,5 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
+import org.assertj.core.api.ObjectAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
@@ -7,6 +8,7 @@ import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -40,11 +42,14 @@ public class ComparisonCalculationsResourceIntegrationTest extends AbstractInteg
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		//we expect at least two comparisons
-		assertThat(response.getBody().size()).isGreaterThan(1);
-		BuildDiffInfo resultBuildDiffInfo = response.getBody().get(0);
-		assertThat(resultBuildDiffInfo.getName()).isEqualTo("testComparison");
-		assertThat(resultBuildDiffInfo.getStatus()).isEqualTo(ComparisonCalculationStatus.SUCCESS);
+		ObjectAssert<BuildDiffInfo> firstBuildDiffInfo = assertThat(response.getBody())
+			.hasSize(6)
+			.first();
+		firstBuildDiffInfo
+			.extracting(BuildDiffInfo::getName)
+			.contains("testComparison");
+		firstBuildDiffInfo
+			.extracting(BuildDiffInfo::getStatus)
+			.contains(ComparisonCalculationStatus.SUCCESS);
 	}
 }

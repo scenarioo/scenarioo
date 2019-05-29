@@ -3,6 +3,7 @@ package org.scenarioo.rest.diffViewer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
+import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,10 +59,10 @@ public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegration
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		//we expect at least two comparisons
-		assertThat(response.getBody().size()).isEqualTo(1);
-		ScenarioDiffInfo resultScenarioDiffInfo = response.getBody().get("testScenario");
-		assertThat(resultScenarioDiffInfo.getName()).isEqualTo("testScenario");
+		assertThat(response.getBody())
+			.hasSize(1)
+			.extracting("testScenario") //entry with name "testScenario"
+			.extracting("name")
+			.containsOnly("testScenario");
 	}
 }

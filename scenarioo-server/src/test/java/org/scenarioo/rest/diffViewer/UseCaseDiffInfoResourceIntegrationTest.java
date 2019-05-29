@@ -57,10 +57,10 @@ public class UseCaseDiffInfoResourceIntegrationTest extends AbstractIntegrationT
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		//we expect at least two comparisons
-		assertThat(response.getBody().size()).isEqualTo(1);
-		UseCaseDiffInfo resultUseCaseDiffInfo = response.getBody().get("testUseCase");
-		assertThat(resultUseCaseDiffInfo.getName()).isEqualTo("testUseCase");
+		assertThat(response.getBody())
+			.hasSize(1)
+			.extracting("testUseCase")
+			.extracting("name")
+			.containsOnly("testUseCase");
 	}
 }

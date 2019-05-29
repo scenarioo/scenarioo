@@ -1,5 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
+import org.assertj.core.api.ObjectAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
@@ -55,11 +56,14 @@ public class BuildDiffInfoResourceIntegrationTest extends AbstractIntegrationTes
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		//we expect at least two comparisons
-		assertThat(response.getBody().size()).isGreaterThan(1);
-		BuildDiffInfo resultBuildDiffInfo = response.getBody().get(0);
-		assertThat(resultBuildDiffInfo.getName()).isEqualTo("testComparison");
-		assertThat(resultBuildDiffInfo.getStatus()).isEqualTo(ComparisonCalculationStatus.SUCCESS);
+		ObjectAssert<BuildDiffInfo> firstBuildDiffInfo = assertThat(response.getBody())
+			.hasSize(4)
+			.first();
+		firstBuildDiffInfo
+			.extracting(BuildDiffInfo::getName)
+			.contains("testComparison");
+		firstBuildDiffInfo
+			.extracting(BuildDiffInfo::getStatus)
+			.contains(ComparisonCalculationStatus.SUCCESS);
 	}
 }
