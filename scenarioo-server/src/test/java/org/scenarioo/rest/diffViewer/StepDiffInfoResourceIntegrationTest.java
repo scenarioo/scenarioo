@@ -7,6 +7,7 @@ import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
 
 
 @RunWith(SpringRunner.class)
@@ -30,7 +32,6 @@ public class StepDiffInfoResourceIntegrationTest extends AbstractIntegrationTest
 		//act
 		ResponseEntity<StepDiffInfo> response =
 			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
 				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioName/testScenario/stepIndex/1/stepDiffInfo", StepDiffInfo.class);
 
 		//assert
@@ -44,18 +45,18 @@ public class StepDiffInfoResourceIntegrationTest extends AbstractIntegrationTest
 	@Test
 	public void testGetStepDiffInfos() {
 		//act
-		ResponseEntity<Map> response =
-			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioName/testScenario/stepDiffInfos", Map.class);
+		ResponseEntity<Map<Integer, StepDiffInfo>> response = testRestTemplate.exchange(
+			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseName/testUseCase/scenarioName/testScenario/stepDiffInfos", GET,
+			noRequestEntity(),
+			new ParameterizedTypeReference<Map<Integer, StepDiffInfo>>() {
+			});
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		//we expect at least two comparisons
 		assertThat(response.getBody().size()).isEqualTo(2);
-		assertThat(response.getBody().get("0")).isInstanceOf(Map.class);
-		Map<String, Object> testStep = (Map<String, Object>) response.getBody().get("0");
-		assertThat(testStep.get("comparisonScreenshotName")).isEqualTo("000.png");
+		StepDiffInfo resultStepDiffInfo = response.getBody().get(0);
+		assertThat(resultStepDiffInfo.getComparisonScreenshotName()).isEqualTo("000.png");
 	}
 }

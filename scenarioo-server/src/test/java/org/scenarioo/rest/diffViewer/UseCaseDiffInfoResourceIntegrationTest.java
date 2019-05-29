@@ -7,6 +7,7 @@ import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.GET;
 
 
 @RunWith(SpringRunner.class)
@@ -47,18 +49,18 @@ public class UseCaseDiffInfoResourceIntegrationTest extends AbstractIntegrationT
 	@Test
 	public void testGetUseCaseDiffInfos() {
 		//act
-		ResponseEntity<Map> response =
-			testRestTemplate
-				.withBasicAuth("scenarioo", "only4test")
-				.getForEntity("/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseDiffInfos", Map.class);
+		ResponseEntity<Map<String, UseCaseDiffInfo>> response = testRestTemplate.exchange(
+			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseDiffInfos", GET,
+			noRequestEntity(),
+			new ParameterizedTypeReference<Map<String, UseCaseDiffInfo>>() {
+			});
 
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		//we expect at least two comparisons
 		assertThat(response.getBody().size()).isEqualTo(1);
-		assertThat(response.getBody().get("testUseCase")).isInstanceOf(Map.class);
-		Map<String, Object> testScenario = (Map<String, Object>) response.getBody().get("testUseCase");
-		assertThat(testScenario.get("name")).isEqualTo("testUseCase");
+		UseCaseDiffInfo resultUseCaseDiffInfo = response.getBody().get("testUseCase");
+		assertThat(resultUseCaseDiffInfo.getName()).isEqualTo("testUseCase");
 	}
 }
