@@ -45,6 +45,6 @@ public class ComparisonCalculationsResourceIntegrationTest extends AbstractInteg
 		assertThat(response.getBody().size()).isGreaterThan(1);
 		BuildDiffInfo resultBuildDiffInfo = response.getBody().get(0);
 		assertThat(resultBuildDiffInfo.getName()).isEqualTo("testComparison");
-		assertThat(resultBuildDiffInfo.getStatus()).isEqualTo(ComparisonCalculationStatus.SUCCESS.name());
+		assertThat(resultBuildDiffInfo.getStatus()).isEqualTo(ComparisonCalculationStatus.SUCCESS);
 	}
 }
