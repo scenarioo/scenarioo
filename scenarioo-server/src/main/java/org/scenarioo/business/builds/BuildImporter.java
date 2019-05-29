@@ -127,14 +127,28 @@ public class BuildImporter {
 				submitBuildForImport(availableBuilds, buildImportSummary.getIdentifier());
 			}
 		}
-
-		//After all Builds were imported and all Comparisons triggered, we want to log a successful completion message.
-		//Since the scheduling of comparisons only  happens after all builds are imported, we need to add a second
-		//Job into the queue to ensure that it is triggered last.
-		asyncBuildImportExecutor.submit(() ->
-			asyncBuildImportExecutor.submit(() -> comparisonExecutor.scheduleComparisonFinishedLog()));
+		submitImportFinishedJob();
 
 		return importNeededBuilds.size();
+	}
+
+	/**
+	 * After all Builds were imported and all Comparisons triggered, we want to log a successful completion message.
+	 * Since the scheduling of comparisons only  happens after all builds are imported, we need to add a second
+	 * Job into the queue to ensure that it is triggered last.
+	 *
+	 * The flow looks like this:
+	 * 1. All Builds are executed and every Build schedules his Comparisons with the AsyncBuildImporterExecutor to ensure
+	 *    that they are only processed after all Builds have been imported.
+	 * 2. The first submit of submitImportFinishedJob is triggered, it schedules another submit, since the Comparisons have not finished yet.
+	 * 3. All Comparisons are scheduled in ComparisonExecutor
+	 * 4. The second submit of submitImportFinishedJob is triggered, it schedules a submit in ComparisonExecutor.
+	 * 5. ComparisonExecutor processes all Comparisons
+	 * 6. ComparisonExecutor processes scheduleComparisonFinishedLog.
+	 */
+	private void submitImportFinishedJob() {
+		asyncBuildImportExecutor.submit(() ->
+			asyncBuildImportExecutor.submit(() -> comparisonExecutor.scheduleComparisonFinishedLog()));
 	}
 
 	public synchronized void submitBuildForReimport(AvailableBuildsList availableBuilds,
