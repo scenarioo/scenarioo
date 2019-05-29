@@ -153,7 +153,7 @@ On Windows:
 node node_modules\protractor\node_modules\webdriver-manager update
 ```
 
-## Working with scenarioo
+## Working with the Scenarioo Viewer Web App
 ### Hot code replacement in the backend
 When changing server functionality it is possible to get the changes into the server without doing a full rebuild and restart.
 
@@ -178,7 +178,7 @@ To ease development some Docker run configurations are part of the Scenarioo rep
  * _Scenarioo - Hafenarbeiter Gummiband Suche_: This Docker image starts ElasticSearch and exposes it on the default port, so that a running instance of Scenarioo can connect to it.
  * _Scenarioo - Hafenarbeiter komponiert Dev Cluster_: This run configuration uses Docker compose to start two Docker images, one with ElasticSearch and one with Tomcat.
  
-#### Debugging Scenarioo running inside Docker
+#### Debugging Scenarioo Viewer running inside Docker
 
 If you use the _Scenarioo - Hafenarbeiter komponiert Dev Cluster_ run configuration and want to debug Scenarioo, you have to do the following:
  1. In the file [docker-compose.yml](https://github.com/scenarioo/scenarioo/blob/develop/docker/dev-tomcat-elasticsearch-cluster/docker-compose.yml) set "JPDA_SUSPEND" to "Y". **Important:** Do not commit this change.
@@ -186,7 +186,7 @@ If you use the _Scenarioo - Hafenarbeiter komponiert Dev Cluster_ run configurat
  3. Select the _Scenarioo - Debug Docker_ run configuration and debug it.
  4. In the Docker log you should see Tomcat and Scenarioo booting up. Execution will stop at breakpoints and you can debug as usual.
 
-### Releasing Scenarioo
+### Releasing the Scenarioo Viewer Web App
 
 This is documented [here](Release-Scenarioo-Viewer-Web-Application.md).    
 
