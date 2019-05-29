@@ -87,13 +87,14 @@ Change into the client directory:
    ```
    cd scenarioo-client
    ```
+There are two tasks which can be used to run the E2E tests. The tasks differ in how they execute the tests. You can 
 
-Run the tests in the background and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
+* run the tests in the background and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
    ```
    npm run e2e-scenarioo
    ```
 
-Run the tests in the foreground without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`).
+* or run the tests in the foreground without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`).
 This will open a new browser window, run all tests and log test-information to the console.:
    ```
    npm run e2e
