@@ -23,7 +23,7 @@ useCase('Step - Comparison')
                 await step('Changed Step is displayed');
 
                 await StepPage.openComparisonTab();
-                await StepPage.assertStepComparisonSideBySideViewIsActive(true);
+                await StepPage.assertStepComparisonSideBySideViewIsActiveWithOtherScreenVisible();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 await StepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
                 await StepPage.expectHighlightsDisplayed();
@@ -41,7 +41,7 @@ useCase('Step - Comparison')
                 await step('Highlights displayed again');
 
                 await StepPage.showComparisonCurrentScreenView();
-                await StepPage.assertStepComparisonCurrentScreenViewIsActive(true);
+                await StepPage.assertStepComparisonCurrentScreenViewIsActiveWithOtherScreenVisible();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 await StepPage.expectSwitchComparisonSingleScreensButtonEnabled();
                 await StepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
@@ -68,7 +68,7 @@ useCase('Step - Comparison')
 
                 await StepPage.openComparisonTab();
                 await StepPage.showSideBySideView();
-                await StepPage.assertStepComparisonSideBySideViewIsActive(false);
+                await StepPage.assertStepComparisonSideBySideViewIsActiveWithOtherScreenNotVisible();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 await StepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
                 await StepPage.expectHighlightsButtonHidden();
@@ -80,7 +80,7 @@ useCase('Step - Comparison')
                 await step('Screen Comparison Side by Side for added step is displayed');
 
                 await StepPage.showComparisonCurrentScreenView();
-                await StepPage.assertStepComparisonCurrentScreenViewIsActive(false);
+                await StepPage.assertStepComparisonCurrentScreenViewIsActiveWithOtherScreenNotVisible();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
                 await StepPage.expectHighlightsButtonHidden();
