@@ -60,8 +60,8 @@ On the command-line run:
    ```
    
 Or in IntelliJ 
-    * run all java unit tests inside scenarioo/scenarioo-server
-    * run all java-script karma unit tests inside scenarioo/scenarioo-client:
+   * run all java unit tests inside scenarioo/scenarioo-server
+   * run all java-script karma unit tests inside scenarioo/scenarioo-client with
        `npm test`
    
 ## E2E Testing with Protractor
@@ -88,17 +88,16 @@ Change into the client directory:
    cd scenarioo-client
    ```
 
-Run the tests and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
+Run the tests in the background and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
    ```
    npm run e2e-scenarioo
    ```
 
-Only run the tests, without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`):
+Run the tests in the foreground without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`).
+This will open a new browser window, run all tests and log test-information to the console.:
    ```
    npm run e2e
    ```
-
-This should open a new browser window, run all tests and log test-information to the console.
 
 ### Reset the Test Data
 
@@ -187,6 +186,10 @@ If you use the _Scenarioo - Hafenarbeiter komponiert Dev Cluster_ run configurat
  3. Select the _Scenarioo - Debug Docker_ run configuration and debug it.
  4. In the Docker log you should see Tomcat and Scenarioo booting up. Execution will stop at breakpoints and you can debug as usual.
 
+### Releasing Scenarioo
+
+This is documented [here](Release-Scenarioo-Viewer-Web-Application.md).    
+
 ## Working with scenarioo-java
 
 Scenarioo-Server, Scenarioo-Validator and Scenarioo-Docu-Generation-Example all depend on the scenarioo-java writer library. If Scenarioo uses a snapshot version of this library (check `scenariooApiVersion` property at top of our build file `build.gradle` to see whether it uses a `SNAPSHOT`-version), then you need to build it locally for Scenarioo to work. If you want to make changes to scenarioo-java, then you can import it into IntelliJ.
@@ -213,10 +216,10 @@ To fix issues in scenarioo-java you can import it into IntelliJ by using **"File
 
 ### Running all tests in scenarioo-java
 
-    ```
-    cd scenarioo-java
-    ./gradlew clean test
-    ```
+```
+cd scenarioo-java
+./gradlew clean test
+```
 
 ### Switching to a SNAPSHOT version
 
@@ -241,20 +244,35 @@ Scenarioo-Client depends on scenarioo-js. The version used is defined in `packag
 
 ### Add scenarioo-js to IntelliJ
 
-To fix issues in scenarioo-java you can import it into IntelliJ.
+To fix issues in scenarioo-js you can import it into IntelliJ.
 1. You need to clone the sources (if not yet):
-     ```
-     git clone https://github.com/scenarioo/scenarioo-js.git scenarioo-js
-     ```
+   ```
+   git clone https://github.com/scenarioo/scenarioo-js.git scenarioo-js
+   ```
  
 2. Import it into IntelliJ by using **"File/New/Module From Existing Sources"**.
 
+### Building scenarioo-js
+
+```
+cd scenarioo-js
+npm install
+npm run build
+```
+
 ### Running all tests in scenarioo-js
 
-    ```
-    cd scenarioo-js
-    npm run test
-    ```
+```
+cd scenarioo-js
+npm run test
+```
+    
+### Running all e2e tests in scenarioo-js
+
+Scenarioo-js contains example e2e tests. To ensure that changes in scenarioo-js did not cause unexpected side effects, these e2e tests should also be run.
+
+This is documented [here](https://github.com/scenarioo/scenarioo-js/blob/develop/example/README.MD) in the scenarioo-js project.
+
 
 ### Releasing scenario-js
 
