@@ -47,11 +47,10 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
-                // reload the page to ensure that highlighted changes are properly aligned
-                // if comparison highlights are activated and we are on the comparisons tab.
-                if ($route.current.scope.comparisonViewOptions && $route.current.scope.isComparisonChangesHighlighted()
-                    && sessionStorage.getItem('activeTab') === '2') {
-                    $route.reload();
+                // if toggleShowingMetadata is triggered on the step page we have to potentially reload the page.
+                // Delegate this decision to the StepController
+                if (angular.isFunction($route.current.scope.refreshIfComparisonActive)) {
+                    $route.current.scope.refreshIfComparisonActive();
                 }
             };
         },

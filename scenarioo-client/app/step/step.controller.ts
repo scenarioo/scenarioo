@@ -37,6 +37,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
+    $scope.refreshIfComparisonActive = refreshIfComparisonActive;
 
     $scope.comparisonViewOptions = {
         viewId: getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
@@ -49,6 +50,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function activate() {
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch ...', createSketch);
         SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
+    }
+
+    /**
+     * reload the page to ensure that highlighted changes are properly aligned
+     * if comparison highlights are activated and we are on the comparisons tab.
+     */
+    function refreshIfComparisonActive() {
+        if ($scope.isComparisonChangesHighlighted() && $scope.activeTab === 2) {
+            $route.reload();
+        }
     }
 
     function createSketch() {
