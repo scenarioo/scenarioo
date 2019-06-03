@@ -11,6 +11,11 @@ With version 5, the Scenarioo application has been migrated to Spring Boot.
 Because of the switch, the security mechanism for uploading a build via REST endpoint has changed.
 For more details, please refer to the [Migration Guide](Migration-Guide.md)
 
+### Bugfixes
+
+* [#727 - Build Import: UI issues](https://github.com/scenarioo/scenarioo/issues/727): Information displayed while a build is being imported was improved.
+* [#717 - Diff Viewer: Styling and UI issues](https://github.com/scenarioo/scenarioo/issues/717): Various usability improvements. 
+
 ## Version 4.0.1
 
 ### Bugfixes
