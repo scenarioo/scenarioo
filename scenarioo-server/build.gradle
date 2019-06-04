@@ -88,7 +88,8 @@ dependencies {
     compile 'com.sun.xml.bind:jaxb-impl'
     compile 'javax.activation:activation'
 
-    testCompile 'org.mockito:mockito-all'
+    testCompile 'org.mockito:mockito-core'
+    testCompile 'org.mockito:mockito-junit-jupiter'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 

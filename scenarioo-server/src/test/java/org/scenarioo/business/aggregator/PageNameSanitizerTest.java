@@ -1,36 +1,36 @@
 package org.scenarioo.business.aggregator;
 
-import static org.junit.Assert.*;
-
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @see PageNameSanitizer
  */
-public class PageNameSanitizerTest {
+class PageNameSanitizerTest {
 	
 	private static final String ILLEGAL = "/illegal\\";
 	private static final String SANITIZED = "_illegal_";
 	
 	@Test
-	public void givenNullInput_sanitizingPageNames_doesNotThrowAnException() {
+	void givenNullInput_sanitizingPageNames_doesNotThrowAnException() {
 		PageNameSanitizer.sanitizePageName(null);
 		PageNameSanitizer.sanitizePageNames(null);
 	}
 	
 	@Test
-	public void givenStepWithNoPage_sanitizingPageNames_doesNotThrowAnException() {
+	void givenStepWithNoPage_sanitizingPageNames_doesNotThrowAnException() {
 		PageNameSanitizer.sanitizePageName(getStepWithoutPageName());
 		PageNameSanitizer.sanitizePageNames(getListOfStepsWithoutPageName());
 	}
 	
 	@Test
-	public void givenStepWithIllegalPageName_sanitizingPageNames_replacesIllegalCharacters() {
+	void givenStepWithIllegalPageName_sanitizingPageNames_replacesIllegalCharacters() {
 		Step step = getStepWithIllegalPageName();
 		
 		PageNameSanitizer.sanitizePageName(step);
@@ -39,7 +39,7 @@ public class PageNameSanitizerTest {
 	}
 	
 	@Test
-	public void givenStepListWithIllegalPageNames_sanitizingPageNames_replacesIllegalCharacters() {
+	void givenStepListWithIllegalPageNames_sanitizingPageNames_replacesIllegalCharacters() {
 		List<Step> steps = getStepsWithIllegalPageName();
 		
 		PageNameSanitizer.sanitizePageNames(steps);
@@ -49,7 +49,7 @@ public class PageNameSanitizerTest {
 	}
 	
 	private List<Step> getStepsWithIllegalPageName() {
-		List<Step> list = new LinkedList<Step>();
+		List<Step> list = new LinkedList<>();
 		list.add(getStepWithIllegalPageName());
 		list.add(getStepWithIllegalPageName());
 		return list;
@@ -68,7 +68,7 @@ public class PageNameSanitizerTest {
 	}
 	
 	private List<Step> getListOfStepsWithoutPageName() {
-		List<Step> list = new LinkedList<Step>();
+		List<Step> list = new LinkedList<>();
 		list.add(getStepWithoutPageName());
 		list.add(getStepWithoutPageName());
 		return list;

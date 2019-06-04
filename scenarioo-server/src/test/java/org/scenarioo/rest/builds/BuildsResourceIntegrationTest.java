@@ -1,30 +1,28 @@
 package org.scenarioo.rest.builds;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test-application.properties")
-public class BuildsResourceIntegrationTest {
+class BuildsResourceIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void should_reject_post_of_new_build_when_unauthorized() throws IOException {
+	void should_reject_post_of_new_build_when_unauthorized() {
 		ResponseEntity<String> response =
 			testRestTemplate
 				.postForEntity("/rest/builds", null, String.class);
@@ -33,7 +31,7 @@ public class BuildsResourceIntegrationTest {
 	}
 
 	@Test
-	public void should_allow_post_of_new_build_when_authorized() throws IOException {
+	void should_allow_post_of_new_build_when_authorized() {
 		ResponseEntity<String> response =
 			testRestTemplate
 				.withBasicAuth("scenarioo", "only4test")

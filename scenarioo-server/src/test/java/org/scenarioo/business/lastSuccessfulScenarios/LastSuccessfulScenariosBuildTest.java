@@ -1,9 +1,6 @@
 package org.scenarioo.business.lastSuccessfulScenarios;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -14,8 +11,8 @@ import java.util.Date;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
@@ -36,7 +33,9 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
 
-public class LastSuccessfulScenariosBuildTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class LastSuccessfulScenariosBuildTest {
 
 	private static final String SOURCE_USE_CASE_DESCRIPTION = "use case from imported build";
 	private static final String NOT_MODIFIED_USE_CASE_DESCRIPTION = "use case file was not modified";
@@ -57,15 +56,15 @@ public class LastSuccessfulScenariosBuildTest {
 	private final File rootDirectory = new File("tmp");
 	private BuildImportSummary buildImportSummary;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootDirectory);
 		configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 	}
 
 	@Test
-	public void theBuildSummaryParameterMustNotBeNull() {
+	void theBuildSummaryParameterMustNotBeNull() {
 		givenBuildImportSummaryIsNull();
 
 		try {
@@ -77,7 +76,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theIdentifierInTheSummaryParameterMustNotBeNull() {
+	void theIdentifierInTheSummaryParameterMustNotBeNull() {
 		givenBuildImportSummaryWithNullIdentifier();
 
 		try {
@@ -89,7 +88,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheImportedBuildDoesNotHaveSuccessfulImportStatusNothingIsDone() {
+	void ifTheImportedBuildDoesNotHaveSuccessfulImportStatusNothingIsDone() {
 		givenLastSuccessfulScenarioBuildIsDisabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusFailed();
@@ -100,7 +99,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheLastSuccessfulScenarioBuildIsDisabledInTheConfigAnExistingSuchBuildIsDeleted() {
+	void ifTheLastSuccessfulScenarioBuildIsDisabledInTheConfigAnExistingSuchBuildIsDeleted() {
 		givenLastSuccessfulScenarioBuildIsDisabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -112,7 +111,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheLastSuccessfulScenarioFolderDoesNotExistYetItIsCreated() {
+	void ifTheLastSuccessfulScenarioFolderDoesNotExistYetItIsCreated() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderDoesNotExist();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -123,7 +122,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheBuildXmlFileDoesNotExistItIsCreated() {
+	void ifTheBuildXmlFileDoesNotExistItIsCreated() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -134,7 +133,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void allUseCasesAreCopied() {
+	void allUseCasesAreCopied() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -146,7 +145,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theBuildIsNotUpdatedWithItself() {
+	void theBuildIsNotUpdatedWithItself() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccessForLastSuccessfulScenarioBuild();
@@ -158,7 +157,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void onlySuccessfulScenariosAreCopied() {
+	void onlySuccessfulScenariosAreCopied() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenBuildImportSummaryWithStatusSuccess();
 		givenUseCaseWithASuccessfulAndAFailedScenario();
@@ -169,7 +168,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void onlyScenariosThatAreNewerThanTheExistingScenarioAreCopied() {
+	void onlyScenariosThatAreNewerThanTheExistingScenarioAreCopied() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenBuildImportSummaryWithStatusSuccess();
 		givenLastSuccessfulScenarioBuildWithScenarioFromYesterdayNowAndTomorrow();
@@ -181,7 +180,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheImportedUseCaseIsTheLatestOneAllUseCasesThatDoNotExistAnymoreAreDeleted() {
+	void ifTheImportedUseCaseIsTheLatestOneAllUseCasesThatDoNotExistAnymoreAreDeleted() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenBuildImportSummaryWithStatusSuccess();
 		givenLatestBuildInLastSuccessfulScenariosBuildIsFromYesterdayAndContainsThreeUseCases();
@@ -194,7 +193,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void ifTheImportedUseCaseIsTheLatestOneAllScenariosThatDoNotExistAnymoreAreDeleted() {
+	void ifTheImportedUseCaseIsTheLatestOneAllScenariosThatDoNotExistAnymoreAreDeleted() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenBuildImportSummaryWithStatusSuccess();
 		givenLatestBuildInLastSuccessfulScenariosBuildIsFromYesterdayAndContainsThreeUseCases();
@@ -207,7 +206,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theUseCaseXmlFileIsCopiedIfItDoesNotExistYet() {
+	void theUseCaseXmlFileIsCopiedIfItDoesNotExistYet() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -219,7 +218,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theUseCaseXmlFileIsAlsoCopiedIfThereAreNoSuccessfulTestInTheUseCase() {
+	void theUseCaseXmlFileIsAlsoCopiedIfThereAreNoSuccessfulTestInTheUseCase() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -232,7 +231,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theStatusInTheCopiedUseCaseXmlFileIsAlwaysSetToSuccess() {
+	void theStatusInTheCopiedUseCaseXmlFileIsAlwaysSetToSuccess() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -244,7 +243,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void theUseCaseXmlOfTheLatestBuildIsUsed() {
+	void theUseCaseXmlOfTheLatestBuildIsUsed() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -257,7 +256,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void derivedFilesAndFoldersAreNotCopied() {
+	void derivedFilesAndFoldersAreNotCopied() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -269,7 +268,7 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	@Test
-	public void scenariosWithoutScenarioXmlFileAreTreatedAsIfTheyDidNotExist() {
+	void scenariosWithoutScenarioXmlFileAreTreatedAsIfTheyDidNotExist() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -739,14 +738,11 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	private void assertFolderDoesNotContainAnyDerivedFilesOrDirectories(final File directory) {
-		String[] derivedFilesAndDirectories = directory.list(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				File fileOrDirectory = new File(dir, name);
-				return fileOrDirectory.getName().contains(".derived")
-						&& !fileOrDirectory.getName().equals(
-								encode(LastSuccessfulScenariosIndexDao.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
-			}
+		String[] derivedFilesAndDirectories = directory.list((dir, name) -> {
+			File fileOrDirectory = new File(dir, name);
+			return fileOrDirectory.getName().contains(".derived")
+					&& !fileOrDirectory.getName().equals(
+							encode(LastSuccessfulScenariosIndexDao.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
 		});
 
 		assertTrue(derivedFilesAndDirectories == null || derivedFilesAndDirectories.length == 0);

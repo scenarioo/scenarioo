@@ -17,17 +17,15 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
@@ -37,55 +35,49 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 /**
  * Test cases for the use case comparator with mocked docu data.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class UseCaseComparatorTest {
+@ExtendWith(MockitoExtension.class)
+class UseCaseComparatorTest {
 
 	private static String USE_CASE_NAME_1 = "useCase_1";
 	private static String USE_CASE_NAME_2 = "useCase_2";
 	private static String USE_CASE_NAME_3 = "useCase_3";
 
+	@TempDir
+	static File folder;
 
-	@ClassRule
-	public static TemporaryFolder folder = new TemporaryFolder();
-
-	@Mock
+	@Mock(lenient = true)
 	private ScenarioDocuBuildsManager docuBuildsManager;
 
 	@Mock
 	private ScenarioDocuReader docuReader;
 
-	@Mock
-	private DiffViewerDao diffWriter;
-
-	@Mock
+	@Mock(lenient = true)
 	private ScenarioComparator scenarioComparator;
 
 	@InjectMocks
 	private UseCaseComparator useCaseComparator = new UseCaseComparator(getComparatorParameters());
 
-	@BeforeClass
-	public static void setUpClass() throws IOException {
-		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
+	@BeforeAll
+	static void setUpClass() {
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder);
 		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
 	@Test
-	public void testCompareBuildsEqual() {
+	void testCompareBuildsEqual() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
@@ -103,7 +95,7 @@ public class UseCaseComparatorTest {
 	}
 
 	@Test
-	public void testCompareOneUseCaseAdded() {
+	void testCompareOneUseCaseAdded() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
 		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
@@ -122,7 +114,7 @@ public class UseCaseComparatorTest {
 	}
 
 	@Test
-	public void testCompareMultipleUseCasesAdded() {
+	void testCompareMultipleUseCasesAdded() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_2);
 		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
@@ -142,7 +134,7 @@ public class UseCaseComparatorTest {
 	}
 
 	@Test
-	public void testCompareUseCaseChangedTo50Percentage() {
+	void testCompareUseCaseChangedTo50Percentage() {
 		double changeRatePerUseCase = 50.0;
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
@@ -162,7 +154,7 @@ public class UseCaseComparatorTest {
 	}
 
 	@Test
-	public void testCompareOneUseCaseRemoved() {
+	void testCompareOneUseCaseRemoved() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
 		UseCase removedUseCase = comparisonUseCases.get(1);
@@ -182,7 +174,7 @@ public class UseCaseComparatorTest {
 	}
 
 	@Test
-	public void testCompareMultipleUseCasesRemoved() {
+	void testCompareMultipleUseCasesRemoved() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_2);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		UseCase removedUseCase1 = comparisonUseCases.get(0);
@@ -203,15 +195,15 @@ public class UseCaseComparatorTest {
 		assertEquals(removedUseCase2, buildDiffInfo.getRemovedElements().get(1));
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testCompareEmptyBaseUseCaseName() {
+	@Test
+	void testCompareEmptyBaseUseCaseName() {
 		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, null);
 		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		useCaseComparator.compare();
+		assertThrows(RuntimeException.class, () -> useCaseComparator.compare());
 	}
 
 	private void initMocks(List<UseCase> baseUseCases, List<UseCase> comparisonUseCases,
@@ -225,8 +217,8 @@ public class UseCaseComparatorTest {
 		when(scenarioComparator.compare(anyString())).thenReturn(useCaseDiffInfo);
 	}
 
-	public List<UseCase> getUseCases(String... names) {
-		List<UseCase> useCases = new LinkedList<UseCase>();
+	List<UseCase> getUseCases(String... names) {
+		List<UseCase> useCases = new LinkedList<>();
 		for (String name : names) {
 			UseCase useCase = new UseCase();
 			useCase.setName(name);

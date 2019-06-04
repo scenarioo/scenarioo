@@ -1,21 +1,20 @@
 package org.scenarioo.dao.sketcher;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.model.sketcher.Issue;
 import org.scenarioo.model.sketcher.StepSketch;
 import org.scenarioo.utils.TestFileUtils;
 
-public class SketcherDaoTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class SketcherDaoTest {
 
 	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BRANCH_NAME = "Test Branch";
@@ -26,19 +25,19 @@ public class SketcherDaoTest {
 
 	private SketcherDao sketcherDao;
 
-	@Before
-	public void setup() throws IOException {
+	@BeforeEach
+	void setup() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
 		sketcherDao = new SketcherDao();
 	}
 
-	@AfterClass
-	public static void removeGeneratedTestData() throws IOException {
+	@AfterAll
+	static void removeGeneratedTestData() throws IOException {
 		FileUtils.deleteDirectory(ROOT_DIRECTORY);
 	}
 
 	@Test
-	public void persistIssue() {
+	void persistIssue() {
 		givenIssueDirectoryDoesNotExist();
 		sketcherDao.persistIssue(BRANCH_NAME, createIssue(ISSUE_ID));
 		expectIssueDirectoryExists();
@@ -46,7 +45,7 @@ public class SketcherDaoTest {
 	}
 
 	@Test
-	public void persistStepSketch() {
+	void persistStepSketch() {
 		givenIssueDirectoryDoesNotExist();
 		sketcherDao.persistStepSketch(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, STEP_SKETCH);
 		expectStepSketchDirectoryCreated();
@@ -54,7 +53,7 @@ public class SketcherDaoTest {
 	}
 
 	@Test
-	public void persistSketchAsSvgAndPng() {
+	void persistSketchAsSvgAndPng() {
 		givenIssueDirectoryDoesNotExist();
 		sketcherDao.persistSketchAsSvgAndPng(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, STEP_SKETCH);
 		expectStepSketchDirectoryCreated();
@@ -64,7 +63,7 @@ public class SketcherDaoTest {
 
 	private void givenIssueDirectoryDoesNotExist() {
 		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_ID));
-		Assert.assertFalse(issueDirectory.exists());
+		assertFalse(issueDirectory.exists());
 	}
 
 	private void expectIssuePersisted() {
@@ -75,11 +74,11 @@ public class SketcherDaoTest {
 	private void expectStepSketchDirectoryCreated() {
 		File stepSketchDir = sketcherDao.getStepSketchDirectory(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
 				STEP_SKETCH_ID);
-		assertTrue("Expect step sketch directory (and all parent folders) to be created.", stepSketchDir.exists());
-		assertEquals("Expected path for step sketch file",
-				new File(filePath(ROOT_DIRECTORY, SketcherDao.SKETCHER_DIRECTORY, "Test+Branch", ISSUE_ID,
+		assertTrue(stepSketchDir.exists(), "Expect step sketch directory (and all parent folders) to be created.");
+		assertEquals(
+			new File(filePath(ROOT_DIRECTORY, SketcherDao.SKETCHER_DIRECTORY, "Test+Branch", ISSUE_ID,
 						SCENARIO_SKETCH_ID, STEP_SKETCH_ID))
-					.getAbsolutePath(), stepSketchDir.getAbsolutePath());
+					.getAbsolutePath(), stepSketchDir.getAbsolutePath(), "Expected path for step sketch file");
 	}
 
 	private void expectStepSketchPersisted() {
@@ -104,7 +103,7 @@ public class SketcherDaoTest {
 
 	private void expectIssueDirectoryExists() {
 		File issueDirectory = getIssueDirectory(ISSUE_ID);
-		Assert.assertTrue(issueDirectory.exists());
+		assertTrue(issueDirectory.exists());
 	}
 
 	private File getIssueDirectory(final String issueDirectoryName) {

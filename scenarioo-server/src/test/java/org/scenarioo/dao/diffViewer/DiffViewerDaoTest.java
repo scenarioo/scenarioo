@@ -18,10 +18,8 @@
 package org.scenarioo.dao.diffViewer;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.scenarioo.model.diffViewer.*;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -32,10 +30,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class DiffViewerDaoTest {
+class DiffViewerDaoTest {
 
 	private static final File ROOT_DIRECTORY = new File("tmpDiffViewerUnitTestFiles");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
@@ -56,13 +54,13 @@ public class DiffViewerDaoTest {
 	private DiffViewerDao dao;
 	private DiffViewerBuildWriter buildWriter;
 
-	@BeforeClass
-	public static void setUpClass() {
+	@BeforeAll
+	static void setUpClass() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
 	}
 
-	@AfterClass
-	public static void tearDownClass() {
+	@AfterAll
+	static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
 		} catch (final IOException e) {
@@ -70,8 +68,8 @@ public class DiffViewerDaoTest {
 		}
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		TestFileUtils.createFolderAndClearContent(comparisonsFolder);
 		dao = new DiffViewerDao();
@@ -79,7 +77,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadBuildDiffInfo() {
+	void testWriteAndReadBuildDiffInfo() {
 		final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME);
 
 		buildWriter.saveBuildDiffInfo(buildDiffInfo);
@@ -90,7 +88,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadUseCaseDiffInfo() {
+	void testWriteAndReadUseCaseDiffInfo() {
 		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME);
 
 		buildWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
@@ -102,7 +100,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadScenarioDiffInfo() {
+	void testWriteAndReadScenarioDiffInfo() {
 		final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME);
 
 		buildWriter.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
@@ -114,7 +112,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadStepDiffInfo() {
+	void testWriteAndReadStepDiffInfo() {
 		final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX);
 
 		buildWriter.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
@@ -126,7 +124,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadBuildDiffInfos() {
+	void testWriteAndReadBuildDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			buildWriter = dao.getBuildDiffWriter(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
 			final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
@@ -142,7 +140,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadUseCaseDiffInfos() {
+	void testWriteAndReadUseCaseDiffInfos() {
 
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME + i);
@@ -160,7 +158,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadScenarioDiffInfos() {
+	void testWriteAndReadScenarioDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME + i);
 			buildWriter.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
@@ -176,7 +174,7 @@ public class DiffViewerDaoTest {
 	}
 
 	@Test
-	public void testWriteAndReadStepDiffInfos() {
+	void testWriteAndReadStepDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX + i);
 			buildWriter.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
