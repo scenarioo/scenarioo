@@ -7,6 +7,10 @@ repositories {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     compile 'org.scenarioo:scenarioo-java'
     compile 'org.apache.commons:commons-lang3'
