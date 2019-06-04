@@ -4,23 +4,22 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-import org.junit.*;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-public class ScreenshotComparatorTest {
+class ScreenshotComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	private static final String FILEPATH = "src/test/resources/org/scenarioo/business/diffViewer/";
@@ -39,56 +38,56 @@ public class ScreenshotComparatorTest {
 	private static final double SCREENSHOT_DIFFERENCE_LARGE = 27.73;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 
-	@Rule
-	public TemporaryFolder rootFolder = new TemporaryFolder();
+	@TempDir
+	static File rootFolder;
 
-	@Before
-	public void setUpClass() throws IOException {
-		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder.newFolder());
+	@BeforeEach
+	void setUpClass() {
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder);
 		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
-		assertTrue(comparisonsFolder.mkdirs());
+		Assertions.assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 		screenshotComparator = new ScreenshotComparator();
 	}
 
-	@After
-	public void cleanUpTest() {
+	@AfterEach
+	void cleanUpTest() {
 		if (DIFF_SCREENSHOT.exists()) {
-			assertTrue("Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath(), DIFF_SCREENSHOT.delete());
+			Assertions.assertTrue(DIFF_SCREENSHOT.delete(), "Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath());
 		}
 	}
 
 	@Test
-	public void compare_sameSizeAndColor_returnsZero_andDoesNotCreateDiffImage() {
+	void compare_sameSizeAndColor_returnsZero_andDoesNotCreateDiffImage() {
 		DIFF_SCREENSHOT.delete();
 		assertDifferenceForScreenshots(RED_100, RED_100, 0);
-		assertFalse("No DiffScreenshot expected.", DIFF_SCREENSHOT.exists());
+		Assertions.assertFalse(DIFF_SCREENSHOT.exists(), "No DiffScreenshot expected.");
 	}
 
 	@Test
-	public void compare_differentScreenshots() {
+	void compare_differentScreenshots() {
 		assertDifferenceForScreenshots(BASE_SCREENSHOT, COMPARISON_SCREENSHOT_SAME_SIZE, SCREENSHOT_DIFFERENCE_SAME_SIZE);
 	}
 
 	@Test
-	public void compare_differentSizedScreenshots() {
+	void compare_differentSizedScreenshots() {
 		assertDifferenceForScreenshots(BASE_SCREENSHOT, COMPARISON_SCREENSHOT_LARGE, SCREENSHOT_DIFFERENCE_LARGE);
 	}
 
 	@Test
-	public void compare_allRed_allBlue_returnsHighValue() {
+	void compare_allRed_allBlue_returnsHighValue() {
 		// 100% of pixels are different, but each pixel only changed around 80% of its color
 		assertDifferenceForScreenshots(RED_100, BLUE_100, 80.6);
 	}
 
 	@Test
-	public void compare_allWhite_allBlack_returnsHundred() {
+	void compare_allWhite_allBlack_returnsHundred() {
 		// all pixels changed 100%
 		assertDifferenceForScreenshots(BLACK_100, WHITE_100, 100);
 	}
 
 	@Test
-	public void compare_bothRed_oneIsDoubleTheSize_returnsLessThanFifty() {
+	void compare_bothRed_oneIsDoubleTheSize_returnsLessThanFifty() {
 		// 50% more pixels, but each does only count around 80% (depending on color)
 		// This is somehow strange and we might have to improve that in future that added
 		// pixels should always count as 100% changed pixels.
@@ -97,7 +96,7 @@ public class ScreenshotComparatorTest {
 	}
 
 	@Test
-	public void compare_allRed_redBlue_oneIsDoubleTheSize_returnsMoreThanFifty() {
+	void compare_allRed_redBlue_oneIsDoubleTheSize_returnsMoreThanFifty() {
 		// 75% of pixels are different, but not every pixel has changed color by 100% --> 80% * 75% = 60%
 		assertDifferenceForScreenshots(RED_100, BLUE_RED_200, 58.63);
 	}
@@ -105,11 +104,11 @@ public class ScreenshotComparatorTest {
 	private void assertDifferenceForScreenshots(File baseScreenshot, File comparisonScreenshot, double expectedDifference) {
 		final double actualDifference
 			= screenshotComparator.compareScreenshots(getComparatorParameters(), baseScreenshot, comparisonScreenshot, DIFF_SCREENSHOT);
-		assertEquals("Difference of screenshots", expectedDifference, actualDifference, DOUBLE_TOLERANCE);
+		Assertions.assertEquals(expectedDifference, actualDifference, DOUBLE_TOLERANCE, "Difference of screenshots");
 	}
 
 	@Test
-	public void compare_nonExistentScreenshots() {
+	void compare_nonExistentScreenshots() {
 		Logger LOGGER = ScreenshotComparator.getLogger();
 		TestAppender appender = new TestAppender();
 		LOGGER.addAppender(appender);
@@ -120,10 +119,10 @@ public class ScreenshotComparatorTest {
 		final List<LoggingEvent> log = appender.getLog();
 		final LoggingEvent firstLogEntry = log.get(0);
 
-		assertEquals("Difference of screenshots", 0.0D, difference, DOUBLE_TOLERANCE);
-		assertEquals("Log Level", Level.WARN, firstLogEntry.getLevel());
-		assertTrue("Assert log message is correct",
-			firstLogEntry.getMessage().toString().contains("Failed to compare images"));
+		Assertions.assertEquals(0.0D, difference, DOUBLE_TOLERANCE, "Difference of screenshots");
+		Assertions.assertEquals(Level.WARN, firstLogEntry.getLevel(), "Log Level");
+		Assertions.assertTrue(
+			firstLogEntry.getMessage().toString().contains("Failed to compare images"), "Assert log message is correct");
 		LOGGER.removeAppender(appender);
 	}
 
