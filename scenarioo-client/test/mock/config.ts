@@ -19,40 +19,54 @@
 
 import {ReplaySubject} from 'rxjs';
 
-angular.module('scenarioo.services').service('ConfigMock', () => ({
-    branch: undefined,
-    build: undefined,
-    appInfo: new ReplaySubject<String>(1),
+angular.module('scenarioo.services').service('ConfigMock', () => {
+    return ({
+        branch: undefined,
+        build: undefined,
+        appInfo: new ReplaySubject<String>(1),
 
-    isLoaded: () => angular.isDefined(this.build) && angular.isDefined(this.build),
+        isLoaded() {
+            return angular.isDefined(this.build) && angular.isDefined(this.build);
+        },
 
-    selectedBranch: () => this.branch,
+        selectedBranch() {
+            return this.branch;
+        },
 
-    selectedBuild: () => this.build,
+        selectedBuild() {
+            return this.build;
+        },
 
-    selectedBuildAndBranch: () => ({
-        branch: this.selectedBranch(),
-        build: this.selectedBuild()
-    }),
-
-    applicationInformation: () => this.appInfo.asObservable(),
-
-    setSelectedBranch: (branch) => {
-        this.branch = branch;
-    },
-
-    setSelectedBuild: (build) => {
-        this.build = build;
-    },
-
-    setApplicationInformation: (applicationInformation) => this.appInfo.next(applicationInformation),
-
-    scenarioPropertiesInOverview: () =>
-        [
-            {
-                text: 'User Profile',
-                property: 'details.properties.userProfile',
-                attr: 'userProfile'
+        selectedBuildAndBranch() {
+            return {
+                branch: this.selectedBranch(),
+                build: this.selectedBuild()
             }
-        ]
-}));
+        },
+
+        applicationInformation() {
+            return this.appInfo.asObservable();
+        },
+
+        setSelectedBranch(branch) {
+            this.branch = branch;
+        },
+
+        setSelectedBuil(build) {
+            this.build = build;
+        },
+
+        setApplicationInformation(applicationInformation) {
+            return this.appInfo.next(applicationInformation);
+        },
+
+        scenarioPropertiesInOverview: () =>
+            [
+                {
+                    text: 'User Profile',
+                    property: 'details.properties.userProfile',
+                    attr: 'userProfile'
+                }
+            ]
+    });
+});
