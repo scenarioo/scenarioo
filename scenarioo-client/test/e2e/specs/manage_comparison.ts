@@ -22,9 +22,9 @@ useCase('Manage comparisons')
 
                 await ComparisonsPage.filterComparisons('To Projectstart');
                 await ComparisonsPage.assertNumberOfComparisons(5);
-                await step('filtered Comparisons for text \'To Projectstart\'');
+                await step("filtered Comparisons for text 'To Projectstart'");
 
-                await ComparisonsPage.clickResetButton();
+                await ComparisonsPage.resetComparisonsSearch();
                 await ComparisonsPage.assertNumberOfComparisons(await comparisonsCount);
                 await step('reset comparisons page');
             });

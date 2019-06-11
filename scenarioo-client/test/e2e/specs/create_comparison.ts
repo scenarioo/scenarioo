@@ -16,7 +16,7 @@ useCase('Create comparison')
         scenario('Create new comparison with existing name')
             .description('A comparison with an existing name cannot be created')
             .it(async () => {
-                await CreateComparisonDialog.clickCreateComparisonLink();
+                await CreateComparisonDialog.openCreateComparison();
                 await step('display the create comparison dialog');
 
                 await CreateComparisonDialog.enterComparisonName('To Projectstart');
@@ -27,7 +27,7 @@ useCase('Create comparison')
         scenario('Creating comparison without comparison branch')
             .description('A comparison without a comparison branch cannot be created')
             .it(async () => {
-                await CreateComparisonDialog.clickCreateComparisonLink();
+                await CreateComparisonDialog.openCreateComparison();
                 await step('display the create comparison dialog');
 
                 await CreateComparisonDialog.enterComparisonName('Comparison');
@@ -43,19 +43,19 @@ useCase('Create comparison')
             .description('A comparison with an existing branch and build combination cannot be created.')
             .it(async () => {
 
-                await CreateComparisonDialog.clickCreateComparisonLink();
+                await CreateComparisonDialog.openCreateComparison();
                 await step('create comparison dialog opened');
 
                 await CreateComparisonDialog.enterComparisonName('Existing Comparison');
                 await step('comparison name entered');
 
-                await CreateComparisonDialog.openComparisonBranchSelectionDropdown();
+                await CreateComparisonDialog.openComparisonBranchSelection();
                 await step('comparison branch dropdown opened');
 
                 await CreateComparisonDialog.chooseComparisonBranch('Production');
                 await step('production branch selected');
 
-                await CreateComparisonDialog.openComparisonBuildSelectionDropdown();
+                await CreateComparisonDialog.openComparisonBuildSelection();
                 await step('comparison build dropdown opened');
 
                 await CreateComparisonDialog.chooseComparisonBuild('2014-01-20');
@@ -71,31 +71,31 @@ useCase('Create comparison')
                 const comparisonsCount = ComparisonsPage.getNumberOfComparisons();
                 await step('comparisons page');
 
-                await CreateComparisonDialog.clickCreateComparisonLink();
+                await CreateComparisonDialog.openCreateComparison();
                 await step('create comparison dialog opened');
 
                 await CreateComparisonDialog.enterComparisonName('Comparison');
                 await step('comparison name entered');
 
-                await CreateComparisonDialog.openTargetBranchSelectionDropdown();
+                await CreateComparisonDialog.openTargetBranchSelection();
                 await step('target branch dropdown opened');
 
                 await CreateComparisonDialog.chooseTargetBranch('Development');
                 await step('development branch selected');
 
-                await CreateComparisonDialog.openTargetBuildSelectionDropdown();
+                await CreateComparisonDialog.openTargetBuildSelection();
                 await step('target build dropdown opened');
 
                 await CreateComparisonDialog.chooseTargetBuild('last successful');
                 await step('target build selected');
 
-                await CreateComparisonDialog.openComparisonBranchSelectionDropdown();
+                await CreateComparisonDialog.openComparisonBranchSelection();
                 await step('comparison branch dropdown opened');
 
                 await CreateComparisonDialog.chooseComparisonBranch('Production');
                 await step('production branch selected');
 
-                await CreateComparisonDialog.openComparisonBuildSelectionDropdown();
+                await CreateComparisonDialog.openComparisonBuildSelection();
                 await step('comparison build dropdown opened');
 
                 await CreateComparisonDialog.chooseComparisonBuild('2014-02-21');
@@ -104,7 +104,7 @@ useCase('Create comparison')
                 await CreateComparisonDialog.createComparison();
                 await step('comparison created');
 
-                await ComparisonsPage.clickRefreshLink();
+                await ComparisonsPage.refreshComparisons();
                 await ComparisonsPage.assertNumberOfComparisons(await comparisonsCount + 1);
                 await step('comparisons refreshed and asserted');
             });

@@ -5,44 +5,44 @@ import * as Utils from '../util';
 
 class CreateComparisonDialog {
 
-    async clickCreateComparisonLink() {
+    async openCreateComparison() {
         return Utils.clickElementById('createComparisonBtn');
     }
 
-    async enterComparisonName(comparisonName) {
+    async enterComparisonName(comparisonName: string) {
         const comparisonNameField = element(by.id('comparisonName'));
         return comparisonNameField.sendKeys(comparisonName);
     }
 
-    async openTargetBranchSelectionDropdown() {
+    async openTargetBranchSelection() {
         return element.all(by.partialLinkText('Branch:')).first().click();
     }
 
-    async openTargetBuildSelectionDropdown() {
+    async openTargetBuildSelection() {
         return element.all(by.partialLinkText('Build:')).first().click();
     }
 
-    async chooseTargetBranch(branchName) {
+    async chooseTargetBranch(branchName: string) {
         return $('#target #branchSelectionDropdown .dropdown-menu').all(by.partialLinkText(branchName)).first().click();
     }
 
-    async chooseTargetBuild(buildName) {
+    async chooseTargetBuild(buildName: string) {
         return $('#target #build-selection-dropdown .dropdown-menu').all(by.partialLinkText(buildName)).first().click();
     }
 
-    async openComparisonBranchSelectionDropdown() {
+    async openComparisonBranchSelection() {
         return element.all(by.partialLinkText('Branch:')).get(1).click();
     }
 
-    async openComparisonBuildSelectionDropdown() {
+    async openComparisonBuildSelection() {
         return element.all(by.partialLinkText('Build:')).get(1).click();
     }
 
-    async chooseComparisonBranch(branchName) {
+    async chooseComparisonBranch(branchName: string) {
         return $('#compareWith #branchSelectionDropdown .dropdown-menu').all(by.partialLinkText(branchName)).first().click();
     }
 
-    async chooseComparisonBuild(buildName) {
+    async chooseComparisonBuild(buildName: string) {
         return $('#compareWith #build-selection-dropdown .dropdown-menu').all(by.partialLinkText(buildName)).first().click();
     }
 

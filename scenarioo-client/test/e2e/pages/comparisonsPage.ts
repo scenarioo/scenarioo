@@ -12,42 +12,42 @@ class ComparisonsPage {
     }
 
     async getNumberOfComparisons() {
-        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+        const elements = $$('tbody tr');
         return await elements.count();
     }
 
-    async assertNumberOfComparisons(expectedCount) {
+    async assertNumberOfComparisons(expectedCount: number) {
         return Utils.assertNumberOfTableRows(this.comparisonsTable, expectedCount);
     }
 
-    async clickRefreshLink() {
+    async refreshComparisons() {
         return Utils.clickElementById('refreshComparisons');
     }
 
-    async clickResetButton() {
+    async resetComparisonsSearch() {
         return Utils.clickElementById('resetComparisonsSearchField');
     }
 
-    async filterComparisons(comparisonName) {
+    async filterComparisons(comparisonName: string) {
         const comparisonsSearchField = element(by.id('comparisonsSearchField'));
         return comparisonsSearchField.sendKeys(comparisonName);
     }
 
-    async assertComparisonStatus(rowIndex, status) {
-        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+    async assertComparisonStatus(rowIndex: number, status: string) {
+        const elements = $$('tbody tr');
         const row = elements.get(rowIndex);
         const cells = row.all(by.tagName('td'));
         return expect(cells.get(5).getText()).toBe(status);
     }
 
-    async recalculateComparison(rowIndex) {
-        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+    async recalculateComparison(rowIndex: number) {
+        const elements = $$('tbody tr');
         const row = elements.get(rowIndex);
         return row.element(by.linkText('Recalculate')).click();
     }
 
-    async openComparisonDetails(rowIndex) {
-        const elements = this.comparisonsTable.all(by.css('tbody tr'));
+    async openComparisonDetails(rowIndex: number) {
+        const elements = $$('tbody tr');
         const row = elements.get(rowIndex);
         return row.element(by.partialLinkText('Details')).click();
     }
