@@ -34,22 +34,24 @@ class ComparisonsPage {
     }
 
     async assertComparisonStatus(rowIndex: number, status: string) {
-        const elements = $$('tbody tr');
-        const row = elements.get(rowIndex);
+        const row = this.getRow(rowIndex);
         const cells = row.all(by.tagName('td'));
         return expect(cells.get(5).getText()).toBe(status);
     }
 
     async recalculateComparison(rowIndex: number) {
-        const elements = $$('tbody tr');
-        const row = elements.get(rowIndex);
+        const row = this.getRow(rowIndex);
         return row.element(by.linkText('Recalculate')).click();
     }
 
     async openComparisonDetails(rowIndex: number) {
-        const elements = $$('tbody tr');
-        const row = elements.get(rowIndex);
+        const row = this.getRow(rowIndex);
         return row.element(by.partialLinkText('Details')).click();
+    }
+
+    private getRow(rowIndex: number) {
+        const elements = $$('tbody tr');
+        return elements.get(rowIndex);
     }
 }
 export default new ComparisonsPage();
