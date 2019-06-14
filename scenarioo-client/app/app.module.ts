@@ -7,13 +7,16 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
+import {TitleComponent} from './components/title/title.component';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        TitleComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
+        TitleComponent,
     ],
     imports: [
         BrowserModule,

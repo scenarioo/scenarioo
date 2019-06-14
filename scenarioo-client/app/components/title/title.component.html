@@ -1,0 +1,17 @@
+<!--Use Case Page: usecase.html -->
+<div *ngIf="useCaseName">
+    <h4>Scenarios of Use Case</h4>
+    <h1>{{useCaseName}}</h1>
+</div>
+
+<!-- Scenario Page: scenario.html -->
+<div *ngIf="scenarioName && !stepIndex">
+    <h4>Pages of Scenario</h4>
+    <h1>{{scenarioName}}</h1>
+</div>
+
+<!-- Step Page: step.html -->
+<div *ngIf="stepIndex">
+    <h4>Step {{stepIndex}} of Scenario</h4>
+    <h1>{{scenarioName}}</h1>
+</div>

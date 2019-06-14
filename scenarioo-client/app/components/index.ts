@@ -1,0 +1,8 @@
+import {downgradeComponent} from '@angular/upgrade/static';
+import {TitleComponent} from './title/title.component';
+declare var angular: angular.IAngularStatic;
+
+// If we move this into the component, where it belongs, scenarioo directives won't be available yet for tests.
+angular.module('scenarioo.directives')
+    .directive('scTitle',
+        downgradeComponent({component: TitleComponent}) as angular.IDirectiveFactory);
