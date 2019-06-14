@@ -7,6 +7,7 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
+import {TitleComponent} from './components/title/title.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
@@ -32,6 +33,7 @@ import {TooltipModule} from 'ngx-bootstrap';
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        TitleComponent,
         ManageTabsComponent,
         BranchAliasesDirective,
         GeneralSettingsDirective,
@@ -44,6 +46,7 @@ import {TooltipModule} from 'ngx-bootstrap';
     ],
     entryComponents: [
         LabelMetadataComponent,
+        TitleComponent,
         ManageTabsComponent,
         MainPageComponent,
         UseCasesComponent,
@@ -58,7 +61,6 @@ import {TooltipModule} from 'ngx-bootstrap';
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         OrderModule,
-        CommonModule,
         TooltipModule.forRoot(),
     ],
     providers: [
