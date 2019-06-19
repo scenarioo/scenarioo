@@ -16,35 +16,39 @@
  */
 
 angular.module('scenarioo.directives')
-    .directive('scFilterableTableTree', (GlobalHotkeysService, TreeNodeService, $filter) => {
+    .component('scFilterableTableTree', {
 
-    const textLimit = 400;
-
-    return {
-        restrict: 'AE',
-        scope: {
-            treedata: '=',
-            rootIsCollapsed: '=',
-            expandFirstChildUpToRootNode: '=',
-            filter: '=',
-            columns: '=',
-            treemodel: '=',
+        bindings: {
+            treedata: '<',
+            rootIsCollapsed: '<',
+            expandFirstChildUpToRootNode: '<',
+            filter: '<',
+            columns: '<',
+            treemodel: '<',
             clickAction: '&',
             firstColumnTitle: '@',
         },
         template: require('./filterableTableTree.html'),
-        link(scope: any) {
+        controller: function (GlobalHotkeysService, TreeNodeService, $filter) {
+            const scope = this;
+            const textLimit = 400;
             scope.treemodel = [];
+
+            this.$onChanges = (changes) => {
+                if(changes.treedata || changes.filter) {
+                    buildTreeModel();
+                }
+            };
 
             // Set's hotkey ESC to reset filter field
             bindClearFilter();
 
-            function buildTreeModel(data, filter) {
+            function buildTreeModel() {
                 scope.treemodel = [];
-                scope.nodeFilter = filter;
+                scope.nodeFilter = scope.filter;
                 setDefaultTitleForFirstColumnToName();
 
-                angular.forEach(data, (value, index) => {
+                angular.forEach(scope.treedata, (value, index) => {
                     createNode(value, 0, index);
                 });
             }
@@ -131,11 +135,7 @@ angular.module('scenarioo.directives')
             }
 
             scope.isNodeIconEmpty = (node) => {
-                if (node.icon === '' || angular.isUndefined(node.icon)) {
-                    return true;
-                }
-
-                return false;
+                return node.icon === '' || angular.isUndefined(node.icon);
             };
 
             // Expand collapse only the current node
@@ -237,10 +237,5 @@ angular.module('scenarioo.directives')
 
                 return getShortenedText(columnValue);
             }
-
-            scope.$watchCollection('[treedata, filter]', (newValues) => {
-                buildTreeModel(newValues[0], newValues[1]);
-            });
-        },
-    };
-});
+        }
+    });
