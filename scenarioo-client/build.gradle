@@ -61,3 +61,7 @@ task runLinter(type: NpmTask) {
 task runTsLint(type: NpmTask) {
     args = ['run', 'lint:app']
 }
+
+task npmRun(type: NpmTask) {
+    args = ['run', project.property('task')]
+}
