@@ -7,6 +7,7 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import {ConfigurationService} from './services/configuration.service';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         HttpClientModule,
         FormsModule,
         UpgradeModule,
