@@ -1,0 +1,10 @@
+<div>
+    <tabset>
+        <tab heading="Basic title" id="tab1">Use Cases</tab>
+        <tab *ngFor="let dynamictab of tabs"
+             [heading]="dynamictab.title">
+            {{dynamictab?.content}}
+        </tab>
+
+    </tabset>
+</div>
