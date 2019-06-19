@@ -29,13 +29,13 @@ angular.module('scenarioo.directives')
             firstColumnTitle: '@',
         },
         template: require('./filterableTableTree.html'),
-        controller: function (GlobalHotkeysService, TreeNodeService, $filter) {
+        controller(GlobalHotkeysService, TreeNodeService, $filter) {
             const scope = this;
             const textLimit = 400;
             scope.treemodel = [];
 
             this.$onChanges = (changes) => {
-                if(changes.treedata || changes.filter) {
+                if (changes.treedata || changes.filter) {
                     buildTreeModel();
                 }
             };
@@ -237,5 +237,5 @@ angular.module('scenarioo.directives')
 
                 return getShortenedText(columnValue);
             }
-        }
+        },
     });
