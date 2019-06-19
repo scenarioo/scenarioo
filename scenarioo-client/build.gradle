@@ -63,5 +63,11 @@ task runTsLint(type: NpmTask) {
 }
 
 task npmRun(type: NpmTask) {
-    args = ['run', project.property('task')]
+    doFirst {
+        if (!project.hasProperty('task')) {
+            throw new IllegalArgumentException("Property 'task' is missing for task npmRun")
+        }
+    }
+
+    args = ['run', project.findProperty('task')]
 }
