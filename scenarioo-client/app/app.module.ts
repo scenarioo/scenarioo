@@ -14,6 +14,7 @@ import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.dire
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
+import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
         GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,
+        ComparisonsDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
