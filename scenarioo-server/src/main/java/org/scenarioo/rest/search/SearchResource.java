@@ -33,7 +33,7 @@ public class SearchResource {
 								 @PathVariable("buildName") final String buildName, @RequestParam("q") final String q,
 								 @RequestParam(value = "includeHtml", required = false) boolean includeHtml) {
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 
 		FullTextSearch search = new FullTextSearch();

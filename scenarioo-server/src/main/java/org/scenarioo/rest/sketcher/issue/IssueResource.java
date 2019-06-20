@@ -97,7 +97,7 @@ public class IssueResource {
 	public ResponseEntity storeNewIssue(@RequestBody final Issue newIssue) {
 		LOGGER.info("REQUEST: storeNewIssue(" + newIssue.getRelatedStep().getBranchName() + ")");
 
-		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 				newIssue.getRelatedStep().getBranchName(), newIssue.getRelatedStep().getBuildName());
 		newIssue.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
 		newIssue.getRelatedStep().setBuildName(resolvedBranchAndBuildAlias.getBuildName());
@@ -135,7 +135,7 @@ public class IssueResource {
 	@GetMapping("/related/{buildName}/{usecaseName}")
 	public ResponseEntity relatedIssuesForUsecase(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName) {
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
 				"", "", 0, 0);
@@ -147,7 +147,7 @@ public class IssueResource {
 	public ResponseEntity relatedIssuesForScenario(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName) {
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
 				scenarioName, "", 0, 0);
@@ -161,7 +161,7 @@ public class IssueResource {
 			@PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
 			@PathVariable("pageOccurrence") final int pageOccurrence,
 			@PathVariable("stepInPageOccurrence") final int stepInPageOccurrence) {
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
 				scenarioName, pageName, pageOccurrence, stepInPageOccurrence);

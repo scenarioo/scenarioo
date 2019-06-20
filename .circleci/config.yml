@@ -204,6 +204,35 @@ jobs:
             cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
 
+  smoketest:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      # circleci/openjdk:8-jdk-browsers
+      - image: circleci/openjdk@sha256:fa630780e340d81ad974a06c9104e7c337b906186c42586ee61ec571eec730d3
+    working_directory: ~/smoketest
+    steps:
+      - checkout
+      - run:
+          name: Prepare environemnt
+          command: |
+            ./gradlew scenarioo-client:npmInstall --no-daemon -s
+      - run:
+          name: Smoketest develop demo
+          command: |
+            export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-develop
+
+            echo "Running smoketests for develop demo"
+            export GRADLE_OPTS="-Xms300m -Xmx1000m"
+              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
+      - run:
+          name: Smoketest master demo
+          command: |
+            export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-master
+
+            echo "Running smoketests for master demo"
+            export GRADLE_OPTS="-Xms300m -Xmx1000m"
+              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
+
 workflows:
   version: 2
   build_and_deploy:
@@ -224,3 +253,13 @@ workflows:
                 - master
                 - develop
                 - /^release\/.*/
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 3 * * *"
+          filters:
+            branches:
+              only:
+                - develop
+    jobs:
+      - smoketest

@@ -100,7 +100,7 @@ public class BuildUploader {
 
 		moveDataIntoCorrectDirectory(documentationDataDirectory, extractedZipFileDirectory);
 
-		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+		ScenarioDocuBuildsManager.getInstance().updateBuildsIfValidDirectoryConfigured();
 	}
 
 	private void moveDataIntoCorrectDirectory(final File documentationDataDirectory,

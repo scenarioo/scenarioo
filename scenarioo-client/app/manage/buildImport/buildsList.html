@@ -58,12 +58,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{build.buildDescription.date | scDateTime}}</td>
                 <td>{{build.buildDescription.revision}}</td>
                 <td>
-                    {{ build.buildStatistics.numberOfSuccessfulUseCases + build.buildStatistics.numberOfFailedUseCases }}
-                    <span ng-show="build.buildStatistics.numberOfFailedUseCases != 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
+                    <span ng-show="build.status != 'PROCESSING'">
+                        {{ build.buildStatistics.numberOfSuccessfulUseCases + build.buildStatistics.numberOfFailedUseCases }}
+                        <span ng-show="build.buildStatistics.numberOfFailedUseCases != 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
+                    </span>
                 </td>
                 <td>
-                    {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
-                    <span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+                    <span ng-show="build.status != 'PROCESSING'">
+                        {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
+                        <span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+                    </span>
                 </td>
                 <td>
                     <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
