@@ -462,13 +462,14 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 initDiffScreenShotUrl();
             });
     }
-
     $scope.setComparisonView = (viewId) => {
         $scope.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    $scope.isComparisonView = (viewId) => $scope.comparisonViewOptions.viewId === viewId;
+    $scope.isComparisonView = (viewId) => $scope.step.diffInfo.isAdded
+        ? viewId === 'SideBySide' // fixed side by side view for added steps
+        : $scope.comparisonViewOptions.viewId === viewId;
 
     $scope.switchComparisonSingleScreenView = () => {
         const viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
