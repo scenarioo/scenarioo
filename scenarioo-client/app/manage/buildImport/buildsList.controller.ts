@@ -20,7 +20,12 @@ import {tap} from 'rxjs/operators';
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
+angular.module('scenarioo.controllers')
+    .component('scBuildsList', {
+        template: require('./buildsList.html'),
+        controller: BuildsListController,
+        controllerAs: 'vm',
+    });
 
 function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource,
                               BuildImportService, BuildReimportResource,
