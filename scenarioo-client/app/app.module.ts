@@ -12,6 +12,7 @@ import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {TabsModule} from 'ngx-bootstrap';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
+import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import {GeneralSettingsDirective} from './manage/generalSettings/general-setting
         ManageTabsComponent,
         BranchAliasesDirective,
         GeneralSettingsDirective,
+        LabelColorsDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
