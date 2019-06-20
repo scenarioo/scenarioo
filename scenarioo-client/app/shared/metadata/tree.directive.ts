@@ -15,10 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scTree', ($sce) => {
+angular.module('scenarioo.directives')
+    .component('scTree', {
 
+        bindings: {
+            data: '<'
+        },
+        template: '<div ng-bind-html="$ctrl.treeHtml" class="sc-tree"></div>',
+        controller: TreeComponentController,
+    });
+
+function TreeComponentController($sce) {
+    const scope = this;
     const ITEM = 'Item';
     const CHILDREN = 'children';
+
+    this.$onChanges = (changes) => {
+        if (changes.data) {
+            /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
+             http://docs.angularjs.org/api/ng/service/$sce for more information
+             */
+            scope.treeHtml = $sce.trustAsHtml(createTreeHtml(changes.data.currentValue));
+        }
+    };
 
     function createTreeHtml(data) {
 
@@ -153,18 +172,4 @@ angular.module('scenarioo.directives').directive('scTree', ($sce) => {
         html += '</ul>';
         return html;
     }
-
-    return {
-        restrict: 'E',
-        scope: {data: '=data'},
-        template: '<div ng-bind-html="treeHtml" class="sc-tree"></div>',
-        link(scope: any) {
-            scope.$watch('data', (newData) => {
-                /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
-                 http://docs.angularjs.org/api/ng/service/$sce for more information
-                 */
-                scope.treeHtml = $sce.trustAsHtml(createTreeHtml(newData));
-            });
-        },
-    };
-});
+}
