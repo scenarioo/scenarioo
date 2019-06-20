@@ -51,7 +51,7 @@ If you look at the gradle build file, you will see an important dependency:
 ```
 dependencies {
     ...
-    compile 'org.scenarioo:scenarioo-java:2.0.+'
+    compile 'org.scenarioo:scenarioo-java:2.1.+'
 }
 ```
 The Scenarioo-Java API will help you to create the proper files. You could do this on your own but for the sake of simplicity we will use it in this example.

@@ -12,4 +12,4 @@ The NuGet package is reachable by: https://www.nuget.org/packages/Scenarioo-cs/
 
 ## Release ScenariooJS
 
-See https://github.com/scenarioo/scenarioo-js
+See [Release Docu in scenarioo-js repo](https://github.com/scenarioo/scenarioo-js/blob/develop/docs/contribute/release.md).
