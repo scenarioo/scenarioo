@@ -33,9 +33,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         $scope.applicationName = name;
     });
 
-    $scope.$on('branchesUpdated', () => {
-        loadBranchesAndBuilds();
-    });
+    ConfigurationService.getConfiguration().subscribe(loadBranchesAndBuilds);
 
     $scope.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
     $scope.comparisonInfo = SelectedComparison.info;
