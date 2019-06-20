@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
 function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService,
                                     TreeNodeService, ReferenceTreeNavigationService, $filter) {
 
-   var vm = this;
+    var vm = this;
 
     vm.treemodel = [];
     vm.object = {};
@@ -62,7 +62,8 @@ function ObjectRepositoryController($routeParams, $location, ObjectIndexListReso
 
     // Entry point when a tree entry is clicked
     function goToRelatedView(nodeElement) {
-        $location.path(ReferenceTreeNavigationService.goToRelatedView(nodeElement, vm.treemodel));
+        const relatedViewLocation = ReferenceTreeNavigationService.goToRelatedView(nodeElement, vm.treemodel);
+        $location.path(relatedViewLocation);
     }
 
     function expandAndCollapseTree(treemodel) {

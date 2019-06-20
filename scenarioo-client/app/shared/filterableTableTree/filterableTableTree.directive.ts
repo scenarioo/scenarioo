@@ -24,7 +24,7 @@ angular.module('scenarioo.directives')
             expandFirstChildUpToRootNode: '<',
             filter: '<',
             columns: '<',
-            treemodel: '<',
+            treemodel: '=',
             clickAction: '&',
             firstColumnTitle: '@',
         },
