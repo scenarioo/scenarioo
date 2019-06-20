@@ -8,13 +8,17 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
+import {TabsModule} from 'ngx-bootstrap';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        ManageTabsComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
+        ManageTabsComponent,
     ],
     imports: [
         BrowserModule,
@@ -23,6 +27,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        TabsModule.forRoot(),
     ],
     providers: [
         ConfigurationService,
