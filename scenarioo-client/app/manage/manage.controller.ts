@@ -19,6 +19,7 @@ angular.module('scenarioo.controllers')
     .controller('ManageController', ManageController);
 
 // Dummy component for AngularJS routing
+// tslint:disable-next-line
 function ManageController() {
 
 }
