@@ -44,7 +44,7 @@ public class BranchAliasesResource {
 		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setBranchAliases(branchAliases);
 		configurationRepository.updateConfiguration(configuration);
-		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
+		ScenarioDocuBuildsManager.getInstance().refreshBranchAliases();
 	}
 
 }
