@@ -44,11 +44,7 @@ Alternatively you can install your favorite Webserver and deploy the WAR into it
 
 1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 8.5.31+ or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
 
-2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
-    * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
-
-### Setup
-1. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
+2. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
     * To configure a different directory to use add the following line to context.xml in your webserver's installation directory (usually located in folder 'conf' of your tomcat installation):  
 `<Parameter name="scenariooDataDirectory" value=">>>path to a directory where scenarioo can store its data<<<" override="true" description="Location of Scenarioo data"/>`
     * Alternatively you can set an environment variable called `SCENARIOO_DATA` for the user under which Tomcat is running and define the path there
@@ -58,9 +54,12 @@ Alternatively you can install your favorite Webserver and deploy the WAR into it
      sudo chmod ug+rws <scenarioo-docu-directory> 
      ```
     * The config.xml file will be created for you automatically in this directory by the Scenarioo Viewer Web Application when you do some configuration changes inside the webapplication for the first time and save it.
+    
+3. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
+    * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
 
-2. **Start the Tomcat Server** (or whatever java server you are using)
+4. **Start the Tomcat Server** (or whatever java server you are using)
 
-3. **Startup Scenarioo Viewer Web App** through your browser using following URL: http://{your-ip-address-and-port-or-host-url}/scenarioo (e.g. http://localhost:8080/scenarioo )
+5. **Startup Scenarioo Viewer Web App** through your browser using following URL: http://{your-ip-address-and-port-or-host-url}/scenarioo (e.g. http://localhost:8080/scenarioo )
 
-4. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md).
+6. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md).
