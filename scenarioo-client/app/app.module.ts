@@ -11,12 +11,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {TabsModule} from 'ngx-bootstrap';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
+import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
         BranchAliasesDirective,
+        GeneralSettingsDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
