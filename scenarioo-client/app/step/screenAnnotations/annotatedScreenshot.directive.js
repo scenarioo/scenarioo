@@ -37,16 +37,24 @@ angular
 
 function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsService, $window) {
 
-    const scope = this;
+    const vm = this;
 
-    scope.imageScalingRatio = 1;
-    scope.imageNaturalHeight = 0;
+    vm.imageScalingRatio = 1;
+    vm.imageNaturalHeight = 0;
+    vm.getBoxCssStyle = getBoxCssStyle;
+    vm.getBoxText = getBoxText;
+    vm.getIconCssStyle = getIconCssStyle;
+    vm.getIconClass = getIconClass;
+    vm.openInfoPopup = openInfoPopup;
+    vm.doClickAction = doClickAction;
+    vm.hasClickAction = hasClickAction;
+    vm.getTooltipText = getTooltipText;
 
     var realImageElement = $element.find('img.sc-real-screenshot');
     var diffImageElement = $element.find('img.sc-diff-screenshot');
 
     var relevantImageElement = diffImageElement;
-    if (!scope.showDiff) {
+    if (!vm.showDiff) {
         relevantImageElement = realImageElement;
     }
 
@@ -61,35 +69,25 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     function updateImageScalingRatio() {
         var relevantNaturalWidth = relevantImageElement.get(0).naturalWidth;
         var relevantDisplayWidth = relevantImageElement.width();
-        scope.imageNaturalHeight = relevantImageElement.get(0).naturalHeight;
-        scope.imageScalingRatio = relevantDisplayWidth / relevantNaturalWidth;
+        vm.imageNaturalHeight = relevantImageElement.get(0).naturalHeight;
+        vm.imageScalingRatio = relevantDisplayWidth / relevantNaturalWidth;
 
-        if (scope.showDiff) {
+        if (vm.showDiff) {
             var realNaturalWidth = realImageElement.get(0).naturalWidth;
             var realNaturalHeight = realImageElement.get(0).naturalHeight;
 
-            realImageElement.get(0).width = realNaturalWidth * scope.imageScalingRatio + 4;
-            realImageElement.get(0).height = realNaturalHeight * scope.imageScalingRatio + 4;
+            realImageElement.get(0).width = realNaturalWidth * vm.imageScalingRatio + 4;
+            realImageElement.get(0).height = realNaturalHeight * vm.imageScalingRatio + 4;
         }
 
         //scope.$digest();
     }
 
-
-    scope.getBoxCssStyle = getBoxCssStyle;
-    scope.getBoxText = getBoxText;
-    scope.getIconCssStyle = getIconCssStyle;
-    scope.getIconClass = getIconClass;
-    scope.openInfoPopup = openInfoPopup;
-    scope.doClickAction = doClickAction;
-    scope.hasClickAction = hasClickAction;
-    scope.getTooltipText = getTooltipText;
-
     /**
      * get the text to display inside the annotation box (depending if text box is big enough to display text)
      */
     function getBoxText(screenAnnotation) {
-        var isTextVisible = screenAnnotation.region.width * scope.imageScalingRatio > 32 && screenAnnotation.region.height * scope.imageScalingRatio > 18;
+        var isTextVisible = screenAnnotation.region.width * vm.imageScalingRatio > 32 && screenAnnotation.region.height * vm.imageScalingRatio > 18;
         if (isTextVisible) {
             return screenAnnotation.screenText;
         } else {
@@ -100,10 +98,10 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     function getBoxCssStyle(screenAnnotation) {
         return {
             // The border is 2 px wide. Therefore we add these three pixels here.
-            left: (screenAnnotation.region.x * scope.imageScalingRatio - 2) + 'px',
-            top: (screenAnnotation.region.y * scope.imageScalingRatio - 2) + 'px',
-            width: (screenAnnotation.region.width * scope.imageScalingRatio + 4) + 'px',
-            height: (screenAnnotation.region.height * scope.imageScalingRatio + 4) + 'px',
+            left: (screenAnnotation.region.x * vm.imageScalingRatio - 2) + 'px',
+            top: (screenAnnotation.region.y * vm.imageScalingRatio - 2) + 'px',
+            width: (screenAnnotation.region.width * vm.imageScalingRatio + 4) + 'px',
+            height: (screenAnnotation.region.height * vm.imageScalingRatio + 4) + 'px',
             cursor: 'pointer',
             'z-index': 100
         };
@@ -111,8 +109,8 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
 
     function getIconCssStyle(screenAnnotation) {
         return {
-            left: (screenAnnotation.region.x + screenAnnotation.region.width) * scope.imageScalingRatio + 'px',
-            bottom: (scope.imageNaturalHeight - screenAnnotation.region.y) * scope.imageScalingRatio + 'px',
+            left: (screenAnnotation.region.x + screenAnnotation.region.width) * vm.imageScalingRatio + 'px',
+            bottom: (vm.imageNaturalHeight - screenAnnotation.region.y) * vm.imageScalingRatio + 'px',
             cursor: 'pointer',
             'z-index': 90
         };
@@ -133,7 +131,7 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
                     return annotation;
                 },
                 goToNextStep: function () {
-                    return scope.toNextStepAction;
+                    return vm.toNextStepAction;
                 }
             },
             windowClass: 'modal-small screen-annotation-popup'
@@ -149,7 +147,7 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
                 $window.open(annotation.clickActionUrl);
             },
             TO_NEXT_STEP: function () {
-                scope.toNextStepAction();
+                vm.toNextStepAction();
             },
             DEFAULT: function () {
                 openInfoPopup(annotation);
