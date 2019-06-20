@@ -51,9 +51,10 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
-        LabelConfigurationsResource.query({}, (labelConfigurations) => {
-            vm.labelConfigurations = labelConfigurations;
-        });
+        LabelConfigurationsResource.query()
+            .subscribe((labelConfigurations) => {
+                vm.labelConfigurations = labelConfigurations;
+            });
     }
 
     function gotoUseCase(useCase) {
@@ -88,9 +89,8 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             .then((branchesAndBuilds) => {
                 vm.branchesAndBuilds = branchesAndBuilds;
 
-                UseCasesResource.query(
-                    {branchName: selected.branch, buildName: selected.build},
-                    (useCases) => {
+                UseCasesResource.query({branchName: selected.branch, buildName: selected.build})
+                    .subscribe((useCases) => {
                         if (SelectedComparison.isDefined()) {
                             loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                         } else {

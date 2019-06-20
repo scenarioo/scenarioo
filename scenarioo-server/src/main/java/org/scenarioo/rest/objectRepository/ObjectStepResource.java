@@ -82,7 +82,7 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 	}
 
 	private List<StepLoaderResult> getRelatedSteps(String branchName, String buildName, String objectType, String objectName) {
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 			buildName);
 
 		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);

@@ -39,10 +39,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.activeTab = getActiveTab();
 
     $scope.comparisonViewOptions = {
-        viewId : getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
-        changesHighlighted : getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
+        viewId: getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
+        changesHighlighted: getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
         diffImageColor: undefined,
-     };
+    };
 
     activate();
 
@@ -62,9 +62,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     $scope.getPageNameUrlEncoded = () => encodeURIComponent($scope.pageName);
 
-    LabelConfigurationsResource.query({}, (labelConfigurations) => {
-        $scope.labelConfigurations = labelConfigurations;
-    });
+    LabelConfigurationsResource.query()
+        .subscribe((labelConfigurations) => {
+            $scope.labelConfigurations = labelConfigurations;
+        });
 
     $scope.showApplicationInfoPopup = (tab) => {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
@@ -76,61 +77,66 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         loadStepFromServer(selected);
     }
 
+    function stepResultToVm(result, selected) {
+        $scope.stepIdentifier = result.stepIdentifier;
+        $scope.fallback = result.fallback;
+        $scope.step = result.step;
+        $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
+        $scope.stepInformationTree = createStepInformationTree(result.step);
+        $scope.pageTree = transformMetadataToTree(result.step.page);
+        $scope.stepNavigation = result.stepNavigation;
+        $scope.stepStatistics = result.stepStatistics;
+        $scope.stepIndex = result.stepNavigation.stepIndex;
+        $scope.useCaseLabels = result.useCaseLabels;
+        $scope.scenarioLabels = result.scenarioLabels;
+        $scope.selectedBuild = selected.buildName;
+        loadRelatedIssues();
+        initScreenshotUrl();
+        if (SelectedComparison.isDefined()) {
+            loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
+        }
+
+        $scope.hasAnyLabels = () => {
+            const hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+            const hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+            const hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
+            const hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+
+            return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+        };
+
+        SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
+        SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+
+        updateSketcherContextService();
+    }
+
     function loadStepFromServer(selected) {
+
         StepResource.get(
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
-                scenarioName,
-                pageName: $scope.pageName,
-                pageOccurrence: $scope.pageOccurrence,
-                stepInPageOccurrence: $scope.stepInPageOccurrence,
-                labels,
             },
-            (result) => {
-                $scope.stepIdentifier = result.stepIdentifier;
-                $scope.fallback = result.fallback;
-                $scope.step = result.step;
-                $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
-                $scope.stepInformationTree = createStepInformationTree(result.step);
-                $scope.pageTree = transformMetadataToTree(result.step.page);
-                $scope.stepNavigation = result.stepNavigation;
-                $scope.stepStatistics = result.stepStatistics;
-                $scope.stepIndex = result.stepNavigation.stepIndex;
-                $scope.useCaseLabels = result.useCaseLabels;
-                $scope.scenarioLabels = result.scenarioLabels;
-                $scope.selectedBuild = selected.buildName;
-                loadRelatedIssues();
-                initScreenshotUrl();
-                if (SelectedComparison.isDefined()) {
-                    loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
-                }
+            useCaseName,
+            scenarioName,
+            $scope.pageName,
+            $scope.pageOccurrence,
+            $scope.stepInPageOccurrence,
+            labels,
+        )
+            .subscribe((result) => stepResultToVm(result, selected),
+                (error) => {
+                    $scope.stepNotFound = true;
+                    $scope.httpResponse = {
+                        status: error.status,
+                        method: error.config.method,
+                        url: error.config.url,
+                        data: error.data,
+                    };
+                },
+            );
 
-                $scope.hasAnyLabels = () => {
-                    const hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                    const hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                    const hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
-                    const hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
-
-                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
-                };
-
-                SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
-                SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
-
-                updateSketcherContextService();
-            },
-            (result) => {
-                $scope.stepNotFound = true;
-                $scope.httpResponse = {
-                    status: result.status,
-                    method: result.config.method,
-                    url: result.config.url,
-                    data: result.data,
-                };
-            },
-        );
     }
 
     function updateSketcherContextService() {
@@ -329,12 +335,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function storeActiveTab(activeTab) {
         sessionStorage.setItem('activeTab', activeTab);
     }
+
     function getActiveTab() {
         const activeTab: string = sessionStorage.getItem('activeTab');
         if (activeTab == null) {
             return 0;
         }
-        if (activeTab === "2" && !$scope.comparisonInfo.isDefined) {
+        if (activeTab === '2' && !$scope.comparisonInfo.isDefined) {
             return 0;
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab, 10) : 0;
@@ -359,7 +366,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     // This URL is only used internally, not for sharing
     function initScreenshotURLs() {
-        initComparisonScreenshotUrl ();
+        initComparisonScreenshotUrl();
         initDiffScreenShotUrl();
     }
 
@@ -397,7 +404,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         } else if ($scope.stepIdentifier) {
             const branchAndBuild = SelectedBranchAndBuildService.selected();
             const comparisonName = SelectedComparison.selected();
-            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex);
         }
     }
 
@@ -427,12 +434,12 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         // see http://stackoverflow.com/questions/22113286/prevent-http-errors-from-being-logged-in-browser-console
         StepDiffInfoResource.get(
             {
-            baseBranchName: SelectedBranchAndBuildService.selected().branch,
-            baseBuildName: SelectedBranchAndBuildService.selected().build,
-            comparisonName: $scope.comparisonName,
-            useCaseName,
-            scenarioName,
-            stepIndex: $scope.stepIndex,
+                baseBranchName: SelectedBranchAndBuildService.selected().branch,
+                baseBuildName: SelectedBranchAndBuildService.selected().build,
+                comparisonName: $scope.comparisonName,
+                useCaseName,
+                scenarioName,
+                stepIndex: $scope.stepIndex,
             },
             (result) => {
                 $scope.comparisonScreenshotName = result.comparisonScreenshotName;
@@ -445,7 +452,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             });
     }
 
-     $scope.setComparisonView = (viewId) => {
+    $scope.setComparisonView = (viewId) => {
         $scope.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
@@ -564,7 +571,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function goToIssue(issue) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id },
+            {branchName: selectedBranch, issueId: issue.id},
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });

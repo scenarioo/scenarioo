@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <defaultBranchName>testBranch</defaultBranchName>
+    <defaultBuildName>testBuild</defaultBuildName>
+    <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
+    <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
+    <buildStatusForSuccessfulBuilds>success</buildStatusForSuccessfulBuilds>
+    <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
+    <applicationName>Demo</applicationName>
+    <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;</applicationInformation>
+    <branchSelectionListOrder>name-ascending</branchSelectionListOrder>
+    <buildstates>
+        <entry>
+            <key>success</key>
+            <value>label-success</value>
+        </entry>
+        <entry>
+            <key>warning</key>
+            <value>label-warning</value>
+        </entry>
+        <entry>
+            <key>failed</key>
+            <value>label-danger</value>
+        </entry>
+    </buildstates>
+    <diffImageColor>0x7fff7e00</diffImageColor>
+    <createLastSuccessfulScenarioBuild>false</createLastSuccessfulScenarioBuild>
+    <expandPagesInScenarioOverview>false</expandPagesInScenarioOverview>
+    <comparisonConfigurations>
+        <comparisonConfiguration>
+            <name>testComparison</name>
+            <baseBranchName>testBranch</baseBranchName>
+            <comparisonBranchName>testBranch</comparisonBranchName>
+            <comparisonBuildName>testOldBuild</comparisonBuildName>
+        </comparisonConfiguration>
+        <comparisonConfiguration>
+            <name>testComparisonReversed</name>
+            <baseBranchName>testBranch</baseBranchName>
+            <comparisonBuildName>testOldBuild</comparisonBuildName>
+            <comparisonBranchName>testBranch</comparisonBranchName>
+        </comparisonConfiguration>
+	</comparisonConfigurations>
+    <labelConfigurations/>
+</configuration>

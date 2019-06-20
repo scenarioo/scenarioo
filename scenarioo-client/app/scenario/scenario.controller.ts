@@ -57,9 +57,10 @@ function ScenarioController($filter, $routeParams,
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    LabelConfigurationsResource.query({}, (queriedlabelConfigurations) => {
-        vm.labelConfigurations = queriedlabelConfigurations;
-    });
+    LabelConfigurationsResource.query()
+        .subscribe((queriedlabelConfigurations) => {
+            vm.labelConfigurations = queriedlabelConfigurations;
+        });
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -67,10 +68,10 @@ function ScenarioController($filter, $routeParams,
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
-                scenarioName,
             },
-            (result) => {
+            useCaseName,
+            scenarioName,
+        ).subscribe((result) => {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;

@@ -13,8 +13,11 @@ var webpackConfig = merge(commonConfig, {
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
-            mangle: false
-        })
+            mangle: false,
+            output: {
+                ascii_only: true
+            }
+        }),
     ]
 });
 

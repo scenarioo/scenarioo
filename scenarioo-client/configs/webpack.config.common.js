@@ -30,6 +30,16 @@ var webpackCommonConfig = {
                 exclude: '/node_modules'
             },
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['env'],
+                    }
+                }
+            },
+            {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
                 include: /images/,
                 loader: 'file-loader?name=/images/[name].[ext]'
@@ -74,7 +84,7 @@ var webpackCommonConfig = {
         }]),
         // Fixes Critical dependency: the request of a dependency is an expression
         // https://github.com/angular/angular/issues/20357
-        new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
+        new webpack.ContextReplacementPlugin(/@angular([\\/])core([\\/])esm5/, path.join(__dirname, './app')),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['polyfills']
         })

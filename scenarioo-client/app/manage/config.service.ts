@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Configuration} from "../shared/services/applicationStatus.service";
+import {IConfiguration} from '../generated-types/backend-types';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $rootScope) => {
@@ -29,7 +30,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
     }
 
     function doLoad() {
-        ConfigResource.get().subscribe(response => {
+        ConfigResource.get().subscribe((response) => {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
             $rootScope.getStatusStyleClass = (buildStatus) => {
@@ -84,13 +85,13 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
             return angular.isDefined(configData.defaultBuildName);
         },
 
-        updateConfiguration(newConfig: Configuration, successCallback) {
+        updateConfiguration(newConfig: IConfiguration, successCallback) {
             ConfigResource.save(newConfig).subscribe(() => {
                 if (successCallback) {
                     doLoad();
                     successCallback();
                 }
-            })
+            });
         },
 
         defaultBranchAndBuild() {

@@ -17,10 +17,18 @@
 
 'use strict';
 
-describe('UseCasesTabController', function () {
+import {Observable, of} from 'rxjs';
 
-    var $location, $scope;
-    var useCasesTabController;
+declare var angular: angular.IAngularStatic;
+
+describe('UseCasesTabController', () => {
+
+    let $location, $scope;
+    let useCasesTabController;
+
+    const LabelConfigurationsResourceMock = {
+        query: () => of({}),
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -28,12 +36,13 @@ describe('UseCasesTabController', function () {
         $provide.value('BranchesAndBuildsService', {});
         $provide.value('SelectedBranchAndBuildService', {
             callOnSelectionChange: () => {
-            }
+            },
         });
         $provide.value('UseCasesResource', {});
+        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
     }));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_) {
+    beforeEach(inject(($controller, $rootScope, _$location_) => {
             $location = _$location_;
 
             $scope = $rootScope.$new();
@@ -41,15 +50,15 @@ describe('UseCasesTabController', function () {
         }
     ));
 
-    it('has no usecases and builds set in the beginning', function () {
+    it('has no usecases and builds set in the beginning', () => {
         expect(useCasesTabController.useCases.length).toBe(0);
         expect(useCasesTabController.branchesAndBuilds.length).toBe(0);
     });
 
-    it('navigates to use case when link is clicked', function () {
+    it('navigates to use case when link is clicked', () => {
         expect($location.path()).toBe('');
 
-        var dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};
+        const dummyUseCase = {name: 'DisplayWeather', diffInfo: {isRemoved: false}};
         useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');

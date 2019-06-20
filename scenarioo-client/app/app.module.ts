@@ -5,11 +5,11 @@ import {LabelMetadataComponent} from './step/label-metadata/label-metadata.compo
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
-import {RestControllerModule} from "./shared/services/restControllerModule";
+import {RestControllerModule} from './shared/services/restController.module';
 
 @NgModule({
     declarations: [
-        LabelMetadataComponent
+        LabelMetadataComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -23,7 +23,7 @@ import {RestControllerModule} from "./shared/services/restControllerModule";
     ],
     providers: [
         LabelConfigurationService,
-    ]
+    ],
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {

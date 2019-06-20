@@ -25,6 +25,7 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.core.env.Environment;
 
 import javax.servlet.ServletContext;
 import java.io.InputStream;
@@ -36,7 +37,12 @@ import java.util.Properties;
 public class ScenariooInitializer implements ServletContextInitializer {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenariooInitializer.class);
-	private final ScenariooDataPathLogic scenariooDataPathLogic = new ScenariooDataPathLogic();
+	private final ScenariooDataPathLogic scenariooDataPathLogic;
+
+	public ScenariooInitializer(Environment environment) {
+		SystemEnvironment systemEnvironment = new SystemEnvironment(environment);
+		scenariooDataPathLogic = new ScenariooDataPathLogic(systemEnvironment);
+	}
 
 	@Override
 	public void onStartup(ServletContext servletContext) {
@@ -50,7 +56,7 @@ public class ScenariooInitializer implements ServletContextInitializer {
 			initializeContextPath(servletContext);
 
 			LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
-			ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+			ScenarioDocuBuildsManager.getInstance().updateBuildsIfValidDirectoryConfigured();
 		} catch(RuntimeException e) {
 			LOGGER.error("====================================================");
 			LOGGER.error("Error during Scenarioo startup", e);

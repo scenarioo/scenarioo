@@ -1,0 +1,91 @@
+# OVH Server Setup
+
+## Server Installation
+After logging in to the [So You Start web interface](https://eu.soyoustart.com/manager/?lang=en_uk#/login) you can trigger a reinstall of the server. In the wizard the configuration of the server can be selected.
+
+### Step 1: Template Selection
+We currently use an Ubuntu Server Template with a Custom Installation.
+
+So on this first page select the Ubuntu Server 16.04 LTS (64bits) Template and check the checkbox next to "Custom Installation".
+
+![InstallationStep1](images/ServerInstallation1.png)
+
+### Step 2: Disk partitions
+By default the server would be configured with four partitions (/, /boot, /home, swap), since we do not need a /home partition we have to change the partitions.
+
+1. Delete the /home partition.
+2. Edit the / partition and check the checkbox next to "Use the remaining space"
+3. Press Save
+
+It should then look like the following picture:
+
+![InstallationStep2](images/ServerInstallation2.png)
+
+### Step 3: Options
+On the options screen it is important to check the checkbox next to "Use the distribution kernel", beause OVH provides a custom kernel by default, which caused problems in the past in our project.
+
+![InstallationStep3](images/ServerInstallation3.png)
+
+### Step 4: Confirmation
+The confirmation screen shows the selected template and the language. By pressing the confirm button all data on the current server are wiped and the server is newly installed.
+
+## Server Configuration
+By default it is possible to connect to the server through SSH using a username and password. To make access more secure we only want to allow access with a whitelisted SSH key.
+
+### Creating the SSH key
+Use PuttyGen (or another tool) to create an SSH key for CircleCI. 
+
+Export the generated key as an OpenSSH key (in PuttyGen: Conversions > Export OpenSSH key) and save it as a *.pem file.
+
+Copy the public key and save it in another *.pem file.
+
+Lastly save the private key as *.ppk file as well (in PuttyGen: Button "Save private key"), so that you can use it to log in to the server with Putty.
+
+### Registering the public key
+Connect to the server using SSH (with username and password).
+
+```Bash
+cd ~/.ssh
+vi  authorized_keys2
+```
+add the public key to the end of the file and save it. The key should have the following format:
+```Bash
+ssh-rsa <public key> rsa-key-20190306
+```
+
+Test that login with the public key works by opening another OpenSSH session where you use the private key as authorization.
+
+If you are using PuTTY:
+* Set the correct Auto-login username under Connection > Data
+* Select the saved private key under Connection > SSH > Auth > Private key file for authentication
+
+### Disabling password login
+When login with the private key works, you can disable the password login.
+
+```Bash
+cd /etc/ssh
+vi sshd_config
+```
+
+Disable password authentication by setting `PasswordAuthentication no`.
+
+To ensure that our changes are accepted the ssh service needs to be restarted:
+```Bash
+systemctl restart ssh
+systemctl status ssh
+```
+The second command is to verify that the service was correctly restarted.
+
+An additional test is that when you try to connect with a new OpenSSH session using username and password, the following error message should appear:
+"No supported authentication methods available (server sent: publickey)"
+
+### Updating public key on Circle CI
+Circle CI needs the SSH public key to deploy the server after changes were committed. This is documented on the [Circle CI page](../circle-ci.md#Deploy-key-pair).
+
+### Updating Scenarioo infrastructure
+Scenarioo Infrastructure needs to know the IP address of the new server, so that it can connect and update it.
+
+Set the IP address of the new Server under "mainserver" in [scenarioo-infrastructure\hosts\hosts_demoserver_ovh](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/hosts/hosts_demoserver_ovh).
+
+## Update DNS lookup address
+Finally, the DNS entry needs to be updated with the IP address of the new server, so that http://demo.scenarioo.org points to the new server. To do this inform bruderol, who manages the DNS entry.

@@ -2,24 +2,24 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {Configuration} from './applicationStatus.service';
+import {IConfiguration} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
 @Injectable()
 export class ConfigResource {
-    url = 'rest/configuration';
+    private url = 'rest/configuration';
 
     constructor(private httpClient: HttpClient) {
 
     }
 
-    get(): Observable<Configuration> {
-        return this.httpClient.get<Configuration>(this.url);
+    get(): Observable<IConfiguration> {
+        return this.httpClient.get<IConfiguration>(this.url);
     }
 
-    save(config: Configuration): Observable<Configuration> {
-        return this.httpClient.post<Configuration>(this.url, config);
+    save(config: IConfiguration): Observable<IConfiguration> {
+        return this.httpClient.post<IConfiguration>(this.url, config);
     }
 }
 

@@ -16,12 +16,12 @@ public class LazyAliasResolver implements AliasResolver {
 
 	@Override
 	public BuildIdentifier resolveBranchAndBuildAliases(String branchName, String buildName) {
-		return ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName, buildName);
+		return ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName, buildName);
 	}
 
 	@Override
 	public String resolveBranchAlias(String aliasOrRealBranchName) {
-		return ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(aliasOrRealBranchName);
+		return ScenarioDocuBuildsManager.getInstance().resolveBranchAlias(aliasOrRealBranchName);
 	}
 
 }

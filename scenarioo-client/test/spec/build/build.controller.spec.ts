@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
 
 describe('BuildController', () => {
@@ -26,7 +27,7 @@ describe('BuildController', () => {
     let $location, TestData, $scope, BuildController;
 
     let ConfigResourceMock = {
-        get: () => Observable.of(angular.copy(TestData.CONFIG))
+        get: () => of(angular.copy(TestData.CONFIG))
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));

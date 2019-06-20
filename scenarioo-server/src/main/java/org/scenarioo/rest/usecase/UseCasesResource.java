@@ -51,7 +51,7 @@ public class UseCasesResource {
 			@PathVariable("buildName") final String buildName) {
 		final List<UseCaseSummary> result = new LinkedList<>();
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 				branchName,
 				buildName);
 
