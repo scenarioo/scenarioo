@@ -15,7 +15,6 @@ The following tools should be installed and running on your computer:
 
  * Git (most recent version)
  * Java JDK (1.8)
- * Node.js (8.11+)
  * IntelliJ IDEA Ultimate (most recent version) 
    * Ask @bruderol if you want to use an open source license for it
  * Docker (recommended)
