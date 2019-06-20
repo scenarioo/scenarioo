@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <img id="img_{{$index}}" ng-style="{'padding-left': (node.level * 30) + 'px'}"
                          ng-hide="$ctrl.isNodeIconEmpty(node)"
                          style="position: absolute; white-space:nowrap; cursor:pointer;"
-                         ng-click="$ctrl.toggleCollapseNode(node)" ng-Dblclick="$ctrl.toggleAllChilds(node)" ng-src="{{node.icon}}">
+                         ng-click="$ctrl.toggleCollapseNode(node)" ng-Dblclick="$ctrl.toggleAllChildren(node)" ng-src="{{node.icon}}">
                     <span ng-style="{'padding-left': (node.level * 30 + 30) + 'px'}"
                           style="word-break: break-all;display: inline-block;cursor:pointer"
                           ng-click="$ctrl.clickAction({node:node})">{{node.type}}: {{$ctrl.formatNodeName(node)}}</span>

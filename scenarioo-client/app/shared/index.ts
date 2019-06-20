@@ -13,7 +13,7 @@ import './navigation/breadcrumbs/breadcrumbs.directive';
 import './navigation/breadcrumbs/sketcherLink.service';
 import './sortableColumn.directive';
 import './metadata/tree.directive';
-import './filterableTableTree/filterableTableTree.directive';
+import './filterableTableTree/filterableTableTree.component';
 import './keyboardNavigatableTable.directive';
 import './debounce.directive';
 import './metadata/metaDataButton.directive';
