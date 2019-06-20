@@ -34,6 +34,7 @@
         "lint:app:fix": "tslint --fix 'app/**/*.ts' -c app/tslint.json"
     },
     "dependencies": {
+        "@angular/animations": "7.2.14",
         "@angular/common": "7.2.14",
         "@angular/compiler": "7.2.14",
         "@angular/core": "7.2.14",
@@ -42,7 +43,6 @@
         "@angular/platform-browser-dynamic": "7.2.14",
         "@angular/router": "7.2.14",
         "@angular/upgrade": "7.2.14",
-        "@angular/animations": "7.2.14",
         "@fortawesome/fontawesome": "^1.1.8",
         "@fortawesome/fontawesome-free-brands": "^5.0.13",
         "@fortawesome/fontawesome-free-solid": "^5.0.13",

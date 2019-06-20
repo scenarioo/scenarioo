@@ -1,10 +1,38 @@
-<div>
-    <tabset>
-        <tab heading="Basic title" id="tab1">Use Cases</tab>
-        <tab *ngFor="let dynamictab of tabs"
-             [heading]="dynamictab.title">
-            {{dynamictab?.content}}
-        </tab>
-
-    </tabset>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-sm-8">
+        <div class="input-group">
+            <input type="text" class="form-control" id="useCasesSearchField"
+                   data-toggle="tooltip" title="type words separated by spaces to search for"
+                   placeholder="Search in use cases..."/>
+            <span class="input-group-btn">
+                        <button type="button" (click)="resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+        </div>
+    </div>
 </div>
+
+<table class="table table-curved table-hover table-responsive usecase-table">
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th># Scenarios</th>
+        <th class="sort-diff-info" >Changes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dynamicUseCase of usecases">
+        <td>
+            <span>{{dynamicUseCase.status}}</span>
+        </td>
+        <td>
+            {{dynamicUseCase.name}}
+            <span class="label label-info sc-label">{{dynamicUseCase.labels}}</span>
+        </td>
+        <td>{{dynamicUseCase.description}}</td>
+        <td>{{dynamicUseCase.numberOfScenarios}}</td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>

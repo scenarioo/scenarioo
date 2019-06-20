@@ -149,3 +149,9 @@ angular.module('scenarioo.services')
             getBuild: getBuildByName,
         };
     });
+
+export class BranchesAndBuildsService {
+    getBranchesAndBuilds(): Promise<any> {
+        return undefined;
+    }
+}

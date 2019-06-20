@@ -8,17 +8,22 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {UsecaseOverviewComponent} from './build/usecase-overview/usecase-overview.component';
+import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap';
+import {UseCaseComponent} from './build/usecase-overview/usecase-overview.component';
+import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
+import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
-        UsecaseOverviewComponent,
+        MainPageComponent,
+        UseCaseComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
-        UsecaseOverviewComponent,
+        MainPageComponent,
+        UseCaseComponent,
     ],
     imports: [
         BrowserModule,
@@ -40,6 +45,8 @@ import {TabsModule} from 'ngx-bootstrap';
             multi: true,
         },
         LabelConfigurationService,
+        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
+        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
     ],
 })
 export class AppModule {

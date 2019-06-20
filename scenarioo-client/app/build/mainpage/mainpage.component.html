@@ -1,0 +1,12 @@
+<div>
+    <tabset>
+        <tab heading="Use Cases" id="tab1">
+            <sc-usecase-overview></sc-usecase-overview>
+        </tab>
+        <tab *ngFor="let dynamictab of tabs"
+             [heading]="dynamictab.title">
+            {{dynamictab?.content}}
+        </tab>
+
+    </tabset>
+</div>
