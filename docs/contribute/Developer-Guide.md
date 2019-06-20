@@ -37,14 +37,25 @@ You need a correctly setup development environment for working on Scenarioo as d
    * You should see in the log output that it is importing the example documentation data properly.
    
  3. Finally, start serving the frontend:
+   
+   Using npm directly:
+   ```
+   cd scenarioo-client
+   npm install
+   npm start
+   ```
+   
+   Or using gradle tasks:
    ```
    ./gradlew npmInstall
    ./gradlew npm_start
    ```
+   
    Some remarks about this:
-   * `./gradlew npmInstall`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
-   * `./gradlew npm_start`: spawns a webpack development server locally
-   * All tasks defined in`package.json` can be invoked by running `./gradlew npm_run_<TASK>`
+   * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
+   * `npm start`: spawns a webpack development server locally
+   * The gradle tasks are using the gradle-node-plugin to execute the same npm tasks described above. Using the gradle-node-plugin makes sure that always the correct node and npm versions are used to build. Also you don't need to have Node.js installed separately.
+     * All npm tasks defined in`package.json` can be invoked by running `./gradlew npm_run_<TASK>`
 
  4. Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
    * :warning: The `/` at the end of the URL is mandatory!
@@ -61,8 +72,7 @@ On the command-line run:
    
 Or in IntelliJ 
    * run all java unit tests inside scenarioo/scenarioo-server
-   * run all java-script karma unit tests inside scenarioo/scenarioo-client with
-       `./gradlew npm_test`
+   * run all java-script karma unit tests inside scenarioo/scenarioo-client with `npm test` or `./gradlew npm_test`
    
 ## E2E Testing with Protractor
 
@@ -80,20 +90,31 @@ Scenarioo Viewer is up and running and test data is generated. The simplest way 
 
 ### Run E2E Tests
 
+Change into the client directory:
+   ```
+   cd scenarioo-client
+   ```
+
 There are two tasks which can be used to run the E2E tests. The tasks differ in how they execute the tests. You can 
 
 * run the tests in the background and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
    ```
-   ./gradlew npm_run_e2e-scenarioo
+   npm run e2e-scenarioo
    ```
 
 * or run the tests in the foreground without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`).
 This will open a new browser window, run all tests and log test-information to the console.:
    ```
-   ./gradlew npm_run_e2e
+   npm run e2e
    ```
 
-Note: ChromeDriver will automatically be installed / updated when you run the E2E tests using the commands above.
+Both tasks can also be executed using gradle in the scenarioo root directory:
+```
+./gradlew npm_run_e2e-scenarioo
+./gradlew npm_run_e2e
+```
+
+Note: ChromeDriver will automatically be installed / updated when you run the E2E tests using the gradle or npm commands above.
 
 ### Reset the Test Data
 
@@ -144,7 +165,12 @@ On Linux:
 ./node_modules/protractor/bin/webdriver-manager update --chrome
 ```
 
-On Windows/Linux:
+On Windows:
+```  
+node node_modules\protractor\node_modules\webdriver-manager update
+```
+
+Or you can run the following gradle task on Linux/Windows:
 ```  
 ./gradlew npm_run_webdriver-manager_update
 ```
@@ -163,7 +189,7 @@ To achieve this do the following:
 7. Reload the web page.
 
 ### Hot code replacement in the frontend
-This is done automatically when the frontend is deployed with `./gradlew npm_start`. After a change is saved the web page is automatically reloaded.
+This is done automatically when the frontend is deployed with `npm start` or `./gradlew npm_start`. After a change is saved the web page is automatically reloaded.
 
 ### Docker Run Configurations
 
@@ -247,10 +273,6 @@ To fix issues in scenarioo-js you can import it into IntelliJ.
    ```
  
 2. Import it into IntelliJ by using **"File/New/Module From Existing Sources"**.
-
-### Prerequisites
-
-An installation of Node.js 8.11+ is required to build and test scenarioo-js.
 
 ### Building scenarioo-js
 

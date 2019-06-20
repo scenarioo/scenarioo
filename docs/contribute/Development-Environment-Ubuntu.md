@@ -21,6 +21,9 @@ Just download and unzip. Don't use `apt-get` for this.
 
 ## Node.js
 
+Install node.js (check [Development Environment with IntelliJ](Development-Environment-Setup.md) to see which 
+version we currently use). [Installation instruction](https://github.com/nodesource/distributions).
+
 ### Solve Problems with Global NPM Dependencies
 
 Scenarioo should not need any global dependencies anymore - if everything is run thorugh our package.json (see scripts area!)!
