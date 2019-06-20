@@ -42,7 +42,7 @@ import java.util.concurrent.*;
  * Also submitts comparisons for the imported builds.
  *
  * This is done asynch with two separate asynch executed queues:
- * 1. Exceutor in BuildImporter executes import tasks in one thread
+ * 1. Executor in BuildImporter executes import tasks in one thread
  * 2. Executor in ComparisonExecutor executes comparisons in another thread (such that further imports can run in parallel)
  */
 public class BuildImporter {
@@ -126,9 +126,9 @@ public class BuildImporter {
 	 * The flow is as follows:
 	 * 1. All Builds are executed and every Build schedules his Comparisons with the AsyncBuildImporterExecutor to ensure
 	 *    that they are only processed after all Builds have been imported (to make sure the build to be compared with is also imported first).
-	 * 2. All Comparisons are submitted as tasks to ComparisonExecutor to execute in seprate thread
-	 * 3. ComparisonExecutor processes all Comparisons in seprate thread
-	 * 4. After all has been processed a log message that all submitted imports and comparisons have been processed is logged.
+	 * 2. All Comparisons are submitted as tasks to ComparisonExecutor to execute in separate thread
+	 * 3. ComparisonExecutor processes all Comparisons in separate thread
+	 * 4. After everything has been processed a log message that all submitted imports and comparisons have been processed is logged.
 	 *
 	 * @return Returns the number of builds that were submitted (that need to be imported)
 	 */
@@ -152,12 +152,12 @@ public class BuildImporter {
 	private void executeAfterAllPendingImportsAndComparisonsDone(Runnable task) {
 		executeAfterAllPendingImportsDone(() ->
 
-				// submit again another task, to be sure that first all scheduled comparison tasks are submitted first for execution,
-				// that have been scheduled for all imported builds in the meantime
-				asyncBuildImportExecutor.execute(() ->
-					// let the task execute after all comparisons have been executed
-					comparisonExecutor.executeAfterAllPendingComparisonsDone(task)
-				)
+			// submit another task for execution, to be sure that all scheduled comparison tasks,
+			// which have been scheduled for all imported builds in the meantime, are submitted first
+			asyncBuildImportExecutor.execute(() ->
+				// let the task execute after all comparisons have been executed
+				comparisonExecutor.executeAfterAllPendingComparisonsDone(task)
+			)
 		);
 	}
 
