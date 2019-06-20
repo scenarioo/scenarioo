@@ -19,7 +19,7 @@ angular.module('scenarioo.directives')
     .component('scTree', {
 
         bindings: {
-            data: '<'
+            data: '<',
         },
         template: '<div ng-bind-html="$ctrl.treeHtml" class="sc-tree"></div>',
         controller: TreeComponentController,
