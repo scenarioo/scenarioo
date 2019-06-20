@@ -53,8 +53,5 @@ useCase('Manage comparisons')
                 await ComparisonDetailDialog.assertComparedBuildDetails('wikipedia-docu-example', '2014-04-19');
 
                 await ComparisonDetailDialog.assertLogContains('=== START OF BUILD COMPARISON ===');
-                await ComparisonDetailDialog.assertLogContains('Comparison To most recent (dev) on target build wikipedia-docu-example-dev/2014-05-19 for comparing with build Development/most recent');
-                await ComparisonDetailDialog.assertLogContains('Comparison finished in');
-                await ComparisonDetailDialog.assertLogContains('=== END OF BUILD COMPARISON (success) ===');
             });
     });
