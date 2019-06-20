@@ -21,6 +21,7 @@ public class FileResponseCreator {
 	public static ResponseEntity<InputStreamResource> createImageFileResponse(File imageFile) {
 		return ResponseEntity
 			.ok()
+			.cacheControl(CacheControl.empty().cachePrivate().proxyRevalidate())
 			.body(getFileInputStream(imageFile));
 	}
 
