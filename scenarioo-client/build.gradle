@@ -61,13 +61,3 @@ task runLinter(type: NpmTask) {
 task runTsLint(type: NpmTask) {
     args = ['run', 'lint:app']
 }
-
-task npmRun(type: NpmTask) {
-    doFirst {
-        if (!project.hasProperty('task')) {
-            throw new IllegalArgumentException("Property 'task' is missing for task npmRun")
-        }
-    }
-
-    args = ['run', project.findProperty('task')]
-}
