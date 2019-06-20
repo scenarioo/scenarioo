@@ -18,7 +18,11 @@
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers')
-    .controller('BranchAliasesController', BranchAliasesController);
+    .component('scBranchAliases', {
+        template: require('./branchAliases.html'),
+        controller: BranchAliasesController,
+        controllerAs: 'vm',
+    });
 
 function BranchAliasesController(BranchAliasesResource, BranchesResource) {
 
