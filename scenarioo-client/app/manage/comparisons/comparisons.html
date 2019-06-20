@@ -30,12 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 data-toggle="tooltip" title="type words separated by spaces to search for"
                 ng-model="vm.table.search.searchTerm" placeholder="Search comparison ..."/>
                 <span class="input-group-btn">
-                    <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
+                    <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default" id="resetComparisonsSearchField">reset</button>
                 </span>
             </div>
         </div>
         <div class="col-lg-9">
-            <a href="" ng-click="vm.refresh()" class="link pull-right">
+            <a href="" ng-click="vm.refresh()" class="link pull-right" id="refreshComparisons">
                 <span class="glyphicon glyphicon-refresh"></span>
                 Refresh
             </a>
