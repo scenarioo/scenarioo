@@ -93,8 +93,7 @@ https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y1
   * Examples: `sc-tree`, `sc-node-label`
 
 ## Java
-* Formatting and code style must conform to the Eclipse settings defined here: [Eclipse IDE Seetings](Eclipse-IDE-Settings.md)
-* Follow the clean code reccommendations from the "Clean Code" book
+* Follow the clean code recommendations from the "Clean Code" book
 * Order in a Java class:
   1. Fields
   2. Constructors
@@ -103,14 +102,14 @@ https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y1
   5. Other methods
   6. hashCode / equals / toString
 * Use constructor dependency injection. Make sure that classes with "business logic" get their dependencies injected, so that they are easily testable.
-* Do not add the `serialVersionUID` to classes.
+* Do not add `serialVersionUID` to classes.
 
 ## C&#35;
 * Formatting and code style must conform with settings defined here:
 https://github.com/scenarioo/scenarioo-cs/blob/master/scenarioo-cs.sln.DotSettings
 
 ## Licence Headers
-In every sourcefile (*.java, *.gradle, *.js, *.css, *.html,...) the correct licence header must be contained. In the versioned eclipse project the settings have been adjusted accordingly and new Java file while automatically contain the correct headers (depending on the module -server, -api and -docu-generation-example) for all other files (e.g. gradle files or properties) please always make sure that the correct header is included before adding to version control.
+In every sourcefile (*.java, *.gradle, *.js, *.css, *.html,...) the correct licence header must be contained. Please always make sure that the correct header is included before adding it to version control.
 
 For the scenarioo-client module the code template settings (for *.js, *.css and *.html) in your favourite IDE must be configured by yourself (see below).
 ![Code templates in WebStorms](https://raw.github.com/scenarioo/scenarioo/gh-pages/images/code_templates_in_webstorms.png)

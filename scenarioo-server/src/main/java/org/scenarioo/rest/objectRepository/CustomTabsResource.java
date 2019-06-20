@@ -17,7 +17,7 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 	public CustomObjectTabTree readObjectTreeForTab(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("tabId") final String tabId) {
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 
 		return getDAO(buildIdentifier).loadCustomObjectTabTree(buildIdentifier, tabId);

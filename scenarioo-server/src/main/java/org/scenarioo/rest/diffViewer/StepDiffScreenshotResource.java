@@ -49,7 +49,7 @@ public class StepDiffScreenshotResource {
 			@PathVariable("scenarioName") final String scenarioName,
 			@PathVariable("stepIndex") final int stepIndex) {
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 			baseBranchName,
 			baseBuildName);
 

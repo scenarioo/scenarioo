@@ -43,11 +43,8 @@ public class BuildImporter {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-		.getConfigurationRepository();
-
 	private ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-		configurationRepository.getDocumentationDataDirectory());
+		getConfigurationRepository().getDocumentationDataDirectory());
 
 	/**
 	 * Current state for all builds whether imported and aggregated correctly.
@@ -192,6 +189,7 @@ public class BuildImporter {
 
 		availableBuilds.removeBuild(buildIdentifier);
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
+		summary.setStatusMessage(null);
 		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 		aggregator.removeAggregatedDataForBuild();
 
@@ -354,7 +352,7 @@ public class BuildImporter {
 		List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(
 			buildImportSummaries.values());
 		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-			configurationRepository.getDocumentationDataDirectory());
+			getConfigurationRepository().getDocumentationDataDirectory());
 		dao.saveBuildImportSummaries(summariesToSave);
 	}
 
@@ -365,4 +363,7 @@ public class BuildImporter {
 		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 
+	private ConfigurationRepository getConfigurationRepository() {
+		return RepositoryLocator.INSTANCE.getConfigurationRepository();
+	}
 }

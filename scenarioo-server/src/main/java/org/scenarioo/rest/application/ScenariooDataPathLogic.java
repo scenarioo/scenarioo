@@ -33,11 +33,6 @@ class ScenariooDataPathLogic {
 
 	private final SystemEnvironment systemEnvironment;
 
-	ScenariooDataPathLogic() {
-		this(new SystemEnvironment());
-	}
-
-	// For injection of SystemEnvironment in unit test
 	ScenariooDataPathLogic(final SystemEnvironment systemEnvironment) {
 		this.systemEnvironment = systemEnvironment;
 	}
@@ -48,7 +43,7 @@ class ScenariooDataPathLogic {
 				"scenariooDataDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "SCENARIOO_DATA environment variable";
+			configSource = "SCENARIOO_DATA environment variable or scenarioo.data application property";
 			configurationDirectory = systemEnvironment.getScenariooDataDirectory();
 		}
 

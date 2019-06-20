@@ -43,7 +43,7 @@ public class StepDiffInfoResource {
 			@PathVariable("useCaseName") final String useCaseName,
 			@PathVariable("scenarioName") final String scenarioName,
 			@PathVariable("stepIndex") final String stepIndex) {
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance()
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		return diffViewerDao.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
@@ -57,7 +57,7 @@ public class StepDiffInfoResource {
 			@PathVariable("useCaseName") final String useCaseName,
 			@PathVariable("scenarioName") final String scenarioName) {
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 				baseBranchName, baseBuildName);
 
 		final List<StepDiffInfo> stepDiffInfos = diffViewerDao.loadStepDiffInfos(buildIdentifier.getBranchName(),

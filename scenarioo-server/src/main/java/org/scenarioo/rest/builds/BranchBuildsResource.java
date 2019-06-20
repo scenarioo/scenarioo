@@ -37,7 +37,7 @@ public class BranchBuildsResource {
 	 */
 	@GetMapping
 	public List<BranchBuilds> listBranchesAndBuilds() {
-		return ScenarioDocuBuildsManager.INSTANCE.getAvailableBuilds();
+		return ScenarioDocuBuildsManager.getInstance().getAvailableBuilds();
 	}
 
 }

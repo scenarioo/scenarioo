@@ -67,7 +67,7 @@ public class LabelConfigurationsResource {
 		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setLabelConfigurations(labelConfigurations);
 		configurationRepository.updateConfiguration(configuration);
-		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
+		ScenarioDocuBuildsManager.getInstance().refreshBranchAliases();
 	}
 
 	@XmlRootElement
