@@ -38,8 +38,21 @@ import java.util.concurrent.*;
 
 /**
  * Takes care of importing builds.
+ *
+ * Also submitts comparisons for the imported builds.
+ *
+ * This is done asynch with two separate asynch executed queues:
+ * 1. Exceutor in BuildImporter executes import tasks in one thread
+ * 2. Executor in ComparisonExecutor executes comparisons in another thread (such that further imports can run in parallel)
  */
 public class BuildImporter {
+
+	/**
+	 * Log entry text that the CI/CD build can check for after a deployment of a new version to verify all imports and comparisons have been executed.
+	 *
+	 * Be aware that changing this text means also to adjust our CI/CD pipeline accordingly.
+	 */
+	private static final String ALL_BUILD_IMPORTS_AND_COMPARISONS_FINISHED_LOG_ENTRY_FOR_CI_CHECK = "All Builds Imported and Comparisons Calculated.";
 
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 
@@ -81,10 +94,6 @@ public class BuildImporter {
 		return new ArrayList<>(buildImportSummaries.values());
 	}
 
-	public ExecutorService getAsyncBuildImportExecutor() {
-		return asyncBuildImportExecutor;
-	}
-
 	public synchronized void updateBuildImportStates(List<BranchBuilds> branchBuildsList,
 													 Map<BuildIdentifier, BuildImportSummary> loadedBuildSummaries) {
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<>();
@@ -114,6 +123,13 @@ public class BuildImporter {
 	/**
 	 * Loops over given builds and submits all builds that are not yet imported.
 	 *
+	 * The flow is as follows:
+	 * 1. All Builds are executed and every Build schedules his Comparisons with the AsyncBuildImporterExecutor to ensure
+	 *    that they are only processed after all Builds have been imported (to make sure the build to be compared with is also imported first).
+	 * 2. All Comparisons are submitted as tasks to ComparisonExecutor to execute in seprate thread
+	 * 3. ComparisonExecutor processes all Comparisons in seprate thread
+	 * 4. After all has been processed a log message that all submitted imports and comparisons have been processed is logged.
+	 *
 	 * @return Returns the number of builds that were submitted (that need to be imported)
 	 */
 	public synchronized int submitUnprocessedBuildsForImport(AvailableBuildsList availableBuilds) {
@@ -127,28 +143,26 @@ public class BuildImporter {
 				submitBuildForImport(availableBuilds, buildImportSummary.getIdentifier());
 			}
 		}
-		submitImportFinishedJob();
+
+		executeAfterAllPendingImportsAndComparisonsDone(() -> LOGGER.info(ALL_BUILD_IMPORTS_AND_COMPARISONS_FINISHED_LOG_ENTRY_FOR_CI_CHECK));
 
 		return importNeededBuilds.size();
 	}
 
-	/**
-	 * After all Builds were imported and all Comparisons triggered, we want to log a successful completion message.
-	 * Since the scheduling of comparisons only  happens after all builds are imported, we need to add a second
-	 * Job into the queue to ensure that it is triggered last.
-	 *
-	 * The flow looks like this:
-	 * 1. All Builds are executed and every Build schedules his Comparisons with the AsyncBuildImporterExecutor to ensure
-	 *    that they are only processed after all Builds have been imported.
-	 * 2. The first submit of submitImportFinishedJob is triggered, it schedules another submit, since the Comparisons have not finished yet.
-	 * 3. All Comparisons are scheduled in ComparisonExecutor
-	 * 4. The second submit of submitImportFinishedJob is triggered, it schedules a submit in ComparisonExecutor.
-	 * 5. ComparisonExecutor processes all Comparisons
-	 * 6. ComparisonExecutor processes scheduleComparisonFinishedLog.
-	 */
-	private void submitImportFinishedJob() {
-		asyncBuildImportExecutor.submit(() ->
-			asyncBuildImportExecutor.submit(() -> comparisonExecutor.scheduleComparisonFinishedLog()));
+	private void executeAfterAllPendingImportsAndComparisonsDone(Runnable task) {
+		executeAfterAllPendingImportsDone(() ->
+
+				// submit again another task, to be sure that first all scheduled comparison tasks are submitted first for execution,
+				// that have been scheduled for all imported builds in the meantime
+				asyncBuildImportExecutor.execute(() ->
+					// let the task execute after all comparisons have been executed
+					comparisonExecutor.executeAfterAllPendingComparisonsDone(task)
+				)
+		);
+	}
+
+	private void executeAfterAllPendingImportsDone(Runnable task) {
+		asyncBuildImportExecutor.execute(task);
 	}
 
 	public synchronized void submitBuildForReimport(AvailableBuildsList availableBuilds,
@@ -376,4 +390,10 @@ public class BuildImporter {
 		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 	}
 
+	public void shutdownAndAwaitTerminationOfRunningImportJob() throws InterruptedException {
+		asyncBuildImportExecutor.shutdown();
+		while (!asyncBuildImportExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+			LOGGER.info("Awaiting completion of build imports...");
+		}
+	}
 }

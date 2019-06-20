@@ -118,8 +118,11 @@ public class ComparisonExecutor {
 		return scheduleComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	public void scheduleComparisonFinishedLog() {
-		asyncComparisonExecutor.submit(() -> LOGGER.info("All Builds Imported and Comparisons Calculated."));
+	/**
+	 * Submit any task for execution after all pending comparisons have been executed.
+	 */
+	public void executeAfterAllPendingComparisonsDone(Runnable task) {
+		asyncComparisonExecutor.execute(task);
 	}
 
 	/**
