@@ -207,7 +207,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </div>
 
-                <div id="sc-step-comparison-side-by-side-view" ng-if="isComparisonView('SideBySide')">
+                <div id="sc-step-comparison-side-by-side-view" ng-if="isComparisonView('SideBySide') || step.diffInfo.isAdded">
                     <div class="row">
                         <div class="col-lg-6">
                             <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}"
@@ -252,7 +252,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
                 <div id="sc-step-comparison-single-page-view"
-                     ng-if="isComparisonView('CurrentScreen') || isComparisonView('OtherScreen')">
+                     ng-if="(isComparisonView('CurrentScreen') || isComparisonView('OtherScreen')) && !step.diffInfo.isAdded">
 
                     <!-- Comparison: Current Screen View -->
                     <div class="sc-step-comparison-current-screenshot" ng-if="isComparisonView('CurrentScreen')">
@@ -283,36 +283,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             highlights="comparisonViewOptions.changesHighlighted"
                             name="{{comparisonName}}">
                         </sc-screenshot-title>
-                        <div ng-if="step.diffInfo.isAdded">
-                            <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
-                            <sc-annotated-screenshot
-                                diff-screen-shot-url="diffScreenShotUrl"
-                                ng-if="comparisonViewOptions.changesHighlighted"
-                                screen-shot-url="screenShotUrl"
-                                show-diff="true">
-                            </sc-annotated-screenshot>
-                            <sc-annotated-screenshot
-                                diff-screen-shot-url="diffScreenShotUrl"
-                                ng-if="!comparisonViewOptions.changesHighlighted"
-                                screen-shot-url="screenShotUrl"
-                                show-diff="false">
-                            </sc-annotated-screenshot>
-                        </div>
-                        <div ng-if="!step.diffInfo.isAdded">
-                            <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
-                            <sc-annotated-screenshot
-                                screen-shot-url="comparisonScreenShotUrl"
-                                diff-screen-shot-url="diffScreenShotUrl"
-                                show-diff="true"
-                                ng-if="comparisonViewOptions.changesHighlighted">
-                            </sc-annotated-screenshot>
-                            <sc-annotated-screenshot
-                                screen-shot-url="comparisonScreenShotUrl"
-                                diff-screen-shot-url="diffScreenShotUrl"
-                                show-diff="false"
-                                ng-if="!comparisonViewOptions.changesHighlighted">
-                            </sc-annotated-screenshot>
-                        </div>
+                         <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                         <sc-annotated-screenshot
+                             screen-shot-url="comparisonScreenShotUrl"
+                             diff-screen-shot-url="diffScreenShotUrl"
+                             show-diff="true"
+                             ng-if="comparisonViewOptions.changesHighlighted">
+                         </sc-annotated-screenshot>
+                         <sc-annotated-screenshot
+                             screen-shot-url="comparisonScreenShotUrl"
+                             diff-screen-shot-url="diffScreenShotUrl"
+                             show-diff="false"
+                             ng-if="!comparisonViewOptions.changesHighlighted">
+                         </sc-annotated-screenshot>
                     </div>
 
                 </div>
