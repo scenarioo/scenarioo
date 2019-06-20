@@ -17,7 +17,6 @@
 
 declare var angular: angular.IAngularStatic;
 
-
 angular.module('scenarioo.controllers')
     .controller('BranchAliasesController', BranchAliasesController);
 
@@ -105,6 +104,7 @@ function BranchAliasesController(BranchAliasesResource, BranchesResource) {
         }
 
         BranchAliasesResource.save(branchAliasesToSave)
+        // tslint:disable-next-line
             .subscribe(() => {
             }); // We need to subscribe, otherwise the request won't be executed
 
