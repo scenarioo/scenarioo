@@ -55,7 +55,7 @@ public class ScreenshotResource {
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
 
@@ -75,7 +75,7 @@ public class ScreenshotResource {
 											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));

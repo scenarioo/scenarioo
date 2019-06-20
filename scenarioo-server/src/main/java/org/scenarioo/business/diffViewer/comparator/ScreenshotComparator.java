@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatter;
 
@@ -35,13 +34,11 @@ public class ScreenshotComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
-	protected static final ConfigurationRepository configurationRepository =
-		RepositoryLocator.INSTANCE.getConfigurationRepository();
 
 	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	private ScenarioDocuReader scenarioDocuReader =
-		new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
+		new ScenarioDocuReader(RepositoryLocator.INSTANCE.getConfigurationRepository().getDocumentationDataDirectory());
 
 	public double compare(ComparisonParameters parameters, final String baseUseCaseName, final String baseScenarioName,
 						  final StepLink baseStepLink, final String comparisonScreenshotName) {

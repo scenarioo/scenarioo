@@ -41,7 +41,7 @@ public class BuildDiffInfoResource {
 			@PathVariable("baseBuildName") final String baseBuildName,
 			@PathVariable("comparisonName") final String comparisonName) {
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance()
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		return diffViewerDao.loadBuildDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
@@ -51,7 +51,7 @@ public class BuildDiffInfoResource {
 	@GetMapping("/buildDiffInfos")
 	public List<BuildDiffInfo> getBuildDiffInfos(@PathVariable("baseBranchName") final String baseBranchName,
 			@PathVariable("baseBuildName") final String baseBuildName) {
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance()
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		return diffViewerDao
