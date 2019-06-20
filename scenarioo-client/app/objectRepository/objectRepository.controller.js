@@ -62,7 +62,7 @@ function ObjectRepositoryController($routeParams, $location, ObjectIndexListReso
 
     // Entry point when a tree entry is clicked
     function goToRelatedView(nodeElement) {
-        const relatedViewLocation = ReferenceTreeNavigationService.goToRelatedView(nodeElement, vm.treemodel);
+        var relatedViewLocation = ReferenceTreeNavigationService.goToRelatedView(nodeElement, vm.treemodel);
         $location.path(relatedViewLocation);
     }
 
