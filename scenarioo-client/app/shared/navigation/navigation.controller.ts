@@ -15,18 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../../services/configuration.service';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers')
     .controller('NavigationController', NavigationController);
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
-                              ConfigService,
+                              ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource,
                               SearchEngineStatusService) {
 
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
-        $scope.applicationName = ConfigService.applicationName();
+    ConfigurationService.applicationName().subscribe((name) => {
+        $scope.applicationName = name;
     });
 
     $scope.$on('branchesUpdated', () => {
@@ -50,7 +54,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             return;
         }
 
-        // Since angular odes not support encoded slashes in routes, we have to encode it twice.
+        // Since angular does not support encoded slashes in routes, we have to encode it twice.
         // See https://github.com/angular/angular.js/issues/10479
         const searchUrl = '/search/' + encodeURIComponent(encodeURIComponent(searchTerm));
         $location.url(searchUrl);

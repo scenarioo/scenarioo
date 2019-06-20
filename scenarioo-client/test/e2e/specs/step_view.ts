@@ -105,7 +105,7 @@ useCase('Step - View')
                 await StepPage.assertStepLinksDialogVisible();
                 const baseUrl = Utils.getBaseUrl();
                 await StepPage.assertPageLink(baseUrl + '/#/step/Find%20Page/find_no_results/startSearch.jsp' +
-                    '/0/0?comparison=Disabled&branch=wikipedia-docu-example&build=last%20successful' +
+                    '/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=Disabled' +
                     '&labels=normal-case,step-label-0,public,page-label1,page-label2');
                 await StepPage.assertScreenshotLink(baseUrl  + '/rest/branch/wikipedia-docu-example/build' +
                     '/last successful/usecase/Find%20Page/scenario/find_no_results/pageName/startSearch.jsp' +

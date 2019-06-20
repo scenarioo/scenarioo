@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {of} from 'rxjs';
+import {Observable, of, ReplaySubject} from 'rxjs';
+import {IConfiguration} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -29,15 +30,21 @@ describe('BuildController', () => {
     let ConfigResourceMock = {
         get: () => of(angular.copy(TestData.CONFIG))
     };
+    let ConfigurationServiceMock = {
+        configuration : new ReplaySubject<IConfiguration>(1),
+
+        getConfiguration(): Observable<IConfiguration> {
+            this.configuration.next(TestData.CONFIG);
+            return this.configuration.asObservable();
+        }
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
-        $provide.value("ConfigResource", ConfigResourceMock);
+        $provide.value('ConfigResource', ConfigResourceMock);
+        $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));
-
-
-    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(($controller, $rootScope, _$location_, _TestData_) => {
             $location = _$location_;

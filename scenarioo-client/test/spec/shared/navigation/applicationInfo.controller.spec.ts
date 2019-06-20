@@ -46,12 +46,12 @@ describe('Controller: ApplicationInfoController', () => {
         TestData = _TestData_;
         $controller('ApplicationInfoController', {
             $scope: $scope,
-            ConfigService: ConfigMock,
+            ConfigurationService: ConfigMock,
             $uibModalInstance: null
         });
     }));
 
-    it('should update applicationInformation if it changes in ConfigService', () => {
+    it('should update applicationInformation if it changes in ConfigurationService', () => {
         expect($scope.applicationInformation).toBeUndefined();
 
         ConfigService.setApplicationInformation('abc');

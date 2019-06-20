@@ -14,10 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', scBranchOrderByFilter]);
+import {ConfigurationService} from '../../services/configuration.service';
 
-function scBranchOrderByFilter(ConfigService) {
+declare var angular: angular.IAngularStatic;
 
+angular.module('scenarioo.filters')
+    .filter('scBranchOrderBy', ['ConfigurationService', scBranchOrderByFilter]);
+
+function scBranchOrderByFilter(ConfigurationService: ConfigurationService) {
 
     /**
      * comparator function that will order given branch resource objects as follows:
@@ -38,13 +42,13 @@ function scBranchOrderByFilter(ConfigService) {
             return 1;
         }
 
-        var order = ConfigService.branchSelectionListOrder();
-        switch(order) {
+        const order = ConfigurationService.branchSelectionListOrder();
+        switch (order) {
             case 'name-descending':
                 return orderByNameDescending(branchA, branchB);
             case 'last-build-date-descending':
                 return orderByLastBuildDateDescending(branchA, branchB);
-            case 'name-ascending':  //also the default behavior
+            case 'name-ascending':  // also the default behavior
             default:
                 return orderByNameAscending(branchA, branchB);
         }
@@ -53,8 +57,8 @@ function scBranchOrderByFilter(ConfigService) {
     function orderByNameAscending(branchA, branchB) {
 
         // both are an alias or none is an alias -> use alphabetical ordering
-        var branchAName = branchA.branch.name.toLowerCase();
-        var branchBName = branchB.branch.name.toLowerCase();
+        const branchAName = branchA.branch.name.toLowerCase();
+        const branchBName = branchB.branch.name.toLowerCase();
 
         return compare(branchAName, branchBName);
     }
@@ -70,8 +74,8 @@ function scBranchOrderByFilter(ConfigService) {
         }
 
         // none is an alias -> order by build date DESC
-        var dateA = (branchA.builds.length != 0 ? branchA.builds[0].build.date : 0);
-        var dateB = (branchB.builds.length != 0 ? branchB.builds[0].build.date : 0);
+        const dateA = (branchA.builds.length !== 0 ? branchA.builds[0].build.date : 0);
+        const dateB = (branchB.builds.length !== 0 ? branchB.builds[0].build.date : 0);
 
         return compare(dateA, dateB) * -1;
     }
@@ -86,7 +90,7 @@ function scBranchOrderByFilter(ConfigService) {
         }
     }
 
-    return function (input) {
+    return (input) => {
 
         if (!angular.isArray(input)) {
             return input;

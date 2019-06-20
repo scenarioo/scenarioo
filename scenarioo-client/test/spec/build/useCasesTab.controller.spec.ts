@@ -17,7 +17,7 @@
 
 'use strict';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,6 +28,8 @@ describe('UseCasesTabController', () => {
 
     const LabelConfigurationsResourceMock = {
         query: () => of({}),
+    };
+    const ConfigurationServiceMock = {
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
@@ -40,6 +42,7 @@ describe('UseCasesTabController', () => {
         });
         $provide.value('UseCasesResource', {});
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));
 
     beforeEach(inject(($controller, $rootScope, _$location_) => {

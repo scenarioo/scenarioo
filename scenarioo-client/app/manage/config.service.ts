@@ -23,7 +23,7 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
 
     const CONFIG_LOADED_EVENT = 'configLoaded';
 
-    let configData: any = {};
+    let configData: IConfiguration;
 
     function getValue(key) {
         return configData[key];
@@ -96,8 +96,8 @@ angular.module('scenarioo.services').service('ConfigService', (ConfigResource, $
 
         defaultBranchAndBuild() {
             return {
-                branch: getValue('defaultBranchName'),
-                build: getValue('defaultBuildName'),
+                branch: this.configData.defaultBranchName,
+                build: this.configData.defaultBuildName,
             };
         },
 

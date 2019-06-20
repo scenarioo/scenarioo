@@ -15,19 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../../services/configuration.service';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('TitleController', TitleController);
 
-function TitleController($scope, ConfigService) {
+function TitleController(ConfigurationService: ConfigurationService) {
 
-  var vm = this;
-  vm.text = '';
+    const vm = this;
+    vm.text = '';
 
-  activate();
-
-  function activate() {
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
-      vm.text = 'Scenarioo ' + ConfigService.applicationName();
+    ConfigurationService.applicationName().subscribe((name) => {
+        vm.text = `Scenarioo ${name}`;
     });
-  }
-
 }

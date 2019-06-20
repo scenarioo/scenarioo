@@ -55,7 +55,7 @@ const DEFAULT_INPUT = [
 
 describe('Filter scBranchOrderBy', function () {
 
-    let ConfigService, TestData;
+    let ConfigurationService, TestData;
 
     let scBranchOrderByFilter;
 
@@ -63,24 +63,29 @@ describe('Filter scBranchOrderBy', function () {
         get: () => of({})
     };
 
+    let ConfigurationServiceMock = {
+        config: undefined,
+        branchSelectionListOrder: () => {
+            return ConfigurationServiceMock.config.branchSelectionListOrder }
+    };
+
 
     beforeEach(async function () {
         angular.mock.module('scenarioo.controllers');
         angular.mock.module('scenarioo.services', ($provide) => {
-            $provide.value("ConfigResource", ConfigResourceMock);
+            $provide.value('ConfigResource', ConfigResourceMock);
+            $provide.value('ConfigurationService', ConfigurationServiceMock);
+
         });
         angular.mock.module('scenarioo.filters');
     });
 
     function initConfig(config) {
-        inject(function ($filter, _ConfigService_, _TestData_) {
-
-            ConfigService = _ConfigService_;
+        inject(function ($filter, _ConfigurationService_, _TestData_) {
+            ConfigurationService = _ConfigurationService_;
             TestData = _TestData_;
 
-            spyOn(ConfigResourceMock, 'get').and.returnValue(of(config));
-
-            ConfigService.load();
+            ConfigurationService.config = config;
 
             scBranchOrderByFilter = $filter('scBranchOrderBy');
         });

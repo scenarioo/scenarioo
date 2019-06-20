@@ -15,13 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('StepController', StepController);
 
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
-                        StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
+                        StepDiffInfoResource, DiffInfoService, localStorageService,
+                        ConfigurationService: ConfigurationService) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -476,7 +481,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
     };
 
-    $scope.getComparisonViewHighlightChangesColor = () => ConfigService.diffViewerDiffImageColor();
+    $scope.getComparisonViewHighlightChangesColor = () => ConfigurationService.diffViewerDiffImageColor();
 
     function getLocalStorageBool(storageKey) {
         return localStorageService.get(storageKey) !== 'false';

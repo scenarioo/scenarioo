@@ -15,14 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+import {IConfiguration} from '../generated-types/backend-types';
+
 /**
  * The main controller is responsible to control the main tabs (some are static deifned, most are dynamically defined through custom tabs in configuration).
  *
  * The content of the tab is managed in different views and controller that are lazyly loaded through this controller and view (using include URL resolution lazyly).
  */
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
-function BuildController($scope, $location, ConfigService) {
+function BuildController($scope, $location, ConfigurationService: ConfigurationService) {
 
     const vm = this;
     vm.tabs = undefined;
@@ -46,15 +51,12 @@ function BuildController($scope, $location, ConfigService) {
     }
 
     function activate() {
-        // Load configuration and trigger definition of tabs from config.
-        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
-            const config = ConfigService.getRawConfigDataCopy();
+        ConfigurationService.getConfiguration().subscribe((configuration) => {
             defineInitialStaticTabs();
-            defineCustomTabsFromConfig(config);
+            defineCustomTabsFromConfig(configuration);
             defineLastStaticTabs();
             selectTabFromUrl();
         });
-        ConfigService.load();
 
         $scope.$watch(() => $location.path(), () => {
             selectTabFromUrl();
@@ -62,7 +64,7 @@ function BuildController($scope, $location, ConfigService) {
 
     }
 
-    function defineCustomTabsFromConfig(config) {
+    function defineCustomTabsFromConfig(config: IConfiguration) {
         angular.forEach(config.customObjectTabs, (customTab, index) => {
             vm.tabs.push({
                 index: index + 1,

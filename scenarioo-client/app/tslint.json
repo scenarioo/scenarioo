@@ -19,7 +19,8 @@
         "jsdoc-format": false,
         "variable-name": false,
         "forin": false,
-        "interface-name": false
+        "interface-name": false,
+        "no-shadowed-variable": false
     },
     "rulesDirectory": []
 }

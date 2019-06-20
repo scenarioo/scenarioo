@@ -17,19 +17,15 @@
 
 'use strict';
 
-import {of} from 'rxjs';
+import {of, ReplaySubject} from 'rxjs';
 import {IConfiguration, IUseCaseScenarios} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
 describe('ScenarioController', () => {
 
-    let $scope, $httpBackend, $routeParams, ConfigService, TestData,
-        ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
+    let $scope, $httpBackend, $routeParams, ConfigurationService, TestData, ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
 
-    const ConfigResourceMock = {
-        get: () => of(angular.copy(TestData.CONFIG))
-    };
     const LabelConfigurationsResourceMock = {
         query: () => of({}),
     };
@@ -40,41 +36,72 @@ describe('ScenarioController', () => {
             scenarios: [TestData.SCENARIO.scenario]
         })
     };
+    const ConfigurationServiceMock = {
+        configuration : new ReplaySubject<IConfiguration>(1),
+        expandPagesInScenarioOverviewValue : undefined,
 
+        getConfiguration: () => {
+            ConfigurationServiceMock.configuration.next(TestData.CONFIG);
+            return ConfigurationServiceMock.configuration.asObservable();
+        },
+        updateConfiguration: (newConfig: IConfiguration) => {
+            ConfigurationServiceMock.configuration.next(newConfig);
+            ConfigurationServiceMock.expandPagesInScenarioOverviewValue = newConfig['expandPagesInScenarioOverview'];
+            SelectedBranchAndBuildServiceMock.update(newConfig);
+        },
+        expandPagesInScenarioOverview: () => {
+            return ConfigurationServiceMock.expandPagesInScenarioOverviewValue;
+        },
+    };
+    const SelectedBranchAndBuildServiceMock = {
+        callback: undefined,
+        selected: () => {
+            return {
+                branch: TestData.CONFIG['defaultBranchName'],
+                build: TestData.CONFIG['defaultBuildName'],
+            };
+        },
+        callOnSelectionChange: (callback) => {
+            SelectedBranchAndBuildServiceMock.callback = callback},
+        update: (newConfig) => {
+            SelectedBranchAndBuildServiceMock.callback({
+                branch: newConfig['defaultBranchName'],
+                build: newConfig['defaultBuildName'],
+            });
+        },
+    };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
-        $provide.value("ConfigResource", ConfigResourceMock);
-        $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
-        $provide.value("ScenarioResource", ScenarioResourceMock);
+        $provide.value('ScenarioResource', ScenarioResourceMock);
+        $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('LabelConfigurationsResource', LabelConfigurationsResourceMock);
+        $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));
 
+    beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService, _RelatedIssueResource_,
+                       _ConfigurationService_, _SelectedBranchAndBuildService_
+        ) => {
+            $scope = $rootScope.$new();
+            $httpBackend = _$httpBackend_;
+            $routeParams = _$routeParams_;
+            TestData = _TestData_;
+            RelatedIssueResource = _RelatedIssueResource_;
+            ConfigurationService = _ConfigurationService_;
 
-    beforeEach(inject(($rootScope, $controller, _$httpBackend_, _$routeParams_,
-                       _TestData_, LocalStorageService, _RelatedIssueResource_,
-                       _SelectedBranchAndBuildService_, _ConfigService_,
-    ) => {
-        $scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-        $routeParams = _$routeParams_;
-        TestData = _TestData_;
-        RelatedIssueResource = _RelatedIssueResource_;
-        ConfigService = _ConfigService_;
+            SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
 
-        SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
+            $routeParams.useCaseName = 'SearchUseCase';
+            $routeParams.scenarioName = 'NotFoundScenario';
 
-        $routeParams.useCaseName = 'SearchUseCase';
-        $routeParams.scenarioName = 'NotFoundScenario';
+            LocalStorageService.clearAll();
 
-        LocalStorageService.clearAll();
+            ScenarioController = $controller('ScenarioController', {$scope: $scope});
 
-        ScenarioController = $controller('ScenarioController', {
-            $scope: $scope
-        });
-
-        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
-    }));
+            spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+        }
+    ));
 
     it('clears search field when resetSearchField() is called', () => {
         ScenarioController.searchFieldText = 'test';
@@ -112,7 +139,7 @@ describe('ScenarioController', () => {
         expect(ScenarioController.showAllStepsForPage(5)).toBeFalsy();
     });
 
-    it('hides the "expand all" button, if all expandable pages are already expanded', () => {
+    it('hides the expand all button, if all expandable pages are already expanded', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.toggleShowAllStepsForPage(0);
@@ -121,14 +148,14 @@ describe('ScenarioController', () => {
         expect(ScenarioController.isExpandAllPossible()).toBeFalsy();
     });
 
-    it('shows the "expand all" button, if at least one expandable page is collapsed', () => {
+    it('shows the expand all button, if at least one expandable page is collapsed', () => {
         givenScenarioIsLoaded();
 
         expect(ScenarioController.isExpandAllPossible()).toBeTruthy();
     });
 
 
-    it('hides the "collapse all" button, if all pages are collapsed already', () => {
+    it('hides the collapse all button, if all pages are collapsed already', () => {
         givenScenarioIsLoaded();
 
         // all pages are collapsed by default
@@ -136,7 +163,7 @@ describe('ScenarioController', () => {
         expect(ScenarioController.isCollapseAllPossible()).toBeFalsy();
     });
 
-    it('shows the "collapse all" button, if at least one collapsable page is expanded', () => {
+    it('shows the collapse all button, if at least one collapsable page is expanded', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.toggleShowAllStepsForPage(1);
@@ -144,7 +171,7 @@ describe('ScenarioController', () => {
         expect(ScenarioController.isCollapseAllPossible()).toBeTruthy();
     });
 
-    it('collapses all pages if the user clicks "collapse all"', () => {
+    it('collapses all pages if the user clicks collapse all', () => {
         ScenarioController.toggleShowAllStepsForPage(2);
         ScenarioController.toggleShowAllStepsForPage(5);
         ScenarioController.collapseAll();
@@ -153,7 +180,7 @@ describe('ScenarioController', () => {
     });
 
 
-    it('expands all pages if the user clicks "expand all"', () => {
+    it('expands all pages if the user clicks expand all', () => {
         givenScenarioIsLoaded();
 
         ScenarioController.expandAll();
@@ -161,7 +188,7 @@ describe('ScenarioController', () => {
     });
 
     it('expands all pages, if this is the default set in the config', () => {
-        ConfigService.getRaw = true;
+        ConfigurationService.getRaw = true;
 
         givenScenarioIsLoaded(TestData.CONFIG_PAGES_EXPANDED);
 
@@ -172,10 +199,8 @@ describe('ScenarioController', () => {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;
         }
-        spyOn(ConfigResourceMock, "get").and.returnValue(of(config));
-        spyOn(ScenarioResourceMock, "getUseCaseScenarios").and.returnValue(of(TestData.SCENARIO));
-
-        ConfigService.load();
+        spyOn(ScenarioResourceMock, 'getUseCaseScenarios').and.returnValue(of(TestData.SCENARIO));
+        ConfigurationService.updateConfiguration(config);
         $scope.$apply();
 
     }

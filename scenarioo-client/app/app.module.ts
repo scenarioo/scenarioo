@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -6,6 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
+import {ConfigurationService} from './services/configuration.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -16,12 +18,22 @@ import {RestControllerModule} from './shared/services/restController.module';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         HttpClientModule,
         FormsModule,
         UpgradeModule,
         RestControllerModule,
     ],
     providers: [
+        ConfigurationService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (cs: ConfigurationService) => () => {
+                return cs.loadConfigurationFromBackend();
+            },
+            deps: [ConfigurationService],
+            multi: true,
+        },
         LabelConfigurationService,
     ],
 })

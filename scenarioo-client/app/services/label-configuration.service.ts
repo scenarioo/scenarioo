@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 declare var angular: angular.IAngularStatic;
 
+// TODO duplicated with LabelResource
 @Injectable()
 export class LabelConfigurationService {
 
