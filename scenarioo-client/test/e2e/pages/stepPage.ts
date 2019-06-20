@@ -298,6 +298,10 @@ class StepPage {
         return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
     }
 
+    async expectStepComparisonCurrentScreenViewButtonHidden() {
+        return expect(element(by.id('sc-step-comparison-other-screen-view-button')).isPresent()).toBeFalsy();
+    }
+
     async expectStepComparisonOtherScreenViewButtonHidden() {
         return expect(element(by.id('sc-step-comparison-other-screen-view-button')).isPresent()).toBeFalsy();
     }

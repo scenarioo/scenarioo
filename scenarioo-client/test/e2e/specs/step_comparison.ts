@@ -1,6 +1,6 @@
 'use strict';
 
-import { scenario, step, useCase } from 'scenarioo-js';
+import {scenario, step, useCase} from 'scenarioo-js';
 import * as Utils from '../util';
 import StepPage from '../pages/stepPage';
 
@@ -67,27 +67,15 @@ useCase('Step - Comparison')
                 await step('Added Step is displayed');
 
                 await StepPage.openComparisonTab();
-                await StepPage.showSideBySideView();
-                await StepPage.assertStepComparisonSideBySideViewIsActiveWithOtherScreenNotVisible();
                 await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
-                await StepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
+                await StepPage.expectStepComparisonOtherScreenViewButtonHidden();
+                await StepPage.expectStepComparisonCurrentScreenViewButtonHidden();
+                await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
                 await StepPage.expectHighlightsButtonHidden();
                 await StepPage.assertStepNoComparisonScreenshot();
                 await StepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
-                await StepPage.expectStepComparisonOtherScreenViewButtonHidden();
                 await StepPage.expectStepComparisonLegendText('Added Step: No Comparison');
-                await step('Screen Comparison Side by Side for added step is displayed');
-
-                await StepPage.showComparisonCurrentScreenView();
-                await StepPage.assertStepComparisonCurrentScreenViewIsActiveWithOtherScreenNotVisible();
-                await StepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
-                await StepPage.expectSwitchComparisonSingleScreensButtonHidden();
-                await StepPage.expectHighlightsButtonHidden();
-                await StepPage.assertStepNoComparisonScreenshot();
-                await StepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                await StepPage.expectStepComparisonOtherScreenViewButtonHidden();
-                await step('Current Screen displayed only for added step');
+                await step('Current screen is displayed, comparison buttons are hidden');
             });
 
     });

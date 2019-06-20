@@ -148,14 +148,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <button type="button" id="sc-step-comparison-side-by-side-view-button"
                                 ng-class="{active: isComparisonView('SideBySide') }"
-                                ng-click="setComparisonView('SideBySide')" class="btn btn-default">
+                                class="btn btn-default" ng-click="setComparisonView('SideBySide')"
+                                ng-if="!step.diffInfo.isAdded">
                             <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>
                             Side by Side
                         </button>
 
                         <button type="button" id="sc-step-comparison-current-screen-view-button"
                                 ng-class="{active: isComparisonView('CurrentScreen') }"
-                                ng-click="setComparisonView('CurrentScreen')" class="btn btn-default">
+                                class="btn btn-default" ng-click="setComparisonView('CurrentScreen')"
+                                ng-if="!step.diffInfo.isAdded">
                             <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>
                             Current Screen
                         </button>
@@ -276,15 +278,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <!-- Comparison: Other Screen View -->
                     <div class="sc-step-comparison-other-screenshot" ng-if="isComparisonView('OtherScreen')">
+                        <sc-screenshot-title
+                            build="comparisonBuild"
+                            highlights="comparisonViewOptions.changesHighlighted"
+                            name="{{comparisonName}}">
+                        </sc-screenshot-title>
                         <div ng-if="step.diffInfo.isAdded">
-                            <h3>Added Step: no comparison screen available.</h3>
+                            <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                            <sc-annotated-screenshot
+                                diff-screen-shot-url="diffScreenShotUrl"
+                                ng-if="comparisonViewOptions.changesHighlighted"
+                                screen-shot-url="screenShotUrl"
+                                show-diff="true">
+                            </sc-annotated-screenshot>
+                            <sc-annotated-screenshot
+                                diff-screen-shot-url="diffScreenShotUrl"
+                                ng-if="!comparisonViewOptions.changesHighlighted"
+                                screen-shot-url="screenShotUrl"
+                                show-diff="false">
+                            </sc-annotated-screenshot>
                         </div>
                         <div ng-if="!step.diffInfo.isAdded">
-                            <sc-screenshot-title
-                                build="comparisonBuild"
-                                name="{{comparisonName}}"
-                                highlights="comparisonViewOptions.changesHighlighted">
-                            </sc-screenshot-title>
                             <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
                             <sc-annotated-screenshot
                                 screen-shot-url="comparisonScreenShotUrl"
