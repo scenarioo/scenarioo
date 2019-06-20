@@ -117,8 +117,6 @@ h4 {
     background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
 }
 
-
-
 .table tbody tr:nth-child(2n) td {
     background-color: 	#EEEEEE;
 }
@@ -239,10 +237,23 @@ h4 {
   border: thin solid #999999;
 }
 
-.usecase-table tr.selected,.scenario-table tr.selected {
-  td, th {
-    background: #e9f0f7;
-  }
+.usecase-table, .scenario-table {
+
+    tr.removed {
+        cursor: default;
+        background-color: #ffe9e9;
+    }
+
+    tr.added {
+        background-color: #e9ffe9;
+    }
+
+    tr.selected {
+        td {
+            background-color: rgba(225, 225, 225, 0.5);
+        }
+    }
+
 }
 
 .sc-pageTitle {
@@ -851,17 +862,6 @@ span.added {
     &.removed {
       background-color: #d9534f;
     }
-  }
-}
-
-.usecase-table, .scenario-table {
-  tr.removed {
-    cursor: default;
-    background-color: #ffdddc;
-  }
-
-  tr.added {
-    background-color: #e5f7dd;
   }
 }
 
