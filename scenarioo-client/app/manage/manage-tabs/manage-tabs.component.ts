@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {TabsetComponent} from 'ngx-bootstrap';
+import {TabDirective, TabsetComponent} from 'ngx-bootstrap';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,6 +14,9 @@ export class ManageTabsComponent implements OnInit {
 
     @Input()
     selectedTab: string;
+
+    @Output()
+    onSelectTab: EventEmitter<string> = new EventEmitter();
 
     tabs: ScTabMapping[] = [
         {name: 'Builds', urlParam: 'builds'},
@@ -37,7 +40,12 @@ export class ManageTabsComponent implements OnInit {
         return this.staticTabs.tabs[tabId].active;
     }
 
-    // put selected tab into the url
+    onSelect(data: TabDirective): void {
+        if(data.heading) {
+            const urlParam = this.tabs.filter(tab => tab.name === data.heading)[0].urlParam;
+            this.onSelectTab.emit(urlParam);
+        }
+    }
 }
 
 interface ScTabMapping {
