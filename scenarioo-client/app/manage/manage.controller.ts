@@ -19,7 +19,12 @@ angular.module('scenarioo.controllers')
     .controller('ManageController', ManageController);
 
 // Dummy component for AngularJS routing
-// tslint:disable-next-line
-function ManageController() {
+function ManageController($location) {
+    const vm = this;
+    vm.selectedTab = undefined;
 
+    const params = $location.search();
+    if(params.tab) {
+        vm.selectedTab = params.tab;
+    }
 }

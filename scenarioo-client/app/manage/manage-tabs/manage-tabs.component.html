@@ -1,17 +1,17 @@
-<tabset>
-    <tab heading="Builds">
-        <sc-builds-list></sc-builds-list>
+<tabset #manageTabs>
+    <tab [heading]="tabs[0].name">
+        <sc-builds-list *ngIf="isActiveTab(0)"></sc-builds-list>
     </tab>
-    <tab heading="Comparisons">
-        <sc-comparisons></sc-comparisons>
+    <tab [heading]="tabs[1].name">
+        <sc-comparisons *ngIf="isActiveTab(1)"></sc-comparisons>
     </tab>
-    <tab heading="Branch Aliases">
-        <sc-branch-aliases></sc-branch-aliases>
+    <tab [heading]="tabs[2].name">
+        <sc-branch-aliases *ngIf="isActiveTab(2)"></sc-branch-aliases>
     </tab>
-    <tab heading="Label Colors">
-        <sc-label-colors></sc-label-colors>
+    <tab [heading]="tabs[3].name">
+        <sc-label-colors *ngIf="isActiveTab(3)"></sc-label-colors>
     </tab>
-    <tab heading="General Settings">
-        <sc-general-settings></sc-general-settings>
+    <tab [heading]="tabs[4].name">
+        <sc-general-settings *ngIf="isActiveTab(4)"></sc-general-settings>
     </tab>
 </tabset>
