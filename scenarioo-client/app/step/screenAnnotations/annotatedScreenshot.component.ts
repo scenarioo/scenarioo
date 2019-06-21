@@ -81,7 +81,6 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
             realImageElement.get(0).height = realNaturalHeight * vm.imageScalingRatio + 4;
         }
 
-        // scope.$digest();
     }
 
     /**
