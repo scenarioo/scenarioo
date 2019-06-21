@@ -77,7 +77,6 @@
         "@types/angular-mocks": "1.5.11",
         "@types/jasmine": "2.8.7",
         "@types/jasminewd2": "2.0.3",
-        "@types/jquery": "3.2.1",
         "angular-mocks": "1.5.11",
         "babel-core": "6.26.3",
         "babel-loader": "7.1.5",
