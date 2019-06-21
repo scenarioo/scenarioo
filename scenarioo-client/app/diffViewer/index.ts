@@ -1,5 +1,5 @@
 import './diffInfo.service';
-import './diffInfoIcon/diffInfoIcon.directive';
+import './diffInfoIcon/diffInfoIcon.component';
 import './screenshotTitle/screenshotTitle.directive';
 import './screenshotUrl.service';
 import './diffViewerRestClient.service';
