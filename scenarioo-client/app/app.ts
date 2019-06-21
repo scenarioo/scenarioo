@@ -18,21 +18,6 @@
 import {addRoutes} from './app.routes';
 import './vendor';
 import './styles/scenarioo.less';
-import './shared/utils/number.filter';
-// needs to stay here
-import './build';
-import './manage';
-import './objectRepository/objectRepository.controller';
-import './scenario';
-import './search/search.controller';
-import './shared';
-import './sketcher';
-import './step';
-import './useCase/usecase.controller';
-import './diffViewer';
-
-import {AppModule} from './app.module';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 declare var angular: angular.IAngularStatic;
 
@@ -41,6 +26,7 @@ angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+import './shared/utils/number.filter';
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
@@ -76,6 +62,21 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
         $location.path('/');
     });
 });
+
+// needs to stay here
+import './build';
+import './manage';
+import './objectRepository/objectRepository.controller';
+import './scenario';
+import './search/search.controller';
+import './shared';
+import './sketcher';
+import './step';
+import './useCase/usecase.controller';
+import './diffViewer';
+
+import {AppModule} from './app.module';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 // tslint:disable-next-line
 platformBrowserDynamic().bootstrapModule(AppModule);
