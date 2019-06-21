@@ -75,7 +75,7 @@ useCase('Step - Comparison')
                 await StepPage.expectHighlightsButtonHidden();
                 await StepPage.assertStepNoComparisonScreenshot();
                 await StepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                await StepPage.expectStepComparisonLegendText('Added Step: No Comparison');
+                await StepPage.expectStepComparisonLegendText('Added Step');
                 await step('Side by Side View with only current screen is displayed, comparison buttons are hidden');
             });
 
