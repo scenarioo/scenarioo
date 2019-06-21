@@ -17,7 +17,7 @@ import './filterableTableTree/filterableTableTree.component';
 import './keyboardNavigatableTable.directive';
 import './debounce.directive';
 import './metadata/metaDataButton.directive';
-import './metadata/metaDataPanel.directive';
+import './metadata/metaDataPanel.component';
 import './metadata/metaDataTree.directive';
 import './metadata/collapsablePanel.directive';
 import './navigation/navigation.controller';

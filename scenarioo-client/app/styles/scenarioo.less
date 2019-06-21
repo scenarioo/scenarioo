@@ -117,8 +117,6 @@ h4 {
     background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
 }
 
-
-
 .table tbody tr:nth-child(2n) td {
     background-color: 	#EEEEEE;
 }
@@ -239,10 +237,23 @@ h4 {
   border: thin solid #999999;
 }
 
-.usecase-table tr.selected,.scenario-table tr.selected {
-  td, th {
-    background: #f5f5f5;
-  }
+.usecase-table, .scenario-table {
+
+    tr.removed {
+        cursor: default;
+        background-color: #ffe9e9;
+    }
+
+    tr.added {
+        background-color: #e9ffe9;
+    }
+
+    tr.selected {
+        td {
+            background-color: rgba(225, 225, 225, 0.5);
+        }
+    }
+
 }
 
 .sc-pageTitle {
@@ -474,6 +485,7 @@ label {
   margin: 2px 0 6px 0;
   padding-left: 4px;
   list-style-type: none;
+  display: table;
 }
 
 #relatedSketches li {
@@ -534,6 +546,14 @@ label {
 }
 
 .sc-label {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  float: left;
+}
+
+span.sc-text-before-label {
+  float: left;
   margin-right: 2px;
 }
 
@@ -804,6 +824,16 @@ textarea#issueDescription {
   }
 }
 
+span.added {
+    color: #5cb85c;
+    font-weight: normal;
+    padding-left: 0;
+}
+
+span.added:hover {
+    color: #5cb85c;
+}
+
 .diff-info-wrapper {
 
     .progress-bar-warning {
@@ -836,17 +866,6 @@ textarea#issueDescription {
     &.removed {
       background-color: #d9534f;
     }
-  }
-}
-
-.usecase-table, .scenario-table {
-  tr.removed {
-    cursor: default;
-    background-color: #FDF2F1;
-  }
-
-  tr.added {
-    background-color: #F8FCF7;
   }
 }
 
