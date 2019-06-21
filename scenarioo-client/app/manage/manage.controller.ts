@@ -24,7 +24,7 @@ function ManageController($location) {
     vm.selectedTab = undefined;
 
     const params = $location.search();
-    if(params.tab) {
+    if (params.tab) {
         vm.selectedTab = params.tab;
     }
 }

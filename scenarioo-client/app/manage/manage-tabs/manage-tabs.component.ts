@@ -27,7 +27,7 @@ export class ManageTabsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const tabId = this.tabs.map(tab => tab.urlParam).indexOf(this.selectedTab);
+        const tabId = this.tabs.map((tab) => tab.urlParam).indexOf(this.selectedTab);
         if (tabId !== -1) {
             this.staticTabs.tabs[tabId].active = true;
         }
