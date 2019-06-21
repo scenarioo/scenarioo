@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
-function CreateComparisonModalController($route, $routeParams, $uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
+function CreateComparisonModalController($route, $location, $uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
 
     const vm = this;
 
@@ -38,9 +38,6 @@ function CreateComparisonModalController($route, $routeParams, $uibModalInstance
 
     vm.cancel = cancel;
     vm.createComparison = createComparison;
-
-    vm.onComparisonsPage = $routeParams['tab'] === 'comparisons';
-    vm.route = $route;
 
     activate();
 
@@ -203,9 +200,8 @@ function CreateComparisonModalController($route, $routeParams, $uibModalInstance
 
     function onSuccessCreation() {
         $uibModalInstance.close();
-        if (vm.onComparisonsPage) {
-            vm.route.reload();
-        }
+        $location.path('/manage').search('tab=comparisons');
+        $route.reload();
     }
 
     function onFailedCreation() {

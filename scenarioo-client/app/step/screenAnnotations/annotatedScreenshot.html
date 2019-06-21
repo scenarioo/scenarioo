@@ -1,19 +1,24 @@
 <div class="sc-annotated-screenshot-container">
-    <div ng-show="visibilityToggle">
-        <span ng-repeat="screenAnnotation in screenAnnotations" class="sc-screenshot-annotation" ng-class="{'sc-screenshot-annotation-with-action': hasClickAction(screenAnnotation)}"
-              ng-style="getBoxCssStyle(screenAnnotation)" ng-click="doClickAction(screenAnnotation)" uib-tooltip="{{getTooltipText(screenAnnotation)}}" tooltip-placement="bottom">
+    <div ng-show="$ctrl.visibilityToggle">
+        <span class="sc-screenshot-annotation"
+              ng-class="{'sc-screenshot-annotation-with-action': $ctrl.hasClickAction(screenAnnotation)}"
+              ng-click="$ctrl.doClickAction(screenAnnotation)"
+              ng-repeat="screenAnnotation in $ctrl.screenAnnotations" ng-style="$ctrl.getBoxCssStyle(screenAnnotation)"
+              tooltip-placement="bottom" uib-tooltip="{{$ctrl.getTooltipText($ctrl.screenAnnotation)}}">
             <span class="sc-screenshot-annotation-text">
-                {{getBoxText(screenAnnotation)}}
+                {{$ctrl.getBoxText(screenAnnotation)}}
             </span>
         </span>
-        <span ng-repeat="screenAnnotation in screenAnnotations"
-              class="sc-screenshot-annotation-icon" ng-style="getIconCssStyle(screenAnnotation)"
-              ng-show="getIconClass(screenAnnotation) !== ''" ng-click="openInfoPopup(screenAnnotation)">
-            <i class="fas fa-lg" ng-class="[getIconClass(screenAnnotation)]"></i>
+        <span class="sc-screenshot-annotation-icon"
+              ng-click="$ctrl.openInfoPopup(screenAnnotation)" ng-repeat="screenAnnotation in $ctrl.screenAnnotations"
+              ng-show="$ctrl.getIconClass(screenAnnotation) !== ''" ng-style="$ctrl.getIconCssStyle(screenAnnotation)">
+            <i class="fas fa-lg" ng-class="[$ctrl.getIconClass(screenAnnotation)]"></i>
         </span>
     </div>
     <div>
-        <img ng-src="{{screenShotUrl}}" class="sc-screenshot sc-real-screenshot sc-screenshot-border" ng-style="{position: showDiff ? 'absolute':'static'}"/>
-        <img ng-src="{{diffScreenShotUrl}}" class="sc-screenshot sc-diff-screenshot sc-screenshot-border" ng-style="{position: 'absolute'}" ng-hide="!showDiff"/>
+        <img class="sc-screenshot sc-real-screenshot sc-screenshot-border" ng-src="{{$ctrl.screenShotUrl}}"
+             ng-style="{position: $ctrl.showDiff ? 'absolute':'static'}"/>
+        <img class="sc-screenshot sc-diff-screenshot sc-screenshot-border" ng-hide="!$ctrl.showDiff"
+             ng-src="{{$ctrl.diffScreenShotUrl}}" ng-style="{position: 'absolute'}"/>
     </div>
 </div>
