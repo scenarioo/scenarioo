@@ -49,8 +49,8 @@ public class TechnicalCornerCasesUITest extends UITest {
 	
 	@Test
 	@DocuDescription(
-			description = "Dummy scenario with three steps on one page and all special variants of screen annotations")
-	@Labels({ "short", "annotations" })
+			description = "Dummy scenario with three steps on one page and all special variants of screen annotations and many labels on scenario level (with all different kind of breaking characters)")
+	@Labels({ "short", "annotations", "label 1", "label-2", "label_3", "label4", "label 5", "label 6" })
 	public void dummy_scenario_with_screen_annotations_of_all_types_on_one_page() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ONE_PAGE_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/technical-one-page-scenario");
