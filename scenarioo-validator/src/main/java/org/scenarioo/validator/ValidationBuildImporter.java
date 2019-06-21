@@ -13,8 +13,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class ValidationBuildImporter {
 
@@ -53,12 +51,8 @@ public class ValidationBuildImporter {
             return new HashMap<BuildIdentifier, BuildImportSummary>();
         }
 
-        // get the importExecutor (imports are run asynchronously) and wait for it to be done
-        ExecutorService threads = buildImporter.getAsyncBuildImportExecutor();
-        threads.shutdown();
-        while (!threads.awaitTermination(10, TimeUnit.SECONDS)) {
-            LOGGER.info("Awaiting completion of build imports...");
-        }
+        // Shutsown and wait for asynch imports to be done
+		buildImporter.shutdownAndAwaitTerminationOfRunningImportJob();
         return buildImporter.getBuildImportSummaries();
     }
 

@@ -15,14 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scMetaDataPanel', function() {
+angular.module('scenarioo.directives')
+    .component('scMetaDataPanel', {
+        transclude: true,
+        bindings: {
+            linkingVariable: '<',
+        },
+        template: require('./metaDataPanel.html'),
+        controller: metaDataPanelController,
+    });
+
+function metaDataPanelController($element) {
+    this.$onChanges = (changes) => {
+        if (changes.linkingVariable) {
+            toggleClassesOnPanels($element, changes.linkingVariable.currentValue);
+        }
+    };
 
     function toggleClassesOnPanels(elem, showingMetaData) {
-        var childs = elem.children();
-        var mainAndDetailPanelRow = childs[0];
-        var panelChildren = mainAndDetailPanelRow.children;
-        var mainPanel = panelChildren[0];
-        var metaDataPanel = panelChildren[1];
+        const elementChildren = elem.children();
+        const mainAndDetailPanelRow = elementChildren[0];
+        const panelChildren = mainAndDetailPanelRow.children;
+        const mainPanel = panelChildren[0];
+        const metaDataPanel = panelChildren[1];
+        if (!mainPanel || !metaDataPanel) {
+            // view not initialized yet
+            return;
+        }
         mainPanel.setAttribute('id', 'sc-main-panel');
         metaDataPanel.setAttribute('id', 'sc-metadata-panel');
         if (showingMetaData) {
@@ -35,19 +54,4 @@ angular.module('scenarioo.directives').directive('scMetaDataPanel', function() {
             metaDataPanel.style.display = 'none';
         }
     }
-
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            linkingVariable: '='
-        },
-        template: require('./metaDataPanel.html'),
-        controller: function($scope, $element) {
-            $scope.$watch('linkingVariable', function() {
-                toggleClassesOnPanels($element, $scope.linkingVariable);
-            });
-        }
-    };
-
-});
+}

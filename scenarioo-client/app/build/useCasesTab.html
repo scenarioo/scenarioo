@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <span ng-class="[useCasesTab.getStatusStyleClass(useCase.status), 'label']">{{useCase.status}}</span>
                         </td>
                         <td>
-                            {{useCase.name | scHumanReadable }}
+                            <span class="sc-text-before-label">{{useCase.name | scHumanReadable }}</span>
                             <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label"
                                   ng-style="useCasesTab.getLabelStyle(label)">{{label}}</span>
                         </td>

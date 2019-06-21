@@ -42,11 +42,16 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
                 scope.toggleShowingMetadata();
             });
         },
-        controller($scope) {
+        controller($scope, $route) {
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
                 LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
+                // if toggleShowingMetadata is triggered on the step page we have to potentially reload the page.
+                // Delegate this decision to the StepController
+                if (angular.isFunction($route.current.scope.refreshIfComparisonActive)) {
+                    $route.current.scope.refreshIfComparisonActive();
+                }
             };
         },
     };

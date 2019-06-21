@@ -19,7 +19,7 @@ import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.
 
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
-function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService,
+function CreateComparisonModalController($route, $location, $uibModalInstance, BranchesAndBuildsService,
                                          BuildDiffInfosResource: BuildDiffInfosService,
                                          ComparisonCreateResource, ApplicationStatusService) {
 
@@ -201,6 +201,8 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
 
     function onSuccessCreation() {
         $uibModalInstance.close();
+        $location.path('/manage').search('tab=comparisons');
+        $route.reload();
     }
 
     function onFailedCreation() {

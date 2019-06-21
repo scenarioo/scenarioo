@@ -207,6 +207,26 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
+    function loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        UseCaseDiffInfoResource.get(
+            {
+                baseBranchName,
+                baseBuildName,
+                comparisonName,
+                useCaseName,
+            },
+            (useCaseDiffInfo) => {
+                if (isAddedScenario(useCaseDiffInfo)) {
+                    markPagesAndStepsAsAdded(pagesAndSteps);
+                } else {
+                    loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                }
+            }, (error) => {
+                throw error;
+            },
+        );
+    }
+
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         ScenarioDiffInfoResource.get(
             {
@@ -236,14 +256,15 @@ function ScenarioController($filter, $routeParams,
     }
 
     function isAddedUseCase(buildDiffInfo) {
-        // ES 2015 find() method would be required here...
-        let isUseCaseAdded = false;
-        angular.forEach(buildDiffInfo.addedElements, (addedElement) => {
-            if (addedElement === useCaseName) {
-                isUseCaseAdded = true;
-            }
+        return buildDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === useCaseName;
         });
-        return isUseCaseAdded;
+    }
+
+    function isAddedScenario(useCaseDiffInfo) {
+        return useCaseDiffInfo.addedElements.find((addedElement) => {
+           return addedElement === scenarioName;
+        });
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
@@ -265,7 +286,7 @@ function ScenarioController($filter, $routeParams,
                     if (isAddedUseCase(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);
                     } else {
-                        loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                        loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
                     }
                 });
         }
