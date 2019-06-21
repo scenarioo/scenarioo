@@ -17,10 +17,7 @@ export class UseCaseComponent implements OnInit {
 
     usecases: UseCaseSummary[] = [];
 
-    table = {
-        search: {searchTerm: ''},
-        sort: {column: 'name', reverse: false},
-    };
+    searchTerm: string;
 
     order: string = 'name';
     sortedUsecases: any[];
@@ -73,7 +70,7 @@ export class UseCaseComponent implements OnInit {
     }
 
     resetSearchField() {
-        this.table.search = {searchTerm: ''};
+        this.searchTerm = '';
     }
 
     setOrder(value: string) {

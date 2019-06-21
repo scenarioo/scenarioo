@@ -15,12 +15,14 @@ import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchA
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
+import {FilterPipe} from './pipes/filter.pipe';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         MainPageComponent,
         UseCaseComponent,
+        FilterPipe,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -51,7 +53,7 @@ import {OrderModule} from 'ngx-order-pipe';
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
-    ],
+    ]
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {
