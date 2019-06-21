@@ -28,6 +28,7 @@ function ScenarioController($filter, $routeParams,
                             RelatedIssueResource, SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
                             ScenarioDiffInfoResource,
+                            UseCaseDiffInfoResource,
                             StepDiffInfosResource, ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
