@@ -1,7 +1,6 @@
 # Ignore .idea files except basic run configurations
 /.idea
 !/.idea/codeStyleSettings.xml
-!/.idea/compiler.xml
 !/.idea/encodings.xml
 !/.idea/misc.xml
 !/.idea/artifacts/scenarioo*
