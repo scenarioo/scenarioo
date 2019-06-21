@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scMetadataTree', function() {
-    return {
-        restrict: 'E',
+angular.module('scenarioo.directives')
+    .component('scMetadataTree', {
         template: require('./metaDataTree.html'),
-        scope: {
+        bindings: {
             metadataTree: '='
         }
-    };
 });

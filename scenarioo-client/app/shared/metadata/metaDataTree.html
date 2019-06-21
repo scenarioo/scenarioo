@@ -14,8 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
-<div ng-repeat="(key,value) in metadataTree">
+<div ng-repeat="(key,value) in $ctrl.metadataTree">
     <sc-collapsable-panel panel-index="{{$index}}" id="sc-metadata-panel-{{key}}" title="{{key}}" key="{{key}}">
         <sc-tree data='value'></sc-tree>
     </sc-collapsable-panel>
