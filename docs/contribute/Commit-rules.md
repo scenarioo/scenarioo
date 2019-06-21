@@ -10,8 +10,8 @@ Before you push your commits you always have to perform the following steps:
 3. Make sure all the following tests are green:
 
    * Java unit tests
-   * JavaScript unit tests (`npm test`)
-   * ESLint checks (`npm run lint`)
+   * JavaScript unit tests (`npm test` or `./gradlew npm_test`)
+   * ESLint checks (`npm run lint` or `./gradlew npm_run_lint`)
    * Protractor end to end tests (see [e2e Testing](Developer-Guide.md#run-e2e-tests))
 
 It is also highly recommended to run these tests regularly and keep them green. Letting tests fail for a longer time is not a good idea because it will lead to integration difficulties later on.

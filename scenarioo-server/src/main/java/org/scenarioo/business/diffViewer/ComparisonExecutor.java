@@ -119,6 +119,13 @@ public class ComparisonExecutor {
 	}
 
 	/**
+	 * Submit any task for execution after all pending comparisons have been executed.
+	 */
+	public void executeAfterAllPendingComparisonsDone(Runnable task) {
+		asyncComparisonExecutor.execute(task);
+	}
+
+	/**
 	 * Executes a comparison for the given build and comparison configuration in a separate thread.
 	 */
 	private synchronized Future<BuildDiffInfo> scheduleComparison(final String baseBranchName, final String baseBuildName,
