@@ -30,7 +30,9 @@ export class ManageTabsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const tabId = this.tabs.map((tab) => tab.urlParam).indexOf(this.selectedTab);
+        const tabId = this.tabs
+            .map((tab) => tab.urlParam)
+            .indexOf(this.selectedTab);
         if (tabId !== -1) {
             this.staticTabs.tabs[tabId].active = true;
         }
@@ -42,7 +44,8 @@ export class ManageTabsComponent implements OnInit {
 
     onSelect(data: TabDirective): void {
         if (data.heading) {
-            const urlParam = this.tabs.filter((tab) => tab.name === data.heading)[0].urlParam;
+            const urlParam = this.tabs
+                .filter((tab) => tab.name === data.heading)[0].urlParam;
             this.onSelectTab.emit(urlParam);
         }
     }
