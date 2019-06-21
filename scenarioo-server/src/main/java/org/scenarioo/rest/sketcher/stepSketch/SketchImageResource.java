@@ -42,7 +42,7 @@ public class SketchImageResource {
 			@PathVariable("stepSketchId") final String stepSketchId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		File svgFile = sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
-		return FileResponseCreator.createImageFileResponse(svgFile);
+		return FileResponseCreator.createUncacheableImageFileResponse(svgFile);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class SketchImageResource {
 														   @PathVariable("pngFile") final String pngFileName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		File pngFile = sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
-		return FileResponseCreator.createImageFileResponse(pngFile);
+		return FileResponseCreator.createUncacheableImageFileResponse(pngFile);
 	}
 
 }

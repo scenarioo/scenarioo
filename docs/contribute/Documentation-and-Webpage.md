@@ -2,7 +2,7 @@
 
 ## Web Page
 
-Our web page is published thoough github pages under http://www.scenarioo.org
+Our web page is published through github pages under http://www.scenarioo.org
 
 The webpage is maintained in repository 
 https://github.com/scenarioo/scenarioo.github.io
@@ -19,20 +19,20 @@ We do not use Wikis!
 
 All our repos have a docs folder with a markdown file documentation using gitbook tooling.
 
-The sources for the major Scenarioo documentation is in major Scenarioo repository here:
+The sources for the major Scenarioo documentation is in the major Scenarioo repository:
 https://github.com/scenarioo/scenarioo/tree/develop/docs
 
-This docu is deployed as a part of our webpage using gitbook tooling under following URLs for different product versions:
+This docu is deployed as a part of our webpage using gitbook tooling under the following URLs for different product versions:
 
 * [Master Docs](http://scenarioo.org/docs/master/): This is the docu of the last official released version.
-* [Development Docs](http://scenarioo.org/docs/develop/): This is the docu of the last official released version.
-* [Specific Release Version Docs  - e.g. for Version 3.0](http://scenarioo.org/docs/3.0/): For every major release we keep one archived published version of the docu. Links in our product usually point to that version of the docu that is currently installed. If we fix / improve docu of latest release we have to publish it to the latest archived version and as well into the master documentation (by doing the change on the release brnach of that version and then merge it to master).
+* [Development Docs](http://scenarioo.org/docs/develop/): This is the docu of the current version under development.
+* [Specific Release Version Docs  - e.g. for Version 3.0](http://scenarioo.org/docs/3.0/): For every major release we keep one archived published version of the docu. Links in our product usually point to that version of the docu that is currently installed. If we fix / improve the docu of latest release we have to publish it to the latest archived version and as well into the master documentation (by doing the change on the release branch of that version and then merge it to master).
 
 ###  How to Publish Documentation
 
 #### Configuration for new Releases
 
-This has to be still done manually before publishing:
+This has still to be done manually before publishing:
 
 * Configuration for a new release version has to be added to `docs/book.json` such that this version appears in the version selection dropdown in the documentation.
 * Make sure to set the new version as selected on the release branch (`"selected": true` in `book.json`).
@@ -40,17 +40,17 @@ This has to be still done manually before publishing:
 
 #### Automatic Publishing
 
-Easiest way to publish the documentation is to use the automation on Jenkins which currently automatically publishes the docu as follows:
+The easiest way to publish the documentation is to use the automation on CircleCI which currently automatically publishes the docu as follows:
 
 * **Develop Docu**: Automatically updated/published on every push to develop branch.
 * **Master Docu**: Automatically updated/published on every push to master branch (e.g. for hotfixes).
-* **Release Docu (versioned)**: Automatically updated/published on every push to any release/* branch (under same version number as the name of the release branch, e.g. `4.0` for `release/4.0`).
+* **Release Docu (versioned)**: Automatically updated/published on every push to any release/* branch (under the same version number as the name of the release branch, e.g. `4.0` for `release/4.0`).
 
 #### Manual Publishing 
 
 If you ever need to publish manually:
 
-* Make sure the version of scenarioo/scenarioo you want to release docu for is checked out (usually `develop`, `master` or a release branch).
+* Make sure the version of scenarioo/scenarioo you want to release the docu for is checked out (usually `develop`, `master` or a release branch).
 * Run `npm install` and `npm run build` in `docs` folder.
 * Use the npm tooling, similar to `/ci/publishGitbookMarkdownDocu.sh`.
 * OR: Copy the generated content of the `docs/_book` folder to the scenarioo.github.io repository into the appropriate subfolder of `docs` for the version you want to deploy
