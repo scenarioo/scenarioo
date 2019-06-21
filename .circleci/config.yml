@@ -51,11 +51,20 @@ jobs:
             echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
+            echo "Wait for Scenarioo to finish starting, importing the builds and processing the comparisons. Abort if an error occurs."
+            ( tail -f -n0 test-results/scenarioo-server.log & ) | while read LINE0
+              do
+                if [[ "$LINE0" = *"All Builds Imported and Comparisons Calculated."* ]]; then
+                  exit 0
+                elif  [[ "$LINE0" = *"ERROR"* ]]; then
+                  echo $LINE0
+                  exit 1
+                fi
+              done
+
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
-            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
-            sleep 30  # Give server some time because of comparisons
 
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
@@ -66,6 +75,7 @@ jobs:
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+          no_output_timeout: 2m # abort build if no output is produced for 2 minutes
 
       - run:
           name: Collect test results
