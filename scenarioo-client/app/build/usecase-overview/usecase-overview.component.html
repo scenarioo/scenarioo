@@ -1,38 +1,89 @@
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
         <div class="input-group">
-            <input type="text" class="form-control" id="useCasesSearchField"
-                   data-toggle="tooltip" title="type words separated by spaces to search for"
-                   placeholder="Search in use cases..."/>
+            <input [(ngModel)]="table.search.searchTerm" class="form-control" data-toggle="tooltip"
+                   id="useCasesSearchField" placeholder="Search in use cases..."
+                   title="type words separated by spaces to search for" type="text"/>
             <span class="input-group-btn">
-                        <button type="button" (click)="resetSearchField()" class="btn btn-default">reset</button>
+                        <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
                     </span>
         </div>
+
     </div>
 </div>
 
-<table class="table table-curved table-hover table-responsive usecase-table">
-    <thead>
-    <tr>
-        <th>Status</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th># Scenarios</th>
-        <th class="sort-diff-info" >Changes</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let dynamicUseCase of usecases">
-        <td>
-            <span>{{dynamicUseCase.status}}</span>
-        </td>
-        <td>
-            {{dynamicUseCase.name}}
-            <span class="label label-info sc-label">{{dynamicUseCase.labels}}</span>
-        </td>
-        <td>{{dynamicUseCase.description}}</td>
-        <td>{{dynamicUseCase.numberOfScenarios}}</td>
-        <td></td>
-    </tr>
-    </tbody>
-</table>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-sm-8">
+        <table class="table table-curved table-hover table-responsive usecase-table">
+            <thead>
+            <tr>
+                <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
+                    Status
+                    <div *ngIf= "order != 'status'" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="bot"> &#9207; </span>
+                    </div>
+                    <div *ngIf= "order === 'status' && reverse" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="selectedBot">&#9207;</span>
+                    </div>
+                    <div *ngIf= "order === 'status' && !reverse" class="arrows">
+                        <span class="selectedTop"> &#9206; </span>
+                        <span class="bot">&#9207;</span>
+                    </div>
+                </th>
+                <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
+                    Name
+                    <div *ngIf= "order != 'name'" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="bot"> &#9207; </span>
+                    </div>
+                    <div *ngIf= "order === 'name' && reverse" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="selectedBot">&#9207;</span>
+                    </div>
+                    <div *ngIf= "order === 'name' && !reverse" class="arrows">
+                        <span class="selectedTop"> &#9206; </span>
+                        <span class="bot">&#9207;</span>
+                    </div>
+
+
+                </th>
+                <th>Description</th>
+                <th (click)="setOrder('numberOfScenarios')" [class.selected]="order === 'numberOfScenarios' ">
+                    # Scenarios
+                    <div *ngIf= "order != 'numberOfScenarios'" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="bot"> &#9207; </span>
+                    </div>
+                    <div *ngIf= "order === 'numberOfScenarios' && reverse" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="selectedBot">&#9207;</span>
+                    </div>
+                    <div *ngIf= "order === 'numberOfScenarios' && !reverse" class="arrows">
+                        <span class="selectedTop"> &#9206; </span>
+                        <span class="bot">&#9207;</span>
+                    </div>
+                </th>
+                <th *ngIf="comparisonInfo" class="sort-diff-info">Changes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr (click)="goToUseCase(dynamicUseCase.name)"
+                *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true">
+                <td>
+                    <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
+                </td>
+                <td>
+                    {{dynamicUseCase.name}}
+                    <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
+                          class="label label-info sc-label">{{dynamicUseCase.labels.labels}}</span>
+                </td>
+                <td>{{dynamicUseCase.description}}</td>
+                <td>{{dynamicUseCase.numberOfScenarios}}</td>
+                <td *ngIf="comparisonInfo"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -13,6 +13,8 @@ import {TabsModule} from 'ngx-bootstrap';
 import {UseCaseComponent} from './build/usecase-overview/usecase-overview.component';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
+import {SelectedComparison} from './diffViewer/selectedComparison.service';
+import {OrderModule} from 'ngx-order-pipe';
 
 @NgModule({
     declarations: [
@@ -33,6 +35,7 @@ import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.se
         UpgradeModule,
         RestControllerModule,
         TabsModule.forRoot(),
+        OrderModule,
     ],
     providers: [
         ConfigurationService,
@@ -47,6 +50,7 @@ import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.se
         LabelConfigurationService,
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
     ],
 })
 export class AppModule {

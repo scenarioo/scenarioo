@@ -1,4 +1,22 @@
-sc-usecase-overview input {
-    width: 70%;
-    margin-bottom: 20px;
+sc-usecase-overview .arrows {
+    display: inline;
+    margin-left: 2px;
+    margin-right: -2px;
+}
+
+sc-usecase-overview .top, .selectedTop {
+    position: absolute;
+    margin-top: -6px;
+}
+
+sc-usecase-overview .top, .bot {
+    color: lightgray;
+}
+
+sc-usecase-overview .bot, .selectedBot {
+    position: relative;
+}
+
+sc-usecase-overview .table {
+    cursor: pointer;
 }
