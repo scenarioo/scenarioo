@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../services/configuration.service';
+import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -24,7 +25,8 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison,
+                        BuildDiffInfoResource: BuildDiffInfoService,
                         StepDiffInfoResource, DiffInfoService, localStorageService,
                         ConfigurationService: ConfigurationService) {
 
@@ -414,9 +416,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
-        BuildDiffInfoResource.get(
-            {baseBranchName, baseBuildName, comparisonName},
-            (buildDiffInfo) => {
+        BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName)
+            .subscribe((buildDiffInfo) => {
                 $scope.comparisonName = buildDiffInfo.name;
                 $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                 $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
@@ -428,8 +429,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 $scope.comparisonName = '';
                 $scope.comparisonBranchName = '';
                 $scope.comparisonBuildName = '';
-            },
-        );
+            });
     }
 
     function loadStepDiffInfo() {

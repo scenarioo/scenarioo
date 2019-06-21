@@ -15,9 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
+
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
-function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
+function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService,
+                                         BuildDiffInfosResource: BuildDiffInfosService,
+                                         ComparisonCreateResource, ApplicationStatusService) {
 
     const vm = this;
 
@@ -57,17 +61,14 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     function loadComparisonsOfCurrentBuild() {
         const baseBranchName = vm.baseBranch.branch.name;
         const baseBuildName = vm.baseBuild.linkName;
-        BuildDiffInfosResource.query(
-            {baseBranchName, baseBuildName},
-            (buildDiffInfos) => {
+        BuildDiffInfosResource.get(baseBranchName, baseBuildName)
+            .subscribe((buildDiffInfos) => {
                 vm.comparisonsOfCurrentBuild = buildDiffInfos;
                 validateDistinctBuilds();
-            },
-            () => {
+            }, () => {
                 vm.comparisonsOfCurrentBuild = [];
                 validateDistinctBuilds();
-            },
-        );
+            });
     }
 
     function setBaseBranch(branch) {
