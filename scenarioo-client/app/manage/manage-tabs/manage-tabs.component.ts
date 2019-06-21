@@ -41,8 +41,8 @@ export class ManageTabsComponent implements OnInit {
     }
 
     onSelect(data: TabDirective): void {
-        if(data.heading) {
-            const urlParam = this.tabs.filter(tab => tab.name === data.heading)[0].urlParam;
+        if (data.heading) {
+            const urlParam = this.tabs.filter((tab) => tab.name === data.heading)[0].urlParam;
             this.onSelectTab.emit(urlParam);
         }
     }
