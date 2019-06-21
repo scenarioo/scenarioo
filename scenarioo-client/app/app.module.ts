@@ -8,13 +8,27 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
+import {TabsModule} from 'ngx-bootstrap';
+import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
+import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
+import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
+import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
+import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        ManageTabsComponent,
+        BranchAliasesDirective,
+        GeneralSettingsDirective,
+        LabelColorsDirective,
+        BuildsListDirective,
+        ComparisonsDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
+        ManageTabsComponent,
     ],
     imports: [
         BrowserModule,
@@ -23,6 +37,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        TabsModule.forRoot(),
     ],
     providers: [
         ConfigurationService,

@@ -15,7 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ComparisonsController', ComparisonsController);
+angular.module('scenarioo.controllers')
+    .component('scComparisons', {
+        template: require('./comparisons.html'),
+        controller: ComparisonsController,
+        controllerAs: 'vm',
+    });
 
 function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService, ApplicationStatusService) {
 

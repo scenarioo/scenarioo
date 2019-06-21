@@ -15,7 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('LabelColorsController', LabelColorsController);
+angular.module('scenarioo.controllers')
+    .component('scLabelColors', {
+        template: require('./labelColors.html'),
+        controller: LabelColorsController,
+        controllerAs: 'vm',
+    });
 
 function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsListResource) {
 

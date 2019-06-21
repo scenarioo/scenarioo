@@ -16,9 +16,15 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
+angular.module('scenarioo.controllers')
+    .component('scGeneralSettings', {
+        template: require('./generalSettings.html'),
+        controller: GeneralSettingsController,
+        controllerAs: 'vm',
+    });
 
 function GeneralSettingsController(BranchesResource, ConfigurationService: ConfigurationService, ApplicationStatusService) {
 
