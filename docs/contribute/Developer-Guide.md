@@ -37,14 +37,25 @@ You need a correctly setup development environment for working on Scenarioo as d
    * You should see in the log output that it is importing the example documentation data properly.
    
  3. Finally, start serving the frontend:
+   
+   Using npm directly:
    ```
    cd scenarioo-client
    npm install
-   npm start   
+   npm start
    ```
+   
+   Or using gradle tasks:
+   ```
+   ./gradlew npmInstall
+   ./gradlew npm_start
+   ```
+   
    Some remarks about this:
    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
-   * This will spawn a webpack development server locally
+   * `npm start`: spawns a webpack development server locally
+   * The gradle tasks are using the gradle-node-plugin to execute the same npm tasks described above. Using the gradle-node-plugin makes sure that always the correct node and npm versions are used to build. Also you don't need to have Node.js installed separately.
+     * All npm tasks defined in`package.json` can be invoked by running `./gradlew npm_run_<TASK>`
 
  4. Now you can access the viewer application by browsing to http://localhost:8500/scenarioo/
    * :warning: The `/` at the end of the URL is mandatory!
@@ -61,8 +72,7 @@ On the command-line run:
    
 Or in IntelliJ 
    * run all java unit tests inside scenarioo/scenarioo-server
-   * run all java-script karma unit tests inside scenarioo/scenarioo-client with
-       `npm test`
+   * run all java-script karma unit tests inside scenarioo/scenarioo-client with `npm test` or `./gradlew npm_test`
    
 ## E2E Testing with Protractor
 
@@ -78,15 +88,13 @@ For more information on Protractor see [Protractor API Docs](http://angular.gith
 Scenarioo Viewer is up and running and test data is generated. The simplest way to do this is follow the instructions in 
 [Build, Test and Run the Scenarioo Viewer Web App](#build-test-and-run-the-scenarioo-viewer-web-app).
 
-Note: ChromeDriver will automatically be installed / updated when you run the E2E tests using the `npm run ...` 
-commands.
-
 ### Run E2E Tests
 
 Change into the client directory:
    ```
    cd scenarioo-client
    ```
+
 There are two tasks which can be used to run the E2E tests. The tasks differ in how they execute the tests. You can 
 
 * run the tests in the background and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
@@ -99,6 +107,14 @@ This will open a new browser window, run all tests and log test-information to t
    ```
    npm run e2e
    ```
+
+Both tasks can also be executed using gradle in the scenarioo root directory:
+```
+./gradlew npm_run_e2e-scenarioo
+./gradlew npm_run_e2e
+```
+
+Note: ChromeDriver will automatically be installed / updated when you run the E2E tests using the gradle or npm commands above.
 
 ### Reset the Test Data
 
@@ -154,6 +170,11 @@ On Windows:
 node node_modules\protractor\node_modules\webdriver-manager update
 ```
 
+Or you can run the following gradle task on Linux/Windows:
+```  
+./gradlew npm_run_webdriver-manager_update
+```
+
 ## Working with the Scenarioo Viewer Web App
 ### Hot code replacement in the backend
 When changing server functionality it is possible to get the changes into the server without doing a full rebuild and restart.
@@ -168,7 +189,7 @@ To achieve this do the following:
 7. Reload the web page.
 
 ### Hot code replacement in the frontend
-This is done automatically when the frontend is deployed with `npm start`. After a change is saved the web page is automatically reloaded.
+This is done automatically when the frontend is deployed with `npm start` or `./gradlew npm_start`. After a change is saved the web page is automatically reloaded.
 
 ### Docker Run Configurations
 
@@ -303,4 +324,4 @@ The following command creates an executable war file which contains a tomcat ser
 Packages should b specified statically. 
 Example: ``` "gulp-ng-annotate": "2.0.2" ```.
 
-Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!
+Npm packages may be checked by using the command ``` npm outdated ``` or ``` ./gradlew npm_outdated ```. You can update outdated packages by using ```npm update``` or ``` ./gradlew npm_update ``` - but if you do so, you have to ensure that everything still works (e2e tests) and inform developers in case a new npm version is needed!

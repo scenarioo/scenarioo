@@ -14,8 +14,10 @@ There are some additional notes for Ubuntu users documented under [Development E
 The following tools should be installed and running on your computer:
 
  * Git (most recent version)
- * Java JDK (1.8)
- * Node.js (8.11+)
+ * Java JDK 1.8
+ * Node.js 8.11+ (optional)
+   * To work in the scenarioo-js writer library, you will need Node.js
+   * To work in the scenarioo-java writer library or in the scenarioo viewer application, Node.js is optional 
  * IntelliJ IDEA Ultimate (most recent version) 
    * Ask @bruderol if you want to use an open source license for it
  * Docker (recommended)
