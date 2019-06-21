@@ -19,6 +19,6 @@ angular.module('scenarioo.directives')
     .component('scMetadataTree', {
         template: require('./metaDataTree.html'),
         bindings: {
-            metadataTree: '='
+            metadataTree: '<'
         }
 });
