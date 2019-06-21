@@ -30,10 +30,10 @@ angular
             diffScreenShotUrl: '<',
             showDiff: '<',
             visibilityToggle: '<',
-            toNextStepAction: '&'
+            toNextStepAction: '&',
         },
         template: require('./annotatedScreenshot.html'),
-        controller: annotatedScreenshotController
+        controller: annotatedScreenshotController,
     });
 
 function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsService, $window) {
@@ -51,10 +51,10 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     vm.hasClickAction = hasClickAction;
     vm.getTooltipText = getTooltipText;
 
-    var realImageElement = $element.find('img.sc-real-screenshot');
-    var diffImageElement = $element.find('img.sc-diff-screenshot');
+    const realImageElement = $element.find('img.sc-real-screenshot');
+    const diffImageElement = $element.find('img.sc-diff-screenshot');
 
-    var relevantImageElement = diffImageElement;
+    let relevantImageElement = diffImageElement;
     if (!vm.showDiff) {
         relevantImageElement = realImageElement;
     }
@@ -68,27 +68,27 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     };
 
     function updateImageScalingRatio() {
-        var relevantNaturalWidth = relevantImageElement.get(0).naturalWidth;
-        var relevantDisplayWidth = relevantImageElement.width();
+        const relevantNaturalWidth = relevantImageElement.get(0).naturalWidth;
+        const relevantDisplayWidth = relevantImageElement.width();
         vm.imageNaturalHeight = relevantImageElement.get(0).naturalHeight;
         vm.imageScalingRatio = relevantDisplayWidth / relevantNaturalWidth;
 
         if (vm.showDiff) {
-            var realNaturalWidth = realImageElement.get(0).naturalWidth;
-            var realNaturalHeight = realImageElement.get(0).naturalHeight;
+            const realNaturalWidth = realImageElement.get(0).naturalWidth;
+            const realNaturalHeight = realImageElement.get(0).naturalHeight;
 
             realImageElement.get(0).width = realNaturalWidth * vm.imageScalingRatio + 4;
             realImageElement.get(0).height = realNaturalHeight * vm.imageScalingRatio + 4;
         }
 
-        //scope.$digest();
+        // scope.$digest();
     }
 
     /**
      * get the text to display inside the annotation box (depending if text box is big enough to display text)
      */
     function getBoxText(screenAnnotation) {
-        var isTextVisible = screenAnnotation.region.width * vm.imageScalingRatio > 32 && screenAnnotation.region.height * vm.imageScalingRatio > 18;
+        const isTextVisible = screenAnnotation.region.width * vm.imageScalingRatio > 32 && screenAnnotation.region.height * vm.imageScalingRatio > 18;
         if (isTextVisible) {
             return screenAnnotation.screenText;
         } else {
@@ -99,21 +99,21 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     function getBoxCssStyle(screenAnnotation) {
         return {
             // The border is 2 px wide. Therefore we add these three pixels here.
-            left: (screenAnnotation.region.x * vm.imageScalingRatio - 2) + 'px',
-            top: (screenAnnotation.region.y * vm.imageScalingRatio - 2) + 'px',
-            width: (screenAnnotation.region.width * vm.imageScalingRatio + 4) + 'px',
-            height: (screenAnnotation.region.height * vm.imageScalingRatio + 4) + 'px',
-            cursor: 'pointer',
-            'z-index': 100
+            'left': (screenAnnotation.region.x * vm.imageScalingRatio - 2) + 'px',
+            'top': (screenAnnotation.region.y * vm.imageScalingRatio - 2) + 'px',
+            'width': (screenAnnotation.region.width * vm.imageScalingRatio + 4) + 'px',
+            'height': (screenAnnotation.region.height * vm.imageScalingRatio + 4) + 'px',
+            'cursor': 'pointer',
+            'z-index': 100,
         };
     }
 
     function getIconCssStyle(screenAnnotation) {
         return {
-            left: (screenAnnotation.region.x + screenAnnotation.region.width) * vm.imageScalingRatio + 'px',
-            bottom: (vm.imageNaturalHeight - screenAnnotation.region.y) * vm.imageScalingRatio + 'px',
-            cursor: 'pointer',
-            'z-index': 90
+            'left': (screenAnnotation.region.x + screenAnnotation.region.width) * vm.imageScalingRatio + 'px',
+            'bottom': (vm.imageNaturalHeight - screenAnnotation.region.y) * vm.imageScalingRatio + 'px',
+            'cursor': 'pointer',
+            'z-index': 90,
         };
     }
 
@@ -128,31 +128,31 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
             controller: 'ScreenAnnotationInfoPopupController',
             controllerAs: 'annotationPopup',
             resolve: {
-                annotation: function () {
+                annotation() {
                     return annotation;
                 },
-                goToNextStep: function () {
+                goToNextStep() {
                     return vm.toNextStepAction;
-                }
+                },
             },
-            windowClass: 'modal-small screen-annotation-popup'
+            windowClass: 'modal-small screen-annotation-popup',
         });
 
     }
 
     function doClickAction(annotation) {
 
-        var clickAction = annotation.clickAction || 'DEFAULT';
-        var clickActions = {
-            TO_URL: function () {
+        const clickAction = annotation.clickAction || 'DEFAULT';
+        const clickActions = {
+            TO_URL() {
                 $window.open(annotation.clickActionUrl);
             },
-            TO_NEXT_STEP: function () {
+            TO_NEXT_STEP() {
                 vm.toNextStepAction();
             },
-            DEFAULT: function () {
+            DEFAULT() {
                 openInfoPopup(annotation);
-            }
+            },
         };
         clickActions[clickAction]();
     }
@@ -164,6 +164,5 @@ function annotatedScreenshotController($element, $uibModal, ScreenAnnotationsSer
     function hasClickAction(annotation) {
         return annotation.clickAction;
     }
-
 
 }
