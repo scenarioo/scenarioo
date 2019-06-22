@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
                 </td>
                 <td>
-                    {{scenarioSummary.scenario.name | scHumanReadable }}
+                    <span class="sc-text-before-label">{{scenarioSummary.scenario.name | scHumanReadable }}</span>
                     <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
