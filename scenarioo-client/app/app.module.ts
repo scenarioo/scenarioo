@@ -11,7 +11,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
-import {UseCasesComponent} from './build/usecase-overview/usecase-overview.component';
+import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';

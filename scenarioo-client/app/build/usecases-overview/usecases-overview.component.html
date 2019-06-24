@@ -1,14 +1,13 @@
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
-        <div class="input-group">
+        <label class="input-group">
             <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
                    id="useCasesSearchField" placeholder="Search in use cases..."
                    title="type words separated by spaces to search for" type="text"/>
             <span class="input-group-btn">
-                        <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
-                    </span>
-        </div>
-
+                <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+            </span>
+        </label>
     </div>
 </div>
 
@@ -46,8 +45,6 @@
                         <span class="selectedTop"> &#9206; </span>
                         <span class="bot">&#9207;</span>
                     </div>
-
-
                 </th>
                 <th>Description</th>
                 <th (click)="setOrder('numberOfScenarios')" [class.selected]="order === 'numberOfScenarios' ">
@@ -71,6 +68,7 @@
             <tbody>
             <tr (click)="goToUseCase(dynamicUseCase.name)"
                 *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm">
+                <!--[ngClass]="{'selected': $index==selectedRowIndex}"-->
                 <td>
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
@@ -86,4 +84,5 @@
             </tbody>
         </table>
     </div>
+
 </div>

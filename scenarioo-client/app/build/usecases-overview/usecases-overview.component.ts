@@ -6,14 +6,15 @@ import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/s
 import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
+import {LocationService} from '../../shared/location.service';
 
 @Component({
     selector: 'sc-usecase-overview',
-    template: require('./usecase-overview.component.html'),
-    styles: [require('./usecase-overview.component.css').toString()],
+    template: require('./usecases-overview.component.html'),
+    styles: [require('./usecases-overview.component.css').toString()],
 })
 
-export class UseCaseComponent implements OnInit {
+export class UseCasesComponent implements OnInit {
 
     usecases: UseCaseSummary[] = [];
 
@@ -36,6 +37,7 @@ export class UseCaseComponent implements OnInit {
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
+                private locationService: LocationService,
                 private selectedComparison: SelectedComparison,) {
 
     }
@@ -81,8 +83,7 @@ export class UseCaseComponent implements OnInit {
     }
 
     goToUseCase(useCase) {
-        console.log("go To Usecase is working");
-        //this.router.navigateToUrl(['/usecase/' + useCase.name]);
+        const params = this.locationService.path('/usecase/' + useCase);
     }
 
     getLabelStyle(labelName) {
