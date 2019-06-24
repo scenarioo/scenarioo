@@ -141,7 +141,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                     $scope.stepNotFound = true;
                     $scope.httpResponse = {
                         status: error.status,
-                        method: "GET",
+                        method: 'GET',
                         url: error.url,
                         data: error.error,
                     };
