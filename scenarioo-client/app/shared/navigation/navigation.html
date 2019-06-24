@@ -20,46 +20,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <li>
             <a class="navbar-brand" href="#">
                 <img ng-src="images/scenarioo-logo-navbar.png" class="sc-nav-logo"/>
-                <span class="sc-nav-application-name">{{applicationName}}</span>
+                <span class="sc-nav-application-name">{{$ctrl.applicationName}}</span>
             </a>
         </li>
 
         <!-- Branch selection dropdown -->
         <sc-branch-selection
-           branches-and-builds="branchesAndBuilds"
-           selected-branch="branchesAndBuilds.selectedBranch"
-           on-branch-change="setBranch(branch)">
+           branches-and-builds="$ctrl.branchesAndBuilds"
+           selected-branch="$ctrl.branchesAndBuilds.selectedBranch"
+           on-branch-change="$ctrl.setBranch(branch)">
         </sc-branch-selection>
 
         <!-- Build selection dropdown -->
         <sc-build-selection
-            branches-and-builds="branchesAndBuilds"
-            selected-branch="branchesAndBuilds.selectedBranch"
-            selected-build="branchesAndBuilds.selectedBuild"
-            on-build-change="setBuild(selectedBranch, build)">
+            branches-and-builds="$ctrl.branchesAndBuilds"
+            selected-branch="$ctrl.branchesAndBuilds.selectedBranch"
+            selected-build="$ctrl.branchesAndBuilds.selectedBuild"
+            on-build-change="$ctrl.setBuild(selectedBranch, build)">
         </sc-build-selection>
 
         <!-- Comparison selection dropdown -->
-        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen"
-            id="comparison-selection-dropdown" ng-if="comparisonBuilds.length > 0">
+        <li class="dropdown" uib-dropdown is-open="$ctrl.status.isComparisonSelectionOpen"
+            id="comparison-selection-dropdown" ng-if="$ctrl.comparisonBuilds.length > 0">
             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                 <i class="fas fa-exchange-alt"></i> Comparison:
-                {{comparisonInfo.isDefined ? selectedComparison.name : selectedComparison.name + ' (Available ' + comparisonBuilds.length + ')'}}
+                {{$ctrl.comparisonInfo.isDefined ? $ctrl.selectedComparison.name : $ctrl.selectedComparison.name + ' (Available ' + $ctrl.comparisonBuilds.length + ')'}}
                 <span class="caret"></span>
-                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison"
+                <sc-diff-info-icon ng-if="$ctrl.comparisonInfo.isDefined" diff-info="$ctrl.selectedComparison"
                                    element-type="build"
                                    child-element-type="use case"></sc-diff-info-icon>
             </a>
             <ul class="dropdown-menu">
-                <li ng-repeat="comparisonBuild in comparisonBuilds">
-                    <a ng-click="setComparisonBuild(comparisonBuild)">
+                <li ng-repeat="comparisonBuild in $ctrl.comparisonBuilds">
+                    <a ng-click="$ctrl.setComparisonBuild(comparisonBuild)">
                         {{comparisonBuild.name}}
                         <sc-diff-info-icon diff-info="comparisonBuild" element-type="build"
                                            child-element-type="use case"></sc-diff-info-icon>
                     </a>
                 </li>
-                <li ng-if="comparisonInfo.isDefined">
-                    <a ng-click="disableComparison()">Disable</a>
+                <li ng-if="$ctrl.comparisonInfo.isDefined">
+                    <a ng-click="$ctrl.disableComparison()">Disable</a>
                 </li>
             </ul>
         </li>
@@ -71,11 +71,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <a href="#/manage"><span class="glyphicon glyphicon-cog"></span> Manage</a>
         </li>
         <li>
-            <a href="" ng-click="showApplicationInfoPopup()" class="link">
+            <a href="" ng-click="$ctrl.showApplicationInfoPopup()" class="link">
             <span class="glyphicon glyphicon-info-sign"></span> Info</a>
         </li>
-        <li ng-show="isSearchEngineRunning" ng-cloak id="sc-global-search-box">
-            <form ng-submit="search()" class="navbar-form navbar-left">
+        <li ng-show="$ctrl.isSearchEngineRunning" ng-cloak id="sc-global-search-box">
+            <form ng-submit="$ctrl.search()" class="navbar-form navbar-left">
                 <div class="input-group">
                     <span class="input-group-btn">
                         <button id="sc-global-search-box-button" class="btn btn-default btn-sm">
@@ -83,7 +83,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </button>
                     </span>
                     <input id="sc-global-search-box-textfield" class="form-control input-sm"
-                           ng-model="globalSearch.queryString" type="text">
+                           ng-model="$ctrl.globalSearch.queryString" type="text">
                 </div>
             </form>
         </li>

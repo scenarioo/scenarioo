@@ -1,13 +1,22 @@
 <div class="diff-info-wrapper">
-    <div class="progress sc-diff-changes" uib-tooltip-html="vm.infoText" tooltip-placement="left" tooltip-class="diff-icon-tooltip">
-        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{vm.changedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.changedPercentage }"></div>
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{vm.addedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.addedPercentage }"></div>
-        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{vm.removedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.removedPercentage }"></div>
-        <div class="progress-bar progress-bar-default" role="progressbar" aria-valuenow="{{vm.unchangedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.unchangedPercentage }"></div>
+    <div class="progress sc-diff-changes" tooltip-class="diff-icon-tooltip" tooltip-placement="left"
+         uib-tooltip-html="$ctrl.infoText">
+        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{$ctrl.changedPercentage}}"
+             class="progress-bar progress-bar-warning" ng-style="{ 'width' : $ctrl.changedPercentage }"
+             role="progressbar"></div>
+        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{$ctrl.addedPercentage}}"
+             class="progress-bar progress-bar-success" ng-style="{ 'width' : $ctrl.addedPercentage }"
+             role="progressbar"></div>
+        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{$ctrl.removedPercentage}}"
+             class="progress-bar progress-bar-danger" ng-style="{ 'width' : $ctrl.removedPercentage }"
+             role="progressbar"></div>
+        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{$ctrl.unchangedPercentage}}"
+             class="progress-bar progress-bar-default" ng-style="{ 'width' : $ctrl.unchangedPercentage }"
+             role="progressbar"></div>
         <div class="change-rate">
-            <span ng-if="vm.displayPercentageChanged()">{{vm.diffInfo.changeRate | scRoundUp}}%</span>
-            <span ng-if="vm.diffInfo.isAdded" class="added">added</span>
-            <span ng-if="vm.diffInfo.isRemoved" class="removed">removed</span>
+            <span ng-if="$ctrl.displayPercentageChanged()">{{$ctrl.diffInfo.changeRate | scRoundUp}}%</span>
+            <span class="added" ng-if="$ctrl.diffInfo.isAdded">added</span>
+            <span class="removed" ng-if="$ctrl.diffInfo.isRemoved">removed</span>
         </div>
     </div>
 </div>

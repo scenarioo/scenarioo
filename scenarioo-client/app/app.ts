@@ -40,11 +40,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
     $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
     $templateCache.put('build/customTab.html', require('./build/customTab.html'));
-    $templateCache.put('manage/buildImport/buildsList.html', require('./manage/buildImport/buildsList.html'));
-    $templateCache.put('manage/comparisons/comparisons.html', require('./manage/comparisons/comparisons.html'));
-    $templateCache.put('manage/generalSettings/generalSettings.html', require('./manage/generalSettings/generalSettings.html'));
-    $templateCache.put('manage/branchAliases/branchAliases.html', require('./manage/branchAliases/branchAliases.html'));
-    $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
     $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
     // Initialze modals to close when the location changes

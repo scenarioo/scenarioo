@@ -8,8 +8,17 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MainPageComponent} from './build/mainpage/mainpage.component';
+import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {TabsModule} from 'ngx-bootstrap';
+import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
+import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
+import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
+import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
+import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {LocationService} from './shared/location.service';
+import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
+import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
+import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {UseCaseComponent} from './build/usecase-overview/usecase-overview.component';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
@@ -20,12 +29,19 @@ import {FilterPipe} from './pipes/filter.pipe';
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        ManageTabsComponent,
+        BranchAliasesDirective,
+        GeneralSettingsDirective,
+        LabelColorsDirective,
+        BuildsListDirective,
+        ComparisonsDirective,
         MainPageComponent,
         UseCaseComponent,
         FilterPipe,
     ],
     entryComponents: [
         LabelMetadataComponent,
+        ManageTabsComponent,
         MainPageComponent,
         UseCaseComponent,
     ],
@@ -50,10 +66,13 @@ import {FilterPipe} from './pipes/filter.pipe';
             multi: true,
         },
         LabelConfigurationService,
+        BuildDiffInfoService,
+        BuildDiffInfosService,
+        {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
-    ]
+    ],
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {

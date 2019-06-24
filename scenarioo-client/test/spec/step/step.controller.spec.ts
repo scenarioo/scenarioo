@@ -104,6 +104,11 @@ describe('StepController', () => {
         $provide.value('StepResource', StepResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('BuildDiffInfoResource', {
+            get() {
+
+            }
+        });
     }));
 
     beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigurationService_,
