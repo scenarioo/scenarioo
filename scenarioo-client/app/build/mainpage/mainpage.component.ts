@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+//import {Location} from '@angular/common';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 declare var angular: angular.IAngularStatic;
 
@@ -12,9 +14,18 @@ declare var angular: angular.IAngularStatic;
     styles: [require('./mainpage.component.css').toString()],
 })
 export class MainPageComponent implements OnInit {
-    tabs: any[]
 
-    constructor(private configurationService: ConfigurationService) {
+    tabs: any[];
+    modalRef: BsModalRef;
+
+    eMailSubject = undefined;
+    eMailUrl: string;
+    pageUrl: string = 'test';
+    imageUrl: string;
+
+    constructor(private configurationService: ConfigurationService,
+                private modalService: BsModalService,
+                /*private location: Location,*/) {
 
     }
 
@@ -26,9 +37,31 @@ export class MainPageComponent implements OnInit {
                 });
         });
 
+        //this.pageUrl = this.location.path();
+
+        /*
+        this.pageUrl = (function () {
+            if (angular.isDefined(SharePageService.getPageUrl())) {
+                return SharePageService.getPageUrl();
+            } else {
+                return currentBrowserLocation;
+            }
+        }());
+
+        this.imageUrl = SharePageService.getImageUrl();
+        */
+
+        this.eMailSubject = encodeURIComponent('Link to Scenarioo');
+        this.eMailUrl = encodeURIComponent(this.pageUrl);
     }
 
+    showStepLinks() {
+        console.log("Show Step Links is working");
+    }
 
+    openShare(shareContent: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(shareContent);
+    }
 }
 
 angular.module('scenarioo.directives')

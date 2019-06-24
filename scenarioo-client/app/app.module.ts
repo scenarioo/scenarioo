@@ -8,8 +8,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MainPageComponent} from './build/mainpage/mainpage.component';
+import {TabsModule} from 'ngx-bootstrap/tabs';
+import {ModalModule} from 'ngx-bootstrap/modal';
+import {UseCasesComponent} from './build/usecase-overview/usecase-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {TabsModule} from 'ngx-bootstrap';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
@@ -18,13 +21,13 @@ import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
-import {MainPageComponent} from './build/mainpage/mainpage.component';
-import {UseCaseComponent} from './build/usecase-overview/usecase-overview.component';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
+import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
+import {TooltipModule} from 'ngx-bootstrap';
 
 @NgModule({
     declarations: [
@@ -36,14 +39,14 @@ import {FilterPipe} from './pipes/filter.pipe';
         BuildsListDirective,
         ComparisonsDirective,
         MainPageComponent,
-        UseCaseComponent,
+        UseCasesComponent,
         FilterPipe,
     ],
     entryComponents: [
         LabelMetadataComponent,
         ManageTabsComponent,
         MainPageComponent,
-        UseCaseComponent,
+        UseCasesComponent,
     ],
     imports: [
         BrowserModule,
@@ -53,7 +56,10 @@ import {FilterPipe} from './pipes/filter.pipe';
         UpgradeModule,
         RestControllerModule,
         TabsModule.forRoot(),
+        ModalModule.forRoot(),
         OrderModule,
+        CommonModule,
+        TooltipModule.forRoot(),
     ],
     providers: [
         ConfigurationService,
@@ -72,6 +78,7 @@ import {FilterPipe} from './pipes/filter.pipe';
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
+        {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
     ],
 })
 export class AppModule {
