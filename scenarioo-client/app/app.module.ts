@@ -15,6 +15,7 @@ import {GeneralSettingsDirective} from './manage/generalSettings/general-setting
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {LocationService} from './shared/location.service';
 
 @NgModule({
     declarations: [
@@ -50,6 +51,7 @@ import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
             multi: true,
         },
         LabelConfigurationService,
+        {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
     ],
 })
 export class AppModule {

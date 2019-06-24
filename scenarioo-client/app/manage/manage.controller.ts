@@ -20,18 +20,5 @@ angular.module('scenarioo.controllers')
 
 // Dummy component for AngularJS routing
 function ManageController($location) {
-    const vm = this;
-    vm.selectedTab = undefined;
-    vm.updateUrl = updateUrl;
 
-    const params = $location.search();
-    if (params.tab) {
-        vm.selectedTab = params.tab;
-    }
-
-    function updateUrl(urlParam: string) {
-        if ($location.search('tab') !== urlParam) {
-            $location.search('tab', urlParam);
-        }
-    }
 }
