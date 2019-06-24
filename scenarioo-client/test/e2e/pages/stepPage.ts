@@ -74,6 +74,11 @@ class StepPage {
         await expect(element(by.id('fallbackMessage')).isDisplayed()).toBeFalsy();
     }
 
+    async assertErrorResponseIsShown() {
+        await expect(element(by.id('stepNotFoundErrorResponseMethod')).getText()).toEqual("GET");
+        await expect(element(by.id('stepNotFoundErrorResponseStatus')).getText()).toEqual("404");
+    }
+
     async assertFallbackMessageIsShown() {
         await expect(element(by.id('fallbackMessage')).isDisplayed()).toBeTruthy();
         return expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeFalsy();

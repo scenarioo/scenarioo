@@ -72,6 +72,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 await StepPage.assertErrorMessageIsShown();
+                await StepPage.assertErrorResponseIsShown();
                 await step('Error message.');
             });
 
