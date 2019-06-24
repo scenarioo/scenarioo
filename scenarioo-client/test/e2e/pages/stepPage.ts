@@ -75,8 +75,8 @@ class StepPage {
     }
 
     async assertErrorResponseIsShown() {
-        await expect(element(by.id('stepNotFoundErrorResponseMethod')).getText()).toEqual("GET");
-        await expect(element(by.id('stepNotFoundErrorResponseStatus')).getText()).toEqual("404");
+        await expect(element(by.id('stepNotFoundErrorResponseMethod')).getText()).toEqual('GET');
+        await expect(element(by.id('stepNotFoundErrorResponseStatus')).getText()).toEqual('404');
     }
 
     async assertFallbackMessageIsShown() {
