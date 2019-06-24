@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../services/configuration.service';
+import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -24,7 +25,10 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
-                            RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, UseCaseDiffInfoResource, ScenarioDiffInfoResource,
+                            RelatedIssueResource, SketchIdsResource,
+                            BuildDiffInfoResource: BuildDiffInfoService,
+                            ScenarioDiffInfoResource,
+                            UseCaseDiffInfoResource,
                             StepDiffInfosResource, ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
@@ -275,9 +279,8 @@ function ScenarioController($filter, $routeParams,
 
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
-            BuildDiffInfoResource.get(
-                {baseBranchName, baseBuildName, comparisonName},
-                (buildDiffInfo) => {
+            BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName)
+                .subscribe((buildDiffInfo) => {
                     comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                     comparisonBuildName = buildDiffInfo.compareBuild.buildName;
 
@@ -286,10 +289,7 @@ function ScenarioController($filter, $routeParams,
                     } else {
                         loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
                     }
-                }, (error) => {
-                    throw error;
-                },
-            );
+                });
         }
     }
 

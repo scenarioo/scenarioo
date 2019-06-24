@@ -16,6 +16,7 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -29,7 +30,7 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
                               ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
-                              BuildDiffInfosResource,
+                              BuildDiffInfosResource: BuildDiffInfosService,
                               SearchEngineStatusService) {
 
     const ctrl = this;
@@ -82,9 +83,9 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
         if (ctrl.branchesAndBuilds && ctrl.branchesAndBuilds.selectedBranch && ctrl.branchesAndBuilds.selectedBuild) {
             const baseBranchName = ctrl.branchesAndBuilds.selectedBranch.branch.name;
             const baseBuildName = ctrl.branchesAndBuilds.selectedBuild.linkName;
-            BuildDiffInfosResource.query(
-                {baseBranchName, baseBuildName},
-                (buildDiffInfos) => {
+
+            BuildDiffInfosResource.get(baseBranchName, baseBuildName)
+                .subscribe((buildDiffInfos) => {
                     ctrl.comparisonBuilds = buildDiffInfos;
                     const preSelectedComparison = SelectedComparison.selected();
                     let selectedComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
@@ -100,8 +101,7 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
                     ctrl.selectedComparison = selectedComparison;
                 }, () => {
                     resetComparisonSelection();
-                },
-            );
+                });
         } else {
             resetComparisonSelection();
         }

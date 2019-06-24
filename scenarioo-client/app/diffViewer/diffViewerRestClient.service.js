@@ -17,21 +17,6 @@
 
 angular.module('scenarioo.services')
 
-    .factory('BuildDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/buildDiffInfos', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName'
-        }, {});
-    })
-
-    .factory('BuildDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/buildDiffInfo', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName'
-        }, {});
-    })
-
     .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/useCaseDiffInfo', {
             baseBranchName: '@baseBranchName',
