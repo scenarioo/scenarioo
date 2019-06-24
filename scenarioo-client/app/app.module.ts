@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {TitleComponent} from './components/title/title.component';
+import {TitleComponent} from './components/title/title.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
@@ -34,6 +35,7 @@ import {TooltipModule} from 'ngx-bootstrap';
     declarations: [
         LabelMetadataComponent,
         TitleComponent,
+        TitleComponent,
         ManageTabsComponent,
         BranchAliasesDirective,
         GeneralSettingsDirective,
@@ -46,6 +48,7 @@ import {TooltipModule} from 'ngx-bootstrap';
     ],
     entryComponents: [
         LabelMetadataComponent,
+        TitleComponent,
         TitleComponent,
         ManageTabsComponent,
         MainPageComponent,
