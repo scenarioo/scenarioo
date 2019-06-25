@@ -8,7 +8,6 @@ import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
-
 @Injectable()
 export class UseCaseDiffInfosService {
     constructor(private http: HttpClient) {
