@@ -80,6 +80,7 @@ describe('ScenarioController', () => {
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('BuildDiffInfoResource', {});
         $provide.value('UseCaseDiffInfoResource', {});
+        $provide.value('ScenarioDiffInfoResource', {});
     }));
 
     beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService, _RelatedIssueResource_,

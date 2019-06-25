@@ -18,6 +18,7 @@
 import {LabelConfigurationService} from '../services/label-configuration.service';
 import {ConfigurationService} from '../services/configuration.service';
 import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfosService} from '../diffViewer/services/scenario-diff-infos.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,7 +29,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
                            SketchIdsResource,
                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
-                           ScenarioDiffInfosResource,
+                           ScenarioDiffInfosResource: ScenarioDiffInfosService,
                            ConfigurationService: ConfigurationService,
                            labelConfigurationService: LabelConfigurationService) {
 
@@ -157,17 +158,11 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
                 .subscribe((useCaseDiffInfo) => {
-                    ScenarioDiffInfosResource.get(
-                        {
-                            baseBranchName,
-                            baseBuildName,
-                            comparisonName,
-                            useCaseName,
-                        },
-                        (scenarioDiffInfos) => {
-                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        },
-                    );
+                    ScenarioDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
+                        .subscribe((scenarioDiffInfos) => {
+                                vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                            },
+                        );
                 }, () => {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
                 });

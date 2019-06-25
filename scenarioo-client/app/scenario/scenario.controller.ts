@@ -18,6 +18,7 @@
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,7 +29,7 @@ function ScenarioController($filter, $routeParams,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
                             RelatedIssueResource, SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
-                            ScenarioDiffInfoResource,
+                            ScenarioDiffInfoResource: ScenarioDiffInfoService,
                             UseCaseDiffInfoResource: UseCaseDiffInfoService,
                             StepDiffInfosResource, ConfigurationService: ConfigurationService) {
     const vm = this;
@@ -224,15 +225,8 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        ScenarioDiffInfoResource.get(
-            {
-                baseBranchName,
-                baseBuildName,
-                comparisonName,
-                useCaseName,
-                scenarioName,
-            },
-            (scenarioDiffInfo) => {
+        ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName)
+            .subscribe((scenarioDiffInfo) => {
                 StepDiffInfosResource.get(
                     {
                         baseBranchName,
@@ -247,8 +241,7 @@ function ScenarioController($filter, $routeParams,
                 );
             }, (error) => {
                 throw error;
-            },
-        );
+            });
     }
 
     function isAddedUseCase(buildDiffInfo) {

@@ -17,24 +17,9 @@
 
 angular.module('scenarioo.services')
 
-    .factory('ScenarioDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/scenarioDiffInfo', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName',
-            scenarioName: '@scenarioName'
-        }, {});
-    })
 
-    .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioDiffInfos', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName'
-        }, {});
-    })
+
+
 
     .factory('StepDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/stepIndex/:stepIndex/stepDiffInfo',

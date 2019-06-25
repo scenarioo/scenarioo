@@ -70,9 +70,12 @@ describe('UseCaseController', () => {
         $provide.value('ScenarioResource', ScenarioResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('ScenarioDiffInfosResource', {
+            get() {
+            }
+        });
         $provide.value('UseCaseDiffInfoResource', {
             get() {
-
             }
         });
     }));
