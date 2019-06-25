@@ -17,6 +17,7 @@
 
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfosService} from '../diffViewer/services/use-case-diff-infos.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -26,7 +27,7 @@ angular.module('scenarioo.controllers')
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource,
                                BuildDiffInfoResource: BuildDiffInfoService,
-                               UseCaseDiffInfosResource,
+                               UseCaseDiffInfosResource: UseCaseDiffInfosService,
                                ConfigurationService: ConfigurationService) {
 
     const vm = this;
@@ -120,12 +121,10 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
         if (useCases && baseBranchName && baseBuildName) {
             BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName)
                 .subscribe(((buildDiffInfo) => {
-                    UseCaseDiffInfosResource.get(
-                        {baseBranchName, baseBuildName, comparisonName},
-                        (useCaseDiffInfos) => {
+                    UseCaseDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName)
+                        .subscribe((useCaseDiffInfos) => {
                             vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
-                        },
-                    );
+                        });
                 }));
         }
     }

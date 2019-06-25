@@ -17,6 +17,7 @@
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
 import {ConfigurationService} from '../services/configuration.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -25,7 +26,9 @@ angular.module('scenarioo.controllers')
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
-                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+                           SketchIdsResource,
+                           UseCaseDiffInfoResource: UseCaseDiffInfoService,
+                           ScenarioDiffInfosResource,
                            ConfigurationService: ConfigurationService,
                            labelConfigurationService: LabelConfigurationService) {
 
@@ -152,14 +155,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
-            UseCaseDiffInfoResource.get(
-                {
-                    baseBranchName,
-                    baseBuildName,
-                    comparisonName,
-                    useCaseName,
-                },
-                (useCaseDiffInfo) => {
+            UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
+                .subscribe((useCaseDiffInfo) => {
                     ScenarioDiffInfosResource.get(
                         {
                             baseBranchName,
@@ -173,8 +170,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                     );
                 }, () => {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
-                },
-            );
+                });
         }
     }
 

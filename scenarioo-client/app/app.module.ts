@@ -18,6 +18,8 @@ import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
+import {UseCaseDiffInfoService} from './diffViewer/services/use-case-diff-info.service';
+import {UseCaseDiffInfosService} from './diffViewer/services/use-case-diff-infos.service';
 
 @NgModule({
     declarations: [
@@ -56,6 +58,8 @@ import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.serv
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         BuildDiffInfoService,
         BuildDiffInfosService,
+        UseCaseDiffInfoService,
+        UseCaseDiffInfosService,
     ],
 })
 export class AppModule {

@@ -17,6 +17,7 @@
 
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,7 +29,7 @@ function ScenarioController($filter, $routeParams,
                             RelatedIssueResource, SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
                             ScenarioDiffInfoResource,
-                            UseCaseDiffInfoResource,
+                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
                             StepDiffInfosResource, ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
@@ -209,14 +210,8 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        UseCaseDiffInfoResource.get(
-            {
-                baseBranchName,
-                baseBuildName,
-                comparisonName,
-                useCaseName,
-            },
-            (useCaseDiffInfo) => {
+        UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
+            .subscribe((useCaseDiffInfo) => {
                 if (isAddedScenario(useCaseDiffInfo)) {
                     markPagesAndStepsAsAdded(pagesAndSteps);
                 } else {
@@ -224,8 +219,8 @@ function ScenarioController($filter, $routeParams,
                 }
             }, (error) => {
                 throw error;
-            },
-        );
+            });
+
     }
 
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
@@ -264,7 +259,7 @@ function ScenarioController($filter, $routeParams,
 
     function isAddedScenario(useCaseDiffInfo) {
         return useCaseDiffInfo.addedElements.find((addedElement) => {
-           return addedElement === scenarioName;
+            return addedElement === scenarioName;
         });
     }
 
