@@ -28,6 +28,8 @@ import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
+import {AccordionModule} from 'ngx-bootstrap';
+import {FontAwesomeModule} from 'ngx-icons';
 
 @NgModule({
     declarations: [
@@ -59,6 +61,8 @@ import {TooltipModule} from 'ngx-bootstrap';
         ModalModule.forRoot(),
         OrderModule,
         TooltipModule.forRoot(),
+        AccordionModule.forRoot(),
+        FontAwesomeModule,
     ],
     providers: [
         ConfigurationService,

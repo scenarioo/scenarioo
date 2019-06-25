@@ -25,14 +25,15 @@ export class UseCasesComponent {
     reverse: boolean = false;
 
     arrowkeyLocation = 0;
-    hideElement: true;
+
+    isFirstOpen = true;
+    collapsed: boolean;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
     getStatusStyleClass = undefined;
     comparisonInfo = undefined;
-
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -117,4 +118,5 @@ export class UseCasesComponent {
             }
         }
     }
+
 }
