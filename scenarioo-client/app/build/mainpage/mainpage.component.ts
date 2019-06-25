@@ -24,8 +24,7 @@ export class MainPageComponent implements OnInit {
     imageUrl: string;
 
     constructor(private configurationService: ConfigurationService,
-                private modalService: BsModalService,
-                /*private location: Location,*/) {
+                private modalService: BsModalService,) {
 
     }
 
@@ -53,10 +52,6 @@ export class MainPageComponent implements OnInit {
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
         this.eMailUrl = encodeURIComponent(this.pageUrl);
-    }
-
-    showStepLinks() {
-        console.log("Show Step Links is working");
     }
 
     openShare(shareContent: TemplateRef<any>) {

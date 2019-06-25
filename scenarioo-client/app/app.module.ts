@@ -58,7 +58,6 @@ import {TooltipModule} from 'ngx-bootstrap';
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         OrderModule,
-        CommonModule,
         TooltipModule.forRoot(),
     ],
     providers: [

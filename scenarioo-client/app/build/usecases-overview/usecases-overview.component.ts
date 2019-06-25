@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {UseCasesResource, UseCaseSummary} from '../../shared/services/useCasesResource.service';
@@ -9,12 +9,12 @@ import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
 
 @Component({
-    selector: 'sc-usecase-overview',
+    selector: 'sc-usecases-overview',
     template: require('./usecases-overview.component.html'),
     styles: [require('./usecases-overview.component.css').toString()],
 })
 
-export class UseCasesComponent implements OnInit {
+export class UseCasesComponent {
 
     usecases: UseCaseSummary[] = [];
 
@@ -23,6 +23,9 @@ export class UseCasesComponent implements OnInit {
     order: string = 'name';
     sortedUsecases: any[];
     reverse: boolean = false;
+
+    arrowkeyLocation = 0;
+    hideElement: true;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
@@ -82,14 +85,31 @@ export class UseCasesComponent implements OnInit {
         this.order = value;
     }
 
+    @HostListener('window:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        switch (event.code) {
+            case "ArrowDown":
+                this.arrowkeyLocation++;
+                break;
+            case "ArrowUp":
+                this.arrowkeyLocation--;
+                break;
+            case "Enter":
+                console.log("enter is working ");
+                //this.goToUseCase(this.useCaseName);
+                break;
+        }
+    }
+
+    handleEvent(event) {
+            console.log("newEnterKeyIsWorking" + event);
+    }
+
     goToUseCase(useCase) {
         const params = this.locationService.path('/usecase/' + useCase);
     }
 
     getLabelStyle(labelName) {
-        //console.log("getLabelStyle is working");
-        //console.log(labelName);
-
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {

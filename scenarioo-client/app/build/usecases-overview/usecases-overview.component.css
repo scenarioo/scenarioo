@@ -1,22 +1,22 @@
-sc-usecase-overview .arrows {
+sc-usecases-overview .arrows {
     display: inline;
     margin-left: 2px;
     margin-right: -2px;
 }
 
-sc-usecase-overview .top, .selectedTop {
+sc-usecases-overview .top, .selectedTop {
     position: absolute;
     margin-top: -6px;
 }
 
-sc-usecase-overview .top, .bot {
+sc-usecases-overview .top, .bot {
     color: lightgray;
 }
 
-sc-usecase-overview .bot, .selectedBot {
+sc-usecases-overview .bot, .selectedBot {
     position: relative;
 }
 
-sc-usecase-overview .table {
+sc-usecases-overview .table {
     cursor: pointer;
 }
