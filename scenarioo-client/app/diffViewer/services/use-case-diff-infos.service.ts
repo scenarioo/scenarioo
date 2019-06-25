@@ -15,7 +15,7 @@ export class UseCaseDiffInfosService {
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string): Observable<IUseCaseDiffInfo[]> {
         return this.http
-            .get<IUseCaseDiffInfo[]>(`/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseDiffInfos`)
+            .get<IUseCaseDiffInfo[]>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseDiffInfos`)
             .pipe(catchError(handleError));
     }
 }
