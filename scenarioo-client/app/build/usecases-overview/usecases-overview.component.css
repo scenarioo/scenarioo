@@ -22,13 +22,3 @@ sc-usecases-overview .bot, .selectedBot {
 sc-usecases-overview .table {
     cursor: pointer;
 }
-
-
-/* Table content */
-
-sc-usecases-overview .detail-container {
-    border: 1px solid #ccc;
-    display: table;
-    padding: unset;
-    background-color: #eeeeee;
-}

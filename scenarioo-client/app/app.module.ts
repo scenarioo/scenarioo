@@ -31,6 +31,7 @@ import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import {DetailareaComponent} from './components/detailarea/detailarea.component'
         OrderModule,
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),
+        CollapseModule.forRoot(),
         FontAwesomeModule,
     ],
     providers: [

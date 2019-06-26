@@ -1,15 +1,25 @@
+<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.show()" aria-controls="collapseManual">Show details</button>
+<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.hide()" aria-controls="collapseManual">Hide details</button>
+
 <div class="detail-container col-sm-4 pull-right">
     <div class="detail-row">
-        <div class="detail-cell detail-button">
-            <!--<i class="fas fa-angle-right"></i>-->
+        <div *ngIf="!isOpen" class="detail-cell detail-button" (click)="collapse.hide()" aria-controls="collapseManual">
+            <i class="fas fa-angle-right"></i>
         </div>
-        <div class="detail-cell detail-section">
+        <div *ngIf="!isOpen"class="detail-cell detail-button" (click)="collapse.show()" aria-controls="collapseManual">
+            <i class="fas fa-angle-left"></i>
+        </div>
+        <div class="detail-cell detail-section" #collapse="bs-collapse" [collapse]="isOpen" >
             <h3>Details</h3>
             <accordion [isAnimated]="true">
                 <accordion-group [isOpen]="isFirstOpen" panelClass="customClass" (click)="collapsed=!collapsed">
                     <div accordion-heading>
                         <i *ngIf="!collapsed" class="fas fa-angle-down"></i>
                         <i *ngIf="collapsed" class="fas fa-angle-up"></i>
+                        <!--
+                        <i *ngIf="!collapsed;else other_content" class="fas fa-angle-down"></i>
+                        <ng-template #other_content><i *ngIf="collapsed" class="fas fa-angle-up"></i></ng-template>
+                        -->
                         <span>Branch</span>
                     </div>
                     tbd

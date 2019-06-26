@@ -8,7 +8,8 @@ import {Component} from '@angular/core';
 
 export class DetailareaComponent {
 
-    isFirstOpen = true;
-    collapsed: boolean;
+    isOpen: boolean = false;
+    isFirstOpen: boolean = true;
+    collapsed: boolean = false;
 
 }
