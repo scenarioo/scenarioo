@@ -1,0 +1,60 @@
+/* Detail section */
+
+sc-detailarea .detail-row {
+    display: table-row;
+}
+
+sc-detailarea .detail-cell {
+    display: table-cell;
+}
+
+sc-detailarea .detail-button {
+    background-color: #CCCCCC;
+    width: 30px;
+    vertical-align: middle;
+    font-size: x-large;
+    color: #337AB7;
+    text-align: center;
+}
+
+sc-detailarea .detail-section {
+    width: 100%;
+    padding: 0;
+    margin-right: -15px;
+    float: right;
+}
+
+sc-detailarea .detail-section h3 {
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+
+/* Detail accordion */
+
+sc-detailarea accordion {
+    margin-right: 40px;
+    margin-left: 10px;
+}
+
+sc-detailarea accordion span {
+    margin-left: 10px;
+}
+
+sc-detailarea accordion accordion-group {
+    border: 2px solid #FFFFFF;
+}
+
+sc-detailarea div.panel-heading {
+    background-color: #FFFFFF;
+}
+
+sc-detailarea div.panel-body {
+    background-color: #eeeeee;
+}
+
+sc-detailarea .panel-group .panel+.panel {
+    margin-top: 20px;
+}

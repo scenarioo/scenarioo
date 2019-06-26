@@ -10,34 +10,7 @@
         </label>
     </div>
 
-    <div class="detail-container col-sm-4 pull-right">
-        <div class="detail-row">
-            <div class="detail-cell detail-button">
-                <!--<i class="fas fa-angle-right"></i>-->
-            </div>
-            <div class="detail-cell detail-section">
-                <h3>Details</h3>
-                <accordion [isAnimated]="true">
-                    <accordion-group [isOpen]="isFirstOpen" panelClass="customClass" (click)="collapsed=!collapsed">
-                        <div accordion-heading>
-                            <i *ngIf="!collapsed" class="fas fa-angle-down"></i>
-                            <i *ngIf="collapsed" class="fas fa-angle-up"></i>
-                            <span>Branch</span>
-                        </div>
-                        tbd
-                    </accordion-group>
-                    <accordion-group panelClass="customClass" (click)="collapsed=!collapsed">
-                        <div accordion-heading>
-                            <i [ngClass]="{'fas fa-angle-up': this.collapsed, 'fas fa-angle-down': !this.collapsed}"></i>
-                            <!--<i [ngClass]="{'fas fa-angle-up': collapsed, 'fas fa-angle-down': !collapsed}"></i>-->
-                            <span>Build</span>
-                        </div>
-                        tbd
-                    </accordion-group>
-                </accordion>
-            </div>
-        </div>
-    </div>
+    <sc-detailarea></sc-detailarea>
 
     <div class="sc-space-top col-sm-8">
         <table class="table table-curved table-hover table-responsive usecase-table">

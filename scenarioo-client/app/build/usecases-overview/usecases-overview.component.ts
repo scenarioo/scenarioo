@@ -26,9 +26,6 @@ export class UseCasesComponent {
 
     arrowkeyLocation = 0;
 
-    isFirstOpen = true;
-    collapsed: boolean;
-
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 

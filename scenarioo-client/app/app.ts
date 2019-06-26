@@ -65,6 +65,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
 
 // needs to stay here
 import './build';
+import './components';
 import './manage';
 import './objectRepository/objectRepository.controller';
 import './scenario';

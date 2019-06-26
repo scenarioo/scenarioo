@@ -30,6 +30,7 @@ import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
+import {DetailareaComponent} from './components/detailarea/detailarea.component';
 
 @NgModule({
     declarations: [
@@ -43,12 +44,14 @@ import {FontAwesomeModule} from 'ngx-icons';
         MainPageComponent,
         UseCasesComponent,
         FilterPipe,
+        DetailareaComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
         ManageTabsComponent,
         MainPageComponent,
         UseCasesComponent,
+        DetailareaComponent,
     ],
     imports: [
         BrowserModule,
