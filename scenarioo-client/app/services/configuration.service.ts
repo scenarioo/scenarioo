@@ -18,7 +18,7 @@ export class ConfigurationService {
     private updateConfigurationSubject = (configuration) => {
         this._config = configuration;
         this.configuration.next(configuration);
-    };
+    }
 
     constructor(private configResource: ConfigResource) {
     }
