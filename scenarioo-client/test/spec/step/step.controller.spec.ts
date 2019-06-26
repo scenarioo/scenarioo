@@ -348,10 +348,7 @@ describe('StepController', () => {
             $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
             spyOn(StepResourceMock, 'get').and.returnValue(observableThrowError({
                 status: 500,
-                config: {
-                    method: 'GET',
-                    url: 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42'
-                }
+                url: 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42'
             }));
 
             ConfigurationService.updateConfiguration(TestData.STEP);
