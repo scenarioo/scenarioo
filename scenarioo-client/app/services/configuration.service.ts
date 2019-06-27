@@ -53,6 +53,12 @@ export class ConfigurationService {
     }
 
     defaultBranchAndBuild() {
+        if(this._config == undefined) {
+            return {
+                branch: undefined,
+                build: undefined,
+            };
+        }
         return {
             branch: this._config.defaultBranchName,
             build: this._config.defaultBuildName,
