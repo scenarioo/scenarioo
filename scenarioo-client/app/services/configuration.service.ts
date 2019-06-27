@@ -16,8 +16,8 @@ export class ConfigurationService {
     private _config: IConfiguration;
 
     private updateConfigurationSubject = (configuration) => {
-        this.configuration.next(configuration);
         this._config = configuration;
+        this.configuration.next(configuration);
     }
 
     constructor(private configResource: ConfigResource) {
@@ -53,6 +53,12 @@ export class ConfigurationService {
     }
 
     defaultBranchAndBuild() {
+        if (this._config === undefined) {
+            return {
+                branch: undefined,
+                build: undefined,
+            };
+        }
         return {
             branch: this._config.defaultBranchName,
             build: this._config.defaultBuildName,
