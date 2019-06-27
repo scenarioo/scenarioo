@@ -20,6 +20,7 @@ import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.servi
 import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
+import {forkJoin} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -227,17 +228,13 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName)
-            .subscribe((scenarioDiffInfo) => {
-                StepDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName)
-                    .subscribe((stepDiffInfos) => {
-                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                        },
-                    );
-            }, (error) => {
-                throw error;
+        forkJoin([
+            ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+            StepDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+        ])
+            .subscribe(([scenarioDiffInfo, stepDiffInfos]) => {
+                DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
             });
-
     }
 
     function isAddedUseCase(buildDiffInfo) {
