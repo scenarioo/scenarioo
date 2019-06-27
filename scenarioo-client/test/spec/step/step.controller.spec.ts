@@ -60,7 +60,7 @@ describe('StepController', () => {
         getUseCaseScenarios: () => of({})
     };
     const ConfigurationServiceMock = {
-        configuration : new ReplaySubject<IConfiguration>(1),
+        configuration: new ReplaySubject<IConfiguration>(1),
 
         getConfiguration: () => {
             ConfigurationServiceMock.configuration.next(TestData.CONFIG);
@@ -82,12 +82,16 @@ describe('StepController', () => {
                 build: SelectedBranchAndBuildServiceMock.selectedStep['buildName'],
             };
         },
-        callOnSelectionChange: (callback) => { SelectedBranchAndBuildServiceMock.callback = callback},
+        callOnSelectionChange: (callback) => {
+            SelectedBranchAndBuildServiceMock.callback = callback
+        },
         update: (newStep) => {
             SelectedBranchAndBuildServiceMock.selectedStep = newStep;
             SelectedBranchAndBuildServiceMock.callback(newStep);
         },
-        isDefined: () => { return angular.isDefined(SelectedBranchAndBuildServiceMock.selectedStep)}
+        isDefined: () => {
+            return angular.isDefined(SelectedBranchAndBuildServiceMock.selectedStep)
+        }
     };
 
 
@@ -105,6 +109,11 @@ describe('StepController', () => {
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
         $provide.value('BuildDiffInfoResource', {
+            get() {
+
+            }
+        });
+        $provide.value('StepDiffInfoResource', {
             get() {
 
             }

@@ -16,11 +16,9 @@
  */
 
 'use strict';
-import {IConfiguration} from '../../../app/generated-types/backend-types';
+import {Observable, of} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
-import {Observable, of, ReplaySubject} from 'rxjs';
-
 
 
 describe('UseCaseController', () => {
@@ -40,12 +38,16 @@ describe('UseCaseController', () => {
         getUseCaseScenarios: () => getFindAllScenariosFake()
     };
     const ConfigurationServiceMock = {
-        scenarioPropertiesInOverview: () => { return of()}
+        scenarioPropertiesInOverview: () => {
+            return of()
+        }
     };
     const SelectedBranchAndBuildServiceMock = {
         callback: undefined,
-        selectedStep: { branch: undefined,
-                        build: undefined },
+        selectedStep: {
+            branch: undefined,
+            build: undefined
+        },
         selected: () => {
             return {
                 branch: SelectedBranchAndBuildServiceMock.selectedStep['branchName'],
@@ -53,7 +55,8 @@ describe('UseCaseController', () => {
             };
         },
         callOnSelectionChange: (callback) => {
-            SelectedBranchAndBuildServiceMock.callback = callback},
+            SelectedBranchAndBuildServiceMock.callback = callback
+        },
         update: (newStep) => {
             SelectedBranchAndBuildServiceMock.selectedStep = newStep;
             SelectedBranchAndBuildServiceMock.callback(newStep);
@@ -63,10 +66,18 @@ describe('UseCaseController', () => {
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
-        $provide.value("ConfigResource", ConfigResourceMock);
-        $provide.value("ScenarioResource", ScenarioResourceMock);
+        $provide.value('ConfigResource', ConfigResourceMock);
+        $provide.value('ScenarioResource', ScenarioResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('ScenarioDiffInfosResource', {
+            get() {
+            }
+        });
+        $provide.value('UseCaseDiffInfoResource', {
+            get() {
+            }
+        });
     }));
 
     beforeEach(inject(($rootScope, $routeParams, $controller, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
@@ -118,7 +129,8 @@ describe('UseCaseController', () => {
         // TODO remove after AngularJS Migration and after removing SelectedBranchAndBuildServiceMock.
         SelectedBranchAndBuildServiceMock.update({
             branch: BRANCH,
-            build: BUILD});
+            build: BUILD
+        });
 
         // TODO reactivate after AngularJS Migration and after removing SelectedBranchAndBuildServiceMock.
         // expect(SelectedBranchAndBuildService.selected().branch).toBe(BRANCH);

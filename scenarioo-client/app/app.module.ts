@@ -16,8 +16,7 @@ import {LabelColorsDirective} from './manage/labelColors/label-colors.directive'
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
-import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
-import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
@@ -40,6 +39,7 @@ import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.serv
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        DiffViewerModule,
         TabsModule.forRoot(),
     ],
     providers: [
@@ -54,8 +54,6 @@ import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.serv
         },
         LabelConfigurationService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
-        BuildDiffInfoService,
-        BuildDiffInfosService,
     ],
 })
 export class AppModule {
