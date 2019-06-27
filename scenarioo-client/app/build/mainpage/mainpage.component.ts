@@ -1,9 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-//import {Location} from '@angular/common';
+import {Location} from '@angular/common';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -20,15 +21,22 @@ export class MainPageComponent implements OnInit {
 
     eMailSubject = undefined;
     eMailUrl: string;
-    pageUrl: string = 'test';
+    pageUrl: string;
     imageUrl: string;
 
-    constructor(private configurationService: ConfigurationService,
-                private modalService: BsModalService,) {
+    currentBrowserLocation: string;
 
+    constructor(private configurationService: ConfigurationService,
+                private modalService: BsModalService,
+                private sharePageUrl: SharePageURL,
+                private location: Location,
+                ) {
     }
 
     ngOnInit(): void {
+
+        this.currentBrowserLocation = this.location.path();
+
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.tabs = configuration.customObjectTabs
                 .map((customObjectTab: ICustomObjectTab) => {
@@ -36,19 +44,15 @@ export class MainPageComponent implements OnInit {
                 });
         });
 
-        //this.pageUrl = this.location.path();
-
-        /*
         this.pageUrl = (function () {
-            if (angular.isDefined(SharePageService.getPageUrl())) {
-                return SharePageService.getPageUrl();
+            if (this.sharePageURL.getPageUrl() !== undefined) {
+                return this.sharePageURL.getPageUrl();
             } else {
-                return currentBrowserLocation;
+                return this.currentBrowserLocation;
             }
         }());
 
-        this.imageUrl = SharePageService.getImageUrl();
-        */
+        this.imageUrl = this.sharePageUrl.getImageUrl();
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
         this.eMailUrl = encodeURIComponent(this.pageUrl);
