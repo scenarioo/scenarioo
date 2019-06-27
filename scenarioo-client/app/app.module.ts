@@ -8,6 +8,7 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
+import {TitleComponent} from './components/title/title.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
@@ -34,6 +35,8 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 @NgModule({
     declarations: [
         LabelMetadataComponent,
+        TitleComponent,
+        TitleComponent,
         ManageTabsComponent,
         BranchAliasesDirective,
         GeneralSettingsDirective,
@@ -46,6 +49,8 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
     ],
     entryComponents: [
         LabelMetadataComponent,
+        TitleComponent,
+        TitleComponent,
         ManageTabsComponent,
         MainPageComponent,
         UseCasesComponent,
