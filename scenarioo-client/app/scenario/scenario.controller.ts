@@ -17,6 +17,10 @@
 
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
+import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
+import {forkJoin} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -27,9 +31,10 @@ function ScenarioController($filter, $routeParams,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
                             RelatedIssueResource, SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
-                            ScenarioDiffInfoResource,
-                            UseCaseDiffInfoResource,
-                            StepDiffInfosResource, ConfigurationService: ConfigurationService) {
+                            ScenarioDiffInfoResource: ScenarioDiffInfoService,
+                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
+                            StepDiffInfosResource: StepDiffInfosService,
+                            ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -209,14 +214,8 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        UseCaseDiffInfoResource.get(
-            {
-                baseBranchName,
-                baseBuildName,
-                comparisonName,
-                useCaseName,
-            },
-            (useCaseDiffInfo) => {
+        UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
+            .subscribe((useCaseDiffInfo) => {
                 if (isAddedScenario(useCaseDiffInfo)) {
                     markPagesAndStepsAsAdded(pagesAndSteps);
                 } else {
@@ -224,36 +223,18 @@ function ScenarioController($filter, $routeParams,
                 }
             }, (error) => {
                 throw error;
-            },
-        );
+            });
+
     }
 
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        ScenarioDiffInfoResource.get(
-            {
-                baseBranchName,
-                baseBuildName,
-                comparisonName,
-                useCaseName,
-                scenarioName,
-            },
-            (scenarioDiffInfo) => {
-                StepDiffInfosResource.get(
-                    {
-                        baseBranchName,
-                        baseBuildName,
-                        comparisonName,
-                        useCaseName,
-                        scenarioName,
-                    },
-                    (stepDiffInfos) => {
-                        DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                    },
-                );
-            }, (error) => {
-                throw error;
-            },
-        );
+        forkJoin([
+            ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+            StepDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+        ])
+            .subscribe(([scenarioDiffInfo, stepDiffInfos]) => {
+                DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+            });
     }
 
     function isAddedUseCase(buildDiffInfo) {
@@ -264,7 +245,7 @@ function ScenarioController($filter, $routeParams,
 
     function isAddedScenario(useCaseDiffInfo) {
         return useCaseDiffInfo.addedElements.find((addedElement) => {
-           return addedElement === scenarioName;
+            return addedElement === scenarioName;
         });
     }
 

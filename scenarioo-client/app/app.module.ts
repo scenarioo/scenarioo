@@ -21,12 +21,7 @@ import {LabelColorsDirective} from './manage/labelColors/label-colors.directive'
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
-import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
-import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
-import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
-import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
-import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
-import {SelectedComparison} from './diffViewer/selectedComparison.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
@@ -35,7 +30,6 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 @NgModule({
     declarations: [
         LabelMetadataComponent,
-        TitleComponent,
         TitleComponent,
         ManageTabsComponent,
         BranchAliasesDirective,
@@ -50,7 +44,6 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
     entryComponents: [
         LabelMetadataComponent,
         TitleComponent,
-        TitleComponent,
         ManageTabsComponent,
         MainPageComponent,
         UseCasesComponent,
@@ -62,6 +55,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        DiffViewerModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         OrderModule,
@@ -78,15 +72,10 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
             multi: true,
         },
         LabelConfigurationService,
-        BuildDiffInfoService,
-        BuildDiffInfosService,
+        {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         SharePageURL,
         Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
-        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
-        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
-        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
-        {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
 })
