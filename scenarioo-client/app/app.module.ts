@@ -16,14 +16,7 @@ import {LabelColorsDirective} from './manage/labelColors/label-colors.directive'
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
-import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
-import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
-import {UseCaseDiffInfoService} from './diffViewer/services/use-case-diff-info.service';
-import {UseCaseDiffInfosService} from './diffViewer/services/use-case-diff-infos.service';
-import {ScenarioDiffInfosService} from './diffViewer/services/scenario-diff-infos.service';
-import {ScenarioDiffInfoService} from './diffViewer/services/scenario-diff-info.service';
-import {StepDiffInfoService} from './diffViewer/services/step-diff-info.service';
-import {StepDiffInfosService} from './diffViewer/services/step-diff-infos.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
@@ -46,6 +39,7 @@ import {StepDiffInfosService} from './diffViewer/services/step-diff-infos.servic
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        DiffViewerModule,
         TabsModule.forRoot(),
     ],
     providers: [
@@ -60,14 +54,6 @@ import {StepDiffInfosService} from './diffViewer/services/step-diff-infos.servic
         },
         LabelConfigurationService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
-        BuildDiffInfoService,
-        BuildDiffInfosService,
-        UseCaseDiffInfoService,
-        UseCaseDiffInfosService,
-        ScenarioDiffInfoService,
-        ScenarioDiffInfosService,
-        StepDiffInfosService,
-        StepDiffInfoService,
     ],
 })
 export class AppModule {
