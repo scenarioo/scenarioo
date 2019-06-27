@@ -16,7 +16,7 @@
   },
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/scenarioo/scenarioo/edit/release/5.0/docs/",
+      "base": "https://github.com/scenarioo/scenarioo/edit/develop/docs/",
       "label": "Edit This Page"
     },
     "github": {
