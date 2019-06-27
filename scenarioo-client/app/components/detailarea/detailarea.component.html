@@ -1,15 +1,18 @@
-<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.show()" aria-controls="collapseManual">Show details</button>
-<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.hide()" aria-controls="collapseManual">Hide details</button>
+<button type="button" class="btn btn-primary" (click)="isPanelCollapsed = !isPanelCollapsed"
+        [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic">
+    {{ isPanelCollapsed ? "Show details": "Hide details" }}
+</button>
 
 <div class="detail-container col-sm-4 pull-right">
     <div class="detail-row">
-        <div *ngIf="!isOpen" class="detail-cell detail-button" (click)="collapse.hide()" aria-controls="collapseManual">
+        <div *ngIf="!isPanelCollapsed" class="detail-cell detail-button" (click)="isPanelCollapsed = true" aria-controls="collapseManual">
             <i class="fas fa-angle-right"></i>
         </div>
-        <div *ngIf="!isOpen"class="detail-cell detail-button" (click)="collapse.show()" aria-controls="collapseManual">
+        <div *ngIf="isPanelCollapsed" class="detail-cell detail-button" (click)="isPanelCollapsed = false" aria-controls="collapseManual">
             <i class="fas fa-angle-left"></i>
         </div>
-        <div class="detail-cell detail-section" #collapse="bs-collapse" [collapse]="isOpen" >
+
+        <div class="detail-cell detail-section" #collapse="bs-collapse" [collapse]="isPanelCollapsed" >
             <h3>Details</h3>
             <accordion [isAnimated]="true">
                 <accordion-group [isOpen]="isFirstOpen" panelClass="customClass" (click)="collapsed=!collapsed">
