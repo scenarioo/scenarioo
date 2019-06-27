@@ -53,7 +53,7 @@ export class ConfigurationService {
     }
 
     defaultBranchAndBuild() {
-        if(this._config == undefined) {
+        if (this._config === undefined) {
             return {
                 branch: undefined,
                 build: undefined,
