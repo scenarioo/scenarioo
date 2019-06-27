@@ -19,6 +19,7 @@ import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
+import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -31,7 +32,8 @@ function ScenarioController($filter, $routeParams,
                             BuildDiffInfoResource: BuildDiffInfoService,
                             ScenarioDiffInfoResource: ScenarioDiffInfoService,
                             UseCaseDiffInfoResource: UseCaseDiffInfoService,
-                            StepDiffInfosResource, ConfigurationService: ConfigurationService) {
+                            StepDiffInfosResource: StepDiffInfosService,
+                            ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -227,21 +229,15 @@ function ScenarioController($filter, $routeParams,
     function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName)
             .subscribe((scenarioDiffInfo) => {
-                StepDiffInfosResource.get(
-                    {
-                        baseBranchName,
-                        baseBuildName,
-                        comparisonName,
-                        useCaseName,
-                        scenarioName,
-                    },
-                    (stepDiffInfos) => {
-                        DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                    },
-                );
+                StepDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName)
+                    .subscribe((stepDiffInfos) => {
+                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                        },
+                    );
             }, (error) => {
                 throw error;
             });
+
     }
 
     function isAddedUseCase(buildDiffInfo) {

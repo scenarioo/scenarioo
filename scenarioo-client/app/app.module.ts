@@ -22,6 +22,8 @@ import {UseCaseDiffInfoService} from './diffViewer/services/use-case-diff-info.s
 import {UseCaseDiffInfosService} from './diffViewer/services/use-case-diff-infos.service';
 import {ScenarioDiffInfosService} from './diffViewer/services/scenario-diff-infos.service';
 import {ScenarioDiffInfoService} from './diffViewer/services/scenario-diff-info.service';
+import {StepDiffInfoService} from './diffViewer/services/step-diff-info.service';
+import {StepDiffInfosService} from './diffViewer/services/step-diff-infos.service';
 
 @NgModule({
     declarations: [
@@ -64,6 +66,8 @@ import {ScenarioDiffInfoService} from './diffViewer/services/scenario-diff-info.
         UseCaseDiffInfosService,
         ScenarioDiffInfoService,
         ScenarioDiffInfosService,
+        StepDiffInfosService,
+        StepDiffInfoService,
     ],
 })
 export class AppModule {
