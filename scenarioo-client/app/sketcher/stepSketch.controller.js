@@ -89,8 +89,12 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + encodeURIComponent(selected.branch) + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
+
+    function getUrlPartBeforeHash(url) {
+        return url.split('#')[0];
+    }
 
     function getSketchScreenshotUrl() {
         if (angular.isUndefined(vm.stepSketch)) {
