@@ -82,7 +82,7 @@
                     <span [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
                 </td>
                 <td>
-                    {{dynamicScenarios.scenario.name}}
+                    {{dynamicScenarios.scenario.name | humanReadable}}
                     <span *ngFor="let dynamicLable of dynamicScenarios.scenario.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicScenarios.scenario.labels.labels}}</span>
                 </td>

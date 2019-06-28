@@ -30,6 +30,7 @@ import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
+import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import {SelectedComparison} from './diffViewer/selectedComparison.service';
         UseCasesComponent,
         ScenariosComponent,
         FilterPipe,
+        HumanReadablePipe,
     ],
     entryComponents: [
         LabelMetadataComponent,
