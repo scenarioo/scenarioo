@@ -13,12 +13,14 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
+import {TabsModule} from 'ngx-bootstrap';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
@@ -61,6 +63,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        DiffViewerModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         OrderModule,
