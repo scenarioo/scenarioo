@@ -1,0 +1,22 @@
+.arrows {
+    display: inline;
+    margin-left: 2px;
+    margin-right: -2px;
+}
+
+.top, .selectedTop {
+    position: absolute;
+    margin-top: -6px;
+}
+
+.top, .bot {
+    color: lightgray;
+}
+
+.bot, .selectedBot {
+    position: relative;
+}
+
+.table {
+    cursor: pointer;
+}

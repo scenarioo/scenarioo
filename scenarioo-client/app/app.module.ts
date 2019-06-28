@@ -26,6 +26,10 @@ import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
+import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
+import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
+import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
+import {SelectedComparison} from './diffViewer/selectedComparison.service';
 
 @NgModule({
     declarations: [
@@ -39,6 +43,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         ComparisonsDirective,
         MainPageComponent,
         UseCasesComponent,
+        ScenariosComponent,
         FilterPipe,
     ],
     entryComponents: [
@@ -47,6 +52,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         ManageTabsComponent,
         MainPageComponent,
         UseCasesComponent,
+        ScenariosComponent,
     ],
     imports: [
         BrowserModule,
@@ -76,6 +82,9 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         SharePageURL,
         Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
+        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
+        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
 })
