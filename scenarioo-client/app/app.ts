@@ -48,7 +48,9 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     });
 
     $rootScope.$on('$viewContentLoaded', () => {
-        ApplicationInfoPopupService.showApplicationInfoPopupIfRequired();
+        // Workaround because angular reloads the page a couple of times if query parameter were not set, which leads
+        // to a reload of all controllers and a dismissal of the open PopUp. Thus it disappears very quickly.
+        setTimeout(() => ApplicationInfoPopupService.showApplicationInfoPopupIfRequired(), 50);
     });
 
     // Register global hotkeys
