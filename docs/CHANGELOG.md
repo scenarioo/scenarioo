@@ -15,6 +15,7 @@ For more details, please refer to the [Migration Guide](Migration-Guide.md)
 
 * [#727 - Build Import: UI issues](https://github.com/scenarioo/scenarioo/issues/727): Information displayed while a build is being imported was improved.
 * [#717 - Diff Viewer: Styling and UI issues](https://github.com/scenarioo/scenarioo/issues/717): Various usability improvements. 
+* [#895 - Share this page Screenshot link broken for Sketch](https://github.com/scenarioo/scenarioo/issues/895): The share this page dialog shows the correct image link again when sharing sketches.
 
 ## Version 4.0.1
 
