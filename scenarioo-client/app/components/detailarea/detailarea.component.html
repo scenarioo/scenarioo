@@ -1,42 +1,34 @@
-<!--
-<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.show()" aria-controls="collapseManual">Show details</button>
-<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="collapse.hide()" aria-controls="collapseManual">Hide details</button>
--->
-
 <button type="button" class="btn btn-primary" (click)="isPanelCollapsed = !isPanelCollapsed"
         [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic">
     {{ isPanelCollapsed ? "Show details": "Hide details" }}
 </button>
 
+<div *ngIf="isPanelCollapsed" class="detail-container col-sm-1 pull-right">
+    <div class="detail-cell detail-button" (click)="isPanelCollapsed = false" aria-controls="collapseManual">
+        <i class="fas fa-angle-left"></i>
+    </div>
+</div>
+
 <div class="detail-container col-sm-4 pull-right">
     <div class="detail-row">
+
         <div *ngIf="!isPanelCollapsed" class="detail-cell detail-button" (click)="isPanelCollapsed = true" aria-controls="collapseManual">
             <i class="fas fa-angle-right"></i>
-        </div>
-        <div *ngIf="isPanelCollapsed" class="detail-cell detail-button" (click)="isPanelCollapsed = false" aria-controls="collapseManual">
-            <i class="fas fa-angle-left"></i>
         </div>
 
         <div class="detail-cell detail-section" #collapse="bs-collapse" [collapse]="isPanelCollapsed" >
             <h3>Details</h3>
             <accordion [isAnimated]="true">
-                <accordion-group [isOpen]="isFirstOpen" panelClass="customClass" (click)="collapsed=!collapsed">
+                <accordion-group [isOpen]="isFirstOpen" panelClass="customClass" (click)="isAccordionCollapsed = !isAccordionCollapsed"
+                                 [attr.aria-expanded]="!isAccordionCollapsed">
                     <div accordion-heading>
-                        <i *ngIf="!collapsed" class="fas fa-angle-down"></i>
-                        <i *ngIf="collapsed" class="fas fa-angle-up"></i>
-                        <!--
-                        <i *ngIf="!collapsed;else other_content" class="fas fa-angle-down"></i>
-                        <ng-template #other_content><i *ngIf="collapsed" class="fas fa-angle-up"></i></ng-template>
-                        -->
+                        <span *ngIf="isAccordionCollapsed" >
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+                        <span *ngIf="!isAccordionCollapsed" >
+                            <i class="fas fa-angle-up"></i>
+                        </span>
                         <span>Branch</span>
-                    </div>
-                    tbd
-                </accordion-group>
-                <accordion-group panelClass="customClass" (click)="collapsed=!collapsed">
-                    <div accordion-heading>
-                        <i [ngClass]="{'fas fa-angle-up': this.collapsed, 'fas fa-angle-down': !this.collapsed}"></i>
-                        <!--<i [ngClass]="{'fas fa-angle-up': collapsed, 'fas fa-angle-down': !collapsed}"></i>-->
-                        <span>Build</span>
                     </div>
                     tbd
                 </accordion-group>

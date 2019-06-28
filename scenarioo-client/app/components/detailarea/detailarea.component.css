@@ -51,7 +51,8 @@ sc-detailarea .detail-button {
 sc-detailarea .detail-section {
     width: 100%;
     padding: 0;
-    margin-right: -15px;
+    padding-left: 15px;
+    margin-right: 0;
     float: right;
     transition: ease-in-out 400ms;
 }
@@ -72,7 +73,7 @@ sc-detailarea accordion {
 }
 
 sc-detailarea accordion span {
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 sc-detailarea accordion accordion-group {
