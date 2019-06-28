@@ -13,7 +13,6 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {TabsModule} from 'ngx-bootstrap';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
@@ -33,7 +32,7 @@ import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+import {CollapseModule} from 'ngx-bootstrap/collapse';
 
 @NgModule({
     declarations: [

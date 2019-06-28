@@ -8,6 +8,8 @@ import {Component} from '@angular/core';
 
 export class DetailareaComponent {
 
+    isPanelCollapsed = false;
+
     isOpen: boolean = false;
     isFirstOpen: boolean = true;
     collapsed: boolean = false;
