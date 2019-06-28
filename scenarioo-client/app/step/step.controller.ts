@@ -17,6 +17,8 @@
 
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
+import {scenario} from 'scenarioo-js';
 
 declare var angular: angular.IAngularStatic;
 
@@ -27,7 +29,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison,
                         BuildDiffInfoResource: BuildDiffInfoService,
-                        StepDiffInfoResource, DiffInfoService, localStorageService,
+                        StepDiffInfoResource: StepDiffInfoService,
+                        DiffInfoService, localStorageService,
                         ConfigurationService: ConfigurationService) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -448,25 +451,23 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         // failure function will be executed nevertheless, why is that?
         // We can not know if a screenshot is added, before we execute the call
         // see http://stackoverflow.com/questions/22113286/prevent-http-errors-from-being-logged-in-browser-console
-        StepDiffInfoResource.get(
-            {
-                baseBranchName: SelectedBranchAndBuildService.selected().branch,
-                baseBuildName: SelectedBranchAndBuildService.selected().build,
-                comparisonName: $scope.comparisonName,
-                useCaseName,
-                scenarioName,
-                stepIndex: $scope.stepIndex,
-            },
-            (result) => {
-                $scope.comparisonScreenshotName = result.comparisonScreenshotName;
-                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
-                initScreenshotURLs();
-            },
-            () => {
-                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
-                initDiffScreenShotUrl();
-            });
+        StepDiffInfoResource.get(SelectedBranchAndBuildService.selected().branch,
+            SelectedBranchAndBuildService.selected().build,
+            $scope.comparisonName,
+            useCaseName,
+            scenarioName,
+            $scope.stepIndex)
+            .subscribe((result) => {
+                    $scope.comparisonScreenshotName = result.comparisonScreenshotName;
+                    DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
+                    initScreenshotURLs();
+                },
+                () => {
+                    DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
+                    initDiffScreenShotUrl();
+                });
     }
+
     $scope.setComparisonView = (viewId) => {
         $scope.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);

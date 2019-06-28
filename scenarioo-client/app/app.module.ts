@@ -30,6 +30,7 @@ import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         FormsModule,
         UpgradeModule,
         RestControllerModule,
+        DiffViewerModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         OrderModule,

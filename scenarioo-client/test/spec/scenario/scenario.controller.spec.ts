@@ -79,6 +79,9 @@ describe('ScenarioController', () => {
         $provide.value('LabelConfigurationsResource', LabelConfigurationsResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('BuildDiffInfoResource', {});
+        $provide.value('UseCaseDiffInfoResource', {});
+        $provide.value('ScenarioDiffInfoResource', {});
+        $provide.value('StepDiffInfosResource', {});
     }));
 
     beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService, _RelatedIssueResource_,

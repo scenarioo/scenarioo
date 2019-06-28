@@ -42,6 +42,7 @@ describe('UseCasesTabController', () => {
             },
         });
         $provide.value('UseCasesResource', {});
+        $provide.value('UseCaseDiffInfosResource', {});
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));

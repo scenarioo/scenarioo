@@ -17,6 +17,9 @@
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
 import {ConfigurationService} from '../services/configuration.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfosService} from '../diffViewer/services/scenario-diff-infos.service';
+import {forkJoin} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -25,7 +28,9 @@ angular.module('scenarioo.controllers')
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
-                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+                           SketchIdsResource,
+                           UseCaseDiffInfoResource: UseCaseDiffInfoService,
+                           ScenarioDiffInfosResource: ScenarioDiffInfosService,
                            ConfigurationService: ConfigurationService,
                            labelConfigurationService: LabelConfigurationService) {
 
@@ -152,29 +157,15 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
-            UseCaseDiffInfoResource.get(
-                {
-                    baseBranchName,
-                    baseBuildName,
-                    comparisonName,
-                    useCaseName,
-                },
-                (useCaseDiffInfo) => {
-                    ScenarioDiffInfosResource.get(
-                        {
-                            baseBranchName,
-                            baseBuildName,
-                            comparisonName,
-                            useCaseName,
-                        },
-                        (scenarioDiffInfos) => {
-                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        },
-                    );
+            forkJoin([
+                UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
+                ScenarioDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
+            ])
+                .subscribe(([useCaseDiffInfo, scenarioDiffInfos]) => {
+                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                 }, () => {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
-                },
-            );
+                });
         }
     }
 
