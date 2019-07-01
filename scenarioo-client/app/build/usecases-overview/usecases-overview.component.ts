@@ -25,7 +25,6 @@ export class UseCasesComponent {
     reverse: boolean = false;
 
     arrowkeyLocation = 0;
-    hideElement: true;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;

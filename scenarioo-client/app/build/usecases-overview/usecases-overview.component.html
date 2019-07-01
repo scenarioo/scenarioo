@@ -13,8 +13,19 @@
 
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
-        <table class="table table-curved table-hover table-responsive usecase-table">
-            <thead>
+        <p *ngIf="usecases.length>1">
+            Found {{(usecases|filter: 'name' && 'description':searchTerm).length}}
+            <span *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+            Use Cases
+        </p>
+        <p *ngIf="usecases.length<=1">
+            Found {{(usecases|filter: 'name' && 'description':searchTerm).length}}
+            <span *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+            Use Case
+        </p>
+        <table class="table table-curved table-hover table-responsive usecase-table"
+               *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length!=0">
+            <thead >
             <tr>
                 <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                     Status
@@ -73,7 +84,7 @@
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
                 <td>
-                    {{dynamicUseCase.name}}
+                    {{dynamicUseCase.name | humanReadable}}
                     <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicUseCase.labels.labels}}</span>
                 </td>
