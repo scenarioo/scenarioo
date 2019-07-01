@@ -109,7 +109,7 @@ useCase('Step - View')
                     '/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=Disabled' +
                     '&labels=normal-case,step-label-0,public,page-label1,page-label2');
                 await StepPage.assertScreenshotLink(baseUrl  + '/rest/branch/wikipedia-docu-example/build' +
-                    '/last successful/usecase/Find%20Page/scenario/find_no_results/pageName/startSearch.jsp' +
+                    '/last%20successful/usecase/Find%20Page/scenario/find_no_results/pageName/startSearch.jsp' +
                     '/pageOccurrence/0/stepInPageOccurrence/0/image.png' +
                     '?labels=normal-case,step-label-0,public,page-label1,page-label2');
                 await step('Step links dialog.');

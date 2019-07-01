@@ -521,8 +521,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             return undefined;
         }
 
-        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
-            '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
+        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]) +
+            '/build/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY]) +
             '/usecase/' + encodeURIComponent(useCaseName) +
             '/scenario/' + encodeURIComponent(scenarioName) +
             '/pageName/' + encodeURIComponent($scope.pageName) +
