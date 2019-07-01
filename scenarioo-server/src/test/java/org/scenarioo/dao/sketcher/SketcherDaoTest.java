@@ -97,7 +97,7 @@ public class SketcherDaoTest {
 	}
 
 	private void expectSketchAsPngPersisted() {
-		File pngFile = sketcherDao.getStepSketchPngFile(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
+		File pngFile = sketcherDao.getStepSketchImageFile(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
 				STEP_SKETCH.getStepSketchId(), "sketch.png");
 		assertTrue(pngFile.exists());
 	}
