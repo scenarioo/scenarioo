@@ -93,7 +93,7 @@ public class ScreenshotResource {
 		return getScreenshotStable(branchName, buildName, usecaseName, scenarioName, pageName, pageOccurrence, stepInPageOccurrence, fallback, labels);
 	}
 
-	private ResponseEntity getScreenshotStable(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, @PathVariable("usecaseName") String usecaseName, @PathVariable("scenarioName") String scenarioName, @PathVariable("pageName") String pageName, @PathVariable("pageOccurrence") int pageOccurrence, @PathVariable("stepInPageOccurrence") int stepInPageOccurrence, @RequestParam(value = "fallback", required = false) boolean fallback, @RequestParam(value = "labels", required = false) String labels) {
+	private ResponseEntity getScreenshotStable(String branchName, String buildName, String usecaseName, String scenarioName, String pageName, int pageOccurrence, int stepInPageOccurrence, boolean fallback, String labels) {
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 			buildName);
