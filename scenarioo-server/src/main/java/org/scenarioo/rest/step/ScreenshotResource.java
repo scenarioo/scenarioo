@@ -80,9 +80,9 @@ public class ScreenshotResource {
 	/**
 	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
 	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
-	 * Additional method with produces=image/jpg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
+	 * Additional method with produces=image/jpeg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
 	 */
-	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpg")
+	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
 	public ResponseEntity getScreenshotStableJpg(@PathVariable("branchName") final String branchName,
 											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
