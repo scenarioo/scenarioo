@@ -50,7 +50,7 @@ public class ScreenshotResource {
 	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
 	 * the filename of the image.
 	 */
-	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/jpeg")
+	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/*")
 	public ResponseEntity getScreenshot(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
@@ -66,19 +66,39 @@ public class ScreenshotResource {
 	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
 	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
 	 */
-	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
-	public ResponseEntity getScreenshotStable(@PathVariable("branchName") final String branchName,
+	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.png", produces = "image/png")
+	public ResponseEntity getScreenshotStablePng(@PathVariable("branchName") final String branchName,
 											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
 											  @PathVariable("pageOccurrence") final int pageOccurrence,
 											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
 											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
 
+		return getScreenshotStable(branchName, buildName, usecaseName, scenarioName, pageName, pageOccurrence, stepInPageOccurrence, fallback, labels);
+	}
+
+	/**
+	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
+	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
+	 * Additional method with produces=image/jpg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
+	 */
+	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpg")
+	public ResponseEntity getScreenshotStableJpg(@PathVariable("branchName") final String branchName,
+											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+											  @PathVariable("pageOccurrence") final int pageOccurrence,
+											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
+
+		return getScreenshotStable(branchName, buildName, usecaseName, scenarioName, pageName, pageOccurrence, stepInPageOccurrence, fallback, labels);
+	}
+
+	private ResponseEntity getScreenshotStable(String branchName, String buildName, String usecaseName, String scenarioName, String pageName, int pageOccurrence, int stepInPageOccurrence, boolean fallback, String labels) {
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
-				buildName);
+			buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
-				pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));
+			pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));
 
 		StepLoaderResult stepImageInfo = stepImageInfoLoader.loadStep(stepIdentifier);
 
