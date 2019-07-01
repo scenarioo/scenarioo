@@ -100,12 +100,12 @@ public class ScreenshotResource {
 	 * Additional method with produces=image/jpeg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
 	 */
 	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
-	public ResponseEntity getScreenshotStableJpg(@PathVariable("branchName") final String branchName,
-											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
-											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
-											  @PathVariable("pageOccurrence") final int pageOccurrence,
-											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
+	public ResponseEntity getScreenshotStableJpeg(@PathVariable("branchName") final String branchName,
+												  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+												  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+												  @PathVariable("pageOccurrence") final int pageOccurrence,
+												  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+												  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
 
 		return getScreenshotStable(branchName, buildName, usecaseName, scenarioName, pageName, pageOccurrence, stepInPageOccurrence, fallback, labels);
 	}
