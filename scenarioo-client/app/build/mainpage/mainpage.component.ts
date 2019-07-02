@@ -42,6 +42,7 @@ export class MainPageComponent implements OnInit {
                 .map((customObjectTab: ICustomObjectTab) => {
                     return {title: customObjectTab.tabTitle, content: 'tbd'}
                 });
+            this.defineLastStaticTabs();
         });
 
         this.pageUrl = (function () {
@@ -56,6 +57,16 @@ export class MainPageComponent implements OnInit {
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
         this.eMailUrl = encodeURIComponent(this.pageUrl);
+    }
+
+    defineLastStaticTabs() {
+        const i = this.tabs.length;
+        this.tabs.push({
+            index: i,
+            tabId: 'sketches',
+            title: 'Sketches',
+            contentViewUrl: 'build/sketchesTab.html',
+        });
     }
 
     openShare(shareContent: TemplateRef<any>) {
