@@ -4,7 +4,7 @@ import './screenAnnotations/annotatedScreenshot.component';
 import './screenAnnotations/screenAnnotationsButton.directive';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
-import './stepNotFound/stepNotFound.directive'
+import './stepNotFound/stepNotFound.directive';
 import './step.controller';
 
 declare var angular: angular.IAngularStatic;
