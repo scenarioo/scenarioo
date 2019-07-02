@@ -30,9 +30,9 @@ function stepNotFoundDiv() {
     };
 
     function StepNotFoundController($scope, $location,$element) {
-        let expressionStepNotFound = $element.attr("stepNotFound");
+        let expressionStepNotFound = $element.attr('stepNotFound');
         $scope.$parent.$watch(expressionStepNotFound, newVal => $scope.stepNotFound = newVal);
-        let expressionHttpResponse = $element.attr("httpResponse");
+        let expressionHttpResponse = $element.attr('httpResponse');
         $scope.$parent.$watch(expressionHttpResponse, newVal => $scope.httpResponse = newVal);
 
         $scope.getCurrentUrl = () => $location.absUrl();
