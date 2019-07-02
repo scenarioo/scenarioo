@@ -23,7 +23,6 @@ function stepNotFoundDiv() {
     return {
         restrict: 'E',
         scope: {
-            stepNotFound: '&',
             response: '<'
         },
         template: require('./stepNotFound.html'),
