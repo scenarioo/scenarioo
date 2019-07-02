@@ -16,22 +16,22 @@
  */
 angular
     .module('scenarioo.directives')
-    .directive('scStepNotFoundDiv', stepNotFoundDiv);
-
-function stepNotFoundDiv() {
-
-    return {
-        restrict: 'E',
-        scope: {
+    .component('scStepNotFoundDiv', {
+        bindings: {
             response: '<'
         },
         template: require('./stepNotFound.html'),
         controller: StepNotFoundController,
-        controllerAs: 'stepNotFoundDiv'
-    };
+    });
 
-    function StepNotFoundController($scope, $location,$element) {
-        $scope.getCurrentUrl = () => $location.absUrl();
+
+function StepNotFoundController($location, $element) {
+    const ctrl = this;
+
+    ctrl.getCurrentUrl = getCurrentUrl;
+
+    function getCurrentUrl(){
+        return $location.absUrl();
     }
-
 }
+
