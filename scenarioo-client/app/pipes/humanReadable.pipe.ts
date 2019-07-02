@@ -13,6 +13,8 @@ export class HumanReadablePipe implements PipeTransform {
             text = text.charAt(0).toUpperCase() + text.substr(1);
             // Underline
             text = text.replace(/([_])/g, ' ');
+            // .jsp
+            text = text.replace(/([.jsp])/g, '');
 
             // Camel Case
             // example 1: ThisIsSomeText
