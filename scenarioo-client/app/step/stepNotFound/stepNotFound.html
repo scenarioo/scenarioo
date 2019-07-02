@@ -19,9 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div class="alert alert-warning" role="alert">
         <div class="sc-alert-title">The step you are looking for does not exist</div>
         <p>URL: <span id="stepNotFoundErrorCurrentUrl">{{getCurrentUrl()}}</span></p>
-        <p>REST URL to get step: {{httpResponse.url}}</p>
-        <p>HTTP method: <span id="stepNotFoundErrorResponseMethod">{{httpResponse.method}}</span></p>
-        <p>HTTP response status: <span id="stepNotFoundErrorResponseStatus">{{httpResponse.status}}</span></p>
-        <p>Response data: {{httpResponse.data}}</p>
+        <p>REST URL to get step: {{response.url}}</p>
+        <p>HTTP method: <span id="stepNotFoundErrorResponseMethod">{{response.method}}</span></p>
+        <p>HTTP response status: <span id="stepNotFoundErrorResponseStatus">{{response.status}}</span></p>
+        <p>Response data: {{response.data}}</p>
     </div>
 </div>
