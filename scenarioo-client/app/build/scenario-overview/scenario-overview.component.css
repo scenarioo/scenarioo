@@ -1,0 +1,37 @@
+sc-scenario-overview .screenshot-container {
+    border: 2px solid #DDDDDD;
+    max-width: 300px;
+    height: 150px;
+    overflow: hidden;
+    text-align: center;
+}
+
+sc-scenario-overview .screenshot {
+    max-width: 100%;
+    width: auto;
+}
+
+sc-scenario-overview h4 {
+    font-weight: bold;
+    color: #337ab7;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+sc-scenario-overview .page-overview {
+    cursor: default;
+}
+
+sc-scenario-overview .page-overview:hover {
+    background-color: #FFFFFF;
+}
+
+sc-scenario-overview .table-info {
+    font-size: smaller;
+    font-style: italic;
+}
+
+sc-scenario-overview .table-curved tr:last-child td:first-child {
+    border-radius: 0;
+}
+

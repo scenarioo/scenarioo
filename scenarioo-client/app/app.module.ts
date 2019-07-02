@@ -31,6 +31,7 @@ import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchA
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
+import {ScenarioComponent} from './build/scenario-overview/scenario-overview.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import {HumanReadablePipe} from './pipes/humanReadable.pipe';
         MainPageComponent,
         UseCasesComponent,
         ScenariosComponent,
+        ScenarioComponent,
         FilterPipe,
         HumanReadablePipe,
     ],
@@ -55,6 +57,7 @@ import {HumanReadablePipe} from './pipes/humanReadable.pipe';
         MainPageComponent,
         UseCasesComponent,
         ScenariosComponent,
+        ScenarioComponent,
     ],
     imports: [
         BrowserModule,
