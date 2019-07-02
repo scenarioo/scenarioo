@@ -74,7 +74,7 @@ class StepPage {
         await expect(element(by.id('fallbackMessage')).isDisplayed()).toBeFalsy();
     }
 
-    async assertErrorResponseIsShown(expectedCurrentUrl:string, expectedResponseMethod: string, expectedResponseStatus: string) {
+    async assertErrorResponseIsShown(expectedCurrentUrl: string, expectedResponseMethod: string, expectedResponseStatus: string) {
         await expect(element(by.id('stepNotFoundErrorCurrentUrl')).getText()).toEqual(expectedCurrentUrl);
         await expect(element(by.id('stepNotFoundErrorResponseMethod')).getText()).toEqual(expectedResponseMethod);
         await expect(element(by.id('stepNotFoundErrorResponseStatus')).getText()).toEqual(expectedResponseStatus);
