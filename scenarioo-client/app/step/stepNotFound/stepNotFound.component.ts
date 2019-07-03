@@ -18,20 +18,18 @@ angular
     .module('scenarioo.directives')
     .component('scStepNotFoundDiv', {
         bindings: {
-            response: '<'
+            response: '<',
         },
         template: require('./stepNotFound.html'),
         controller: StepNotFoundController,
     });
-
 
 function StepNotFoundController($location, $element) {
     const ctrl = this;
 
     ctrl.getCurrentUrl = getCurrentUrl;
 
-    function getCurrentUrl(){
+    function getCurrentUrl() {
         return $location.absUrl();
     }
 }
-
