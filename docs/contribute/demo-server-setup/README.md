@@ -33,7 +33,7 @@ Copy the value from the box "Public key for pasting into Open SSH authorized_key
 Save the private key as *.ppk file as well (in PuttyGen: Button "Save private key"), so that you can use it to log in to the server with Putty.
 
 ### Adding your user to Scenarioo-Infrastructure
-* Add your username to `required_users` in [scenarioo-infrastructure\site.yml](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/site.yml)
+* Add your username to `required_users` in [scenarioo-infrastructure\roles\manageUsers\vars\main.yml](https://github.com/scenarioo/scenarioo-infrastructure/blob/master/roles/manageUsers/vars/main.yml)
 * Add the file `username.pem` to [scenarioo-infrastructure\roles\manageUsers\keys](https://github.com/scenarioo/scenarioo-infrastructure/tree/master/roles/manageUsers/keys)
 * Create a Pull Request with your changes in scenarioo-infrastructure.
 

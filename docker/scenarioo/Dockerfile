@@ -6,7 +6,7 @@ LABEL description="Scenarioo Viewer Web Application"
 # SET THE SCENARIOO DATA DIRECTORY VIA THE ENVIRONMENT VARIABLE
 ENV SCENARIOO_DATA /scenarioo/data
 
-# ADD WAR TO TOMCAT-WEBAPPS
+# ADD SCENARIOO.WAR TO DOCKER IMAGE
 ADD ./scenarioo-latest.war /scenarioo/bin/scenarioo.war
 
 # RUN TOMCAT
