@@ -65,8 +65,6 @@ jobs:
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
-            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
-            sleep 30  # Give server some time because of comparisons
 
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
