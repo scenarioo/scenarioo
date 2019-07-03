@@ -40,7 +40,7 @@ public class ComparisonsResource {
 		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
 		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
 
-		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
+		ScenarioDocuBuildsManager.getInstance().submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
 		return ResponseEntity.ok().build();
@@ -65,7 +65,7 @@ public class ComparisonsResource {
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName);
 		BuildIdentifier comparisonBuildIdentifier = buildDiffInfo.getCompareBuild();
 
-		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
+		ScenarioDocuBuildsManager.getInstance().submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
 		return ResponseEntity.ok().build();
@@ -91,7 +91,7 @@ public class ComparisonsResource {
 
 
 	/**
-	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
+	 * Returns the log file of the build comparison.
 	 *
 	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
@@ -135,9 +135,8 @@ public class ComparisonsResource {
 	 * Set branchName and buildName for the build that should be imported and compared with the comparison build.
 	 * branchName can be an alias, but buildName can't.
 	 * <p>
-	 * comparisonBranchName and comparisonBuildName must be the names of an existing build that is already imported or
-	 * scheduled for import. Import for this build is not triggered by this endpoint. You can use aliases for these two
-	 * values though.
+	 * comparisonBuildIdentifier must identify an existing build that is already imported or scheduled for import.
+	 * Import for this build is not triggered by this endpoint. You can use aliases for these two values though.
 	 */
 	@PostMapping("importAndCompare")
 	public ResponseEntity importAndCompare(
@@ -154,7 +153,7 @@ public class ComparisonsResource {
 		}
 
 		Future<Future<BuildDiffInfo>> buildDiffInfoFuture =
-			ScenarioDocuBuildsManager.INSTANCE.importBuildIfNewAndScheduleHiPrioComparison(buildIdentifier,
+			ScenarioDocuBuildsManager.getInstance().importBuildIfNewAndScheduleHiPrioComparison(buildIdentifier,
 				comparisonBuildIdentifier, comparisonName);
 
 		BuildDiffInfo buildDiffInfo;
@@ -189,7 +188,7 @@ public class ComparisonsResource {
 	}
 
 	private boolean buildIsNotSuccessfullyImported(BuildIdentifier buildIdentifier) {
-		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
+		BuildImportStatus importStatus = ScenarioDocuBuildsManager.getInstance().getImportStatus(buildIdentifier);
 		return !BuildImportStatus.SUCCESS.equals(importStatus);
 	}
 

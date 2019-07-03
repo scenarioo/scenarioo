@@ -15,7 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ComparisonsController', ComparisonsController);
+angular.module('scenarioo.controllers')
+    .component('scComparisons', {
+        template: require('./comparisons.html'),
+        controller: ComparisonsController,
+        controllerAs: 'vm',
+    });
 
 function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService, ApplicationStatusService) {
 
@@ -68,8 +73,8 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     function recalculateComparison(comparison) {
         ComparisonRecalculateResource
             .recalculate(comparison.name, {
-                branchName: comparison.baseBuild,
-                buildName: comparison.baseBuild,
+                branchName: comparison.baseBuild.branchName,
+                buildName: comparison.baseBuild.buildName,
             })
             .subscribe(refresh);
     }

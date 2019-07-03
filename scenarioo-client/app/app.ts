@@ -33,18 +33,13 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     .config(($routeProvider) => {
         addRoutes($routeProvider);
 
-    }).run(($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) => {
+    }).run(($rootScope, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) => {
 
     // These templates are loaded dynamically, thus we preload it and put it into our template cache.
     $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));
     $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
     $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
     $templateCache.put('build/customTab.html', require('./build/customTab.html'));
-    $templateCache.put('manage/buildImport/buildsList.html', require('./manage/buildImport/buildsList.html'));
-    $templateCache.put('manage/comparisons/comparisons.html', require('./manage/comparisons/comparisons.html'));
-    $templateCache.put('manage/generalSettings/generalSettings.html', require('./manage/generalSettings/generalSettings.html'));
-    $templateCache.put('manage/branchAliases/branchAliases.html', require('./manage/branchAliases/branchAliases.html'));
-    $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
     $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
     // Initialze modals to close when the location changes
@@ -53,7 +48,9 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     });
 
     $rootScope.$on('$viewContentLoaded', () => {
-        ApplicationInfoPopupService.showApplicationInfoPopupIfRequired();
+        // Workaround because angular reloads the page a couple of times if query parameter were not set, which leads
+        // to a reload of all controllers and a dismissal of the open PopUp. Thus it disappears very quickly.
+        setTimeout(() => ApplicationInfoPopupService.showApplicationInfoPopupIfRequired(), 50);
     });
 
     // Register global hotkeys
@@ -66,9 +63,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     GlobalHotkeysService.registerGlobalHotkey('h', () => {
         $location.path('/');
     });
-
-    // Load config
-    ConfigService.load();
 });
 
 // needs to stay here

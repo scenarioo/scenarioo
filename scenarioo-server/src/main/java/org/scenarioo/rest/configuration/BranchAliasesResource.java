@@ -22,6 +22,7 @@ import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,11 +41,12 @@ public class BranchAliasesResource {
 	}
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateBranchAliases(@RequestBody final List<BranchAlias> branchAliases) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setBranchAliases(branchAliases);
 		configurationRepository.updateConfiguration(configuration);
-		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
+		ScenarioDocuBuildsManager.getInstance().refreshBranchAliases();
 	}
 
 }

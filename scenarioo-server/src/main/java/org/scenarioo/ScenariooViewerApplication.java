@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -37,8 +38,8 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 	}
 
 	@Bean
-	public ServletContextInitializer createInitializer() {
-		return new ScenariooInitializer();
+	public ServletContextInitializer createInitializer(Environment environment) {
+		return new ScenariooInitializer(environment);
 	}
 
 	@Bean

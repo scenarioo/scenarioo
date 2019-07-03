@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.scenarioo.dao.context.ContextPathHolder;
+import org.scenarioo.utils.UrlEncoding;
 
 /**
  * Contains all the properties needed to identify a step unambiguously.
@@ -63,10 +64,19 @@ public class StepIdentifier {
 	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
 			final int stepInPageOccurrence, final Set<String> labels) {
 		this.scenarioIdentifier = scenarioIdentifier;
-		this.pageName = pageName;
+		this.setPageName(pageName);
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 		this.labels = labels;
+	}
+
+	/**
+	 * Spring Boot automatically decodes all request parameters. This is a problem if a pageName should contain for example
+	 * an URL encoded space. Thus we need to patch the page name in this case. And since the default URL encoding replaces
+	 * a space with '+', we have to manually replace this with '%20'.
+	 */
+	private String patchPageName(String pageName) {
+		return pageName.contains(" ") ? UrlEncoding.encode(pageName).replace("+", "%20") : pageName;
 	}
 
 	public static StepIdentifier withDifferentStepInPageOccurrence(final StepIdentifier stepIdentifier,
@@ -152,7 +162,7 @@ public class StepIdentifier {
 	}
 
 	public void setPageName(final String pageName) {
-		this.pageName = pageName;
+		this.pageName = patchPageName(pageName);
 	}
 
 	public int getPageOccurrence() {

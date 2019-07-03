@@ -42,22 +42,22 @@ public class SketchImageResource {
 			@PathVariable("stepSketchId") final String stepSketchId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		File svgFile = sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
-		return FileResponseCreator.createImageFileResponse(svgFile);
+		return FileResponseCreator.createUncacheableImageFileResponse(svgFile);
 	}
 
 	/**
-	 * @param pngFileName
+	 * @param imageFileName
 	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
 	 */
-	@GetMapping(path = "{stepSketchId}/image/{pngFile}", produces = "image/png" )
-	public ResponseEntity<InputStreamResource> loadPngFile(@PathVariable("branchName") final String branchName,
-														   @PathVariable("issueId") final String issueId,
-														   @PathVariable("scenarioSketchId") final String scenarioSketchId,
-														   @PathVariable("stepSketchId") final String stepSketchId,
-														   @PathVariable("pngFile") final String pngFileName) {
+	@GetMapping(path = "{stepSketchId}/image/{imageFile}", produces = "image/*" )
+	public ResponseEntity<InputStreamResource> loadImageFile(@PathVariable("branchName") final String branchName,
+															 @PathVariable("issueId") final String issueId,
+															 @PathVariable("scenarioSketchId") final String scenarioSketchId,
+															 @PathVariable("stepSketchId") final String stepSketchId,
+															 @PathVariable("imageFile") final String imageFileName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-		File pngFile = sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
-		return FileResponseCreator.createImageFileResponse(pngFile);
+		File pngFile = sketcherDao.getStepSketchImageFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, imageFileName);
+		return FileResponseCreator.createUncacheableImageFileResponse(pngFile);
 	}
 
 }

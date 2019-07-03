@@ -53,29 +53,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="row sc-space-top sc-space-bottom">
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input name="searchCriteria" type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                                   ng-model="vm.searchField" placeholder="Search..." ng-keyup="$event.keyCode == 27 ? vm.resetSearchField() : null" data-scDebounce/>
+                            <input name="searchCriteria" type="text"
+                                   class="ng-pristine ng-valid tableSearch form-control" toggle="tooltip"
+                                   title="type words separated by spaces to search for"
+                                   ng-model="vm.searchField" placeholder="Search..."
+                                   ng-keyup="$event.keyCode == 27 ? vm.resetSearchField() : null" scDebounce/>
                             <span class="input-group-btn">
-                                <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
+                                <button type="button" ng-click="vm.resetSearchField()"
+                                        class="btn btn-default">reset</button>
                             </span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="pull-right">
-                            <button id="toggleButton" type="button" ng-click="vm.expandAndCollapseTree(vm.treemodel)" class="btn btn-default">{{vm.toggleLabel}} all</button>
+                            <button id="toggleButton" type="button" ng-click="vm.expandAndCollapseTree(vm.treemodel)"
+                                    class="btn btn-default">{{vm.toggleLabel}} all
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="sc-referenceTreeMetaData"
-                     data-sc-filterable-table-tree
-                     data-root-is-collapsed="vm.rootIsCollapsed"
-                     data-expand-first-child-up-to-root-node="true"
-                     data-filter="vm.searchField"
-                     data-treedata="vm.object.referenceTree.children"
-                     data-treemodel="vm.treemodel"
-                     data-click-action="vm.goToRelatedView(node)"
-                     data-first-column-title="References">
-                </div>
+
+                <sc-filterable-table-tree class="sc-referenceTreeMetaData"
+                                          root-is-collapsed="vm.rootIsCollapsed"
+                                          expand-first-child-up-to-root-node="true"
+                                          filter="vm.searchField"
+                                          treedata="vm.object.referenceTree.children"
+                                          treemodel="vm.treemodel"
+                                          click-action="vm.goToRelatedView(node)"
+                                          first-column-title="References">
+                </sc-filterable-table-tree>
             </div>
         </div>
     </div>

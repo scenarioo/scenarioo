@@ -8,23 +8,17 @@ This page informs you where you can get the different versions (stable and unsta
 
 * **Download as WAR from [Official Releases](https://github.com/scenarioo/scenarioo/releases)**
 
-* **Live-Demo under [demo.scenarioo.org](http://demo.scenarioo.org)**
+* **Live-Demo [demo.scenarioo.org](http://demo.scenarioo.org)**
 
 ### Release Candidate (develop)
 
-Our current release candidate for the develop branch with the next version of Scenarioo can be found here (it may include unstable new functionality):
-
-* **Download as WAR from [CI/CD-Build-Job-Artifacts](http://build.scenarioo.org/jenkins/job/scenarioo-develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/)** 
-
-* **Live-Demo under [demo.scenarioo.org/scenarioo-develop](http://demo.scenarioo.org/scenarioo-develop)**
+Our current release candidate on the develop branch can be found here (it may include unstable new functionality):
+ 
+* **Live-Demo [demo.scenarioo.org/scenarioo-develop](http://demo.scenarioo.org/scenarioo-develop)**
 
 ### Other Special Versions
 
-For some important other feature branches or forks, there might be a build job in our CI/CD-Pipeline with a running demo instance:
-
-* **Check the [CI/CD-Build-Server](http://build.scenarioo.org)** for a job called `scenarioo-{name-of-branch}` or `scenarioo-fork-{name-of-fork}` 
-* Try out the running Demo under `http://demo.scenarioo.org/{put-same-name-as-the-build-job-here}`
-* You can download the WAR from last successful artifacts inside this build job, if you need it for deployment.
+For some other feature branches, there might be a deployed demo application. You can find the list of deployed applications [here](http://demo.scenarioo.org/overview/)
 
 ## Scenarioo Writer Libraries
 

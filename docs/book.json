@@ -16,7 +16,7 @@
   },
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/scenarioo/scenarioo/edit/release/4.0/docs/",
+      "base": "https://github.com/scenarioo/scenarioo/edit/develop/docs/",
       "label": "Edit This Page"
     },
     "github": {
@@ -37,9 +37,13 @@
           "text": "Developer Version (Unreleased)"
         },
         {
-          "value": "http://scenarioo.org/docs/4.0",
-          "text": "Version 4.0",
+          "value": "http://scenarioo.org/docs/5.0",
+          "text": "Version 5.0",
           "selected": true
+        },
+        {
+          "value": "http://scenarioo.org/docs/4.0",
+          "text": "Version 4.0"
         },
         {
           "value": "http://scenarioo.org/docs/3.0",

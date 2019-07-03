@@ -51,6 +51,17 @@ jobs:
             echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
+            echo "Wait for Scenarioo to finish starting, importing the builds and processing the comparisons. Abort if an error occurs."
+            ( tail -f -n0 test-results/scenarioo-server.log & ) | while read LINE0
+              do
+                if [[ "$LINE0" = *"All Builds Imported and Comparisons Calculated."* ]]; then
+                  exit 0
+                elif  [[ "$LINE0" = *"ERROR"* ]]; then
+                  echo $LINE0
+                  exit 1
+                fi
+              done
+
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
@@ -66,6 +77,7 @@ jobs:
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+          no_output_timeout: 2m # abort build if no output is produced for 2 minutes
 
       - run:
           name: Collect test results
@@ -149,7 +161,7 @@ jobs:
       - run:
           name: Deploy demo of branch
           command: |
-            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$(cat BUILD_NUM)" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST"
+            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$(cat BUILD_NUM)" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" && rm BUILD_NUM
       - run:
           name: Commit and push
           command: |
@@ -193,6 +205,35 @@ jobs:
             echo "Publish docs for $DOCU_VERSION"
             cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
+
+  smoketest:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      # circleci/openjdk:8-jdk-browsers
+      - image: circleci/openjdk@sha256:fa630780e340d81ad974a06c9104e7c337b906186c42586ee61ec571eec730d3
+    working_directory: ~/smoketest
+    steps:
+      - checkout
+      - run:
+          name: Prepare environemnt
+          command: |
+            ./gradlew scenarioo-client:npmInstall --no-daemon -s
+      - run:
+          name: Smoketest develop demo
+          command: |
+            export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-develop
+
+            echo "Running smoketests for develop demo"
+            export GRADLE_OPTS="-Xms300m -Xmx1000m"
+              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
+      - run:
+          name: Smoketest master demo
+          command: |
+            export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-master
+
+            echo "Running smoketests for master demo"
+            export GRADLE_OPTS="-Xms300m -Xmx1000m"
+              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
 
   publish_selfdocu_to_master:
     docker:
@@ -246,3 +287,13 @@ workflows:
             branches:
               only:
                 - develop
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 3 * * *"
+          filters:
+            branches:
+              only:
+                - develop
+    jobs:
+      - smoketest

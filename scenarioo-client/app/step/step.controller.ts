@@ -15,13 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
+import {scenario} from 'scenarioo-js';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('StepController', StepController);
 
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
-                        StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison,
+                        BuildDiffInfoResource: BuildDiffInfoService,
+                        StepDiffInfoResource: StepDiffInfoService,
+                        DiffInfoService, localStorageService,
+                        ConfigurationService: ConfigurationService) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -37,6 +47,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
+    $scope.refreshIfComparisonActive = refreshIfComparisonActive;
 
     $scope.comparisonViewOptions = {
         viewId: getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
@@ -49,6 +60,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function activate() {
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch ...', createSketch);
         SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
+    }
+
+    /**
+     * reload the page to ensure that highlighted changes are properly aligned
+     * if comparison highlights are activated and we are on the comparisons tab.
+     */
+    function refreshIfComparisonActive() {
+        if ($scope.isComparisonChangesHighlighted() && $scope.activeTab === 2) {
+            $route.reload();
+        }
     }
 
     function createSketch() {
@@ -130,9 +151,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                     $scope.stepNotFound = true;
                     $scope.httpResponse = {
                         status: error.status,
-                        method: error.config.method,
-                        url: error.config.url,
-                        data: error.data,
+                        method: 'GET',
+                        url: error.url,
+                        data: error.error,
                     };
                 },
             );
@@ -409,9 +430,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
-        BuildDiffInfoResource.get(
-            {baseBranchName, baseBuildName, comparisonName},
-            (buildDiffInfo) => {
+        BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName)
+            .subscribe((buildDiffInfo) => {
                 $scope.comparisonName = buildDiffInfo.name;
                 $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                 $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
@@ -423,8 +443,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 $scope.comparisonName = '';
                 $scope.comparisonBranchName = '';
                 $scope.comparisonBuildName = '';
-            },
-        );
+            });
     }
 
     function loadStepDiffInfo() {
@@ -432,24 +451,21 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         // failure function will be executed nevertheless, why is that?
         // We can not know if a screenshot is added, before we execute the call
         // see http://stackoverflow.com/questions/22113286/prevent-http-errors-from-being-logged-in-browser-console
-        StepDiffInfoResource.get(
-            {
-                baseBranchName: SelectedBranchAndBuildService.selected().branch,
-                baseBuildName: SelectedBranchAndBuildService.selected().build,
-                comparisonName: $scope.comparisonName,
-                useCaseName,
-                scenarioName,
-                stepIndex: $scope.stepIndex,
-            },
-            (result) => {
-                $scope.comparisonScreenshotName = result.comparisonScreenshotName;
-                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
-                initScreenshotURLs();
-            },
-            () => {
-                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
-                initDiffScreenShotUrl();
-            });
+        StepDiffInfoResource.get(SelectedBranchAndBuildService.selected().branch,
+            SelectedBranchAndBuildService.selected().build,
+            $scope.comparisonName,
+            useCaseName,
+            scenarioName,
+            $scope.stepIndex)
+            .subscribe((result) => {
+                    $scope.comparisonScreenshotName = result.comparisonScreenshotName;
+                    DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
+                    initScreenshotURLs();
+                },
+                () => {
+                    DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
+                    initDiffScreenShotUrl();
+                });
     }
 
     $scope.setComparisonView = (viewId) => {
@@ -457,7 +473,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    $scope.isComparisonView = (viewId) => $scope.comparisonViewOptions.viewId === viewId;
+    $scope.isComparisonView = (viewId) => $scope.step.diffInfo.isAdded
+        ? viewId === 'SideBySide' // fixed side by side view for added steps
+        : $scope.comparisonViewOptions.viewId === viewId;
 
     $scope.switchComparisonSingleScreenView = () => {
         const viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
@@ -476,7 +494,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
     };
 
-    $scope.getComparisonViewHighlightChangesColor = () => ConfigService.diffViewerDiffImageColor();
+    $scope.getComparisonViewHighlightChangesColor = () => ConfigurationService.diffViewerDiffImageColor();
 
     function getLocalStorageBool(storageKey) {
         return localStorageService.get(storageKey) !== 'false';
@@ -503,8 +521,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             return undefined;
         }
 
-        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
-            '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
+        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]) +
+            '/build/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY]) +
             '/usecase/' + encodeURIComponent(useCaseName) +
             '/scenario/' + encodeURIComponent(scenarioName) +
             '/pageName/' + encodeURIComponent($scope.pageName) +

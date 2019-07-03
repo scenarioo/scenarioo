@@ -15,9 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BranchAliasesController', BranchAliasesController);
+declare var angular: angular.IAngularStatic;
 
-function BranchAliasesController($rootScope, BranchAliasesResource, BranchesResource) {
+angular.module('scenarioo.controllers')
+    .component('scBranchAliases', {
+        template: require('./branchAliases.html'),
+        controller: BranchAliasesController,
+        controllerAs: 'vm',
+    });
+
+function BranchAliasesController(BranchAliasesResource, BranchesResource) {
 
     const vm = this;
     vm.branches = [];
@@ -101,9 +108,9 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
         }
 
         BranchAliasesResource.save(branchAliasesToSave)
+        // tslint:disable-next-line
             .subscribe(() => {
-                $rootScope.$broadcast('branchesUpdated');
-            });
+            }); // We need to subscribe, otherwise the request won't be executed
 
         vm.successfullyUpdatedBranchAliases = true;
     }

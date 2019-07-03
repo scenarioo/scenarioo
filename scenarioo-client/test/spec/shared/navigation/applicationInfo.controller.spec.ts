@@ -17,7 +17,8 @@
 
 'use strict';
 
-import {Observable} from "rxjs";
+import {of} from 'rxjs';
+
 declare var angular: angular.IAngularStatic;
 
 describe('Controller: ApplicationInfoController', () => {
@@ -31,7 +32,7 @@ describe('Controller: ApplicationInfoController', () => {
 
 
     let VersionResourceMock = {
-        get: () => Observable.of()
+        get: () => of()
     };
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -45,12 +46,12 @@ describe('Controller: ApplicationInfoController', () => {
         TestData = _TestData_;
         $controller('ApplicationInfoController', {
             $scope: $scope,
-            ConfigService: ConfigMock,
+            ConfigurationService: ConfigMock,
             $uibModalInstance: null
         });
     }));
 
-    it('should update applicationInformation if it changes in ConfigService', () => {
+    it('should update applicationInformation if it changes in ConfigurationService', () => {
         expect($scope.applicationInformation).toBeUndefined();
 
         ConfigService.setApplicationInformation('abc');

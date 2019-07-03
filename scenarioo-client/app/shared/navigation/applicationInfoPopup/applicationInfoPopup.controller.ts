@@ -16,12 +16,16 @@
  */
 
 import {Version} from '../../services/versionResource.service';
+import {ConfigurationService} from '../../../services/configuration.service';
 
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
-    .controller('ApplicationInfoController', ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) => {
-        $scope.$watch(ConfigService.applicationInformation, (applicationInformation) => {
+    .controller('ApplicationInfoController', ($scope, $uibModalInstance,
+                                              ConfigurationService: ConfigurationService,
+                                              $sce, VersionResource) => {
+
+        ConfigurationService.applicationInformation().subscribe((applicationInformation) => {
             $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
         });
 

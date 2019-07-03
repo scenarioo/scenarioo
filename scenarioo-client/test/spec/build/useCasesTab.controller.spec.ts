@@ -17,7 +17,7 @@
 
 'use strict';
 
-import {Observable} from 'rxjs';
+import {of} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -27,19 +27,24 @@ describe('UseCasesTabController', () => {
     let useCasesTabController;
 
     const LabelConfigurationsResourceMock = {
-        query: () => Observable.of({}),
+        query: () => of({}),
+    };
+    const ConfigurationServiceMock = {
     };
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after complete AngularJs -> Angular Migration
+        $provide.value('BuildDiffInfoResource', {});
         $provide.value('BranchesAndBuildsService', {});
         $provide.value('SelectedBranchAndBuildService', {
             callOnSelectionChange: () => {
             },
         });
         $provide.value('UseCasesResource', {});
+        $provide.value('UseCaseDiffInfosResource', {});
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
+        $provide.value('ConfigurationService', ConfigurationServiceMock);
     }));
 
     beforeEach(inject(($controller, $rootScope, _$location_) => {

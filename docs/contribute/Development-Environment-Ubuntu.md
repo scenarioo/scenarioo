@@ -26,7 +26,7 @@ version we currently use). [Installation instruction](https://github.com/nodesou
 
 ### Solve Problems with Global NPM Dependencies
 
-Scenarioo should not need any global dependencies anymore - if everything is run thorugh our package.json (see skripts area!)!
+Scenarioo should not need any global dependencies anymore - if everything is run thorugh our package.json (see scripts area!)!
 
 Nevertheless, here is some old instruction how you can make global dependencies work in case of access right problems on Linux:
 

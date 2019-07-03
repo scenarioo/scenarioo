@@ -15,8 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.services')
-    .factory('BranchesAndBuildsService', ($rootScope, ConfigService, BranchesResource, $q, SelectedBranchAndBuildService) => {
+    .factory('BranchesAndBuildsService', (
+        $rootScope, BranchesResource,
+        $q, SelectedBranchAndBuildService) => {
 
         const getBranchesAndBuildsData = () => {
             const deferred = $q.defer();

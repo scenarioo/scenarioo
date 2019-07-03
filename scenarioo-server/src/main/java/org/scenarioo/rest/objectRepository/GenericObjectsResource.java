@@ -40,7 +40,7 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 	public List<ObjectDescription> readList(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("type") final String type) {
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 
 		return getDAO(buildIdentifier).loadObjectsList(buildIdentifier, type).getItems();
@@ -51,7 +51,7 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 									   @PathVariable("buildName") final String buildName, @PathVariable("type") final String objectType,
 			@RequestParam("name") final String objectName) {
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 			buildName);
 
 		AggregatedDocuDataReader aggregatedDataReader = getDAO(buildIdentifier);

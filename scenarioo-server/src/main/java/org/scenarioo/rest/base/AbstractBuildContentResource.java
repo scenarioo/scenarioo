@@ -39,7 +39,7 @@ public class AbstractBuildContentResource {
 	 */
 	public static AggregatedDocuDataReader getDAO(final BuildIdentifier buildIdentifier) {
 		
-		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE
+		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.getInstance()
 				.getLongObjectNameResolver(buildIdentifier);
 		return new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory(),
 				longObjectNamesResolver);
