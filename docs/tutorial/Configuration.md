@@ -4,19 +4,43 @@ Most of the features that are configurable in Scenarioo can be configured direct
 
 Most settings are on tab "General Settings" in the "Manage" area. 
 
-There are some advanced configuration options for some advanced features that can only be configured through the viewer's `config.xml` file and can not be configured yet through the Scenarioo configuration pages directly. 
+There are some advanced configuration options for some advanced features that can only be configured eithe rin applicaiton properties (spring configuration file `application.properties`) or through the viewer's `config.xml` file and can not be configured through the Scenarioo configuration pages directly. 
 
-This page briefly explains how you can use that `config.xml` file to configure more advanced options.
+This page explains all these more advanced configuraiton options.
 
-## How to change `config.xml`
+## Configure Major Application Properties
+
+Following features can be configured using spring properties, those properties can be set in `application.properties` file that you have to create next to your WAR file.
+
+After changing values you have to restart the application server.
+
+### Access URL (Standalone runner only)
+
+This option is only available if you run scenarioo as standalone app and do not deploy the WAR to a java webserver like tomcat. If you deploy using a server you need to use usual server configuration possibilities to adjust the context path in the URL.
+
+Configure the access URL under which the app should be deployed by creating the file `application.properties` next to the downloaded standalone runnable war, with the following entry
+    ```
+    server.servlet.contextPath=/my-scenarioo-path
+    ```
+If this file or property in the file is missing, the app can be reached under the default context URL ending with `/scenarioo`.
+
+### Access Log
+
+You can enable scenarioo to log all requested REST calls in a special access log, if you wish so in `application.properties`:
+     ```
+     server.tomcat.accesslog.enabled=true
+     server.tomcat.accesslog.directory=<absolute path to log-directory>
+     ```
+
+## Configure Advanced Features
 
 1. Locate the `config.xml` file: it is in your scenarioo documentation data folder that you configured. If you do not find it there: It means either that you use an older version of scenarioo or that you never saved the configuration before. Go to the Scenarioo configuraiton web page and choose to save the settings once --> this will save the configuration to the file.
 
-2. Edit the file - See next section about an example - and save your changes.
+2. Edit the file - according to following sections where the configurable features are explained - and save your changes.
 
 3. Restart scenarioo such that the changes are being loaded.
 
-## Branch Selection List Ordering
+### Branch Selection List Ordering
 
 The order of the branch entries in the top level navigation branch selection dropdown is configurable.
 
@@ -34,7 +58,7 @@ Example to add in `config.xml` inside the `<configuration>`-element:
 </configuration>
 ```
 
-## More Advanced Feature Configurations
+### More Advanced Feature Configurations
 
 Please refer to the documentation of advanced features for more information on how to configure those features in `config.xml`. Like for example the following advanced features:
 

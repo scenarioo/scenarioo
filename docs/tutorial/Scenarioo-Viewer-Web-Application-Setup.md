@@ -14,33 +14,31 @@ Scenarioo requires Java 8 or higher.
 Further Release Candidate Versions are available through [Downloads & Links](../downloads-and-links.md), if you want to to test newer versions not yet officially released.
 
 ## Installation and Setup
-### Running Scenarioo as standalone application
-1. **Configure the context** under which the app should be deployed by creating the file `application.properties` next to the downloaded war, with the following entry
-     ```
-     server.servlet.contextPath=/scenarioo
-     ```
-     If this file is missing, the app can be reached under the default context `scenarioo`.
-     
-     The Tomcat access log can also be enabled using `application.properties`. Just add the following entries:
-     ```
-     server.tomcat.accesslog.enabled=true
-     server.tomcat.accesslog.directory=<absolute path to log-directory>
-     ```
-2. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
+
+### Running Scenarioo as Standalone Application
+
+1. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
     
     To configure a different directory to use add the following line to `application.properties` next to the downloaded war:  
     ```
     scenarioo.data=<path to a directory where scenarioo can store its data>
     ```
+    
+    
 
-3. **Execute the WAR** file with Java, e.g 
+2. **Execute the WAR** file with Java, e.g 
      ```
      cd <war-location>
      java -jar scenarioo.war
      ```
 
-### Installing Scenarioo into a Webserver
-Alternatively you can install your favorite Webserver and deploy the WAR into it.
+3. **Startup Scenarioo Viewer Web App** through your browser using following URL: http://{your-ip-address-and-port-or-host-url}/scenarioo (e.g. http://localhost:8080/scenarioo )
+
+4. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md).
+
+### Installing Scenarioo on Webserver
+
+Alternatively you can install your favorite Webserver (e.g.Tomcat) and deploy the WAR into it.
 
 1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 8.5.31+ or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
 
