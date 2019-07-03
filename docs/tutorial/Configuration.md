@@ -1,36 +1,74 @@
 # Viewer Configuration
 
-Most of the features that are configurable in Scenarioo can be configured directly through the Configuration pages inside the Scenarioo webapplication. Just use the link "Manage" in the upper right corner.
+Most of the features that are configurable in Scenarioo can be configured directly through the Configuration pages inside the Scenarioo webapplication. Just use the link "Manage" in the upper right corner. Most settings are on tab "General Settings" in the "Manage" area. 
 
-Most settings are on tab "General Settings" in the "Manage" area. 
+There are some more basic Application Properties and more Advanced Feature Configuration Options that can not be configured through the Scenarioo configuration pages directly. 
 
-There are some advanced configuration options for some advanced features that can only be configured eithe rin applicaiton properties (spring configuration file `application.properties`) or through the viewer's `config.xml` file and can not be configured through the Scenarioo configuration pages directly. 
+This page explains all these more advanced configuration options and how to configure them.
 
-This page explains all these more advanced configuraiton options.
+## Application Properties
 
-## Configure Major Application Properties
+Application properties as described in following sections can be configured based on the flexibility of Spring Boot configuration property resolution in different ways.
 
-Following features can be configured using spring properties, those properties can be set in `application.properties` file that you have to create next to your WAR file.
+Choose one of the following options how to configure such application properties for your kind of setup of scenarioo:
 
-After changing values you have to restart the application server.
+* **application.properties file** (*Suitable for: Running Scenarioo as standalone application*): simply write the properties to set into an `application.properties` file next to the standalone scenarioo application file from where you start it. Here's a simple example to set most important properties:
+    ```
+    # Data Directory
+    scenarioo.data=/absolute/dir/to/your/documentation/directory
+    
+    # Context path for scenarioo URL
+    server.servlet.contextPath=/scenarioo
+    
+    # REST Endpoint protection username and password
+    spring.security.user.name=scenarioo
+    spring.security.user.password=<putSomeSecurePasswordHere>
+    
+    # Access Log Config
+    server.tomcat.accesslog.enabled=true
+    server.tomcat.accesslog.directory=<absolute path to log-directory>
+    ```
 
-### Access URL (Standalone runner only)
+* **Environment Variables** (*Suitable for: all kind of deployments and especially the docker image deployment*): 
+Application properties can as well be set by simply setting them as environment variables, in this case you have to uppercase the same property names and use `_` insted of `.` in variable names. Some examples:
+    ```
+    SCENARIOO_DATA=/absolute/dir/to/your/documentation/directory
+    ```
+    For scenarioo docker image you can set environment variables inside the docker container in the `dcoker run` command with option `-e`.
 
-This option is only available if you run scenarioo as standalone app and do not deploy the WAR to a java webserver like tomcat. If you deploy using a server you need to use usual server configuration possibilities to adjust the context path in the URL.
+* **Servlet Context Parameters** (*Suitable for: Running Scenarioo on tomcat web server*): This has the advantage that you can define different properties per scenarioo instance on same web server if you have multiple instances of the app running. You can provide the respective properties as servlet context init parameters in the `context.xml` on your server as follows:
+    ```
+    <Context>
+        <Parameter name="spring.security.user.name" value="scenarioo" override="true" description="HTTP user for publishing documentation data"/>
+        <Parameter name="spring.security.user.password" value="somePassword" override="true" description="HTTP password for publishing documentation data"/>
+    </Context>    
+    ```
 
-Configure the access URL under which the app should be deployed by creating the file `application.properties` next to the downloaded standalone runnable war, with the following entry
+There are many more ways how these properties can be exposed to the application. For a full list, please refer to the [Externalized Configuration](https://docs.spring.io/spring-boot/docs/2.0.2.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config) section in the official Spring Boot documentation.
+
+In following sections you find all properties you can configure like this with some explanation.
+
+### Access URL
+
+This option is only available if you not run scenarioo as a WAR deployment that you deploy to a java web server like tomcat. If you deploy as a WAR deployment to a web server you need to use usual server configuration possibilities to adjust the context path in the URL instead.
+
+Simply set the application property `server.servlet.contextPath` e.g. as in following example in `application.properties` file:
     ```
     server.servlet.contextPath=/my-scenarioo-path
     ```
-If this file or property in the file is missing, the app can be reached under the default context URL ending with `/scenarioo`.
+
+If this application property is not set the app can be reached under the default context URL ending with `/scenarioo`.
+
+See [Application Properties](#application-properties) for different ways how you can set such properties.         
 
 ### Access Log
 
-You can enable scenarioo to log all requested REST calls in a special access log, if you wish so in `application.properties`:
+You can enable scenarioo to log all requested REST calls in a special access log, by setting following application properties:
      ```
      server.tomcat.accesslog.enabled=true
      server.tomcat.accesslog.directory=<absolute path to log-directory>
      ```
+See [Application Properties](#application-properties) for different ways how you can set such properties.         
      
 ### Authentication for Secured REST API
 
@@ -43,45 +81,13 @@ In this case, the default user name has been set to `scenarioo`. The random pass
 Using generated security password: 67f584b8-04e6-46b3-af57-90f037c0ca5b
 ```
 
-Based on the flexibility of Spring Boot configuration property resolution, there are various ways how the user/password combination can be overridden.
-
-#### Provide an application.properties file
-
-*Suitable for: Running Scenarioo as standalone WAR*.
-
+You can use following application properties to set the username and password differently:
 ```
 spring.security.user.name=scenarioo
 spring.security.user.password=somePassword
 ```
 
-For more information on where the application.properties file should be placed and what other configuration options it offers see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md#running-scenarioo-as-standalone-application). 
-
-#### Provide as environment variables
-
-*Suitable for: Running Scenarioo as Docker image or standalone WAR*
-
-Because of the underlying configuration property resolution, it is possible to define them as environment variables like this:
-
-```
-SPRING_SECURITY_USER_NAME=scenarioo
-SPRING_SECURITY_USER_PASSWORD=somePassword
-```
-
-#### Provide as servlet context parameters
-
-*Suitable for: Running Scenarioo on a separate Tomcat web server*
-
-To configure user and password on a Tomcat, you can provide the respective properties as servlet context init parameters in the `context.xml`.
-
-```
-<Context>
-    <Parameter name="spring.security.user.name" value="scenarioo" override="true" description="HTTP user for publishing documentation data"/>
-    <Parameter name="spring.security.user.password" value="somePassword" override="true" description="HTTP password for publishing documentation data"/>
-</Context>    
-```
-
-There are many more ways how these properties can be exposed to the application. For a full list, please refer to the [Externalized Configuration](https://docs.spring.io/spring-boot/docs/2.0.2.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config) 
-section in the official Spring Boot documentation.
+See [Application Properties](#application-properties) for different ways how you can set such properties.         
 
 ## Configure Advanced Features
 
