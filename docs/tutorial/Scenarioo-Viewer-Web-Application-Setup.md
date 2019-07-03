@@ -4,28 +4,34 @@
 
 Instead of installing the Scenarioo Viewer web app by yourself (as described below) you can simply run Scenarioo as a docker image: See [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md) for instructions.
 
-## Download as WAR
+## Download
 
 The latest stable Scenarioo web application WAR file can be downloaded from the release section:
 [Scenarioo Webapplication Releases](https://github.com/scenarioo/scenarioo/releases)
 
-Scenarioo requires Java 8 or higher.
+Scenarioo requires Java 8 or higher. 
+
+You can directly run the standalone runnable WAR without needing to install any application server or you can choose to deploy it to your application server of choice (e.g. tomcat), this is up to you. See next section about installation and setup.
 
 Further Release Candidate Versions are available through [Downloads & Links](../downloads-and-links.md), if you want to to test newer versions not yet officially released.
 
 ## Installation and Setup
 
-### Running Scenarioo as Standalone Application
+Choose one of the two following setups explained in following sections:
+* **[Setup 1 - Running as Standalone Application](#setup-1---running-as-standalone-application):** Scenarioo is packaged as spring boot application with an included tomcat web server to run it directly without the need to install and deploy to a web server. 
+* **[Setup 2 - Deploy WAR on Web Server](#setup-2---deploy-war-on-web-server):** this is as before the standalone runner was available, you need to have a web server (like e.g. tomcat) you can deploy to.
+
+### Setup 1 - Running as Standalone Application
+
+Run scenarioo directly without the need to install a web server.
 
 1. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
     
-    To configure a different directory to use add the following line to `application.properties` next to the downloaded war:  
+    To configure a different data directory either set the environment variable `SCENARIOO_DATA` or add the following line to `application.properties` next to the downloaded war:  
     ```
     scenarioo.data=<path to a directory where scenarioo can store its data>
     ```
     
-    
-
 2. **Execute the WAR** file with Java, e.g 
      ```
      cd <war-location>
@@ -36,9 +42,9 @@ Further Release Candidate Versions are available through [Downloads & Links](../
 
 4. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md).
 
-### Installing Scenarioo on Webserver
+### Setup 2 - Deploy WAR on Web Server
 
-Alternatively you can install your favorite Webserver (e.g.Tomcat) and deploy the WAR into it.
+Alternatively you can deploy the scenarioo WAR file into your favorite Webserver (e.g.Tomcat).
 
 1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 8.5.31+ or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
 
