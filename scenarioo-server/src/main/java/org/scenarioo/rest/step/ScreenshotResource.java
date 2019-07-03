@@ -50,11 +50,28 @@ public class ScreenshotResource {
 	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
 	 * the filename of the image.
 	 */
-	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/*")
-	public ResponseEntity getScreenshot(@PathVariable("branchName") final String branchName,
-			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
-			@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
+	@GetMapping(path = "{scenarioName}/image/{imageFileName}.png", produces = "image/png")
+	public ResponseEntity getScreenshotPng(@PathVariable("branchName") final String branchName,
+										   @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+										   @PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
 
+		return getScreenshot(branchName, buildName, usecaseName, scenarioName, imageFileName + ".png");
+	}
+
+	/**
+	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
+	 * the filename of the image.
+	 * Additional method with produces=image/jpeg is needed, as IE 11 is a bit picky in its accept headers, so produces image/* does not work for jpeg images.
+	 */
+	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/jpeg")
+	public ResponseEntity getScreenshotJpeg(@PathVariable("branchName") final String branchName,
+										   @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+										   @PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
+
+		return getScreenshot(branchName, buildName, usecaseName, scenarioName, imageFileName);
+	}
+
+	private ResponseEntity getScreenshot(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, @PathVariable("usecaseName") String usecaseName, @PathVariable("scenarioName") String scenarioName, @PathVariable("imageFileName") String imageFileName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
 				buildName);
 		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
@@ -80,15 +97,15 @@ public class ScreenshotResource {
 	/**
 	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
 	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
-	 * Additional method with produces=image/jpg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
+	 * Additional method with produces=image/jpeg is needed, as firefox is a bit picky in its accept headers, so produces image/* does not work.
 	 */
-	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpg")
-	public ResponseEntity getScreenshotStableJpg(@PathVariable("branchName") final String branchName,
-											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
-											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
-											  @PathVariable("pageOccurrence") final int pageOccurrence,
-											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
+	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
+	public ResponseEntity getScreenshotStableJpeg(@PathVariable("branchName") final String branchName,
+												  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+												  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+												  @PathVariable("pageOccurrence") final int pageOccurrence,
+												  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+												  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
 
 		return getScreenshotStable(branchName, buildName, usecaseName, scenarioName, pageName, pageOccurrence, stepInPageOccurrence, fallback, labels);
 	}
