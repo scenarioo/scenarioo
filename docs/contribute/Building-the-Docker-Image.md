@@ -11,9 +11,9 @@ Prerequisite: You need to have docker installed on your machine. On Ubuntu this 
 3. Put the `scenarioo.war` next to the Dockerfile into same directory and rename the WAR to `scenarioo.war` without version number.
 4. Open a bash and navigate to the directory which contains the files
 5. Now run the following command:  
-`sudo docker build -t scenarioo/webapp:x.y.z .`
+`sudo docker build -t scenarioo/webapp:x.y.z -t scenarioo/webapp:latest .`
 where `x.y.z` stands for the Scenarioo version you are building the docker image for.
-`build` is the docker command and the -t options allows to tag/name the created image (repository/artifact:tag). For more options view the docs.
+`build` is the docker command and the -t options allows to tag/name the created image (repository/artifact:tag). For more options view the docs. We tag it twice, with the actual version and with latest.
 6. Use `sudo docker images` to verify the existence of the created image
 7. Now you are ready to run (see ["Run Scenarioo Docker Image"](../tutorial/Scenarioo-Viewer-Docker-Image#run-scenarioo-docker-image)) or push (see [Push image to Dockerhub](#Push-image-to-Dockerhub)) your image.
 

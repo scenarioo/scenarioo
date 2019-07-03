@@ -21,7 +21,7 @@ describe('Filter scDateTime', function () {
 
     beforeEach(angular.mock.module('scenarioo.filters'));
 
-    var DATE_TIMESTAMP = 1398892164148;
+    var DATE_TIMESTAMP = new Date(2014, 3, 30, 23, 9).getTime();
     var DATE_UNDEFINED;
     var DATE_EMPTY_STRING = '';
 

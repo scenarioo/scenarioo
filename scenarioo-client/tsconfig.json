@@ -1,12 +1,16 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "allowSyntheticDefaultImports": true
-  }
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "lib": [
+            "ES2015",
+            "DOM"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "allowSyntheticDefaultImports": true
+    }
 }
