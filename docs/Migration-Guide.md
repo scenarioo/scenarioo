@@ -4,13 +4,23 @@ Guide on how to upgrade for major versions of scenarioo.
 
 ## 4.x to 5.x
 
-### Migration to Spring Boot
+### Breaking Changes
 
-* The Scenarioo viewer has been migrated to a Spring Boot application. You can now run Scenarioo as a standalone WAR file in addition to deploying it to a webserver.
-    * Refer to the [Scenarioo setup guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) for more information about the different ways to run Scenarioo.
-* The mechanism for securing the REST resource for build uploads has changed.
-    * User and password for the HTTP authentication can no longer be set in `tomcat-users.xml`.
-    * If you were using this feature before, read the section on [how to publish documentation data](tutorial/Publish-Documentation-Data.md#b-http-post-request) to see how this is done now.
+* Security mechanism for authentication to secured REST endpoint has changed. You need to follow below steps to ensure the new deployed version has same username and password as was the case before.
+
+### Migration
+
+Follow these simple steps to migrate:
+
+1. Update the scenarioo application:
+    * refer to [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) for details
+    * consider that there is a new option to also run scenarioo as a standalone web application (if you like so) instead of deploying the WAR to a web server or running it as a docker (as before)
+
+2. Make sure you configure the same username and password for REST endpoints in the new way:
+   * User and password for the HTTP authentication where usually configured in `tomcat-users.xml` before, which will not be considered anymore.
+   * Instead you can configure the same username and password now, as explained here: [Configuration of Authentication for Secured REST API](Configuration.md#authentication-for-secured-rest-api)
+
+3. Restart the scenarioo server/app and enjoy the new version :-)
 
 ## 3.x to 4.x
 
