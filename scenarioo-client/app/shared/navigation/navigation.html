@@ -51,6 +51,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                    child-element-type="use case"></sc-diff-info-icon>
             </a>
             <ul class="dropdown-menu">
+                <span
+                    id="createComparisonBtn"
+                    class="btn btn-sm btn-primary breadcrumb-button"
+                    ng-click="$ctrl.createComparison()"
+                    uib-tooltip="Compare current build with results from other build"
+                    tooltip-placement="bottom">
+                    <i class="fas fa-exchange-alt"></i>
+                    Create Comparison ...
+                </span>
                 <li ng-repeat="comparisonBuild in $ctrl.comparisonBuilds">
                     <a ng-click="$ctrl.setComparisonBuild(comparisonBuild)">
                         {{comparisonBuild.name}}
@@ -62,6 +71,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <a ng-click="$ctrl.disableComparison()">Disable</a>
                 </li>
             </ul>
+        </li>
+
+        <li ng-if="$ctrl.comparisonBuilds.length == 0">
+            <span
+                id="createComparisonBtnAlone"
+                class="btn btn-sm btn-primary"
+                ng-click="$ctrl.createComparison()"
+                uib-tooltip="Compare current build with results from other build"
+                tooltip-placement="bottom">
+                <i class="fas fa-exchange-alt"></i>
+                Create Comparison ...
+            </span>
         </li>
 
     </ul>

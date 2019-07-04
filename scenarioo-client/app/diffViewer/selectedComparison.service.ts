@@ -19,7 +19,6 @@ angular.module('scenarioo.services').service('SelectedComparison', SelectedCompa
 
 declare var angular: angular.IAngularStatic;
 
-
 function SelectedComparisonService($location, $rootScope, localStorageService) {
     const COMPARISON_KEY = 'comparison';
     const COMPARISON_DISABLED = 'Disabled';
@@ -118,4 +117,3 @@ export class SelectedComparison {
 
      }
 }
-

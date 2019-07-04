@@ -1,4 +1,5 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -33,6 +34,7 @@ import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
+import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 
 @NgModule({
     declarations: [
@@ -84,11 +86,14 @@ import {CollapseModule} from 'ngx-bootstrap/collapse';
         LabelConfigurationService,
         BuildDiffInfoService,
         BuildDiffInfosService,
+        SharePageURL,
+        Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
+        {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
 })
 export class AppModule {

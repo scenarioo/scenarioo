@@ -2,20 +2,44 @@
 
 ## Version 5.0.0
 
-### Migration to a Spring Boot based application
+### Scenarioo Standalone Runner
 
-* [#724 - Migration to Spring Boot](https://github.com/scenarioo/scenarioo/issues/724)
-* [#778 - Use Spring Security for REST endpoints](https://github.com/scenarioo/scenarioo/issues/788)
+* [#724 - Scenarioo Standalone Runner](https://github.com/scenarioo/scenarioo/issues/724): From now on you can run scnenarioo without needing to install a Tomcat or similar java application server, just refer to our [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) 
+* [#778 - Secured REST Endpoints using Spring Security](https://github.com/scenarioo/scenarioo/issues/788): The way the api key (or password) for using secured REST endpoints has to be configured has fundamentaly changed by introducing Spring Security. For more details, please refer to the [Migration Guide](Migration-Guide.md) 
 
-With version 5, the Scenarioo application has been migrated to Spring Boot. 
-Because of the switch, the security mechanism for uploading a build via REST endpoint has changed.
-For more details, please refer to the [Migration Guide](Migration-Guide.md)
+### Small Fixes and Improvements
 
-### Bugfixes
-
-* [#727 - Build Import: UI issues](https://github.com/scenarioo/scenarioo/issues/727): Information displayed while a build is being imported was improved.
-* [#717 - Diff Viewer: Styling and UI issues](https://github.com/scenarioo/scenarioo/issues/717): Various usability improvements. 
+* [#717 - Diff Viewer: Styling and UI issues](https://github.com/scenarioo/scenarioo/issues/717): Various usability improvements.
+* [#727 - Build Import: UI issues](https://github.com/scenarioo/scenarioo/issues/727): Information displayed while a build is being imported was improved. 
 * [#895 - Share this page Screenshot link broken for Sketch](https://github.com/scenarioo/scenarioo/issues/895): The share this page dialog shows the correct image link again when sharing sketches.
+* [#900 - Application Info Popup disappears if query parameters were not provided](https://github.com/scenarioo/scenarioo/issues/900): The application information popup will now also be shown if the application is visited for the first time without query parameters.
+
+### Breaking Changes and Backwards Compatibility
+
+* **Changed Configuration of password for secured REST API calls:** 
+The security mechanism for secured REST endpoints (e.g. to upload a build via REST call) has changed. Therefore the password for these rest endpoints needs to be configured differently. For more details, please refer to the [Migration Guide](Migration-Guide.md) on how to adjust this configuration when migrating.
+
+Apart from this small config change there are no other breaking changes. 
+
+You can still deploy Scenarioo as a WAR to your Tomcat, although this is not needed anymore by using the new standalone deployment, as mentioned above. 
+
+### Supported Scenarioo Format
+
+* The used Scenarioo Data format is still version 2.1. You can safely use Scenarioo 5.0 with the same data format as before and do not have to upgrade the used Scenarioo writer library to use the new Scenarioo viewer version. 
+* The internal format has not been changed either, so you do not even have to reimport your builds that have been imported with the previous version in the data directory. All build and comparison data will still work with the new version.
+
+### Fixed Issues
+
+All issues fixed in this release: [List of Fixed Issues](https://github.com/scenarioo/scenarioo/milestone/36?closed=1).
+
+### Known Issues
+
+Please visit our [List of Known Issues on GitHub](https://github.com/scenarioo/scenarioo/issues?q=is%3Aopen+is%3Aissue+label%3A%22known+issue%22).
+
+### Feedback and Support
+
+Don't hesitate to open new issues if you find a bug or problem, or have feedback or questions:
+https://github.com/scenarioo/scenarioo/issues/new?labels=feedback
 
 ## Version 4.0.1
 
@@ -81,7 +105,7 @@ All issues fixed in this release: [List of Fixed Issues](https://github.com/scen
 
 ### Known Issues
 
-Please visit our [List of Known Issues on GitHub](https://github.com/scenarioo/scenarioo/labels/known-issue).
+Please visit our [List of Known Issues on GitHub](https://github.com/scenarioo/scenarioo/issues?q=is%3Aopen+is%3Aissue+label%3A%22known+issue%22).
 
 ### Feedback and Support
 

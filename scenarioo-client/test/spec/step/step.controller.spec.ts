@@ -347,9 +347,6 @@ describe('StepController', () => {
             expect($scope.httpResponse.status).toEqual(500);
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
-            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled');
-            //TODO restore expected after getting rid of the mocks after the angular migration. Not quite sure where branch and build is set for $location.absUrl()
-            //expect($scope.getCurrentUrl()).toEqual('http://server/#?branch=trunk&build=current&comparison=Disabled');
         });
 
         function tryToLoadNotExistingStep() {

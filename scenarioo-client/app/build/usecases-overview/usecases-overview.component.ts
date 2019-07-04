@@ -7,6 +7,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
+import {catchError} from 'rxjs/operators';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -39,23 +40,23 @@ export class UseCasesComponent {
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison,) {
+                private selectedComparison: SelectedComparison ) {
 
     }
 
     ngOnInit(): void {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
-            this.branchesAndBuildsService.getBranchesAndBuilds().then(branchesAndBuilds => {
-                //console.log(branchesAndBuilds);
+            this.branchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
+                // console.log(branchesAndBuilds);
                 this.useCasesResource.query({
                     branchName: selection.branch,
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
                     this.usecases = useCaseSummaries;
-                    //console.log(useCaseSummaries);
+                    // console.log(useCaseSummaries);
                 });
-            });
+            }).catch((error: any) => console.warn(error));
         });
 
         this.labelConfigurationsResource.query()
@@ -68,8 +69,12 @@ export class UseCasesComponent {
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
         console.log(this.sortedUsecases);
 
-        //this.comparisonInfo = this.selectedComparison.info;
-
+        /*
+        this.selectedComparison.callOnSelectionChange((info) => {
+            this.comparisonInfo = info;
+        });
+        console.log(this.comparisonInfo);
+        */
     }
 
     resetSearchField() {
@@ -86,21 +91,17 @@ export class UseCasesComponent {
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
-            case "ArrowDown":
+            case 'ArrowDown':
                 this.arrowkeyLocation++;
                 break;
-            case "ArrowUp":
+            case 'ArrowUp':
                 this.arrowkeyLocation--;
                 break;
-            case "Enter":
-                console.log("enter is working ");
-                //this.goToUseCase(this.useCaseName);
+            case 'Enter':
+                console.log('enter is working');
+                // this.goToUseCase(this.useCaseName);
                 break;
         }
-    }
-
-    handleEvent(event) {
-            console.log("newEnterKeyIsWorking" + event);
     }
 
     goToUseCase(useCase) {
