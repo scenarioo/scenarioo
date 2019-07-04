@@ -10,9 +10,9 @@ This page explains all these more advanced configuration options and how to conf
 
 Application properties as described in following sections can be configured based on the flexibility of Spring Boot configuration property resolution in different ways.
 
-Choose one of the following options how to configure such application properties for your kind of setup of scenarioo:
+Choose one of the following options how to configure such application properties for your kind of setup of Scenarioo:
 
-* **application.properties file** (*Suitable for: Running Scenarioo as standalone application*): simply write the properties to set into an `application.properties` file next to the standalone scenarioo application file from where you start it. Here's a simple example to set most important properties:
+* **application.properties file** (*Suitable for: Running Scenarioo as standalone application*): simply write the properties to set into an `application.properties` file next to the standalone Scenarioo application file from where you start it. Here's a simple example to set most important properties:
     ```
     # Data Directory
     scenarioo.data=/absolute/dir/to/your/documentation/directory
@@ -30,13 +30,13 @@ Choose one of the following options how to configure such application properties
     ```
 
 * **Environment Variables** (*Suitable for: all kind of deployments and especially the docker image deployment*): 
-Application properties can as well be set by simply setting them as environment variables, in this case you have to uppercase the same property names and use `_` insted of `.` in variable names. Some examples:
+Application properties can as well be set by simply setting them as environment variables, in this case you have to uppercase the same property names and use `_` instead of `.` in variable names. Some examples:
     ```
     SCENARIOO_DATA=/absolute/dir/to/your/documentation/directory
     ```
-    For scenarioo docker image you can set environment variables inside the docker container in the `dcoker run` command with option `-e`.
+    For Scenarioo docker image you can set environment variables inside the docker container in the `dcoker run` command with option `-e`.
 
-* **Servlet Context Parameters** (*Suitable for: Running Scenarioo on tomcat web server*): This has the advantage that you can define different properties per scenarioo instance on same web server if you have multiple instances of the app running. You can provide the respective properties as servlet context init parameters in the `context.xml` on your server as follows:
+* **Servlet Context Parameters** (*Suitable for: Running Scenarioo on Tomcat web server*): This has the advantage that you can define different properties per Scenarioo instance on same web server if you have multiple instances of the app running. You can provide the respective properties as servlet context init parameters in the `context.xml` on your server as follows:
     ```
     <Context>
         <Parameter name="spring.security.user.name" value="scenarioo" override="true" description="HTTP user for publishing documentation data"/>
@@ -50,7 +50,7 @@ In following sections you find all properties you can configure like this with s
 
 ### Access URL
 
-This option is only available if you not run scenarioo as a WAR deployment that you deploy to a java web server like tomcat. If you deploy as a WAR deployment to a web server you need to use usual server configuration possibilities to adjust the context path in the URL instead.
+This option is only available if you not run Scenarioo as a WAR deployment that you deploy to a java web server like Tomcat. If you deploy as a WAR deployment to a web server you need to use usual server configuration possibilities to adjust the context path in the URL instead.
 
 Simply set the application property `server.servlet.contextPath` e.g. as in following example in `application.properties` file:
     ```
@@ -63,7 +63,7 @@ See [Application Properties](#application-properties) for different ways how you
 
 ### Access Log
 
-You can enable scenarioo to log all requested REST calls in a special access log, by setting following application properties:
+You can enable Scenarioo to log all requested REST calls in a special access log, by setting following application properties:
      ```
      server.tomcat.accesslog.enabled=true
      server.tomcat.accesslog.directory=<absolute path to log-directory>
@@ -72,7 +72,7 @@ See [Application Properties](#application-properties) for different ways how you
      
 ### Authentication for Secured REST API
 
-Some REST APIs (e.g. for publishing documentation data) are secured by a password. This password can be configured in several ways depending on your scenarioo server setup:
+Some REST APIs (e.g. for publishing documentation data) are secured by a password. This password can be configured in several ways depending on your Scenarioo server setup:
 
 By default, Spring Security in a Spring Boot 2 application configures a user `user` with a random password to secure all REST endpoints.
 In this case, the default user name has been set to `scenarioo`. The random password is printed in the log output at application startup and looks like this:
@@ -91,11 +91,11 @@ See [Application Properties](#application-properties) for different ways how you
 
 ## Configure Advanced Features
 
-1. Locate the `config.xml` file: it is in your scenarioo documentation data folder that you configured. If you do not find it there: It means either that you use an older version of scenarioo or that you never saved the configuration before. Go to the Scenarioo configuraiton web page and choose to save the settings once --> this will save the configuration to the file.
+1. Locate the `config.xml` file: it is in your Scenarioo documentation data folder that you configured. If you do not find it there: It means either that you use an older version of Scenarioo or that you never saved the configuration before. Go to the Scenarioo configuration web page and choose to save the settings once --> this will save the configuration to the file.
 
 2. Edit the file - according to following sections where the configurable features are explained - and save your changes.
 
-3. Restart scenarioo such that the changes are being loaded.
+3. Restart Scenarioo such that the changes are being loaded.
 
 ### Branch Selection List Ordering
 
