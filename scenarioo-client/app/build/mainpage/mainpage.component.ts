@@ -8,7 +8,6 @@ import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.servi
 
 declare var angular: angular.IAngularStatic;
 
-
 @Component({
     selector: 'sc-mainpage',
     template: require('./mainpage.component.html'),
@@ -40,12 +39,12 @@ export class MainPageComponent implements OnInit {
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.tabs = configuration.customObjectTabs
                 .map((customObjectTab: ICustomObjectTab) => {
-                    return {title: customObjectTab.tabTitle, content: 'tbd'}
+                    return {title: customObjectTab.tabTitle, content: 'tbd'};
                 });
             this.defineLastStaticTabs();
         });
 
-        this.pageUrl = (function () {
+        this.pageUrl = (function() {
             if (this.sharePageURL.getPageUrl() !== undefined) {
                 return this.sharePageURL.getPageUrl();
             } else {

@@ -115,7 +115,7 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
             controllerAs: 'vm',
             windowClass: 'modal-small',
         });
-    }
+    };
 
     function resetComparisonSelection() {
         ctrl.comparisonBuilds = [];
