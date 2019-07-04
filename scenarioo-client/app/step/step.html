@@ -17,16 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 
-<div ng-show="stepNotFound" id="stepNotFoundErrorMessage">
-    <div class="alert alert-warning" role="alert">
-        <div class="sc-alert-title">The step you are looking for does not exist</div>
-        <p>URL: {{getCurrentUrl()}}</p>
-        <p>REST URL to get step: {{httpResponse.url}}</p>
-        <p>HTTP method: <span id="stepNotFoundErrorResponseMethod">{{httpResponse.method}}</span></p>
-        <p>HTTP response status: <span id="stepNotFoundErrorResponseStatus">{{httpResponse.status}}</span></p>
-        <p>Response data: {{httpResponse.data}}</p>
-    </div>
-</div>
+<sc-step-not-found-div ng-show="stepNotFound" response="httpResponse"></sc-step-not-found-div>
 
 <div ng-show="fallback" id="fallbackMessage">
     <div class="alert alert-warning" role="alert">

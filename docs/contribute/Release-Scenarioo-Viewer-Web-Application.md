@@ -79,10 +79,10 @@ Once everything is ready to release and well tested, proceed as follows:
     ```
     We use version number like `4.0.0` (NO `v` prefix!)
     
-  * Trigger a release build on CircleCI with the new tag on the release branch.
+  * Restart the latest release build on CircleCI on the release branch, which has the same commit id as the tag.
     As the build uses the git tag as a version number, it's important to distribute a build artifact that was built after the tag was pushed!
     
-  * Once the build has completed on release branch download the built WAR file (the one with the version number) as the final release artifact (to be published later)
+  * Once the build has completed on release branch download the built WAR file (scenarioo.war) as the final release artifact and rename it to scenarioo-<version>.war (to be published later).
 
 ### Build Docker Image and Publish to Dockerhub
 
