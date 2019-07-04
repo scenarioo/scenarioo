@@ -13,7 +13,7 @@
 
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
-        <table class="table table-curved table-hover table-responsive usecase-table">
+        <table class="table table-curved table-responsive usecase-table">
             <thead>
             <tr>
                 <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
@@ -68,7 +68,7 @@
             <tbody>
             <tr (click)="goToUseCase(dynamicUseCase.name)"
                 *ngFor="let dynamicUseCase of usecases  | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" (keyup)="handleEvent(dynamicUseCase.name)" >
+                let i = index" [class.active]="i == arrowkeyLocation" (keyup.enter)="goToUseCase(dynamicUseCase.name)">
                 <td>
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>

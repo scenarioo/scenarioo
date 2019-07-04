@@ -26,7 +26,6 @@ export class UseCasesComponent {
     reverse: boolean = false;
 
     arrowkeyLocation = 0;
-    hideElement: true;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
@@ -70,8 +69,12 @@ export class UseCasesComponent {
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
         console.log(this.sortedUsecases);
 
-        // this.comparisonInfo = this.selectedComparison.info;
-
+        /*
+        this.selectedComparison.callOnSelectionChange((info) => {
+            this.comparisonInfo = info;
+        });
+        console.log(this.comparisonInfo);
+        */
     }
 
     resetSearchField() {
@@ -96,13 +99,9 @@ export class UseCasesComponent {
                 break;
             case 'Enter':
                 console.log('enter is working');
-                // this.goToUseCase(this.useCaseName);
+                //this.goToUseCase(this.useCaseName);
                 break;
         }
-    }
-
-    handleEvent(event) {
-            console.log('newEnterKeyIsWorking' + event);
     }
 
     goToUseCase(useCase) {

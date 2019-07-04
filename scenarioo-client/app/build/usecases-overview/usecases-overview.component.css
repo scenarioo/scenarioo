@@ -17,6 +17,11 @@ sc-usecases-overview .bot, .selectedBot {
     position: relative;
 }
 
-sc-usecases-overview .table {
+sc-usecases-overview .table thead span {
     cursor: pointer;
+}
+
+sc-usecases-overview .table tbody>tr:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
 }
