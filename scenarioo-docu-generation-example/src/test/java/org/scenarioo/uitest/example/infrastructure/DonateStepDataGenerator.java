@@ -77,7 +77,7 @@ public class DonateStepDataGenerator {
 			// a page name of null means that this step does not exist in a certain build run.
 			return;
 		}
-		byte[] screenshot = PngLoader.loadPngFile("donate/" + fileName);
+		byte[] screenshot = StepImageLoader.loadStepImageFile("donate/" + fileName).getScreenshot();
 		saveStepWithScreenshot(screenshot, pageName);
 	}
 

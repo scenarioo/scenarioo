@@ -208,4 +208,4 @@ A file structure example:
          * scenarioName1
            * ...
 
-When you delete a build directory also all contained comparisons will be removed.
+When you delete a build directory all contained comparisons will be removed as well.
