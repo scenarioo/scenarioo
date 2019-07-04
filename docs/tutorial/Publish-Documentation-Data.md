@@ -2,11 +2,11 @@
 
 Documentation data can be published in two ways.
 
-## A) Copy into documentation directory
+## A) Copy into the documentation directory
 
-1. Generate or copy the data into the directory that Scenarioo shows under `Manage > General Settings > General > Documentation Data Directory Path`. This folder can be changed, see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md). In case you are generating your documentation directly into this directory you should write the `build.xml` file as the last file, to ensure that a build does not get imported before all required files are available.
+1. Generate or copy the data into the directory that Scenarioo shows under `Manage > General Settings > General > Documentation Data Directory Path`. To change this folder, see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md#installation-and-setup). In case that you are generating your documentation directly into this directory you should write the `build.xml` file as the last file, to ensure that a build does not get imported before all required files are available.
 
-2. To import newly added builds call the HTTP GET REST endpoint `<your-scenarioo-url>/rest/builds/updateAndImport` to update the currently available builds and importing unimported (newly added) build(s).
+2. To import newly added builds call the HTTP GET REST endpoint `<your-scenarioo-url>/rest/builds/updateAndImport` to update the currently available builds and start importing unimported (newly added) build(s).
 
 **Up to Version 2.0.1 of Scenarioo, this is the only possible way to publish data.**
 
