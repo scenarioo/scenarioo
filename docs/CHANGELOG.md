@@ -4,8 +4,8 @@
 
 ### Scenarioo Standalone Runner
 
-* [#724 - Scenarioo Standalone Runner](https://github.com/scenarioo/scenarioo/issues/724): From now on you can run scnenarioo without needing to install a tomcat or similar java application server, just refer to our [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) 
-* [#778 - Secured REST Endpoints using Spring Security](https://github.com/scenarioo/scenarioo/issues/788): The way the api key (or password) for using secured REST endpoints has to be configured has fundamentaly changed by introducing Spring Security. For more details, please refer to the [Migration Guide](Migration-Guide.md) 
+* [#724 - Scenarioo Standalone Runner](https://github.com/scenarioo/scenarioo/issues/724): From now on you can run Scenarioo without needing to install a Tomcat or similar java application server, just refer to our [Scenarioo Setup Guide](http://scenarioo.org/docs/5.0/tutorial/Scenarioo-Viewer-Web-Application-Setup.html) 
+* [#778 - Secured REST Endpoints using Spring Security](https://github.com/scenarioo/scenarioo/issues/788): The way the api key (or password) for using secured REST endpoints has to be configured has fundamentaly changed by introducing Spring Security. For more details, please refer to the [Migration Guide](http://scenarioo.org/docs/5.0/Migration-Guide.html) 
 
 ### Small Fixes and Improvements
 
@@ -17,16 +17,16 @@
 ### Breaking Changes and Backwards Compatibility
 
 * **Changed Configuration of password for secured REST API calls:** 
-The security mechanism for secured REST endpoints (e.g. to upload a build via REST call) has changed. Therefore the password for these rest endpoints needs to be configured differently. For more details, please refer to the [Migration Guide](Migration-Guide.md) on how to adjust this configuration when migrating.
+The security mechanism for secured REST endpoints (e.g. to upload a build via REST call) has changed. Therefore the password for these rest endpoints needs to be configured differently. For more details, please refer to the [Migration Guide](http://scenarioo.org/docs/5.0/Migration-Guide.html) on how to adjust this configuration when migrating.
 
 Apart from this small config change there are no other breaking changes. 
 
-You can still deploy scenarioo as a WAR to your tomcat, although this is not needed anymore by using the new standalone deployment, as mentioned above. 
+You can still deploy Scenarioo as a WAR to your Tomcat, although this is not needed anymore by using the new standalone deployment, as mentioned above. 
 
 ### Supported Scenarioo Format
 
-* Used Scenarioo Data format is still version 2.1. You can safely use scenarioo 5.0 with same data format as before and do not have to upgrade any used scenarioo writer library to use new scenarioo viewer version with. 
-* Also internal format has not been changed so you do not even have to reimport your builds that have been imported with previous version in the data directory. All build and comparison data will still work with new version.
+* The used Scenarioo Data format is still version 2.1. You can safely use Scenarioo 5.0 with the same data format as before and do not have to upgrade the used Scenarioo writer library to use the new Scenarioo viewer version. 
+* The internal format has not been changed either, so you do not even have to reimport your builds that have been imported with the previous version in the data directory. All build and comparison data will still work with the new version.
 
 ### Fixed Issues
 
