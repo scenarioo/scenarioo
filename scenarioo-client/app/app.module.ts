@@ -26,18 +26,13 @@ import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.servic
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
-import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
-import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
-import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
-import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
-import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
