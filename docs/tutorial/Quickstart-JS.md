@@ -139,7 +139,7 @@ npm test
  
 * Configure the Scenarioo data directory where Scenarioo can store and read its data.  Create the file `application.properties` next to the downloaded war with the following line:  
     ```
-    org.scenarioo.data=<path to a directory where scenarioo can store its data>
+    scenarioo.data=<path to a directory where scenarioo can store its data>
     ```
 
 * Start up Scenarioo with `java -jar scenarioo-x.y.z.war`.

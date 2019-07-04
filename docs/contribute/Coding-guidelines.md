@@ -111,5 +111,5 @@ https://github.com/scenarioo/scenarioo-cs/blob/master/scenarioo-cs.sln.DotSettin
 ## Licence Headers
 In every sourcefile (*.java, *.gradle, *.js, *.css, *.html,...) the correct licence header must be contained. Please always make sure that the correct header is included before adding it to version control.
 
-For the scenarioo-client module the code template settings (for *.js, *.css and *.html) in your favourite IDE must be configured by yourself (see below).
+For the scenarioo-client module the code template settings (for *.js, *.css and *.html) in your favorite IDE must be configured by yourself (see below).
 ![Code templates in WebStorms](https://raw.github.com/scenarioo/scenarioo/gh-pages/images/code_templates_in_webstorms.png)
