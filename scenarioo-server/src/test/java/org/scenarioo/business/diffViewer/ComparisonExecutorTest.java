@@ -42,7 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -81,7 +81,7 @@ public class ComparisonExecutorTest {
 	private Build build3 = getBuild(BUILD_NAME_3, Status.SUCCESS, getDateBeforeDays(2));
 
 	@Mock
-	private ExecutorService executorService;
+	private ThreadPoolExecutor threadPoolExecutor;
 
 	@Mock
 	private AliasResolver aliasResolver;
@@ -151,7 +151,7 @@ public class ComparisonExecutorTest {
 
 		when(docuReader.loadBuilds(BRANCH_NAME_1)).thenReturn(getBuilds());
 
-		this.comparisonExecutor = new ComparisonExecutor(executorService, aliasResolver);
+		this.comparisonExecutor = new ComparisonExecutor(threadPoolExecutor, aliasResolver);
 	}
 
 	@Test
@@ -229,6 +229,20 @@ public class ComparisonExecutorTest {
 		assertEquals(BRANCH_NAME_2, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_2, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
+	}
+
+	@Test
+	public void testAreAllComparisonCalculationsFinishedWithNoRunningThreadsReturnsTrue() {
+		when(threadPoolExecutor.getActiveCount()).thenReturn(0);
+
+		assertTrue(comparisonExecutor.areAllComparisonCalculationsFinished());
+	}
+
+	@Test
+	public void testAreAllComparisonCalculationsFinishedWithRunningThreadsReturnsFalse() {
+		when(threadPoolExecutor.getActiveCount()).thenReturn(1);
+
+		assertFalse(comparisonExecutor.areAllComparisonCalculationsFinished());
 	}
 
 	private static Configuration getTestConfiguration() {

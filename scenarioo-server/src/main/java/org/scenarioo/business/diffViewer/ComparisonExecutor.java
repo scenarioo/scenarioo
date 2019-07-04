@@ -39,7 +39,10 @@ import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Executes the comparisons for a base build. Each comparison is executed in a separate thread.
@@ -56,7 +59,7 @@ public class ComparisonExecutor {
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 		configurationRepository.getDocumentationDataDirectory());
 
-	private ExecutorService asyncComparisonExecutor;
+	private ThreadPoolExecutor asyncComparisonExecutor;
 	private AliasResolver aliasResolver;
 
 	/**
@@ -69,7 +72,7 @@ public class ComparisonExecutor {
 	/**
 	 * For unit testing only
 	 */
-	ComparisonExecutor(ExecutorService executorService, AliasResolver aliasResolver) {
+	ComparisonExecutor(ThreadPoolExecutor executorService, AliasResolver aliasResolver) {
 		asyncComparisonExecutor = executorService;
 		this.aliasResolver = aliasResolver;
 	}
@@ -123,6 +126,13 @@ public class ComparisonExecutor {
 	 */
 	public void executeAfterAllPendingComparisonsDone(Runnable task) {
 		asyncComparisonExecutor.execute(task);
+	}
+
+	/**
+	 * @return <code>true</code> if no comparisons are being calculated by asyncComparisonExecutor.
+	 */
+	public boolean areAllComparisonCalculationsFinished() {
+		return asyncComparisonExecutor.getActiveCount() == 0;
 	}
 
 	/**
@@ -447,7 +457,7 @@ public class ComparisonExecutor {
 	/**
 	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
 	 */
-	private static ExecutorService newAsyncComparisonExecutor() {
+	private static ThreadPoolExecutor newAsyncComparisonExecutor() {
 		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 	}
 

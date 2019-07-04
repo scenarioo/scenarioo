@@ -23,9 +23,8 @@
             <span *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length != usecases.length"> of {{usecases.length}}</span>
             Use Case
         </p>
-        <table class="table table-curved table-hover table-responsive usecase-table"
-               *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length!=0">
-            <thead >
+        <table class="table table-curved table-responsive usecase-table">
+            <thead>
             <tr>
                 <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                     Status
@@ -79,7 +78,7 @@
             <tbody>
             <tr (click)="goToUseCase(dynamicUseCase.name)"
                 *ngFor="let dynamicUseCase of usecases  | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" (keyup)="handleEvent(dynamicUseCase.name)" >
+                let i = index" [class.active]="i == arrowkeyLocation" (keyup.enter)="goToUseCase(dynamicUseCase.name)">
                 <td>
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>

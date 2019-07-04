@@ -135,4 +135,11 @@ public class BuildsResource {
 		return new BuildUploader().uploadBuild(formData);
 	}
 
+	@GetMapping("importsAndComparisonCalculationsFinished")
+	public ResponseEntity areAllImportsAndComparisonCalculationsFinished() {
+		boolean allFinished = ScenarioDocuBuildsManager.getInstance().areAllImportsAndComparisonCalculationsFinished();
+
+		return ResponseEntity.ok(allFinished);
+	}
+
 }

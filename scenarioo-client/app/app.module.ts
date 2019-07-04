@@ -22,14 +22,16 @@ import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
+import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
+import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
+import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
+import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
+import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
-import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
-import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
-import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {ScenarioComponent} from './build/scenario-overview/scenario-overview.component';
 
@@ -84,6 +86,8 @@ import {ScenarioComponent} from './build/scenario-overview/scenario-overview.com
         },
         LabelConfigurationService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
+        BuildDiffInfoService,
+        BuildDiffInfosService,
         SharePageURL,
         Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},

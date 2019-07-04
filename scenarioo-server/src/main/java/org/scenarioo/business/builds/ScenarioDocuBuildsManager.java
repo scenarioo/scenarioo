@@ -274,6 +274,13 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 		return buildImporter.getBuildImportStatus(buildIdentifier);
 	}
 
+	/**
+	 * @return <code>true</code> if no builds are being imported and no comparisons are being calculated.
+	 */
+	public boolean areAllImportsAndComparisonCalculationsFinished() {
+		return buildImporter.areAllImportsAndComparisonCalculationsFinished();
+	}
+
 	private static ConfigurationRepository getConfigurationRepository() {
 		return RepositoryLocator.INSTANCE.getConfigurationRepository();
 	}
