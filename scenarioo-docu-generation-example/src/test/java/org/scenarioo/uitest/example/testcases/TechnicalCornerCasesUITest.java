@@ -49,8 +49,8 @@ public class TechnicalCornerCasesUITest extends UITest {
 	
 	@Test
 	@DocuDescription(
-			description = "Dummy scenario with three steps on one page and all special variants of screen annotations")
-	@Labels({ "short", "annotations" })
+			description = "Dummy scenario with three steps on one page and all special variants of screen annotations and many labels on scenario level (with all different kind of breaking characters)")
+	@Labels({ "short", "annotations", "label 1", "label-2", "label_3", "label4", "label 5", "label 6" })
 	public void dummy_scenario_with_screen_annotations_of_all_types_on_one_page() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ONE_PAGE_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/technical-one-page-scenario");
@@ -74,6 +74,17 @@ public class TechnicalCornerCasesUITest extends UITest {
 		// link to next, produces the new steps (one before clicking, one after clicking)
 		toolkit.clickLink("dummy-next-link-not-visible-on-screenshot");
 	}
+
+	@Test
+	@DocuDescription(
+		description = "Dummy scenario with one step that has a jpeg image.")
+	@Labels({ "jpeg" })
+	public void dummy_scenario_with_one_step_that_has_a_jpeg_image() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_JPEG_STEP_IMAGES_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/jpeg-image-page");
+	}
+
+
 
 	private ScreenRegion region(final int colIndex, final int rowIndex, final int spanCols, final int spanRows) {
 		int colWidth = 250;

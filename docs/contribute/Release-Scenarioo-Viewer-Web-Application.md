@@ -15,9 +15,9 @@ In `build.gradle` you have to adjust following version information:
 * `scenariooAggregatedDataFormatVersion`: set it to a new version in case the internal aggregated data format somehow changed in a release, which makes it necessary on an update, that all imported builds need to be reimported. 
 Usually this should be the same as the Scenarioo version that you are going to release. If you are a 100% sure that the internal format did not change since the last release, you can keep the version from the previous release.
 
-**Search Documentation for occurences of old verison number and replace with new version:**
+**Search Documentation for occurrences of old version number and replace with new version:**
 * Do a global search for the old version!
-* update [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md)
+* update [Scenarioo Viewer Docker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md)
 * update any other occurences 
                    
 ## Prepare Release Notes and Migration Guide
@@ -57,10 +57,10 @@ Usually this should be the same as the Scenarioo version that you are going to r
 * See [Documentation and Webpage](Documentation-and-Webpage.md) for further instructions how to configure the documentation for a new release.
  
 * Prepare everything as described in that other instructions on the release branch:
-   * You should at least check that the docu version for the new release branch is properly published under `http://www.scenarioo.org/docs/{version}` (e.g. `/4.0`) - it should be published automatically by Jenkins pipeline on your release branch (see Build Results Page).
-   * Verify also in the published docu for the new version, that the correct new version is displayed and selected in upper left version selection dropdown.
+   * You should at least check that the docu version for the new release branch is properly published under `http://www.scenarioo.org/docs/{version}` (e.g. `/4.0`) - it should be published automatically by the Circle CI pipeline on your release branch (see Build Results Page).
+   * Verify also in the published docu for the new version, that the correct new version is displayed and selected in the version selection dropdown in the upper left corner.
    
-* If for the release the web page needs to be upgraded prepare so on a special release branch as well.
+* If for the release the web page needs to be upgraded, prepare this on a special release branch as well.
 
 ### For any Version - even for patches
 
@@ -79,10 +79,10 @@ Once everything is ready to release and well tested, proceed as follows:
     ```
     We use version number like `4.0.0` (NO `v` prefix!)
     
-  * Trigger a release build on our jenkins with the new tag on the release branch.
-    As the build uses the git tag as a version number, it's important to distribute a build artifact that was build after the tag was pushed!
+  * Restart the latest release build on CircleCI on the release branch, which has the same commit id as the tag.
+    As the build uses the git tag as a version number, it's important to distribute a build artifact that was built after the tag was pushed!
     
-  * Once the build has completed on release branch download the built WAR file (the one with the version number) as the final release artifact (to be published later)
+  * Once the build has completed on release branch download the built WAR file (scenarioo.war) as the final release artifact and rename it to scenarioo-<version>.war (to be published later).
 
 ### Build Docker Image and Publish to Dockerhub
 
@@ -108,7 +108,7 @@ Once everything is ready to release and well tested, proceed as follows:
 * Create a release on github to make the release publicly visible: https://github.com/scenarioo/scenarioo/releases. 
 * For description use the release notes of that release version from CHANGELOG.md in the release description on github.
 * Make sure you safe it first only as a draft and do not publish them yet.  
-* Attach the binary of the release (WAR-file having the right clean version number downloaded from jenkins) to the release notes (see area "Attach binaries by dropping them here ...").
+* Attach the binary of the release (WAR-file having the right clean version number downloaded from CircleCI) to the release notes (see area "Attach binaries by dropping them here ...").
 * Publish the release when done.
 
 ### Publish the Release as signed WAR on Maven Central

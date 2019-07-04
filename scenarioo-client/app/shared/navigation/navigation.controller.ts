@@ -15,42 +15,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers')
-    .controller('NavigationController', NavigationController);
+import {ConfigurationService} from '../../services/configuration.service';
+import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
 
-function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
+declare var angular: angular.IAngularStatic;
+
+angular.module('scenarioo.controllers')
+    .component('scNavigationController', {
+        template: require('./navigation.html'),
+        controller: NavigationController,
+    });
+
+function NavigationController($location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
-                              ConfigService,
+                              ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
-                              BuildDiffInfosResource,
+                              BuildDiffInfosResource: BuildDiffInfosService,
                               SearchEngineStatusService) {
 
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, () => {
-        $scope.applicationName = ConfigService.applicationName();
+    const ctrl = this;
+
+    ConfigurationService.applicationName().subscribe((name) => {
+        ctrl.applicationName = name;
     });
 
-    $scope.$on('branchesUpdated', () => {
-        loadBranchesAndBuilds();
-    });
+    ConfigurationService.getConfiguration().subscribe(loadBranchesAndBuilds);
 
-    $scope.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
-    $scope.comparisonInfo = SelectedComparison.info;
+    ctrl.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
+    ctrl.comparisonInfo = SelectedComparison.info;
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuilds);
 
-    $scope.globalSearch = {
+    ctrl.globalSearch = {
         queryString: '',
     };
 
-    $scope.search = () => {
-        const searchTerm = $scope.globalSearch.queryString;
+    ctrl.search = () => {
+        const searchTerm = ctrl.globalSearch.queryString;
 
         // If the search term is blank nothing happens
         if (!angular.isString(searchTerm) || searchTerm.trim() === '') {
             return;
         }
 
-        // Since angular odes not support encoded slashes in routes, we have to encode it twice.
+        // Since angular does not support encoded slashes in routes, we have to encode it twice.
         // See https://github.com/angular/angular.js/issues/10479
         const searchUrl = '/search/' + encodeURIComponent(encodeURIComponent(searchTerm));
         $location.url(searchUrl);
@@ -58,30 +66,30 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
 
     function loadSearchEngineRunning() {
         SearchEngineStatusService.isSearchEngineRunning().subscribe((result) => {
-            $scope.isSearchEngineRunning = result.running;
+            ctrl.isSearchEngineRunning = result.running;
         });
     }
 
-    $scope.isSearchEngineRunning = loadSearchEngineRunning();
+    ctrl.isSearchEngineRunning = loadSearchEngineRunning();
 
     function loadBranchesAndBuilds() {
         BranchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
-            $scope.branchesAndBuilds = branchesAndBuilds;
+            ctrl.branchesAndBuilds = branchesAndBuilds;
             loadComparisonBuilds();
         });
     }
 
     function loadComparisonBuilds() {
-        if ($scope.branchesAndBuilds && $scope.branchesAndBuilds.selectedBranch && $scope.branchesAndBuilds.selectedBuild) {
-            const baseBranchName = $scope.branchesAndBuilds.selectedBranch.branch.name;
-            const baseBuildName = $scope.branchesAndBuilds.selectedBuild.linkName;
-            BuildDiffInfosResource.query(
-                {baseBranchName, baseBuildName},
-                (buildDiffInfos) => {
-                    $scope.comparisonBuilds = buildDiffInfos;
+        if (ctrl.branchesAndBuilds && ctrl.branchesAndBuilds.selectedBranch && ctrl.branchesAndBuilds.selectedBuild) {
+            const baseBranchName = ctrl.branchesAndBuilds.selectedBranch.branch.name;
+            const baseBuildName = ctrl.branchesAndBuilds.selectedBuild.linkName;
+
+            BuildDiffInfosResource.get(baseBranchName, baseBuildName)
+                .subscribe((buildDiffInfos) => {
+                    ctrl.comparisonBuilds = buildDiffInfos;
                     const preSelectedComparison = SelectedComparison.selected();
                     let selectedComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
-                    angular.forEach($scope.comparisonBuilds, (comparisonBuild) => {
+                    angular.forEach(ctrl.comparisonBuilds, (comparisonBuild) => {
                         if (comparisonBuild.name === preSelectedComparison) {
                             selectedComparison = comparisonBuild;
                         }
@@ -90,54 +98,53 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                     if (selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
                         $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
-                    $scope.selectedComparison = selectedComparison;
+                    ctrl.selectedComparison = selectedComparison;
                 }, () => {
                     resetComparisonSelection();
-                },
-            );
+                });
         } else {
             resetComparisonSelection();
         }
     }
 
     function resetComparisonSelection() {
-        $scope.comparisonBuilds = [];
+        ctrl.comparisonBuilds = [];
         SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
         $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
-        $scope.selectedComparison = undefined;
+        ctrl.selectedComparison = undefined;
     }
 
-    $scope.setBranch = (branch) => {
-        $scope.branchesAndBuilds.selectedBranch = branch;
+    ctrl.setBranch = (branch) => {
+        ctrl.branchesAndBuilds.selectedBranch = branch;
         LocalStorageService.remove(SelectedBranchAndBuildService.BUILD_KEY);
         LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuildService.BRANCH_KEY, branch.branch.name);
     };
 
-    $scope.setBuild = (selectedBranch, build) => {
-        $scope.branchesAndBuilds.selectedBuild = build;
+    ctrl.setBuild = (selectedBranch, build) => {
+        ctrl.branchesAndBuilds.selectedBuild = build;
         LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuildService.BUILD_KEY, build.linkName);
         loadComparisonBuilds();
     };
 
-    $scope.setComparisonBuild = (comparisonBuild) => {
+    ctrl.setComparisonBuild = (comparisonBuild) => {
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
-        $scope.selectedComparison = comparisonBuild;
+        ctrl.selectedComparison = comparisonBuild;
     };
 
-    $scope.disableComparison = () => {
+    ctrl.disableComparison = () => {
         const disabledComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
-        $scope.setComparisonBuild(disabledComparison);
+        ctrl.setComparisonBuild(disabledComparison);
     };
 
-    $scope.updating = false;
+    ctrl.updating = false;
 
     GlobalHotkeysService.registerGlobalHotkey('i', () => {
-        $scope.showApplicationInfoPopup();
+        ctrl.showApplicationInfoPopup();
     });
 
-    $scope.showApplicationInfoPopup = () => {
+    ctrl.showApplicationInfoPopup = () => {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
 

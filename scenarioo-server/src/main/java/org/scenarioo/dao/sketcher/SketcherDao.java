@@ -129,12 +129,12 @@ public class SketcherDao {
 	}
 
 	/**
-	 * @param pngFilename
+	 * @param imageFilename
 	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
 	 */
-	public File getStepSketchPngFile(final String branchName, final String issueId, final String scenarioSketchId,
-			final String stepSketchId, final String pngFilename) {
-		return new File(getStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketchId), pngFilename);
+	public File getStepSketchImageFile(final String branchName, final String issueId, final String scenarioSketchId,
+									   final String stepSketchId, final String imageFilename) {
+		return new File(getStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketchId), imageFilename);
 	}
 
 	public List<File> getStepSketchFiles(final String branchName, final String issueId,
@@ -187,7 +187,7 @@ public class SketcherDao {
 	 */
 	private void storePngFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final String stepSketchId, final String svgString) {
-		File pngFile = getStepSketchPngFile(branchName, issueId, scenarioSketchId, stepSketchId,
+		File pngFile = getStepSketchImageFile(branchName, issueId, scenarioSketchId, stepSketchId,
 				SKETCH_PNG_FILENAME);
 
 		try {

@@ -38,36 +38,46 @@ import java.util.concurrent.*;
 
 /**
  * Takes care of importing builds.
+ *
+ * Also submitts comparisons for the imported builds.
+ *
+ * This is done asynch with two separate asynch executed queues:
+ * 1. Executor in BuildImporter executes import tasks in one thread
+ * 2. Executor in ComparisonExecutor executes comparisons in another thread (such that further imports can run in parallel)
  */
 public class BuildImporter {
 
+	/**
+	 * Log entry text that the CI/CD build can check for after a deployment of a new version to verify all imports and comparisons have been executed.
+	 *
+	 * Be aware that changing this text means also to adjust our CI/CD pipeline accordingly.
+	 */
+	private static final String ALL_BUILD_IMPORTS_AND_COMPARISONS_FINISHED_LOG_ENTRY_FOR_CI_CHECK = "All Builds Imported and Comparisons Calculated.";
+
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-		.getConfigurationRepository();
-
 	private ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-		configurationRepository.getDocumentationDataDirectory());
+		getConfigurationRepository().getDocumentationDataDirectory());
 
 	/**
 	 * Current state for all builds whether imported and aggregated correctly.
 	 */
-	private Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = new HashMap<BuildIdentifier, BuildImportSummary>();
+	private Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = new HashMap<>();
 
 	/**
 	 * Builds that have been scheduled for processing (waiting for import)
 	 */
-	private final Set<BuildIdentifier> buildsInProcessingQueue = new HashSet<BuildIdentifier>();
+	private final Set<BuildIdentifier> buildsInProcessingQueue = new HashSet<>();
 
 	/**
 	 * Builds currently beeing imported.
 	 */
-	private Set<BuildIdentifier> buildsBeeingImported = new HashSet<BuildIdentifier>();
+	private Set<BuildIdentifier> buildsBeeingImported = new HashSet<>();
 
 	/**
 	 * Executor to execute one import task after the other asynchronously.
 	 */
-	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
+	private final ThreadPoolExecutor asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 
 	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(new LazyAliasResolver());
 
@@ -78,16 +88,12 @@ public class BuildImporter {
 	}
 
 	List<BuildImportSummary> getBuildImportSummariesAsList() {
-		return new ArrayList<BuildImportSummary>(buildImportSummaries.values());
-	}
-
-	public ExecutorService getAsyncBuildImportExecutor() {
-		return asyncBuildImportExecutor;
+		return new ArrayList<>(buildImportSummaries.values());
 	}
 
 	public synchronized void updateBuildImportStates(List<BranchBuilds> branchBuildsList,
 													 Map<BuildIdentifier, BuildImportSummary> loadedBuildSummaries) {
-		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
+		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<>();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
 				// Take existent summary or create new one.
@@ -114,13 +120,20 @@ public class BuildImporter {
 	/**
 	 * Loops over given builds and submits all builds that are not yet imported.
 	 *
+	 * The flow is as follows:
+	 * 1. All Builds are executed and every Build schedules his Comparisons with the AsyncBuildImporterExecutor to ensure
+	 *    that they are only processed after all Builds have been imported (to make sure the build to be compared with is also imported first).
+	 * 2. All Comparisons are submitted as tasks to ComparisonExecutor to execute in separate thread
+	 * 3. ComparisonExecutor processes all Comparisons in separate thread
+	 * 4. After everything has been processed a log message that all submitted imports and comparisons have been processed is logged.
+	 *
 	 * @return Returns the number of builds that were submitted (that need to be imported)
 	 */
 	public synchronized int submitUnprocessedBuildsForImport(AvailableBuildsList availableBuilds) {
 		List<BuildImportSummary> buildsSortedByDateDescending = BuildByDateSorter
 			.sortBuildsByDateDescending(buildImportSummaries.values());
 
-		List<BuildIdentifier> importNeededBuilds = new LinkedList<BuildIdentifier>();
+		List<BuildIdentifier> importNeededBuilds = new LinkedList<>();
 		for (BuildImportSummary buildImportSummary : buildsSortedByDateDescending) {
 			if (buildImportSummary != null && buildImportSummary.getStatus().isImportNeeded()) {
 				importNeededBuilds.add(buildImportSummary.getIdentifier());
@@ -128,7 +141,25 @@ public class BuildImporter {
 			}
 		}
 
+		executeAfterAllPendingImportsAndComparisonsDone(() -> LOGGER.info(ALL_BUILD_IMPORTS_AND_COMPARISONS_FINISHED_LOG_ENTRY_FOR_CI_CHECK));
+
 		return importNeededBuilds.size();
+	}
+
+	private void executeAfterAllPendingImportsAndComparisonsDone(Runnable task) {
+		executeAfterAllPendingImportsDone(() ->
+
+			// submit another task for execution, to be sure that all scheduled comparison tasks,
+			// which have been scheduled for all imported builds in the meantime, are submitted first
+			asyncBuildImportExecutor.execute(() ->
+				// let the task execute after all comparisons have been executed
+				comparisonExecutor.executeAfterAllPendingComparisonsDone(task)
+			)
+		);
+	}
+
+	private void executeAfterAllPendingImportsDone(Runnable task) {
+		asyncBuildImportExecutor.execute(task);
 	}
 
 	public synchronized void submitBuildForReimport(AvailableBuildsList availableBuilds,
@@ -170,6 +201,14 @@ public class BuildImporter {
 	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
 		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
 		return buildImportSummary != null ? buildImportSummary.getStatus() : null;
+	}
+
+	/**
+	 * @return <code>true</code> if no builds are being imported by asyncBuildImportExecutor
+	 * and no comparisons are being calculated by comparisonExecutor.
+	 */
+	public boolean areAllImportsAndComparisonCalculationsFinished() {
+		return asyncBuildImportExecutor.getActiveCount() == 0 && comparisonExecutor.areAllComparisonCalculationsFinished();
 	}
 
 	private BuildImportSummary createBuildImportSummary(BuildIdentifier buildIdentifier) {
@@ -216,15 +255,12 @@ public class BuildImporter {
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 
-		asyncBuildImportExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					importBuild(availableBuilds, summary);
-					scheduleAllComparisonsForBuild(buildIdentifier);
-				} catch (Throwable e) {
-					LOGGER.error("Unexpected error on build import.", e);
-				}
+		asyncBuildImportExecutor.execute(() -> {
+			try {
+				importBuild(availableBuilds, summary);
+				scheduleAllComparisonsForBuild(buildIdentifier);
+			} catch (Throwable e) {
+				LOGGER.error("Unexpected error on build import.", e);
 			}
 		});
 
@@ -235,14 +271,11 @@ public class BuildImporter {
 		// just to ensure that first all pending imports have been done before a comparison is calculated.
 		// because comparisons could need import of other pending imports of builds
 		// before they can run.
-		asyncBuildImportExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
-				} catch (Throwable e) {
-					LOGGER.error("Unexpected error on scheduling comparisons for a build.", e);
-				}
+		asyncBuildImportExecutor.execute(() -> {
+			try {
+				comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+			} catch (Throwable e) {
+				LOGGER.error("Unexpected error on scheduling comparisons for a build.", e);
 			}
 		});
 	}
@@ -263,15 +296,12 @@ public class BuildImporter {
 																					 BuildIdentifier comparisonBuildIdentifier,
 																					 String comparisonName) {
 		CompletableFuture<Future<BuildDiffInfo>> completableBuildDiffInfoFuture = new CompletableFuture<>();
-		asyncBuildImportExecutor.execute(new Runnable() {
-				@Override
-				public void run() {
-					LOGGER.info("Scheduling comparison that was scheduled to happen after last build that was imported.");
-					completableBuildDiffInfoFuture.complete(
-						submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
-					);
-				}
-			});
+		asyncBuildImportExecutor.execute(() -> {
+			LOGGER.info("Scheduling comparison that was scheduled to happen after last build that was imported.");
+			completableBuildDiffInfoFuture.complete(
+				submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+			);
+		});
 		return completableBuildDiffInfoFuture;
 	}
 
@@ -352,18 +382,29 @@ public class BuildImporter {
 	}
 
 	private void saveBuildImportSummaries(Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
-		List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(
+		List<BuildImportSummary> summariesToSave = new ArrayList<>(
 			buildImportSummaries.values());
 		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-			configurationRepository.getDocumentationDataDirectory());
+			getConfigurationRepository().getDocumentationDataDirectory());
 		dao.saveBuildImportSummaries(summariesToSave);
 	}
 
 	/**
 	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
 	 */
-	private static ExecutorService newAsyncBuildImportExecutor() {
-		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+	private static ThreadPoolExecutor newAsyncBuildImportExecutor() {
+		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+	}
+
+	public void shutdownAndAwaitTerminationOfRunningImportJob() throws InterruptedException {
+		asyncBuildImportExecutor.shutdown();
+		while (!asyncBuildImportExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+			LOGGER.info("Awaiting completion of build imports...");
+		}
+	}
+
+	private ConfigurationRepository getConfigurationRepository() {
+		return RepositoryLocator.INSTANCE.getConfigurationRepository();
 	}
 
 }

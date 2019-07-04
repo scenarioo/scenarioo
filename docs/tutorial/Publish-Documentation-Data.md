@@ -2,11 +2,11 @@
 
 Documentation data can be published in two ways.
 
-## A) Copy into documentation directory
+## A) Copy into the documentation directory
 
-1. Generate or copy the data into the directory that Scenarioo shows under `Manage > General Settings > General > Documentation Data Directory Path`. This folder can be changed, see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md). In case you are generating your documentation directly into this directory you should write the `build.xml` file as the last file, to ensure that a build does not get imported before all required files are available.
+1. Generate or copy the data into the directory that Scenarioo shows under `Manage > General Settings > General > Documentation Data Directory Path`. To change this folder, see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md#installation-and-setup). In case that you are generating your documentation directly into this directory you should write the `build.xml` file as the last file, to ensure that a build does not get imported before all required files are available.
 
-2. To import newly added builds call the HTTP GET REST endpoint `<your-scenarioo-url>/rest/builds/updateAndImport` to update the currently available builds and importing unimported (newly added) build(s).
+2. To import newly added builds call the HTTP GET REST endpoint `<your-scenarioo-url>/rest/builds/updateAndImport` to update the currently available builds and start importing unimported (newly added) build(s).
 
 **Up to Version 2.0.1 of Scenarioo, this is the only possible way to publish data.**
 
@@ -18,52 +18,7 @@ Since version 2.1.0 of the Scenarioo viewer web application we also allow adding
 
 ### Configure the user/password
 
-By default, Spring Security in a Spring Boot 2 application configures a user `user` with a random password to secure all REST endpoints.
-In this case, the default user name has been set to `scenarioo`. The random password is printed in the log output at application startup and looks like this:
-
-```
-Using generated security password: 67f584b8-04e6-46b3-af57-90f037c0ca5b
-```
-
-Based on the flexibility of Spring Boot configuration property resolution, there are various ways how the user/password combination can be overridden.
-
-#### Provide an application.properties file
-
-*Suitable for: Running Scenarioo as standalone WAR*.
-
-```
-spring.security.user.name=scenarioo
-spring.security.user.password=somePassword
-```
-
-For more information on where the application.properties file should be placed and what other configuration options it offers see [Setup of Scenarioo Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md#running-scenarioo-as-standalone-application). 
-
-#### Provide as environment variables
-
-*Suitable for: Running Scenarioo as Docker image or standalone WAR*
-
-Because of the underlying configuration property resolution, it is possible to define them as environment variables like this:
-
-```
-SPRING_SECURITY_USER_NAME=scenarioo
-SPRING_SECURITY_USER_PASSWORD=somePassword
-```
-
-#### Provide as servlet context parameters
-
-*Suitable for: Running Scenarioo on a separate Tomcat web server*
-
-To configure user and password on a Tomcat, you can provide the respective properties as servlet context init parameters in the `context.xml`.
-
-```
-<Context>
-    <Parameter name="spring.security.user.name" value="scenarioo" override="true" description="HTTP user for publishing documentation data"/>
-    <Parameter name="spring.security.user.password" value="somePassword" override="true" description="HTTP password for publishing documentation data"/>
-</Context>    
-```
-
-There are many more ways how these properties can be exposed to the application. For a full list, please refer to the [Externalized Configuration](https://docs.spring.io/spring-boot/docs/2.0.2.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config) 
-section in the official Spring Boot documentation.
+To configure the username and password to access this HTTP REST API please refer to the documentation about [Configuration of Authentication for Secured REST API](Configuration.md#authentication-for-secured-rest-api) 
 
 ### Usage
 

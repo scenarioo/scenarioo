@@ -15,11 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
+import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
+import {forkJoin} from 'rxjs';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
-                            ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+                            PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
+                            RelatedIssueResource, SketchIdsResource,
+                            BuildDiffInfoResource: BuildDiffInfoService,
+                            ScenarioDiffInfoResource: ScenarioDiffInfoService,
+                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
+                            StepDiffInfosResource: StepDiffInfosService,
+                            ConfigurationService: ConfigurationService) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -93,7 +108,7 @@ function ScenarioController($filter, $routeParams,
                 const hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
-                if (ConfigService.expandPagesInScenarioOverview()) {
+                if (ConfigurationService.expandPagesInScenarioOverview()) {
                     vm.expandAll();
                 }
             },
@@ -198,43 +213,40 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
-    function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
-        ScenarioDiffInfoResource.get(
-            {
-                baseBranchName,
-                baseBuildName,
-                comparisonName,
-                useCaseName,
-                scenarioName,
-            },
-            (scenarioDiffInfo) => {
-                StepDiffInfosResource.get(
-                    {
-                        baseBranchName,
-                        baseBuildName,
-                        comparisonName,
-                        useCaseName,
-                        scenarioName,
-                    },
-                    (stepDiffInfos) => {
-                        DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                    },
-                );
+    function loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName)
+            .subscribe((useCaseDiffInfo) => {
+                if (isAddedScenario(useCaseDiffInfo)) {
+                    markPagesAndStepsAsAdded(pagesAndSteps);
+                } else {
+                    loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                }
             }, (error) => {
                 throw error;
-            },
-        );
+            });
+
+    }
+
+    function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        forkJoin([
+            ScenarioDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+            StepDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
+        ])
+            .subscribe(([scenarioDiffInfo, stepDiffInfos]) => {
+                DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+            });
     }
 
     function isAddedUseCase(buildDiffInfo) {
-        // ES 2015 find() method would be required here...
-        let isUseCaseAdded = false;
-        angular.forEach(buildDiffInfo.addedElements, (addedElement) => {
-            if (addedElement === useCaseName) {
-                isUseCaseAdded = true;
-            }
+        return buildDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === useCaseName;
         });
-        return isUseCaseAdded;
+    }
+
+    function isAddedScenario(useCaseDiffInfo) {
+        return useCaseDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === scenarioName;
+        });
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
@@ -248,21 +260,17 @@ function ScenarioController($filter, $routeParams,
 
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
-            BuildDiffInfoResource.get(
-                {baseBranchName, baseBuildName, comparisonName},
-                (buildDiffInfo) => {
+            BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName)
+                .subscribe((buildDiffInfo) => {
                     comparisonBranchName = buildDiffInfo.compareBuild.branchName;
                     comparisonBuildName = buildDiffInfo.compareBuild.buildName;
 
                     if (isAddedUseCase(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);
                     } else {
-                        loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                        loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
                     }
-                }, (error) => {
-                    throw error;
-                },
-            );
+                });
         }
     }
 

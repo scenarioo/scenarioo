@@ -72,6 +72,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 await StepPage.assertErrorMessageIsShown();
+                await StepPage.assertErrorResponseIsShown('/scenarioo/#/step/Find%20Page/find_no_results/inexistent_page.jsp/0/42?branch=wikipedia-docu-example&build=last%20successful&comparison=Disabled', 'GET', '404');
                 await step('Error message.');
             });
 
@@ -105,10 +106,10 @@ useCase('Step - View')
                 await StepPage.assertStepLinksDialogVisible();
                 const baseUrl = Utils.getBaseUrl();
                 await StepPage.assertPageLink(baseUrl + '/#/step/Find%20Page/find_no_results/startSearch.jsp' +
-                    '/0/0?comparison=Disabled&branch=wikipedia-docu-example&build=last%20successful' +
+                    '/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=Disabled' +
                     '&labels=normal-case,step-label-0,public,page-label1,page-label2');
                 await StepPage.assertScreenshotLink(baseUrl  + '/rest/branch/wikipedia-docu-example/build' +
-                    '/last successful/usecase/Find%20Page/scenario/find_no_results/pageName/startSearch.jsp' +
+                    '/last%20successful/usecase/Find%20Page/scenario/find_no_results/pageName/startSearch.jsp' +
                     '/pageOccurrence/0/stepInPageOccurrence/0/image.png' +
                     '?labels=normal-case,step-label-0,public,page-label1,page-label2');
                 await step('Step links dialog.');

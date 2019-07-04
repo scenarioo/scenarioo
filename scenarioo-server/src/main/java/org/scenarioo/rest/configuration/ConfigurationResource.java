@@ -23,6 +23,7 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.search.SearchEngineStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,6 +52,7 @@ public class ConfigurationResource {
 	}
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateConfiguration(@RequestBody final Configuration configuration) {
 		LOGGER.info("Saving configuration.");
 		configurationRepository.updateConfiguration(configuration);

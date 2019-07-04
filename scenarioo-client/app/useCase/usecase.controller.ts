@@ -16,14 +16,22 @@
  */
 
 import {LabelConfigurationService} from '../services/label-configuration.service';
+import {ConfigurationService} from '../services/configuration.service';
+import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfosService} from '../diffViewer/services/scenario-diff-infos.service';
+import {forkJoin} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
+angular.module('scenarioo.controllers')
+    .controller('UseCaseController', UseCaseController);
 
-function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
+function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResource,
-                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+                           SketchIdsResource,
+                           UseCaseDiffInfoResource: UseCaseDiffInfoService,
+                           ScenarioDiffInfosResource: ScenarioDiffInfosService,
+                           ConfigurationService: ConfigurationService,
                            labelConfigurationService: LabelConfigurationService) {
 
     const vm = this;
@@ -44,6 +52,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.relatedIssues = {};
     vm.hasAnyLabels = false;
     $scope.comparisonInfo = null; // initialized later in activate,  should be defined on vm as well (Style Guide!)
+    // It does not work if we don't use the scope variable directly. Any ideas?
+    $scope.getStatusStyleClass = getStatusStyleClass;
 
     vm.resetSearchField = resetSearchField;
     vm.handleClick = handleClick;
@@ -64,6 +74,10 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             labelConfigurations = loadedLabelConfigurations;
         });
         $scope.comparisonInfo = SelectedComparison.info;
+    }
+
+    function getStatusStyleClass(name) {
+        return ConfigurationService.getStatusStyleClass(name);
     }
 
     function resetSearchField() {
@@ -119,8 +133,10 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             },
             useCaseName,
         ).subscribe(onUseCaseLoaded);
-        vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 
+        ConfigurationService.scenarioPropertiesInOverview().subscribe((value) => {
+            vm.propertiesToShow = value;
+        });
     }
 
     function onUseCaseLoaded(result) {
@@ -141,29 +157,15 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
-            UseCaseDiffInfoResource.get(
-                {
-                    baseBranchName,
-                    baseBuildName,
-                    comparisonName,
-                    useCaseName,
-                },
-                (useCaseDiffInfo) => {
-                    ScenarioDiffInfosResource.get(
-                        {
-                            baseBranchName,
-                            baseBuildName,
-                            comparisonName,
-                            useCaseName,
-                        },
-                        (scenarioDiffInfos) => {
-                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        },
-                    );
+            forkJoin([
+                UseCaseDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
+                ScenarioDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
+            ])
+                .subscribe(([useCaseDiffInfo, scenarioDiffInfos]) => {
+                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                 }, () => {
                     vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
-                },
-            );
+                });
         }
     }
 

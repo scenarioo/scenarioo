@@ -22,6 +22,7 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -63,11 +64,12 @@ public class LabelConfigurationsResource {
 	}
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateLabelConfigurations(@RequestBody final Map<String, LabelConfiguration> labelConfigurations) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setLabelConfigurations(labelConfigurations);
 		configurationRepository.updateConfiguration(configuration);
-		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
+		ScenarioDocuBuildsManager.getInstance().refreshBranchAliases();
 	}
 
 	@XmlRootElement

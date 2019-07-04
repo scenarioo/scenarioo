@@ -17,55 +17,56 @@
 
 'use strict';
 
-angular.module('scenarioo.services').service('ConfigMock', function () {
+import {ReplaySubject} from 'rxjs';
 
-    return {
+angular.module('scenarioo.services').service('ConfigMock', () => {
+    return ({
         branch: undefined,
         build: undefined,
-        appInfo: undefined,
+        appInfo: new ReplaySubject<String>(1),
 
-        isLoaded: function () {
+        isLoaded() {
             return angular.isDefined(this.build) && angular.isDefined(this.build);
         },
 
-        selectedBranch: function () {
+        selectedBranch() {
             return this.branch;
         },
 
-        selectedBuild: function () {
+        selectedBuild() {
             return this.build;
         },
 
-        selectedBuildAndBranch: function () {
+        selectedBuildAndBranch() {
             return {
                 branch: this.selectedBranch(),
                 build: this.selectedBuild()
-            };
+            }
         },
 
-        applicationInformation: () => this.appInfo,
+        applicationInformation() {
+            return this.appInfo.asObservable();
+        },
 
-        setSelectedBranch: function (branch) {
+        setSelectedBranch(branch) {
             this.branch = branch;
         },
 
-        setSelectedBuild: function (build) {
+        setSelectedBuil(build) {
             this.build = build;
         },
 
-        setApplicationInformation: (applicationInformation) => {
-            this.appInfo = applicationInformation;
+        setApplicationInformation(applicationInformation) {
+            return this.appInfo.next(applicationInformation);
         },
 
-        scenarioPropertiesInOverview: function () {
-            return [
+        scenarioPropertiesInOverview: () =>
+            [
                 {
                     text: 'User Profile',
                     property: 'details.properties.userProfile',
                     attr: 'userProfile'
                 }
-            ];
-        }
-    };
-
+            ]
+    });
 });

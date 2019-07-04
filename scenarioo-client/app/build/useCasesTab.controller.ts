@@ -15,11 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {ConfigurationService} from '../services/configuration.service';
+import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfosService} from '../diffViewer/services/use-case-diff-infos.service';
+import {forkJoin} from 'rxjs';
+
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers')
     .controller('UseCasesTabController', UseCasesTabController);
 
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
-                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
+                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource,
+                               BuildDiffInfoResource: BuildDiffInfoService,
+                               UseCaseDiffInfosResource: UseCaseDiffInfosService,
+                               ConfigurationService: ConfigurationService) {
 
     const vm = this;
     vm.table = {
@@ -39,6 +49,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.gotoUseCase = gotoUseCase;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
+    vm.getStatusStyleClass = (state) => ConfigurationService.getStatusStyleClass(state);
 
     vm.getLabelStyle = getLabelStyle;
 
@@ -109,19 +120,12 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
         if (useCases && baseBranchName && baseBuildName) {
-            BuildDiffInfoResource.get(
-                {baseBranchName, baseBuildName, comparisonName},
-                (buildDiffInfo) => {
-                    UseCaseDiffInfosResource.get(
-                        {baseBranchName, baseBuildName, comparisonName},
-                        (useCaseDiffInfos) => {
-                            vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
-                        },
-                    );
-                }, (error) => {
-                    throw error;
-                },
-            );
+            forkJoin([
+                BuildDiffInfoResource.get(baseBranchName, baseBuildName, comparisonName),
+                UseCaseDiffInfosResource.get(baseBranchName, baseBuildName, comparisonName),
+            ]).subscribe(([buildDiffInfo, useCaseDiffInfos]) => {
+                vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+            });
         }
     }
 

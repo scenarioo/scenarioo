@@ -1,9 +1,9 @@
-var webpack = require('webpack');
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-var webpackCommonConfig = {
+const webpackCommonConfig = {
 
     entry: {
         polyfills: './app/polyfills.ts',
@@ -84,10 +84,10 @@ var webpackCommonConfig = {
         }]),
         // Fixes Critical dependency: the request of a dependency is an expression
         // https://github.com/angular/angular/issues/20357
-        new webpack.ContextReplacementPlugin(/@angular([\\/])core([\\/])esm5/, path.join(__dirname, './app')),
+        new webpack.ContextReplacementPlugin(/@angular([\\/])core([\\/])fesm5/, path.join(__dirname, './src')),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['polyfills']
-        })
+        }),
     ]
 };
 

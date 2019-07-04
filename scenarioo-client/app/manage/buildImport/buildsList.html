@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-controller="BuildsListController as vm">
+<div>
     <div class="row sc-space-top sc-space-bottom">
         <div class="col-lg-3">
             <div class="input-group">
@@ -70,7 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </span>
                 </td>
                 <td>
-                    <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                    <span ng-class="[vm.getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
                 </td>
                 <td title="{{build.statusMessage}}"><span ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> </td>
                 <td>

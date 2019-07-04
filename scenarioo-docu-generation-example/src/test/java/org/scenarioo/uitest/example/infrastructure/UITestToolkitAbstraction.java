@@ -32,9 +32,12 @@ package org.scenarioo.uitest.example.infrastructure;
 import static org.scenarioo.api.util.IdentifierSanitizer.*;
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Page;
@@ -79,7 +82,7 @@ public class UITestToolkitAbstraction {
 	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 			MultipleBuildsRule.getCurrentBuildName());
 
-	private byte[] lastScreenshot = new byte[0];
+	private DummyImageResource lastScreenshot = new DummyImageResource(new byte[0]);
 
 	private Step lastStep = null;
 
@@ -210,7 +213,7 @@ public class UITestToolkitAbstraction {
 	 * Otherwise additional annotation data is attached to the last written step.
 	 */
 	public void saveStepWithScreenshotIfChanged() {
-		byte[] screenshot = toolkit.takeScreenshot();
+		DummyImageResource screenshot = toolkit.takeScreenshot();
 		if (!lastScreenshot.equals(screenshot)) {
 			saveStepWithScreenshot(screenshot, "success");
 		}
@@ -231,7 +234,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot, in any case
 	 */
 	public void saveStepWithScreenshot() {
-		byte[] screenshot = toolkit.takeScreenshot();
+		DummyImageResource screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "success");
 	}
 
@@ -239,7 +242,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot on error (status will be "error".
 	 */
 	public void saveStepErrorWithScreenshot() {
-		byte[] screenshot = toolkit.takeScreenshot();
+		DummyImageResource screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "failed");
 	}
 
@@ -249,18 +252,27 @@ public class UITestToolkitAbstraction {
 		docuWriter.saveStep(useCaseName, scenarioName, step);
 	}
 
-	private void saveStepWithScreenshot(final byte[] screenshot, final String status) {
+	private void saveStepWithScreenshot(final DummyImageResource screenshot, final String status) {
 		String useCaseName = test.getUseCase().getName();
 		String scenarioName = test.getScenario().getName();
-		saveStepData(createStep(status));
-		docuWriter.saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot);
+
+		File screenshotFile= docuWriter.getScreenshotFile(useCaseName, scenarioName, stepIndex);
+		if(!screenshot.isPng()) {
+			screenshotFile = new File(screenshotFile.getAbsolutePath().replace(".png",".jpg"));
+		}
+		saveStepData(createStep(status, screenshotFile.getName()));
+		try {
+			FileUtils.writeByteArrayToFile(screenshotFile, screenshot.getScreenshot());
+		} catch (IOException e) {
+			throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+		}
 		lastScreenshot = screenshot;
 		stepIndex++;
 	}
 
-	private Step createStep(final String status) {
+	private Step createStep(final String status, String screenshotFileName) {
 		Step step = new Step();
-		step.setStepDescription(createStepDescription(status));
+		step.setStepDescription(createStepDescription(status, screenshotFileName));
 		step.setPage(createPage());
 		step.setMetadata(createStepMetadata());
 		step.setHtml(new StepHtml(toolkit.getHtmlSource()));
@@ -270,13 +282,14 @@ public class UITestToolkitAbstraction {
 		return step;
 	}
 
-	private StepDescription createStepDescription(final String status) {
+	private StepDescription createStepDescription(final String status, String screenshotFileName) {
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setTitle(toolkit.getTextFromElement(TITLE_ELEMENT_ID));
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
 		stepDescription.addDetail("url", toolkit.getBrowserUrl());
 		stepDescription.addLabel("step-label-" + stepIndex).addLabel("public");
+		stepDescription.setScreenshotFileName(screenshotFileName);
 		return stepDescription;
 	}
 

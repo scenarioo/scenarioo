@@ -51,11 +51,20 @@ jobs:
             echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
+            echo "Wait for Scenarioo to finish starting, importing the builds and processing the comparisons. Abort if an error occurs."
+            ( tail -f -n0 test-results/scenarioo-server.log & ) | while read LINE0
+              do
+                if [[ "$LINE0" = *"All Builds Imported and Comparisons Calculated."* ]]; then
+                  exit 0
+                elif  [[ "$LINE0" = *"ERROR"* ]]; then
+                  echo $LINE0
+                  exit 1
+                fi
+              done
+
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
-            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
-            sleep 30  # Give server some time because of comparisons
 
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
@@ -66,6 +75,7 @@ jobs:
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+          no_output_timeout: 2m # abort build if no output is produced for 2 minutes
 
       - run:
           name: Collect test results
@@ -223,6 +233,31 @@ jobs:
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
               ./gradlew scenarioo-client:runSmoketest --no-daemon -s
 
+  publish_selfdocu_to_master:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/node:8-stretch
+    working_directory: ~/deploy
+    steps:
+      - run:
+          name: Install jq
+          command: sudo apt-get install jq
+      - attach_workspace: &attach_workspace
+          at: .
+      - run:
+          name: Configure Environment for Job
+          command: echo -e "export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`" >> $BASH_ENV
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-master
+          command: |
+            export ARTIFACTS=`curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
+            export DOCU_ARTIFACT=`echo $ARTIFACTS | jq -r '.[] | select(.path=="e2eScenariooDocu.zip") | .url'`
+            echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
+            curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
+          when: always
+
 workflows:
   version: 2
   build_and_deploy:
@@ -243,6 +278,13 @@ workflows:
                 - master
                 - develop
                 - /^release\/.*/
+      - publish_selfdocu_to_master:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
   nightly:
     triggers:
       - schedule:

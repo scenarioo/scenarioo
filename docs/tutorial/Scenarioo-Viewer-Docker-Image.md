@@ -14,7 +14,7 @@ How to set up and run the Scenarioo Viewer Web App as a docker image:
 
 1. Simply run the following one liner command to install and run the docker image:
     ```
-    sudo docker run -it --name scenarioo -p 8080:8080 -v /home/user/your-scenarioo-docu-folder:/scenarioo/data scenarioo/webapp:4.0.1
+    sudo docker run -it --name scenarioo -p 8080:8080 -v /home/user/your-scenarioo-docu-folder:/scenarioo/data scenarioo/webapp:5.0.0
     ```
     with following parameters:    
     * `--name` - defines a name for the container (= running image)  
@@ -39,6 +39,6 @@ How to set up and run the Scenarioo Viewer Web App as a docker image:
 
 * [Viewer Web App Setup Instructions](Scenarioo-Viewer-Web-Application-Setup.md), to refer to in case of troubles with the web app setup inside the docker image.
 
-* [Viewer Configuration](Configuration.md) for more advanced configuraiton options.
+* [Viewer Configuration](Configuration.md) for more advanced configuration options.
 
 * [Publish Documentation Data](Publish-Documentation-Data.md) for how to publish documentation data to the Scenarioo Viewer Web App.

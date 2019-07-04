@@ -17,30 +17,40 @@
 
 package org.scenarioo.business.diffViewer;
 
-import org.junit.jupiter.api.*;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.AliasResolver;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
+import org.scenarioo.utils.TestResourceFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
 
 @ExtendWith(MockitoExtension.class)
-class ComparisonExecutorTest {
+public class ComparisonExecutorTest {
 
 	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_1 = 5;
 	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_2 = 2;
@@ -66,19 +76,27 @@ class ComparisonExecutorTest {
 	private static ComparisonConfiguration comparisonConfiguration5MatchedForBranch1;
 	private static ComparisonConfiguration comparisonConfiguration5MatchedForBranch2;
 
+	private Build build1 = getBuild(BUILD_NAME_1, Status.SUCCESS, getDateBeforeDays(0));
+	private Build build2 = getBuild(BUILD_NAME_2, Status.FAILED, getDateBeforeDays(1));
+	private Build build3 = getBuild(BUILD_NAME_3, Status.SUCCESS, getDateBeforeDays(2));
+
 	@Mock
-	private ExecutorService executorService;
+	private ThreadPoolExecutor threadPoolExecutor;
 
 	@Mock(lenient = true)
 	private AliasResolver aliasResolver;
 
+	@Mock
+	private ScenarioDocuReader docuReader;
+
 	private ComparisonExecutor comparisonExecutor;
 
 	@BeforeAll
-	static void setUpClass() {
+	static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
-		File diffViewerFolder = new File(ROOT_DIRECTORY, "scenarioo-application-data/diffViewer");
-		diffViewerFolder.mkdirs();
+		copyBuildXml(BUILD_NAME_1);
+		copyBuildXml(BUILD_NAME_2);
+		copyBuildXml(BUILD_NAME_3);
 
 		comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
 			BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
@@ -101,6 +119,13 @@ class ComparisonExecutorTest {
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
+	private static void copyBuildXml(String buildName) throws IOException {
+		File buildFolder = new File(ROOT_DIRECTORY, BRANCH_NAME_1+"/"+ buildName);
+		buildFolder.mkdirs();
+		File buildxml = TestResourceFile.getResourceFile("org/scenarioo/business/diffViewer/"+buildName+"_build.xml");
+		FileUtils.copyFile(buildxml, new File(buildFolder, "build.xml"));
+	}
+
 	@BeforeEach
 	void setUp() {
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_1)).thenReturn(BRANCH_NAME_1);
@@ -109,6 +134,10 @@ class ComparisonExecutorTest {
 
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_1))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_1));
+		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_2))
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_2));
+		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_3))
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_3));
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_1));
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_2))
@@ -116,7 +145,7 @@ class ComparisonExecutorTest {
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_3))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_3));
 
-		this.comparisonExecutor = new ComparisonExecutor(executorService, aliasResolver);
+		this.comparisonExecutor = new ComparisonExecutor(threadPoolExecutor, aliasResolver);
 	}
 
 	@Test
@@ -140,23 +169,19 @@ class ComparisonExecutorTest {
 		assertThat(result.get(1)).isEqualToComparingFieldByField(comparisonConfiguration6);
 	}
 
-	// TODO Fix or delete
-	@Disabled
 	@Test
 	void testResolveComparisonConfigurationLastSuccessfulSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-			comparisonConfiguration1, BUILD_NAME_1);
+			comparisonConfiguration1, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
-		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
+		assertEquals(BUILD_NAME_1, result.getComparisonBuildName());
 	}
 
-	// TODO Fix or delete
-	@Disabled
 	@Test
 	void testResolveComparisonConfigurationMostRecentSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-			comparisonConfiguration2, BUILD_NAME_1);
+			comparisonConfiguration2, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_2, result.getComparisonBuildName());
@@ -200,6 +225,20 @@ class ComparisonExecutorTest {
 		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
 	}
 
+	@Test
+	void testAreAllComparisonCalculationsFinishedWithNoRunningThreadsReturnsTrue() {
+		when(threadPoolExecutor.getActiveCount()).thenReturn(0);
+
+		assertTrue(comparisonExecutor.areAllComparisonCalculationsFinished());
+	}
+
+	@Test
+	void testAreAllComparisonCalculationsFinishedWithRunningThreadsReturnsFalse() {
+		when(threadPoolExecutor.getActiveCount()).thenReturn(1);
+
+		assertFalse(comparisonExecutor.areAllComparisonCalculationsFinished());
+	}
+
 	private static Configuration getTestConfiguration() {
 
 		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<>();
@@ -215,4 +254,26 @@ class ComparisonExecutorTest {
 
 		return configuration;
 	}
+
+	private Build getBuild(String name, Status status, Date date) {
+		Build build = new Build(name);
+		build.setDate(date);
+		build.setStatus(status);
+		return build;
+	}
+
+	private Date getDateBeforeDays(int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, -days);
+		return calendar.getTime();
+	}
+
+	private List<ObjectFromDirectory<Build>> getBuilds() {
+		List<ObjectFromDirectory<Build>> builds = new LinkedList<>();
+		builds.add(new ObjectFromDirectory<>(build1, ROOT_DIRECTORY.getName()));
+		builds.add(new ObjectFromDirectory<>(build2, ROOT_DIRECTORY.getName()));
+		builds.add(new ObjectFromDirectory<>(build3, ROOT_DIRECTORY.getName()));
+		return builds;
+	}
+
 }

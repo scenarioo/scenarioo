@@ -69,7 +69,7 @@ public class StepSketchResource {
 										  @PathVariable("issueId") final String issueId,
 										  @PathVariable("scenarioSketchId") final String scenarioSketchId,
 										  @RequestBody  final StepSketch stepSketch) {
-		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(
 				stepSketch.getRelatedStep().getBranchName(), stepSketch.getRelatedStep().getBuildName());
 		stepSketch.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
 		stepSketch.getRelatedStep().setBuildName(resolvedBranchAndBuildAlias.getBuildName());

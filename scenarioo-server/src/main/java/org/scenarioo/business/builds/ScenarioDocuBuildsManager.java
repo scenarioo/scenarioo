@@ -58,10 +58,7 @@ import java.util.concurrent.Future;
  */
 public class ScenarioDocuBuildsManager implements AliasResolver {
 
-	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-
-	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
+	private static ScenarioDocuBuildsManager INSTANCE;
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
 
@@ -82,9 +79,20 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 	private final BuildImporter buildImporter = new BuildImporter();
 
 	/**
-	 * Is a singleton. Use {@link #INSTANCE}.
+	 * Is a singleton. Use {@link #getInstance()}.
 	 */
 	private ScenarioDocuBuildsManager() {
+	}
+
+	public static ScenarioDocuBuildsManager getInstance() {
+		if(INSTANCE == null) {
+			synchronized (ScenarioDocuBuildsManager.class) {
+				if(INSTANCE == null) {
+					INSTANCE = new ScenarioDocuBuildsManager();
+				}
+			}
+		}
+		return INSTANCE;
 	}
 
 	/**
@@ -153,7 +161,7 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 	public void updateBuildsIfValidDirectoryConfigured() {
 		LOGGER.info("********************* update builds ********************************");
 		LOGGER.info("Updating available builds ...");
-		File docuDirectory = configurationRepository.getDocumentationDataDirectory();
+		File docuDirectory = getConfigurationRepository().getDocumentationDataDirectory();
 		if (docuDirectory == null) {
 			LOGGER.error("No documentation directory is configured.");
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
@@ -186,7 +194,7 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 
 	public static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
 		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(
-				configurationRepository.getDocumentationDataDirectory());
+			getConfigurationRepository().getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BuildImportSummary buildImportSummary : loadedSummaries) {
@@ -196,7 +204,7 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 	}
 
 	public static List<BranchBuilds> loadBranchBuildsList() {
-		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
+		File documentationDataDirectory = getConfigurationRepository().getDocumentationDataDirectory();
 		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
 		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(documentationDataDirectory);
 
@@ -239,7 +247,7 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
 		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(
-				configurationRepository.getDocumentationDataDirectory());
+			getConfigurationRepository().getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {
@@ -264,5 +272,23 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 
 	public BuildImportStatus getImportStatus(BuildIdentifier buildIdentifier) {
 		return buildImporter.getBuildImportStatus(buildIdentifier);
+	}
+
+	/**
+	 * @return <code>true</code> if no builds are being imported and no comparisons are being calculated.
+	 */
+	public boolean areAllImportsAndComparisonCalculationsFinished() {
+		return buildImporter.areAllImportsAndComparisonCalculationsFinished();
+	}
+
+	private static ConfigurationRepository getConfigurationRepository() {
+		return RepositoryLocator.INSTANCE.getConfigurationRepository();
+	}
+
+	/**
+	 * Should only be used by Integration Tests to ensure that the correct configuration directory is used.
+	 */
+	public static void resetInstance() {
+		INSTANCE = null;
 	}
 }
