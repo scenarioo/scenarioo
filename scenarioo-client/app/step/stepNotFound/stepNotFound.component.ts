@@ -24,7 +24,7 @@ angular
         controller: StepNotFoundController,
     });
 
-function StepNotFoundController($location, $element) {
+function StepNotFoundController($location) {
     const ctrl = this;
 
     ctrl.getCurrentUrl = getCurrentUrl;
