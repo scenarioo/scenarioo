@@ -32,6 +32,7 @@ package org.scenarioo.uitest.dummy.toolkit;
 import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
+import org.scenarioo.uitest.example.infrastructure.DummyImageResource;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
 
 /**
@@ -61,12 +62,12 @@ public class UITestToolkit {
 	/**
 	 * Get current screenshot as base 64 encoded image.
 	 */
-	public byte[] takeScreenshot() {
+	public DummyImageResource takeScreenshot() {
 		// just a dummy implementation
 		if (interactionSinceLastScreenshotOrPageLoad) {
 			index++;
 		}
-		byte[] screenshot = dummyApplicationSimulator.getScreenshot(currentUrl, index);
+		DummyImageResource screenshot = dummyApplicationSimulator.getScreenshot(currentUrl, index);
 		interactionSinceLastScreenshotOrPageLoad = false;
 		return screenshot;
 	}
