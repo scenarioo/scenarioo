@@ -7,7 +7,6 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {catchError} from 'rxjs/operators';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -67,7 +66,7 @@ export class UseCasesComponent {
         this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-        console.log(this.sortedUsecases);
+        // console.log(this.sortedUsecases);
 
         /*
         this.selectedComparison.callOnSelectionChange((info) => {

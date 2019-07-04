@@ -54,7 +54,8 @@
         </tab>
         <tab *ngFor="let dynamictab of tabs"
              [heading]="dynamictab.title">
-            {{dynamictab?.content}}
+            <sc-custom-tab></sc-custom-tab>
+            <!--{{dynamictab?.content}}-->
         </tab>
 
     </tabset>

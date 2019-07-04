@@ -4,6 +4,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.service';
+import {LocationService} from '../../shared/location.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -26,17 +27,23 @@ export class MainPageComponent implements OnInit {
 
     constructor(private configurationService: ConfigurationService,
                 private modalService: BsModalService,
-                private sharePageURL: SharePageURL ) {
+                private sharePageURL: SharePageURL,
+                private locationService: LocationService) {
     }
 
     ngOnInit(): void {
 
         this.currentBrowserLocation = window.location.href;
 
+        // const content = this.locationService.path('build/customTab.html');
+
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.tabs = configuration.customObjectTabs
-                .map((customObjectTab: ICustomObjectTab) => {
-                    return {title: customObjectTab.tabTitle, content: 'tbd'};
+                .map((customObjectTab: ICustomObjectTab, index) => {
+                    return {title: customObjectTab.tabTitle,
+                            id: customObjectTab.id,
+                            index: index + 1,
+                            /*content: content*/};
                 });
             this.defineLastStaticTabs();
         });

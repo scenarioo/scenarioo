@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
@@ -86,6 +86,7 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {
