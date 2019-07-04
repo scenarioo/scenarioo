@@ -39,6 +39,6 @@ How to set up and run the Scenarioo Viewer Web App as a docker image:
 
 * [Viewer Web App Setup Instructions](Scenarioo-Viewer-Web-Application-Setup.md), to refer to in case of troubles with the web app setup inside the docker image.
 
-* [Viewer Configuration](Configuration.md) for more advanced configuraiton options.
+* [Viewer Configuration](Configuration.md) for more advanced configuration options.
 
 * [Publish Documentation Data](Publish-Documentation-Data.md) for how to publish documentation data to the Scenarioo Viewer Web App.

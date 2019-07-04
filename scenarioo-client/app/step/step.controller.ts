@@ -514,8 +514,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
 
-    $scope.getCurrentUrl = () => $location.absUrl();
-
     $scope.getScreenshotUrlForSharing = () => {
         if (SelectedBranchAndBuildService.isDefined() !== true) {
             return undefined;

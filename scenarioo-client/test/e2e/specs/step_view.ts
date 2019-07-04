@@ -72,7 +72,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 await StepPage.assertErrorMessageIsShown();
-                await StepPage.assertErrorResponseIsShown('GET', '404');
+                await StepPage.assertErrorResponseIsShown('/scenarioo/#/step/Find%20Page/find_no_results/inexistent_page.jsp/0/42?branch=wikipedia-docu-example&build=last%20successful&comparison=Disabled', 'GET', '404');
                 await step('Error message.');
             });
 

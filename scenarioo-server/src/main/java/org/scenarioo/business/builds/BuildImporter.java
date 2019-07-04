@@ -77,7 +77,7 @@ public class BuildImporter {
 	/**
 	 * Executor to execute one import task after the other asynchronously.
 	 */
-	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
+	private final ThreadPoolExecutor asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 
 	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(new LazyAliasResolver());
 
@@ -201,6 +201,14 @@ public class BuildImporter {
 	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
 		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
 		return buildImportSummary != null ? buildImportSummary.getStatus() : null;
+	}
+
+	/**
+	 * @return <code>true</code> if no builds are being imported by asyncBuildImportExecutor
+	 * and no comparisons are being calculated by comparisonExecutor.
+	 */
+	public boolean areAllImportsAndComparisonCalculationsFinished() {
+		return asyncBuildImportExecutor.getActiveCount() == 0 && comparisonExecutor.areAllComparisonCalculationsFinished();
 	}
 
 	private BuildImportSummary createBuildImportSummary(BuildIdentifier buildIdentifier) {
@@ -384,7 +392,7 @@ public class BuildImporter {
 	/**
 	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
 	 */
-	private static ExecutorService newAsyncBuildImportExecutor() {
+	private static ThreadPoolExecutor newAsyncBuildImportExecutor() {
 		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 	}
 

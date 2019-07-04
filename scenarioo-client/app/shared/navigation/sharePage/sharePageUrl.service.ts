@@ -7,19 +7,22 @@ declare var angular: angular.IAngularStatic;
 export class SharePageURL {
 
     constructor() {
-
+        this.shareLinks = {
+            pageUrl : undefined,
+            imageUrl : undefined
+        }
     }
 
-    shareLinks : {
-        pageUrl : string,
-        imageUrl : string
+    shareLinks: {
+        pageUrl: string,
+        imageUrl: string,
     };
 
-    setPageUrl (pageUrl) {
+    setPageUrl(pageUrl) {
         this.shareLinks.pageUrl = pageUrl;
     }
 
-    setImageUrl (imageUrl) {
+    setImageUrl(imageUrl) {
         this.shareLinks.imageUrl = imageUrl;
     }
 

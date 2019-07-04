@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 
+<sc-step-not-found-div ng-show="stepNotFound" response="httpResponse"></sc-step-not-found-div>
+
 <!-- Title component -->
 <sc-title scenario-name="{{stepIdentifier.scenarioName | scHumanReadable}}" step-index="{{getCurrentStepIndexForDisplay()}}"></sc-title>
 

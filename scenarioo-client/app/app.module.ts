@@ -22,6 +22,12 @@ import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
+import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
+import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
+import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
+import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
+import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
+import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
@@ -31,6 +37,7 @@ import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchA
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
@@ -81,6 +88,8 @@ import {HumanReadablePipe} from './pipes/humanReadable.pipe';
         },
         LabelConfigurationService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
+        BuildDiffInfoService,
+        BuildDiffInfosService,
         SharePageURL,
         Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
