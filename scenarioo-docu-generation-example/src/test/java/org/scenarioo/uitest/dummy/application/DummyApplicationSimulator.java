@@ -35,7 +35,8 @@ import java.util.Map;
 import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepData;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepDataFactory;
-import org.scenarioo.uitest.example.infrastructure.PngLoader;
+import org.scenarioo.uitest.example.infrastructure.DummyImageResource;
+import org.scenarioo.uitest.example.infrastructure.StepImageLoader;
 
 /**
  * Just a simple fake application simulator for the example.
@@ -61,11 +62,11 @@ public class DummyApplicationSimulator {
 	}
 	
 	public Map<StepKey, DummyApplicationStepData> applicationStepData = createDummyApplicationData();
-	
-	public byte[] getScreenshot(final String url, final int index) {
+
+	public DummyImageResource getScreenshot(final String url, final int index) {
 		String fileName = getApplicationStepData(url, index)
 				.getScreenshotFileName();
-		return PngLoader.loadPngFile(fileName);
+		return StepImageLoader.loadStepImageFile(fileName);
 	}
 	
 	public String getBrowserUrl(final String url, final int index) {

@@ -75,6 +75,17 @@ public class TechnicalCornerCasesUITest extends UITest {
 		toolkit.clickLink("dummy-next-link-not-visible-on-screenshot");
 	}
 
+	@Test
+	@DocuDescription(
+		description = "Dummy scenario with one step that has a jpeg image.")
+	@Labels({ "jpeg" })
+	public void dummy_scenario_with_one_step_that_has_a_jpeg_image() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_JPEG_STEP_IMAGES_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/jpeg-image-page");
+	}
+
+
+
 	private ScreenRegion region(final int colIndex, final int rowIndex, final int spanCols, final int spanRows) {
 		int colWidth = 250;
 		int rowHeight = 32;
