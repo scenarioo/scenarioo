@@ -18,7 +18,7 @@ Follow these simple steps to migrate:
 
 2. Make sure you configure the same username and password for REST endpoints in the new way:
    * User and password for the HTTP authentication where usually configured in `tomcat-users.xml` before, which will not be considered anymore.
-   * Instead you can configure the same username and password now, as explained here: [Configuration of Authentication for Secured REST API](Configuration.md#authentication-for-secured-rest-api)
+   * Instead you can configure the same username and password now, as explained here: [Configuration of Authentication for Secured REST API](tutorial/Configuration.md#authentication-for-secured-rest-api)
 
 3. Restart the scenarioo server/app and enjoy the new version :-)
 
