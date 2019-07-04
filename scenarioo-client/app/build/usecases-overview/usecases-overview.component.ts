@@ -99,7 +99,7 @@ export class UseCasesComponent {
                 break;
             case 'Enter':
                 console.log('enter is working');
-                //this.goToUseCase(this.useCaseName);
+                // this.goToUseCase(this.useCaseName);
                 break;
         }
     }

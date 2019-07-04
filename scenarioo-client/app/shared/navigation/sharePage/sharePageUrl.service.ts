@@ -9,8 +9,8 @@ export class SharePageURL {
     constructor() {
         this.shareLinks = {
             pageUrl : undefined,
-            imageUrl : undefined
-        }
+            imageUrl : undefined,
+        };
     }
 
     shareLinks: {
