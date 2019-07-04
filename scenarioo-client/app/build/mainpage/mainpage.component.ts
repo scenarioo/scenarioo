@@ -1,5 +1,4 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Location} from '@angular/common';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
@@ -27,14 +26,12 @@ export class MainPageComponent implements OnInit {
 
     constructor(private configurationService: ConfigurationService,
                 private modalService: BsModalService,
-                private sharePageUrl: SharePageURL,
-                private location: Location,
-                ) {
+                private sharePageURL: SharePageURL ) {
     }
 
     ngOnInit(): void {
 
-        this.currentBrowserLocation = this.location.path();
+        this.currentBrowserLocation = window.location.href;
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.tabs = configuration.customObjectTabs
@@ -44,18 +41,20 @@ export class MainPageComponent implements OnInit {
             this.defineLastStaticTabs();
         });
 
-        this.pageUrl = (function() {
-            if (this.sharePageURL.getPageUrl() !== undefined) {
-                return this.sharePageURL.getPageUrl();
-            } else {
-                return this.currentBrowserLocation;
-            }
-        }());
+        this.pageUrl = this.getPageUrl();
 
-        this.imageUrl = this.sharePageUrl.getImageUrl();
+        this.imageUrl = this.sharePageURL.getImageUrl();
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
         this.eMailUrl = encodeURIComponent(this.pageUrl);
+    }
+
+    private getPageUrl() {
+        if (this.sharePageURL.getPageUrl() !== undefined) {
+            return this.sharePageURL.getPageUrl();
+        } else {
+            return this.currentBrowserLocation;
+        }
     }
 
     defineLastStaticTabs() {
