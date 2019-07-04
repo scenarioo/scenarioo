@@ -69,6 +69,8 @@ In case you are using the default version 2.0 configuration and you do not want 
 
 ### Details Data Structure Examples
 
+Some XML examples to show some example details data as you could write it with a scenarioo writer into your scenarioo documentation e.g. on a test step or a test scenario.
+
 #### Example 1 - Simple String Entries
 
 For adding some simple information, you could simply provide entries with string data as values:
@@ -123,8 +125,3 @@ You could e.g. add a list of all service calls (as object descriptions) that occ
             </value>
         </entry>
     </details>
-
-Thanks to the object repository you can then configure an additonal "custom object tab" to appear on the start page of the Scenarioo Viewer web app to make all objects of type "serviceCall" searchable in an additional tab on the Scenarioo Viewer start page.
- 
- See [Configuration of Custom Object Tabs](../tutorial/Configuration.md#custom-object-tabs) for how to configure such custom object tabs to browse your details objects in Scenarioo.
-
