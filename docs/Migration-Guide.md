@@ -1,26 +1,26 @@
 # Scenarioo Viewer Migration Guide
 
-Guide on how to upgrade for major versions of scenarioo.
+Guide on how to upgrade major versions of Scenarioo.
 
 ## 4.x to 5.x
 
 ### Breaking Changes
 
-* Security mechanism for authentication to secured REST endpoint has changed. You need to follow below steps to ensure the new deployed version has same username and password as was the case before.
+* Security mechanism for authentication to secured REST endpoint has changed. You need to follow the steps below to ensure the new deployed version has the same username and password as before.
 
 ### Migration
 
 Follow these simple steps to migrate:
 
-1. Update the scenarioo application:
-    * refer to [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) for details
-    * consider that there is a new option to also run scenarioo as a standalone web application (if you like so) instead of deploying the WAR to a web server or running it as a docker (as before)
+1. Update the Scenarioo application:
+    * refer to the [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) for details
+    * consider that there is a new option to also run Scenarioo as a standalone web application (if you prefer), instead of deploying the WAR to a web server or running it as a docker (as before)
 
 2. Make sure you configure the same username and password for REST endpoints in the new way:
-   * User and password for the HTTP authentication where usually configured in `tomcat-users.xml` before, which will not be considered anymore.
-   * Instead you can configure the same username and password now, as explained here: [Configuration of Authentication for Secured REST API](tutorial/Configuration.md#authentication-for-secured-rest-api)
+   * User and password for the HTTP authentication were usually configured in `tomcat-users.xml`, which will not be considered any longer.
+   * Instead, you can configure the same username and password in a new way. This is explained in detail here: [Configuration of Authentication for Secured REST API](tutorial/Configuration.md#authentication-for-secured-rest-api)
 
-3. Restart the scenarioo server/app and enjoy the new version :-)
+3. Restart the Scenarioo server/app and enjoy the new version :-)
 
 ## 3.x to 4.x
 
