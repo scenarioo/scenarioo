@@ -148,7 +148,12 @@ public class DummyApplicationStepDataFactory {
 		startConfig(TECHNICAL_ONE_PAGE_CONFIG).startUrl("http://www.wikipedia.org/technical-one-page-scenario");
 		title("Wikipedia Suche").pageName("specialPageWithOnlyOneVariant.jsp").callTreeStart();
 		createSteps(4, "specialDummyPage");
-		
+
+		// create TECHNICAL_JPEG_IMAGE_CONFIG
+		startConfig(TECHNICAL_JPEG_STEP_IMAGES_CONFIG).startUrl("http://www.wikipedia.org/jpeg-image-page");
+		title("Wikipedia Suche").pageName("jpegPage.jsp").callTreeStart();
+		createStep("jpegImage");
+
 		return steps;
 		
 	}
