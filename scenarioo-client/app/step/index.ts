@@ -5,6 +5,7 @@ import './screenAnnotations/screenAnnotationsButton.directive';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
 import './stepNotFound/stepNotFound.component';
+import './fallback/fallback.component';
 import './step.controller';
 
 declare var angular: angular.IAngularStatic;

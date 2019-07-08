@@ -19,18 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-step-not-found-div ng-show="stepNotFound" response="httpResponse"></sc-step-not-found-div>
 
-<div ng-show="fallback" id="fallbackMessage">
-    <div class="alert alert-warning" role="alert">
-        <div class="sc-alert-title">This is a fallback step</div>
-        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the
-            same page. Here's what you actually see:</p>
-        <p>Usecase: {{stepIdentifier.usecaseName}}</p>
-        <p>Scenario: {{stepIdentifier.scenarioName}}</p>
-        <p>Page: {{stepIdentifier.pageName}}</p>
-        <p>Page occurrence: {{stepIdentifier.pageOccurrence}}</p>
-        <p>Step in page occurrence: {{stepIdentifier.stepInPageOccurrence}}</p>
-    </div>
-</div>
+<sc-fallback-div ng-show="fallback" step-identifier="stepIdentifier"></sc-fallback-div>
 
 <!-- Navigation toolbar -->
 <div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
