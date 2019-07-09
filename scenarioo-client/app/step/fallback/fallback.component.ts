@@ -18,6 +18,7 @@ angular
     .module('scenarioo.directives')
     .component('scFallbackDiv', {
         bindings: {
+            showComponent: '<',
             stepIdentifier: '<',
         },
         template: require('./fallback.html'),
