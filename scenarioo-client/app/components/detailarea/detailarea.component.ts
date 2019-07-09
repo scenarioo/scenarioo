@@ -17,7 +17,7 @@ export class DetailareaComponent {
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     valueChange() {
-        if(this.isPanelCollapsed == false) {
+        if (this.isPanelCollapsed === false) {
             this.isPanelCollapsed = true;
         } else {
             this.isPanelCollapsed = false;

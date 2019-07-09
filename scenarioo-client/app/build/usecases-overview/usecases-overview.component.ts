@@ -121,7 +121,7 @@ export class UseCasesComponent {
         }
     }
 
-    collapsePanel(event){
+    collapsePanel(event) {
         this.isPanelCollapsed = event;
     }
 
