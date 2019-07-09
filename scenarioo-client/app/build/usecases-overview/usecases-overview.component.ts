@@ -70,7 +70,6 @@ export class UseCasesComponent {
 
         console.log(this.selectedComparison);
 
-
         this.comparisonInfo = this.selectedComparison;
         // this.comparisonInfo = this.selectedComparison.info;
 
