@@ -97,8 +97,7 @@ export class UseCasesComponent {
                 this.arrowkeyLocation--;
                 break;
             case 'Enter':
-                console.log('enter is working');
-                // this.goToUseCase(this.useCaseName);
+                this.goToUseCase(this.usecases[this.arrowkeyLocation].name);
                 break;
         }
     }
