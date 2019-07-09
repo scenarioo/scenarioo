@@ -1,5 +1,5 @@
 angular.module('scenarioo.directives')
-    .component('scCustomTab',{
+    .component('scCustomTab', {
         template: require('./customTab.html'),
         controller: CustomTabController,
     });
@@ -7,7 +7,7 @@ angular.module('scenarioo.directives')
 function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource,
                              SelectedBranchAndBuildService, TreeNodeService) {
 
-    var vm = this;
+    const vm = this;
     vm.searchField = '';
     vm.treemodel = [];
 
@@ -26,7 +26,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     activate();
 
     function activate() {
-        SelectedBranchAndBuildService.callOnSelectionChange(selected => {
+        SelectedBranchAndBuildService.callOnSelectionChange((selected) => {
             // Initialization on registration of this listener and on all changes to the build selection:
             vm.selectedBranchAndBuild = selected;
             vm.selectedTab = getSelectedTabFromUrl();
@@ -46,10 +46,9 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
         vm.searchField = '';
     }
 
-
     function getSelectedTabFromUrl() {
-        var params = $location.search();
-        var selectedTabId = 'undefined';
+        const params = $location.search();
+        let selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
         }
@@ -60,15 +59,15 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     function loadContent() {
 
         BranchesAndBuildsService.getBranchesAndBuilds()
-            .then(branchesAndBuilds => {
+            .then((branchesAndBuilds) => {
                 vm.branchesAndBuilds = branchesAndBuilds;
 
                 CustomTabContentResource
                     .get({
                         branchName: vm.selectedBranchAndBuild.branch,
-                        buildName: vm.selectedBranchAndBuild.build
+                        buildName: vm.selectedBranchAndBuild.build,
                     }, vm.selectedTab)
-                    .subscribe(result => {
+                    .subscribe((result) => {
                         vm.tabContentTree = result.tree;
                     });
             });

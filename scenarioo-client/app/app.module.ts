@@ -86,7 +86,7 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA,]
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {
