@@ -32,6 +32,8 @@ export class UseCasesComponent {
     getStatusStyleClass = undefined;
     comparisonInfo = undefined;
 
+    isPanelCollapsed: boolean;
+
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
                 private useCasesResource: UseCasesResource,
@@ -117,6 +119,10 @@ export class UseCasesComponent {
                 return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
             }
         }
+    }
+
+    collapsePanel(event){
+        this.isPanelCollapsed = event;
     }
 
 }

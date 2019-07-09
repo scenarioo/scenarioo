@@ -10,38 +10,38 @@
         </label>
     </div>
 
-    <sc-detailarea></sc-detailarea>
+    <sc-detailarea (valueChange)="collapsePanel($event)"></sc-detailarea>
 
-    <div class="sc-space-top col-sm-8">
+    <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
         <table class="table table-curved table-responsive usecase-table">
             <thead>
             <tr>
                 <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                     Status
-                    <div *ngIf= "order != 'status'" class="arrows">
+                    <div *ngIf="order != 'status'" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="bot"> &#9207; </span>
                     </div>
-                    <div *ngIf= "order === 'status' && reverse" class="arrows">
+                    <div *ngIf="order === 'status' && reverse" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="selectedBot">&#9207;</span>
                     </div>
-                    <div *ngIf= "order === 'status' && !reverse" class="arrows">
+                    <div *ngIf="order === 'status' && !reverse" class="arrows">
                         <span class="selectedTop"> &#9206; </span>
                         <span class="bot">&#9207;</span>
                     </div>
                 </th>
                 <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
                     Name
-                    <div *ngIf= "order != 'name'" class="arrows">
+                    <div *ngIf="order != 'name'" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="bot"> &#9207; </span>
                     </div>
-                    <div *ngIf= "order === 'name' && reverse" class="arrows">
+                    <div *ngIf="order === 'name' && reverse" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="selectedBot">&#9207;</span>
                     </div>
-                    <div *ngIf= "order === 'name' && !reverse" class="arrows">
+                    <div *ngIf="order === 'name' && !reverse" class="arrows">
                         <span class="selectedTop"> &#9206; </span>
                         <span class="bot">&#9207;</span>
                     </div>
@@ -49,15 +49,15 @@
                 <th>Description</th>
                 <th (click)="setOrder('numberOfScenarios')" [class.selected]="order === 'numberOfScenarios' ">
                     # Scenarios
-                    <div *ngIf= "order != 'numberOfScenarios'" class="arrows">
+                    <div *ngIf="order != 'numberOfScenarios'" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="bot"> &#9207; </span>
                     </div>
-                    <div *ngIf= "order === 'numberOfScenarios' && reverse" class="arrows">
+                    <div *ngIf="order === 'numberOfScenarios' && reverse" class="arrows">
                         <span class="top"> &#9206; </span>
                         <span class="selectedBot">&#9207;</span>
                     </div>
-                    <div *ngIf= "order === 'numberOfScenarios' && !reverse" class="arrows">
+                    <div *ngIf="order === 'numberOfScenarios' && !reverse" class="arrows">
                         <span class="selectedTop"> &#9206; </span>
                         <span class="bot">&#9207;</span>
                     </div>
@@ -70,11 +70,13 @@
                 *ngFor="let dynamicUseCase of usecases  | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation">
                 <td>
-                    <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
+                    <span
+                        [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
                 <td>
                     <span class="sc-text-before-label">{{dynamicUseCase.name | humanReadable}}</span>
-                    <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
+                    <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels"
+                          [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicUseCase.labels.labels}}</span>
                 </td>
                 <td>{{dynamicUseCase.description}}</td>

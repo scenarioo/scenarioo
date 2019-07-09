@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
     selector: 'sc-detailarea',
@@ -13,4 +13,15 @@ export class DetailareaComponent {
     isAccordionCollapsed: boolean = false;
     isFirstOpen: boolean = true;
 
+    @Output('valueChange')
+    panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    valueChange() {
+        if(this.isPanelCollapsed == false) {
+            this.isPanelCollapsed = true;
+        } else {
+            this.isPanelCollapsed = false;
+        }
+        this.panelCollapsed.emit(this.isPanelCollapsed);
+    }
 }
