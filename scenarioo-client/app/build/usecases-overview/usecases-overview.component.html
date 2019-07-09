@@ -73,7 +73,7 @@
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
                 <td>
-                    {{dynamicUseCase.name}}
+                    <span class="sc-text-before-label">{{dynamicUseCase.name | humanReadable}}</span>
                     <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicUseCase.labels.labels}}</span>
                 </td>

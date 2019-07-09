@@ -28,6 +28,7 @@ import {SharePageService} from './shared/navigation/sharePage/sharePage.service'
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
+import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
@@ -44,6 +45,7 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
         MainPageComponent,
         UseCasesComponent,
         FilterPipe,
+        HumanReadablePipe,
     ],
     entryComponents: [
         LabelMetadataComponent,
