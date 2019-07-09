@@ -5,6 +5,7 @@ import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-ty
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.service';
 import {LocationService} from '../../shared/location.service';
+import {TabDirective} from 'ngx-bootstrap';
 
 declare var angular: angular.IAngularStatic;
 
@@ -35,15 +36,13 @@ export class MainPageComponent implements OnInit {
 
         this.currentBrowserLocation = window.location.href;
 
-        // const content = this.locationService.path('build/customTab.html');
-
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.tabs = configuration.customObjectTabs
                 .map((customObjectTab: ICustomObjectTab, index) => {
                     return {title: customObjectTab.tabTitle,
-                            id: customObjectTab.id,
-                            index: index + 1,
-                            /*content: content*/};
+                        id: customObjectTab.id,
+                        index: index + 1,
+                    };
                 });
             this.defineLastStaticTabs();
         });
@@ -54,6 +53,10 @@ export class MainPageComponent implements OnInit {
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
         this.eMailUrl = encodeURIComponent(this.pageUrl);
+    }
+
+    private onSelect(data: TabDirective): void {
+        this.locationService.search('tab', data.heading);
     }
 
     private getPageUrl() {
@@ -70,7 +73,6 @@ export class MainPageComponent implements OnInit {
             index: i,
             tabId: 'sketches',
             title: 'Sketches',
-            contentViewUrl: 'build/sketchesTab.html',
         });
     }
 

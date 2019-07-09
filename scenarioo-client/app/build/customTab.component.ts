@@ -2,6 +2,7 @@ angular.module('scenarioo.directives')
     .component('scCustomTab', {
         template: require('./customTab.html'),
         controller: CustomTabController,
+        controllerAs: 'vm',
     });
 
 function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource,
@@ -30,6 +31,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
             // Initialization on registration of this listener and on all changes to the build selection:
             vm.selectedBranchAndBuild = selected;
             vm.selectedTab = getSelectedTabFromUrl();
+            // console.log(vm.selectedTab);
             loadContent();
         });
     }

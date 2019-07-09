@@ -1,7 +1,7 @@
 import {Injectable, Input, Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'humanReadable'
+    name: 'humanReadable',
 })
 
 @Injectable()
