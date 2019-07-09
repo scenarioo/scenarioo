@@ -68,11 +68,16 @@ export class UseCasesComponent {
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
         // console.log(this.sortedUsecases);
 
+        console.log(this.selectedComparison);
+
+
+        this.comparisonInfo = this.selectedComparison;
+        // this.comparisonInfo = this.selectedComparison.info;
+
         /*
         this.selectedComparison.callOnSelectionChange((info) => {
-            this.comparisonInfo = info;
+            this.comparisonInfo = info.info;
         });
-        console.log(this.comparisonInfo);
         */
     }
 
