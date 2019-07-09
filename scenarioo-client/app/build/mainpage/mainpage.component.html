@@ -49,14 +49,14 @@
 </span>
 <div>
     <tabset>
-        <tab heading="Use Cases" id="tab1">
+        <tab heading="Use Cases" id="tab1" (selectTab)="onSelect($event)">
             <sc-usecases-overview></sc-usecases-overview>
         </tab>
         <tab *ngFor="let dynamictab of tabs"
-             [heading]="dynamictab.title">
-            {{dynamictab?.content}}
+             [heading]="dynamictab.title"
+             (selectTab)="onSelect($event)">
+            <sc-custom-tab></sc-custom-tab>
         </tab>
-
     </tabset>
 </div>
 

@@ -7,7 +7,6 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {catchError} from 'rxjs/operators';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -67,13 +66,18 @@ export class UseCasesComponent {
         this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-        console.log(this.sortedUsecases);
+        // console.log(this.sortedUsecases);
+
+        console.log(this.selectedComparison);
+
+
+        this.comparisonInfo = this.selectedComparison;
+        // this.comparisonInfo = this.selectedComparison.info;
 
         /*
         this.selectedComparison.callOnSelectionChange((info) => {
-            this.comparisonInfo = info;
+            this.comparisonInfo = info.info;
         });
-        console.log(this.comparisonInfo);
         */
     }
 
@@ -98,8 +102,7 @@ export class UseCasesComponent {
                 this.arrowkeyLocation--;
                 break;
             case 'Enter':
-                console.log('enter is working');
-                // this.goToUseCase(this.useCaseName);
+                this.goToUseCase(this.usecases[this.arrowkeyLocation].name);
                 break;
         }
     }

@@ -233,6 +233,31 @@ jobs:
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
               ./gradlew scenarioo-client:runSmoketest --no-daemon -s
 
+  publish_selfdocu_to_master:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/node:8-stretch
+    working_directory: ~/deploy
+    steps:
+      - run:
+          name: Install jq
+          command: sudo apt-get install jq
+      - attach_workspace: &attach_workspace
+          at: .
+      - run:
+          name: Configure Environment for Job
+          command: echo -e "export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`" >> $BASH_ENV
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-master
+          command: |
+            export ARTIFACTS=`curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
+            export DOCU_ARTIFACT=`echo $ARTIFACTS | jq -r '.[] | select(.path=="e2eScenariooDocu.zip") | .url'`
+            echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
+            curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
+          when: always
+
 workflows:
   version: 2
   build_and_deploy:
@@ -253,6 +278,13 @@ workflows:
                 - master
                 - develop
                 - /^release\/.*/
+      - publish_selfdocu_to_master:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
   nightly:
     triggers:
       - schedule:

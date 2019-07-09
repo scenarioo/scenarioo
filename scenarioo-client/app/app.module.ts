@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
@@ -20,7 +20,6 @@ import {LabelColorsDirective} from './manage/labelColors/label-colors.directive'
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
-import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
@@ -29,12 +28,14 @@ import {SharePageService} from './shared/navigation/sharePage/sharePage.service'
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
+import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
+import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         MainPageComponent,
         UseCasesComponent,
         FilterPipe,
+        HumanReadablePipe,
         DetailareaComponent,
     ],
     entryComponents: [
@@ -95,6 +97,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {
     constructor(private upgrade: UpgradeModule) {

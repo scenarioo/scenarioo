@@ -68,12 +68,12 @@
             <tbody>
             <tr (click)="goToUseCase(dynamicUseCase.name)"
                 *ngFor="let dynamicUseCase of usecases  | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" (keyup.enter)="goToUseCase(dynamicUseCase.name)">
+                let i = index" [class.active]="i == arrowkeyLocation">
                 <td>
                     <span [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
                 <td>
-                    {{dynamicUseCase.name}}
+                    <span class="sc-text-before-label">{{dynamicUseCase.name | humanReadable}}</span>
                     <span *ngFor="let dynamicLable of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicUseCase.labels.labels}}</span>
                 </td>
