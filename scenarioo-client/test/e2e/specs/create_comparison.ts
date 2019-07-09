@@ -4,7 +4,6 @@ import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util';
 import CreateComparisonDialog from '../pages/createComparisonDialog';
 import ComparisonsPage from '../pages/comparisonsPage';
-import HomePage from '../pages/homePage';
 
 useCase('Create comparison')
     .description('Create a new comparison from last successful to a specific build.')
@@ -17,7 +16,6 @@ useCase('Create comparison')
         scenario('Create new comparison with existing name')
             .description('A comparison with an existing name cannot be created')
             .it(async () => {
-                await HomePage.goToPage();
                 await CreateComparisonDialog.openCreateComparison();
                 await step('display the create comparison dialog');
 
