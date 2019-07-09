@@ -18,7 +18,6 @@
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
-import {scenario} from 'scenarioo-js';
 
 declare var angular: angular.IAngularStatic;
 
@@ -81,8 +80,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         dialogClass: 'modal modal-huge',
     };
 
-    $scope.getPageNameUrlEncoded = () => encodeURIComponent($scope.pageName);
-
     LabelConfigurationsResource.query()
         .subscribe((labelConfigurations) => {
             $scope.labelConfigurations = labelConfigurations;
@@ -94,7 +91,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
-        bindStepNavigation();
         loadStepFromServer(selected);
     }
 
@@ -201,144 +197,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         }
 
         return transformMetadataToTree(stepInformation);
-    }
-
-    function bindStepNavigation() {
-        $scope.isFirstStep = isFirstStep;
-        $scope.isFirstPage = isFirstPage;
-        $scope.isLastPage = isLastPage;
-        $scope.goToPreviousStep = goToPreviousStep;
-        $scope.goToNextStep = goToNextStep;
-        $scope.goToPreviousPage = goToPreviousPage;
-        $scope.goToNextPage = goToNextPage;
-        $scope.goToFirstStep = goToFirstStep;
-        $scope.goToLastStep = goToLastStep;
-        $scope.isFirstPageVariantStep = isFirstPageVariantStep;
-        $scope.goToPreviousVariant = goToPreviousVariant;
-        $scope.isLastPageVariantStep = isLastPageVariantStep;
-        $scope.goToNextVariant = goToNextVariant;
-        $scope.getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;
-        $scope.getCurrentPageIndexForDisplay = getCurrentPageIndexForDisplay;
-        $scope.getStepIndexInCurrentPageForDisplay = getStepIndexInCurrentPageForDisplay;
-        $scope.getNumberOfStepsInCurrentPageForDisplay = getNumberOfStepsInCurrentPageForDisplay;
-        $scope.isLastStep = isLastStep;
-
-        GlobalHotkeysService.registerPageHotkeyCode(37, goToPreviousStep); // left arrow
-        GlobalHotkeysService.registerPageHotkeyCode(39, goToNextStep); // right arrow
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+37', goToPreviousPage); // control + left arrow
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+39', goToNextPage); // control + right arrow
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', goToFirstStep); // control + HOME
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', goToLastStep); // control + END
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', goToPreviousVariant); // control + up arrow
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+40', goToNextVariant); // control + down arrow
-
-        function isFirstStep() {
-            return $scope.stepNavigation && $scope.stepNavigation.stepIndex === 0;
-        }
-
-        function isLastStep() {
-            return $scope.stepNavigation && $scope.stepNavigation.stepIndex === $scope.stepStatistics.totalNumberOfStepsInScenario - 1;
-        }
-
-        function isFirstPage() {
-            return $scope.stepNavigation && $scope.stepNavigation.pageIndex === 0;
-        }
-
-        function isLastPage() {
-            return $scope.stepNavigation && $scope.stepNavigation.pageIndex === $scope.stepStatistics.totalNumberOfPagesInScenario - 1;
-        }
-
-        function goToPreviousStep() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.previousStep) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.previousStep);
-        }
-
-        function goToNextStep() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.nextStep) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.nextStep);
-        }
-
-        function goToPreviousPage() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.previousPage) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.previousPage);
-        }
-
-        function goToNextPage() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.nextPage) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.nextPage);
-        }
-
-        function goToFirstStep() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.firstStep) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.firstStep);
-        }
-
-        function goToLastStep() {
-            if (!$scope.stepNavigation || !$scope.stepNavigation.lastStep) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.lastStep);
-        }
-
-        function isFirstPageVariantStep() {
-            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.previousStepVariant === null;
-        }
-
-        function goToPreviousVariant() {
-            if ($scope.isFirstPageVariantStep()) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.previousStepVariant);
-        }
-
-        function isLastPageVariantStep() {
-            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.nextStepVariant === null;
-        }
-
-        function goToNextVariant() {
-            if ($scope.isLastPageVariantStep()) {
-                return;
-            }
-            $scope.go($scope.stepNavigation.nextStepVariant);
-        }
-
-        function getCurrentStepIndexForDisplay() {
-            if (angular.isUndefined($scope.stepNavigation)) {
-                return '?';
-            }
-            return $scope.stepNavigation.stepIndex + 1;
-        }
-
-        function getCurrentPageIndexForDisplay() {
-            if (angular.isUndefined($scope.stepNavigation)) {
-                return '?';
-            }
-            return $scope.stepNavigation.pageIndex + 1;
-        }
-
-        function getStepIndexInCurrentPageForDisplay() {
-            if (angular.isUndefined($scope.stepNavigation)) {
-                return '?';
-            }
-            return $scope.stepNavigation.stepInPageOccurrence + 1;
-        }
-
-        function getNumberOfStepsInCurrentPageForDisplay() {
-            if (angular.isUndefined($scope.stepStatistics)) {
-                return '?';
-            }
-            return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
-        }
     }
 
     //  $route.reload necessary because of align diff and real image size
@@ -507,10 +365,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function setLocalStorageValue(storageKey, value) {
         localStorageService.set(storageKey, '' + value);
     }
-
-    $scope.go = (step) => {
-        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
-    };
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
 
