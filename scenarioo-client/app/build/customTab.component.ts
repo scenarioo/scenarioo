@@ -1,37 +1,41 @@
+// TODO: bindings don't work yet
 angular.module('scenarioo.directives')
     .component('scCustomTab', {
+        bindings: {
+            tabTitle: '<',
+            tabColumns: '<',
+        },
         template: require('./customTab.html'),
         controller: CustomTabController,
-        controllerAs: 'vm',
     });
 
 function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource,
                              SelectedBranchAndBuildService, TreeNodeService) {
 
-    const vm = this;
-    vm.searchField = '';
-    vm.treemodel = [];
+    const ctrl = this;
+    ctrl.searchField = '';
+    ctrl.treemodel = [];
 
     // Determines if the tree has expanded / collapsed rootnodes initially
-    vm.rootIsCollapsed = true;
-    vm.toggleLabel = 'expand';
-    vm.tabContentTree = [];
-    vm.branchesAndBuilds = [];
-    vm.selectedBranchAndBuild = {};
-    vm.selectedTab = undefined;
+    ctrl.rootIsCollapsed = true;
+    ctrl.toggleLabel = 'expand';
+    ctrl.tabContentTree = [];
+    ctrl.branchesAndBuilds = [];
+    ctrl.selectedBranchAndBuild = {};
+    ctrl.selectedTab = undefined;
 
-    vm.goToReferenceTree = goToReferenceTree;
-    vm.expandAndCollapseTree = expandAndCollapseTree;
-    vm.resetSearchField = resetSearchField;
+    ctrl.goToReferenceTree = goToReferenceTree;
+    ctrl.expandAndCollapseTree = expandAndCollapseTree;
+    ctrl.resetSearchField = resetSearchField;
 
     activate();
 
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange((selected) => {
             // Initialization on registration of this listener and on all changes to the build selection:
-            vm.selectedBranchAndBuild = selected;
-            vm.selectedTab = getSelectedTabFromUrl();
-            // console.log(vm.selectedTab);
+            ctrl.selectedBranchAndBuild = selected;
+            ctrl.selectedTab = getSelectedTabFromUrl();
+            // console.log(ctrl.selectedTab);
             loadContent();
         });
     }
@@ -45,7 +49,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     }
 
     function resetSearchField() {
-        vm.searchField = '';
+        ctrl.searchField = '';
     }
 
     function getSelectedTabFromUrl() {
@@ -62,15 +66,15 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
 
         BranchesAndBuildsService.getBranchesAndBuilds()
             .then((branchesAndBuilds) => {
-                vm.branchesAndBuilds = branchesAndBuilds;
+                ctrl.branchesAndBuilds = branchesAndBuilds;
 
                 CustomTabContentResource
                     .get({
-                        branchName: vm.selectedBranchAndBuild.branch,
-                        buildName: vm.selectedBranchAndBuild.build,
-                    }, vm.selectedTab)
+                        branchName: ctrl.selectedBranchAndBuild.branch,
+                        buildName: ctrl.selectedBranchAndBuild.build,
+                    }, ctrl.selectedTab)
                     .subscribe((result) => {
-                        vm.tabContentTree = result.tree;
+                        ctrl.tabContentTree = result.tree;
                     });
             });
 

@@ -36,6 +36,8 @@ import {DetailareaComponent} from './components/detailarea/detailarea.component'
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
+import {CustomTabDirective} from './build/custom-tab.directive';
+import {SketchesTabDirective} from './build/sketches-tab.directive';
 
 @NgModule({
     declarations: [
@@ -51,6 +53,8 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
         FilterPipe,
         HumanReadablePipe,
         DetailareaComponent,
+        CustomTabDirective,
+        SketchesTabDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
