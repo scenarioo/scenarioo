@@ -29,15 +29,18 @@ function SketchesTabController($scope, $location, SelectedBranchAndBuildService,
     ctrl.loading = true;
     ctrl.noIssuesExist = false;
 
-    ctrl.resetSearchField = function () {
+    ctrl.resetSearchField = () => {
         ctrl.table.search = {searchTerm: ''};
     };
 
-    ctrl.goToStepSketch = function (issue) {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
+    ctrl.goToStepSketch = (issue) => {
+        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
 
         SketchIdsResource.get(
-            {'branchName': selectedBranch, 'issueId': issue.id },
+            {
+                branchName: selectedBranch,
+                issueId: issue.id,
+            },
             function onSuccess(result) {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
@@ -50,10 +53,10 @@ function SketchesTabController($scope, $location, SelectedBranchAndBuildService,
     }
 
     function loadIssues() {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
 
         IssuesResource.query(
-            {'branchName': selectedBranch},
+            { branchName: selectedBranch },
             function onSuccess(result) {
                 $scope.issues = result;
                 if (result.length === 0) {

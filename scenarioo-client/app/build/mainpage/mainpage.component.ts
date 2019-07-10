@@ -75,7 +75,7 @@ export class MainPageComponent implements OnInit {
     }
 
     private onSelect(data: TabDirective): void {
-        let activeTab = this.tabs.filter((tab) => tab.title === data.heading)[0];
+        const activeTab = this.tabs.filter((tab) => tab.title === data.heading)[0];
         this.locationService.search('tab', activeTab.id);
     }
 
