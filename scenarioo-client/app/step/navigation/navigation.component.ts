@@ -46,8 +46,6 @@ function NavigationController($location, $routeParams, GlobalHotkeysService, Sel
     ctrl.getPageNameUrlEncoded = () => encodeURIComponent(ctrl.pageName);
 
     ctrl.go = (step) => {
-        console.log("go!");
-        console.log(step);
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
