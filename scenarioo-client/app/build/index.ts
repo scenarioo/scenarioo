@@ -1,4 +1,4 @@
 import './build.controller';
 import './useCasesTab.controller';
-import './sketchesTab.controller';
-import './customTab.controller';
+import './sketchesTab.component';
+import './customTab.component';

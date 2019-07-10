@@ -32,6 +32,8 @@ import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
+import {CustomTabDirective} from './build/custom-tab.directive';
+import {SketchesTabDirective} from './build/sketches-tab.directive';
 
 @NgModule({
     declarations: [
@@ -46,6 +48,8 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
         UseCasesComponent,
         FilterPipe,
         HumanReadablePipe,
+        CustomTabDirective,
+        SketchesTabDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,

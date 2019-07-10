@@ -13,8 +13,8 @@ class HomePage {
     private showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     private hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     private metaDataPanel = element(by.id('sc-metadata-panel'));
-    private sketchesTab = element(by.id('sc-main-tab-sketches'));
-    private pagesTab = element(by.id('sc-main-tab-pages'));
+    private sketchesTab = element(by.id('sc-main-tab-sketches-link'));
+    private pagesTab = element(by.id('sc-main-tab-pages-link'));
 
     async goToPage() {
         return Utils.navigateToRoute(this.path);
