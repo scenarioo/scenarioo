@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="$ctrl.hideToolbar">
     <!-- Step & Page Navigation -->
     <div class="col-lg-8">
 
@@ -78,3 +78,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="pull-right">
+            <sc-screen-annotations-button visibility-toggle="$ctrl.showScreenAnnotations"
+                                          screen-annotations="$ctrl.step.screenAnnotations"></sc-screen-annotations-button>
+            <sc-meta-data-button linking-variable="$ctrl.linkingVariable" local-storage-key="step"></sc-meta-data-button>
+        </div>
+    </div>
+</div>

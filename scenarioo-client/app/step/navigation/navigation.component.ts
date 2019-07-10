@@ -18,11 +18,13 @@ angular
     .module('scenarioo.directives')
     .component('scStepNavigationToolbar', {
         bindings: {
-            hideComponent: '<',
+            hideToolbar: '<',
             pageName: '<',
             stepNavigation: '<',
             stepStatistics: '<',
             step: '<',
+            linkingVariable: '=',
+            showScreenAnnotations: '=',
         },
         template: require('./navigation.html'),
         controller: NavigationController,
