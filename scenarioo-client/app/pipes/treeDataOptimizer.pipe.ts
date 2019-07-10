@@ -7,7 +7,6 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
 @Injectable()
 export class TreeDataOptimizerPipe implements PipeTransform {
 
-
     transform(rootNode: any): any {
 
         // TODO Check with Rolf whether we need to remove empty child nodes
@@ -26,21 +25,20 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         return rootNode;
     }
 
-
     optimizeChildNodes(node, operation) {
-        if (node.childNodes == undefined) {
+        if (node.childNodes === undefined) {
             return;
         }
 
-        var modifiedChildNodes = [];
+        const modifiedChildNodes = [];
 
-        node.childNodes.forEach(childNode => {
+        node.childNodes.forEach((childNode) => {
             operation(childNode, modifiedChildNodes);
         });
 
         node.childNodes = modifiedChildNodes;
 
-        node.childNodes.forEach(childNode => {
+        node.childNodes.forEach((childNode) => {
             this.optimizeChildNodes(childNode, operation);
         });
     }
@@ -69,7 +67,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
     pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
         if (this.isDetailsNode(childNode)) {
-            childNode.childNodes.forEach(grandChildNode => {
+            childNode.childNodes.forEach((grandChildNode) => {
                 modifiedChildNodes.push(grandChildNode);
             });
         } else {
@@ -84,19 +82,19 @@ export class TreeDataOptimizerPipe implements PipeTransform {
     optimizeNodes(node, operation) {
         operation(node);
 
-        if (node.childNodes == undefined) {
+        if (node.childNodes === undefined) {
             return;
         }
 
-        node.childNodes.forEach(childNode => {
+        node.childNodes.forEach((childNode) => {
             this.optimizeNodes(childNode, operation);
         });
     }
 
     pullUpTypeToReplaceNodeLabel(node) {
-        var childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
+        const childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
 
-        if (childNode == undefined) {
+        if (childNode === undefined) {
             return;
         }
 
@@ -105,7 +103,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
     }
 
     moveChildrenChildNodeBehindOthers(node) {
-        var childrenNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
+        const childrenNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
 
         if (childrenNode !== undefined) {
             this.addNodeToChildNodesAfterAllOthers(node, childrenNode);
@@ -117,9 +115,9 @@ export class TreeDataOptimizerPipe implements PipeTransform {
             return;
         }
 
-        var childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
+        const childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
-        if (childNode == undefined) {
+        if (childNode === undefined) {
             return;
         }
 
@@ -132,9 +130,9 @@ export class TreeDataOptimizerPipe implements PipeTransform {
             return;
         }
 
-        var childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
+        const childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
-        if (childNode == undefined) {
+        if (childNode === undefined) {
             return;
         }
 
@@ -153,11 +151,11 @@ export class TreeDataOptimizerPipe implements PipeTransform {
             return undefined;
         }
 
-        var modifiedChildNodes = [];
-        var nameChildNode;
+        const modifiedChildNodes = [];
+        let nameChildNode;
 
-        for (var i in node.childNodes) {
-            var childNode = node.childNodes[i];
+        for (const i in node.childNodes) {
+            const childNode = node.childNodes[i];
             if (childNode.nodeLabel.toLowerCase() === type) {
                 nameChildNode = childNode;
             } else {
@@ -178,8 +176,8 @@ export class TreeDataOptimizerPipe implements PipeTransform {
     }
 
     removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode) {
-        var ITEM = 'Item';
-        if (rootNode.nodeLabel !== undefined && rootNode.nodeLabel === ITEM && (rootNode.nodeValue == undefined || rootNode.nodeValue === '')) {
+        const ITEM = 'Item';
+        if (rootNode.nodeLabel !== undefined && rootNode.nodeLabel === ITEM && (rootNode.nodeValue === undefined || rootNode.nodeValue === '')) {
             delete rootNode.nodeLabel;
         }
     }

@@ -53,7 +53,7 @@ export class UseCasesComponent {
                 private metadataTreeCreater: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
-                private diffInfoService: DiffInfoService, ) {
+                private diffInfoService: DiffInfoService) {
 
     }
 
@@ -162,7 +162,6 @@ export class UseCasesComponent {
     }
 
     createBranchInformationTree(branch) {
-        console.log("is working");
         const branchInformationTree: any = {};
         branchInformationTree.Description = branch.description;
 
