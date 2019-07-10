@@ -10,7 +10,7 @@
         </label>
     </div>
 
-    <sc-detailarea (valueChange)="collapsePanel($event)"></sc-detailarea>
+    <sc-detailarea (valueChange)="collapsePanel($event)" branchInformationTree="{{branchInformationTree}}"></sc-detailarea>
 
     <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
         <table class="table table-curved table-responsive usecase-table">

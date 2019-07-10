@@ -7,6 +7,11 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
+import {forkJoin} from 'rxjs';
+import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -34,6 +39,9 @@ export class UseCasesComponent {
 
     isPanelCollapsed: boolean;
 
+    branchesAndBuilds = [];
+    branchInformationTree = {};
+
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
                 private useCasesResource: UseCasesResource,
@@ -41,7 +49,11 @@ export class UseCasesComponent {
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison ) {
+                private selectedComparison: SelectedComparison,
+                private metadataTreeCreater: MetadataTreeCreatorPipe,
+                private buildDiffInfoService: BuildDiffInfoService,
+                private useCaseDiffInfosService: UseCaseDiffInfosService,
+                private diffInfoService: DiffInfoService, ) {
 
     }
 
@@ -49,13 +61,26 @@ export class UseCasesComponent {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
             this.branchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
+
+                this.branchesAndBuilds = branchesAndBuilds;
                 // console.log(branchesAndBuilds);
                 this.useCasesResource.query({
                     branchName: selection.branch,
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
                     this.usecases = useCaseSummaries;
-                    // console.log(useCaseSummaries);
+
+                    /*
+                    if (SelectedComparison.isDefined()) {
+                        this.loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                    } else {
+                        useCases = useCaseSummaries;
+                    }
+
+                    const branch = this.branchesAndBuilds.selectedBranch.branch;
+                    this.branchInformationTree = this.createBranchInformationTree(this.branch);
+
+                    */
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -80,6 +105,17 @@ export class UseCasesComponent {
             this.comparisonInfo = info.info;
         });
         */
+    }
+
+    loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        if (useCases && baseBranchName && baseBuildName) {
+            forkJoin([
+                this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),
+                this.useCaseDiffInfosService.get(baseBranchName, baseBuildName, comparisonName),
+            ]).subscribe(([buildDiffInfo, useCaseDiffInfos]) => {
+                useCases = this.diffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+            });
+        }
     }
 
     resetSearchField() {
@@ -123,6 +159,15 @@ export class UseCasesComponent {
 
     collapsePanel(event) {
         this.isPanelCollapsed = event;
+    }
+
+    createBranchInformationTree(branch) {
+        console.log("is working");
+        const branchInformationTree: any = {};
+        branchInformationTree.Description = branch.description;
+
+        return this.metadataTreeCreater.transform(branchInformationTree);
+        // return transformMetadataToTree(branchInformationTree);
     }
 
 }

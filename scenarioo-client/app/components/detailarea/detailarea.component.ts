@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
     selector: 'sc-detailarea',
@@ -12,6 +12,9 @@ export class DetailareaComponent {
 
     isAccordionCollapsed: boolean = false;
     isFirstOpen: boolean = true;
+
+    @Input()
+    branchInformationTree: {};
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
