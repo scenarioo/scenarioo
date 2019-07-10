@@ -10,7 +10,7 @@ export class TreeDataCreatorPipe implements PipeTransform {
     transform(data: any): any {
 
         if (!data) {
-            return undefined
+            return undefined ;
         }
 
         if (typeof data === 'string') {

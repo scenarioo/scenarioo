@@ -10,7 +10,7 @@ import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 export class MetadataTreeCreatorPipe implements PipeTransform {
 
     constructor(private treeDataOptimizerPipe: TreeDataOptimizerPipe,
-                private treeDataCreator: TreeDataCreatorPipe,) {
+                private treeDataCreator: TreeDataCreatorPipe) {
     }
 
     transform(data: any): any {
