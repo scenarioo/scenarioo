@@ -29,6 +29,9 @@ import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterPipe} from './pipes/filter.pipe';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
+import {MetadataTreeCreatorPipe} from './pipes/metadataTreeCreator.pipe';
+import {TreeDataCreatorPipe} from './pipes/treeDataCreator.pipe';
+import {TreeDataOptimizerPipe} from './pipes/treeDataOptimizer.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
@@ -53,6 +56,9 @@ import {DiffInfoService} from './diffViewer/diffInfo.service';
         UseCasesComponent,
         FilterPipe,
         HumanReadablePipe,
+        MetadataTreeCreatorPipe,
+        TreeDataCreatorPipe,
+        TreeDataOptimizerPipe,
         DetailareaComponent,
         CustomTabDirective,
         SketchesTabDirective,
@@ -96,6 +102,9 @@ import {DiffInfoService} from './diffViewer/diffInfo.service';
         DiffInfoService,
         SharePageURL,
         Location,
+        MetadataTreeCreatorPipe,
+        TreeDataCreatorPipe,
+        TreeDataOptimizerPipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},

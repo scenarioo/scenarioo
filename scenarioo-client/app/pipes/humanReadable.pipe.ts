@@ -1,4 +1,4 @@
-import {Injectable, Input, Pipe, PipeTransform} from '@angular/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
     name: 'humanReadable',
