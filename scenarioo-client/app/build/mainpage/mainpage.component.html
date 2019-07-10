@@ -48,14 +48,18 @@
         </span>-->
 </span>
 <div>
-    <tabset>
-        <tab heading="Use Cases" id="tab1" (selectTab)="onSelect($event)">
-            <sc-usecases-overview></sc-usecases-overview>
+    <tabset #homeTabs>
+        <tab heading="Use Cases" id="tab0" (selectTab)="onSelect($event)">
+            <sc-usecases-overview *ngIf="isActiveTab('Use Cases')"></sc-usecases-overview>
         </tab>
-        <tab *ngFor="let dynamictab of tabs"
+        <tab *ngFor="let dynamictab of customTabs"
              [heading]="dynamictab.title"
-             (selectTab)="onSelect($event)">
-            <sc-custom-tab></sc-custom-tab>
+             (selectTab)="onSelect($event)"
+              id="tab{{dynamictab.index}}">
+            <sc-custom-tab tab-title="dynamictab.title" tab-columns="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
+        </tab>
+        <tab heading="Sketches" id="tab{{customTabs.length + 1}}" (selectTab)="onSelect($event)">
+            <sc-sketches-tab *ngIf="isActiveTab('Sketches')"></sc-sketches-tab>
         </tab>
     </tabset>
 </div>
