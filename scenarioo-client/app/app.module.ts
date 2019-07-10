@@ -38,6 +38,7 @@ import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
+import {DiffInfoService} from './diffViewer/diffInfo.service';
 
 @NgModule({
     declarations: [
@@ -92,6 +93,7 @@ import {SketchesTabDirective} from './build/sketches-tab.directive';
         LabelConfigurationService,
         BuildDiffInfoService,
         BuildDiffInfosService,
+        DiffInfoService,
         SharePageURL,
         Location,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
