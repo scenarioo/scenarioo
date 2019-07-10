@@ -15,21 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchesTabController', SketchesTabController);
+angular.module('scenarioo.directives')
+    .component('scSketchesTab', {
+        template: require('./sketchesTab.html'),
+        controller: SketchesTabController,
+    });
 
 function SketchesTabController($scope, $location, SelectedBranchAndBuildService, IssuesResource, SketchIdsResource) {
 
-    var vm = this;
+    const ctrl = this;
 
-    vm.table = { search: {searchTerm: ''} };
-    vm.loading = true;
-    vm.noIssuesExist = false;
+    ctrl.table = { search: {searchTerm: ''} };
+    ctrl.loading = true;
+    ctrl.noIssuesExist = false;
 
-    vm.resetSearchField = function () {
-        vm.table.search = {searchTerm: ''};
+    ctrl.resetSearchField = function () {
+        ctrl.table.search = {searchTerm: ''};
     };
 
-    vm.goToStepSketch = function (issue) {
+    ctrl.goToStepSketch = function (issue) {
         var selectedBranch = SelectedBranchAndBuildService.selected().branch;
 
         SketchIdsResource.get(
@@ -53,12 +57,12 @@ function SketchesTabController($scope, $location, SelectedBranchAndBuildService,
             function onSuccess(result) {
                 $scope.issues = result;
                 if (result.length === 0) {
-                    vm.noIssuesExist = true;
+                    ctrl.noIssuesExist = true;
                 }
-                vm.loading = false;
+                ctrl.loading = false;
             },
             function onError() {
-                vm.loading = false;
+                ctrl.loading = false;
                 // Error case not handled
             });
     }
