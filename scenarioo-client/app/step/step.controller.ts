@@ -331,7 +331,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    $scope.isComparisonView = (viewId) => $scope.step.diffInfo.isAdded
+    $scope.isComparisonView = (viewId) => $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : $scope.comparisonViewOptions.viewId === viewId;
 
