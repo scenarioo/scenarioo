@@ -24,7 +24,12 @@ describe('Service :: DiffInfoService', function () {
     var CHANGED_NAME = 'changed';
     var UNCHANGED_NAME = 'unchanged';
 
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
+        // TODO: Remove after AngularJS Migration.
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
+    }));
 
 
     it('should return elements with diff infos enriched', inject(function (DiffInfoService) {
