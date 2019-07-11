@@ -8,6 +8,7 @@ import './stepNotFound/stepNotFound.component';
 import './fallback/fallback.component';
 import './navigation/navigation.component';
 import './comparison/comparisonToolbar.component';
+import './comparison/comparisonView.component';
 import './step.controller';
 
 declare var angular: angular.IAngularStatic;
