@@ -63,7 +63,7 @@ useCase('Step - Screen Annotations')
                 await StepPage.clickGoToNextStepInAnnotationPopup();
                 await StepPage.assertNextStepIsDisabled();
                 await StepPage.assertNoScreenAnnotationsArePresent();
-                await step('Navigated to next step from Popup')
+                await step('Navigated to next step from Popup');
             });
 
     });
