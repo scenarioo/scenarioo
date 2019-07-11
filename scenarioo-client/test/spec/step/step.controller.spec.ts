@@ -94,7 +94,7 @@ describe('StepController', () => {
         }
     };
 
-
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after AngularJS Migration.
@@ -108,6 +108,7 @@ describe('StepController', () => {
         $provide.value('StepResource', StepResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
         $provide.value('BuildDiffInfoResource', {
             get() {
 
