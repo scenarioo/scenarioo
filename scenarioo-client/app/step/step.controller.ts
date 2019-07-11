@@ -326,33 +326,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 });
     }
 
-    $scope.setComparisonView = (viewId) => {
-        $scope.comparisonViewOptions.viewId = viewId;
-        setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
-    };
-
     $scope.isComparisonView = (viewId) => $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : $scope.comparisonViewOptions.viewId === viewId;
-
-    $scope.switchComparisonSingleScreenView = () => {
-        const viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
-        $scope.setComparisonView(viewId);
-    };
-
-    $scope.isComparisonChangesToBeHighlightedAvailable = () => $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
-
-    $scope.isComparisonChangesHighlighted = () => {
-        // highlighting is turned on, and there are changes in this screenshot to be highlighted
-        return $scope.isComparisonChangesToBeHighlightedAvailable() && $scope.comparisonViewOptions.changesHighlighted;
-    };
-
-    $scope.toggleComparisonChangesHighlighted = () => {
-        $scope.comparisonViewOptions.changesHighlighted = !$scope.comparisonViewOptions.changesHighlighted;
-        setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
-    };
-
-    $scope.getComparisonViewHighlightChangesColor = () => ConfigurationService.diffViewerDiffImageColor();
 
     function getLocalStorageBool(storageKey) {
         return localStorageService.get(storageKey) !== 'false';
@@ -360,10 +336,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     function getLocalStorageValue(storageKey, value) {
         return localStorageService.get(storageKey) || value;
-    }
-
-    function setLocalStorageValue(storageKey, value) {
-        localStorageService.set(storageKey, '' + value);
     }
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
