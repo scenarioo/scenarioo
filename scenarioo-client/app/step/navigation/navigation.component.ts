@@ -36,6 +36,7 @@ function NavigationController($location, $routeParams, GlobalHotkeysService, Sel
     const scenarioName = $routeParams.scenarioName;
 
     const ctrl = this;
+    ctrl.bindStepNavigation = bindStepNavigation;
 
     activate();
 
