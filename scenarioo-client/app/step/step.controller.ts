@@ -99,6 +99,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         $scope.scenarioLabels = result.scenarioLabels;
         $scope.selectedBuild = selected.buildName;
         loadRelatedIssues();
+        initScreenshotUrl();
 
         $scope.hasAnyLabels = () => {
             const hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -222,6 +223,23 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.go = (step) => {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
+
+    // This URL is only used internally, not for sharing
+    function initScreenshotUrl() {
+        if (angular.isUndefined($scope.step)) {
+            return undefined;
+        }
+
+        const imageName = $scope.step.stepDescription.screenshotFileName;
+
+        if (angular.isUndefined(imageName)) {
+            return undefined;
+        }
+
+        const selected = SelectedBranchAndBuildService.selected();
+
+        $scope.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+    }
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
 

@@ -25,6 +25,7 @@ angular
             step: '<',
             stepIdentifier: '<',
             stepIndex: '<',
+            screenShotUrl: '<',
         },
         template: require('./comparisonView.html'),
         controller: ComparisonViewController,
@@ -50,13 +51,12 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
         diffImageColor: undefined,
     };
 
-    ctrl.isComparisonView = (viewId) => ctrl.step !== undefined && ctrl.step.diffInfo !== undefined && ctrl.step.diffInfo.isAdded
+    ctrl.isComparisonView = (viewId) => ctrl.step !== null && ctrl.step.diffInfo !== undefined && ctrl.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : ctrl.comparisonViewOptions.viewId === viewId;
 
     function updateStep() {
         const selectedBranchAndBuild = SelectedBranchAndBuildService.selected();
-        initScreenshotUrl(selectedBranchAndBuild);
         loadDiffInfoData(selectedBranchAndBuild.branch, selectedBranchAndBuild.build, SelectedComparison.selected());
     }
 
@@ -108,21 +108,6 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
     function initComparisonScreenshotUrl() {
         ctrl.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl(ctrl.comparisonBranchName, ctrl.comparisonBuildName, ctrl.stepIdentifier.usecaseName, ctrl.stepIdentifier.scenarioName, ctrl.comparisonScreenshotName);
         ctrl.comparisonScreenShotDescription = ctrl.branch;
-    }
-
-    // This URL is only used internally, not for sharing
-    function initScreenshotUrl(selected: any) {
-        if (angular.isUndefined(ctrl.step)) {
-            return undefined;
-        }
-
-        const imageName = ctrl.step.stepDescription.screenshotFileName;
-
-        if (angular.isUndefined(imageName)) {
-            return undefined;
-        }
-
-        ctrl.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + ctrl.stepIdentifier.usecaseName + '/scenario/' + ctrl.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
     // This URL is only used internally, not for sharing
