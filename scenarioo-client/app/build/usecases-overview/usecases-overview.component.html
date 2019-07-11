@@ -10,7 +10,7 @@
         </label>
     </div>
 
-    <sc-detailarea (valueChange)="collapsePanel($event)" branchInformationTree="{{branchInformationTree}}"></sc-detailarea>
+    <sc-detailarea (valueChange)="collapsePanel($event)" [branchInformationTree]="branchInformationTree"></sc-detailarea>
 
     <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
         <table class="table table-curved table-responsive usecase-table">
@@ -62,25 +62,43 @@
                         <span class="bot">&#9207;</span>
                     </div>
                 </th>
-                <th *ngIf="comparisonInfo" class="sort-diff-info">Changes</th>
+                <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting" [class.selected]="order === 'diffInfo.changeRate'">
+                    Changes
+                    <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="bot"> &#9207; </span>
+                    </div>
+                    <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                        <span class="top"> &#9206; </span>
+                        <span class="selectedBot">&#9207;</span>
+                    </div>
+                    <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                        <span class="selectedTop"> &#9206; </span>
+                        <span class="bot">&#9207;</span>
+                    </div>
+                </th>
             </tr>
             </thead>
             <tbody>
             <tr (click)="goToUseCase(dynamicUseCase.name)"
-                *ngFor="let dynamicUseCase of usecases  | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation">
+                *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: 'name' && 'description':searchTerm
+                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="comparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
                 <td>
                     <span
                         [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
                 </td>
                 <td>
                     <span class="sc-text-before-label">{{dynamicUseCase.name | humanReadable}}</span>
-                    <span *ngFor="let dynamicLabel of dynamicUseCase.labels.labels" [ngStyle]="getLabelStyle(dynamicLabel)"
+                    <span *ngFor="let dynamicLabel of dynamicUseCase.labels.labels"
+                          [ngStyle]="getLabelStyle(dynamicLabel)"
                           class="label label-info sc-label">{{dynamicLabel}}</span>
                 </td>
                 <td>{{dynamicUseCase.description}}</td>
                 <td>{{dynamicUseCase.numberOfScenarios}}</td>
-                <td *ngIf="comparisonInfo"></td>
+                <td *ngIf="comparisonExisting">
+                    <sc-diff-info-icon child-element-type="scenario" [diffInfo]="dynamicUseCase.diffInfo"
+                                       element-type="use case"></sc-diff-info-icon>
+                </td>
             </tr>
             </tbody>
         </table>

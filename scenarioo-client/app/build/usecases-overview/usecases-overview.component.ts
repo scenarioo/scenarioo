@@ -35,7 +35,7 @@ export class UseCasesComponent {
     labelConfig = undefined;
 
     getStatusStyleClass = undefined;
-    comparisonInfo = undefined;
+    comparisonExisting = undefined;
 
     isPanelCollapsed: boolean;
 
@@ -70,17 +70,16 @@ export class UseCasesComponent {
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
                     this.usecases = useCaseSummaries;
 
-                    /*
-                    if (SelectedComparison.isDefined()) {
-                        this.loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                    if (this.comparisonExisting) {
+                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
                     } else {
-                        useCases = useCaseSummaries;
+                        this.usecases = useCaseSummaries;
                     }
 
-                    const branch = this.branchesAndBuilds.selectedBranch.branch;
-                    this.branchInformationTree = this.createBranchInformationTree(this.branch);
+                    const branch = branchesAndBuilds.selectedBranch.branch;
+                    this.branchInformationTree = this.createBranchInformationTree(branch);
 
-                    */
+                    console.log('branchinfo: ' + this.branchInformationTree);
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -93,18 +92,8 @@ export class UseCasesComponent {
         this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-        // console.log(this.sortedUsecases);
 
-        console.log(this.selectedComparison);
-
-        this.comparisonInfo = this.selectedComparison;
-        // this.comparisonInfo = this.selectedComparison.info;
-
-        /*
-        this.selectedComparison.callOnSelectionChange((info) => {
-            this.comparisonInfo = info.info;
-        });
-        */
+        this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
     loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
@@ -164,9 +153,6 @@ export class UseCasesComponent {
     createBranchInformationTree(branch) {
         const branchInformationTree: any = {};
         branchInformationTree.Description = branch.description;
-
         return this.metadataTreeCreater.transform(branchInformationTree);
-        // return transformMetadataToTree(branchInformationTree);
     }
-
 }
