@@ -33,7 +33,7 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
         ctrl.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
-    
+
     ctrl.isComparisonView = (viewId) => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : ctrl.comparisonViewOptions.viewId === viewId;
@@ -49,14 +49,14 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
         // highlighting is turned on, and there are changes in this screenshot to be highlighted
         return ctrl.isComparisonChangesToBeHighlightedAvailable() && ctrl.comparisonViewOptions.changesHighlighted;
     };
-    
+
     ctrl.toggleComparisonChangesHighlighted = () => {
         ctrl.comparisonViewOptions.changesHighlighted = !ctrl.comparisonViewOptions.changesHighlighted;
         setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', ctrl.comparisonViewOptions.changesHighlighted);
     };
 
     ctrl.getComparisonViewHighlightChangesColor = () => ConfigurationService.diffViewerDiffImageColor();
-    
+
     function setLocalStorageValue(storageKey, value) {
         localStorageService.set(storageKey, '' + value);
     }
