@@ -47,6 +47,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
     $scope.refreshIfComparisonActive = refreshIfComparisonActive;
+    $scope.goToNextStep = goToNextStep;
 
     $scope.comparisonViewOptions = {
         viewId: getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
@@ -225,6 +226,17 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab, 10) : 0;
     }
+
+    function goToNextStep() {
+        if (!$scope.stepNavigation || !$scope.stepNavigation.nextStep) {
+            return;
+        }
+        $scope.go($scope.stepNavigation.nextStep);
+    }
+
+    $scope.go = (step) => {
+        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
+    };
 
     // This URL is only used internally, not for sharing
     function initScreenshotUrl() {

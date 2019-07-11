@@ -55,10 +55,15 @@ useCase('Step - Screen Annotations')
                 await StepPage.assertNumberOfVisibleScreenAnnotationsIs(11);
                 await step('Eleven screen annotations are shown');
 
-                await StepPage.clickFirstScreenAnnotation();
+                await StepPage.clickLastScreenAnnotation();
                 await StepPage.assertScreenAnnotationPopupIsDisplayed();
-                await StepPage.assertTitleOfAnnotationPopupIs('  DEFAULT-Annotation \'Life Is Beautiful\'');
+                await StepPage.assertTitleOfAnnotationPopupIs('  Clicked Link \'dummy-next-link-not-visible-on-screenshot\'');
                 await step('Popup is shown');
+
+                await StepPage.clickGoToNextStepInAnnotationPopup();
+                await StepPage.assertNextStepIsDisabled();
+                await StepPage.assertNoScreenAnnotationsArePresent();
+                await step('Navigated to next step from Popup')
             });
 
     });

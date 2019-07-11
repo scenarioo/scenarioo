@@ -168,8 +168,8 @@ class StepPage {
         return element(by.id('sc-showHideScreenAnnotationsButton')).click();
     }
 
-    async clickFirstScreenAnnotation() {
-        return element.all(by.className('sc-screenshot-annotation-icon')).first().click();
+    async clickLastScreenAnnotation() {
+        return element.all(by.className('sc-screenshot-annotation-icon')).last().click();
     }
 
     async assertScreenAnnotationPopupIsDisplayed() {
@@ -178,6 +178,10 @@ class StepPage {
 
     async assertTitleOfAnnotationPopupIs(expectedTitle) {
         return expect(element(by.className('modal-header')).getText()).toEqual(expectedTitle);
+    }
+
+    async clickGoToNextStepInAnnotationPopup() {
+        return element(by.className('link-no-hover')).click();
     }
 
     async clickCreateSketchButton() {
