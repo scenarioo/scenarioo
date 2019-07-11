@@ -39,8 +39,8 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
     const useCaseName = $routeParams.useCaseName;
     const scenarioName = $routeParams.scenarioName;
 
-    this.$onChanges = function (changes) {
-        if(ctrl.step !== undefined && ctrl.stepIdentifier !== undefined) {
+    this.$onChanges = (changes) => {
+        if (ctrl.step !== undefined && ctrl.stepIdentifier !== undefined) {
             updateStep();
         }
     };
