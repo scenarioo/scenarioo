@@ -38,11 +38,8 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
     const useCaseName = $routeParams.useCaseName;
     const scenarioName = $routeParams.scenarioName;
 
-    // https://ultimatecourses.com/blog/angular-1-5-lifecycle-hooks#onChanges
     this.$onChanges = function (changes) {
-        if(ctrl.step && ctrl.stepIdentifier) {
-            console.log('onChanges: ');
-            console.log(ctrl.step)
+        if(ctrl.step !== undefined && ctrl.stepIdentifier !== undefined) {
             updateStep();
         }
     };
@@ -53,7 +50,7 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
         diffImageColor: undefined,
     };
 
-    ctrl.isComparisonView = (viewId) => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
+    ctrl.isComparisonView = (viewId) => ctrl.step !== undefined && ctrl.step.diffInfo !== undefined && ctrl.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : ctrl.comparisonViewOptions.viewId === viewId;
 
