@@ -7,6 +7,7 @@ import './screenAnnotations/screenAnnotations.service';
 import './stepNotFound/stepNotFound.component';
 import './fallback/fallback.component';
 import './navigation/navigation.component';
+import './comparison/comparisonToolbar.component';
 import './step.controller';
 
 declare var angular: angular.IAngularStatic;

@@ -50,66 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </uib-tab-heading>
 
-                <div class="btn-toolbar" role="toolbar">
-
-                    <div class="btn-group" ng-if="!step.diffInfo.isAdded">
-
-                        <button type="button" id="sc-step-comparison-side-by-side-view-button"
-                                ng-class="{active: isComparisonView('SideBySide') }"
-                                class="btn btn-default" ng-click="setComparisonView('SideBySide')">
-                            <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>
-                            Side by Side
-                        </button>
-
-                        <button type="button" id="sc-step-comparison-current-screen-view-button"
-                                ng-class="{active: isComparisonView('CurrentScreen') }"
-                                class="btn btn-default" ng-click="setComparisonView('CurrentScreen')">
-                            <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>
-                            Current Screen
-                        </button>
-
-                        <button type="button" id="sc-step-comparison-other-screen-view-button"
-                                ng-class="{active: isComparisonView('OtherScreen') }"
-                                ng-click="setComparisonView('OtherScreen')"
-                                class="btn btn-default">
-                            <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="sc-step-comparison-icon"/>
-                            Other Screen
-                        </button>
-
-                    </div>
-
-                    <!-- Screen Version Switcher -->
-                    <div class="btn-group" uib-tooltip="Switch Screen Versions" ng-if="!step.diffInfo.isAdded">
-                        <button type="button" id="sc-step-comparison-switch-screens-button" class="btn btn-default"
-                                ng-click="switchComparisonSingleScreenView()">
-                            <i class="fas fa-random"></i>
-                        </button>
-                    </div>
-
-                    <!-- Highlights Toogle for steps with Changes and Legend for Highlighted Changes -->
-                    <div class="btn-group" ng-if="!step.diffInfo.isAdded">
-                        <button type="button" id="sc-step-comparison-highlight-changes-button" class="btn btn-default"
-                                ng-if="isComparisonChangesToBeHighlightedAvailable()"
-                                ng-class="{active: comparisonViewOptions.changesHighlighted }"
-                                ng-click="toggleComparisonChangesHighlighted()">
-                            <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>
-                            Highlight Changes
-                        </button>
-                    </div>
-
-                    <span id="sc-step-comparison-legend-info-text" class="btn-group">
-                        <span class="btn btn-no-btn" ng-if="isComparisonChangesHighlighted()" ng-style="{color: getComparisonViewHighlightChangesColor() }">
-                            Highlighted Changes in Screen
-                        </span>
-                        <span class="btn btn-no-btn added" ng-if="step.diffInfo.isAdded">
-                            <strong>Added Step</strong>
-                        </span>
-                        <span class="btn btn-no-btn" ng-if="step.diffInfo.changeRate === 0">
-                            No Changes
-                        </span>
-                    </span>
-
-                </div>
+                <sc-comparison-toolbar step="step" comparison-view-options="comparisonViewOptions"></sc-comparison-toolbar>
 
                 <div id="sc-step-comparison-side-by-side-view" ng-if="isComparisonView('SideBySide')">
                     <div class="row">
