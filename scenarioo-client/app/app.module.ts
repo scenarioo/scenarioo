@@ -42,6 +42,7 @@ import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
+import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import {DiffInfoService} from './diffViewer/diffInfo.service';
         DetailareaComponent,
         CustomTabDirective,
         SketchesTabDirective,
+        DiffInfoIconDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
