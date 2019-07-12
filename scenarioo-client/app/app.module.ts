@@ -43,6 +43,7 @@ import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
+import {TreeDirective} from './shared/metadata/tree.directive';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.di
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
+        TreeDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
