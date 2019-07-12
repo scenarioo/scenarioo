@@ -2,7 +2,7 @@
 angular.module('scenarioo.directives')
     .component('scCustomTab', {
         bindings: {
-            tabId: '<',
+            tabTitle: '<',
             tabColumns: '<',
         },
         template: require('./customTab.html'),

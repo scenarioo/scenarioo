@@ -56,7 +56,7 @@
              [heading]="dynamictab.title"
              (selectTab)="onSelect($event)"
               id="sc-main-tab-{{dynamictab.id}}">
-            <sc-custom-tab [tabId]="dynamictab.id" [tabColumns]="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
+            <sc-custom-tab [tabTitle]="dynamictab.title" [tabColumns]="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
         </tab>
         <tab *ngIf="true" heading="Sketches" id="sc-main-tab-sketches" (selectTab)="onSelect($event)">
             <sc-sketches-tab *ngIf="isActiveTab('Sketches')"></sc-sketches-tab>

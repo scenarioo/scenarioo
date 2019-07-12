@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                        title="type words separated by spaces to search for"
                        ng-model="$ctrl.searchField" placeholder="Search ..."
                        ng-keyup="$event.keyCode == 27 ? $ctrl.resetSearchField() : null" data-scDebounce
-                       id="{{$ctrl.tabId}}SearchField"/>
+                       id="{{$ctrl.tabTitle}}SearchField"/>
                 <span class="input-group-btn">
 	                <button type="button" ng-click="$ctrl.resetSearchField()" class="btn btn-default">reset</button>
 	            </span>
