@@ -62,7 +62,7 @@
                         <span class="bot">&#9207;</span>
                     </div>
                 </th>
-                <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting" [class.selected]="order === 'diffInfo.changeRate'">
+                <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting" [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                     Changes
                     <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
                         <span class="top"> &#9206; </span>
