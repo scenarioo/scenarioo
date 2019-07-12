@@ -29,6 +29,6 @@ export class DetailareaComponent {
     }
 
     ngOnInit(): void {
-        console.log("detailarea: " + this.branchInformationTree);
+        console.log('detailarea: ' + this.branchInformationTree);
     }
 }

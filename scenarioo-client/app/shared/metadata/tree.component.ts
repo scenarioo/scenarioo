@@ -30,7 +30,7 @@ function TreeComponentController($sce) {
     const ITEM = 'Item';
     const CHILDREN = 'children';
 
-    console.log("treeComponent: " + scope.branchInformationTree);
+    console.log('treeComponent: ' + scope.branchInformationTree);
 
     this.$onChanges = (changes) => {
         if (changes.branchInformationTree) {
