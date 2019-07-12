@@ -6,7 +6,7 @@ import {Directive, ElementRef, Injector, Input} from '@angular/core';
 })
 export class CustomTabDirective extends UpgradeComponent {
 
-    @Input() tabTitle;
+    @Input() tabId;
     @Input() tabColumns;
 
     constructor(elementRef: ElementRef, injector: Injector) {
