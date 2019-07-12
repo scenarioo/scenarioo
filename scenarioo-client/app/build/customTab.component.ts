@@ -1,4 +1,3 @@
-// TODO: bindings don't work yet
 angular.module('scenarioo.directives')
     .component('scCustomTab', {
         bindings: {
