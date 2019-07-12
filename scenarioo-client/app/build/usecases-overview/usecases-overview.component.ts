@@ -76,9 +76,10 @@ export class UseCasesComponent {
                     }
 
                     const branch = branchesAndBuilds.selectedBranch.branch;
+                    console.log(branch);
                     this.branchInformationTree = this.createBranchInformationTree(branch);
+                    console.log(this.branchInformationTree);
 
-                    console.log('branchinfo: ' + this.branchInformationTree);
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -151,7 +152,7 @@ export class UseCasesComponent {
 
     createBranchInformationTree(branch) {
         const branchInformationTree: any = {};
-        branchInformationTree.Description = branch.description;
+        branchInformationTree.description = branch.description;
         return this.metadataTreeCreater.transform(branchInformationTree);
     }
 }
