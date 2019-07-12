@@ -12,7 +12,7 @@ class HomePage {
     private usecaseTable = $('table.usecase-table');
     private showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     private hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
-    private metaDataPanel = element(by.id('sc-metadata-panel'));
+    private metaDataPanel = element(by.id('detail-container'));
     private sketchesTab = element(by.id('sc-main-tab-sketches-link'));
     private pagesTab = element(by.id('sc-main-tab-pages-link'));
 
