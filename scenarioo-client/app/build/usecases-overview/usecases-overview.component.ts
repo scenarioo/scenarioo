@@ -68,7 +68,6 @@ export class UseCasesComponent {
                     branchName: selection.branch,
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
-                    this.usecases = useCaseSummaries;
 
                     if (this.comparisonExisting) {
                         this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
@@ -102,7 +101,7 @@ export class UseCasesComponent {
                 this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),
                 this.useCaseDiffInfosService.get(baseBranchName, baseBuildName, comparisonName),
             ]).subscribe(([buildDiffInfo, useCaseDiffInfos]) => {
-                useCases = this.diffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                this.usecases = this.diffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
             });
         }
     }
