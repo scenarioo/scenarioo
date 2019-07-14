@@ -21,7 +21,7 @@ export class MainPageComponent implements OnInit {
     tabs: any[];
     modalRef: BsModalRef;
 
-    eMailSubject = undefined;
+    eMailSubject: string = undefined;
     eMailUrl: string;
     pageUrl: string;
 
@@ -37,6 +37,7 @@ export class MainPageComponent implements OnInit {
 
     ngOnInit(): void {
 
+        // TODO: Workaround until the full migration, when the Angular router is available
         this.currentBrowserLocation = window.location.href;
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
@@ -50,7 +51,7 @@ export class MainPageComponent implements OnInit {
                     };
                 });
             this.tabs = configuration.customObjectTabs
-                .map((customObjectTab: ICustomObjectTab, index) => {
+                .map((customObjectTab: ICustomObjectTab) => {
                     return {
                         title: customObjectTab.tabTitle,
                         id: customObjectTab.id,
@@ -102,7 +103,7 @@ export class MainPageComponent implements OnInit {
         }
     }
 
-    defineStaticTabs() {
+    private defineStaticTabs() {
         this.tabs.push({
             id: 'useCases',
             title: 'Use Cases',

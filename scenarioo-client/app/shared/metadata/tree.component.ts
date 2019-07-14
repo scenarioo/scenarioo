@@ -44,7 +44,7 @@ function TreeComponentController($sce) {
     function createTreeHtml(branchInformationTree) {
 
         if (!angular.isObject(branchInformationTree)) {
-            return 'no branchInformationTree to display';
+            return 'no data to display';
         } else if (angular.isObject(branchInformationTree) && angular.isArray(branchInformationTree)) {
             let html = '';
             angular.forEach(branchInformationTree, (rootNode) => {

@@ -29,7 +29,7 @@ export class UseCasesComponent {
     sortedUsecases: any[];
     reverse: boolean = false;
 
-    arrowkeyLocation = 0;
+    arrowkeyLocation: number = 0;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
@@ -63,7 +63,7 @@ export class UseCasesComponent {
             this.branchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
 
                 this.branchesAndBuilds = branchesAndBuilds;
-                // console.log(branchesAndBuilds);
+
                 this.useCasesResource.query({
                     branchName: selection.branch,
                     buildName: selection.build,
@@ -96,7 +96,7 @@ export class UseCasesComponent {
         this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
-    loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+    loadDiffInfoData(useCases:UseCaseSummary[], baseBranchName:string, baseBuildName:string, comparisonName:any){
         if (useCases && baseBranchName && baseBuildName) {
             forkJoin([
                 this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),
@@ -133,11 +133,11 @@ export class UseCasesComponent {
         }
     }
 
-    goToUseCase(useCase) {
+    goToUseCase(useCase:string) {
         const params = this.locationService.path('/usecase/' + useCase);
     }
 
-    getLabelStyle(labelName) {
+    getLabelStyle(labelName:string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {

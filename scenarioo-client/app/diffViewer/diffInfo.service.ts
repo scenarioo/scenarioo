@@ -6,7 +6,7 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class DiffInfoService {
 
-    getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
+    getElementsWithDiffInfos(elements:any, removedElements:any, diffInfos:any, pathToName:any){
         const elementsWithDiffInfo = [];
 
         angular.forEach(elements, (element) => {
@@ -22,7 +22,7 @@ export class DiffInfoService {
         return elementsWithDiffInfo;
     }
 
-     enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
+     enrichPagesAndStepsWithDiffInfos(pagesAndSteps:string, removedSteps:string, diffInfos:string) {
         let stepIndex = 0;
         angular.forEach(pagesAndSteps, (pageAndStep) => {
             angular.forEach(pageAndStep.steps, (step) => {

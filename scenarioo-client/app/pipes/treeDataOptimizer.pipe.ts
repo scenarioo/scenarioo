@@ -43,28 +43,6 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         });
     }
 
-// TODO Decide whether we want do remove empty child nodes or not. Probably not.
-//     removeEmptyChildNodes(childNode, modifiedChildNodes) {
-//        if(hasChildNodes(childNode) || hasNodeValue(childNode)) {
-//            modifiedChildNodes.push(childNode);
-//        }
-//    }
-//
-//     hasChildNodes(node) {
-//        var childNodes = node.childNodes;
-//        var childNodesArrayNotEmpty = Array.isArray(childNodes) && childNodes.length > 0;
-//        var childNodesPropertyDefined = childNodes !== undefined;
-//
-//        return childNodesPropertyDefined && childNodesArrayNotEmpty;
-//    }
-//
-//     hasNodeValue(node) {
-//        var value = node.nodeValue;
-//        var hasStringValue = typeof value === "string" && value.trim() !== '';
-//        var hasOtherValue = value !== undefined && value !== null;
-//        return hasStringValue || hasOtherValue;
-//    }
-
     pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
         if (this.isDetailsNode(childNode)) {
             childNode.childNodes.forEach((grandChildNode) => {

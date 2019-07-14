@@ -14,7 +14,7 @@ export class DetailareaComponent {
     isFirstOpen: boolean = true;
 
     @Input()
-    branchInformationTree;
+    branchInformationTree: {};
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
