@@ -6,7 +6,7 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class DiffInfoService {
 
-    getElementsWithDiffInfos(elements: any, removedElements: any, diffInfos: any, pathToName: any){
+    getElementsWithDiffInfos(elements: any, removedElements: any, diffInfos: any, pathToName: any) {
         const elementsWithDiffInfo = [];
 
         angular.forEach(elements, (element) => {
