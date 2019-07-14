@@ -96,7 +96,7 @@ export class UseCasesComponent {
         this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
-    loadDiffInfoData(useCases:UseCaseSummary[], baseBranchName:string, baseBuildName:string, comparisonName:any){
+    loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: any){
         if (useCases && baseBranchName && baseBuildName) {
             forkJoin([
                 this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),
@@ -133,11 +133,11 @@ export class UseCasesComponent {
         }
     }
 
-    goToUseCase(useCase:string) {
+    goToUseCase(useCase: string) {
         const params = this.locationService.path('/usecase/' + useCase);
     }
 
-    getLabelStyle(labelName:string) {
+    getLabelStyle(labelName: string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {
