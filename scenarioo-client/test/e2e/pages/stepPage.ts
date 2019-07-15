@@ -168,8 +168,8 @@ class StepPage {
         return element(by.id('sc-showHideScreenAnnotationsButton')).click();
     }
 
-    async clickFirstScreenAnnotation() {
-        return element.all(by.className('sc-screenshot-annotation-icon')).first().click();
+    async clickLastScreenAnnotation() {
+        return element.all(by.className('sc-screenshot-annotation-icon')).last().click();
     }
 
     async assertScreenAnnotationPopupIsDisplayed() {
@@ -178,6 +178,10 @@ class StepPage {
 
     async assertTitleOfAnnotationPopupIs(expectedTitle) {
         return expect(element(by.className('modal-header')).getText()).toEqual(expectedTitle);
+    }
+
+    async clickGoToNextStepInAnnotationPopup() {
+        return element(by.className('link-no-hover')).click();
     }
 
     async clickCreateSketchButton() {
@@ -289,19 +293,19 @@ class StepPage {
     }
 
     async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
-        await expect($('sc-screenshot-title[build="baseBuild"] h3').getText()).toBe(title);
-        await $('sc-screenshot-title[build="baseBuild"] h3 span[uib-tooltip]').click();
-        await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').isDisplayed()).toBeTruthy();
-        await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').getText()).toBe(infoText);
-        return $('sc-screenshot-title[build="baseBuild"] h3').click();
+        await expect($('sc-screenshot-title[build="$ctrl.baseBuild"] h3').getText()).toBe(title);
+        await $('sc-screenshot-title[build="$ctrl.baseBuild"] h3 span[uib-tooltip]').click();
+        await expect($('sc-screenshot-title[build="$ctrl.baseBuild"] div.tooltip').isDisplayed()).toBeTruthy();
+        await expect($('sc-screenshot-title[build="$ctrl.baseBuild"] div.tooltip').getText()).toBe(infoText);
+        return $('sc-screenshot-title[build="$ctrl.baseBuild"] h3').click();
     }
 
     async expectStepComparisonOtherScreenTitle(title: string, infoText: string) {
-        await expect($('sc-screenshot-title[build="comparisonBuild"] h3').getText()).toBe(title);
-        await $('sc-screenshot-title[build="comparisonBuild"] h3 span[uib-tooltip]').click();
-        await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').isDisplayed()).toBeTruthy();
-        await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').getText()).toBe(infoText);
-        return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
+        await expect($('sc-screenshot-title[build="$ctrl.comparisonBuild"] h3').getText()).toBe(title);
+        await $('sc-screenshot-title[build="$ctrl.comparisonBuild"] h3 span[uib-tooltip]').click();
+        await expect($('sc-screenshot-title[build="$ctrl.comparisonBuild"] div.tooltip').isDisplayed()).toBeTruthy();
+        await expect($('sc-screenshot-title[build="$ctrl.comparisonBuild"] div.tooltip').getText()).toBe(infoText);
+        return $('sc-screenshot-title[build="$ctrl.comparisonBuild"] h3').click();
     }
 
     async expectStepComparisonCurrentScreenViewButtonHidden() {
