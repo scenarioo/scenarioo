@@ -50,9 +50,11 @@ class HomePage {
     }
 
     async assertUseCasesShown(count) {
-        return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
-            return expect(elements.length).toBe(count);
-        });
+        if (count !== 0) {
+            return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
+                return expect(elements.length).toBe(count);
+            });
+        }
     }
 
     async selectUseCase(useCaseIndex) {
