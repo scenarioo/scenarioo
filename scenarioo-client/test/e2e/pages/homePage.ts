@@ -50,7 +50,7 @@ class HomePage {
     }
 
     async assertUseCasesShown(count) {
-        if(count!=0){
+        if (count !== 0) {
             return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
                 return expect(elements.length).toBe(count);
             });
