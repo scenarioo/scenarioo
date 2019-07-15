@@ -29,12 +29,12 @@ angular
 function ComparisonToolbarController(localStorageService, ConfigurationService: ConfigurationService) {
     const ctrl = this;
 
-    ctrl.setComparisonView = (viewId) => {
+    ctrl.setComparisonView = (viewId: string) => {
         ctrl.comparisonViewOptions.viewId = viewId;
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    ctrl.isComparisonView = (viewId) => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
+    ctrl.isComparisonView = (viewId: string) : boolean => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : ctrl.comparisonViewOptions.viewId === viewId;
 
@@ -43,12 +43,12 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
         ctrl.setComparisonView(viewId);
     };
 
-    ctrl.isComparisonChangesToBeHighlightedAvailable = () => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.changeRate !== 0 && !ctrl.step.diffInfo.isAdded;
+    ctrl.isComparisonChangesToBeHighlightedAvailable = () : boolean =>
+        ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.changeRate !== 0 && !ctrl.step.diffInfo.isAdded;
 
-    ctrl.isComparisonChangesHighlighted = () => {
+    ctrl.isComparisonChangesHighlighted = () : boolean=>
         // highlighting is turned on, and there are changes in this screenshot to be highlighted
-        return ctrl.isComparisonChangesToBeHighlightedAvailable() && ctrl.comparisonViewOptions.changesHighlighted;
-    };
+        ctrl.isComparisonChangesToBeHighlightedAvailable() && ctrl.comparisonViewOptions.changesHighlighted;
 
     ctrl.toggleComparisonChangesHighlighted = () => {
         ctrl.comparisonViewOptions.changesHighlighted = !ctrl.comparisonViewOptions.changesHighlighted;
@@ -57,7 +57,7 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
 
     ctrl.getComparisonViewHighlightChangesColor = () => ConfigurationService.diffViewerDiffImageColor();
 
-    function setLocalStorageValue(storageKey, value) {
+    function setLocalStorageValue(storageKey: string, value: any) {
         localStorageService.set(storageKey, '' + value);
     }
 }
