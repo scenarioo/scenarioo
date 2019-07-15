@@ -32,6 +32,7 @@ import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {MetadataTreeCreatorPipe} from './pipes/metadataTreeCreator.pipe';
 import {TreeDataCreatorPipe} from './pipes/treeDataCreator.pipe';
 import {TreeDataOptimizerPipe} from './pipes/treeDataOptimizer.pipe';
+import {DateTimePipe} from './pipes/dateTime.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
@@ -61,6 +62,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
+        DateTimePipe,
         DetailareaComponent,
         CustomTabDirective,
         SketchesTabDirective,
@@ -109,6 +111,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
+        DateTimePipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
