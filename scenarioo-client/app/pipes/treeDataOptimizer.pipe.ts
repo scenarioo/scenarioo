@@ -84,7 +84,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         const childrenNode = TreeDataOptimizerPipe.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
 
         if (childrenNode !== undefined) {
-            this.addNodeToChildNodesAfterAllOthers(node, childrenNode);
+            TreeDataOptimizerPipe.addNodeToChildNodesAfterAllOthers(node, childrenNode);
         }
     }
 
@@ -146,7 +146,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         return nameChildNode;
     }
 
-    addNodeToChildNodesAfterAllOthers(node, childNodeToAdd) {
+    static addNodeToChildNodesAfterAllOthers(node, childNodeToAdd) {
         if (!Array.isArray(node.childNodes)) {
             node.childNodes = [];
         }
