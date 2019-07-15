@@ -17,7 +17,7 @@ export class FilterPipe implements PipeTransform {
         const filteredModel = [];
 
         items.forEach((singleItem) => {
-            if(typeof singleItem === 'object') {
+            if (typeof singleItem === 'object') {
                 if (this.objectContainsAllSearchElements(singleItem, value)) {
                     filteredModel.push(singleItem);
                 }
