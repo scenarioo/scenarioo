@@ -151,7 +151,7 @@ export class ScenariosComponent {
             if (this.labelConfig) {
                 return {
                     'background-color': this.labelConfig.backgroundColor,
-                    'color': this.labelConfig.foregroundColor
+                    'color': this.labelConfig.foregroundColor,
                 };
             }
         }
