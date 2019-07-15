@@ -49,17 +49,6 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 		return corsFilterBean;
 	}
 
-	/**
-	 * Needed to enable multipart upload for large ZIP file uploads.
-	 */
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(-1);
-		multipartResolver.setMaxUploadSizePerFile(-1);
-		return multipartResolver;
-	}
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new RequestLoggingFilter());
