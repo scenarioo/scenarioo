@@ -26,11 +26,11 @@ angular
             linkingVariable: '=',
             showScreenAnnotations: '=',
         },
-        template: require('./navigation.html'),
-        controller: NavigationController,
+        template: require('./stepNavigation.html'),
+        controller: StepNavigationController,
     });
 
-function NavigationController($location, $routeParams, GlobalHotkeysService, SelectedBranchAndBuildService) {
+function StepNavigationController($location, $routeParams, GlobalHotkeysService, SelectedBranchAndBuildService) {
 
     const useCaseName = $routeParams.useCaseName;
     const scenarioName = $routeParams.scenarioName;
