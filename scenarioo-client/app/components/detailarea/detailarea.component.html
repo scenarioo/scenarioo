@@ -1,4 +1,4 @@
-<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic"
+<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
         class="btn btn-primary pull-right" type="button">
     {{ isPanelCollapsed ? "Show details" : "Hide details" }}
 </button>
@@ -12,7 +12,7 @@
 -->
 
 <div #collapse="bs-collapse" [collapse]="isPanelCollapsed">
-    <div class="detail-container col-sm-4 pull-right">
+    <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
         <div class="detail-row">
 
             <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
