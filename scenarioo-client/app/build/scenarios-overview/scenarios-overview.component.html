@@ -2,107 +2,128 @@
     <div class="col-sm-8">
         <label class="input-group">
             <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
-                   id="scenariosSearchField" placeholder="Search in use case &quot;{{useCaseName | scHumanReadable}}&quot;..."
+                   id="scenariosSearchField"
+                   placeholder="Search in use case &quot;{{useCaseName | scHumanReadable}}&quot;..."
                    title="type words separated by spaces to search for" type="text"/>
             <span class="input-group-btn">
                 <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
             </span>
         </label>
     </div>
-</div>
 
-<div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
-        <p *ngIf="scenarios.length>1">
-            Found {{(scenarios|filter: searchTerm).length}}
-            <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
-            Scenarios in this Use Case
-        </p>
-        <p *ngIf="scenarios.length<=1">
-            Found {{(scenarios|filter: searchTerm).length}}
-            <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
-            Scenario in this Use Case
-        </p>
-        <table class="table table-curved table-hover table-responsive usecase-table"
-               *ngIf="(scenarios|filter: searchTerm).length!=0">
-            <thead>
-            <tr>
-                <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
-                    Status
-                    <div *ngIf= "order != 'status'" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="bot"> &#9207; </span>
-                    </div>
-                    <div *ngIf= "order === 'status' && reverse" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="selectedBot">&#9207;</span>
-                    </div>
-                    <div *ngIf= "order === 'status' && !reverse" class="arrows">
-                        <span class="selectedTop"> &#9206; </span>
-                        <span class="bot">&#9207;</span>
-                    </div>
-                </th>
-                <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
-                    Scenario name
-                    <div *ngIf= "order != 'name'" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="bot"> &#9207; </span>
-                    </div>
-                    <div *ngIf= "order === 'name' && reverse" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="selectedBot">&#9207;</span>
-                    </div>
-                    <div *ngIf= "order === 'name' && !reverse" class="arrows">
-                        <span class="selectedTop"> &#9206; </span>
-                        <span class="bot">&#9207;</span>
-                    </div>
-                </th>
-                <th>Actions</th>
-                <th>Description</th>
-                <th (click)="setOrder('numberOfSteps')" [class.selected]="order === 'numberOfSteps' ">
-                    # Steps
-                    <div *ngIf= "order != 'numberOfSteps'" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="bot"> &#9207; </span>
-                    </div>
-                    <div *ngIf= "order === 'numberOfSteps' && reverse" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="selectedBot">&#9207;</span>
-                    </div>
-                    <div *ngIf= "order === 'numberOfSteps' && !reverse" class="arrows">
-                        <span class="selectedTop"> &#9206; </span>
-                        <span class="bot">&#9207;</span>
-                    </div>
-                </th>
-                <th *ngIf="comparisonInfo" class="sort-diff-info">Changes</th>
-            </tr>
-            </thead>
+    <div id="sc-meta-data-panel">
+        <sc-detailarea (valueChange)="collapsePanel($event)"></sc-detailarea>
 
-            <tbody>
-            <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
-                *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" (keyup)="handleEvent(dynamicScenarios.scenario.name)" >
-                <td>
-                    <span [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
-                </td>
-                <td>
-                    {{dynamicScenarios.scenario.name | scHumanReadable}}
-                    <span *ngFor="let dynamicLable of dynamicScenarios.scenario.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
-                          class="label label-info sc-label">{{dynamicScenarios.scenario.labels.labels}}</span>
-                </td>
-                <td>
-                    <a>
-                        <i class="fas fa-fw fa-list-ul"></i>
-                    </a>
-                    <a>
-                        <i class="fas fa-fw fa-tablet-alt"></i>
-                    </a>
-                </td>
-                <td>{{dynamicScenarios.scenario.description}}</td>
-                <td>{{dynamicScenarios.numberOfSteps}}</td>
-                <td *ngIf="comparisonInfo"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
+            <p *ngIf="scenarios.length>1">
+                Found {{(scenarios|filter: searchTerm).length}}
+                <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
+                Scenarios in this Use Case
+            </p>
+            <p *ngIf="scenarios.length<=1">
+                Found {{(scenarios|filter: searchTerm).length}}
+                <span *ngIf="(scenarios|filter: searchTerm)?.length != scenarios.length"> of {{scenarios.length}}</span>
+                Scenario in this Use Case
+            </p>
+            <table *ngIf="(scenarios|filter: searchTerm).length!=0"
+                   class="table table-curved table-responsive scenario-table">
+                <thead>
+                <tr>
+                    <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
+                        Status
+                        <div *ngIf="order != 'status'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'status' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'status' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
+                        Scenario name
+                        <div *ngIf="order != 'name'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'name' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'name' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th>Actions</th>
+                    <th>Description</th>
+                    <th (click)="setOrder('numberOfSteps')" [class.selected]="order === 'numberOfSteps' ">
+                        # Steps
+                        <div *ngIf="order != 'numberOfSteps'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'numberOfSteps' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'numberOfSteps' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                        [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
+                        Changes
+                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
+                    *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
+                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="comparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
+                    <td>
+                        <span
+                            [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
+                    </td>
+                    <td>
+                        <span class="sc-text-before-label">{{dynamicScenarios.scenario.name | scHumanReadable}}</span>
+                        <span *ngFor="let dynamicLabel of dynamicScenarios.scenario.labels.labels"
+                              [ngStyle]="getLabelStyle(dynamicLabel)"
+                              class="label label-info sc-label">{{dynamicLabel}}</span>
+                    </td>
+                    <td>
+                        <a>
+                            <i class="fas fa-fw fa-list-ul"></i>
+                        </a>
+                        <a>
+                            <i class="fas fa-fw fa-tablet-alt"></i>
+                        </a>
+                    </td>
+                    <td>{{dynamicScenarios.scenario.description}}</td>
+                    <td>{{dynamicScenarios.numberOfSteps}}</td>
+                    <td *ngIf="comparisonExisting">
+                        <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" child-element-type="step" element-type="scenario"></sc-diff-info-icon>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
