@@ -2,7 +2,7 @@
     <div class="col-sm-8">
         <label class="input-group">
             <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
-                   id="scenariosSearchField" placeholder="Search in use case &quot;{{useCaseName | humanReadable}}&quot;..."
+                   id="scenariosSearchField" placeholder="Search in use case &quot;{{useCaseName | scHumanReadable}}&quot;..."
                    title="type words separated by spaces to search for" type="text"/>
             <span class="input-group-btn">
                 <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
@@ -14,17 +14,17 @@
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
         <p *ngIf="scenarios.length>1">
-            Found {{(scenarios|filter: 'name' && 'description':searchTerm).length}}
-            <span *ngIf="(scenarios|filter: 'name' && 'description':searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
+            Found {{(scenarios|filter: searchTerm).length}}
+            <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
             Scenarios in this Use Case
         </p>
         <p *ngIf="scenarios.length<=1">
-            Found {{(scenarios|filter: 'name' && 'description':searchTerm).length}}
-            <span *ngIf="(scenarios|filter: 'name' && 'description':searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
+            Found {{(scenarios|filter: searchTerm).length}}
+            <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
             Scenario in this Use Case
         </p>
         <table class="table table-curved table-hover table-responsive usecase-table"
-               *ngIf="(scenarios|filter: 'name' && 'description':searchTerm).length!=0">
+               *ngIf="(scenarios|filter: searchTerm).length!=0">
             <thead>
             <tr>
                 <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
@@ -80,13 +80,13 @@
 
             <tbody>
             <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
-                *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: 'scenario.name' && 'scenario.description':searchTerm
+                *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation" (keyup)="handleEvent(dynamicScenarios.scenario.name)" >
                 <td>
                     <span [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
                 </td>
                 <td>
-                    {{dynamicScenarios.scenario.name | humanReadable}}
+                    {{dynamicScenarios.scenario.name | scHumanReadable}}
                     <span *ngFor="let dynamicLable of dynamicScenarios.scenario.labels.labels" [ngStyle]="getLabelStyle(dynamicLable)"
                           class="label label-info sc-label">{{dynamicScenarios.scenario.labels.labels}}</span>
                 </td>

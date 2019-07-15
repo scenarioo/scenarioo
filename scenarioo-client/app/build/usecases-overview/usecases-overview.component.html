@@ -16,13 +16,13 @@
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p *ngIf="usecases.length>1">
-                Found {{(usecases|filter: 'name' && 'description':searchTerm).length}}
-                <span *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+                Found {{(usecases|filter: searchTerm).length}}
+                <span *ngIf="(usecases|filter: searchTerm).length != usecases.length"> of {{usecases.length}}</span>
                 Use Cases
             </p>
             <p *ngIf="usecases.length<=1">
-                Found {{(usecases|filter: 'name' && 'description':searchTerm).length}}
-                <span *ngIf="(usecases|filter: 'name' && 'description':searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+                Found {{(usecases|filter: searchTerm).length}}
+                <span *ngIf="(usecases|filter: searchTerm).length != usecases.length"> of {{usecases.length}}</span>
                 Use Case
             </p>
             <table class="table table-curved table-responsive usecase-table">

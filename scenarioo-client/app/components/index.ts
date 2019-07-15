@@ -7,5 +7,7 @@ declare var angular: angular.IAngularStatic;
 angular.module('scenarioo.directives')
     .directive('scDetailarea',
         downgradeComponent({component: DetailareaComponent}) as angular.IDirectiveFactory);
+
+angular.module('scenarioo.directives')
     .directive('scTitle',
         downgradeComponent({component: TitleComponent}) as angular.IDirectiveFactory);
