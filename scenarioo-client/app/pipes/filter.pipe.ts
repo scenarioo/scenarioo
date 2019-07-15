@@ -44,14 +44,15 @@ export class FilterPipe implements PipeTransform {
     objectContainsString(object, string: string): boolean {
         let returnTrue = false;
 
-        Object.keys(object).forEach((property) => {
+        Object.keys(object).forEach((key) => {
             if (!returnTrue) {
-                if (typeof property === 'string') {
-                    if (this.contains(property, string)) {
+                const value = object[key];
+                if (typeof value === 'string') {
+                    if (this.contains(value, string)) {
                         returnTrue = true;
                     }
                 } else {
-                    returnTrue = this.objectContainsString(property, string);
+                    returnTrue = this.objectContainsString(value, string);
                 }
             }
         });
