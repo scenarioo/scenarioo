@@ -1,45 +1,32 @@
-/* scenarioo-client
- * Copyright (C) 2014, scenarioo.org Development Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
-angular.module('scenarioo.services').service('DiffInfoService', DiffInfoService);
+declare var angular: angular.IAngularStatic;
 
-function DiffInfoService() {
+@Injectable()
+export class DiffInfoService {
 
-    function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
+    getElementsWithDiffInfos(elements: any, removedElements: any, diffInfos: any, pathToName: any) {
         const elementsWithDiffInfo = [];
 
         angular.forEach(elements, (element) => {
-            element.diffInfo = getDiffInfo(diffInfos, resolvePathValue(element, pathToName));
+            element.diffInfo = this.getDiffInfo(diffInfos, this.resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
 
         angular.forEach(removedElements, (removedElement) => {
-            removedElement.diffInfo = getRemovedDiffInfo();
+            removedElement.diffInfo = this.getRemovedDiffInfo();
             elementsWithDiffInfo.push(removedElement);
         });
 
         return elementsWithDiffInfo;
     }
 
-    function enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
+     enrichPagesAndStepsWithDiffInfos(pagesAndSteps: string, removedSteps: string, diffInfos: string) {
         let stepIndex = 0;
         angular.forEach(pagesAndSteps, (pageAndStep) => {
             angular.forEach(pageAndStep.steps, (step) => {
-                step.diffInfo = getDiffInfo(diffInfos, stepIndex++);
+                step.diffInfo = this.getDiffInfo(diffInfos, stepIndex++);
                 step.diffInfo.changed = 1;
                 step.diffInfo.added = 0;
                 step.diffInfo.removed = 0;
@@ -47,24 +34,24 @@ function DiffInfoService() {
         });
 
         angular.forEach(removedSteps, (removedStep) => {
-            addRemovedStep(pagesAndSteps, removedStep);
+            this.addRemovedStep(pagesAndSteps, removedStep);
         });
 
         angular.forEach(pagesAndSteps, (pageAndStep) => {
-            pageAndStep.page.diffInfo = getPageDiffInfo(pageAndStep);
+            pageAndStep.page.diffInfo = this.getPageDiffInfo(pageAndStep);
         });
     }
 
-    function enrichChangedStepWithDiffInfo(step, diffInfo) {
+     enrichChangedStepWithDiffInfo(step, diffInfo) {
         if (diffInfo) {
             diffInfo.changed = 1;
             diffInfo.added = 0;
             diffInfo.removed = 0;
         }
-        step.diffInfo = enrichDiffInfo(diffInfo);
+        step.diffInfo = this.enrichDiffInfo(diffInfo);
     }
 
-    function addRemovedStep(pagesAndSteps, stepInfo) {
+     addRemovedStep(pagesAndSteps, stepInfo) {
         let targetPageAndStep = null;
         angular.forEach(pagesAndSteps, (pageAndStep) => {
             if (stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
@@ -81,17 +68,17 @@ function DiffInfoService() {
                 page: removedPage,
                 steps: [],
             };
-            const insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
+            const insertIndex = this.getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
             pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
         stepInfo.stepDescription.index = stepInfo.stepLink.stepInPageOccurrence;
-        stepInfo.stepDescription.diffInfo = getRemovedDiffInfo();
+        stepInfo.stepDescription.diffInfo = this.getRemovedDiffInfo();
 
         targetPageAndStep.steps.push(stepInfo.stepDescription);
     }
 
-    function getInsertPosition(pagesAndSteps, stepIndex) {
+     getInsertPosition(pagesAndSteps, stepIndex) {
         for (let i = 0; i < pagesAndSteps; i++) {
             const steps = pagesAndSteps[i].steps;
             const lastStepInPage = steps[steps.length - 1];
@@ -102,11 +89,11 @@ function DiffInfoService() {
         return pagesAndSteps.length;
     }
 
-    function getDiffInfo(diffInfos, key) {
-        return enrichDiffInfo(diffInfos[key]);
+     getDiffInfo(diffInfos, key) {
+        return this.enrichDiffInfo(diffInfos[key]);
     }
 
-    function enrichDiffInfo(diffInfo) {
+     enrichDiffInfo(diffInfo) {
         if (diffInfo) {
             diffInfo.isAdded = false;
             diffInfo.isRemoved = false;
@@ -119,7 +106,7 @@ function DiffInfoService() {
         return diffInfo;
     }
 
-    function getRemovedDiffInfo() {
+     getRemovedDiffInfo() {
         const diffInfo: any = {};
         diffInfo.changeRate = 100;
         diffInfo.isAdded = false;
@@ -127,7 +114,7 @@ function DiffInfoService() {
         return diffInfo;
     }
 
-    function getPageDiffInfo(pageAndStep) {
+     getPageDiffInfo(pageAndStep) {
         const diffInfo = {
             changeRate: 0,
             added: 0,
@@ -157,7 +144,7 @@ function DiffInfoService() {
         return diffInfo;
     }
 
-    function resolvePathValue(obj, pathConcatenated) {
+     resolvePathValue(obj, pathConcatenated) {
         let current = obj;
         if (pathConcatenated) {
             const paths = pathConcatenated.split('.');
@@ -171,10 +158,7 @@ function DiffInfoService() {
         }
         return current;
     }
-
-    return {
-        getElementsWithDiffInfos,
-        enrichChangedStepWithDiffInfo,
-        enrichPagesAndStepsWithDiffInfos,
-    };
 }
+
+angular.module('scenarioo.services')
+    .factory('DiffInfoService', downgradeInjectable(DiffInfoService));

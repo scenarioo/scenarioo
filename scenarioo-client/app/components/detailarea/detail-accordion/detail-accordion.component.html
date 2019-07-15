@@ -1,0 +1,14 @@
+<accordion-group (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
+                 [isOpen]=isFirstOpen
+                 panelClass="customClass">
+    <div accordion-heading>
+                        <span *ngIf="isAccordionCollapsed">
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+        <span *ngIf="!isAccordionCollapsed">
+                            <i class="fas fa-angle-up"></i>
+                        </span>
+        <span>{{detailAccordionName}}</span>
+    </div>
+    <sc-tree [informationTree]="informationTree"></sc-tree>
+</accordion-group>

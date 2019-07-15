@@ -47,16 +47,22 @@
             {{sketcherLink.getCreateOrEditSketchLinkTitle()}}
         </span>-->
 </span>
-<div>
-    <tabset>
-        <tab heading="Use Cases" id="tab1">
-            <sc-usecases-overview></sc-usecases-overview>
-        </tab>
-        <tab *ngFor="let dynamictab of tabs"
-             [heading]="dynamictab.title">
-            {{dynamictab?.content}}
-        </tab>
 
+<!--TODO: Order of tabs -->
+<div>
+    <tabset #homeTabs>
+        <tab heading="Use Cases" id="sc-main-tab-usecases" (selectTab)="onSelect($event)">
+            <sc-usecases-overview *ngIf="isActiveTab('Use Cases')"></sc-usecases-overview>
+        </tab>
+        <tab *ngFor="let dynamictab of customTabs"
+             [heading]="dynamictab.title"
+             (selectTab)="onSelect($event)"
+              id="sc-main-tab-{{dynamictab.id}}">
+            <sc-custom-tab [tabId]="dynamictab.id" [tabColumns]="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
+        </tab>
+        <tab heading="Sketches" id="sc-main-tab-sketches" (selectTab)="onSelect($event)">
+            <sc-sketches-tab *ngIf="isActiveTab('Sketches')"></sc-sketches-tab>
+        </tab>
     </tabset>
 </div>
 

@@ -1,0 +1,32 @@
+<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
+        class="btn btn-primary pull-right" type="button">
+    {{ isPanelCollapsed ? "Show details" : "Hide details" }}
+</button>
+
+<!--
+<div *ngIf="isPanelCollapsed" class="detail-container col-sm-1 pull-right">
+    <div class="detail-cell detail-button" (click)="isPanelCollapsed = false" aria-controls="collapseManual">
+        <i class="fas fa-angle-left"></i>
+    </div>
+</div>
+-->
+
+<div #collapse="bs-collapse" [collapse]="isPanelCollapsed">
+    <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
+        <div class="detail-row">
+
+            <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
+                 class="detail-cell detail-button">
+                <i class="fas fa-angle-right"></i>
+            </div>
+
+            <div class="detail-cell detail-section">
+                <h3>Details</h3>
+                <accordion [isAnimated]="true">
+                    <sc-detail-accordion [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true"></sc-detail-accordion>
+                    <sc-detail-accordion [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false"></sc-detail-accordion>
+                </accordion>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,13 @@
-import {Injectable, Input, Pipe, PipeTransform} from '@angular/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'humanReadable'
+    name: 'scHumanReadable',
 })
 
 @Injectable()
 export class HumanReadablePipe implements PipeTransform {
 
-    transform(text: any): any {
+    transform(text: string): string {
         if (text && text.length > 0) {
             // First Char
             text = text.charAt(0).toUpperCase() + text.substr(1);

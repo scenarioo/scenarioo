@@ -6,6 +6,8 @@ import * as Utils from '../util';
 class CreateComparisonDialog {
 
     async openCreateComparison() {
+        // Open menu first, otherwise we cannot click
+        await element(by.partialLinkText('Comparison:')).click();
         return Utils.clickElementById('createComparisonBtn');
     }
 

@@ -32,6 +32,7 @@ describe('UseCasesTabController', () => {
     const ConfigurationServiceMock = {
     };
 
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         // TODO: Remove after complete AngularJs -> Angular Migration
@@ -45,6 +46,7 @@ describe('UseCasesTabController', () => {
         $provide.value('UseCaseDiffInfosResource', {});
         $provide.value("LabelConfigurationsResource", LabelConfigurationsResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
     }));
 
     beforeEach(inject(($controller, $rootScope, _$location_) => {
