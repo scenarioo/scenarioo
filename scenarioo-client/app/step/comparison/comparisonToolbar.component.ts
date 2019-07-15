@@ -34,7 +34,7 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
         setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    ctrl.isComparisonView = (viewId: string) : boolean => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
+    ctrl.isComparisonView = (viewId: string): boolean => ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.isAdded
         ? viewId === 'SideBySide' // fixed side by side view for added steps
         : ctrl.comparisonViewOptions.viewId === viewId;
 
@@ -43,10 +43,10 @@ function ComparisonToolbarController(localStorageService, ConfigurationService: 
         ctrl.setComparisonView(viewId);
     };
 
-    ctrl.isComparisonChangesToBeHighlightedAvailable = () : boolean =>
+    ctrl.isComparisonChangesToBeHighlightedAvailable = (): boolean =>
         ctrl.step && ctrl.step.diffInfo && ctrl.step.diffInfo.changeRate !== 0 && !ctrl.step.diffInfo.isAdded;
 
-    ctrl.isComparisonChangesHighlighted = () : boolean=>
+    ctrl.isComparisonChangesHighlighted = (): boolean =>
         // highlighting is turned on, and there are changes in this screenshot to be highlighted
         ctrl.isComparisonChangesToBeHighlightedAvailable() && ctrl.comparisonViewOptions.changesHighlighted;
 
