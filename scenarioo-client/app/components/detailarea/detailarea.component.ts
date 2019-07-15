@@ -10,11 +10,11 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = false;
 
-    isAccordionCollapsed: boolean = false;
-    isFirstOpen: boolean = true;
-
     @Input()
     branchInformationTree: {};
+
+    @Input()
+    buildInformationTree: {};
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -28,7 +28,4 @@ export class DetailareaComponent {
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
-    ngOnInit(): void {
-        console.log('detailarea: ' + this.branchInformationTree);
-    }
 }

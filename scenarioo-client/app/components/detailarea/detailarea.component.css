@@ -80,6 +80,7 @@ sc-detailarea accordion span {
 
 sc-detailarea accordion accordion-group {
     border: 2px solid #FFFFFF;
+    margin-bottom: 20px !important;
 }
 
 sc-detailarea div.panel-heading {

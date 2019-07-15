@@ -6,7 +6,7 @@ import {Directive, ElementRef, Injector, Input} from '@angular/core';
 })
 export class TreeDirective extends UpgradeComponent {
 
-    @Input() branchInformationTree;
+    @Input() informationTree;
 
     constructor(elementRef: ElementRef, injector: Injector) {
         super('scTree', elementRef, injector);

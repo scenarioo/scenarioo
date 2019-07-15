@@ -19,7 +19,7 @@ angular.module('scenarioo.directives')
     .component('scTree', {
 
         bindings: {
-            branchInformationTree: '<',
+            informationTree: '<',
         },
         template: '<div ng-bind-html="$ctrl.treeHtml" class="sc-tree"></div>',
         controller: TreeComponentController,
@@ -30,29 +30,27 @@ function TreeComponentController($sce) {
     const ITEM = 'Item';
     const CHILDREN = 'children';
 
-    console.log('treeComponent: ' + scope.branchInformationTree);
-
     this.$onChanges = (changes) => {
-        if (changes.branchInformationTree) {
+        if (changes.informationTree) {
             /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
              http://docs.angularjs.org/api/ng/service/$sce for more information
              */
-            scope.treeHtml = $sce.trustAsHtml(createTreeHtml(changes.branchInformationTree.currentValue));
+            scope.treeHtml = $sce.trustAsHtml(createTreeHtml(changes.informationTree.currentValue));
         }
     };
 
-    function createTreeHtml(branchInformationTree) {
+    function createTreeHtml(informationTree) {
 
-        if (!angular.isObject(branchInformationTree)) {
+        if (!angular.isObject(informationTree)) {
             return 'no data to display';
-        } else if (angular.isObject(branchInformationTree) && angular.isArray(branchInformationTree)) {
+        } else if (angular.isObject(informationTree) && angular.isArray(informationTree)) {
             let html = '';
-            angular.forEach(branchInformationTree, (rootNode) => {
+            angular.forEach(informationTree, (rootNode) => {
                 html += getRootNodeHtml(rootNode);
             });
             return html;
         }
-        return getRootNodeHtml(branchInformationTree);
+        return getRootNodeHtml(informationTree);
     }
 
     function getRootNodeHtml(rootNode) {

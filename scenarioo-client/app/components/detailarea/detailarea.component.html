@@ -23,20 +23,8 @@
             <div class="detail-cell detail-section">
                 <h3>Details</h3>
                 <accordion [isAnimated]="true">
-                    <accordion-group (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
-                                     [isOpen]="isFirstOpen"
-                                     panelClass="customClass">
-                        <div accordion-heading>
-                        <span *ngIf="isAccordionCollapsed">
-                            <i class="fas fa-angle-down"></i>
-                        </span>
-                            <span *ngIf="!isAccordionCollapsed">
-                            <i class="fas fa-angle-up"></i>
-                        </span>
-                            <span>Branch</span>
-                        </div>
-                        <sc-tree [branchInformationTree]="branchInformationTree"></sc-tree>
-                    </accordion-group>
+                    <sc-detail-accordion [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true"></sc-detail-accordion>
+                    <sc-detail-accordion [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false"></sc-detail-accordion>
                 </accordion>
             </div>
         </div>

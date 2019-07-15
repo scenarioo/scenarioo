@@ -12,6 +12,7 @@ import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.se
 import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
+import {DateTimePipe} from '../../pipes/dateTime.pipe';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -41,6 +42,7 @@ export class UseCasesComponent {
 
     branchesAndBuilds = [];
     branchInformationTree = {};
+    buildInformationTree = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -48,6 +50,7 @@ export class UseCasesComponent {
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
+                private dateTimePipe: DateTimePipe,
                 private locationService: LocationService,
                 private selectedComparison: SelectedComparison,
                 private metadataTreeCreater: MetadataTreeCreatorPipe,
@@ -76,10 +79,10 @@ export class UseCasesComponent {
                     }
 
                     const branch = branchesAndBuilds.selectedBranch.branch;
-                    console.log(branch);
                     this.branchInformationTree = this.createBranchInformationTree(branch);
-                    console.log(this.branchInformationTree);
 
+                    const build = branchesAndBuilds.selectedBuild.build;
+                    this.buildInformationTree = this.createBuildInformationTree(build);
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -154,5 +157,13 @@ export class UseCasesComponent {
         const branchInformationTree: any = {};
         branchInformationTree.description = branch.description;
         return this.metadataTreeCreater.transform(branchInformationTree);
+    }
+
+    createBuildInformationTree(build) {
+        const buildInformationTree: any = {};
+        buildInformationTree.Date = this.dateTimePipe.transform(build.date);
+        buildInformationTree.Revision = build.revision;
+        buildInformationTree.Status = build.status;
+        return this.metadataTreeCreater.transform(buildInformationTree)
     }
 }

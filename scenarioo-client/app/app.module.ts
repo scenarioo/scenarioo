@@ -37,6 +37,7 @@ import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
+import {DetailAccordionComponent} from './components/detailarea/detail-accordion/detail-accordion.component';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {SharePageURL} from './shared/navigation/sharePage/sharePageUrl.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
@@ -64,6 +65,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         TreeDataOptimizerPipe,
         DateTimePipe,
         DetailareaComponent,
+        DetailAccordionComponent,
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
@@ -75,6 +77,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         MainPageComponent,
         UseCasesComponent,
         DetailareaComponent,
+        DetailAccordionComponent,
     ],
     imports: [
         BrowserModule,
