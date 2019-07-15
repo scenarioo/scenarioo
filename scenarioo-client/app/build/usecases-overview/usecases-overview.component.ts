@@ -53,7 +53,7 @@ export class UseCasesComponent {
                 private dateTimePipe: DateTimePipe,
                 private locationService: LocationService,
                 private selectedComparison: SelectedComparison,
-                private metadataTreeCreater: MetadataTreeCreatorPipe,
+                private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService) {
@@ -156,7 +156,7 @@ export class UseCasesComponent {
     createBranchInformationTree(branch) {
         const branchInformationTree: any = {};
         branchInformationTree.description = branch.description;
-        return this.metadataTreeCreater.transform(branchInformationTree);
+        return this.metadataTreeCreaterPipe.transform(branchInformationTree);
     }
 
     createBuildInformationTree(build) {
@@ -164,6 +164,6 @@ export class UseCasesComponent {
         buildInformationTree.Date = this.dateTimePipe.transform(build.date);
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
-        return this.metadataTreeCreater.transform(buildInformationTree);
+        return this.metadataTreeCreaterPipe.transform(buildInformationTree);
     }
 }

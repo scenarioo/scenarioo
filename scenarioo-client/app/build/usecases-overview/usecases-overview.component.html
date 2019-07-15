@@ -25,7 +25,7 @@
                 <span *ngIf="(usecases|filter: searchTerm).length != usecases.length"> of {{usecases.length}}</span>
                 Use Case
             </p>
-            <table class="table table-curved table-responsive usecase-table">
+            <table *ngIf="(usecases|filter: searchTerm).length!=0" class="table table-curved table-responsive usecase-table">
                 <thead>
                 <tr>
                     <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
