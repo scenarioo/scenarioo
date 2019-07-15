@@ -15,13 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-show="$ctrl.showComponent" id="stepNotFoundErrorMessage">
+<div ng-show="$ctrl.showComponent" id="fallbackMessage">
     <div class="alert alert-warning" role="alert">
-        <div class="sc-alert-title">The step you are looking for does not exist</div>
-        <p>URL: <span id="stepNotFoundErrorCurrentUrl">{{$ctrl.getCurrentUrl()}}</span></p>
-        <p>REST URL to get step: {{$ctrl.response.url}}</p>
-        <p>HTTP method: <span id="stepNotFoundErrorResponseMethod">{{$ctrl.response.method}}</span></p>
-        <p>HTTP response status: <span id="stepNotFoundErrorResponseStatus">{{$ctrl.response.status}}</span></p>
-        <p>Response data: {{$ctrl.response.data}}</p>
+        <div class="sc-alert-title">This is a fallback step</div>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the
+            same page. Here's what you actually see:</p>
+        <p>Usecase: {{$ctrl.stepIdentifier.usecaseName}}</p>
+        <p>Scenario: {{$ctrl.stepIdentifier.scenarioName}}</p>
+        <p>Page: {{$ctrl.stepIdentifier.pageName}}</p>
+        <p>Page occurrence: {{$ctrl.stepIdentifier.pageOccurrence}}</p>
+        <p>Step in page occurrence: {{$ctrl.stepIdentifier.stepInPageOccurrence}}</p>
     </div>
 </div>

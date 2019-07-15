@@ -16,21 +16,10 @@
  */
 angular
     .module('scenarioo.directives')
-    .component('scStepNotFoundDiv', {
+    .component('scFallbackDiv', {
         bindings: {
             showComponent: '<',
-            response: '<',
+            stepIdentifier: '<',
         },
-        template: require('./stepNotFound.html'),
-        controller: StepNotFoundController,
+        template: require('./fallback.html'),
     });
-
-function StepNotFoundController($location) {
-    const ctrl = this;
-
-    ctrl.getCurrentUrl = getCurrentUrl;
-
-    function getCurrentUrl() {
-        return $location.absUrl();
-    }
-}
