@@ -66,12 +66,12 @@ class HomePage {
     }
 
     async assertMetaDataShown() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual("Hide details");
+        await expect(this.toggleMetaDataButton.getText()).toEqual('Hide details');
         return expect(this.metaDataPanel.isDisplayed()).toBe(true);
     }
 
     async assertMetaDataHidden() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual("Show details");
+        await expect(this.toggleMetaDataButton.getText()).toEqual('Show details');
         return expect(this.metaDataPanel.isDisplayed()).toBe(false);
     }
 
