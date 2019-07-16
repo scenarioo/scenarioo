@@ -99,7 +99,7 @@ export class UseCasesComponent {
         this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
-    loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: any) {
+    loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
         if (useCases && baseBranchName && baseBuildName) {
             forkJoin([
                 this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),

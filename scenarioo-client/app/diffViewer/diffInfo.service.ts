@@ -9,7 +9,7 @@ export class DiffInfoService {
     getElementsWithDiffInfos(elements: any, removedElements: any, diffInfos: any, pathToName: any) {
         const elementsWithDiffInfo: any [] = [];
 
-        angular.forEach(elements, (element:any) => {
+        angular.forEach(elements, (element: any) => {
             element.diffInfo = this.getDiffInfo(diffInfos, this.resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
