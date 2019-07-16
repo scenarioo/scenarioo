@@ -61,6 +61,8 @@ public class ZipFileExtractor {
 			}
 		} catch (IOException e) {
 			throw new ZipFileExtractionException("IO Error while extracting ZIP file.", e);
+		} finally {
+			IOUtils.closeQuietly(zipFile);
 		}
 	}
 

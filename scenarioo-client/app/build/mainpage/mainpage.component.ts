@@ -6,6 +6,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.service';
 import {LocationService} from '../../shared/location.service';
 import {TabDirective, TabsetComponent} from 'ngx-bootstrap';
+import {Location} from '@angular/common';
 
 declare var angular: angular.IAngularStatic;
 
@@ -32,13 +33,14 @@ export class MainPageComponent implements OnInit {
     constructor(private configurationService: ConfigurationService,
                 private modalService: BsModalService,
                 private sharePageURL: SharePageURL,
-                private locationService: LocationService) {
+                private locationService: LocationService,
+                private location: Location) {
     }
 
     ngOnInit(): void {
 
         // TODO: Workaround until the full migration, when the Angular router is available
-        this.currentBrowserLocation = window.location.href;
+        this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.customTabs = configuration.customObjectTabs

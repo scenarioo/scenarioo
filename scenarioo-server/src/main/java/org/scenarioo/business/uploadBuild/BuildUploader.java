@@ -65,7 +65,7 @@ public class BuildUploader {
 	private void saveAndExtractBuildAndStartImport(final MultipartFile file) throws BuildUploaderException {
 
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
-		File temporaryWorkDirectory = new File(documentationDataDirectory, "uploadedBuild_"
+		File temporaryWorkDirectory = new File(documentationDataDirectory.getAbsolutePath(), "uploadedBuild_"
 				+ Long.toString(new Date().getTime()));
 		boolean tempDirCreated = temporaryWorkDirectory.mkdir();
 		LOGGER.debug(String.format("TempDir %s created: %b", temporaryWorkDirectory.getAbsolutePath(), tempDirCreated));

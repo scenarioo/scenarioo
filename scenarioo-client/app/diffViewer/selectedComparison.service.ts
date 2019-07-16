@@ -113,6 +113,9 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
 }
 
 export class SelectedComparison {
-    selected() {}
+    selected(): string {
+        return '';
+    }
+
     isDefined() {}
 }

@@ -7,9 +7,9 @@ declare var angular: angular.IAngularStatic;
 export class DiffInfoService {
 
     getElementsWithDiffInfos(elements: any, removedElements: any, diffInfos: any, pathToName: any) {
-        const elementsWithDiffInfo = [];
+        const elementsWithDiffInfo: any [] = [];
 
-        angular.forEach(elements, (element) => {
+        angular.forEach(elements, (element: any) => {
             element.diffInfo = this.getDiffInfo(diffInfos, this.resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
