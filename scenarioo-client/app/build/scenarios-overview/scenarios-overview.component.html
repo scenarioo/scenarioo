@@ -1,14 +1,20 @@
 <div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
-        <label class="input-group">
-            <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
-                   id="scenariosSearchField"
-                   placeholder="Search in use case &quot;{{useCaseName | scHumanReadable}}&quot;..."
-                   title="type words separated by spaces to search for" type="text" autofocus/>
-            <span class="input-group-btn">
+    <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-11' : 'sc-space-top col-sm-8'">
+        <div id="left">
+            <!-- Title component -->
+            <sc-title useCaseName="{{useCaseName | scHumanReadable}}"></sc-title>
+        </div>
+        <div id="right">
+            <label class="input-group">
+                <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
+                       id="scenariosSearchField"
+                       placeholder="Search in use case &quot;{{useCaseName | scHumanReadable}}&quot;..."
+                       title="type words separated by spaces to search for" type="text" autofocus/>
+                <span class="input-group-btn">
                 <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
             </span>
-        </label>
+            </label>
+        </div>
     </div>
 
     <div id="sc-meta-data-panel">
