@@ -22,9 +22,6 @@ import {DateTimePipe} from '../../pipes/dateTime.pipe';
 
 export class UseCasesComponent {
 
-    @ViewChild('searchField')
-    private inputElement: ElementRef;
-
     usecases: UseCaseSummary[] = [];
 
     searchTerm: string;
