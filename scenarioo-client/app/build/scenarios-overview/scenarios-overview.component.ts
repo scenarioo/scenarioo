@@ -1,4 +1,4 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
@@ -26,6 +26,9 @@ export class ScenariosComponent {
 
     @Input()
     useCaseName: string;
+
+    @ViewChild("searchField")
+    private inputElement: ElementRef;
 
     scenarios: IScenarioSummary[] = [];
     scenario: IScenario[] = [];
@@ -65,7 +68,6 @@ export class ScenariosComponent {
     }
 
     ngOnInit(): void {
-
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
             /* To Delete if Name of Use Case is available*/
@@ -99,6 +101,10 @@ export class ScenariosComponent {
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
 
         this.comparisonExisting = this.selectedComparison.isDefined();
+    }
+
+    ngAfterViewInit(): void {
+        this.inputElement.nativeElement.focus();
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
