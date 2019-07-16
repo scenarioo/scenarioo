@@ -10,11 +10,28 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = false;
 
+    /* Inputs of usecases-overview */
     @Input()
     branchInformationTree: {};
 
     @Input()
     buildInformationTree: {};
+
+    /*Inputs of scenarios-overview*/
+    @Input()
+    usecaseInformationTree: {};
+
+    @Input()
+    metadataInformationTree: {};
+
+    @Input()
+    relatedIssues: {};
+
+    @Input()
+    useCaseLabels: {};
+
+    @Input()
+    labelConfigurations: {};
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -26,6 +43,10 @@ export class DetailareaComponent {
             this.isPanelCollapsed = false;
         }
         this.panelCollapsed.emit(this.isPanelCollapsed);
+    }
+
+    isEmptyObject(obj) {
+        return (obj && (Object.keys(obj).length === 0));
     }
 
 }

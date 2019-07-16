@@ -15,6 +15,7 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {ScenariooResourceNewService} from '../../shared/services/scenariooResourceNew.service';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -48,6 +49,9 @@ export class ScenariosComponent implements AfterViewChecked {
     isPanelCollapsed: boolean;
 
     usecaseInformationTree = {};
+    metadataInformationTree = {};
+    relatedIssues = {};
+    labels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -61,7 +65,8 @@ export class ScenariosComponent implements AfterViewChecked {
                 private scenarioDiffInfosService: ScenarioDiffInfosService,
                 private diffInfoService: DiffInfoService,
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
-                private labelConfigurationsResource: LabelConfigurationsResource) {
+                private labelConfigurationsResource: LabelConfigurationsResource,
+                private scenariooResourceNewService: ScenariooResourceNewService) {
     }
 
     ngOnInit(): void {
@@ -86,7 +91,19 @@ export class ScenariosComponent implements AfterViewChecked {
                     this.scenarios = useCaseScenarios.scenarios;
                 }
 
-                this.usecaseInformationTree = this.createUseCaseInformationTree(this.useCaseName);
+                this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
+                this.metadataInformationTree = this.metadataTreeCreatorPipe.transform(useCaseScenarios.useCase.details);
+                this.labels = useCaseScenarios.useCase.labels.labels;
+
+                /*
+                this.scenariooResourceNewService.query({
+                    branchName: selection.branch,
+                    buildName: selection.build,
+                    useCaseName: useCaseScenarios.useCase.name,
+                }, (result) => {
+                    this.relatedIssues = result;
+                });
+                */
             });
 
         });

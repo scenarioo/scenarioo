@@ -23,8 +23,17 @@
             <div class="detail-cell detail-section">
                 <h3>Details</h3>
                 <accordion [isAnimated]="true">
-                    <sc-detail-accordion [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true"></sc-detail-accordion>
-                    <sc-detail-accordion [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false"></sc-detail-accordion>
+
+                    <!-- usecases-overview -->
+                    <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false" [tree]="true"></sc-detail-accordion>
+
+                    <!-- scenarios-overview -->
+                    <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree" detailAccordionName="Use Case" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)" [informationTree]="relatedIssues" detailAccordionName="Related Sketches" [isFirstOpen]="false" [sketches]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)" [informationTree]="useCaseLabels" [labelConfigurations]="labelConfigurations" detailAccordionName="Labels" [isFirstOpen]="false" [label]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="metadataInformationTree" [informationTree]="metadataInformationTree" detailAccordionName="Webtest Class" [isFirstOpen]="false" [metadataTree]="true"></sc-detail-accordion>
+
                 </accordion>
             </div>
         </div>

@@ -10,5 +10,15 @@
                         </span>
         <span>{{detailAccordionName}}</span>
     </div>
-    <sc-tree [informationTree]="informationTree"></sc-tree>
+    <sc-tree *ngIf="tree" [informationTree]="informationTree"></sc-tree>
+    <sc-label-metadata *ngIf="label" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
+    <sc-metadata-tree *ngIf="metadataTree" [metadataTree]="informationTree"></sc-metadata-tree>
+    <!--
+    <div *ngIf="sketches">
+        <ul id="relatedSketches">
+            <li ng-repeat="issue in relatedIssues">
+                <a href="" ng-click="goToIssue(issue)">{{issue.name}}</a>
+            </li>
+        </ul>
+    </div>-->
 </accordion-group>

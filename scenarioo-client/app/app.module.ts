@@ -48,6 +48,8 @@ import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
 import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
+import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
+import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
 
 @NgModule({
     declarations: [
@@ -72,6 +74,7 @@ import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.
         SketchesTabDirective,
         DiffInfoIconDirective,
         TreeDirective,
+        MetaDataTreeDirective,
         ScenariosComponent,
         TitleComponent,
     ],
@@ -116,6 +119,7 @@ import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.
         BuildDiffInfosService,
         DiffInfoService,
         SharePageURL,
+        ScenariooResourceNewService,
         Location,
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,

@@ -12,7 +12,7 @@
     </div>
 
     <div id="sc-meta-data-panel">
-        <sc-detailarea (valueChange)="collapsePanel($event)"></sc-detailarea>
+        <sc-detailarea (valueChange)="collapsePanel($event)" [usecaseInformationTree]="usecaseInformationTree" [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues" [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations"></sc-detailarea>
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p *ngIf="scenarios.length>1">

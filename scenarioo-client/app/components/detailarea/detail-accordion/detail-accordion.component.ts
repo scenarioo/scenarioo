@@ -14,10 +14,25 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
+    tree: boolean;
+
+    @Input()
+    sketches: boolean;
+
+    @Input()
+    label: boolean;
+
+    @Input()
+    metadataTree: boolean;
+
+    @Input()
     detailAccordionName: {};
 
     @Input()
-    informationTree: {};
+    informationTree: any;
+
+    @Input()
+    labelConfigurations: {};
 
     constructor() {
     }
@@ -26,5 +41,9 @@ export class DetailAccordionComponent {
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
         }
+    }
+
+    goToIssue(issue){
+
     }
 }
