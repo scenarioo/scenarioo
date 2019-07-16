@@ -43,7 +43,7 @@ export class DetailAccordionComponent {
         }
     }
 
-    goToIssue(issue){
+    goToIssue(issue) {
 
     }
 }
