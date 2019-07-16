@@ -13,8 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -47,17 +49,6 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 		FilterRegistrationBean<CORSFilter> corsFilterBean = new FilterRegistrationBean<>(new CORSFilter());
 		corsFilterBean.setUrlPatterns(Collections.singletonList("/rest/*"));
 		return corsFilterBean;
-	}
-
-	/**
-	 * Needed to enable multipart upload for large ZIP file uploads.
-	 */
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(-1);
-		multipartResolver.setMaxUploadSizePerFile(-1);
-		return multipartResolver;
 	}
 
 	@Override
