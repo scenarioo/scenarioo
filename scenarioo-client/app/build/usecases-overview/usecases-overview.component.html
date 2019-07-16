@@ -3,7 +3,7 @@
         <label class="input-group">
             <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
                    id="useCasesSearchField" placeholder="Search in use cases..."
-                   title="type words separated by spaces to search for" type="text" #searchField/>
+                   title="type words separated by spaces to search for" type="text" autofocus/>
             <span class="input-group-btn">
                 <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
             </span>

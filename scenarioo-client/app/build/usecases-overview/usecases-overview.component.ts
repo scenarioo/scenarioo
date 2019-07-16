@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {UseCasesResource, UseCaseSummary} from '../../shared/services/useCasesResource.service';
@@ -20,7 +20,7 @@ import {DateTimePipe} from '../../pipes/dateTime.pipe';
     styles: [require('./usecases-overview.component.css').toString()],
 })
 
-export class UseCasesComponent implements AfterViewChecked {
+export class UseCasesComponent {
 
     @ViewChild('searchField')
     private inputElement: ElementRef;
@@ -100,10 +100,6 @@ export class UseCasesComponent implements AfterViewChecked {
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
 
         this.comparisonExisting = this.selectedComparison.isDefined();
-    }
-
-    ngAfterViewChecked() {
-        this.inputElement.nativeElement.focus();
     }
 
     loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
