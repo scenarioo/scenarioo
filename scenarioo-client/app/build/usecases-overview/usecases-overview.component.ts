@@ -22,7 +22,7 @@ import {DateTimePipe} from '../../pipes/dateTime.pipe';
 
 export class UseCasesComponent implements AfterViewChecked {
 
-    @ViewChild("searchField")
+    @ViewChild('searchField')
     private inputElement: ElementRef;
 
     usecases: UseCaseSummary[] = [];
@@ -105,7 +105,6 @@ export class UseCasesComponent implements AfterViewChecked {
     ngAfterViewChecked() {
         this.inputElement.nativeElement.focus();
     }
-
 
     loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
         if (useCases && baseBranchName && baseBuildName) {
