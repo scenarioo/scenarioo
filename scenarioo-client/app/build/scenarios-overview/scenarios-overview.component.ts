@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
@@ -22,7 +22,7 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosComponent {
+export class ScenariosComponent implements AfterViewChecked{
 
     @Input()
     useCaseName: string;
@@ -68,10 +68,15 @@ export class ScenariosComponent {
     }
 
     ngOnInit(): void {
-        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
-            /* To Delete if Name of Use Case is available*/
-            this.useCaseName = 'Donate';
+    }
+
+    // TODO: Find a better solution to get the name of the use case
+    ngAfterViewChecked() {
+
+        this.inputElement.nativeElement.focus();
+
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
             this.scenarioResource.getUseCaseScenarios({
                     branchName: selection.branch,
@@ -101,10 +106,6 @@ export class ScenariosComponent {
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
 
         this.comparisonExisting = this.selectedComparison.isDefined();
-    }
-
-    ngAfterViewInit(): void {
-        this.inputElement.nativeElement.focus();
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
