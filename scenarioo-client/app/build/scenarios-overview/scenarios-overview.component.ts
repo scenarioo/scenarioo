@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, HostListener, Input} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
@@ -22,13 +22,10 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosComponent implements AfterViewChecked{
+export class ScenariosComponent implements AfterViewChecked {
 
     @Input()
     useCaseName: string;
-
-    @ViewChild("searchField")
-    private inputElement: ElementRef;
 
     scenarios: IScenarioSummary[] = [];
     scenario: IScenario[] = [];
@@ -73,8 +70,6 @@ export class ScenariosComponent implements AfterViewChecked{
 
     // TODO: Find a better solution to get the name of the use case
     ngAfterViewChecked() {
-
-        this.inputElement.nativeElement.focus();
 
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
