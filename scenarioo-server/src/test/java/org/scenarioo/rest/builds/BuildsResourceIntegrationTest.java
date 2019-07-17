@@ -11,6 +11,7 @@ import org.scenarioo.utils.TestResourceFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -20,6 +21,8 @@ import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+// Just deleting the uploaded files will not remove the build from the current state. Dirtying the Context will do that.
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 
 	private static final String UPLOADED_FOLDER_NAME = "pizza-delivery-feature-update-dependencies";
