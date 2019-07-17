@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <sc-metadata-tree *ngIf="metadataTree" [metadataTree]="informationTree"></sc-metadata-tree>
     <div *ngIf="sketches">
         <ul id="relatedSketches">
-            <li *ngFor="let issue of relatedIssues">
+            <li *ngFor="let issue of dataValues">
                 <a (click)="goToIssue(issue)">{{issue.name}}</a>
             </li>
         </ul>

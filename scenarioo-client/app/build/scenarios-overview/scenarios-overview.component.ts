@@ -111,8 +111,6 @@ export class ScenariosComponent implements OnInit {
                 {buildName: selection.build},
                 {useCaseName: useCaseScenarios.useCase.name}
             );
-
-            console.log(this.relatedIssues.name);
         });
     }
 

@@ -45,7 +45,7 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('RelatedIssueResource', function (ScenariooResource) {
+    .factory('RelatedIssueResourceOld', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/issue/related/:buildName/:useCaseName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',
             {
                 branchName: '@branchName',

@@ -54,12 +54,24 @@ export class DetailAccordionComponent {
     @Input()
     labelConfigurations: {};
 
+    dataValues = [];
+    dataKeys = [];
+
     constructor() {
     }
 
     ngOnInit(): void {
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
+        }
+
+        for(let key in this.relatedIssues) {
+            this.dataValues.push(this.relatedIssues[key]);
+            this.dataKeys.push(key);
+        }
+
+        for(let d of this.dataValues) {
+            console.log("Data Values",d);
         }
     }
 

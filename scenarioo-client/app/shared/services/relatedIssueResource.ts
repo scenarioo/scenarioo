@@ -17,6 +17,10 @@ export class RelatedIssueResource {
     constructor(private httpClient: HttpClient) {
     }
 
+    get(branchName: {}, buildName: {}, useCaseName: {}, scenarioName: {}, pageName: {}, pageOccurence: {}, stepInPageOccurrence: {}): Observable<RelatedIssueSummary[]> {
+        return this.httpClient.get<RelatedIssueSummary[]>(`branch/${branchName}/issue/related/${buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence}/${stepInPageOccurrence}`);
+    }
+
     getForScenariosOverview(branchName: {}, buildName: {}, useCaseName: {}): Observable<RelatedIssueSummary[]> {
         return this.httpClient.get<RelatedIssueSummary[]>(`branch/${branchName}/issue/related/${buildName}/${useCaseName}`);
     }
