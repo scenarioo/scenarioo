@@ -13,12 +13,12 @@ Guide on how to upgrade major versions of Scenarioo.
 Follow these simple steps to migrate:
 
 1. Update the Scenarioo application:
-    * refer to the [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) for details
+    * refer to the [Scenarioo Setup Guide](http://scenarioo.org/docs/5.0/tutorial/Scenarioo-Viewer-Web-Application-Setup.html) for details
     * consider that there is a new option to also run Scenarioo as a standalone web application (if you prefer), instead of deploying the WAR to a web server or running it as a docker (as before)
 
 2. Make sure you configure the same username and password for REST endpoints in the new way:
    * User and password for the HTTP authentication were usually configured in `tomcat-users.xml`, which will not be considered any longer.
-   * Instead, you can configure the same username and password in a new way. This is explained in detail here: [Configuration of Authentication for Secured REST API](tutorial/Configuration.md#authentication-for-secured-rest-api)
+   * Instead, you can configure the same username and password in a new way. This is explained in detail here: [Configuration of Authentication for Secured REST API](http://scenarioo.org/docs/5.0/tutorial/Configuration.html#authentication-for-secured-rest-api)
 
 3. Restart the Scenarioo server/app and enjoy the new version :-)
 

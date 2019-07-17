@@ -93,10 +93,10 @@ allprojects {
 			dependency 'org.apache.logging.log4j:log4j-api:2.11.0'
 			dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
 
+			dependency 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+			dependency 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
+			dependency 'org.junit.vintage:junit-vintage-engine:5.5.0'
 			dependency 'junit:junit:4.12'
-			dependency 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-			dependency 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
-			dependency 'org.junit.vintage:junit-vintage-engine:5.4.2'
 			dependency 'org.assertj:assertj-core:3.10.0'
 			dependency 'org.mockito:mockito-core:2.28.2'
 			// mockito needs version 1.9.7 or newer, Spring Boot references version 1.7.11

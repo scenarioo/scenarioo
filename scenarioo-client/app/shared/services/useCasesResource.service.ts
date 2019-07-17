@@ -7,7 +7,7 @@ import {ILabels} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
-interface UseCaseSummary {
+export interface UseCaseSummary {
     status: string;
     name: string;
     description: string;

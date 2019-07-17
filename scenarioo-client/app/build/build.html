@@ -15,20 +15,4 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-breadcrumbs></sc-breadcrumbs>
-
-<!-- <ng-include src="'views/useCasesTab.html'"/> -->
-
-<!-- ng-controller is set to BuildController through routing in app.js -->
-<div>
-
-    <!-- Tabs on the main page -->
-    <uib-tabset class="step-panes" active="main.activeIndex">
-
-        <!-- Tabs are defined dynamically in controller inside build.controller.ts -->
-        <uib-tab ng-repeat="tab in main.tabs" heading="{{tab.title}}" select="main.setSelectedTabInUrl(tab.index)" id="sc-main-tab-{{tab.tabId}}">
-            <ng-include src="main.getLazyTabContentViewUrl(tab.index)"/>
-        </uib-tab>
-    </uib-tabset>
-
-</div>
+<sc-mainpage></sc-mainpage>

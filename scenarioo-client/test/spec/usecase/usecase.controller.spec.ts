@@ -62,6 +62,7 @@ describe('UseCaseController', () => {
             SelectedBranchAndBuildServiceMock.callback(newStep);
         },
     };
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -70,6 +71,7 @@ describe('UseCaseController', () => {
         $provide.value('ScenarioResource', ScenarioResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
         $provide.value('ScenarioDiffInfosResource', {
             get() {
             }

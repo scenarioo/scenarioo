@@ -1,0 +1,29 @@
+/* Table Header */
+
+sc-usecases-overview .arrows {
+    display: inline;
+    margin-left: 2px;
+    margin-right: -2px;
+}
+
+sc-usecases-overview .top, .selectedTop {
+    position: absolute;
+    margin-top: -6px;
+}
+
+sc-usecases-overview .top, .bot {
+    color: lightgray;
+}
+
+sc-usecases-overview .bot, .selectedBot {
+    position: relative;
+}
+
+sc-usecases-overview .table thead span {
+    cursor: pointer;
+}
+
+sc-usecases-overview .table tbody>tr:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
+}

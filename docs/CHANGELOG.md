@@ -1,11 +1,16 @@
 # Scenarioo Release Notes
+## Version 5.0.1
+
+### Bugfixes
+
+* [#934 - Upload Build with Rest Service](https://github.com/scenarioo/scenarioo/issues/934) Uploading builds through the REST endpoint works again, no matter what size the zip-file has.
 
 ## Version 5.0.0
 
 ### Scenarioo Standalone Runner
 
-* [#724 - Scenarioo Standalone Runner](https://github.com/scenarioo/scenarioo/issues/724): From now on you can run scnenarioo without needing to install a Tomcat or similar java application server, just refer to our [Scenarioo Setup Guide](tutorial/Scenarioo-Viewer-Web-Application-Setup.md) 
-* [#778 - Secured REST Endpoints using Spring Security](https://github.com/scenarioo/scenarioo/issues/788): The way the api key (or password) for using secured REST endpoints has to be configured has fundamentaly changed by introducing Spring Security. For more details, please refer to the [Migration Guide](Migration-Guide.md) 
+* [#724 - Scenarioo Standalone Runner](https://github.com/scenarioo/scenarioo/issues/724): From now on you can run Scenarioo without needing to install a Tomcat or similar java application server, just refer to our [Scenarioo Setup Guide](http://scenarioo.org/docs/5.0/tutorial/Scenarioo-Viewer-Web-Application-Setup.html) 
+* [#778 - Secured REST Endpoints using Spring Security](https://github.com/scenarioo/scenarioo/issues/788): The way the api key (or password) for using secured REST endpoints has to be configured has fundamentaly changed by introducing Spring Security. For more details, please refer to the [Migration Guide](http://scenarioo.org/docs/5.0/Migration-Guide.html) 
 
 ### Small Fixes and Improvements
 
@@ -17,7 +22,7 @@
 ### Breaking Changes and Backwards Compatibility
 
 * **Changed Configuration of password for secured REST API calls:** 
-The security mechanism for secured REST endpoints (e.g. to upload a build via REST call) has changed. Therefore the password for these rest endpoints needs to be configured differently. For more details, please refer to the [Migration Guide](Migration-Guide.md) on how to adjust this configuration when migrating.
+The security mechanism for secured REST endpoints (e.g. to upload a build via REST call) has changed. Therefore the password for these rest endpoints needs to be configured differently. For more details, please refer to the [Migration Guide](http://scenarioo.org/docs/5.0/Migration-Guide.html) on how to adjust this configuration when migrating.
 
 Apart from this small config change there are no other breaking changes. 
 

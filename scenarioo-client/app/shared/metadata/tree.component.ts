@@ -19,7 +19,7 @@ angular.module('scenarioo.directives')
     .component('scTree', {
 
         bindings: {
-            data: '<',
+            informationTree: '<',
         },
         template: '<div ng-bind-html="$ctrl.treeHtml" class="sc-tree"></div>',
         controller: TreeComponentController,
@@ -31,26 +31,26 @@ function TreeComponentController($sce) {
     const CHILDREN = 'children';
 
     this.$onChanges = (changes) => {
-        if (changes.data) {
+        if (changes.informationTree) {
             /* there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
              http://docs.angularjs.org/api/ng/service/$sce for more information
              */
-            scope.treeHtml = $sce.trustAsHtml(createTreeHtml(changes.data.currentValue));
+            scope.treeHtml = $sce.trustAsHtml(createTreeHtml(changes.informationTree.currentValue));
         }
     };
 
-    function createTreeHtml(data) {
+    function createTreeHtml(informationTree) {
 
-        if (!angular.isObject(data)) {
+        if (!angular.isObject(informationTree)) {
             return 'no data to display';
-        } else if (angular.isObject(data) && angular.isArray(data)) {
+        } else if (angular.isObject(informationTree) && angular.isArray(informationTree)) {
             let html = '';
-            angular.forEach(data, (rootNode) => {
+            angular.forEach(informationTree, (rootNode) => {
                 html += getRootNodeHtml(rootNode);
             });
             return html;
         }
-        return getRootNodeHtml(data);
+        return getRootNodeHtml(informationTree);
     }
 
     function getRootNodeHtml(rootNode) {
@@ -137,25 +137,25 @@ function TreeComponentController($sce) {
         return html;
     }
 
-    function getNodeTitleHtml(data) {
-        return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data);
+    function getNodeTitleHtml(branchInformationTree) {
+        return '<span class="sc-node-label">' + branchInformationTree.nodeLabel + '</span>' + getNodeValueHtml(branchInformationTree);
     }
 
-    function getNodeValueHtml(data) {
+    function getNodeValueHtml(branchInformationTree) {
         let href = '';
 
-        if (angular.isUndefined(data.nodeValue)) {
+        if (angular.isUndefined(branchInformationTree.nodeValue)) {
             return '';
         }
 
-        if (angular.isDefined(data.nodeObjectType) && angular.isDefined(data.nodeObjectName)) {
-            const hrefObjectType = encodeURIComponent(data.nodeObjectType);
-            const hrefObjectName = encodeURIComponent(data.nodeObjectName);
+        if (angular.isDefined(branchInformationTree.nodeObjectType) && angular.isDefined(branchInformationTree.nodeObjectName)) {
+            const hrefObjectType = encodeURIComponent(branchInformationTree.nodeObjectType);
+            const hrefObjectName = encodeURIComponent(branchInformationTree.nodeObjectName);
 
             href = '<a id="' + hrefObjectType + '_' + hrefObjectName + '" href="#/object/' +
-                hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
+                hrefObjectType + '/' + hrefObjectName + '">' + branchInformationTree.nodeValue + '</a>';
         } else {
-            href = data.nodeValue;
+            href = branchInformationTree.nodeValue;
         }
 
         return '<span class="sc-node-label">: </span><span class="sc-node-value">' + href + '</span>';

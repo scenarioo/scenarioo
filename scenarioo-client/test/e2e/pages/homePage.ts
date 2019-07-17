@@ -10,11 +10,10 @@ class HomePage {
     private aboutScenariooPopup = $('.modal.about-popup');
     private popupCloseButton = $('.modal-footer button.btn');
     private usecaseTable = $('table.usecase-table');
-    private showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
-    private hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
+    private toggleMetaDataButton = element(by.id('sc-showHideDetailsButton'));
     private metaDataPanel = element(by.id('sc-metadata-panel'));
-    private sketchesTab = element(by.id('sc-main-tab-sketches'));
-    private pagesTab = element(by.id('sc-main-tab-pages'));
+    private sketchesTab = element(by.id('sc-main-tab-sketches-link'));
+    private pagesTab = element(by.id('sc-main-tab-pages-link'));
 
     async goToPage() {
         return Utils.navigateToRoute(this.path);
@@ -51,9 +50,11 @@ class HomePage {
     }
 
     async assertUseCasesShown(count) {
-        return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
-            return expect(elements.length).toBe(count);
-        });
+        if (count !== 0) {
+            return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
+                return expect(elements.length).toBe(count);
+            });
+        }
     }
 
     async selectUseCase(useCaseIndex) {
@@ -63,19 +64,21 @@ class HomePage {
     }
 
     async showMetaData() {
-        return this.showMetaDataButton.click();
+        return this.toggleMetaDataButton.click();
     }
 
     async assertMetaDataShown() {
+        await expect(this.toggleMetaDataButton.getText()).toEqual('Hide details');
         return expect(this.metaDataPanel.isDisplayed()).toBe(true);
     }
 
     async assertMetaDataHidden() {
+        await expect(this.toggleMetaDataButton.getText()).toEqual('Show details');
         return expect(this.metaDataPanel.isDisplayed()).toBe(false);
     }
 
     async hideMetaData() {
-        return this.hideMetaDataButton.click();
+        return this.toggleMetaDataButton.click();
     }
 
     async sortByChanges() {

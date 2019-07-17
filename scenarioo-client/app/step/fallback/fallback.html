@@ -1,0 +1,29 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-show="$ctrl.showComponent" id="fallbackMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">This is a fallback step</div>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the
+            same page. Here's what you actually see:</p>
+        <p>Usecase: {{$ctrl.stepIdentifier.usecaseName}}</p>
+        <p>Scenario: {{$ctrl.stepIdentifier.scenarioName}}</p>
+        <p>Page: {{$ctrl.stepIdentifier.pageName}}</p>
+        <p>Page occurrence: {{$ctrl.stepIdentifier.pageOccurrence}}</p>
+        <p>Step in page occurrence: {{$ctrl.stepIdentifier.stepInPageOccurrence}}</p>
+    </div>
+</div>
