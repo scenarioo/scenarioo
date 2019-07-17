@@ -40,7 +40,7 @@ export class DetailAccordionComponent {
     label: boolean;
 
     @Input()
-    metadataTree: boolean;
+    metadataInformationTree: boolean;
 
     @Input()
     detailAccordionName: {};
@@ -49,13 +49,13 @@ export class DetailAccordionComponent {
     informationTree: any;
 
     @Input()
+    metadataTree: boolean;
+
+    @Input()
     relatedIssues;
 
     @Input()
     labelConfigurations: {};
-
-    dataValues = [];
-    dataKeys = [];
 
     constructor() {
     }
@@ -63,15 +63,6 @@ export class DetailAccordionComponent {
     ngOnInit(): void {
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
-        }
-
-        for(let key in this.relatedIssues) {
-            this.dataValues.push(this.relatedIssues[key]);
-            this.dataKeys.push(key);
-        }
-
-        for(let d of this.dataValues) {
-            console.log("Data Values",d);
         }
     }
 

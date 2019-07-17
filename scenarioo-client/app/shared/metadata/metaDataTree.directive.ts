@@ -8,7 +8,11 @@ export class MetaDataTreeDirective extends UpgradeComponent {
 
     @Input() metadataTree;
 
+    isAccordionCollapsed: boolean = false;
+
     constructor(elementRef: ElementRef, injector: Injector) {
         super('scMetadataTree', elementRef, injector);
     }
+
 }
+

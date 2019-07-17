@@ -18,6 +18,7 @@
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
+import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource';
 
 declare var angular: angular.IAngularStatic;
 
@@ -26,7 +27,8 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, SelectedComparison) {
+                        SketcherLinkService, SelectedComparison,
+                        relatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -298,16 +300,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     });
 
     function loadRelatedIssues() {
-        RelatedIssueResource.query({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName,
-            scenarioName,
-            pageName: $scope.pageName,
-            pageOccurence: $scope.pageOccurrence,
-            stepInPageOccurrence: $scope.stepInPageOccurrence,
-        }, (result) => {
-            $scope.relatedIssues = result;
+        relatedIssueResource.get(
+            {branchName: SelectedBranchAndBuildService.selected().branch},
+            {buildName: SelectedBranchAndBuildService.selected().build},
+            {useCaseName},
+            {scenarioName},
+            {pageName: $scope.pageName},
+            {pageOccurence: $scope.pageOccurrence},
+            {stepInPageOccurrence: $scope.stepInPageOccurrence},
+        ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+            $scope.relatedIssues = relatedIssueSummary;
             $scope.hasAnyRelatedIssues = () => $scope.relatedIssues.length > 0;
             $scope.goToIssue = goToIssue;
         });

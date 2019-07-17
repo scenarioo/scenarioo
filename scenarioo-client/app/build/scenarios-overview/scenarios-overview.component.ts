@@ -17,6 +17,7 @@ import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource';
 import {RouteParamsService} from '../../shared/route-params.service';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -67,7 +68,8 @@ export class ScenariosComponent implements OnInit {
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private relatedIssueResource: RelatedIssueResource,
-                private routeParams: RouteParamsService) {
+                private routeParams: RouteParamsService,
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe) {
     }
 
     ngOnInit(): void {
@@ -103,14 +105,19 @@ export class ScenariosComponent implements OnInit {
             }
 
             this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
-            this.metadataInformationTree = this.metadataTreeCreatorPipe.transform(useCaseScenarios.useCase.details);
+            this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
             this.labels = useCaseScenarios.useCase.labels.labels;
 
-            this.relatedIssues = this.relatedIssueResource.getForScenariosOverview(
-                {branchName: selection.branch},
-                {buildName: selection.build},
-                {useCaseName: useCaseScenarios.useCase.name}
-            );
+            this.relatedIssueResource.getForScenariosOverview({
+                branchName: selection.branch,
+                buildName: selection.build,
+                },
+                useCaseScenarios.useCase.name,
+            ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+                this.relatedIssues = relatedIssueSummary;
+            });
+
+            console.log(this.relatedIssues);
         });
     }
 

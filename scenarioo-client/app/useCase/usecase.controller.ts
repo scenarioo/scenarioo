@@ -27,7 +27,7 @@ angular.module('scenarioo.controllers')
     .controller('UseCaseController', UseCaseController);
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
-                           SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, RelatedIssueResourceOld,
+                           SelectedBranchAndBuildService, SelectedComparison, DiffInfoService,
                            SketchIdsResource,
                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
                            ScenarioDiffInfosResource: ScenarioDiffInfosService,
@@ -170,25 +170,15 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function loadRelatedIssues() {
-        RelatedIssueResourceOld.query({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName,
-        }, (result) => {
-            vm.relatedIssues = result;
-            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
-        });
+        // RelatedIssueResourceOld.query({
+        //     branchName: SelectedBranchAndBuildService.selected().branch,
+        //     buildName: SelectedBranchAndBuildService.selected().build,
+        //     useCaseName: $routeParams.useCaseName,
+        // }, (result) => {
+        //     vm.relatedIssues = result;
+        //     vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
+        // });
     }
-
-    /*
-    function loadRelatedIssues() {
-        vm.relatedIssues = relatedIssueResource.getForScenariosOverview(
-            {branchName: SelectedBranchAndBuildService.selected().branch},
-            {buildName: SelectedBranchAndBuildService.selected().build},
-            {useCaseName: $routeParams.useCaseName},
-        );
-    }
-     */
 
     function goToIssue(issue) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;

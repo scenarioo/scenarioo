@@ -14,10 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<!--
+<div ng-repeat="(key,value) in $ctrl.metadataTree">
+    <sc-collapsable-panel panel-index="{{$index}}" id="sc-metadata-panel-{{key}}" title="{{key}}" key="{{key}}">
+        <sc-tree information-tree='value'></sc-tree>
+    </sc-collapsable-panel>
+</div>
+-->
 
-<accordion-group (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
-                 [isOpen]=isFirstOpen
-                 panelClass="customClass" *ngIf="!metadataTree">
+<accordion-group *ngFor="let dynamicInformationTree of informationTree, let dynamicDetailAccordionName of detailAccordionName, let dynamicIsFirstOpen of isFirstOpen"
+                 (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
+                 [isOpen]=dynamicIsFirstOpen
+                 panelClass="customClass">
     <div accordion-heading>
                         <span *ngIf="isAccordionCollapsed">
                             <i class="fas fa-angle-down"></i>
@@ -25,17 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span *ngIf="!isAccordionCollapsed">
                             <i class="fas fa-angle-up"></i>
                         </span>
-        <span>{{detailAccordionName}}</span>
+        <span>{{dynamicDetailAccordionName}}</span>
     </div>
-    <sc-tree *ngIf="tree" [informationTree]="informationTree"></sc-tree>
-    <sc-label-metadata *ngIf="label" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
-    <div *ngIf="sketches">
-        <ul id="relatedSketches">
-            <li *ngFor="let issue of relatedIssues">
-                <a (click)="goToIssue(issue)">{{issue.name}}</a>
-            </li>
-        </ul>
-    </div>
+    <sc-tree [informationTree]="dynamicInformationTree"></sc-tree>
 </accordion-group>
-
-<sc-meta-data-tree *ngIf="metadataTree" [informationTree]="informationTree"></sc-meta-data-tree>

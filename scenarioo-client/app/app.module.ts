@@ -52,6 +52,8 @@ import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
 import {RouteParamsService} from './shared/route-params.service';
 import {RelatedIssueResource} from './shared/services/relatedIssueResource';
+import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
+import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
 
 @NgModule({
     declarations: [
@@ -64,12 +66,14 @@ import {RelatedIssueResource} from './shared/services/relatedIssueResource';
         ComparisonsDirective,
         MainPageComponent,
         UseCasesComponent,
+        MetaDataTreeComponent,
         FilterPipe,
         HumanReadablePipe,
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
         DateTimePipe,
+        MetadataTreeListCreatorPipe,
         DetailareaComponent,
         DetailAccordionComponent,
         CustomTabDirective,
@@ -89,6 +93,7 @@ import {RelatedIssueResource} from './shared/services/relatedIssueResource';
         DetailAccordionComponent,
         TitleComponent,
         ScenariosComponent,
+        MetaDataTreeComponent,
     ],
     imports: [
         BrowserModule,
@@ -125,6 +130,7 @@ import {RelatedIssueResource} from './shared/services/relatedIssueResource';
         ScenariooResourceNewService,
         Location,
         MetadataTreeCreatorPipe,
+        MetadataTreeListCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
         DateTimePipe,

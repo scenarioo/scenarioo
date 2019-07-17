@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {ILabels} from '../../generated-types/backend-types';
 import {UseCaseSummary} from './useCasesResource.service';
+import {BuildInfo} from './comparisonCreateResource.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -18,11 +19,11 @@ export class RelatedIssueResource {
     }
 
     get(branchName: {}, buildName: {}, useCaseName: {}, scenarioName: {}, pageName: {}, pageOccurence: {}, stepInPageOccurrence: {}): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`branch/${branchName}/issue/related/${buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence}/${stepInPageOccurrence}`);
+        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${branchName}/issue/related/${buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence}/${stepInPageOccurrence}`);
     }
 
-    getForScenariosOverview(branchName: {}, buildName: {}, useCaseName: {}): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`branch/${branchName}/issue/related/${buildName}/${useCaseName}`);
+    getForScenariosOverview(build: BuildInfo, useCaseName: string): Observable<RelatedIssueSummary[]> {
+        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}`);
     }
 }
 
