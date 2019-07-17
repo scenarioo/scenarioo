@@ -1,6 +1,5 @@
 package org.scenarioo.rest.builds;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
@@ -11,7 +10,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,11 +19,6 @@ public class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
-
-	@BeforeClass
-	public static void ensureNoUnexpectedBuildsArePresent() throws IOException {
-		BuildsResourceIntegrationTest.cleanUpUploadedFiles();
-	}
 
 	@Test
 	public void listBranchesAndBuilds_should_return_defined_branches_and_builds() {
