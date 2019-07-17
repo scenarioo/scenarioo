@@ -13,16 +13,6 @@ export class SharePageURL {
         };
     }
 
-    /*
-    ngOnInit() {
-        this.shareLinks = {
-            pageUrl : undefined,
-            imageUrl : undefined,
-        };
-    }
-
-     */
-
     shareLinks: {
         pageUrl: string,
         imageUrl: string,
