@@ -51,9 +51,13 @@ public abstract class AbstractIntegrationTest {
 		@Override
 		public void initialize(ConfigurableApplicationContext applicationContext) {
 			System.out.println("Overriding scenarioo.data property for integration test...");
-			File testBranchFolder = TestResourceFile.getResourceFile("org/scenarioo/rest/testConfiguration");
+			File testBranchFolder = getScenariooConfigurationFolder();
 			// Absolute Path on windows has \ which will be interpreted as escape characters when the property is interpreted. Using unix style / resolves the problem
 			TestPropertySourceUtils.addInlinedPropertiesToEnvironment(applicationContext, "scenarioo.data=" + testBranchFolder.getAbsolutePath().replaceAll("\\\\","/"));
+		}
+
+		public static File getScenariooConfigurationFolder() {
+			return TestResourceFile.getResourceFile("org/scenarioo/rest/testConfiguration");
 		}
 	}
 
