@@ -30,12 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <sc-tree *ngIf="tree" [informationTree]="informationTree"></sc-tree>
     <sc-label-metadata *ngIf="label" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
     <sc-metadata-tree *ngIf="metadataTree" [metadataTree]="informationTree"></sc-metadata-tree>
-    <!--
     <div *ngIf="sketches">
         <ul id="relatedSketches">
-            <li ng-repeat="issue in relatedIssues">
-                <a href="" ng-click="goToIssue(issue)">{{issue.name}}</a>
+            <li *ngFor="let issue of relatedIssues">
+                <a (click)="goToIssue(issue)">{{issue.name}}</a>
             </li>
         </ul>
-    </div>-->
+    </div>
 </accordion-group>

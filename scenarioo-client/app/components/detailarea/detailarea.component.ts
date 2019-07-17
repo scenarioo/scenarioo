@@ -42,7 +42,7 @@ export class DetailareaComponent {
     metadataInformationTree: {};
 
     @Input()
-    relatedIssues: {};
+    relatedIssues;
 
     @Input()
     useCaseLabels: {};

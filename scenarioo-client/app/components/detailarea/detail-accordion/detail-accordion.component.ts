@@ -49,6 +49,9 @@ export class DetailAccordionComponent {
     informationTree: any;
 
     @Input()
+    relatedIssues;
+
+    @Input()
     labelConfigurations: {};
 
     constructor() {

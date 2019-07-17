@@ -51,6 +51,7 @@ import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.
 import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
 import {RouteParamsService} from './shared/route-params.service';
+import {RelatedIssueResource} from './shared/services/relatedIssueResource';
 
 @NgModule({
     declarations: [
@@ -116,6 +117,7 @@ import {RouteParamsService} from './shared/route-params.service';
             multi: true,
         },
         LabelConfigurationService,
+        RelatedIssueResource,
         BuildDiffInfoService,
         BuildDiffInfosService,
         DiffInfoService,

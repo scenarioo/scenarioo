@@ -15,7 +15,7 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
-import {ScenariooResourceNewService} from '../../shared/services/scenariooResourceNew.service';
+import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource';
 import {RouteParamsService} from '../../shared/route-params.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class ScenariosComponent implements OnInit {
 
     usecaseInformationTree = {};
     metadataInformationTree = {};
-    relatedIssues = {};
+    relatedIssues;
     labels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
@@ -66,7 +66,7 @@ export class ScenariosComponent implements OnInit {
                 private diffInfoService: DiffInfoService,
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private labelConfigurationsResource: LabelConfigurationsResource,
-                private scenariooResourceNewService: ScenariooResourceNewService,
+                private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService) {
     }
 
@@ -106,15 +106,13 @@ export class ScenariosComponent implements OnInit {
             this.metadataInformationTree = this.metadataTreeCreatorPipe.transform(useCaseScenarios.useCase.details);
             this.labels = useCaseScenarios.useCase.labels.labels;
 
-            /*
-            this.scenariooResourceNewService.query({
-                branchName: selection.branch,
-                buildName: selection.build,
-                useCaseName: useCaseScenarios.useCase.name,
-            }, (result) => {
-                this.relatedIssues = result;
-            });
-            */
+            this.relatedIssues = this.relatedIssueResource.getForScenariosOverview(
+                {branchName: selection.branch},
+                {buildName: selection.build},
+                {useCaseName: useCaseScenarios.useCase.name}
+            );
+
+            console.log(this.relatedIssues.name);
         });
     }
 
