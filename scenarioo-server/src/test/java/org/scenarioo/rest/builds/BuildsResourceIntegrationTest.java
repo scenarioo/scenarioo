@@ -1,8 +1,11 @@
 package org.scenarioo.rest.builds;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.scenarioo.utils.TestResourceFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,14 @@ public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 
 	private static final String UPLOADED_FOLDER_NAME = "pizza-delivery-feature-update-dependencies";
 
+	// waitForImportToFinish might run into problems and run endlessly. Thus we ensure that the test terminates in time.
+	@Rule
+	public Timeout timeout = Timeout.seconds(30);
+
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
+	@AfterClass
 	@BeforeClass
 	public static void cleanUpUploadedFiles() throws IOException {
 		File scenariooConfigurationFolder = ScenariooDataPropertyInitializer.getScenariooConfigurationFolder();
@@ -43,7 +51,7 @@ public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void should_allow_post_of_new_build_when_authorized() throws IOException {
+	public void should_allow_post_of_new_build_when_authorized() throws IOException, InterruptedException {
 		//arrange
 		HttpEntity<?> request = createRequestToUploadSmallZipFile();
 
@@ -56,6 +64,19 @@ public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 		//assert
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).contains("Build successfully added to Scenarioo.");
+
+		waitForImportToFinish();
+	}
+
+	// we have to wait for the import to finish, otherwise deleting the uploaded files fails and as a consequence, the test fails as well.
+	private void waitForImportToFinish() throws InterruptedException {
+		ResponseEntity<String> response;
+		do {
+			Thread.sleep(300);
+			response =
+				testRestTemplate
+					.getForEntity("/rest/builds/importsAndComparisonCalculationsFinished", String.class);
+		} while(Boolean.FALSE.toString().equalsIgnoreCase(response.getBody()));
 	}
 
 	private HttpEntity<?> createRequestToUploadSmallZipFile() throws IOException {
