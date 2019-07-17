@@ -1,4 +1,9 @@
 # Scenarioo Release Notes
+## Version 5.0.1
+
+### Bugfixes
+
+* [#934 - Upload Build with Rest Service](https://github.com/scenarioo/scenarioo/issues/934) Uploading builds through the REST endpoint works again, no matter what size the zip-file has.
 
 ## Version 5.0.0
 
