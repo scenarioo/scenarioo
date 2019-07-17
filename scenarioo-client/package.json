@@ -34,6 +34,7 @@
         "lint:app:fix": "tslint --fix 'app/**/*.ts' -c app/tslint.json"
     },
     "dependencies": {
+        "@angular/animations": "7.2.14",
         "@angular/common": "7.2.14",
         "@angular/compiler": "7.2.14",
         "@angular/core": "7.2.14",
@@ -42,7 +43,6 @@
         "@angular/platform-browser-dynamic": "7.2.14",
         "@angular/router": "7.2.14",
         "@angular/upgrade": "7.2.14",
-        "@angular/animations": "7.2.14",
         "@fortawesome/fontawesome": "^1.1.8",
         "@fortawesome/fontawesome-free-brands": "^5.0.13",
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
@@ -60,6 +60,8 @@
         "intl": "^1.2.5",
         "jquery": "3.2.1",
         "ngx-bootstrap": "^4.3.0",
+        "ngx-icons": "^0.3.0",
+        "ngx-order-pipe": "^2.0.2",
         "reflect-metadata": "^0.1.10",
         "rxjs": "^6.5.1",
         "svg-pan-zoom": "github:ariutta/svg-pan-zoom#3.2.11",

@@ -37,8 +37,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
 
     // These templates are loaded dynamically, thus we preload it and put it into our template cache.
     $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));
-    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
-    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
     $templateCache.put('build/customTab.html', require('./build/customTab.html'));
     $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
@@ -67,6 +65,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
 
 // needs to stay here
 import './build';
+import './components';
 import './manage';
 import './objectRepository/objectRepository.controller';
 import './scenario';

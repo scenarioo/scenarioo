@@ -1,0 +1,138 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="row sc-space-top-large sc-space-bottom">
+    <div class="col-sm-8">
+        <label class="input-group">
+            <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
+                   id="useCasesSearchField" placeholder="Search in use cases..."
+                   title="type words separated by spaces to search for" type="text" autofocus/>
+            <span class="input-group-btn">
+                <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+            </span>
+        </label>
+    </div>
+
+    <div id='sc-meta-data-panel'>
+        <sc-detailarea (valueChange)="collapsePanel($event)"
+                       [branchInformationTree]="branchInformationTree" [buildInformationTree]="buildInformationTree"></sc-detailarea>
+
+        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
+            <p *ngIf="usecases.length>1">
+                Found {{(usecases|filter: searchTerm).length}}
+                <span *ngIf="(usecases|filter: searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+                Use Cases
+            </p>
+            <p *ngIf="usecases.length<=1">
+                Found {{(usecases|filter: searchTerm).length}}
+                <span *ngIf="(usecases|filter: searchTerm).length != usecases.length"> of {{usecases.length}}</span>
+                Use Case
+            </p>
+            <table *ngIf="(usecases|filter: searchTerm).length!=0" class="table table-curved table-responsive usecase-table">
+                <thead>
+                <tr>
+                    <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
+                        Status
+                        <div *ngIf="order != 'status'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'status' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'status' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
+                        Name
+                        <div *ngIf="order != 'name'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'name' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'name' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th>Description</th>
+                    <th (click)="setOrder('numberOfScenarios')" [class.selected]="order === 'numberOfScenarios' ">
+                        # Scenarios
+                        <div *ngIf="order != 'numberOfScenarios'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'numberOfScenarios' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'numberOfScenarios' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                        [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
+                        Changes
+                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr (click)="goToUseCase(dynamicUseCase.name)"
+                    *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: searchTerm
+                let i = index" [class.active]="i == arrowkeyLocation"
+                    [ngClass]="comparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
+                    <td>
+                    <span
+                        [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
+                    </td>
+                    <td>
+                        <span class="sc-text-before-label">{{dynamicUseCase.name | scHumanReadable}}</span>
+                        <span *ngFor="let dynamicLabel of dynamicUseCase.labels.labels"
+                              [ngStyle]="getLabelStyle(dynamicLabel)"
+                              class="label label-info sc-label">{{dynamicLabel}}</span>
+                    </td>
+                    <td>{{dynamicUseCase.description}}</td>
+                    <td>{{dynamicUseCase.numberOfScenarios}}</td>
+                    <td *ngIf="comparisonExisting">
+                        <sc-diff-info-icon [diffInfo]="dynamicUseCase.diffInfo" child-element-type="scenario"
+                                           element-type="use case"></sc-diff-info-icon>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

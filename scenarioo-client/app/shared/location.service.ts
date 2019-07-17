@@ -11,4 +11,8 @@ export class LocationService {
         return undefined;
     }
 
+    path(url: string): string | any {
+        return undefined;
+    }
+
 }

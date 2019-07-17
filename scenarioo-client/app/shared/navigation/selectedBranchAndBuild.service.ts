@@ -146,3 +146,9 @@ angular.module('scenarioo.services')
         };
 
     });
+
+export class SelectedBranchAndBuildService {
+    callOnSelectionChange(fn: any) {
+
+    }
+}

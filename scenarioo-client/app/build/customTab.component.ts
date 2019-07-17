@@ -7,7 +7,7 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty ofre
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
@@ -15,34 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('CustomTabController', CustomTabController);
+angular.module('scenarioo.directives')
+    .component('scCustomTab', {
+        bindings: {
+            tabId: '<',
+            tabColumns: '<',
+        },
+        template: require('./customTab.html'),
+        controller: CustomTabController,
+    });
 
 function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource,
                              SelectedBranchAndBuildService, TreeNodeService) {
 
-    var vm = this;
-    vm.searchField = '';
-    vm.treemodel = [];
+    const ctrl = this;
+    ctrl.searchField = '';
+    ctrl.treemodel = [];
 
     // Determines if the tree has expanded / collapsed rootnodes initially
-    vm.rootIsCollapsed = true;
-    vm.toggleLabel = 'expand';
-    vm.tabContentTree = [];
-    vm.branchesAndBuilds = [];
-    vm.selectedBranchAndBuild = {};
-    vm.selectedTab = undefined;
+    ctrl.rootIsCollapsed = true;
+    ctrl.toggleLabel = 'expand';
+    ctrl.tabContentTree = [];
+    ctrl.branchesAndBuilds = [];
+    ctrl.selectedBranchAndBuild = {};
+    ctrl.selectedTab = undefined;
 
-    vm.goToReferenceTree = goToReferenceTree;
-    vm.expandAndCollapseTree = expandAndCollapseTree;
-    vm.resetSearchField = resetSearchField;
+    ctrl.goToReferenceTree = goToReferenceTree;
+    ctrl.expandAndCollapseTree = expandAndCollapseTree;
+    ctrl.resetSearchField = resetSearchField;
 
     activate();
 
     function activate() {
-        SelectedBranchAndBuildService.callOnSelectionChange(selected => {
+        SelectedBranchAndBuildService.callOnSelectionChange((selected) => {
             // Initialization on registration of this listener and on all changes to the build selection:
-            vm.selectedBranchAndBuild = selected;
-            vm.selectedTab = getSelectedTabFromUrl();
+            ctrl.selectedBranchAndBuild = selected;
+            ctrl.selectedTab = getSelectedTabFromUrl();
             loadContent();
         });
     }
@@ -56,13 +64,12 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     }
 
     function resetSearchField() {
-        vm.searchField = '';
+        ctrl.searchField = '';
     }
 
-
     function getSelectedTabFromUrl() {
-        var params = $location.search();
-        var selectedTabId = 'undefined';
+        const params = $location.search();
+        let selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
         }
@@ -73,16 +80,16 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     function loadContent() {
 
         BranchesAndBuildsService.getBranchesAndBuilds()
-            .then(branchesAndBuilds => {
-                vm.branchesAndBuilds = branchesAndBuilds;
+            .then((branchesAndBuilds) => {
+                ctrl.branchesAndBuilds = branchesAndBuilds;
 
                 CustomTabContentResource
                     .get({
-                        branchName: vm.selectedBranchAndBuild.branch,
-                        buildName: vm.selectedBranchAndBuild.build
-                    }, vm.selectedTab)
-                    .subscribe(result => {
-                        vm.tabContentTree = result.tree;
+                        branchName: ctrl.selectedBranchAndBuild.branch,
+                        buildName: ctrl.selectedBranchAndBuild.build,
+                    }, ctrl.selectedTab)
+                    .subscribe((result) => {
+                        ctrl.tabContentTree = result.tree;
                     });
             });
 

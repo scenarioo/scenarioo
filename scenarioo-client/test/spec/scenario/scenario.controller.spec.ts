@@ -71,11 +71,13 @@ describe('ScenarioController', () => {
         },
     };
 
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
         $provide.value('ScenarioResource', ScenarioResourceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
         $provide.value('LabelConfigurationsResource', LabelConfigurationsResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('BuildDiffInfoResource', {});

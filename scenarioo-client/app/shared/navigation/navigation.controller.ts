@@ -31,7 +31,8 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
                               ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource: BuildDiffInfosService,
-                              SearchEngineStatusService) {
+                              SearchEngineStatusService,
+                              $uibModal) {
 
     const ctrl = this;
 
@@ -106,6 +107,15 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
             resetComparisonSelection();
         }
     }
+
+    ctrl.createComparison = () => {
+        $uibModal.open({
+            template: require('../../manage/comparisons/createComparisonModal.html'),
+            controller: 'CreateComparisonModalController',
+            controllerAs: 'vm',
+            windowClass: 'modal-small',
+        });
+    };
 
     function resetComparisonSelection() {
         ctrl.comparisonBuilds = [];
