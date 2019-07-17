@@ -50,6 +50,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
+import {RouteParamsService} from './shared/route-params.service';
 
 @NgModule({
     declarations: [
@@ -126,6 +127,7 @@ import {ScenariooResourceNewService} from './shared/services/scenariooResourceNe
         TreeDataOptimizerPipe,
         DateTimePipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
+        {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},

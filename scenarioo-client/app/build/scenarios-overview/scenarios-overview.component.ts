@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, HostListener, Input} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
@@ -16,6 +16,7 @@ import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {ScenariooResourceNewService} from '../../shared/services/scenariooResourceNew.service';
+import {RouteParamsService} from '../../shared/route-params.service';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -23,9 +24,8 @@ import {ScenariooResourceNewService} from '../../shared/services/scenariooResour
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosComponent implements AfterViewChecked {
+export class ScenariosComponent implements OnInit {
 
-    @Input()
     useCaseName: string;
 
     scenarios: IScenarioSummary[] = [];
@@ -66,47 +66,15 @@ export class ScenariosComponent implements AfterViewChecked {
                 private diffInfoService: DiffInfoService,
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private labelConfigurationsResource: LabelConfigurationsResource,
-                private scenariooResourceNewService: ScenariooResourceNewService) {
+                private scenariooResourceNewService: ScenariooResourceNewService,
+                private routeParams: RouteParamsService) {
     }
 
     ngOnInit(): void {
 
-    }
+        this.useCaseName = this.routeParams.useCaseName;
 
-    // TODO: Find a better solution to get the name of the use case
-    ngAfterViewChecked() {
-
-        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
-
-            this.scenarioResource.getUseCaseScenarios({
-                    branchName: selection.branch,
-                    buildName: selection.build,
-                },
-                this.useCaseName,
-            ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
-
-                if (this.comparisonExisting) {
-                    this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
-                } else {
-                    this.scenarios = useCaseScenarios.scenarios;
-                }
-
-                this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
-                this.metadataInformationTree = this.metadataTreeCreatorPipe.transform(useCaseScenarios.useCase.details);
-                this.labels = useCaseScenarios.useCase.labels.labels;
-
-                /*
-                this.scenariooResourceNewService.query({
-                    branchName: selection.branch,
-                    buildName: selection.build,
-                    useCaseName: useCaseScenarios.useCase.name,
-                }, (result) => {
-                    this.relatedIssues = result;
-                });
-                */
-            });
-
-        });
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadScenario(selection));
 
         this.labelConfigurationsResource.query()
             .subscribe(((labelConfigurations) => {
@@ -118,6 +86,36 @@ export class ScenariosComponent implements AfterViewChecked {
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
 
         this.comparisonExisting = this.selectedComparison.isDefined();
+    }
+
+    private loadScenario(selection) {
+        this.scenarioResource.getUseCaseScenarios({
+                branchName: selection.branch,
+                buildName: selection.build,
+            },
+            this.useCaseName,
+        ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
+
+            if (this.comparisonExisting) {
+                this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
+            } else {
+                this.scenarios = useCaseScenarios.scenarios;
+            }
+
+            this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
+            this.metadataInformationTree = this.metadataTreeCreatorPipe.transform(useCaseScenarios.useCase.details);
+            this.labels = useCaseScenarios.useCase.labels.labels;
+
+            /*
+            this.scenariooResourceNewService.query({
+                branchName: selection.branch,
+                buildName: selection.build,
+                useCaseName: useCaseScenarios.useCase.name,
+            }, (result) => {
+                this.relatedIssues = result;
+            });
+            */
+        });
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
@@ -189,6 +187,7 @@ export class ScenariosComponent implements AfterViewChecked {
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
     }
+
 }
 
 angular.module('scenarioo.directives')
