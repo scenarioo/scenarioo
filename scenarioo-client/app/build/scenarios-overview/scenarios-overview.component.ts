@@ -116,8 +116,6 @@ export class ScenariosComponent implements OnInit {
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
                 this.relatedIssues = relatedIssueSummary;
             });
-
-            console.log(this.relatedIssues);
         });
     }
 

@@ -37,13 +37,13 @@ angular.module('scenarioo.services')
             });
     })
 
-    .factory('SketchIdsResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/ids',
-            {
-                branchName: '@branchName',
-                issueId: '@issueId'
-            }, {});
-    })
+    // .factory('SketchIdsResource', function (ScenariooResource) {
+    //     return ScenariooResource('/branch/:branchName/issue/:issueId/ids',
+    //         {
+    //             branchName: '@branchName',
+    //             issueId: '@issueId'
+    //         }, {});
+    // })
 
     // .factory('RelatedIssueResource', function (ScenariooResource) {
     //     return ScenariooResource('/branch/:branchName/issue/related/:buildName/:useCaseName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',

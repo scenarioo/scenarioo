@@ -20,6 +20,7 @@ import {ConfigurationService} from '../services/configuration.service';
 import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfosService} from '../diffViewer/services/scenario-diff-infos.service';
 import {forkJoin} from 'rxjs';
+import {SketchIdsResource} from '../shared/services/sketchIdsResource.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -28,11 +29,11 @@ angular.module('scenarioo.controllers')
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService,
-                           SketchIdsResource,
                            UseCaseDiffInfoResource: UseCaseDiffInfoService,
                            ScenarioDiffInfosResource: ScenarioDiffInfosService,
                            ConfigurationService: ConfigurationService,
-                           labelConfigurationService: LabelConfigurationService) {
+                           labelConfigurationService: LabelConfigurationService,
+                           SketchIdsResource: SketchIdsResource) {
 
     const vm = this;
 
@@ -181,12 +182,12 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function goToIssue(issue) {
-        const selectedBranch = SelectedBranchAndBuildService.selected().branch;
-        SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id},
-            (result) => {
-                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            });
+        // const selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        // SketchIdsResource.get(
+        //     {branchName: selectedBranch, issueId: issue.id},
+        //     (result) => {
+        //         $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+        //     });
     }
 
     function createUseCaseInformationTree(usecase) {
