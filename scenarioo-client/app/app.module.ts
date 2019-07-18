@@ -51,7 +51,7 @@ import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.
 import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
 import {RouteParamsService} from './shared/route-params.service';
-import {RelatedIssueResource} from './shared/services/relatedIssueResource';
+import {RelatedIssueResource} from './shared/services/relatedIssueResource.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
 

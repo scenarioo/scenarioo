@@ -28,7 +28,7 @@ describe('UseCaseController', () => {
         USE_CASE = 'LogIn';
 
     let $scope, routeParams, controller, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
-        SelectedBranchAndBuildService, $location, relatedIssueResource, TestData;
+        SelectedBranchAndBuildService, $location, RelatedIssueResource, TestData;
     let labelConfigurationService: any;
     const ConfigResourceMock = {
         get: () => of({})
@@ -80,6 +80,14 @@ describe('UseCaseController', () => {
             get() {
             }
         });
+        $provide.value('RelatedIssueResource', {
+            get() {
+            },
+            getForStepsOverview() {
+            },
+            getForScenariosOverview() {
+            }
+        });
     }));
 
     beforeEach(inject(($rootScope, $routeParams, $controller, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
@@ -88,7 +96,7 @@ describe('UseCaseController', () => {
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
 
-            relatedIssueResource = _RelatedIssueResource_;
+            RelatedIssueResource = _RelatedIssueResource_;
             UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
@@ -107,7 +115,7 @@ describe('UseCaseController', () => {
                 $scope: $scope,
                 $routeParams: routeParams,
                 ConfigurationService: _ConfigurationService_,
-                relatedIssueResource: relatedIssueResource,
+                RelatedIssueResource: RelatedIssueResource,
                 UseCaseDiffInfoResource: UseCaseDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
@@ -118,7 +126,7 @@ describe('UseCaseController', () => {
 
     it('should load all scenarios and and the selected use case', () => {
         spyOn(ScenarioResourceMock, 'getUseCaseScenarios').and.returnValue(getFindAllScenariosFake());
-        spyOn(relatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+        spyOn(RelatedIssueResource, 'get').and.callFake(getRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
 
@@ -159,7 +167,7 @@ describe('UseCaseController', () => {
 
     }
 
-    function queryRelatedIssuesFake() {
+    function getRelatedIssuesFake() {
         const DATA = {
             0:
                 {

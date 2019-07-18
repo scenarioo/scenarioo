@@ -19,9 +19,21 @@ export class MetaDataTreeComponent {
     @Input()
     informationTree;
 
+    informationTreeValue;
+    detailAccordionNameValue;
+
     ngOnInit(): void {
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
         }
+
+        for(let key of this.informationTree) {
+            this.informationTreeValue.push(this.informationTree[key])
+        }
+
+        for(let key of this.detailAccordionName) {
+            this.detailAccordionNameValue.push(this.detailAccordionName[key])
+        }
+
     }
 }

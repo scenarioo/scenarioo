@@ -170,7 +170,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function loadRelatedIssues() {
-        // RelatedIssueResourceOld.query({
+        // RelatedIssueResource.query({
         //     branchName: SelectedBranchAndBuildService.selected().branch,
         //     buildName: SelectedBranchAndBuildService.selected().build,
         //     useCaseName: $routeParams.useCaseName,

@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 -->
 
-<accordion-group *ngFor="let dynamicInformationTree of informationTree, let dynamicDetailAccordionName of detailAccordionName, let dynamicIsFirstOpen of isFirstOpen"
+<accordion-group *ngFor="let dynamicInformationTree of informationTreeValue, let dynamicDetailAccordionName of detailAccordionNameValue"
                  (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
-                 [isOpen]=dynamicIsFirstOpen
+                 [isOpen]=isFirstOpen
                  panelClass="customClass">
     <div accordion-heading>
                         <span *ngIf="isAccordionCollapsed">

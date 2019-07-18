@@ -18,7 +18,7 @@
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
-import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource';
+import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -131,8 +131,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             $scope.pageOccurrence,
             $scope.stepInPageOccurrence,
             labels,
-        )
-            .subscribe((result) => stepResultToVm(result, selected),
+        ).subscribe((result) => stepResultToVm(result, selected),
                 (error) => {
                     $scope.stepNotFound = true;
                     $scope.httpResponse = {
@@ -300,18 +299,21 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     });
 
     function loadRelatedIssues() {
-        relatedIssueResource.get(
-            {branchName: SelectedBranchAndBuildService.selected().branch},
-            {buildName: SelectedBranchAndBuildService.selected().build},
-            {useCaseName},
-            {scenarioName},
-            {pageName: $scope.pageName},
-            {pageOccurence: $scope.pageOccurrence},
-            {stepInPageOccurrence: $scope.stepInPageOccurrence},
+        relatedIssueResource.get({
+            branchName: SelectedBranchAndBuildService.selected().branch,
+            buildName: SelectedBranchAndBuildService.selected().build
+            },
+            useCaseName,
+            scenarioName,
+            $scope.pageName,
+            $scope.pageOccurrence,
+            $scope.stepInPageOccurrence,
         ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
             $scope.relatedIssues = relatedIssueSummary;
             $scope.hasAnyRelatedIssues = () => $scope.relatedIssues.length > 0;
             $scope.goToIssue = goToIssue;
+        }, (error) => {
+            throw error;
         });
     }
 

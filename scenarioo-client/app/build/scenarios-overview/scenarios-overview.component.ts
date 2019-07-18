@@ -15,7 +15,7 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
-import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource';
+import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
 
