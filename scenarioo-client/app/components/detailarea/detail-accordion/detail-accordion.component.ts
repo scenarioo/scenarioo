@@ -19,7 +19,6 @@ import {Component, Input} from '@angular/core';
 import {LocationService} from '../../../shared/location.service';
 import {SelectedBranchAndBuildService} from '../../../shared/navigation/selectedBranchAndBuild.service';
 import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.service';
-import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
 
 @Component({
     selector: 'sc-detail-accordion',
