@@ -1,0 +1,89 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="$ctrl.hideToolbar">
+    <!-- Step & Page Navigation -->
+    <div class="col-lg-8">
+
+        <!-- Pages navigation -->
+        <div class="btn-group">
+            <span ng-click="$ctrl.goToPreviousPage()" class="btn btn-default" ng-disabled="$ctrl.isFirstPage()" id="prevPageBtn">
+                <span uib-tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-double-left"></i>
+                </span>
+            </span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all pages in this scenario"
+                                                             tooltip-placement="bottom">Page {{$ctrl.getCurrentPageIndexForDisplay()}} of {{$ctrl.stepStatistics.totalNumberOfPagesInScenario}}</span></span>
+            <span ng-click="$ctrl.goToNextPage()" class="btn btn-default" ng-disabled="$ctrl.isLastPage()" id="nextPageBtn">
+                <span uib-tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-double-right"></i>
+                </span>
+            </span>
+        </div>
+
+        &nbsp;
+
+        <!-- Steps navigation -->
+        <div class="btn-group">
+            <span ng-click="$ctrl.goToPreviousStep()" class="btn btn-default" ng-disabled="$ctrl.isFirstStep()" id="prevStepBtn">
+                <span uib-tooltip="Previous Step [Left]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-left"></i>
+                </span>
+            </span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario"
+                                                             tooltip-placement="bottom">Step {{$ctrl.getCurrentStepIndexForDisplay()}} of {{$ctrl.stepStatistics.totalNumberOfStepsInScenario}} (Step {{$ctrl.getStepIndexInCurrentPageForDisplay()}} of {{$ctrl.getNumberOfStepsInCurrentPageForDisplay()}} on Page)</span></span>
+            <span ng-click="$ctrl.goToNextStep()" class="btn btn-default" ng-disabled="$ctrl.isLastStep()" id="nextStepBtn">
+                <span uib-tooltip="Next Step [Right]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-right"></i>
+                </span>
+            </span>
+        </div>
+
+        &nbsp;
+
+        <!-- Page variants navigation -->
+        <div class="btn-group">
+            <span ng-click="$ctrl.goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn"
+                  ng-disabled="$ctrl.isFirstPageVariantStep()">
+                <span uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-up"></i>
+                </span>
+            </span>
+            <span class="btn btn-default btn-no-hover">
+                <span uib-tooltip="click here to see all page variants" tooltip-placement="bottom"
+                      id="pageVariantIndicator">
+                    <a ng-href="#/object/page/{{$ctrl.getPageNameUrlEncoded()}}" id="allPageVariants">
+                        Page-Variant {{$ctrl.stepNavigation.pageVariantIndex + 1}} of {{$ctrl.stepNavigation.pageVariantsCount}}
+                    </a>
+                </span>
+            </span>
+            <span ng-click="$ctrl.goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn"
+                  ng-disabled="$ctrl.isLastPageVariantStep()">
+                <span uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-down"></i>
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="pull-right">
+            <sc-screen-annotations-button visibility-toggle="$ctrl.showScreenAnnotations"
+                                          screen-annotations="$ctrl.step.screenAnnotations"></sc-screen-annotations-button>
+            <sc-meta-data-button linking-variable="$ctrl.linkingVariable" local-storage-key="step"></sc-meta-data-button>
+        </div>
+    </div>
+</div>

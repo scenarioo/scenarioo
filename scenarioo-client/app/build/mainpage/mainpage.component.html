@@ -1,3 +1,20 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <div id="grayBackground"></div>
 <span class="button-right">
     <button (click)="openShare(shareContent)" id="shareButton" tooltip="Share this page with others (using stable links)" container="body"
@@ -35,28 +52,23 @@
             <button (click)="modalRef.hide()" class="btn btn-primary" type="button">Close</button>
         </div>
     </ng-template>
-    <!--
-        <span
-            id="sketchThis"
-            class="btn btn-sm btn-primary breadcrumb-button"
-            (click)="sketcherLink.executeLinkClickedAction()"
-            (show)="sketcherLink.isShowCreateOrEditSketchLink()"
-            tooltip="Sketch on current screen to share with others"
-            placement="bottom">
-            <i class="glyphicon glyphicon-pencil"></i>
-            {{sketcherLink.getCreateOrEditSketchLinkTitle()}}
-        </span>-->
 </span>
-<div>
-    <tabset>
-        <tab heading="Use Cases" id="tab1">
-            <sc-usecases-overview></sc-usecases-overview>
-        </tab>
-        <tab *ngFor="let dynamictab of tabs"
-             [heading]="dynamictab.title">
-            {{dynamictab?.content}}
-        </tab>
 
+<!--TODO: Order of tabs -->
+<div>
+    <tabset #homeTabs>
+        <tab heading="Use Cases" id="sc-main-tab-usecases" (selectTab)="onSelect($event)">
+            <sc-usecases-overview *ngIf="isActiveTab('Use Cases')"></sc-usecases-overview>
+        </tab>
+        <tab *ngFor="let dynamictab of customTabs"
+             [heading]="dynamictab.title"
+             (selectTab)="onSelect($event)"
+              id="sc-main-tab-{{dynamictab.id}}">
+            <sc-custom-tab [tabId]="dynamictab.id" [tabColumns]="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
+        </tab>
+        <tab heading="Sketches" id="sc-main-tab-sketches" (selectTab)="onSelect($event)">
+            <sc-sketches-tab *ngIf="isActiveTab('Sketches')"></sc-sketches-tab>
+        </tab>
     </tabset>
 </div>
 

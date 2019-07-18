@@ -45,21 +45,21 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('RelatedIssueResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/related/:buildName/:useCaseName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',
-            {
-                branchName: '@branchName',
-                buildName: '@buildName',
-                useCaseName: '@useCaseName',
-                scenarioName: '@scenarioName',
-                pageName: '@pageName',
-                pageOccurence: '@pageOccurence',
-                stepInPageOccurrence: '@stepInPageOccurrence'
-            },
-            {
-                'query': {method: 'GET', isArray: true}
-            });
-    })
+    // .factory('RelatedIssueResource', function (ScenariooResource) {
+    //     return ScenariooResource('/branch/:branchName/issue/related/:buildName/:useCaseName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',
+    //         {
+    //             branchName: '@branchName',
+    //             buildName: '@buildName',
+    //             useCaseName: '@useCaseName',
+    //             scenarioName: '@scenarioName',
+    //             pageName: '@pageName',
+    //             pageOccurence: '@pageOccurence',
+    //             stepInPageOccurrence: '@stepInPageOccurrence'
+    //         },
+    //         {
+    //             'query': {method: 'GET', isArray: true}
+    //         });
+    // })
 
     .factory('NewIssueResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/issue/:issueName',

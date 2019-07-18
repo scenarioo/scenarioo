@@ -1,0 +1,50 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
+        class="btn btn-primary pull-right" type="button">
+    {{ isPanelCollapsed ? "Show details" : "Hide details" }}
+</button>
+
+<div #collapse="bs-collapse" [collapse]="isPanelCollapsed">
+    <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
+        <div class="detail-row">
+
+            <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
+                 class="detail-cell detail-button">
+                <i class="fas fa-angle-right"></i>
+            </div>
+
+            <div class="detail-cell detail-section">
+                <h3>Details</h3>
+                <accordion [isAnimated]="true">
+
+                    <!-- usecases-overview -->
+                    <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false" [tree]="true"></sc-detail-accordion>
+
+                    <!-- scenarios-overview -->
+                    <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree" detailAccordionName="Use Case" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="relatedIssues" [relatedIssues]="relatedIssues" detailAccordionName="Related Sketches" [isFirstOpen]="false" [sketches]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)" [informationTree]="useCaseLabels" [labelConfigurations]="labelConfigurations" detailAccordionName="Labels" [isFirstOpen]="false" [label]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngIf="metadataInformationTree" [informationTree]="metadataInformationTree" detailAccordionName="Webtest Class" [isFirstOpen]="false" [metadataTree]="true"></sc-detail-accordion>
+
+                </accordion>
+            </div>
+        </div>
+    </div>
+</div>

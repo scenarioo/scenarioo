@@ -62,6 +62,7 @@ describe('UseCaseController', () => {
             SelectedBranchAndBuildServiceMock.callback(newStep);
         },
     };
+    const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(angular.mock.module('scenarioo.services', ($provide) => {
@@ -70,12 +71,21 @@ describe('UseCaseController', () => {
         $provide.value('ScenarioResource', ScenarioResourceMock);
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
+        $provide.value('DiffInfoService', DiffInfoServiceMock);
         $provide.value('ScenarioDiffInfosResource', {
             get() {
             }
         });
         $provide.value('UseCaseDiffInfoResource', {
             get() {
+            }
+        });
+        $provide.value('RelatedIssueResource', {
+            get() {
+            },
+            getForStepsOverview() {
+            },
+            getForScenariosOverview() {
             }
         });
     }));
@@ -116,7 +126,7 @@ describe('UseCaseController', () => {
 
     it('should load all scenarios and and the selected use case', () => {
         spyOn(ScenarioResourceMock, 'getUseCaseScenarios').and.returnValue(getFindAllScenariosFake());
-        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+        spyOn(RelatedIssueResource, 'get').and.callFake(getRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
 
@@ -157,7 +167,7 @@ describe('UseCaseController', () => {
 
     }
 
-    function queryRelatedIssuesFake() {
+    function getRelatedIssuesFake() {
         const DATA = {
             0:
                 {

@@ -18,6 +18,7 @@ angular
     .module('scenarioo.directives')
     .component('scStepNotFoundDiv', {
         bindings: {
+            showComponent: '<',
             response: '<',
         },
         template: require('./stepNotFound.html'),

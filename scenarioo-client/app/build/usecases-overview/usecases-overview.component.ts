@@ -1,3 +1,20 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
@@ -7,7 +24,12 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {catchError} from 'rxjs/operators';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
+import {forkJoin} from 'rxjs';
+import {DiffInfoService} from '../../diffViewer/diffInfo.service';
+import {DateTimePipe} from '../../pipes/dateTime.pipe';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -25,13 +47,19 @@ export class UseCasesComponent {
     sortedUsecases: any[];
     reverse: boolean = false;
 
-    arrowkeyLocation = 0;
+    arrowkeyLocation: number = 0;
 
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
     getStatusStyleClass = undefined;
-    comparisonInfo = undefined;
+    comparisonExisting = undefined;
+
+    isPanelCollapsed: boolean;
+
+    branchesAndBuilds = [];
+    branchInformationTree = {};
+    buildInformationTree = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -39,8 +67,13 @@ export class UseCasesComponent {
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
+                private dateTimePipe: DateTimePipe,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison ) {
+                private selectedComparison: SelectedComparison,
+                private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
+                private buildDiffInfoService: BuildDiffInfoService,
+                private useCaseDiffInfosService: UseCaseDiffInfosService,
+                private diffInfoService: DiffInfoService) {
 
     }
 
@@ -48,13 +81,25 @@ export class UseCasesComponent {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
             this.branchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
-                // console.log(branchesAndBuilds);
+
+                this.branchesAndBuilds = branchesAndBuilds;
+
                 this.useCasesResource.query({
                     branchName: selection.branch,
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
-                    this.usecases = useCaseSummaries;
-                    // console.log(useCaseSummaries);
+
+                    if (this.comparisonExisting) {
+                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
+                    } else {
+                        this.usecases = useCaseSummaries;
+                    }
+
+                    const branch = branchesAndBuilds.selectedBranch.branch;
+                    this.branchInformationTree = this.createBranchInformationTree(branch);
+
+                    const build = branchesAndBuilds.selectedBuild.build;
+                    this.buildInformationTree = this.createBuildInformationTree(build);
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -67,14 +112,19 @@ export class UseCasesComponent {
         this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-        console.log(this.sortedUsecases);
 
-        /*
-        this.selectedComparison.callOnSelectionChange((info) => {
-            this.comparisonInfo = info;
-        });
-        console.log(this.comparisonInfo);
-        */
+        this.comparisonExisting = this.selectedComparison.isDefined();
+    }
+
+    loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
+        if (useCases && baseBranchName && baseBuildName) {
+            forkJoin([
+                this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),
+                this.useCaseDiffInfosService.get(baseBranchName, baseBuildName, comparisonName),
+            ]).subscribe(([buildDiffInfo, useCaseDiffInfos]) => {
+                this.usecases = this.diffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+            });
+        }
     }
 
     resetSearchField() {
@@ -98,22 +148,39 @@ export class UseCasesComponent {
                 this.arrowkeyLocation--;
                 break;
             case 'Enter':
-                console.log('enter is working');
-                // this.goToUseCase(this.useCaseName);
+                this.goToUseCase(this.usecases[this.arrowkeyLocation].name);
                 break;
         }
     }
 
-    goToUseCase(useCase) {
+    goToUseCase(useCase: string) {
         const params = this.locationService.path('/usecase/' + useCase);
     }
 
-    getLabelStyle(labelName) {
+    getLabelStyle(labelName: string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {
                 return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
             }
         }
+    }
+
+    collapsePanel(event) {
+        this.isPanelCollapsed = event;
+    }
+
+    createBranchInformationTree(branch) {
+        const branchInformationTree: any = {};
+        branchInformationTree.description = branch.description;
+        return this.metadataTreeCreaterPipe.transform(branchInformationTree);
+    }
+
+    createBuildInformationTree(build) {
+        const buildInformationTree: any = {};
+        buildInformationTree.Date = this.dateTimePipe.transform(build.date);
+        buildInformationTree.Revision = build.revision;
+        buildInformationTree.Status = build.status;
+        return this.metadataTreeCreaterPipe.transform(buildInformationTree);
     }
 }

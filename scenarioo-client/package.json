@@ -60,6 +60,7 @@
         "intl": "^1.2.5",
         "jquery": "3.2.1",
         "ngx-bootstrap": "^4.3.0",
+        "ngx-icons": "^0.3.0",
         "ngx-order-pipe": "^2.0.2",
         "reflect-metadata": "^0.1.10",
         "rxjs": "^6.5.1",

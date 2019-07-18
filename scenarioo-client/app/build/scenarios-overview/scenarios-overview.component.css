@@ -25,3 +25,19 @@ sc-scenarios-overview p {
     font-size: smaller;
     font-style: italic;
 }
+
+#left {
+    float:left;
+    margin-right: 100px;
+}
+
+#right {
+    min-width: 100px;
+    margin-top: 30px;
+}
+
+sc-scenarios-overview #sc-meta-data-panel {
+    margin-top: 45px;
+}
+
+

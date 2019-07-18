@@ -25,7 +25,7 @@ You can easily add additional so called "custom object tabs" to the start page o
 
 By adding custom object tabs to your Scenarioo start page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file (`config.xml`).
 
-The following XML fragment added to your configuration file, will make all your objects in your scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
+The following XML fragment added to your configuration file, will make all your objects in your Scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
 
 ```xml
     <customObjectTabs>
@@ -68,6 +68,8 @@ The default configuration since Scenarioo version 2.0 already comes with two suc
 In case you are using the default version 2.0 configuration and you do not want to see "Labels" and "Pages" in your documentation, you can remove those tabs by removing this configuration part from your config.xml file and restart the server.
 
 ### Details Data Structure Examples
+
+Some XML examples to show some example details data as you could write it with a Scenarioo writer into your Scenarioo documentation e.g. on a test step or a test scenario.
 
 #### Example 1 - Simple String Entries
 
@@ -123,8 +125,3 @@ You could e.g. add a list of all service calls (as object descriptions) that occ
             </value>
         </entry>
     </details>
-
-Thanks to the object repository you can then configure an additonal "custom object tab" to appear on the start page of the Scenarioo Viewer web app to make all objects of type "serviceCall" searchable in an additional tab on the Scenarioo Viewer start page.
- 
- See [Configuration of Custom Object Tabs](../tutorial/Configuration.md#custom-object-tabs) for how to configure such custom object tabs to browse your details objects in Scenarioo.
-

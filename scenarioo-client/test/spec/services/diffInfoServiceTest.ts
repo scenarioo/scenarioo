@@ -17,29 +17,37 @@
 
 'use strict';
 
+import {DiffInfoService} from '../../../app/diffViewer/diffInfo.service';
+
 describe('Service :: DiffInfoService', function () {
 
+    let service: DiffInfoService;
     var ADDED_NAME = 'added';
     var REMOVED_NAME = 'removed';
     var CHANGED_NAME = 'changed';
     var UNCHANGED_NAME = 'unchanged';
 
+    beforeEach(() => {
+        service = new DiffInfoService();
+    });
+
     beforeEach(angular.mock.module('scenarioo.services'));
 
-
-    it('should return elements with diff infos enriched', inject(function (DiffInfoService) {
+    it('should return elements with diff infos enriched', (done: DoneFn) => {
         var elements = getDummyElements([ADDED_NAME, CHANGED_NAME, UNCHANGED_NAME]);
         var removedElements = getDummyElements([REMOVED_NAME]);
         var diffInfos = getDummyDiffInfos([CHANGED_NAME, UNCHANGED_NAME]);
 
-        var elementsWithDiffInfo = DiffInfoService.getElementsWithDiffInfos(elements, removedElements, diffInfos, 'name');
+        var elementsWithDiffInfo = service.getElementsWithDiffInfos(elements, removedElements, diffInfos, 'name');
 
         expect(elementsWithDiffInfo.length).toBe(4);
         assertElement(elementsWithDiffInfo[0], ADDED_NAME, true, false);
         assertElement(elementsWithDiffInfo[1], CHANGED_NAME, false, false);
         assertElement(elementsWithDiffInfo[2], UNCHANGED_NAME, false, false);
         assertElement(elementsWithDiffInfo[3], REMOVED_NAME, false, true);
-    }));
+
+        done();
+    });
 
     function assertElement(element, expectedName, expectedIsAdded, expectedIsRemoved){
         expect(element.name).toBe(expectedName);

@@ -18,19 +18,19 @@ export class SharePageURL {
         imageUrl: string,
     };
 
-    setPageUrl(pageUrl) {
+    setPageUrl(pageUrl: string) {
         this.shareLinks.pageUrl = pageUrl;
     }
 
-    setImageUrl(imageUrl) {
+    setImageUrl(imageUrl: string) {
         this.shareLinks.imageUrl = imageUrl;
     }
 
-    getPageUrl() {
+    getPageUrl(): string {
         return this.shareLinks.pageUrl;
     }
 
-    getImageUrl() {
+    getImageUrl(): string {
         return this.shareLinks.imageUrl;
     }
 
