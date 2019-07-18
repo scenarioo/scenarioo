@@ -17,22 +17,22 @@
 
 package org.scenarioo.model.docu.aggregates.objects;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class LongObjectNamesResolverTest {
+class LongObjectNamesResolverTest {
 	
 	private LongObjectNamesResolver resolver;
 	
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		resolver = new LongObjectNamesResolver();
 	}
 	
 	@Test
-	public void testSmallNamesJustPass() {
+	void testSmallNamesJustPass() {
 		// Given:
 		String shortName = "aShortName";
 		// When:
@@ -42,20 +42,19 @@ public class LongObjectNamesResolverTest {
 	}
 	
 	@Test
-	public void testLongNameIsShortened() {
+	void testLongNameIsShortened() {
 		// Given:
 		String longObjectName = "veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuchThatFileNamesDoNotBecomeTooLong";
 		// When:
 		String resolvedFileName = resolver.resolveObjectFileName(longObjectName);
 		// Then:
 		assertEquals(
-				"Expected shortened name with suffix of collision index (0 for no collision yet)",
-				"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-0",
-				resolvedFileName);
+			"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-0",
+				resolvedFileName, "Expected shortened name with suffix of collision index (0 for no collision yet)");
 	}
 	
 	@Test
-	public void testLongNamesResolvedCorrectly() {
+	void testLongNamesResolvedCorrectly() {
 		// Given: two long names
 		String longObjectName1 = "veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuchThatFileNamesDoNotBecomeTooLongOne";
 		String longObjectName2 = "veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuchThatFileNamesDoNotBecomeTooLongTwo";
@@ -68,21 +67,17 @@ public class LongObjectNamesResolverTest {
 		
 		// Then: the same correct shortened names are returned
 		assertEquals(
-				"Expected shortened name with suffix of collision index (0 for no collision yet)",
-				"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-0",
-				resolvedFileName1_firstCall);
+			"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-0",
+				resolvedFileName1_firstCall, "Expected shortened name with suffix of collision index (0 for no collision yet)");
 		assertEquals(
-				"Expected shortened name with suffix of collision index (1 for first collision)",
-				"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-1",
-				resolvedFileName2_firstCall);
+			"veryVeryVeryLongNameThatIsLongerThan100CharactersIsExpectedToBeShortenedByLongObjectNamesResolverSuc-1",
+				resolvedFileName2_firstCall, "Expected shortened name with suffix of collision index (1 for first collision)");
 		assertEquals(
-				"Expected same shortened name for calling resolver twice for same long name.",
-				resolvedFileName1_firstCall,
-				resolvedFileName1_secondCall);
+			resolvedFileName1_firstCall,
+				resolvedFileName1_secondCall, "Expected same shortened name for calling resolver twice for same long name.");
 		assertEquals(
-				"Expected same shortened name for calling resolver twice for same long name.",
-				resolvedFileName2_firstCall,
-				resolvedFileName2_secondCall);
+			resolvedFileName2_firstCall,
+				resolvedFileName2_secondCall, "Expected same shortened name for calling resolver twice for same long name.");
 	}
 	
 }

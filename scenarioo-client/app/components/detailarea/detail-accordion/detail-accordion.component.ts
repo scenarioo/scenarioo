@@ -16,6 +16,9 @@
  */
 
 import {Component, Input} from '@angular/core';
+import {LocationService} from '../../../shared/location.service';
+import {SelectedBranchAndBuildService} from '../../../shared/navigation/selectedBranchAndBuild.service';
+import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.service';
 
 @Component({
     selector: 'sc-detail-accordion',
@@ -40,16 +43,10 @@ export class DetailAccordionComponent {
     label: boolean;
 
     @Input()
-    metadataInformationTree: boolean;
-
-    @Input()
     detailAccordionName: {};
 
     @Input()
     informationTree: any;
-
-    @Input()
-    metadataTree: boolean;
 
     @Input()
     relatedIssues;
@@ -57,16 +54,28 @@ export class DetailAccordionComponent {
     @Input()
     labelConfigurations: {};
 
-    constructor() {
+    selectedBranch: any;
+
+    constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
+                private locationService: LocationService,
+                private sketchIdsResource: SketchIdsResource) {
     }
 
     ngOnInit(): void {
+        this.selectedBranch = this.selectedBranchAndBuildService.selected();
+
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
         }
     }
 
     goToIssue(issue) {
-
+        this.selectedBranch = this.selectedBranch.branch;
+        this.sketchIdsResource.get(
+            this.selectedBranch,
+            issue.id,
+        ).subscribe((result) => {
+            const params = this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+        });
     }
 }

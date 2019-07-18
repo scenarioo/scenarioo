@@ -13,13 +13,19 @@ export class MetadataTreeListCreatorPipe implements PipeTransform {
 
     transform(metadata: any): any {
 
-        const metadataTrees = {};
+        const metadataTrees = [];
 
         Object.keys(metadata).forEach((key) => {
 
             const value = metadata[key];
 
-            metadataTrees[key] = this.metadataTreeCreatorPipe.transform(value);
+            const transformedValue = this.metadataTreeCreatorPipe.transform(value);
+
+            const entry = {
+                key,
+                value: transformedValue,
+            };
+            metadataTrees.push(entry);
         });
 
         return metadataTrees;

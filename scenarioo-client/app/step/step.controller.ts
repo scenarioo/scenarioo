@@ -26,9 +26,9 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
-                        SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
+                        SharePageService, SketcherContextService, SketchIdsResource,
                         SketcherLinkService, SelectedComparison,
-                        relatedIssueResource: RelatedIssueResource) {
+                        RelatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -299,7 +299,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     });
 
     function loadRelatedIssues() {
-        relatedIssueResource.get({
+        RelatedIssueResource.get({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
             },

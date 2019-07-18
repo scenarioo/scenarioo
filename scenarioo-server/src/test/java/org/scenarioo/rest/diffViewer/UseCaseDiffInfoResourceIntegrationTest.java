@@ -1,6 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 
 
-public class UseCaseDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
+class UseCaseDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void testGetUseCaseDiffInfo() {
+	void testGetUseCaseDiffInfo() {
 		//act
 		ResponseEntity<UseCaseDiffInfo> response =
 			testRestTemplate
@@ -40,7 +40,7 @@ public class UseCaseDiffInfoResourceIntegrationTest extends AbstractIntegrationT
 	}
 
 	@Test
-	public void testGetUseCaseDiffInfos() {
+	void testGetUseCaseDiffInfos() {
 		//act
 		ResponseEntity<Map<String, UseCaseDiffInfo>> response = testRestTemplate.exchange(
 			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/comparisonName/testComparison/useCaseDiffInfos", GET,

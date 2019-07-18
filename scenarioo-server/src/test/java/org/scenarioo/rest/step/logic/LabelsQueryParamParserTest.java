@@ -1,22 +1,21 @@
 package org.scenarioo.rest.step.logic;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
-import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
+import org.junit.jupiter.api.Test;
 
-public class LabelsQueryParamParserTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class LabelsQueryParamParserTest {
 	
 	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
-	String queryParams;
-	Set<String> parsedLabelsString;
+	private String queryParams;
+	private Set<String> parsedLabelsString;
 	
 	@Test
-	public void nullInputResultsInNullOutput() {
+	void nullInputResultsInNullOutput() {
 		queryParams = null;
 		
 		whenParsingQueryString();
@@ -25,7 +24,7 @@ public class LabelsQueryParamParserTest {
 	}
 	
 	@Test
-	public void blankInputResultsInNullOutput() {
+	void blankInputResultsInNullOutput() {
 		queryParams = "\t    \n";
 		
 		whenParsingQueryString();
@@ -34,7 +33,7 @@ public class LabelsQueryParamParserTest {
 	}
 	
 	@Test
-	public void singleLabelResultsInSetWithOneEntry() {
+	void singleLabelResultsInSetWithOneEntry() {
 		queryParams = "main scenario";
 		
 		whenParsingQueryString();
@@ -43,7 +42,7 @@ public class LabelsQueryParamParserTest {
 	}
 	
 	@Test
-	public void twoEqualLabelsResultInSetWithOneEntry() {
+	void twoEqualLabelsResultInSetWithOneEntry() {
 		queryParams = "main scenario,main scenario";
 		
 		whenParsingQueryString();
@@ -52,7 +51,7 @@ public class LabelsQueryParamParserTest {
 	}
 	
 	@Test
-	public void twoDistinctLabelsResultInSetWithTwoEntries() {
+	void twoDistinctLabelsResultInSetWithTwoEntries() {
 		queryParams = "main scenario,special scenario";
 		
 		whenParsingQueryString();
@@ -65,7 +64,7 @@ public class LabelsQueryParamParserTest {
 	}
 	
 	private void assertSetContainsExactly(final String... string) {
-		Set<String> expectedSet = new HashSet<String>(Arrays.asList(string));
+		Set<String> expectedSet = new HashSet<>(Arrays.asList(string));
 		
 		assertEquals(expectedSet, parsedLabelsString);
 	}

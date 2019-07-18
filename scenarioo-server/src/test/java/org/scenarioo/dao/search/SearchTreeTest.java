@@ -1,6 +1,6 @@
 package org.scenarioo.dao.search;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.dao.search.model.SearchableObject;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.dao.search.model.SearchableStep;
@@ -14,12 +14,12 @@ import org.scenarioo.rest.search.SearchRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SearchTreeTest {
+class SearchTreeTest {
 
 	@Test
-	public void emptyTree() {
+	void emptyTree() {
 		SearchTree searchTree = SearchTree.empty();
 
 		ObjectTreeNode<ObjectReference> objectTree = searchTree.getResults();
@@ -28,7 +28,7 @@ public class SearchTreeTest {
 	}
 
 	@Test
-	public void treeWithASingleStep() {
+	void treeWithASingleStep() {
 		SearchTree searchTree = givenSearchTreeWithSingleStep();
 
 		ObjectTreeNode<ObjectReference> objectTree = searchTree.getResults();
@@ -56,7 +56,7 @@ public class SearchTreeTest {
 		UseCase usecase = new UseCase();
 		usecase.setName("Use Case 1");
 
-		List<SearchableObject> searchResults = new ArrayList<SearchableObject>();
+		List<SearchableObject> searchResults = new ArrayList<>();
 		searchResults.add(new SearchableStep(step, stepLink, scenario, usecase));
 
 		return new SearchTree(new SearchResults(searchResults, 4, 2), new SearchRequest(new BuildIdentifier(), "", false));

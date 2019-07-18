@@ -1,12 +1,12 @@
 package org.scenarioo.rest.step.logic;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.rest.base.StepIdentifier;
 
-public class ScenarioLoaderTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class ScenarioLoaderTest {
 	
 	private final AggregatedDocuDataReader aggregatedDataReader = new DummyAggregatedDataReader();
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
@@ -15,7 +15,7 @@ public class ScenarioLoaderTest {
 	private LoadScenarioResult loadScenarioResult;
 	
 	@Test
-	public void whenScenarioIsFound_noFallbackHappens() {
+	void whenScenarioIsFound_noFallbackHappens() {
 		givenScenarioIdentifierOfExistingScenario();
 		
 		whenLoadingScenario();
@@ -24,7 +24,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void whenScenarioIsNotFound_butUsecaseExists_andPageExists_thenRedirect() {
+	void whenScenarioIsNotFound_butUsecaseExists_andPageExists_thenRedirect() {
 		givenScenarioIdentifierOfNonExistingScenarioButExistingUseCase();
 		
 		whenLoadingScenario();
@@ -33,7 +33,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void whenScenarioIsNotFound_butUsecaseExists_andPageExists_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
+	void whenScenarioIsNotFound_butUsecaseExists_andPageExists_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
 		givenScenarioIdentifierOfNonExistingScenarioButExistingUseCaseAndWithLabels();
 		
 		whenLoadingScenario();
@@ -42,7 +42,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_thenRedirect() {
+	void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_thenRedirect() {
 		givenScenarioIdentifierOfNonExistingUseCase();
 		
 		whenLoadingScenario();
@@ -51,7 +51,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
+	void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
 		givenScenarioIdentifierOfNonExistingUseCaseWithLabels();
 		
 		whenLoadingScenario();

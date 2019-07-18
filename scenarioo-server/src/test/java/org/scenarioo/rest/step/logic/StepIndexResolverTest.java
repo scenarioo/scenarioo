@@ -1,18 +1,18 @@
 package org.scenarioo.rest.step.logic;
 
-import static org.junit.Assert.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 
-public class StepIndexResolverTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class StepIndexResolverTest {
 	
 	private final BuildIdentifier BUILD_IDENTIFIER = new BuildIdentifier("branch", "build");
 	private final ScenarioIdentifier USECASE_IDENTIFIER = new ScenarioIdentifier(BUILD_IDENTIFIER, "scenario",
@@ -24,13 +24,13 @@ public class StepIndexResolverTest {
 	private StepIdentifier stepIdentifier;
 	private ResolveStepIndexResult resolveStepIndexResult;
 	
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		scenarioPagesAndSteps = StepTestData.SCENARIO;
 	}
 	
 	@Test
-	public void resolveIndexSuccessful_noFallback() {
+	void resolveIndexSuccessful_noFallback() {
 		givenStepIdentifierOfAnExistingStep();
 		
 		whenResolvingTheStepIndex();
@@ -39,7 +39,7 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
-	public void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence() {
+	void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence() {
 		givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist();
 		
 		whenResolvingTheStepIndex();
@@ -48,7 +48,7 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
-	public void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence_withLabels() {
+	void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence_withLabels() {
 		givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist_withLabels();
 		
 		whenResolvingTheStepIndex();
@@ -57,7 +57,7 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
-	public void pageOccurrenceNotFound_fallbackWithinScenario() {
+	void pageOccurrenceNotFound_fallbackWithinScenario() {
 		givenStepWherePageOccurrenceDoesNotExist();
 		
 		whenResolvingTheStepIndex();
@@ -66,7 +66,7 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
-	public void pageOccurrenceNotFound_fallbackWithinScenario_withLabels() {
+	void pageOccurrenceNotFound_fallbackWithinScenario_withLabels() {
 		givenStepWherePageOccurrenceDoesNotExist_withLabels();
 		
 		whenResolvingTheStepIndex();
@@ -75,7 +75,7 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
-	public void pageNotFound_noFallbackPossible() {
+	void pageNotFound_noFallbackPossible() {
 		givenStepWithPageThatDoesNotExistInScenario();
 		
 		whenResolvingTheStepIndex();
@@ -83,19 +83,19 @@ public class StepIndexResolverTest {
 		expectNoIndexAndNoRedirectIsFound();
 	}
 	
-	@Test(expected = NullPointerException.class)
-	public void stepIdentifierMustNotBeNull() {
+	@Test
+	void stepIdentifierMustNotBeNull() {
 		givenStepIdentifierIsNull();
-		
-		whenResolvingTheStepIndex();
+
+		assertThrows(NullPointerException.class, this::whenResolvingTheStepIndex);
 	}
-	
-	@Test(expected = NullPointerException.class)
-	public void scenarioPagesAndStepsMustNotBeNull() {
+
+	@Test
+	void scenarioPagesAndStepsMustNotBeNull() {
 		givenStepIdentifierOfAnExistingStep();
 		givenScenarioPagesAndStepsIsNull();
-		
-		whenResolvingTheStepIndex();
+
+		assertThrows(NullPointerException.class, this::whenResolvingTheStepIndex);
 	}
 	
 	private void givenStepIdentifierOfAnExistingStep() {
@@ -112,7 +112,7 @@ public class StepIndexResolverTest {
 	}
 	
 	private Set<String> createLabels(final String label) {
-		Set<String> labels = new HashSet<String>();
+		Set<String> labels = new HashSet<>();
 		labels.add(label);
 		return labels;
 	}

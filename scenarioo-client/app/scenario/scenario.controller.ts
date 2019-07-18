@@ -36,7 +36,7 @@ function ScenarioController($filter, $routeParams,
                             UseCaseDiffInfoResource: UseCaseDiffInfoService,
                             StepDiffInfosResource: StepDiffInfosService,
                             ConfigurationService: ConfigurationService,
-                            relatedIssueResource: RelatedIssueResource) {
+                            RelatedIssueResource: RelatedIssueResource) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -277,7 +277,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadRelatedIssues() {
-        relatedIssueResource.getForStepsOverview({
+        RelatedIssueResource.getForStepsOverview({
                 branchName: SelectedBranchAndBuildService.selected().branch,
                 buildName: SelectedBranchAndBuildService.selected().build,
             },

@@ -1,6 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 
 
-public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
+class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void testGetScenarioDiffInfo() {
+	void testGetScenarioDiffInfo() {
 		//act
 		ResponseEntity<ScenarioDiffInfo> response =
 			testRestTemplate
@@ -40,7 +40,7 @@ public class ScenarioDiffInfoResourceIntegrationTest extends AbstractIntegration
 	}
 
 	@Test
-	public void testGetScenarioDiffInfos() {
+	void testGetScenarioDiffInfos() {
 		//act
 
 		ResponseEntity<Map<String, ScenarioDiffInfo>> response = testRestTemplate.exchange(

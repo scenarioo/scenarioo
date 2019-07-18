@@ -151,4 +151,8 @@ export class SelectedBranchAndBuildService {
     callOnSelectionChange(fn: any) {
 
     }
+
+    selected(): string {
+        return '';
+    }
 }

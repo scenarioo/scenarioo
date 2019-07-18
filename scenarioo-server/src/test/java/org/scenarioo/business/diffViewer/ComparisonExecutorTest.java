@@ -18,12 +18,12 @@
 package org.scenarioo.business.diffViewer;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.AliasResolver;
@@ -49,7 +49,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ComparisonExecutorTest {
 
 	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_1 = 5;
@@ -83,7 +83,7 @@ public class ComparisonExecutorTest {
 	@Mock
 	private ThreadPoolExecutor threadPoolExecutor;
 
-	@Mock
+	@Mock(lenient = true)
 	private AliasResolver aliasResolver;
 
 	@Mock
@@ -91,8 +91,8 @@ public class ComparisonExecutorTest {
 
 	private ComparisonExecutor comparisonExecutor;
 
-	@BeforeClass
-	public static void setUpClass() throws IOException {
+	@BeforeAll
+	static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
 		copyBuildXml(BUILD_NAME_1);
 		copyBuildXml(BUILD_NAME_2);
@@ -126,8 +126,8 @@ public class ComparisonExecutorTest {
 		FileUtils.copyFile(buildxml, new File(buildFolder, "build.xml"));
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_1)).thenReturn(BRANCH_NAME_1);
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_2)).thenReturn(BRANCH_NAME_2);
 		when(aliasResolver.resolveBranchAlias(ALL_BRANCHES_REGEXP)).thenReturn(ALL_BRANCHES_REGEXP);
@@ -145,17 +145,11 @@ public class ComparisonExecutorTest {
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_3))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_3));
 
-		when(docuReader.loadBuild(BRANCH_NAME_1, BUILD_NAME_1)).thenReturn(build1);
-		when(docuReader.loadBuild(BRANCH_NAME_1, BUILD_NAME_2)).thenReturn(build2);
-		when(docuReader.loadBuild(BRANCH_NAME_1, BUILD_NAME_3)).thenReturn(build3);
-
-		when(docuReader.loadBuilds(BRANCH_NAME_1)).thenReturn(getBuilds());
-
 		this.comparisonExecutor = new ComparisonExecutor(threadPoolExecutor, aliasResolver);
 	}
 
 	@Test
-	public void testGetComparisonConfigurationsForBaseBranch1() {
+	void testGetComparisonConfigurationsForBaseBranch1() {
 		List<ComparisonConfiguration> result = comparisonExecutor
 			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_1);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_1, result.size());
@@ -167,7 +161,7 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testGetComparisonConfigurationsForBaseBranch2() {
+	void testGetComparisonConfigurationsForBaseBranch2() {
 		List<ComparisonConfiguration> result = comparisonExecutor
 			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_2);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_2, result.size());
@@ -176,7 +170,7 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationLastSuccessfulSameBranch() {
+	void testResolveComparisonConfigurationLastSuccessfulSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration1, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
@@ -185,7 +179,7 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationMostRecentSameBranch() {
+	void testResolveComparisonConfigurationMostRecentSameBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration2, BUILD_NAME_3);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
@@ -194,7 +188,7 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationLastSuccessfulOtherBranch() {
+	void testResolveComparisonConfigurationLastSuccessfulOtherBranch() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration3, BUILD_NAME_2);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
@@ -203,14 +197,14 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationSameBranchAndSameBuild() {
+	void testResolveComparisonConfigurationSameBranchAndSameBuild() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration4, BUILD_NAME_1);
 		assertNull(result);
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationSameBranchAndBuildWithoutAlias() {
+	void testResolveComparisonConfigurationSameBranchAndBuildWithoutAlias() {
 
 		ComparisonConfiguration  config = getComparisonConfiguration(BRANCH_NAME_1,
 			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
@@ -223,7 +217,7 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testResolveComparisonConfigurationOtherBranchAndBuildWithoutAlias() {
+	void testResolveComparisonConfigurationOtherBranchAndBuildWithoutAlias() {
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
 			comparisonConfiguration6, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_2, result.getBaseBranchName());
@@ -232,14 +226,14 @@ public class ComparisonExecutorTest {
 	}
 
 	@Test
-	public void testAreAllComparisonCalculationsFinishedWithNoRunningThreadsReturnsTrue() {
+	void testAreAllComparisonCalculationsFinishedWithNoRunningThreadsReturnsTrue() {
 		when(threadPoolExecutor.getActiveCount()).thenReturn(0);
 
 		assertTrue(comparisonExecutor.areAllComparisonCalculationsFinished());
 	}
 
 	@Test
-	public void testAreAllComparisonCalculationsFinishedWithRunningThreadsReturnsFalse() {
+	void testAreAllComparisonCalculationsFinishedWithRunningThreadsReturnsFalse() {
 		when(threadPoolExecutor.getActiveCount()).thenReturn(1);
 
 		assertFalse(comparisonExecutor.areAllComparisonCalculationsFinished());
