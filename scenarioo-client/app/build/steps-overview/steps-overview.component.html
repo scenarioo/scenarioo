@@ -2,7 +2,7 @@
     <div class="col-sm-8">
         <label class="input-group">
             <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
-                   id="ScenarioSearchField" placeholder="Search in scenario &quot;{{scenarioName | humanReadable}}&quot;..."
+                   id="ScenarioSearchField" placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
                    title="type words separated by spaces to search for" type="text"/>
             <span class="input-group-btn">
                 <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
@@ -23,7 +23,7 @@
             in total
         </p>
         <table class="table table-hover table-curved table-responsive usecase-table"
-               *ngIf="(pagesAndSteps|filter: 'name':searchTerm).length!=0">
+               *ngIf="(pagesAndSteps|filter: searchTerm).length!=0">
             <thead>
             <tr>
                 <th (click)="setOrder('name')" [class.selected]="order === 'i' ">
@@ -60,11 +60,11 @@
                 <th>Description</th>
             </tr>
             </thead>
-            <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: 'page.name':searchTerm let i = index "
+            <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index "
                    >
             <tr>
                 <td [rowSpan]="dynamicStepsAndPages.steps.length +1" class="page-overview">
-                    Page {{i + 1}}<span *ngIf="dynamicStepsAndPages.page.name">: {{dynamicStepsAndPages.page.name | humanReadable}}</span>
+                    Page {{i + 1}}<span *ngIf="dynamicStepsAndPages.page.name">: {{dynamicStepsAndPages.page.name | scHumanReadable}}</span>
                     <p *ngIf="dynamicStepsAndPages.steps.length>1">
                         ({{dynamicStepsAndPages.steps.length}} Steps)
                     </p>
@@ -73,7 +73,7 @@
                     </p>
                 </td>
             </tr>
-            <tr *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: 'name':searchTerm
+            <tr *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: searchTerm
                   let i2 = index" [class.active]="i2 == arrowkeyLocation" (keyup)="handleEvent(dynamicStepsAndPages.page.name)"
                 (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)">
                 <td>

@@ -10,12 +10,12 @@ import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/s
 
 
 @Component({
-    selector: 'sc-scenario-overview',
-    template: require('./scenario-overview.component.html'),
-    styles: [require('./scenario-overview.component.css').toString()],
+    selector: 'sc-steps-overview',
+    template: require('./steps-overview.component.html'),
+    styles: [require('./steps-overview.component.css').toString()],
 })
 
-export class ScenarioComponent {
+export class StepsOverviewComponent {
 
     @Input()
     useCaseName: string;
@@ -148,5 +148,5 @@ export class ScenarioComponent {
 }
 
 angular.module('scenarioo.directives')
-    .directive('scScenarioOverview',
-        downgradeComponent({component: ScenarioComponent}) as angular.IDirectiveFactory);
+    .directive('scStepsOverview',
+        downgradeComponent({component: StepsOverviewComponent}) as angular.IDirectiveFactory);

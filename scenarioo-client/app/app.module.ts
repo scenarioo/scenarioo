@@ -54,6 +54,7 @@ import {RouteParamsService} from './shared/route-params.service';
 import {RelatedIssueResource} from './shared/services/relatedIssueResource.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
+import {StepsOverviewComponent} from './build/steps-overview/steps-overview.component';
 
 @NgModule({
     declarations: [
@@ -83,6 +84,7 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         MetaDataTreeDirective,
         ScenariosComponent,
         TitleComponent,
+        StepsOverviewComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -94,6 +96,7 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         TitleComponent,
         ScenariosComponent,
         MetaDataTreeComponent,
+        StepsOverviewComponent,
     ],
     imports: [
         BrowserModule,
