@@ -44,16 +44,10 @@ export class DetailAccordionComponent {
     label: boolean;
 
     @Input()
-    metadataInformationTree: boolean;
-
-    @Input()
     detailAccordionName: {};
 
     @Input()
     informationTree: any;
-
-    @Input()
-    metadataTree: boolean;
 
     @Input()
     relatedIssues;

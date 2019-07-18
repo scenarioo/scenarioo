@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <accordion-group (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
                  [isOpen]=isFirstOpen
-                 panelClass="customClass" *ngIf="!metadataTree">
+                 panelClass="customClass">
     <div accordion-heading>
                         <span *ngIf="isAccordionCollapsed">
                             <i class="fas fa-angle-down"></i>
@@ -38,4 +38,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </accordion-group>
 
-<sc-meta-data-tree *ngIf="metadataTree" [informationTree]="informationTree"></sc-meta-data-tree>
+
