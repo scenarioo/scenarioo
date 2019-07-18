@@ -21,8 +21,8 @@ export class MetadataTreeListCreatorPipe implements PipeTransform {
 
             const transformedValue = this.metadataTreeCreatorPipe.transform(value);
 
-            let entry = {
-                key: key,
+            const entry = {
+                key,
                 value: transformedValue,
             };
             metadataTrees.push(entry);
