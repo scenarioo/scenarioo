@@ -1,26 +1,26 @@
 package org.scenarioo.dao.basic;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class FileSystemOperationsDaoTest {
+class FileSystemOperationsDaoTest {
 
 	private final File rootDirectory = new File("tmp");
 	private final BuildIdentifier buildIdentifier = new BuildIdentifier("branch", "build");
 
 	private static FileSystemOperationsDao fileSystemOperationsDao;
 
-	@Before
-	public void setupClass() {
+	@BeforeEach
+	void setupClass() {
 		if (!rootDirectory.exists()) {
 			rootDirectory.mkdirs();
 		}
@@ -36,13 +36,13 @@ public class FileSystemOperationsDaoTest {
 		fileSystemOperationsDao = new FileSystemOperationsDao();
 	}
 
-	@After
-	public void removeTemporaryData() throws IOException {
+	@AfterEach
+	void removeTemporaryData() throws IOException {
 		FileUtils.deleteDirectory(new File("tmp"));
 	}
 
 	@Test
-	public void deleteBuild_deletesTheEntireBuildFolderWithAllSubfoldersAndFiles() {
+	void deleteBuild_deletesTheEntireBuildFolderWithAllSubfoldersAndFiles() {
 		givenBuildFolderContainingSubfoldersAndFiles();
 
 		fileSystemOperationsDao.deleteBuild(buildIdentifier);
@@ -52,7 +52,7 @@ public class FileSystemOperationsDaoTest {
 	}
 
 	@Test
-	public void createBuildFolderIfItDoesNotExist_createsTheFolderBecauseIfItDoesNotExist() {
+	void createBuildFolderIfItDoesNotExist_createsTheFolderBecauseIfItDoesNotExist() {
 		givenBuildFolderDoesNotExist();
 
 		fileSystemOperationsDao.createBuildFolderIfItDoesNotExist(buildIdentifier);
@@ -100,9 +100,8 @@ public class FileSystemOperationsDaoTest {
 	}
 
 	private File getBuildFolder() {
-		File buildFolder = new File(rootDirectory, "/" + buildIdentifier.getBranchName() + "/"
+		return new File(rootDirectory, "/" + buildIdentifier.getBranchName() + "/"
 				+ buildIdentifier.getBuildName());
-		return buildFolder;
 	}
 
 }

@@ -7,6 +7,10 @@ repositories {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     compile 'org.scenarioo:scenarioo-java'
     compile 'org.apache.commons:commons-lang3'
@@ -14,6 +18,9 @@ dependencies {
     compile 'commons-codec:commons-codec'
     compile 'log4j:log4j'
     testCompile 'junit:junit'
+    testCompile 'org.junit.vintage:junit-vintage-engine'
+    testCompile 'org.junit.jupiter:junit-jupiter-api'
+    testRuntime'org.junit.jupiter:junit-jupiter-engine'
     testCompile 'org.assertj:assertj-core'
 }
 

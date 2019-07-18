@@ -1,11 +1,10 @@
 package org.scenarioo.rest.builds;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
 import org.scenarioo.utils.TestResourceFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +22,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 // Just deleting the uploaded files will not remove the build from the current state. Dirtying the Context will do that.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
+class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 
 	private static final String UPLOADED_FOLDER_NAME = "pizza-delivery-feature-update-dependencies";
-
-	// waitForImportToFinish might run into problems and run endlessly. Thus we ensure that the test terminates in time.
-	@Rule
-	public Timeout timeout = Timeout.seconds(30);
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
-	@AfterClass
-	@BeforeClass
-	public static void cleanUpUploadedFiles() throws IOException {
+	@AfterAll
+	@BeforeAll
+	static void cleanUpUploadedFiles() throws IOException {
 		File scenariooConfigurationFolder = ScenariooDataPropertyInitializer.getScenariooConfigurationFolder();
 		File uploadedBuildFolder = new File(scenariooConfigurationFolder, UPLOADED_FOLDER_NAME);
 		if(uploadedBuildFolder.exists()) {
@@ -45,7 +40,7 @@ public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void should_reject_post_of_new_build_when_unauthorized() {
+	void should_reject_post_of_new_build_when_unauthorized() {
 		ResponseEntity<String> response =
 			testRestTemplate
 				.postForEntity("/rest/builds", noRequestEntity(), String.class);
@@ -53,8 +48,10 @@ public class BuildsResourceIntegrationTest extends AbstractIntegrationTest {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
 	}
 
+	// waitForImportToFinish might run into problems and run endlessly. Thus we ensure that the test terminates in time.
+	@Timeout(value = 30)
 	@Test
-	public void should_allow_post_of_new_build_when_authorized() throws IOException, InterruptedException {
+	void should_allow_post_of_new_build_when_authorized() throws IOException, InterruptedException {
 		//arrange
 		HttpEntity<?> request = createRequestToUploadSmallZipFile();
 

@@ -1,13 +1,10 @@
 package org.scenarioo.dao.search;
 
-import static org.junit.Assert.*;
-
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.dao.search.model.SearchResults;
-import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -16,33 +13,34 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class FullTextSearchTest {
+class FullTextSearchTest {
 
     private FullTextSearch fullTextSearch;
 
     @Test
-    public void indexUseCaseWithoutRunningEngine() {
+    void indexUseCaseWithoutRunningEngine() {
         givenNoRunningEngine();
         fullTextSearch.indexUseCases(new UseCaseScenariosList(), new BuildIdentifier("testBranch", "testBuild"));
         thenJustReturns();
     }
 
-	@Test(expected = SearchEngineNotRunningException.class)
-    public void searchWithoutRunningEngine() {
+	@Test
+    void searchWithoutRunningEngine() {
         givenNoRunningEngine();
-        fullTextSearch.search(new SearchRequest(new BuildIdentifier("testBranch", "testBuild"), "hi", true));
+        assertThrows(SearchEngineNotRunningException.class, ()->fullTextSearch.search(new SearchRequest(new BuildIdentifier("testBranch", "testBuild"), "hi", true)));
     }
 
     @Test
-    public void updateAvailableBuildsWithoutRunningEngine() {
+    void updateAvailableBuildsWithoutRunningEngine() {
         givenNoRunningEngine();
-        fullTextSearch.updateAvailableBuilds(Collections.<BuildImportSummary>emptyList());
+        fullTextSearch.updateAvailableBuilds(Collections.emptyList());
         thenJustReturns();
     }
 
     @Test
-    public void searchWithNoResults() {
+    void searchWithNoResults() {
         givenRunningEngineWithSearchResults();
         SearchTree result = fullTextSearch.search(new SearchRequest(new BuildIdentifier("testBranch", "testBuild"), "IDONOTEXIST", true));
 		assertEquals(0, result.getResults().getChildren().size());
@@ -75,29 +73,29 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public SearchResults searchData(final SearchRequest searchRequest) {
-			assertTrue("Should not be reachable", isRunning);
+		public SearchResults searchData(final SearchRequest searchRequest) {
+			assertTrue(isRunning, "Should not be reachable");
 
             return SearchResults.noHits();
         }
 
         @Override
-        public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
-			assertTrue("Should not be reachable", isRunning);        }
+		public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
+			assertTrue(isRunning, "Should not be reachable");        }
 
         @Override
-        public void updateAvailableBuilds(final List<BuildIdentifier> existingBuilds) {
-			assertTrue("Should not be reachable", isRunning);
+		public void updateAvailableBuilds(final List<BuildIdentifier> existingBuilds) {
+			assertTrue(isRunning, "Should not be reachable");
 		}
 
 		@Override
 		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
-			assertTrue("Should not be reachable", isRunning);
+			assertTrue(isRunning, "Should not be reachable");
 		}
 
 		@Override
-        public void setupNewBuild(final BuildIdentifier buildIdentifier) {
-			assertTrue("Should not be reachable", isRunning);
+		public void setupNewBuild(final BuildIdentifier buildIdentifier) {
+			assertTrue(isRunning, "Should not be reachable");
 		}
 
 		@Override

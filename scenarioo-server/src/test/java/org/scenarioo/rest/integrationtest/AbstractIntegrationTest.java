@@ -1,6 +1,7 @@
 package org.scenarioo.rest.integrationtest;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.utils.TestResourceFile;
@@ -10,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.TestPropertySourceUtils;
 
@@ -23,7 +25,7 @@ import static org.scenarioo.rest.integrationtest.AbstractIntegrationTest.Scenari
  * Since Spring Boot reuses the Server for multiple Integration Tests, we should only do this configuration once, for
  * the first Integration Tests that is started.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test-application.properties")
 @ContextConfiguration(initializers = ScenariooDataPropertyInitializer.class)
@@ -31,7 +33,7 @@ public abstract class AbstractIntegrationTest {
 
 	private static boolean integrationTestsStarted = false;
 
-	@BeforeClass
+	@BeforeAll
 	public static void initEnvironment() {
 		if(!integrationTestsStarted) {
 			//If the Integration Tests are run together with all other unit tests, then ScenarioDocuBuildsManager

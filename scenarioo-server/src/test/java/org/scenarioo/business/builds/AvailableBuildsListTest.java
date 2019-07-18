@@ -16,7 +16,7 @@
  */
 package org.scenarioo.business.builds;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.scenarioo.model.configuration.Configuration.*;
 
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -39,7 +39,7 @@ import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-public class AvailableBuildsListTest {
+class AvailableBuildsListTest {
 	
 	private AvailableBuildsList availableBuildsList;
 	
@@ -52,24 +52,24 @@ public class AvailableBuildsListTest {
 	private final BuildLink build6 = createBuildFailed("build6", 6);
 	private final BuildLink build7 = createBuildSuccess("build7", 7);
 	
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 		availableBuildsList = new AvailableBuildsList();
 	}
 	
 	@Test
-	public void testInitializedEmpty() {
-		assertEquals("Expected initialized as empty list", 0, availableBuildsList.getBranchBuildsList().size());
+	void testInitializedEmpty() {
+		assertEquals(0, availableBuildsList.getBranchBuildsList().size(), "Expected initialized as empty list");
 	}
 	
 	@Test
-	public void testUpdatingAvailableBuildsFromNoSuccessfullyImported() {
+	void testUpdatingAvailableBuildsFromNoSuccessfullyImported() {
 		
 		// Given: Some simple builds and none of them successfully imported.
-		List<BranchBuilds> branchBuilds = new ArrayList<BranchBuilds>(Arrays.asList(
-				createBranchBuilds("trunk", build5, build1, build6, build3, build7),
-				createBranchBuilds("branch", build2, build4)));
+		List<BranchBuilds> branchBuilds = new ArrayList<>(Arrays.asList(
+			createBranchBuilds("trunk", build5, build1, build6, build3, build7),
+			createBranchBuilds("branch", build2, build4)));
 		Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = createBuildImportSummaries(branchBuilds);
 		
 		// When: updating the list of available builds
@@ -81,10 +81,10 @@ public class AvailableBuildsListTest {
 	}
 	
 	@Test
-	public void testUpdatingAvailableBuildsFromSuccessfullyImported() {
+	void testUpdatingAvailableBuildsFromSuccessfullyImported() {
 		
 		// Given: Some simple builds and some of them successfully imported.
-		List<BranchBuilds> branchBuilds = new ArrayList<BranchBuilds>(Arrays.asList(
+		List<BranchBuilds> branchBuilds = new ArrayList<>(Arrays.asList(
 				createBranchBuilds("trunk", build5, build1, build6, build3, build7),
 				createBranchBuilds("branch", build2, build4)));
 		Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = createBuildImportSummaries(branchBuilds,
@@ -108,12 +108,12 @@ public class AvailableBuildsListTest {
 	}
 	
 	@Test
-	public void testResolveBuildNamesWithSomeSuccessfullyImportedBuilds() {
+	void testResolveBuildNamesWithSomeSuccessfullyImportedBuilds() {
 		
 		// Given: Some simple builds and some of them successfully imported.
-		List<BranchBuilds> branchBuilds = new ArrayList<BranchBuilds>(Arrays.asList(
-				createBranchBuilds("trunk", build5, build1, build6, build3, build7),
-				createBranchBuilds("branch", build2, build4)));
+		List<BranchBuilds> branchBuilds = new ArrayList<>(Arrays.asList(
+			createBranchBuilds("trunk", build5, build1, build6, build3, build7),
+			createBranchBuilds("branch", build2, build4)));
 		Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = createBuildImportSummaries(branchBuilds,
 				"build1", "build2", "build3", "build4", "build5");
 		
@@ -138,10 +138,10 @@ public class AvailableBuildsListTest {
 	}
 	
 	@Test
-	public void testAddImportedBuilds() {
+	void testAddImportedBuilds() {
 		
 		// Given: Some simple builds and none successfully imported yet.
-		List<BranchBuilds> branchBuilds = new ArrayList<BranchBuilds>(Arrays.asList(
+		List<BranchBuilds> branchBuilds = new ArrayList<>(Arrays.asList(
 				createBranchBuilds("trunk", build5, build1, build3, build7),
 				createBranchBuilds("branch", build2, build4, build6)));
 		Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = createBuildImportSummaries(branchBuilds);
@@ -177,37 +177,37 @@ public class AvailableBuildsListTest {
 	
 	private void assertBuildContainedAtPosition(final String branchName, final int index, final BuildLink expectedBuild) {
 		BranchBuilds branchBuilds = getBranchBuilds(branchName);
-		assertEquals("Expected build at position " + index + " for branch '" + branchName + "'.", expectedBuild,
-				branchBuilds.getBuilds().get(index));
+		assertEquals(expectedBuild,
+				branchBuilds.getBuilds().get(index), "Expected build at position " + index + " for branch '" + branchName + "'.");
 	}
 	
 	private void assertAliasContainedAtPosition(final String branchName, final String aliasName, final int index,
 			final Build expectedBuild) {
 		BranchBuilds branchBuilds = getBranchBuilds(branchName);
 		BuildLink buildAlias = branchBuilds.getBuilds().get(index);
-		assertEquals("Expected build alias at position " + index + " for branch '" + branchName + "'.", aliasName,
-				buildAlias.getLinkName());
-		assertSame("Expected build at position " + index + " for branch '" + branchName + "'.", expectedBuild,
-				buildAlias.getBuild());
+		assertEquals(aliasName,
+				buildAlias.getLinkName(), "Expected build alias at position " + index + " for branch '" + branchName + "'.");
+		assertSame(expectedBuild,
+				buildAlias.getBuild(), "Expected build at position " + index + " for branch '" + branchName + "'.");
 	}
 	
 	private void assertNumberOfBuilds(final String branchName, final int numberOfBuilds) {
 		BranchBuilds branchBuilds = getBranchBuilds(branchName);
-		assertEquals("Expected number of builds for branch '" + branchName + "'.", numberOfBuilds, branchBuilds
-				.getBuilds().size());
+		assertEquals(numberOfBuilds, branchBuilds
+				.getBuilds().size(), "Expected number of builds for branch '" + branchName + "'.");
 	}
 	
 	private BranchBuilds getBranchBuilds(final String branchName) {
 		BranchBuilds branchBuilds = availableBuildsList.getBranchBuilds(branchName);
-		assertNotNull("Expected branch '" + branchName + "' in availableBuildsList.", branchBuilds);
-		assertEquals("Expected correct branch name.", branchName, branchBuilds.getBranch().getName());
+		assertNotNull(branchBuilds, "Expected branch '" + branchName + "' in availableBuildsList.");
+		assertEquals(branchName, branchBuilds.getBranch().getName(), "Expected correct branch name.");
 		return branchBuilds;
 	}
 	
 	private Map<BuildIdentifier, BuildImportSummary> createBuildImportSummaries(
 			final List<BranchBuilds> branchBuildsList, final String... successfulBuildNames) {
-		Map<BuildIdentifier, BuildImportSummary> buildSummaries = new HashMap<BuildIdentifier, BuildImportSummary>();
-		Set<String> successfulBuildNamesSet = new HashSet<String>(Arrays.asList(successfulBuildNames));
+		Map<BuildIdentifier, BuildImportSummary> buildSummaries = new HashMap<>();
+		Set<String> successfulBuildNamesSet = new HashSet<>(Arrays.asList(successfulBuildNames));
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
 				BuildIdentifier buildIdentifier = new BuildIdentifier(branchBuilds.getBranch().getName(), buildLink
@@ -226,7 +226,7 @@ public class AvailableBuildsListTest {
 	private BranchBuilds createBranchBuilds(final String branchName, final BuildLink... builds) {
 		BranchBuilds result = new BranchBuilds();
 		result.setBranch(new Branch(branchName));
-		result.setBuilds(new ArrayList<BuildLink>(Arrays.asList(builds)));
+		result.setBuilds(new ArrayList<>(Arrays.asList(builds)));
 		return result;
 	}
 	

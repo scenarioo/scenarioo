@@ -1,6 +1,6 @@
 package org.scenarioo.rest.builds;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
@@ -15,13 +15,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 
-public class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest {
+class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void listBranchesAndBuilds_should_return_defined_branches_and_builds() {
+	void listBranchesAndBuilds_should_return_defined_branches_and_builds() {
 		//act
 		ResponseEntity<List<BranchBuilds>> response = testRestTemplate.exchange(
 			"/rest/branches", GET,

@@ -1,6 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -13,12 +13,12 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest {
+class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest {
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void getCalculation_should_return_calculation() {
+	void getCalculation_should_return_calculation() {
 		//act
 		ResponseEntity<BuildDiffInfo> response =
 			testRestTemplate
@@ -33,7 +33,7 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 	}
 
 	@Test
-	public void getLog_should_return_log_if_build_exists() {
+	void getLog_should_return_log_if_build_exists() {
 		//arrange
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(MediaType.TEXT_PLAIN));
@@ -54,7 +54,7 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 	}
 
 	@Test
-	public void importAndCompare_should_return_buildDiffInfo() {
+	void importAndCompare_should_return_buildDiffInfo() {
 		//arrange
 		BuildIdentifier buildIdentifier = new BuildIdentifier();
 		buildIdentifier.setBranchName("testBranch");
@@ -79,7 +79,7 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 	}
 
 	@Test
-	public void calculate_should_create_new_comparison() {
+	void calculate_should_create_new_comparison() {
 		//arrange
 		BuildIdentifier buildIdentifier = new BuildIdentifier();
 		buildIdentifier.setBranchName("testBranch");
@@ -100,7 +100,7 @@ public class ComparisonsResourceIntegrationTest extends AbstractIntegrationTest 
 	}
 
 	@Test
-	public void recalculate_should_queue_existing_comparison() {
+	void recalculate_should_queue_existing_comparison() {
 		//act
 		ResponseEntity<Object> response =
 			testRestTemplate

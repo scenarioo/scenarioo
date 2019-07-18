@@ -1,20 +1,19 @@
 package org.scenarioo.dao.configuration;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 import java.awt.Color;
-import java.io.IOException;
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.scenarioo.business.diffViewer.comparator.ConfigurationFixture;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
@@ -23,22 +22,22 @@ import org.scenarioo.model.configuration.LabelConfiguration;
 /**
  * Smoke tests for reading and writing a configuration.
  */
-public class ConfigurationDaoTest {
+class ConfigurationDaoTest {
 
 	private static final String COMPARISON_NAME1 = "comparisonName1";
 	private static final String COMPARISON_NAME2 = "comparisonName2";
 	private ConfigurationDao configurationDao;
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+	@TempDir
+	File folder;
 
-	@Before
-	public void init() throws IOException {
-		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath());
+	@BeforeEach
+	void init() {
+		configurationDao = new ConfigurationDaoImpl(folder.getPath());
 	}
 
 	@Test
-	public void writeAndReadConfiguration() {
+	void writeAndReadConfiguration() {
 		Configuration configuration = new Configuration();
 		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
@@ -53,11 +52,11 @@ public class ConfigurationDaoTest {
 		assertComparisonConfiguration(COMPARISON_NAME1, loadedConfiguration.getComparisonConfigurations().get(0));
 		assertComparisonConfiguration(COMPARISON_NAME2, loadedConfiguration.getComparisonConfigurations().get(1));
 
-		assertThat(loadedConfiguration.getDiffImageAwtColor(), is(Color.yellow));
+		assertThat(loadedConfiguration.getDiffImageAwtColor()).isEqualTo(Color.yellow);
 	}
 
 	private Map<String, LabelConfiguration> createLabelConfigurations() {
-		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<>();
 		labelConfigurations.put("test", createLabelConfig("#1231231", "#1234231"));
 		labelConfigurations.put("test2", createLabelConfig("red", "#1234231"));
 		labelConfigurations.put("test3", createLabelConfig("black", "#1234231"));
@@ -81,7 +80,7 @@ public class ConfigurationDaoTest {
 	}
 
 	private List<ComparisonConfiguration> createComparisonConfigurations() {
-		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<>();
 		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME1));
 		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME2));
 		return comparisonConfigurations;

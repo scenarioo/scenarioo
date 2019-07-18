@@ -17,14 +17,13 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffViewerFiles;
@@ -38,29 +37,28 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class StepComparatorTest {
+@ExtendWith(MockitoExtension.class)
+class StepComparatorTest {
 
 	private static String USE_CASE_NAME = "useCase";
 	private static String SCENARIO_NAME = "scenario";
 	private static String PAGE_NAME_1 = "page1";
 	private static String PAGE_NAME_2 = "page2";
 
-	@ClassRule
-	public static TemporaryFolder folder = new TemporaryFolder();
+	@TempDir
+	static File folder;
 
-	@Mock
+	@Mock(lenient = true)
 	private ScenarioDocuBuildsManager docuBuildsManager;
 
 	@Mock
@@ -72,16 +70,16 @@ public class StepComparatorTest {
 	@InjectMocks
 	private StepComparator stepComparator = new StepComparator(getComparatorParameters(), screenshotComparator);
 
-	@BeforeClass
-	public static void setUpClass() throws IOException {
-		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
+	@BeforeAll
+	static void setUpClass() {
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder);
 		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
 	@Test
-	public void buildsEqual() {
+	void buildsEqual() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 
@@ -98,7 +96,7 @@ public class StepComparatorTest {
 	}
 
 	@Test
-	public void oneStepAdded() {
+	void oneStepAdded() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
 
@@ -116,7 +114,7 @@ public class StepComparatorTest {
 	}
 
 	@Test
-	public void multipleStepsAdded() {
+	void multipleStepsAdded() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1);
 
@@ -135,7 +133,7 @@ public class StepComparatorTest {
 	}
 
 	@Test
-	public void stepChangedBy50Percent() {
+	void stepChangedBy50Percent() {
 		double changeRatePerStep = 50.0;
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
@@ -154,7 +152,7 @@ public class StepComparatorTest {
 	}
 
 	@Test
-	public void oneStepRemoved() {
+	void oneStepRemoved() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
 
@@ -172,7 +170,7 @@ public class StepComparatorTest {
 	}
 
 	@Test
-	public void multipleStepsRemoved() {
+	void multipleStepsRemoved() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 
@@ -202,8 +200,8 @@ public class StepComparatorTest {
 						.thenReturn(changeRate);
 	}
 
-	public List<Step> getSteps(String... names) {
-		List<Step> steps = new LinkedList<Step>();
+	List<Step> getSteps(String... names) {
+		List<Step> steps = new LinkedList<>();
 		int index = 0;
 		for (String name : names) {
 			StepDescription stepDescription = new StepDescription();
