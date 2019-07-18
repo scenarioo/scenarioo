@@ -16,28 +16,28 @@
  */
 package org.scenarioo.business.builds;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.repository.RepositoryLocator;
 
-public class BuildSorterTest {
+class BuildSorterTest {
 	
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 	}
 	
 	@Test
-	public void testSortingSomeBuilds() {
+	void testSortingSomeBuilds() {
 		
 		// Given: Builds with Build aliases
 		BuildLink build1 = createBuildSuccess("build1", 1);
@@ -52,12 +52,12 @@ public class BuildSorterTest {
 		BuildSorter.sort(buildsList);
 		
 		// Then: the sorted list is in expected order
-		assertSame("default build alias 'current' expected as first element", aliasCurrent, buildsList.get(0));
-		assertSame("build alias 'last' expected as second element", aliasLast, buildsList.get(1));
-		assertSame("build3 expected as first non-aliased build (builds sorted by dates decreasing)", build3,
-				buildsList.get(2));
-		assertSame("build1 expected as last non-aliased build (builds sorted by dates decreasing)", build1,
-				buildsList.get(4));
+		assertSame(aliasCurrent, buildsList.get(0), "default build alias 'current' expected as first element");
+		assertSame(aliasLast, buildsList.get(1), "build alias 'last' expected as second element");
+		assertSame(build3,
+				buildsList.get(2), "build3 expected as first non-aliased build (builds sorted by dates decreasing)");
+		assertSame(build1,
+				buildsList.get(4), "build1 expected as last non-aliased build (builds sorted by dates decreasing)");
 	}
 	
 	private BuildLink createBuildSuccess(final String name, final int minuteOfDate) {

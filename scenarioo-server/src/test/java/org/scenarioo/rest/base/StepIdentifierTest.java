@@ -1,20 +1,20 @@
 package org.scenarioo.rest.base;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.rest.step.logic.StepTestData;
 
-public class StepIdentifierTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class StepIdentifierTest {
 
 	private BuildIdentifier buildIdentifier;
 	private ScenarioIdentifier scenarioIdentifier;
 	private StepIdentifier stepIdentifier;
 
-	@Before
-	public void setupTest() {
+	@BeforeEach
+	void setupTest() {
 		buildIdentifier = new BuildIdentifier(StepTestData.BRANCH_NAME_VALID, StepTestData.BUILD_NAME_VALID);
 		scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, StepTestData.USECASE_NAME_VALID,
 				StepTestData.SCENARIO_NAME_VALID);
@@ -25,7 +25,7 @@ public class StepIdentifierTest {
 	}
 
 	@Test
-	public void redirectUrlForScreenshot() {
+	void redirectUrlForScreenshot() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
 				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image.jpeg",
@@ -34,7 +34,7 @@ public class StepIdentifierTest {
 	}
 
 	@Test
-	public void redirectUrlForStep() {
+	void redirectUrlForStep() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
 				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
@@ -43,7 +43,7 @@ public class StepIdentifierTest {
 	}
 
 	@Test
-	public void redirectUrlForStepWithoutContextPath() {
+	void redirectUrlForStepWithoutContextPath() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
 		ContextPathHolder.INSTANCE.setContextPath("");
@@ -58,7 +58,7 @@ public class StepIdentifierTest {
 	}
 
 	@Test
-	public void patchPageNameForPageNameWithSpaceInConstructor() {
+	void patchPageNameForPageNameWithSpaceInConstructor() {
 		//act
 		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "page name", 0, 1);
 
@@ -67,7 +67,7 @@ public class StepIdentifierTest {
 	}
 
 	@Test
-	public void patchPageNameForPageNameWithSpaceInSetter() {
+	void patchPageNameForPageNameWithSpaceInSetter() {
 		//arrange
 		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "pagename", 0, 1);
 

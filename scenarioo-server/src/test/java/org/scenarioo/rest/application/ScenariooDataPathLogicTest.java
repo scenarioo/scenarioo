@@ -1,29 +1,29 @@
 package org.scenarioo.rest.application;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.servlet.ServletContext;
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ScenariooDataPathLogicTest {
+class ScenariooDataPathLogicTest {
 
 	private final ServletContext servletContext = mock(ServletContext.class);
 	private final SystemEnvironment systemEnvironment = mock(SystemEnvironment.class);
 
 	private ScenariooDataPathLogic logic;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		logic = new ScenariooDataPathLogic(systemEnvironment);
 	}
 
 	@Test
-	public void getDocumentationPath_GivenServletConfigAndEnvVariable_ChosesServletContextFirst() {
+	void getDocumentationPath_GivenServletConfigAndEnvVariable_ChosesServletContextFirst() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn("tmp/test");
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/itShouldNotBeMe");
 
@@ -33,7 +33,7 @@ public class ScenariooDataPathLogicTest {
 	}
 
 	@Test
-	public void getDocumentationPath_WhenServletContextParamIsNotPresent_ChosesEnvironmentVariable() {
+	void getDocumentationPath_WhenServletContextParamIsNotPresent_ChosesEnvironmentVariable() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/test");
 
@@ -43,7 +43,7 @@ public class ScenariooDataPathLogicTest {
 	}
 
 	@Test
-	public void getDocumentationPath_WhenNoExternalConfigurationIsGiven_DefaultsToScenariooHomeFolder() {
+	void getDocumentationPath_WhenNoExternalConfigurationIsGiven_DefaultsToScenariooHomeFolder() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn(null);
 		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");

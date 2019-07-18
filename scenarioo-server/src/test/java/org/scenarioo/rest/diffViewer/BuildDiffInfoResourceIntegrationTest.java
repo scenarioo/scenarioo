@@ -1,7 +1,7 @@
 package org.scenarioo.rest.diffViewer;
 
 import org.assertj.core.api.ObjectAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.rest.integrationtest.AbstractIntegrationTest;
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 
 
-public class BuildDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
+class BuildDiffInfoResourceIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void testGetBuildDiffInfo() {
+	void testGetBuildDiffInfo() {
 		//act
 		ResponseEntity<BuildDiffInfo> response =
 			testRestTemplate
@@ -39,7 +39,7 @@ public class BuildDiffInfoResourceIntegrationTest extends AbstractIntegrationTes
 	}
 
 	@Test
-	public void testGetBuildDiffInfos() {
+	void testGetBuildDiffInfos() {
 		//act
 		ResponseEntity<List<BuildDiffInfo>> response = testRestTemplate.exchange(
 			"/rest/diffViewer/baseBranchName/testBranch/baseBuildName/testBuild/buildDiffInfos", GET,

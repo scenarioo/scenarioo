@@ -1,14 +1,14 @@
 package org.scenarioo.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class NumberFormatterTest {
+class NumberFormatterTest {
 
 	@Test
-	public void formatMinimumThreeDigits_positiveNumbersAndZero_returnsFormattedNumber() {
+	void formatMinimumThreeDigits_positiveNumbersAndZero_returnsFormattedNumber() {
 		assertEquals("000", NumberFormatter.formatMinimumThreeDigits(0));
 		assertEquals("001", NumberFormatter.formatMinimumThreeDigits(1));
 		assertEquals("999", NumberFormatter.formatMinimumThreeDigits(999));
@@ -17,7 +17,7 @@ public class NumberFormatterTest {
 	}
 
 	@Test
-	public void formatMinimumThreeDigits_negativeNumbers_throwsException() {
+	void formatMinimumThreeDigits_negativeNumbers_throwsException() {
 		assertFormattingThrowsException(Long.MIN_VALUE);
 		assertFormattingThrowsException(-1234512345);
 		assertFormattingThrowsException(-2);

@@ -3,20 +3,21 @@ package org.scenarioo.model.docu.aggregates.scenarios;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.StepDescription;
 
-public class ScenarioPageStepsTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class ScenarioPageStepsTest {
 	
 	private ScenarioPageSteps scenarioPageSteps;
 	private int total;
 	private StepStatistics stepStatistics;
 	
 	@Test
-	public void getTotalNumberOfStepsInScenario_nullList() {
+	void getTotalNumberOfStepsInScenario_nullList() {
 		givenScenarioPagesAndStepsWithNullList();
 		
 		whenGettingTotal();
@@ -25,7 +26,7 @@ public class ScenarioPageStepsTest {
 	}
 	
 	@Test
-	public void getTotalNumberOfStepsInScenario_moreThanZeroSteps() {
+	void getTotalNumberOfStepsInScenario_moreThanZeroSteps() {
 		givenScenarioPagesAndSteps();
 		
 		whenGettingTotal();
@@ -34,7 +35,7 @@ public class ScenarioPageStepsTest {
 	}
 	
 	@Test
-	public void getTotalNumberOfStepsInPageOccurrence() {
+	void getTotalNumberOfStepsInPageOccurrence() {
 		givenScenarioPagesAndSteps();
 		
 		whenGettingTotalStepsForPage1SecondOccurrence();
@@ -43,7 +44,7 @@ public class ScenarioPageStepsTest {
 	}
 	
 	@Test
-	public void getStepStatistics() {
+	void getStepStatistics() {
 		givenScenarioPagesAndSteps();
 		
 		whenGettingPageStatisticsForPage1SecondOccurrence();
@@ -63,7 +64,7 @@ public class ScenarioPageStepsTest {
 	}
 	
 	private List<PageSteps> createPagesAndStepsList() {
-		List<PageSteps> pageSteps = new LinkedList<PageSteps>();
+		List<PageSteps> pageSteps = new LinkedList<>();
 		pageSteps.add(createPageStepsWithNumberOfSteps(1, "page1"));
 		pageSteps.add(createPageStepsWithNumberOfSteps(2, "page2"));
 		pageSteps.add(createPageStepsWithNumberOfSteps(4, "page1"));
@@ -84,7 +85,7 @@ public class ScenarioPageStepsTest {
 	}
 	
 	private List<StepDescription> createStepsListWithNumberOfSteps(final int numberOfSteps) {
-		List<StepDescription> stepDescription = new LinkedList<StepDescription>();
+		List<StepDescription> stepDescription = new LinkedList<>();
 		for (int i = 0; i < numberOfSteps; i++) {
 			stepDescription.add(createStep());
 		}
@@ -108,19 +109,19 @@ public class ScenarioPageStepsTest {
 	}
 	
 	private void expectTotalNumberOfStepsEquals(final int expectedTotal) {
-		Assert.assertEquals(expectedTotal, total);
+		assertEquals(expectedTotal, total);
 	}
 	
 	private void expectTotalNumberOfStepsInStatisticsEquals(final int i) {
-		Assert.assertEquals(i, stepStatistics.getTotalNumberOfStepsInScenario());
+		assertEquals(i, stepStatistics.getTotalNumberOfStepsInScenario());
 	}
 	
 	private void expectTotalNumberOfStepsInPageOccurrenceInStatisticsEquals(final int i) {
-		Assert.assertEquals(i, stepStatistics.getTotalNumberOfStepsInPageOccurrence());
+		assertEquals(i, stepStatistics.getTotalNumberOfStepsInPageOccurrence());
 	}
 	
 	private void expectTotalNumberOfPagesInScenarioInStatisticsEquals(final int i) {
-		Assert.assertEquals(i, stepStatistics.getTotalNumberOfPagesInScenario());
+		assertEquals(i, stepStatistics.getTotalNumberOfPagesInScenario());
 	}
 	
 }

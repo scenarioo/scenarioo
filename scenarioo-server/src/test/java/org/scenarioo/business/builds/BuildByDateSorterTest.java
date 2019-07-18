@@ -4,12 +4,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.entities.Build;
 
-public class BuildByDateSorterTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class BuildByDateSorterTest {
 
 	private final BuildImportSummary OLDER_BUILD = createBuildImportSummary(new Date(1000L));
 	private final BuildImportSummary MIDDLE_BUILD = createBuildImportSummary(new Date(2000L));
@@ -17,8 +18,8 @@ public class BuildByDateSorterTest {
 	private final BuildImportSummary BUILD_WITHOUT_DATE = createBuildImportSummary(null);
 
 	@Test
-	public void sortBuildsByDateDescending_givenTwoBuildsInAscendingOder_resultsInTwoBuildsInDescendingOrder() {
-		List<BuildImportSummary> buildsAscending = new LinkedList<BuildImportSummary>();
+	void sortBuildsByDateDescending_givenTwoBuildsInAscendingOder_resultsInTwoBuildsInDescendingOrder() {
+		List<BuildImportSummary> buildsAscending = new LinkedList<>();
 		buildsAscending.add(OLDER_BUILD);
 		buildsAscending.add(NEWER_BUILD);
 		
@@ -29,8 +30,8 @@ public class BuildByDateSorterTest {
 	}
 
 	@Test
-	public void sortBuildsByDateDescending_givenOneBuildWithoutDate_buildWithDateComesFirst() {
-		List<BuildImportSummary> buildsAscending = new LinkedList<BuildImportSummary>();
+	void sortBuildsByDateDescending_givenOneBuildWithoutDate_buildWithDateComesFirst() {
+		List<BuildImportSummary> buildsAscending = new LinkedList<>();
 		buildsAscending.add(BUILD_WITHOUT_DATE);
 		buildsAscending.add(NEWER_BUILD);
 
@@ -41,8 +42,8 @@ public class BuildByDateSorterTest {
 	}
 
 	@Test
-	public void sortBuildsByDateDescending_givenFourBuilds_theyAreSortedInDescendingOrder() {
-		List<BuildImportSummary> buildsAscending = new LinkedList<BuildImportSummary>();
+	void sortBuildsByDateDescending_givenFourBuilds_theyAreSortedInDescendingOrder() {
+		List<BuildImportSummary> buildsAscending = new LinkedList<>();
 		buildsAscending.add(BUILD_WITHOUT_DATE);
 		buildsAscending.add(NEWER_BUILD);
 		buildsAscending.add(MIDDLE_BUILD);
@@ -69,7 +70,7 @@ public class BuildByDateSorterTest {
 	}
 
 	private void assertBuildDescriptionIsEqual(final BuildImportSummary expected, final BuildImportSummary actual) {
-		Assert.assertEquals(expected.getBuildDescription(), actual.getBuildDescription());
+		assertEquals(expected.getBuildDescription(), actual.getBuildDescription());
 	}
 
 }
