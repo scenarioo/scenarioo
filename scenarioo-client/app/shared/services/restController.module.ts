@@ -24,6 +24,7 @@ import {ObjectIndexListResource} from './objectIndexListResource.service';
 import {ScenarioResource} from './scenarioResource.service';
 import {StepResource} from './stepResource.service';
 import {UseCasesResource} from './useCasesResource.service';
+import {RelatedIssueResource} from './relatedIssueResource.service';
 
 @NgModule({
     declarations: [],
@@ -59,6 +60,7 @@ import {UseCasesResource} from './useCasesResource.service';
         ScenarioResource,
         StepResource,
         UseCasesResource,
+        RelatedIssueResource,
     ],
 })
 export class RestControllerModule {

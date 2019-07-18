@@ -49,9 +49,7 @@ import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.di
 import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
-import {ScenariooResourceNewService} from './shared/services/scenariooResourceNew.service';
 import {RouteParamsService} from './shared/route-params.service';
-import {RelatedIssueResource} from './shared/services/relatedIssueResource.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
 
@@ -122,12 +120,10 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
             multi: true,
         },
         LabelConfigurationService,
-        RelatedIssueResource,
         BuildDiffInfoService,
         BuildDiffInfosService,
         DiffInfoService,
         SharePageURL,
-        ScenariooResourceNewService,
         Location,
         MetadataTreeCreatorPipe,
         MetadataTreeListCreatorPipe,
