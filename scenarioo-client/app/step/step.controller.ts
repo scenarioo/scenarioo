@@ -301,7 +301,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     function loadRelatedIssues() {
         relatedIssueResource.get({
             branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build
+            buildName: SelectedBranchAndBuildService.selected().build,
             },
             useCaseName,
             scenarioName,

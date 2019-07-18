@@ -279,7 +279,7 @@ function ScenarioController($filter, $routeParams,
     function loadRelatedIssues() {
         relatedIssueResource.getForStepsOverview({
                 branchName: SelectedBranchAndBuildService.selected().branch,
-                buildName: SelectedBranchAndBuildService.selected().build
+                buildName: SelectedBranchAndBuildService.selected().build,
             },
             $routeParams.useCaseName,
             $routeParams.scenarioName,
