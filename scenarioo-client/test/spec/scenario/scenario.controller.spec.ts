@@ -71,6 +71,9 @@ describe('ScenarioController', () => {
         },
     };
 
+    const RelatedIssueResourceMock = {};
+    beforeEach(angular.mock.module('scenarioo.controllers'));
+
     const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
@@ -84,6 +87,7 @@ describe('ScenarioController', () => {
         $provide.value('UseCaseDiffInfoResource', {});
         $provide.value('ScenarioDiffInfoResource', {});
         $provide.value('StepDiffInfosResource', {});
+        $provide.value('RelatedIssueResourceMock', RelatedIssueResourceMock);
     }));
 
     beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService, _RelatedIssueResource_,
