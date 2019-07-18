@@ -39,7 +39,7 @@ export class DetailareaComponent {
     usecaseInformationTree: {};
 
     @Input()
-    metadataInformationTree: {};
+    metadataInformationTree;
 
     @Input()
     relatedIssues;
@@ -64,6 +64,10 @@ export class DetailareaComponent {
 
     isEmptyObject(obj) {
         return (obj && (Object.keys(obj).length === 0));
+    }
+
+    ngOnInit(): void {
+        console.log('detailarea', this.metadataInformationTree);
     }
 
 }

@@ -106,6 +106,8 @@ export class ScenariosComponent implements OnInit {
 
             this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
             this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
+            console.log('scenarios-overview', this.metadataInformationTree);
+
             this.labels = useCaseScenarios.useCase.labels.labels;
 
             this.relatedIssueResource.getForScenariosOverview({
