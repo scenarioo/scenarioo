@@ -5,7 +5,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -17,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 class ScreenshotComparatorTest {
@@ -45,7 +45,7 @@ class ScreenshotComparatorTest {
 	void setUpClass() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder);
 		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
-		Assertions.assertTrue(comparisonsFolder.mkdirs());
+		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 		screenshotComparator = new ScreenshotComparator();
 	}
@@ -53,7 +53,7 @@ class ScreenshotComparatorTest {
 	@AfterEach
 	void cleanUpTest() {
 		if (DIFF_SCREENSHOT.exists()) {
-			Assertions.assertTrue(DIFF_SCREENSHOT.delete(), "Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath());
+			assertTrue(DIFF_SCREENSHOT.delete(), "Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath());
 		}
 	}
 
@@ -61,7 +61,7 @@ class ScreenshotComparatorTest {
 	void compare_sameSizeAndColor_returnsZero_andDoesNotCreateDiffImage() {
 		DIFF_SCREENSHOT.delete();
 		assertDifferenceForScreenshots(RED_100, RED_100, 0);
-		Assertions.assertFalse(DIFF_SCREENSHOT.exists(), "No DiffScreenshot expected.");
+		assertFalse(DIFF_SCREENSHOT.exists(), "No DiffScreenshot expected.");
 	}
 
 	@Test
@@ -104,7 +104,7 @@ class ScreenshotComparatorTest {
 	private void assertDifferenceForScreenshots(File baseScreenshot, File comparisonScreenshot, double expectedDifference) {
 		final double actualDifference
 			= screenshotComparator.compareScreenshots(getComparatorParameters(), baseScreenshot, comparisonScreenshot, DIFF_SCREENSHOT);
-		Assertions.assertEquals(expectedDifference, actualDifference, DOUBLE_TOLERANCE, "Difference of screenshots");
+		assertEquals(expectedDifference, actualDifference, DOUBLE_TOLERANCE, "Difference of screenshots");
 	}
 
 	@Test
@@ -119,9 +119,9 @@ class ScreenshotComparatorTest {
 		final List<LoggingEvent> log = appender.getLog();
 		final LoggingEvent firstLogEntry = log.get(0);
 
-		Assertions.assertEquals(0.0D, difference, DOUBLE_TOLERANCE, "Difference of screenshots");
-		Assertions.assertEquals(Level.WARN, firstLogEntry.getLevel(), "Log Level");
-		Assertions.assertTrue(
+		assertEquals(0.0D, difference, DOUBLE_TOLERANCE, "Difference of screenshots");
+		assertEquals(Level.WARN, firstLogEntry.getLevel(), "Log Level");
+		assertTrue(
 			firstLogEntry.getMessage().toString().contains("Failed to compare images"), "Assert log message is correct");
 		LOGGER.removeAppender(appender);
 	}
