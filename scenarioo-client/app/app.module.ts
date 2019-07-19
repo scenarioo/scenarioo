@@ -52,6 +52,7 @@ import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
+import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 
 @NgModule({
     declarations: [
@@ -81,6 +82,7 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         MetaDataTreeDirective,
         ScenariosComponent,
         TitleComponent,
+        ProgressbarComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -92,6 +94,7 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         TitleComponent,
         ScenariosComponent,
         MetaDataTreeComponent,
+        ProgressbarComponent,
     ],
     imports: [
         BrowserModule,
