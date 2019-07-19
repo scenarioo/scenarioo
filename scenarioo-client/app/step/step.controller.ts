@@ -100,6 +100,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         $scope.useCaseLabels = result.useCaseLabels;
         $scope.scenarioLabels = result.scenarioLabels;
         $scope.selectedBuild = selected.buildName;
+        $scope.getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;
         loadRelatedIssues();
         initScreenshotUrl();
 
@@ -324,6 +325,17 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
+    }
+
+    function collapsePanel(event) {
+        this.isPanelCollapsed = event;
+    }
+
+    function getCurrentStepIndexForDisplay() {
+        if (angular.isUndefined($scope.stepNavigation)) {
+            return '?';
+        }
+        return $scope.stepNavigation.stepIndex + 1;
     }
 
 }
