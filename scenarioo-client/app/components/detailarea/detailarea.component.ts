@@ -34,7 +34,7 @@ export class DetailareaComponent {
     @Input()
     buildInformationTree: {};
 
-    /*Inputs of scenarios-overview*/
+    /* Inputs of scenarios-overview */
     @Input()
     usecaseInformationTree: {};
 
@@ -45,10 +45,15 @@ export class DetailareaComponent {
     relatedIssues;
 
     @Input()
-    useCaseLabels: {};
+    labels: {};
 
     @Input()
     labelConfigurations: {};
+
+    /* Inputs of step-view */
+    @Input()
+    stepInformationTree: {};
+
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
