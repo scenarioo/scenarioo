@@ -40,6 +40,8 @@ export class StepsOverviewComponent {
 
     propertiesToShow: any[];
 
+    isPanelCollapsed: boolean;
+
     scenario: IScenario;
     pagesAndSteps: IPageWithSteps[];
     steps: IStepDescription[];
@@ -96,6 +98,10 @@ export class StepsOverviewComponent {
                 return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
             }
         }
+    }
+
+    collapsePanel(event) {
+        this.isPanelCollapsed = event;
     }
 
     resetSearchField() {

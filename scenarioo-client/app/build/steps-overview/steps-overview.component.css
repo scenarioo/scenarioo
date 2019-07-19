@@ -1,4 +1,4 @@
-sc-scenario-overview .screenshot-container {
+sc-steps-overview .screenshot-container {
     border: 2px solid #DDDDDD;
     max-width: 300px;
     height: 150px;
@@ -6,32 +6,45 @@ sc-scenario-overview .screenshot-container {
     text-align: center;
 }
 
-sc-scenario-overview .screenshot {
+sc-steps-overview .screenshot {
     max-width: 100%;
     width: auto;
 }
 
-sc-scenario-overview h4 {
+sc-steps-overview h3 {
     font-weight: bold;
     color: #337ab7;
     margin-top: 0;
     margin-bottom: 10px;
 }
 
-sc-scenario-overview .page-overview {
+sc-steps-overview .page-overview {
     cursor: default;
 }
 
-sc-scenario-overview .page-overview:hover {
+sc-steps-overview .page-overview:hover {
     background-color: #FFFFFF;
 }
 
-sc-scenario-overview .table-info {
+sc-steps-overview .table-info {
     font-size: smaller;
     font-style: italic;
 }
 
-sc-scenario-overview .table-curved tr:last-child td:first-child {
+sc-steps-overview .table-curved tr:last-child td:first-child {
     border-radius: 0;
 }
 
+#left {
+    float:left;
+    margin-right: 100px;
+}
+
+#right {
+    min-width: 100px;
+    margin-top: 30px;
+}
+
+#sc-meta-data-panel {
+    margin-top: 45px;
+}

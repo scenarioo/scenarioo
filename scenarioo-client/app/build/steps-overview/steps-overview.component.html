@@ -1,103 +1,113 @@
 <div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
-        <label class="input-group">
-            <input [(ngModel)]="searchTerm" class="form-control" data-toggle="tooltip"
-                   id="ScenarioSearchField" placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
-                   title="type words separated by spaces to search for" type="text"/>
-            <span class="input-group-btn">
-                <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
-            </span>
-        </label>
-    </div>
-</div>
-
-<div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
-        <p class="table-info">
-            Found {{scenarioStatistics?.numberOfPages}}
-            <span *ngIf="scenarioStatistics?.numberOfPages>1">Pages</span>
-            <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
-            in this Scenario, containing {{scenarioStatistics?.numberOfSteps}}
-            <span *ngIf="scenarioStatistics?.numberOfSteps>1">Steps</span>
-            <span *ngIf="scenarioStatistics?.numberOfSteps<=1">Step</span>
-            in total
-        </p>
-        <table class="table table-hover table-curved table-responsive usecase-table"
-               *ngIf="(pagesAndSteps|filter: searchTerm).length!=0">
-            <thead>
-            <tr>
-                <th (click)="setOrder('name')" [class.selected]="order === 'i' ">
-                    Page
-                    <div *ngIf= "order != 'name'" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="bot"> &#9207; </span>
-                    </div>
-                    <div *ngIf= "order === 'name' && reverse" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="selectedBot">&#9207;</span>
-                    </div>
-                    <div *ngIf= "order === 'name' && !reverse" class="arrows">
-                        <span class="selectedTop"> &#9206; </span>
-                        <span class="bot">&#9207;</span>
-                    </div>
-                </th>
-                <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
-                    Status
-                    <div *ngIf= "order != 'status'" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="bot"> &#9207; </span>
-                    </div>
-                    <div *ngIf= "order === 'status' && reverse" class="arrows">
-                        <span class="top"> &#9206; </span>
-                        <span class="selectedBot">&#9207;</span>
-                    </div>
-                    <div *ngIf= "order === 'status' && !reverse" class="arrows">
-                        <span class="selectedTop"> &#9206; </span>
-                        <span class="bot">&#9207;</span>
-                    </div>
-                </th>
-                <th>Screenshot Preview</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index "
-                   >
-            <tr>
-                <td [rowSpan]="dynamicStepsAndPages.steps.length +1" class="page-overview">
-                    Page {{i + 1}}<span *ngIf="dynamicStepsAndPages.page.name">: {{dynamicStepsAndPages.page.name | scHumanReadable}}</span>
-                    <p *ngIf="dynamicStepsAndPages.steps.length>1">
-                        ({{dynamicStepsAndPages.steps.length}} Steps)
-                    </p>
-                    <p *ngIf="dynamicStepsAndPages.steps.length==1">
-                        ({{dynamicStepsAndPages.steps.length}} Step)
-                    </p>
-                </td>
-            </tr>
-            <tr *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: searchTerm
-                  let i2 = index" [class.active]="i2 == arrowkeyLocation" (keyup)="handleEvent(dynamicStepsAndPages.page.name)"
-                (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)">
-                <td>
-                    <span [ngClass]="[getStatusStyleClass(dynamicSteps.status), 'label']">{{dynamicSteps.status}}</span>
-                </td>
-                <td>
-                    <div class="screenshot-container">
-                        <img src="{{getScreenShotUrl(dynamicSteps.screenshotFileName)}}" class="screenshot"/>
-                    </div>
-                </td>
-                <td >
-                    <h4>
-                        Step XX<span *ngIf="dynamicSteps.title">: {{dynamicSteps.title}}</span>
-                    </h4>
-                    <p>
-                        Step {{i2 + 1}} of {{dynamicStepsAndPages.steps.length}} on this page
-                    </p>
-                    <p>
-                        Step XXX of {{scenarioStatistics.numberOfSteps}} in this scenario
-                    </p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-11' : 'sc-space-top col-sm-8'">
+        <div id="left">
+            <!-- Title component -->
+            <sc-title scenarioName="{{scenarioName | scHumanReadable}}"></sc-title>
+        </div>
+        <div id="right">
+            <label class="input-group">
+                <input [(ngModel)]="searchTerm" autofocus class="form-control"
+                       data-toggle="tooltip"
+                       id="ScenarioSearchField"
+                       placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..." title="type words separated by spaces to search for" type="text"/>
+                <span class="input-group-btn">
+                    <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+                </span>
+            </label>
+        </div>
     </div>
 
+    <div id="sc-meta-data-panel">
+        <sc-detailarea (valueChange)="collapsePanel($event)"></sc-detailarea>
+
+        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
+            <p class="table-info">
+                Found {{scenarioStatistics?.numberOfPages}}
+                <span *ngIf="scenarioStatistics?.numberOfPages>1">Pages</span>
+                <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
+                in this Scenario, containing {{scenarioStatistics?.numberOfSteps}}
+                <span *ngIf="scenarioStatistics?.numberOfSteps>1">Steps</span>
+                <span *ngIf="scenarioStatistics?.numberOfSteps<=1">Step</span>
+                in total
+            </p>
+            <table *ngIf="(pagesAndSteps|filter: searchTerm).length!=0"
+                   class="table table-curved table-responsive step-table">
+                <thead>
+                <tr>
+                    <th (click)="setOrder('name')" [class.selected]="order === 'i' ">
+                        Page
+                        <div *ngIf="order != 'name'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'name' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'name' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
+                        Status
+                        <div *ngIf="order != 'status'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'status' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'status' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
+                    <th>Screenshot Preview</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index ">
+                <tr>
+                    <td [rowSpan]="dynamicStepsAndPages.steps.length +1" class="page-overview">
+                        Page {{i + 1}}<span
+                        *ngIf="dynamicStepsAndPages.page.name">: {{dynamicStepsAndPages.page.name | scHumanReadable}}</span>
+                        <p *ngIf="dynamicStepsAndPages.steps.length>1">
+                            ({{dynamicStepsAndPages.steps.length}} Steps)
+                        </p>
+                        <p *ngIf="dynamicStepsAndPages.steps.length==1">
+                            ({{dynamicStepsAndPages.steps.length}} Step)
+                        </p>
+                    </td>
+                </tr>
+                <tr (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)" (keyup)="handleEvent(dynamicStepsAndPages.page.name)"
+                    *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: searchTerm
+                  let i2 = index"
+                    [class.active]="i2 == arrowkeyLocation">
+                    <td>
+                        <span
+                            [ngClass]="[getStatusStyleClass(dynamicSteps.status), 'label']">{{dynamicSteps.status}}</span>
+                    </td>
+                    <td>
+                        <div class="screenshot-container">
+                            <img alt="" class="screenshot" src="{{getScreenShotUrl(dynamicSteps.screenshotFileName)}}"/>
+                        </div>
+                    </td>
+                    <td>
+                        <h3>
+                            Step XX<span *ngIf="dynamicSteps.title">: {{dynamicSteps.title}}</span>
+                        </h3>
+                        <p>
+                            Step {{i2 + 1}} of {{dynamicStepsAndPages.steps.length}} on this page
+                        </p>
+                        <p>
+                            Step XXX of {{scenarioStatistics.numberOfSteps}} in this scenario
+                        </p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
