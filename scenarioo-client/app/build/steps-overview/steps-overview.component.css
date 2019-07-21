@@ -35,16 +35,16 @@ sc-steps-overview .table-curved tr:last-child td:first-child {
     border-radius: 0;
 }
 
-#left {
+sc-steps-overview #left {
     float:left;
     margin-right: 100px;
 }
 
-#right {
+sc-steps-overview #right {
     min-width: 100px;
     margin-top: 30px;
 }
 
-#sc-meta-data-panel {
+sc-steps-overview #sc-meta-data-panel {
     margin-top: 45px;
 }

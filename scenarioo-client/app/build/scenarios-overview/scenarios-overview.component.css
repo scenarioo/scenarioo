@@ -26,12 +26,12 @@ sc-scenarios-overview p {
     font-style: italic;
 }
 
-#left {
+sc-scenarios-overview #left {
     float:left;
     margin-right: 100px;
 }
 
-#right {
+sc-scenarios-overview #right {
     min-width: 100px;
     margin-top: 30px;
 }
