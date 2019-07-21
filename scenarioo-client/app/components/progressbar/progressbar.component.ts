@@ -25,24 +25,24 @@ export class ProgressbarComponent {
     @Input()
     scenarioName: string;
 
-    stepBack(){}
+    stepBack() {}
 
-    stepForward(){}
+    stepForward() {}
 
-    page(){}
+    page() {}
 
-    pageBack(){}
+    pageBack() {}
 
-    pageForward(){}
+    pageForward() {}
 
-    pageVariant(){}
+    pageVariant() {}
 
-    pageVariantUp(){}
+    pageVariantUp() {}
 
-    pageVariantDown(){}
+    pageVariantDown() {}
 
     constructor(private routeParamsService: RouteParamsService,
-                private selectedBranchAndBuildService: SelectedBranchAndBuildService){
+                private selectedBranchAndBuildService: SelectedBranchAndBuildService) {
 
     }
 
@@ -57,7 +57,7 @@ export class ProgressbarComponent {
         this.getCurrentStepIndexForDisplay();
     }
 
-    getCurrentStepIndexForDisplay(){
+    getCurrentStepIndexForDisplay() {
         if (this.stepNavigation === undefined) {
             return '?';
         }

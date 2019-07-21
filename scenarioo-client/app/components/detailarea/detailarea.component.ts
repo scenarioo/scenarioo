@@ -54,7 +54,6 @@ export class DetailareaComponent {
     @Input()
     stepInformationTree: {};
 
-
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 

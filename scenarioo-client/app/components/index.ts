@@ -17,4 +17,3 @@ angular.module('scenarioo.directives')
 angular.module('scenarioo.directives')
     .directive('scProgressbar',
         downgradeComponent({component: ProgressbarComponent}) as angular.IDirectiveFactory);
-
