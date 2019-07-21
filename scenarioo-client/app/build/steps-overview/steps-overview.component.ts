@@ -9,7 +9,6 @@ import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 
-
 @Component({
     selector: 'sc-steps-overview',
     template: require('./steps-overview.component.html'),
@@ -73,7 +72,6 @@ export class StepsOverviewComponent {
                 this.useCaseName,
                 this.scenarioName,
             ).subscribe((result) => {
-                console.log(result);
                 this.scenario = result.scenario;
                 this.pagesAndSteps = result.pagesAndSteps;
                 this.scenarioStatistics = result.scenarioStatistics;
@@ -120,24 +118,21 @@ export class StepsOverviewComponent {
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
-            case "ArrowDown":
+            case 'ArrowDown':
                 this.arrowkeyLocation++;
                 break;
-            case "ArrowUp":
+            case 'ArrowUp':
                 this.arrowkeyLocation--;
                 break;
-            case "Enter":
-                console.log("enter is working ");
-                //this.goToUseCase(this.useCaseName);
+            case 'Enter':
+                this.getLinkToStep(this.pagesAndSteps[this.arrowkeyLocation].page.name, this.pagesAndSteps[this.arrowkeyLocation].page.pageOccurrence, 0);
                 break;
         }
     }
 
-    handleEvent(event) {
-        console.log("newEnterKeyIsWorking" + event);
-    }
-
     getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
+
+        console.log('steps', stepInPageOccurrence);
 
         this.locationService.path('/step/'
             + this.useCaseName + '/'
@@ -147,8 +142,8 @@ export class StepsOverviewComponent {
     }
 
     getScreenShotUrl(imgName) {
-        let branch = this.selectedBranchAndBuild.branch;
-        let build = this.selectedBranchAndBuild.build;
+        const branch = this.selectedBranchAndBuild.branch;
+        const build = this.selectedBranchAndBuild.build;
 
         return 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + this.useCaseName + '/scenario/' + this.scenarioName + '/image/' + imgName;

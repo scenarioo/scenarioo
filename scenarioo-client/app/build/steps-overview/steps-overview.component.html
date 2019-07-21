@@ -81,7 +81,7 @@
                         </p>
                     </td>
                 </tr>
-                <tr (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)" (keyup)="handleEvent(dynamicStepsAndPages.page.name)"
+                <tr (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)"
                     *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: searchTerm
                   let i2 = index"
                     [class.active]="i2 == arrowkeyLocation">
