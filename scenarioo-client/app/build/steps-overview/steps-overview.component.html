@@ -9,7 +9,8 @@
                 <input [(ngModel)]="searchTerm" autofocus class="form-control"
                        data-toggle="tooltip"
                        id="ScenarioSearchField"
-                       placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..." title="type words separated by spaces to search for" type="text"/>
+                       placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
+                       title="type words separated by spaces to search for" type="text"/>
                 <span class="input-group-btn">
                     <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
                 </span>
@@ -18,17 +19,25 @@
     </div>
 
     <div id="sc-meta-data-panel">
-        <sc-detailarea (valueChange)="collapsePanel($event)" [scenarioInformationTree]="scenarioInformationTree" [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues" [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations"></sc-detailarea>
+        <sc-detailarea (valueChange)="collapsePanel($event)" [labelConfigurations]="labelConfigurations"
+                       [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues"
+                       [scenarioInformationTree]="scenarioInformationTree" [useCaseLabels]="labels"></sc-detailarea>
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p class="table-info">
-                Found {{scenarioStatistics?.numberOfPages}}
-                <span *ngIf="scenarioStatistics?.numberOfPages>1">Pages</span>
+                Found {{(pagesAndSteps|filter: searchTerm).length}}
+                <span *ngIf="(pagesAndSteps|filter: searchTerm).length != pagesAndSteps.length">
+                    of {{pagesAndSteps.length}}
+                </span>
+                <span *ngIf="pagesAndSteps.length>1">Pages</span>
                 <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
-                in this Scenario, containing {{scenarioStatistics?.numberOfSteps}}
-                <span *ngIf="scenarioStatistics?.numberOfSteps>1">Steps</span>
-                <span *ngIf="scenarioStatistics?.numberOfSteps<=1">Step</span>
-                in total
+                in this Scenario
+                <span *ngIf="(pagesAndSteps|filter: searchTerm).length === pagesAndSteps.length">
+                    , containing {{scenarioStatistics?.numberOfSteps}}
+                    <span *ngIf="scenarioStatistics?.numberOfSteps>1">Steps</span>
+                    <span *ngIf="scenarioStatistics?.numberOfSteps<=1">Step</span>
+                    in total
+                </span>
             </p>
             <table *ngIf="(pagesAndSteps|filter: searchTerm).length!=0"
                    class="table table-curved table-responsive step-table">
@@ -84,7 +93,8 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index ">
+                <tbody
+                    *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index ">
                 <tr>
                     <td [rowSpan]="dynamicStepsAndPages.steps.length +1" class="page-overview">
                         Page {{i + 1}}<span
@@ -98,7 +108,8 @@
                         <br>
                         <p *ngIf="comparisonExisting">
                             Changes on this page:
-                            <sc-diff-info-icon [diffInfo]="dynamicStepsAndPages.page.diffInfo" child-element-type="step" element-type="page"></sc-diff-info-icon>
+                            <sc-diff-info-icon [diffInfo]="dynamicStepsAndPages.page.diffInfo" child-element-type="step"
+                                               element-type="page"></sc-diff-info-icon>
                         </p>
                     </td>
                 </tr>
@@ -128,7 +139,8 @@
                     </td>
                     <td *ngIf="comparisonExisting">
                         Changes on this step:
-                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" child-element-type="screenshot" element-type="step"></sc-diff-info-icon>
+                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" child-element-type="screenshot"
+                                           element-type="step"></sc-diff-info-icon>
                     </td>
                 </tr>
                 </tbody>
