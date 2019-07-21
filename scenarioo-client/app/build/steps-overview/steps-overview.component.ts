@@ -4,7 +4,7 @@ import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBra
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
-import {IPageWithSteps, IScenario, IScenarioStatistics, IStepDescription, IUseCase} from '../../generated-types/backend-types';
+import {IScenario, IScenarioStatistics, IStepDescription, IUseCase} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
@@ -13,6 +13,15 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RelatedIssueResource} from '../../shared/services/relatedIssueResource.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
+import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {forkJoin} from 'rxjs';
+import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
+import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
+import {DiffInfoService} from '../../diffViewer/diffInfo.service';
+import {OrderPipe} from 'ngx-order-pipe';
+import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
+import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
+import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
 
 @Component({
     selector: 'sc-steps-overview',
@@ -28,10 +37,12 @@ export class StepsOverviewComponent {
     @Input()
     scenarioName: string;
 
+    scenarios;
+
     searchTerm: string;
 
     order: string = 'name';
-    sortedScenarios: any[];
+    sortedSteps: any[];
     reverse: boolean = false;
 
     arrowkeyLocation = 0;
@@ -41,6 +52,10 @@ export class StepsOverviewComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
+    comparisonExisting = undefined;
+    comparisonBranchName;
+    comparisonBuildName;
+
     getStatusStyleClass = undefined;
 
     propertiesToShow: any[];
@@ -49,7 +64,7 @@ export class StepsOverviewComponent {
 
     scenario: IScenario;
     useCase: IUseCase;
-    pagesAndSteps: IPageWithSteps[];
+    pagesAndSteps;
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
 
@@ -68,7 +83,15 @@ export class StepsOverviewComponent {
                 private humanReadablePipe: HumanReadablePipe,
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private relatedIssueResource: RelatedIssueResource,
-                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe) {
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
+                private selectedComparison: SelectedComparison,
+                private buildDiffInfoService: BuildDiffInfoService,
+                private useCaseDiffInfosService: UseCaseDiffInfosService,
+                private useCaseDiffInfoService: UseCaseDiffInfoService,
+                private diffInfoService: DiffInfoService,
+                private orderPipe: OrderPipe,
+                private scenarioDiffInfoService: ScenarioDiffInfoService,
+                private stepDiffInfosService: StepDiffInfosService) {
     }
 
     ngOnInit(): void {
@@ -89,12 +112,12 @@ export class StepsOverviewComponent {
             ).subscribe((result) => {
                 this.scenario = result.scenario;
                 this.pagesAndSteps = result.pagesAndSteps;
+                console.log(this.pagesAndSteps);
                 this.useCase = result.useCase;
                 this.scenarioStatistics = result.scenarioStatistics;
 
                 this.scenarioInformationTree = this.createScenarioInformationTree(this.scenario, result.scenarioStatistics, this.useCase);
                 this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(this.useCase.details);
-
                 this.labels = this.useCase.labels.labels;
 
                 this.relatedIssueResource.getForScenariosOverview({
@@ -105,6 +128,12 @@ export class StepsOverviewComponent {
                 ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
                     this.relatedIssues = relatedIssueSummary;
                 });
+
+                if (this.comparisonExisting) {
+                    this.loadDiffInfoData(result.pagesAndSteps, selection.branch, selection.build, this.selectedComparison.selected());
+                } else {
+                    this.pagesAndSteps = result.pagesAndSteps;
+                }
 
             });
 
@@ -118,7 +147,72 @@ export class StepsOverviewComponent {
                 }));
 
             this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
+
+            this.sortedSteps = this.orderPipe.transform(this.pagesAndSteps, this.order);
+
+            this.comparisonExisting = this.selectedComparison.isDefined();
         });
+    }
+
+    loadDiffInfoData(pagesAndSteps, baseBranchName: string, baseBuildName: string, comparisonName: string) {
+        if (pagesAndSteps && baseBranchName && baseBuildName && this.useCaseName && this.scenarioName) {
+            this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName)
+                .subscribe((buildDiffInfo) => {
+                    this.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                    this.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
+
+                    if (this.isAddedUseCase(buildDiffInfo)) {
+                        this.markPagesAndStepsAsAdded(pagesAndSteps);
+                    } else {
+                        this.loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                    }
+                });
+        }
+    }
+
+    isAddedUseCase(buildDiffInfo) {
+        return buildDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === this.useCaseName;
+        });
+    }
+
+    isAddedScenario(useCaseDiffInfo) {
+        return useCaseDiffInfo.addedElements.find((addedElement) => {
+            return addedElement === this.scenarioName;
+        });
+    }
+
+    markPagesAndStepsAsAdded(pagesAndSteps) {
+        pagesAndSteps.forEach((pageAndStep) => {
+            pageAndStep.page.diffInfo = {isAdded: true};
+            pageAndStep.steps.forEach((step) => {
+                step.diffInfo = {isAdded: true};
+            })
+        });
+    }
+
+    loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName)
+            .subscribe((useCaseDiffInfo) => {
+                if (this.isAddedScenario(useCaseDiffInfo)) {
+                    this.markPagesAndStepsAsAdded(pagesAndSteps);
+                } else {
+                    this.loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                }
+            }, (error) => {
+                throw error;
+            });
+
+    }
+
+    loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        forkJoin([
+            this.scenarioDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName, this.scenarioName),
+            this.stepDiffInfosService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName, this.scenarioName),
+        ])
+            .subscribe(([scenarioDiffInfo, stepDiffInfos]) => {
+                this.diffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+            });
     }
 
     createScenarioInformationTree(scenario, statistics, useCase) {

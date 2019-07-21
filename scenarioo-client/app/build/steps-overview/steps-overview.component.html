@@ -34,7 +34,7 @@
                    class="table table-curved table-responsive step-table">
                 <thead>
                 <tr>
-                    <th (click)="setOrder('name')" [class.selected]="order === 'i' ">
+                    <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
                         Page
                         <div *ngIf="order != 'name'" class="arrows">
                             <span class="top"> &#9206; </span>
@@ -66,6 +66,22 @@
                     </th>
                     <th>Screenshot Preview</th>
                     <th>Description</th>
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                        [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
+                        Changes
+                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="bot"> &#9207; </span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                            <span class="top"> &#9206; </span>
+                            <span class="selectedBot">&#9207;</span>
+                        </div>
+                        <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                            <span class="selectedTop"> &#9206; </span>
+                            <span class="bot">&#9207;</span>
+                        </div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody *ngFor="let dynamicStepsAndPages of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm let i = index ">
@@ -79,10 +95,15 @@
                         <p *ngIf="dynamicStepsAndPages.steps.length==1">
                             ({{dynamicStepsAndPages.steps.length}} Step)
                         </p>
+                        <br>
+                        <p *ngIf="comparisonExisting">
+                            Changes on this page:
+                            <sc-diff-info-icon [diffInfo]="dynamicStepsAndPages.page.diffInfo" child-element-type="step" element-type="page"></sc-diff-info-icon>
+                        </p>
                     </td>
                 </tr>
                 <tr (click)="getLinkToStep(dynamicStepsAndPages.page.name, dynamicStepsAndPages.page.pageOccurrence, i2)"
-                    *ngFor="let dynamicSteps of dynamicStepsAndPages.steps | filter: searchTerm
+                    *ngFor="let dynamicSteps of dynamicStepsAndPages.steps
                   let i2 = index"
                     [class.active]="i2 == arrowkeyLocation">
                     <td>
@@ -104,6 +125,10 @@
                         <p>
                             Step XXX of {{scenarioStatistics.numberOfSteps}} in this scenario
                         </p>
+                    </td>
+                    <td *ngIf="comparisonExisting">
+                        Changes on this step:
+                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" child-element-type="screenshot" element-type="step"></sc-diff-info-icon>
                     </td>
                 </tr>
                 </tbody>
