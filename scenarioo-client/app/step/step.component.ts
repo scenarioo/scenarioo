@@ -20,9 +20,15 @@ import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.servi
 import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 
-declare var angular: angular.IAngularStatic;
-
-angular.module('scenarioo.controllers').controller('StepController', StepController);
+angular
+    .module('scenarioo.controllers')
+    .component('scStep', {
+        bindings: {
+            isPanelCollapsed: '=',
+        },
+        template: require('./step.html'),
+        controller: StepController,
+    });
 
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
@@ -134,16 +140,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             $scope.stepInPageOccurrence,
             labels,
         ).subscribe((result) => stepResultToVm(result, selected),
-                (error) => {
-                    $scope.stepNotFound = true;
-                    $scope.httpResponse = {
-                        status: error.status,
-                        method: 'GET',
-                        url: error.url,
-                        data: error.error,
-                    };
-                },
-            );
+            (error) => {
+                $scope.stepNotFound = true;
+                $scope.httpResponse = {
+                    status: error.status,
+                    method: 'GET',
+                    url: error.url,
+                    data: error.error,
+                };
+            },
+        );
     }
 
     function updateSketcherContextService() {
@@ -302,8 +308,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     function loadRelatedIssues() {
         RelatedIssueResource.get({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
+                branchName: SelectedBranchAndBuildService.selected().branch,
+                buildName: SelectedBranchAndBuildService.selected().build,
             },
             useCaseName,
             scenarioName,

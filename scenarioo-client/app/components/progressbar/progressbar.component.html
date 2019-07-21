@@ -1,1 +1,28 @@
+<!--<div>{{stepNavigation.stepIndex + 1}}</div>-->
+<div class="sc-progressbar-container">
+    <div class="sc-progressbar-row">
+        <div (click)="stepBack()" class="sc-progressbar-cell" [ngClass]="dynamic === 1 ? 'step-arrow-grey':'step-arrow'">
+            <i class="fas fa-angle-left"></i>
+        </div>
+        <progressbar [max]="max" [value]="dynamic" class="progress-bar-cell sc-progress">
+            <span class="text-nowrap">Step {{dynamic}} of {{max}} in Scenario "{{scenarioName}}"</span>
+        </progressbar>
+        <div (click)="stepForward()" class="sc-progressbar-cell" [ngClass]="dynamic === max ? 'step-arrow-grey':'step-arrow'">
+            <i class="fas fa-angle-right"></i>
+        </div>
+    </div>
+</div>
+
+<div >
+    <div class="sc-page">
+        <span (click)="pageBack()" [ngClass]="currentPage === 1 ? 'page-arrow-grey':'page-arrow'"> &#9204; </span>
+        <span (click)="page()" class="page">Page {{currentPage}} of {{totalNumberOfPageInScenario}}</span>
+        <span (click)="pageForward()" [ngClass]="currentPage === totalNumberOfPageInScenario ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
+    </div>
+    <div class="sc-page-variant">
+        <span (click)="pageVariantUp()" [ngClass]="currentPageVariant === 1 ? 'page-arrow-grey':'page-arrow'"> &#9206; </span>
+        <span (click)="pageVariant()" class="page">Page-Variant {{currentPageVariant}} of {{totalNumberOfPageVariant}}</span>
+        <span (click)="pageVariantDown()" [ngClass]="currentPageVariant === totalNumberOfPageVariant ? 'page-arrow-grey':'page-arrow'"> &#9207; </span>
+    </div>
+</div>
 

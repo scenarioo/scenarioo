@@ -13,6 +13,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainPageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
+import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
@@ -106,6 +107,7 @@ import {ProgressbarComponent} from './components/progressbar/progressbar.compone
         DiffViewerModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
+        ProgressbarModule.forRoot(),
         OrderModule,
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),
