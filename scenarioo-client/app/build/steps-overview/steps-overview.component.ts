@@ -4,10 +4,15 @@ import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBra
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
-import {IPageWithSteps, IScenario, IScenarioStatistics, IStepDescription} from '../../generated-types/backend-types';
+import {IPageWithSteps, IScenario, IScenarioStatistics, IStepDescription, IUseCase} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
+import {HumanReadablePipe} from '../../pipes/humanReadable.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+import {RelatedIssueResource} from '../../shared/services/relatedIssueResource.service';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
 
 @Component({
     selector: 'sc-steps-overview',
@@ -43,9 +48,15 @@ export class StepsOverviewComponent {
     isPanelCollapsed: boolean;
 
     scenario: IScenario;
+    useCase: IUseCase;
     pagesAndSteps: IPageWithSteps[];
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
+
+    scenarioInformationTree = {};
+    metadataInformationTree = {};
+    relatedIssues;
+    labels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -53,7 +64,11 @@ export class StepsOverviewComponent {
                 private configurationService: ConfigurationService,
                 private locationService: LocationService,
                 private labelConfigurationsResource: LabelConfigurationsResource,
-                private routeParamsService: RouteParamsService) {
+                private routeParamsService: RouteParamsService,
+                private humanReadablePipe: HumanReadablePipe,
+                private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
+                private relatedIssueResource: RelatedIssueResource,
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe) {
     }
 
     ngOnInit(): void {
@@ -74,7 +89,22 @@ export class StepsOverviewComponent {
             ).subscribe((result) => {
                 this.scenario = result.scenario;
                 this.pagesAndSteps = result.pagesAndSteps;
+                this.useCase = result.useCase;
                 this.scenarioStatistics = result.scenarioStatistics;
+
+                this.scenarioInformationTree = this.createScenarioInformationTree(this.scenario, result.scenarioStatistics, this.useCase);
+                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(this.useCase.details);
+
+                this.labels = this.useCase.labels.labels;
+
+                this.relatedIssueResource.getForScenariosOverview({
+                        branchName: selection.branch,
+                        buildName: selection.build,
+                    },
+                    this.useCase.name,
+                ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+                    this.relatedIssues = relatedIssueSummary;
+                });
 
             });
 
@@ -89,6 +119,23 @@ export class StepsOverviewComponent {
 
             this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
         });
+    }
+
+    createScenarioInformationTree(scenario, statistics, useCase) {
+        const stepInformation: any = {};
+        stepInformation['Use Case'] = useCase.name;
+        if (useCase.description) {
+            stepInformation['Use Case Description'] = useCase.description;
+        }
+        stepInformation.Scenario = this.humanReadablePipe.transform(scenario.name);
+        if (scenario.description) {
+            stepInformation['Scenario Description'] = scenario.description;
+        }
+
+        stepInformation['Number of Pages'] = statistics.numberOfPages;
+        stepInformation['Number of Steps'] = statistics.numberOfSteps;
+        stepInformation.Status = scenario.status;
+        return this.metadataTreeCreatorPipe.transform(stepInformation);
     }
 
     getLabelStyle(labelName) {

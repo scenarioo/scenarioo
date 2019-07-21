@@ -128,6 +128,7 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         DiffInfoService,
         SharePageURL,
         Location,
+        HumanReadablePipe,
         MetadataTreeCreatorPipe,
         MetadataTreeListCreatorPipe,
         TreeDataCreatorPipe,

@@ -34,10 +34,15 @@ export class DetailareaComponent {
     @Input()
     buildInformationTree: {};
 
-    /*Inputs of scenarios-overview*/
+    /*Input of scenarios-overview*/
     @Input()
     usecaseInformationTree: {};
 
+    /*Inputs of steps-overview*/
+    @Input()
+    scenarioInformationTree: {};
+
+    /*General Inputs*/
     @Input()
     metadataInformationTree;
 
