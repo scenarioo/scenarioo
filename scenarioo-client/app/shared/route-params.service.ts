@@ -7,5 +7,5 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class RouteParamsService {
     useCaseName: string;
-
+    scenarioName: string;
 }

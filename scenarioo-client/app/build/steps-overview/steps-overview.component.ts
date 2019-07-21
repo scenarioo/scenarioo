@@ -7,6 +7,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {IPageWithSteps, IScenario, IScenarioStatistics, IStepDescription} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
+import {RouteParamsService} from '../../shared/route-params.service';
 
 
 @Component({
@@ -52,17 +53,18 @@ export class StepsOverviewComponent {
                 private scenarioResource: ScenarioResource,
                 private configurationService: ConfigurationService,
                 private locationService: LocationService,
-                private labelConfigurationsResource: LabelConfigurationsResource,) {
+                private labelConfigurationsResource: LabelConfigurationsResource,
+                private routeParamsService: RouteParamsService) {
     }
 
     ngOnInit(): void {
+
+        this.useCaseName = this.routeParamsService.useCaseName;
+        this.scenarioName = this.routeParamsService.scenarioName;
+
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
             this.selectedBranchAndBuild = selection;
-
-            /* To Delete if Name of Scenario and Use Case is available*/
-            this.useCaseName = "Donate";
-            this.scenarioName = "find_donate_page";
 
             this.scenarioResource.get({
                     branchName: selection.branch,
