@@ -14,7 +14,7 @@ export class HumanReadablePipe implements PipeTransform {
             // Underline
             text = text.replace(/([_])/g, ' ');
             // .jsp
-            text = text.replace(/([.jsp])/g, '');
+            text = text.replace(/.jsp/gi, '');
 
             // Camel Case
             // example 1: ThisIsSomeText
