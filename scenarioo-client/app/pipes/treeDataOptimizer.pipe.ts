@@ -119,7 +119,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
     }
 
     setFallBackLabelIfLabelIsEmpty(node) {
-        if ((typeof node.nodeValue !== 'string') && node.nodeLabel.length === 0) {
+        if ((typeof node.nodeLabel !== 'string') || node.nodeLabel.length === 0) {
             node.nodeLabel = 'Item';
         }
     }
