@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <!-- general -->
                     <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)" [relatedIssues]="relatedIssues" detailAccordionName="Related Sketches" [isFirstOpen]="false" [sketches]="true"></sc-detail-accordion>
                     <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)" [informationTree]="useCaseLabels" [labelConfigurations]="labelConfigurations" detailAccordionName="Labels" [isFirstOpen]="false" [label]="true"></sc-detail-accordion>
-                    <!-- <sc-meta-data-tree *ngIf="metadataInformationTree" [informationTree]="metadataInformationTree" [isFirstOpen]="false"></sc-meta-data-tree> -->
+                    <sc-meta-data-tree *ngIf="metadataInformationTree" [informationTree]="metadataInformationTree" [isFirstOpen]="false"></sc-meta-data-tree>
 
                 </accordion>
             </div>

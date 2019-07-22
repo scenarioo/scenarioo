@@ -1,3 +1,20 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import {Component, HostListener, OnInit} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
@@ -18,6 +35,7 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
+import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -50,8 +68,8 @@ export class ScenariosComponent implements OnInit {
     isPanelCollapsed: boolean;
 
     usecaseInformationTree = {};
-    metadataInformationTree = {};
-    relatedIssues;
+    metadataInformationTree = [];
+    relatedIssues = {};
     labels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
@@ -69,7 +87,8 @@ export class ScenariosComponent implements OnInit {
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
-                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe) {
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
+                private filterPipe: FilterPipe) {
     }
 
     ngOnInit(): void {
@@ -106,7 +125,6 @@ export class ScenariosComponent implements OnInit {
 
             this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
             this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
-            console.log('scenarios-overview', this.metadataInformationTree);
 
             this.labels = useCaseScenarios.useCase.labels.labels;
 
@@ -150,10 +168,15 @@ export class ScenariosComponent implements OnInit {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                this.arrowkeyLocation++;
+                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
+                    this.arrowkeyLocation++;
+                }
                 break;
             case 'ArrowUp':
-                this.arrowkeyLocation--;
+                if (this.arrowkeyLocation > 0) {
+                    this.arrowkeyLocation--;
+                }
                 break;
             case 'Enter':
                 this.goToScenario(this.useCaseName, this.scenario[this.arrowkeyLocation].name);
@@ -163,6 +186,25 @@ export class ScenariosComponent implements OnInit {
 
     goToScenario(useCaseName, scenarioName) {
         const params = this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
+    }
+
+    goToStep(useCaseName, scenarioName) {
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
+            // FIXME This could be improved, if the scenario service
+            // for finding all scenarios would also retrieve the name of the first page
+            this.scenarioResource.get(
+                {
+                    branchName: selection.branch,
+                    buildName: selection.build,
+                },
+                useCaseName,
+                scenarioName,
+            ).subscribe(
+                (scenarioResult) => {
+                    const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                },
+            );
+        });
     }
 
     getLabelStyle(labelName) {

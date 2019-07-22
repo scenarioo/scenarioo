@@ -30,6 +30,7 @@ import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-i
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
+import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -73,7 +74,8 @@ export class UseCasesComponent {
                 private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
-                private diffInfoService: DiffInfoService) {
+                private diffInfoService: DiffInfoService,
+                private filterPipe: FilterPipe) {
 
     }
 
@@ -142,10 +144,15 @@ export class UseCasesComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                this.arrowkeyLocation++;
+                const filteredUsecases = this.filterPipe.transform(this.usecases, this.searchTerm);
+                if (this.arrowkeyLocation < (filteredUsecases.length - 1)) {
+                    this.arrowkeyLocation++;
+                }
                 break;
             case 'ArrowUp':
-                this.arrowkeyLocation--;
+                if (this.arrowkeyLocation > 0) {
+                    this.arrowkeyLocation--;
+                }
                 break;
             case 'Enter':
                 this.goToUseCase(this.usecases[this.arrowkeyLocation].name);
