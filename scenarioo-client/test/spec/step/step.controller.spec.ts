@@ -1,6 +1,3 @@
-import {of, ReplaySubject, throwError as observableThrowError} from 'rxjs';
-import {IConfiguration} from '../../../app/generated-types/backend-types';
-
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
  *
@@ -19,6 +16,9 @@ import {IConfiguration} from '../../../app/generated-types/backend-types';
  */
 
 'use strict';
+
+import {of, ReplaySubject, throwError as observableThrowError} from 'rxjs';
+import {IConfiguration} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -44,7 +44,7 @@ describe('StepController', () => {
     };
 
     const RelatedIssueResourceMock = {
-        getForStepsOverview: () => of( {
+        get: () => of( {
             0:
                 {
                     id: '1',
