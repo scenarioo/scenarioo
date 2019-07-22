@@ -157,7 +157,7 @@ export class ScenariosComponent implements OnInit {
                 }
                 break;
             case 'ArrowUp':
-                if (this.arrowkeyLocation > 0){
+                if (this.arrowkeyLocation > 0) {
                     this.arrowkeyLocation--;
                 }
                 break;

@@ -150,7 +150,7 @@ export class UseCasesComponent {
                 }
                 break;
             case 'ArrowUp':
-                if (this.arrowkeyLocation > 0){
+                if (this.arrowkeyLocation > 0) {
                     this.arrowkeyLocation--;
                 }
                 break;
