@@ -48,7 +48,6 @@ import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
 import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
-import {MetaDataTreeDirective} from './shared/metadata/metaDataTree.directive';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-tree.component';
@@ -78,7 +77,6 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         SketchesTabDirective,
         DiffInfoIconDirective,
         TreeDirective,
-        MetaDataTreeDirective,
         ScenariosComponent,
         TitleComponent,
     ],
