@@ -64,6 +64,9 @@ export interface IScenarioDiffInfo extends IStructureDiffInfo<number, IStepInfo>
 }
 
 export interface IStepDiffInfo extends IAbstractDiffInfo {
+    removed: number;
+    added: number;
+    changed: number;
     index: number;
     pageName: string;
     pageOccurrence: number;
@@ -264,11 +267,13 @@ export interface ILabelable {
 }
 
 export interface IPageSummary {
+    diffInfo: { isRemoved: boolean; removed: number; added: number; isAdded: boolean; changeRate: number; changed: number };
     name: string;
     pageOccurrence: number;
 }
 
 export interface IStepDescription extends ISerializable, ILabelable, IDetailable {
+    diffInfo: IStepDiffInfo;
     index: number;
     title: string;
     status: string;

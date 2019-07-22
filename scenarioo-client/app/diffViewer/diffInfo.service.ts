@@ -17,6 +17,7 @@
 
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {IPageWithSteps, IScenarioDiffInfo, IStepInfo} from '../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -39,7 +40,7 @@ export class DiffInfoService {
         return elementsWithDiffInfo;
     }
 
-     enrichPagesAndStepsWithDiffInfos(pagesAndSteps: string, removedSteps: string, diffInfos: string) {
+    enrichPagesAndStepsWithDiffInfos(pagesAndSteps: IPageWithSteps[], removedSteps: IStepInfo[], diffInfos: IScenarioDiffInfo[]) {
         let stepIndex = 0;
         angular.forEach(pagesAndSteps, (pageAndStep) => {
             angular.forEach(pageAndStep.steps, (step) => {
