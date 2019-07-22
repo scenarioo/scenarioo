@@ -46,10 +46,10 @@ export class DetailAccordionComponent {
     detailAccordionName: {};
 
     @Input()
-    informationTree: any;
+    informationTree: {};
 
     @Input()
-    relatedIssues;
+    relatedIssues: {};
 
     @Input()
     labelConfigurations: {};

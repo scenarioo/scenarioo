@@ -69,7 +69,7 @@ export class ScenariosComponent implements OnInit {
 
     usecaseInformationTree = {};
     metadataInformationTree = [];
-    relatedIssues;
+    relatedIssues = {};
     labels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
