@@ -115,10 +115,10 @@
                               class="label label-info sc-label">{{dynamicLabel}}</span>
                     </td>
                     <td>
-                        <a>
+                        <a tooltip="Go to steps overview" (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)">
                             <i class="fas fa-fw fa-list-ul"></i>
                         </a>
-                        <a>
+                        <a tooltip="Go directly to first step" (click)="goToStep(useCaseName, dynamicScenarios.scenario.name)">
                             <i class="fas fa-fw fa-tablet-alt"></i>
                         </a>
                     </td>

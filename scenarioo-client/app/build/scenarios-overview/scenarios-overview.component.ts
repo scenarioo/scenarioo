@@ -165,6 +165,25 @@ export class ScenariosComponent implements OnInit {
         const params = this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
     }
 
+    goToStep(useCaseName, scenarioName) {
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
+            // FIXME This could be improved, if the scenario service
+            // for finding all scenarios would also retrieve the name of the first page
+            this.scenarioResource.get(
+                {
+                    branchName: selection.branch,
+                    buildName: selection.build,
+                },
+                useCaseName,
+                scenarioName,
+            ).subscribe(
+                (scenarioResult) => {
+                    const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                },
+            );
+        });
+    }
+
     getLabelStyle(labelName) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
