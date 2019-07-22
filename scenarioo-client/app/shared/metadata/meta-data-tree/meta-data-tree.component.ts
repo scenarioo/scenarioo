@@ -14,7 +14,7 @@ export class MetaDataTreeComponent {
     isFirstOpen: boolean;
 
     @Input()
-    informationTree;
+    informationTree: [];
 
     ngOnInit(): void {
         if (this.isFirstOpen === false) {

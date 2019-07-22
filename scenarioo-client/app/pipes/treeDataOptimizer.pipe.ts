@@ -22,7 +22,6 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         this.optimizeNodes(rootNode, this.setFallBackLabelIfLabelIsEmpty);
         this.removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode);
 
-        console.log('treeDataOptimizerPipe', rootNode);
         return rootNode;
     }
 
