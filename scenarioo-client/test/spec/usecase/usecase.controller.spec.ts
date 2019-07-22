@@ -88,6 +88,7 @@ describe('UseCaseController', () => {
             getForScenariosOverview() {
             }
         });
+        $provide.value('SketchIdsResource', {});
     }));
 
     beforeEach(inject(($rootScope, $routeParams, $controller, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
