@@ -125,6 +125,7 @@ import {MetaDataTreeComponent} from './shared/metadata/meta-data-tree/meta-data-
         DiffInfoService,
         SharePageURL,
         Location,
+        FilterPipe,
         MetadataTreeCreatorPipe,
         MetadataTreeListCreatorPipe,
         TreeDataCreatorPipe,

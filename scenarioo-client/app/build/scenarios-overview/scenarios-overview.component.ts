@@ -18,6 +18,7 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
+import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -69,7 +70,8 @@ export class ScenariosComponent implements OnInit {
                 private labelConfigurationsResource: LabelConfigurationsResource,
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
-                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe) {
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
+                private filterPipe: FilterPipe) {
     }
 
     ngOnInit(): void {
@@ -149,10 +151,15 @@ export class ScenariosComponent implements OnInit {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                this.arrowkeyLocation++;
+                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
+                    this.arrowkeyLocation++;
+                }
                 break;
             case 'ArrowUp':
-                this.arrowkeyLocation--;
+                if (this.arrowkeyLocation > 0){
+                    this.arrowkeyLocation--;
+                }
                 break;
             case 'Enter':
                 this.goToScenario(this.useCaseName, this.scenario[this.arrowkeyLocation].name);
