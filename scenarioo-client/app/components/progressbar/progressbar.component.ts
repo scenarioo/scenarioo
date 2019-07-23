@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {LocationService} from '../../shared/location.service';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 
@@ -10,58 +11,115 @@ import {RouteParamsService} from '../../shared/route-params.service';
 
 export class ProgressbarComponent {
 
-    max: number = 5;
-    dynamic: number = 2;
+    private _stepNavigation: any;
+    private _stepStatistics: any;
 
-    currentPage: number = 1;
-    totalNumberOfPageInScenario: number = 5;
-
-    currentPageVariant: number = 3;
-    totalNumberOfPageVariant: number = 13;
-
-    // @Input()
-    stepNavigation;
-
-    @Input()
+    useCaseName: string;
     scenarioName: string;
 
-    stepBack() {}
+    stepIndex: number;
+    totalNumberOfSteps: number;
+    pageIndex: number;
+    totalNumberOfPages: number;
+    pageVariantIndex: number;
+    totalNumberOfPageVariants: number;
 
-    stepForward() {}
+    @Input()
+    set stepNavigation(stepNavigation: []) {
+        this._stepNavigation = stepNavigation;
+        if (this._stepNavigation) {
+            console.log('stepNavigation', this._stepNavigation);
+            this.bindStepNavigation();
+            // this.selectedBranchAndBuildService.callOnSelectionChange(this.bindStepNavigation());
+        }
+    }
 
-    page() {}
+    @Input()
+    set stepStatistics(stepStatistics: []) {
+        this._stepStatistics = stepStatistics;
+        if (this._stepStatistics) {
+            console.log('stepStatistics', this._stepStatistics);
+            this.bindStepStatistics();
+        }
+    }
 
-    pageBack() {}
-
-    pageForward() {}
-
-    pageVariant() {}
-
-    pageVariantUp() {}
-
-    pageVariantDown() {}
-
-    constructor(private routeParamsService: RouteParamsService,
+    constructor(private locationService: LocationService,
+                private routeParamsService: RouteParamsService,
                 private selectedBranchAndBuildService: SelectedBranchAndBuildService) {
-
     }
 
     ngOnInit(): void {
-        console.log('progressbar.component, ngOnInit', this.stepNavigation);
-        this.stepNavigation = this.routeParamsService.stepNavigation;
-        console.log('progressbar.component, ngOnInit, RouteParamsService', this.stepNavigation);
-        // this.selectedBranchAndBuildService.callOnSelectionChange(this.bindStepNavigation());
+        this.useCaseName = this.routeParamsService.useCaseName;
+        this.scenarioName = this.routeParamsService.scenarioName;
     }
+
+    go = (data) => {
+        const params = this.locationService.path('/step/' + (this.useCaseName) + '/' + (this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
+    };
 
     bindStepNavigation() {
-        this.getCurrentStepIndexForDisplay();
-    }
-
-    getCurrentStepIndexForDisplay() {
-        if (this.stepNavigation === undefined) {
+        if (this._stepNavigation === undefined) {
             return '?';
+        } else {
+            this.stepIndex = this._stepNavigation.stepIndex + 1;
+            this.pageIndex = this._stepNavigation.pageIndex + 1;
+            this.pageVariantIndex = this._stepNavigation.pageVariantIndex +1;
+            this.totalNumberOfPageVariants = this._stepNavigation.pageVariantsCount;
         }
-        this.dynamic = this.stepNavigation.stepIndex + 1;
     }
 
+    bindStepStatistics() {
+        if(this._stepStatistics === undefined) {
+            return '?';
+        } else {
+            this.totalNumberOfSteps = this._stepStatistics.totalNumberOfStepsInScenario;
+            this.totalNumberOfPages = this._stepStatistics.totalNumberOfPagesInScenario;
+        }
+    }
+
+    goStepBack() {
+        if (!this._stepNavigation || !this._stepNavigation.previousStep) {
+            return;
+        }
+        this.go(this._stepNavigation.previousStep);
+    }
+
+    goStepForward() {
+        if (!this._stepNavigation || !this._stepNavigation.nextStep) {
+            return;
+        }
+        this.go(this._stepNavigation.nextStep);
+    }
+
+    goPageBack() {
+        if (!this._stepNavigation || !this._stepNavigation.previousPage) {
+            return;
+        }
+        this.go(this._stepNavigation.previousPage);
+    }
+
+    goPageForward() {
+        if (!this._stepNavigation || !this._stepNavigation.nextPage) {
+            return;
+        }
+        this.go(this._stepNavigation.nextPage);
+    }
+
+    goPageVariants(pageName) {
+        const params = this.locationService.path('/object/page/' + pageName);
+    }
+
+    goPageVariantBack() {
+        if (!this._stepNavigation || !this._stepNavigation.previousStepVariant) {
+            return;
+        }
+        this.go(this._stepNavigation.previousStepVariant);
+    }
+
+    goPageVariantForward() {
+        if (!this._stepNavigation || !this._stepNavigation.nextStepVariant) {
+            return;
+        }
+        this.go(this._stepNavigation.nextStepVariant);
+    }
 }

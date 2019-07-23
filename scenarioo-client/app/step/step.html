@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div id="right">
         <!-- New Navigation -->
-        <sc-progressbar scenario-name="{{stepIdentifier.scenarioName | scHumanReadable}}" [step-navigation]="stepNavigation"></sc-progressbar>
+        <sc-progressbar *ngIf="!stepNotFound" [step-navigation]="stepNavigation" [step-statistics]="stepStatistics"></sc-progressbar>
 
     </div>
 </div>
