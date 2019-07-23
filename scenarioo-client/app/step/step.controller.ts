@@ -95,7 +95,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         $scope.stepInformationTree = createStepInformationTree(result.step);
         $scope.pageTree = transformMetadataToTree(result.step.page);
         $scope.stepNavigation = result.stepNavigation;
-        console.log($scope.stepNavigation);
         $scope.stepStatistics = result.stepStatistics;
         $scope.stepIndex = result.stepNavigation.stepIndex;
         $scope.useCaseLabels = result.useCaseLabels;
