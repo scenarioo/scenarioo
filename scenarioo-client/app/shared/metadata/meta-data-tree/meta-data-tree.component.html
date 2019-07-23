@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<!-- TODO #943: Don't change value of <isAccordionCollapsed> for all accordions in this dynamicInformationTree -->
 <accordion-group *ngFor="let dynamicInformationTree of informationTree"
                  (click)="isAccordionCollapsed = !isAccordionCollapsed" [attr.aria-expanded]="!isAccordionCollapsed"
                  [isOpen]=isFirstOpen

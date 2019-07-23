@@ -38,21 +38,31 @@ export class DetailareaComponent {
     @Input()
     usecaseInformationTree: {};
 
+    /* Inputs of step-view */
     @Input()
-    metadataInformationTree: [];
+    stepInformationTree: {};
+
+    /* mixed */
+    @Input()
+    metadataInformationTree;
 
     @Input()
     relatedIssues: {};
 
     @Input()
-    labels: {};
+    scenarioLabels: {};
+
+    @Input()
+    useCaseLabels: {};
+
+    @Input()
+    stepLabels: {};
+
+    @Input()
+    pageLabels: {};
 
     @Input()
     labelConfigurations: {};
-
-    /* Inputs of step-view */
-    @Input()
-    stepInformationTree: {};
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();

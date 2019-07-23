@@ -49,6 +49,18 @@ export class DetailAccordionComponent {
     informationTree: {};
 
     @Input()
+    scenarioLabels: {};
+
+    @Input()
+    useCaseLabels: {};
+
+    @Input()
+    stepLabels: {};
+
+    @Input()
+    pageLabels: {};
+
+    @Input()
     relatedIssues: {};
 
     @Input()

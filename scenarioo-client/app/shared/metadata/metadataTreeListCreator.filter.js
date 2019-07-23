@@ -19,11 +19,30 @@ angular.module('scenarioo.filters').filter('scMetadataTreeListCreator', function
 
     var transformToOptimizedTree = $filter('scMetadataTreeCreator');
 
-    function transformMetadataToTreeArray(metadata) {
-        var metadataTrees = {};
+    // function transformMetadataToTreeArray(metadata) {
+    //     var metadataTrees = {};
+    //
+    //     angular.forEach(metadata, function (value, key) {
+    //         metadataTrees[key] = transformToOptimizedTree(value);
+    //     });
+    //
+    //     return metadataTrees;
+    // }
 
-        angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToOptimizedTree(value);
+    function transformMetadataToTreeArray(metadata) {
+        const metadataTrees = [];
+
+        Object.keys(metadata).forEach((key) => {
+
+            const value = metadata[key];
+
+            const transformedValue = transformToOptimizedTree(value);
+
+            const entry = {
+                key,
+                value: transformedValue,
+            };
+            metadataTrees.push(entry);
         });
 
         return metadataTrees;
