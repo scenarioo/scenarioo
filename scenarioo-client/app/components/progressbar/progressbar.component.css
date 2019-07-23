@@ -13,11 +13,11 @@
     height: 30px;
 }
 
-.sc-progressbar-row > div:first-child {
+.sc-first {
     border-radius: 10px 0 0 10px;
 }
 
-.sc-progressbar-row > div:last-child {
+.sc-last {
     border-radius: 0 10px 10px 0;
 }
 
@@ -53,6 +53,7 @@
 .text-nowrap {
     margin-left: 10px;
     margin-right: 10px;
+    cursor: default;
 }
 
 .progress {
@@ -76,7 +77,7 @@ progressbar.sc-progressbar {
 .page {
     color: #337ab7;
     font-size: 12px;
-    cursor: pointer;
+    cursor: default;
 }
 
 .page-arrow {

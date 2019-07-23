@@ -1,12 +1,12 @@
 <div class="sc-progressbar-container">
     <div class="sc-progressbar-row">
-        <div (click)="goStepBack()" class="sc-progressbar-cell" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'" id="prevStepBtn">
+        <div (click)="goStepBack()" class="sc-progressbar-cell sc-first" [tooltip]="stepIndex === 1 ? '':'Previous Step [Left]'" placement="bottom" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'" id="prevStepBtn">
             <i class="fas fa-angle-left"></i>
         </div>
         <progressbar [max]="totalNumberOfSteps" [value]="stepIndex" class="progress-bar-cell sc-progress">
-            <span class="text-nowrap">Step {{stepIndex}} of {{totalNumberOfSteps}} in Scenario "{{scenarioName}}"</span>
+            <span class="text-nowrap" tooltip="of all steps in this scenario" placement="bottom">Step {{stepIndex}} of {{totalNumberOfSteps}} in Scenario "{{scenarioName}}"</span>
         </progressbar>
-        <div (click)="goStepForward()" class="sc-progressbar-cell" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'" id="nextStepBtn">
+        <div (click)="goStepForward()" class="sc-progressbar-cell sc-last" [tooltip]="stepIndex === totalNumberOfSteps ? '':'Next Step [Right]'" placement="bottom" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'" id="nextStepBtn">
             <i class="fas fa-angle-right"></i>
         </div>
     </div>
@@ -14,14 +14,14 @@
 
 <div >
     <div class="sc-page">
-        <span (click)="goPageBack()" [ngClass]="pageIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9204; </span>
-        <span class="page">Page {{pageIndex}} of {{totalNumberOfPages}}</span>
-        <span (click)="goPageForward()" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
+        <span (click)="goPageBack()" [tooltip]="pageIndex === 1 ? '':'Previous Page [Ctrl+Left]'" placement="bottom" [ngClass]="pageIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9204; </span>
+        <span class="page" tooltip="of all pages in this scenario" placement="bottom">Page {{pageIndex}} of {{totalNumberOfPages}}</span>
+        <span (click)="goPageForward()" [tooltip]="pageIndex === totalNumberOfPages ? '':'Next Page [Ctrl+Right]'" placement="bottom" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
     </div>
     <div class="sc-page-variant">
-        <span (click)="goPageVariantBack()" [ngClass]="pageVariantIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9206; </span>
-        <a (click)="goPageVariants(_stepNavigation.pageName)" tooltip="Click here to see all Page-Variants" tooltipPlacement="bottom" id="allPageVariants" class="page">Page-Variant {{pageVariantIndex}} of {{totalNumberOfPageVariants}}</a>
-        <span (click)="goPageVariantForward()" [ngClass]="pageVariantIndex === totalNumberOfPageVariants ? 'page-arrow-grey':'page-arrow'"> &#9207; </span>
+        <span (click)="goPageVariantBack()" [tooltip]="pageVariantIndex === 1 ? '':'Previous variant (potentially in other scenario) [Ctrl+Up]'" placement="bottom" [ngClass]="pageVariantIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9206; </span>
+        <a (click)="goPageVariants(_stepNavigation.pageName)" tooltip="Click here to see all Page-Variants" placement="bottom" id="allPageVariants" class="page">Page-Variant {{pageVariantIndex}} of {{totalNumberOfPageVariants}}</a>
+        <span (click)="goPageVariantForward()" [tooltip]="pageVariantIndex === totalNumberOfPageVariants ? '':'Next variant (potentially in other scenario) [Ctrl+Down]'" placement="bottom" [ngClass]="pageVariantIndex === totalNumberOfPageVariants ? 'page-arrow-grey':'page-arrow'"> &#9207; </span>
     </div>
 </div>
 
