@@ -53,9 +53,9 @@ export class ProgressbarComponent {
         this.scenarioName = this.routeParamsService.scenarioName;
     }
 
-    go = (data) => {
+    go(data) {
         const params = this.locationService.path('/step/' + (this.useCaseName) + '/' + (this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
-    };
+    }
 
     bindStepNavigation() {
         if (this._stepNavigation === undefined) {
@@ -63,13 +63,13 @@ export class ProgressbarComponent {
         } else {
             this.stepIndex = this._stepNavigation.stepIndex + 1;
             this.pageIndex = this._stepNavigation.pageIndex + 1;
-            this.pageVariantIndex = this._stepNavigation.pageVariantIndex +1;
+            this.pageVariantIndex = this._stepNavigation.pageVariantIndex + 1;
             this.totalNumberOfPageVariants = this._stepNavigation.pageVariantsCount;
         }
     }
 
     bindStepStatistics() {
-        if(this._stepStatistics === undefined) {
+        if (this._stepStatistics === undefined) {
             return '?';
         } else {
             this.totalNumberOfSteps = this._stepStatistics.totalNumberOfStepsInScenario;
