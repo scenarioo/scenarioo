@@ -26,18 +26,16 @@ describe('Filter scMetadataTreeListCreator', function () {
         }
     };
     var DATA_TRANSFORMED = {
-        0: {
-            myKey: {
-                key: 'myValue'
-            },
-            keyTwo: {
-                value: [
-                    {
-                        nodeLabel: 'theAnswer',
-                        nodeValue: 42
-                    }
-                ]
-            }
+        myKey: {
+            key: 'myValue'
+        },
+        keyTwo: {
+            value: [
+                {
+                    nodeLabel: 'theAnswer',
+                    nodeValue: 42
+                }
+            ]
         }
     };
 
