@@ -29,10 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div id="right">
         <!-- New Navigation -->
         <sc-progressbar *ngIf="!stepNotFound" [step-navigation]="stepNavigation" [step-statistics]="stepStatistics"></sc-progressbar>
-
     </div>
 </div>
-
 
 <!-- Navigation toolbar
 <sc-step-navigation-toolbar step-navigation="stepNavigation" step-statistics="stepStatistics" step="step" page-name="pageName" linking-variable="stepShowMetadata" show-screen-annotations="showScreenAnnotations" hide-toolbar="stepNotFound"></sc-step-navigation-toolbar>
@@ -46,12 +44,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-detailarea class="panel panel-default" (valueChange)="collapsePanel($event)" [step-information-tree]="stepInformationTree" [related-issues]="relatedIssues" [scenario-labels]="scenarioLabels.labels" [use-case-labels]="useCaseLabels.labels" [step-labels]="step.stepDescription.labels.labels" [page-labels]="step.page.labels.labels" [label-configurations]="labelConfigurations" [metadata-information-tree]="metadataTree"></sc-detailarea>
     </div>
 
-    <div ng-class="isPanelCollapsed ? 'sc-tabs col-sm-12' : 'sc-tabs col-sm-8'">
+    <div ng-class="this.isPanelCollapsed ? 'sc-tabs col-sm-12' : 'sc-tabs col-sm-8'">
         <uib-tabset class="step-panes" active="activeTab">
             <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl"
                                          visibility-toggle="showScreenAnnotations"
-                                         to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
+                                         to-next-step-action="goStepForward()"></sc-annotated-screenshot>
             </uib-tab>
             <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
                 <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
@@ -73,6 +71,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         </uib-tabset>
     </div>
-
 
 </sc-meta-data-panel>

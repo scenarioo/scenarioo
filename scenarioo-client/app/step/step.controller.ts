@@ -46,6 +46,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.activeTab = getActiveTab();
     $scope.refreshIfComparisonActive = refreshIfComparisonActive;
     $scope.goToNextStep = goToNextStep;
+    $scope.collapsePanel = collapsePanel;
 
     activate();
 
@@ -328,7 +329,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     }
 
     function collapsePanel(event) {
-        this.isPanelCollapsed = event;
+        $scope.isPanelCollapsed = event;
     }
 
     function getCurrentStepIndexForDisplay() {
