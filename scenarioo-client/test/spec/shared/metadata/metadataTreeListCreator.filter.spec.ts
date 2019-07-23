@@ -27,10 +27,10 @@ describe('Filter scMetadataTreeListCreator', function () {
     };
     var DATA_TRANSFORMED = {
         myKey: {
-            nodeLabel: 'myValue'
+            key: 'myValue'
         },
         keyTwo: {
-            childNodes: [
+            value: [
                 {
                     nodeLabel: 'theAnswer',
                     nodeValue: 42
