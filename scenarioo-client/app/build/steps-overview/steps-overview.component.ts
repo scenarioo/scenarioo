@@ -270,7 +270,7 @@ export class StepsOverviewComponent {
                     this.arrowkeyLocation++;
                 }
                 */
-                if (this.arrowkeyLocation < this.scenarioStatistics.numberOfSteps - 1){
+                if (this.arrowkeyLocation < this.scenarioStatistics.numberOfSteps - 1) {
                     this.arrowkeyLocation++;
                 }
                 break;
