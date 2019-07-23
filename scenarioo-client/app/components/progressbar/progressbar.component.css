@@ -32,6 +32,7 @@
 
 .step-arrow-grey {
     color: #EEEEEE;
+    cursor: default;
 }
 
 .step-arrow, .step-arrow-grey {
@@ -85,6 +86,7 @@ progressbar.sc-progressbar {
 
 .page-arrow-grey {
     color: #EEEEEE;
+    cursor: default;
 }
 
 .sc-progress.progress {
