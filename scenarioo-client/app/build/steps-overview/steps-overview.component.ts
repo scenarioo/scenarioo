@@ -69,7 +69,7 @@ export class StepsOverviewComponent {
     scenarioStatistics: IScenarioStatistics;
 
     scenarioInformationTree = {};
-    metadataInformationTree = {};
+    metadataInformationTree = [];
     relatedIssues;
     labels = {};
 
@@ -117,7 +117,7 @@ export class StepsOverviewComponent {
                 this.scenarioStatistics = result.scenarioStatistics;
 
                 this.scenarioInformationTree = this.createScenarioInformationTree(this.scenario, result.scenarioStatistics, this.useCase);
-                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(this.useCase.details);
+                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(result.scenario.details);
                 this.labels = this.useCase.labels.labels;
 
                 this.relatedIssueResource.getForScenariosOverview({
@@ -187,7 +187,7 @@ export class StepsOverviewComponent {
             pageAndStep.page.diffInfo = {isAdded: true};
             pageAndStep.steps.forEach((step) => {
                 step.diffInfo = {isAdded: true};
-            })
+            });
         });
     }
 
