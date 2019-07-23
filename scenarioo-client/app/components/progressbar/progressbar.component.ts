@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, HostListener, Input} from '@angular/core';
 import {LocationService} from '../../shared/location.service';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {RouteParamsService} from '../../shared/route-params.service';
@@ -51,6 +51,36 @@ export class ProgressbarComponent {
     ngOnInit(): void {
         this.useCaseName = this.routeParamsService.useCaseName;
         this.scenarioName = this.routeParamsService.scenarioName;
+    }
+
+    @HostListener('window:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        switch(event.code) {
+            case 'ArrowRight':
+                this.goStepForward();
+                break;
+            case 'ArrowLeft':
+                this.goStepBack();
+                break;
+            case 'Control' && 'ArrowRight':
+                this.goPageForward();
+                break;
+            case 'Control' && 'ArrowLeft':
+                this.goPageBack();
+                break;
+            case 'Control' && 'ArrowUp':
+                this.goPageVariantBack();
+                break;
+            case 'Control' && 'ArrowDown':
+                this.goPageVariantForward();
+                break;
+            case 'Control' && 'Home':
+                this.goToFirstStep();
+                break;
+            case 'Control' && 'End':
+                this.goToLastStep();
+                break;
+        }
     }
 
     go(data) {
@@ -122,4 +152,19 @@ export class ProgressbarComponent {
         }
         this.go(this._stepNavigation.nextStepVariant);
     }
+
+    goToFirstStep() {
+        if (!this._stepNavigation || !this._stepNavigation.firstStep) {
+            return;
+        }
+        this.go(this._stepNavigation.firstStep);
+    }
+
+    goToLastStep() {
+        if (!this._stepNavigation || !this._stepNavigation.lastStep) {
+            return;
+        }
+        this.go(this._stepNavigation.lastStep);
+    }
+
 }
