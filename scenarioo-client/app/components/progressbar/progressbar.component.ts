@@ -55,7 +55,7 @@ export class ProgressbarComponent {
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        switch(event.code) {
+        switch (event.code) {
             case 'ArrowRight':
                 this.goStepForward();
                 break;
