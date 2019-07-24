@@ -41,7 +41,7 @@
     background-color: #CCCCCC
 }
 
-.progress-bar {
+sc-progressbar .progress-bar {
     line-height: 32px;
     margin-top: -1px;
     margin-bottom: -1px;
@@ -54,10 +54,6 @@
     margin-left: 10px;
     margin-right: 10px;
     cursor: default;
-}
-
-.progress {
-    all: unset;
 }
 
 progressbar.sc-progressbar {
@@ -94,4 +90,6 @@ progressbar.sc-progressbar {
     background-color: #EEEEEE;
     width: auto;
     border: 1px solid #CCCCCC;
+    height: unset;
+    margin-bottom: unset;
 }
