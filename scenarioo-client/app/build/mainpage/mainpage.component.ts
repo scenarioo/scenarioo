@@ -24,6 +24,7 @@ import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.servi
 import {LocationService} from '../../shared/location.service';
 import {TabDirective, TabsetComponent} from 'ngx-bootstrap';
 import {Location} from '@angular/common';
+import {PlatformLocation} from '@angular/common';
 
 declare var angular: angular.IAngularStatic;
 
@@ -51,13 +52,15 @@ export class MainPageComponent implements OnInit {
                 private modalService: BsModalService,
                 private sharePageURL: SharePageURL,
                 private locationService: LocationService,
-                private location: Location) {
+                private location: Location,
+                private platformLocation: PlatformLocation) {
     }
 
     ngOnInit(): void {
 
         // TODO: Workaround until the full migration, when the Angular router is available
-        this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
+        // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
+        this.currentBrowserLocation = (this.platformLocation as any).location.href;
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.customTabs = configuration.customObjectTabs
