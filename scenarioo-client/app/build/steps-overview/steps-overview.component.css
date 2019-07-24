@@ -11,11 +11,13 @@ sc-steps-overview .screenshot {
     width: auto;
 }
 
-sc-steps-overview h3 {
+sc-steps-overview h2 {
     font-weight: bold;
+    font-size: 16px;
     color: #337ab7;
     margin-top: 0;
     margin-bottom: 10px;
+    border: 0;
 }
 
 sc-steps-overview .page-overview {
