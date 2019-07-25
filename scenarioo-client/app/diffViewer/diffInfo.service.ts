@@ -19,6 +19,7 @@ import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {IScenarioDiffInfo, IStepInfo} from '../generated-types/backend-types';
 import {PageWithSteps} from './types/PageWithSteps';
+import {PageDiffInfo} from './types/PageDiffInfo';
 
 declare var angular: angular.IAngularStatic;
 
@@ -133,15 +134,8 @@ export class DiffInfoService {
         return diffInfo;
     }
 
-     getPageDiffInfo(pageAndStep) {
-        const diffInfo = {
-            changeRate: 0,
-            added: 0,
-            changed: 0,
-            removed: 0,
-            isAdded: false,
-            isRemoved: false,
-        };
+     getPageDiffInfo(pageAndStep): PageDiffInfo {
+        const diffInfo: PageDiffInfo = new PageDiffInfo();
         let stepChangeRateSum = 0;
         angular.forEach(pageAndStep.steps, (step) => {
             stepChangeRateSum += step.diffInfo.changeRate;

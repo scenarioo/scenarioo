@@ -1,6 +1,6 @@
 import {IStepDiffInfo} from '../../generated-types/backend-types';
 
-export class StepDiffInfo implements IStepDiffInfo {
+export class StepDiffInfo {
     added: number;
     changeRate: number;
     changed: number;

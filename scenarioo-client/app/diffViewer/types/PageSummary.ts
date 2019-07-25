@@ -1,7 +1,8 @@
 import {IPageSummary} from '../../generated-types/backend-types';
+import {PageDiffInfo} from './PageDiffInfo';
 
 export class PageSummary {
-    diffInfo: { isRemoved: boolean; removed: number; added: number; isAdded: boolean; changeRate: number; changed: number };
+    diffInfo: PageDiffInfo;
     name: string;
     pageOccurrence: number;
 

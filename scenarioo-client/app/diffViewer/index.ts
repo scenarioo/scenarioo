@@ -8,3 +8,4 @@ import './types/PageWithSteps';
 import './types/ScenarioDetails';
 import './types/StepDescription';
 import './types/PageSummary';
+import './types/PageDiffInfo';

@@ -17,7 +17,7 @@ export class StepDiffInfoService {
     get(baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string, scenarioName: string, stepIndex: string): Observable<StepDiffInfo> {
         return this.http
             .get<IStepDiffInfo>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseName/${useCaseName}/scenarioName/${scenarioName}/stepIndex/${stepIndex}/stepDiffInfo`)
-            .pipe(map((response) => new StepDiffInfo(response)),
+            .pipe(map((response: IStepDiffInfo) => new StepDiffInfo(response)),
                 catchError(handleError));
     }
 }
