@@ -3,3 +3,8 @@ import './diffInfoIcon/diffInfoIcon.component';
 import './screenshotTitle/screenshotTitle.directive';
 import './screenshotUrl.service';
 import './selectedComparison.service';
+import './types/StepDiffInfo'
+import './types/PageWithSteps'
+import './types/ScenarioDetails'
+import './types/StepDescription'
+import './types/PageSummary'
