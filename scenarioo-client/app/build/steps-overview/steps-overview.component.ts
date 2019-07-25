@@ -23,6 +23,7 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
 import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
+import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
     selector: 'sc-steps-overview',
@@ -70,7 +71,7 @@ export class StepsOverviewComponent {
     scenarioStatistics: IScenarioStatistics;
 
     scenarioInformationTree = {};
-    metadataInformationTree = {};
+    metadataInformationTree = [];
     relatedIssues;
     labels = {};
 
@@ -92,7 +93,8 @@ export class StepsOverviewComponent {
                 private diffInfoService: DiffInfoService,
                 private orderPipe: OrderPipe,
                 private scenarioDiffInfoService: ScenarioDiffInfoService,
-                private stepDiffInfosService: StepDiffInfosService) {
+                private stepDiffInfosService: StepDiffInfosService,
+                private filterPipe: FilterPipe) {
     }
 
     ngOnInit(): void {
@@ -118,7 +120,7 @@ export class StepsOverviewComponent {
                 this.scenarioStatistics = result.scenarioStatistics;
 
                 this.scenarioInformationTree = this.createScenarioInformationTree(this.scenario, result.scenarioStatistics, this.useCase);
-                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(this.useCase.details);
+                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(result.scenario.details);
                 this.labels = this.useCase.labels.labels;
 
                 this.relatedIssueResource.getForScenariosOverview({
@@ -261,10 +263,22 @@ export class StepsOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                this.arrowkeyLocation++;
+                /* TODO: set restriction for keyboard navigation (++) on filtered list */
+                /*
+                const filteredPages = this.filterPipe.transform(this.pagesAndSteps, this.searchTerm);
+                const filteredSteps = this.filterPipe.transform(this.pagesAndSteps.steps, this.searchTerm);
+                if (this.arrowkeyLocation < ((filteredPages.length * filteredSteps.length) - 1)) {
+                    this.arrowkeyLocation++;
+                }
+                */
+                if (this.arrowkeyLocation < this.scenarioStatistics.numberOfSteps - 1) {
+                    this.arrowkeyLocation++;
+                }
                 break;
             case 'ArrowUp':
-                this.arrowkeyLocation--;
+                if (this.arrowkeyLocation > 0) {
+                    this.arrowkeyLocation--;
+                }
                 break;
             case 'Enter':
                 this.getLinkToStep(this.pagesAndSteps[this.arrowkeyLocation].page.name, this.pagesAndSteps[this.arrowkeyLocation].page.pageOccurrence, 0);
@@ -273,8 +287,6 @@ export class StepsOverviewComponent {
     }
 
     getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
-
-        console.log('steps', stepInPageOccurrence);
 
         this.locationService.path('/step/'
             + this.useCaseName + '/'
