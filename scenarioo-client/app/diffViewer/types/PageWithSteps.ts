@@ -8,6 +8,6 @@ export class PageWithSteps {
 
     constructor(source: IPageWithSteps) {
         this.page = new PageSummary(source.page);
-        this.steps = source.steps.map(value => new StepDescription(value));
+        this.steps = source.steps.map((value) => new StepDescription(value));
     }
 }

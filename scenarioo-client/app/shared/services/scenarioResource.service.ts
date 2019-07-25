@@ -21,9 +21,7 @@ export class ScenarioResource {
 
     get(build: BuildInfo, usecaseName: string, scenarioName?: string): Observable<ScenarioDetails> {
         return this.httpClient.get<IScenarioDetails>(`rest/branch/${build.branchName}/build/${build.buildName}/usecase/${usecaseName}/scenario/${scenarioName}`)
-            .pipe(map(response => {
-                return new ScenarioDetails(response);
-            }));
+            .pipe(map((response) => new ScenarioDetails(response)));
     }
 }
 

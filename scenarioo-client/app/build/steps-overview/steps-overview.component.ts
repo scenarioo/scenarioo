@@ -188,7 +188,7 @@ export class StepsOverviewComponent {
             pageAndStep.page.diffInfo = {isAdded: true};
             pageAndStep.steps.forEach((step) => {
                 step.diffInfo = {isAdded: true};
-            })
+            });
         });
     }
 

@@ -11,7 +11,7 @@ export class StepDiffInfo implements IStepDiffInfo {
     removed: number;
     stepInPageOccurrence: number;
 
-    constructor(source : IStepDiffInfo) {
+    constructor(source: IStepDiffInfo) {
         this.changeRate = source.changeRate;
         this.comparisonScreenshotName = source.comparisonScreenshotName;
         this.index = source.index;
@@ -21,4 +21,3 @@ export class StepDiffInfo implements IStepDiffInfo {
     }
 
 }
-

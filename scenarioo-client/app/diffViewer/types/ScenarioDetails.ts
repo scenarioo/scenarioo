@@ -2,7 +2,7 @@ import {
     IScenario,
     IScenarioDetails,
     IScenarioStatistics,
-    IUseCase
+    IUseCase,
 } from '../../generated-types/backend-types';
 import {PageWithSteps} from './PageWithSteps';
 
@@ -16,6 +16,6 @@ export class ScenarioDetails {
         this.scenario = source.scenario;
         this.scenarioStatistics = source.scenarioStatistics;
         this.useCase = source.useCase;
-        this.pagesAndSteps = source.pagesAndSteps.map(value => new PageWithSteps(value));
+        this.pagesAndSteps = source.pagesAndSteps.map((value) => new PageWithSteps(value));
     }
 }
