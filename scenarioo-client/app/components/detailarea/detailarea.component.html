@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree" detailAccordionName="Use Case" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
                     <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)" [relatedIssues]="relatedIssues" detailAccordionName="Related Sketches" [isFirstOpen]="false" [sketches]="true"></sc-detail-accordion>
                     <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)" [informationTree]="useCaseLabels" [labelConfigurations]="labelConfigurations" detailAccordionName="Labels" [isFirstOpen]="false" [label]="true"></sc-detail-accordion>
-                    <sc-meta-data-tree *ngIf="metadataInformationTree" [informationTree]="metadataInformationTree" [isFirstOpen]="false"></sc-meta-data-tree>
+                    <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree" [informationTree]="dynamicInformationTree.value" [detailAccordionName]="dynamicInformationTree.key" [isFirstOpen]="false" [tree]="true"></sc-detail-accordion>
 
                 </accordion>
             </div>
