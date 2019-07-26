@@ -22,7 +22,7 @@ export class MetadataTreeListCreatorPipe implements PipeTransform {
             const transformedValue = this.metadataTreeCreatorPipe.transform(value);
 
             const entry = {
-                key: key,
+                key,
                 value: transformedValue,
             };
             metadataTrees.push(entry);
