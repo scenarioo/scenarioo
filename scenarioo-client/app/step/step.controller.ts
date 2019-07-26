@@ -310,7 +310,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             $scope.stepInPageOccurrence,
         ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
             $scope.relatedIssues = relatedIssueSummary;
-            $scope.hasAnyRelatedIssues = () => $scope.relatedIssues.length > 0;
+            $scope.hasAnyRelatedIssues = $scope.relatedIssues != null && $scope.relatedIssues.length > 0;
             $scope.goToIssue = goToIssue;
         }, (error) => {
             throw error;

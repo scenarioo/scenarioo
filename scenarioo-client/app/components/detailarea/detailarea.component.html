@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h3>Details</h3>
                 <accordion [isAnimated]="true">
 
+                    <!-- TODO #946: Remember collapsed /expanded state of detail accordeon -->
+
                     <!-- usecases-overview -->
                     <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true" [tree]="true"></sc-detail-accordion>
                     <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false" [tree]="true"></sc-detail-accordion>

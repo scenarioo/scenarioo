@@ -25,6 +25,9 @@ import {Component, Input} from '@angular/core';
 
 export class MetaDataTreeComponent {
 
+    @Input()
+    index: number;
+
     isAccordionCollapsed: boolean = false;
 
     @Input()
