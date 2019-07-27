@@ -31,4 +31,6 @@ sc-usecases-overview .table tbody>tr:hover {
 sc-usecases-overview p {
     font-size: smaller;
     font-style: italic;
+    margin-left: 3px;
+    margin-bottom: 5px;
 }

@@ -1,3 +1,7 @@
 ul {
     margin-bottom: 0px;
 }
+
+sc-detail-accordion a {
+    cursor: pointer;
+}

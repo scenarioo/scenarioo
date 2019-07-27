@@ -24,6 +24,8 @@
 sc-scenarios-overview p {
     font-size: smaller;
     font-style: italic;
+    margin-left: 3px;
+    margin-bottom: 5px;
 }
 
 sc-scenarios-overview #left {
