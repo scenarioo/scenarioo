@@ -28,7 +28,6 @@ export class ProgressbarComponent {
     set stepNavigation(stepNavigation: []) {
         this._stepNavigation = stepNavigation;
         if (this._stepNavigation) {
-            console.log('stepNavigation', this._stepNavigation);
             this.bindStepNavigation();
             // this.selectedBranchAndBuildService.callOnSelectionChange(this.bindStepNavigation());
         }
@@ -38,7 +37,6 @@ export class ProgressbarComponent {
     set stepStatistics(stepStatistics: []) {
         this._stepStatistics = stepStatistics;
         if (this._stepStatistics) {
-            console.log('stepStatistics', this._stepStatistics);
             this.bindStepStatistics();
         }
     }
@@ -84,7 +82,7 @@ export class ProgressbarComponent {
     }
 
     go(data) {
-        const params = this.locationService.path('/step/' + (this.useCaseName) + '/' + (this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
+        const params = this.locationService.path('/step/' + (data.useCaseName || this.useCaseName) + '/' + (data.scenarioName || this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
     }
 
     bindStepNavigation() {
