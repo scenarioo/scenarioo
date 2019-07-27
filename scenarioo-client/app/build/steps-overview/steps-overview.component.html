@@ -25,9 +25,11 @@
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p class="table-info">
-                Found {{(pagesAndSteps|filter: searchTerm).length}}
+                <span *ngIf="(pagesAndSteps|filter: searchTerm).length === pagesAndSteps.length">
+                    {{pagesAndSteps.length}}
+                </span>
                 <span *ngIf="(pagesAndSteps|filter: searchTerm).length != pagesAndSteps.length">
-                    of {{pagesAndSteps.length}}
+                    Found {{(pagesAndSteps|filter: searchTerm).length}} of {{pagesAndSteps.length}}
                 </span>
                 <span *ngIf="pagesAndSteps.length>1">Pages</span>
                 <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
