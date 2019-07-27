@@ -88,6 +88,7 @@ sc-detailarea div.panel-heading {
 
 sc-detailarea div.panel-body {
     background-color: #eeeeee;
+    word-break: break-word;
 }
 
 sc-detailarea .panel-group .panel+.panel {
