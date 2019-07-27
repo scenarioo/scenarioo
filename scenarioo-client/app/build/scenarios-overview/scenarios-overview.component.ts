@@ -104,8 +104,6 @@ export class ScenariosComponent implements OnInit {
 
         this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
 
-        this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
-
         this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
@@ -137,6 +135,8 @@ export class ScenariosComponent implements OnInit {
                 this.relatedIssues = relatedIssueSummary;
             });
         });
+
+        this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
@@ -160,6 +160,8 @@ export class ScenariosComponent implements OnInit {
     setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
+        } else {
+            this.reverse = false;
         }
         this.order = value;
     }
@@ -185,7 +187,7 @@ export class ScenariosComponent implements OnInit {
     }
 
     goToScenario(useCaseName, scenarioName) {
-        const params = this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
+        this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
     }
 
     goToStep(useCaseName, scenarioName) {

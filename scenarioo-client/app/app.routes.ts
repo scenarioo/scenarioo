@@ -17,8 +17,6 @@ export function addRoutes($routeProvider) {
         })
         .when('/usecase/:useCaseName', {
             template: require('./useCase/usecase.html'),
-            controller: 'UseCaseController',
-            controllerAs: 'useCase',
             useCaseName: '@useCaseName',
             breadcrumbId: 'usecase',
         })

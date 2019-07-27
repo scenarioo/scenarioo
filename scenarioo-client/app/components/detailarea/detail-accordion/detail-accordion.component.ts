@@ -66,28 +66,25 @@ export class DetailAccordionComponent {
     @Input()
     labelConfigurations: {};
 
-    selectedBranch: any;
-
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private locationService: LocationService,
                 private sketchIdsResource: SketchIdsResource) {
     }
 
     ngOnInit(): void {
-        this.selectedBranch = this.selectedBranchAndBuildService.selected();
-
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
         }
     }
 
     goToIssue(issue) {
-        this.selectedBranch = this.selectedBranch.branch;
-        this.sketchIdsResource.get(
-            this.selectedBranch,
-            issue.id,
-        ).subscribe((result) => {
-            const params = this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
+            this.sketchIdsResource.get(
+                selection.branch,
+                issue.id,
+            ).subscribe((result) => {
+                const params = this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
         });
     }
 }

@@ -136,6 +136,8 @@ export class UseCasesComponent {
     setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
+        } else {
+            this.reverse = false;
         }
         this.order = value;
     }
@@ -161,7 +163,7 @@ export class UseCasesComponent {
     }
 
     goToUseCase(useCase: string) {
-        const params = this.locationService.path('/usecase/' + useCase);
+        this.locationService.path('/usecase/' + useCase);
     }
 
     getLabelStyle(labelName: string) {
