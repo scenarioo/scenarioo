@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                    class="table table-curved table-responsive step-table">
                 <thead>
                 <tr>
-                    <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
+                    <th (click)="setOrder('name')" [class.selected]="order === 'name' " *ngIf="pagesAndSteps.indexOf(pagesAndSteps.page) != 0">
                         Page
                         <div *ngIf="order != 'name'" class="arrows">
                             <span class="top"> &#9206; </span>
@@ -96,12 +96,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview">
                         Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}<span
                         *ngIf="dynamicPageAndSteps.page.name">: {{dynamicPageAndSteps.page.name | scHumanReadable}}</span>
-                        <p *ngIf="dynamicPageAndSteps.steps.length>1">
+                        <div *ngIf="dynamicPageAndSteps.steps.length>1">
                             ({{dynamicPageAndSteps.steps.length}} Steps)
-                        </p>
-                        <p *ngIf="dynamicPageAndSteps.steps.length==1">
+                        </div>
+                        <div *ngIf="dynamicPageAndSteps.steps.length==1">
                             ({{dynamicPageAndSteps.steps.length}} Step)
-                        </p>
+                        </div>
                         <br>
                         <p *ngIf="comparisonExisting">
                             <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" childElementType="step"
