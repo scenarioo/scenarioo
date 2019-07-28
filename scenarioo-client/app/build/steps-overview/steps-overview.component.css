@@ -50,3 +50,7 @@ sc-steps-overview #right {
 sc-steps-overview #sc-meta-data-panel {
     margin-top: 45px;
 }
+
+sc-steps-overview .tooltip-inner {
+    white-space: pre-wrap;
+}

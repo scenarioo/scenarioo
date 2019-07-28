@@ -131,7 +131,6 @@ export class StepsOverviewComponent {
             ).subscribe((result) => {
                 this.scenario = result.scenario;
                 this.pagesAndSteps = result.pagesAndSteps;
-                console.log(this.pagesAndSteps);
                 this.useCase = result.useCase;
                 this.scenarioStatistics = result.scenarioStatistics;
 

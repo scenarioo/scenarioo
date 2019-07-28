@@ -126,9 +126,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </p>
                         <br>
                         <p *ngIf="comparisonExisting">
-                            Changes on this page:
-                            <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" child-element-type="step"
-                                               element-type="page"></sc-diff-info-icon>
+                            <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" childElementType="step"
+                                               elementType="page"></sc-diff-info-icon>
                         </p>
                     </td>
                 </tr>
@@ -156,9 +155,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </p>
                     </td>
                     <td *ngIf="comparisonExisting">
-                        Changes on this step:
-                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" child-element-type="screenshot"
-                                           element-type="step"></sc-diff-info-icon>
+                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" childElementType="screenshot"
+                                           elementType="step"></sc-diff-info-icon>
                     </td>
                 </tr>
                 </tbody>
