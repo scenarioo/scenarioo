@@ -35,11 +35,9 @@ sc-scenarios-overview p {
 
 #right {
     min-width: 100px;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 sc-scenarios-overview #sc-meta-data-panel {
-    margin-top: 45px;
+    margin-top: 35px;
 }
-
-
