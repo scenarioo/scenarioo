@@ -44,13 +44,20 @@ sc-steps-overview #left {
 
 sc-steps-overview #right {
     min-width: 100px;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 sc-steps-overview #sc-meta-data-panel {
-    margin-top: 45px;
+    margin-top: 35px;
 }
 
 sc-steps-overview .tooltip-inner {
     white-space: pre-wrap;
+}
+
+sc-steps-overview p {
+    font-size: smaller;
+    font-style: italic;
+    margin-left: 3px;
+    margin-bottom: 5px;
 }
