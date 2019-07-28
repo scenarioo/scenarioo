@@ -1,3 +1,21 @@
+import {ScenariosComponent} from '../../../../app/build/scenarios-overview/scenarios-overview.component';
+
+describe('ScenariosComponent', () => {
+    let component: ScenariosComponent;
+
+    const BRANCH = 'branch_123',
+         BUILD = 'build_123',
+         USE_CASE = 'LogIn';
+
+    beforeEach(() => {
+        // component = new ScenariosComponent(BRANCH, BUILD, USE_CASE);
+    });
+
+    it('should load all scenarios and and the selected use case', () => {
+
+    });
+});
+
 // import {Observable, of} from 'rxjs';
 //
 // describe('ScenariosComponent', () => {
