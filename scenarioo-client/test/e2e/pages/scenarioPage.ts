@@ -27,27 +27,27 @@ class ScenarioPage {
     */
 
     async assertFirstChangedPageDiffIconHasValue() {
-        return expect($('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
+        return expect($('.step-view tr:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper td').getText()).toContain('%');
     }
 
     async assertFirstChangedStepDiffIconHasValue() {
-        return expect($('.step-view div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
+        return expect($('.step-view tr:first-child .sc-step-in-overview:first-child .step-title td').getText()).toContain('%');
     }
 
     async assertAddedPageDiffIconTextEqualsAdded() {
-        return expect($('div.sc-step-in-overview.added:first-of-type .sc-scenario-page-title span.added').getText()).toContain('added');
+        return expect($('tr.sc-step-in-overview.added:first-of-type .sc-scenario-page-title td.added').getText()).toContain('added');
     }
 
     async assertAddedStepDiffIconTextEqualsAdded() {
-        return expect($('div.sc-step-in-overview.added:first-of-type .step-title:first-of-type span.added').getText()).toContain('added');
+        return expect($('tr.sc-step-in-overview.added:first-of-type .step-title:first-of-type td.added').getText()).toContain('added');
     }
 
     async assertRemovedPageDiffIconTextEqualsRemoved() {
-        return expect($('div.sc-step-in-overview.removed:first-of-type .sc-scenario-page-title span.removed').getText()).toContain('removed');
+        return expect($('tr.sc-step-in-overview.removed:first-of-type .sc-scenario-page-title td.removed').getText()).toContain('removed');
     }
 
     async assertRemovedStepDiffIconTextEqualsRemoved() {
-        return expect($('div.sc-step-in-overview.removed:first-of-type .step-title:first-of-type span.removed').getText()).toContain('removed');
+        return expect($('tr.sc-step-in-overview.removed:first-of-type .step-title:first-of-type td.removed').getText()).toContain('removed');
     }
 
     async expectOnlyExpandAllButtonIsDisplayed() {
