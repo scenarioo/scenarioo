@@ -141,6 +141,8 @@ describe('ScenarioController', () => {
         expect(imageLink).toBe('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
+    /* TODO #860: Show/Hide Steps of a Page */
+    /*
     it('does not show all steps of a page by default', () => {
         expect(ScenarioController.showAllStepsForPage(0)).toBeFalsy();
         expect(ScenarioController.showAllStepsForPage(1)).toBeFalsy();
@@ -209,6 +211,7 @@ describe('ScenarioController', () => {
 
         expectAllPagesAreExpanded();
     });
+    */
 
     function givenScenarioIsLoaded(config?: IConfiguration) {
         if (angular.isUndefined(config)) {

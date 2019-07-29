@@ -4,12 +4,15 @@ import { by, element, ElementFinder, $ } from 'protractor';
 
 class ScenarioPage {
 
+    private stepTable = $('table.step-table');
+
     private stepView = $('div.steps-view');
     private expandAllButton = element(by.id('expandAllPages'));
     private collapseAllButton =  element(by.id('collapseAllPages'));
 
     async openStepByName(stepName) {
-        return this.stepView.element(by.linkText(stepName)).click();
+        const elements = this.stepTable.all(by.css('tbody tr[1]'));
+        return elements.get(stepName).click();
     }
 
     async expandAllPages() {

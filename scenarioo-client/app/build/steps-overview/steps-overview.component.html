@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                        [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues"
                        [scenarioInformationTree]="scenarioInformationTree" [useCaseLabels]="labels"></sc-detailarea>
 
-        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
+        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'" class="step-view">
             <p class="table-info">
                 <span *ngIf="(pagesAndSteps|filter: searchTerm)?.length === pagesAndSteps?.length">
                     {{pagesAndSteps.length}}

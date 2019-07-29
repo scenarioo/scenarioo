@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div id="sc-meta-data-panel">
         <sc-detailarea (valueChange)="collapsePanel($event)" [usecaseInformationTree]="usecaseInformationTree" [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues" [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations"></sc-detailarea>
 
-        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'" class="step-view">
+        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
                 <span *ngIf="(scenarios|filter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
                 <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length">Found {{(scenarios|filter: searchTerm).length}} of {{scenarios.length}}</span>
