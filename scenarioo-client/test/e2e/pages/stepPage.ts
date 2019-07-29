@@ -62,7 +62,7 @@ class StepPage {
     }
 
     async clickAllPageVariantsLink() {
-        return Utils.clickElementById('allPageVariants');
+        return Utils.clickElementById('pageVariantIndicator');
     }
 
     async assertErrorMessageIsShown() {
