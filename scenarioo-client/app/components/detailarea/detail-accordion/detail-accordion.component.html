@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <accordion-group [attr.aria-expanded]="!isAccordionCollapsed"
                  [isOpen]=isFirstOpen
                  panelClass="customClass"
-                 id="metadata_panel_{{panelIndex}}">
+                 id="metadata_panel_{{panelIndex}}"
+                 class="metadata">
     <div accordion-heading (click)="isAccordionCollapsed = !isAccordionCollapsed">
                         <span *ngIf="isAccordionCollapsed">
                             <i class="fas fa-angle-down"></i>
