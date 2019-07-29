@@ -32,7 +32,7 @@ useCase('Step - View')
                 await UsecasePage.selectScenario(1);
                 await step('Display one scenario');
 
-                await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
+                await ScenarioPage.openStepByName(1);
                 await Utils.assertRoute(ROUTE_OF_FIRST_STEP);
                 await StepPage.assertPreviousStepIsDisabled();
                 await StepPage.assertPreviousPageIsDisabled();
