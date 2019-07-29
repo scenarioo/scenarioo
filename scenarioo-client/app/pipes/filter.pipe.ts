@@ -50,7 +50,7 @@ export class FilterPipe implements PipeTransform {
                 const value = object[key];
                 if (value === null) {
                     returnTrue = false;
-                } else if(typeof value === 'string') {
+                } else if (typeof value === 'string') {
                     if (this.contains(value, string)) {
                         returnTrue = true;
                     }
