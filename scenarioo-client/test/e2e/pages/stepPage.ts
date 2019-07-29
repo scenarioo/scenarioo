@@ -6,23 +6,23 @@ import * as Utils from '../util';
 class StepPage {
 
     async assertPreviousStepIsDisabled() {
-        return expect(element(by.id("prevStepBtn")).getAttribute('class')).toContain("step-arrow-grey");
+        return expect(element(by.id('prevStepBtn')).getAttribute('class')).toContain('step-arrow-grey');
     }
 
     async assertPreviousPageIsDisabled() {
-        return expect(element(by.id("prevPageBtn")).getAttribute('class')).toContain("page-arrow-grey");
+        return expect(element(by.id('prevPageBtn')).getAttribute('class')).toContain('page-arrow-grey');
     }
 
     async assertNextStepIsDisabled() {
-        return expect(element(by.id("nextStepBtn")).getAttribute('class')).toContain("step-arrow-grey");
+        return expect(element(by.id('nextStepBtn')).getAttribute('class')).toContain('step-arrow-grey');
     }
 
     async assertNextPageIsDisabled() {
-        return expect(element(by.id("nextPageBtn")).getAttribute('class')).toContain("page-arrow-grey");
+        return expect(element(by.id('nextPageBtn')).getAttribute('class')).toContain('page-arrow-grey');
     }
 
     async assertNextPageVariantButtonIsDisabled() {
-        return expect(element(by.id("nextPageVariantBtn")).getAttribute('class')).toContain("page-arrow-grey");
+        return expect(element(by.id('nextPageVariantBtn')).getAttribute('class')).toContain('page-arrow-grey');
     }
 
     async assertPreviousStepIsEnabled() {
