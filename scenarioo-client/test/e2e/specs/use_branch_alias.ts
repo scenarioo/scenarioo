@@ -35,7 +35,7 @@ useCase('Use branch aliases')
                 await HomePage.goToPage();
                 await HomePage.selectUseCase(1);
                 await UsecasePage.selectScenario(0);
-                await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
+                await ScenarioPage.openStepByName(0);
                 await StepPage.assertPreviousStepIsDisabled();
                 await step('browse step using branch alias');
 
