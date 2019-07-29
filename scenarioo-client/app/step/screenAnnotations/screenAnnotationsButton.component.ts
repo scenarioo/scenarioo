@@ -20,7 +20,7 @@ angular
     .component('scScreenAnnotationsButton', {
         bindings: {
             screenAnnotations: '<',
-            visibilityToggle: '<'
+            visibilityToggle: '<',
         },
         template: require('./screenAnnotationsButton.html'),
         controller: screenAnnotationsButton,
@@ -28,13 +28,13 @@ angular
 
 function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
 
-    var SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
+    const SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
 
     function ScreenAnnotationsButtonController($scope) {
 
         // we should use 'bindToController' here, as soon we upgrade to angular 1.3 or upwards (instead of $scope)
 
-        var vm = this;
+        const vm = this;
         vm.toggleAnnotationsVisible = toggleAnnotationsVisible;
         vm.isAnnotationsButtonVisible = isAnnotationsButtonVisible;
 
@@ -50,11 +50,10 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
         }
 
         function initAnnotationsVisibleFromLocalStorage() {
-            var annotationsVisible = LocalStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
+            const annotationsVisible = LocalStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
             if (annotationsVisible === 'true') {
                 $scope.visibilityToggle = true;
-            }
-            else if (annotationsVisible === 'false') {
+            } else if (annotationsVisible === 'false') {
                 $scope.visibilityToggle = false;
             } else {
                 // default
