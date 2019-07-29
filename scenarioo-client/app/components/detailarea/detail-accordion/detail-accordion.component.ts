@@ -43,6 +43,9 @@ export class DetailAccordionComponent {
     label: boolean;
 
     @Input()
+    panelIndex: string;
+
+    @Input()
     detailAccordionName: {};
 
     @Input()
