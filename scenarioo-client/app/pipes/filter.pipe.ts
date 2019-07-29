@@ -20,6 +20,7 @@ export class FilterPipe implements PipeTransform {
             if (typeof singleItem === 'object') {
                 if (this.objectContainsAllSearchElements(singleItem, value)) {
                     filteredModel.push(singleItem);
+
                 }
             }
         });
@@ -47,7 +48,9 @@ export class FilterPipe implements PipeTransform {
         Object.keys(object).forEach((key) => {
             if (!returnTrue) {
                 const value = object[key];
-                if (typeof value === 'string') {
+                if (value === null) {
+                    returnTrue = false;
+                } else if(typeof value === 'string') {
                     if (this.contains(value, string)) {
                         returnTrue = true;
                     }
