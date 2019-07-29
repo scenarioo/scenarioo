@@ -74,7 +74,6 @@ import './shared';
 import './sketcher';
 import './step';
 import './components';
-import './useCase/usecase.controller';
 import './diffViewer';
 
 import {AppModule} from './app.module';

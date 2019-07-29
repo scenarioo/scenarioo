@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="row sc-space-top sc-space-bottom">
+<div class="row sc-space-bottom">
     <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-11' : 'sc-space-top col-sm-8'">
         <div id="left">
             <!-- Title component -->
@@ -38,15 +38,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-detailarea (valueChange)="collapsePanel($event)" [usecaseInformationTree]="usecaseInformationTree" [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues" [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations"></sc-detailarea>
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
-            <p *ngIf="scenarios.length>1">
-                Found {{(scenarios|filter: searchTerm).length}}
-                <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length"> of {{scenarios.length}}</span>
-                Scenarios in this Use Case
-            </p>
-            <p *ngIf="scenarios.length<=1">
-                Found {{(scenarios|filter: searchTerm).length}}
-                <span *ngIf="(scenarios|filter: searchTerm)?.length != scenarios.length"> of {{scenarios.length}}</span>
-                Scenario in this Use Case
+            <p>
+                <span *ngIf="(scenarios|filter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
+                <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length">Found {{(scenarios|filter: searchTerm).length}} of {{scenarios.length}}</span>
+                <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
+                <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
             </p>
             <table *ngIf="(scenarios|filter: searchTerm).length!=0"
                    class="table table-curved table-responsive scenario-table">
@@ -142,7 +138,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <td>{{dynamicScenarios.scenario.description}}</td>
                     <td>{{dynamicScenarios.numberOfSteps}}</td>
                     <td *ngIf="comparisonExisting">
-                        <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" child-element-type="step" element-type="scenario"></sc-diff-info-icon>
+                        <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" childElementType="step" elementType="scenario"></sc-diff-info-icon>
                     </td>
                 </tr>
                 </tbody>

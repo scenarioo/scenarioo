@@ -16,3 +16,8 @@
     padding: unset;
     color: #337ab7;
 }
+
+.nav-tabs {
+    border: 0;
+    margin-bottom: 20px;
+}

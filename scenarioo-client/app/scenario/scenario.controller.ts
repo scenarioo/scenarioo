@@ -284,8 +284,8 @@ function ScenarioController($filter, $routeParams,
             $routeParams.useCaseName,
             $routeParams.scenarioName,
         ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                vm.relatedIssues = relatedIssueSummary;
-                vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
+            vm.relatedIssues = relatedIssueSummary;
+            vm.hasAnyRelatedIssues = relatedIssueSummary != null && relatedIssueSummary.length > 0;
         }, (error) => {
             throw error;
         });
