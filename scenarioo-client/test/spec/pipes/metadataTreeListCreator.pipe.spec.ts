@@ -16,6 +16,9 @@
  */
 
 import {MetadataTreeListCreatorPipe} from '../../../app/pipes/metadataTreeListCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../../app/pipes/metadataTreeCreator.pipe';
+import {TreeDataOptimizerPipe} from '../../../app/pipes/treeDataOptimizer.pipe';
+import {TreeDataCreatorPipe} from '../../../app/pipes/treeDataCreator.pipe';
 
 describe('MetadataTreeListCreatorPipe', () => {
 
@@ -30,10 +33,10 @@ describe('MetadataTreeListCreatorPipe', () => {
 
     const dataTransformed = {
         myKey: {
-            key: 'myValue'
+            nodeLabel: 'myValue'
         },
         keyTwo: {
-            value: [
+            childNodes: [
                 {
                     nodeLabel: 'theAnswer',
                     nodeValue: 42
@@ -43,50 +46,10 @@ describe('MetadataTreeListCreatorPipe', () => {
     };
 
     beforeEach(() => {
-        pipe = new MetadataTreeListCreatorPipe(this.data);
+        pipe = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
     });
 
     it('transforms javascript object into a list of optimized trees', () => {
-        expect(pipe).toEqual(this.dataTransformed);
+        expect(pipe.transform(data)).toEqual(dataTransformed);
     });
-
-    /*
-    'use strict';
-
-    describe('Filter scMetadataTreeListCreator', function () {
-
-        var DATA = {
-            myKey: 'myValue',
-            keyTwo: {
-                theAnswer: 42
-            }
-        };
-        var DATA_TRANSFORMED = {
-            myKey: {
-                key: 'myValue'
-            },
-            keyTwo: {
-                value: [
-                    {
-                        nodeLabel: 'theAnswer',
-                        nodeValue: 42
-                    }
-                ]
-            }
-        };
-
-        beforeEach(angular.mock.module('scenarioo.filters'));
-
-        var scMetadataTreeCreator;
-        beforeEach(inject(function (_$filter_) {
-            scMetadataTreeCreator = _$filter_('scMetadataTreeListCreator', {$filter: _$filter_});
-        }));
-
-        it('transforms javascript object into a list of optimized trees', function () {
-            expect(scMetadataTreeCreator(DATA)).toEqual(DATA_TRANSFORMED);
-        });
-
-    });
-    */
-
 });
