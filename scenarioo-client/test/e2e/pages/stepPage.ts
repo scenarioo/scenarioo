@@ -61,10 +61,6 @@ class StepPage {
         return Utils.clickElementById('nextPageVariantBtn');
     }
 
-    async assertNextPageVariantButtonIsDisabled() {
-        return Utils.assertElementIsDisabled('nextPageVariantBtn');
-    }
-
     async clickAllPageVariantsLink() {
         return Utils.clickElementById('allPageVariants');
     }

@@ -17,18 +17,19 @@ useCase('Browse page variants')
             .description('Navigate to previous / next page variants.')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
-                await StepPage.assertPageVariantIndicatorValue('⏶ Page-Variant 8 of 10 ⏷');
+                await StepPage.assertPageVariantIndicatorValue('Page-Variant 8 of 10');
                 await step('A step of the contentPage.jsp page.');
 
                 await StepPage.goToPreviousPageVariant();
-                await StepPage.assertPageVariantIndicatorValue('⏶ Page-Variant 7 of 10 ⏷');
+                await StepPage.assertPageVariantIndicatorValue('Page-Variant 7 of 10');
                 await step('A different page variant.');
 
                 await StepPage.goToNextPageVariant();
                 await StepPage.goToNextPageVariant();
                 await StepPage.goToNextPageVariant();
-                await StepPage.assertPageVariantIndicatorValue('⏶ Page-Variant 10 of 10 ⏷');
-                await StepPage.assertNextPageVariantButtonIsDisabled();
+                await StepPage.assertPageVariantIndicatorValue('Page-Variant 10 of 10');
+                await StepPage.goToNextPageVariant();
+                await StepPage.assertPageVariantIndicatorValue('Page-Variant 10 of 10');
                 await step('The last page variant. Button for next page variant is disabled.');
             });
 
