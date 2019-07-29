@@ -21,6 +21,8 @@ useCase('List scenarios')
             await Utils.startScenariooRevisited();
         });
 
+        /* TODO #860: Show/Hide Steps of a Page */
+        /*
         scenario('Expand all, collapse all on scenario page')
             .it(async () => {
                 await HomePage.goToPage();
@@ -39,6 +41,7 @@ useCase('List scenarios')
                 await step('Only "collapse all" visible');
                 await ScenarioPage.expectOnlyCollapseAllButtonIsDisplayed();
             });
+        */
 
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
