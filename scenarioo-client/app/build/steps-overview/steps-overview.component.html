@@ -93,7 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </thead>
                 <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm">
                 <tr>
-                    <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview">
+                    <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
                         Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}<span
                         *ngIf="dynamicPageAndSteps.page.name">: {{dynamicPageAndSteps.page.name | scHumanReadable}}</span>
                         <div *ngIf="dynamicPageAndSteps.steps.length>1">
@@ -112,7 +112,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <tr (click)="getLinkToStep(dynamicPageAndSteps.page.name, dynamicPageAndSteps.page.pageOccurrence, dynamicPageAndSteps.steps.indexOf(dynamicSteps))"
                     *ngFor="let dynamicSteps of dynamicPageAndSteps.steps"
                     [class.active]="dynamicSteps.index == arrowkeyLocation"
-                    [ngClass]="comparisonExisting ? {'added': dynamicSteps.diffInfo.isAdded, 'removed': dynamicSteps.diffInfo.isRemoved} : {}">
+                    [ngClass]="comparisonExisting ? {'added': dynamicSteps.diffInfo.isAdded, 'removed': dynamicSteps.diffInfo.isRemoved} : {}"
+                    class="sc-step-in-overview">
                     <td>
                         <div *ngIf="!(comparisonExisting && dynamicSteps.diffInfo.isRemoved)">
                             <h2 placement="left"
