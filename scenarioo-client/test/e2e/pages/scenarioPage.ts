@@ -10,16 +10,16 @@ class ScenarioPage {
     private collapseAllButton =  element(by.id('collapseAllPages'));
 
     async openStepByName(stepName) {
-        const elements = this.stepTable.all(by.css('tbody tr'));
+        const elements = this.stepTable.all(by.css('tbody tr:nth-of-type(2)'));
         return elements.get(stepName).click();
-    }
-
-    async expandAllPages() {
-        return this.expandAllButton.click();
     }
 
     /* TODO #860: Show/Hide Steps of a Page */
     /*
+    async expandAllPages() {
+        return this.expandAllButton.click();
+    }
+
     async toggleShowAllStepsOfPage(pageIndex) {
         const elements = this.stepView.all(by.css('.toggle-show-all-steps-of-page'));
         return elements.get(pageIndex).click();
