@@ -29,7 +29,7 @@ useCase('Step - View')
                 await HomePage.selectUseCase(1);
                 await step('Display list of scenarios');
 
-                await UsecasePage.selectScenario(1);
+                await UsecasePage.selectScenario(0);
                 await step('Display one scenario');
 
                 await ScenarioPage.openStepByName(1);
