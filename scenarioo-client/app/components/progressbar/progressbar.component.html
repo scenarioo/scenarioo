@@ -18,9 +18,9 @@
         <span class="page" tooltip="of all pages in this scenario" placement="bottom">Page {{pageIndex}} of {{totalNumberOfPages}}</span>
         <span (click)="goPageForward()" [tooltip]="pageIndex === totalNumberOfPages ? '':'Next Page [Ctrl+Right]'" placement="bottom" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
     </div>
-    <div class="sc-page-variant">
+    <div id="pageVariantIndicator" class="sc-page-variant">
         <span (click)="goPageVariantBack()" [tooltip]="pageVariantIndex === 1 ? '':'Previous variant (potentially in other scenario) [Ctrl+Up]'" placement="bottom" [ngClass]="pageVariantIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9206; </span>
-        <a (click)="goPageVariants(_stepNavigation.pageName)" tooltip="Click here to see all Page-Variants" placement="bottom" id="allPageVariants pageVariantIndicator" class="page">Page-Variant {{pageVariantIndex}} of {{totalNumberOfPageVariants}}</a>
+        <a (click)="goPageVariants(_stepNavigation.pageName)" tooltip="Click here to see all Page-Variants" placement="bottom" id="allPageVariants" class="page">Page-Variant {{pageVariantIndex}} of {{totalNumberOfPageVariants}}</a>
         <span (click)="goPageVariantForward()" [tooltip]="pageVariantIndex === totalNumberOfPageVariants ? '':'Next variant (potentially in other scenario) [Ctrl+Down]'" placement="bottom" [ngClass]="pageVariantIndex === totalNumberOfPageVariants ? 'page-arrow-grey':'page-arrow'"> &#9207; </span>
     </div>
 </div>
