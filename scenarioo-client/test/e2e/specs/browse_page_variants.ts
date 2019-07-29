@@ -28,8 +28,7 @@ useCase('Browse page variants')
                 await StepPage.goToNextPageVariant();
                 await StepPage.goToNextPageVariant();
                 await StepPage.assertPageVariantIndicatorValue('Page-Variant 10 of 10');
-                await StepPage.goToNextPageVariant();
-                await StepPage.assertPageVariantIndicatorValue('Page-Variant 10 of 10');
+                await StepPage.assertNextPageVariantButtonIsDisabled();
                 await step('The last page variant. Button for next page variant is disabled.');
             });
 

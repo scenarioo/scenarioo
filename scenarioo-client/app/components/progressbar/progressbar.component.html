@@ -14,9 +14,9 @@
 
 <div >
     <div class="sc-page">
-        <span (click)="goPageBack()" [tooltip]="pageIndex === 1 ? '':'Previous Page [Ctrl+Left]'" placement="bottom" [ngClass]="pageIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9204; </span>
+        <span id="prevPageBtn" (click)="goPageBack()" [tooltip]="pageIndex === 1 ? '':'Previous Page [Ctrl+Left]'" placement="bottom" [ngClass]="pageIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9204; </span>
         <span class="page" tooltip="of all pages in this scenario" placement="bottom">Page {{pageIndex}} of {{totalNumberOfPages}}</span>
-        <span (click)="goPageForward()" [tooltip]="pageIndex === totalNumberOfPages ? '':'Next Page [Ctrl+Right]'" placement="bottom" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
+        <span id="nextPageBtn" (click)="goPageForward()" [tooltip]="pageIndex === totalNumberOfPages ? '':'Next Page [Ctrl+Right]'" placement="bottom" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"> &#9205; </span>
     </div>
     <div class="sc-page-variant">
         <span id="prevPageVariantBtn" (click)="goPageVariantBack()" [tooltip]="pageVariantIndex === 1 ? '':'Previous variant (potentially in other scenario) [Ctrl+Up]'" placement="bottom" [ngClass]="pageVariantIndex === 1 ? 'page-arrow-grey':'page-arrow'"> &#9206; </span>
