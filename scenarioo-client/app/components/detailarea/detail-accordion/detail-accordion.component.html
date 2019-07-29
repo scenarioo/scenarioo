@@ -17,7 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <accordion-group [attr.aria-expanded]="!isAccordionCollapsed"
                  [isOpen]=isFirstOpen
-                 panelClass="customClass">
+                 panelClass="customClass"
+                 id="metadata_panel_{{panelIndex}}"
+                 class="metadata">
     <div accordion-heading (click)="isAccordionCollapsed = !isAccordionCollapsed">
                         <span *ngIf="isAccordionCollapsed">
                             <i class="fas fa-angle-down"></i>
@@ -28,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span>{{detailAccordionName}}</span>
     </div>
     <sc-tree *ngIf="tree" [informationTree]="informationTree"></sc-tree>
-    <sc-label-metadata *ngIf="label" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
+    <sc-label-metadata *ngIf="label" [scenarioLabels]="scenarioLabels" [useCaseLabels]="useCaseLabels" [stepLabels]="stepLabels" [pageLabels]="pageLabels" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
     <div *ngIf="sketches">
         <ul id="relatedSketches">
             <li *ngFor="let issue of relatedIssues">

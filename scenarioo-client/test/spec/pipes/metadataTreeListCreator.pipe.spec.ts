@@ -15,17 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
+import {MetadataTreeListCreatorPipe} from '../../../app/pipes/metadataTreeListCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../../app/pipes/metadataTreeCreator.pipe';
+import {TreeDataOptimizerPipe} from '../../../app/pipes/treeDataOptimizer.pipe';
+import {TreeDataCreatorPipe} from '../../../app/pipes/treeDataCreator.pipe';
 
-describe('Filter scMetadataTreeListCreator', function () {
+describe('MetadataTreeListCreatorPipe', () => {
 
-    var DATA = {
+    let pipe: MetadataTreeListCreatorPipe;
+
+    const data = {
         myKey: 'myValue',
         keyTwo: {
             theAnswer: 42
         }
     };
-    var DATA_TRANSFORMED = {
+
+    const dataTransformed = {
         myKey: {
             nodeLabel: 'myValue'
         },
@@ -39,15 +45,11 @@ describe('Filter scMetadataTreeListCreator', function () {
         }
     };
 
-    beforeEach(angular.mock.module('scenarioo.filters'));
-
-    var scMetadataTreeCreator;
-    beforeEach(inject(function (_$filter_) {
-        scMetadataTreeCreator = _$filter_('scMetadataTreeListCreator', {$filter: _$filter_});
-    }));
-
-    it('transforms javascript object into a list of optimized trees', function () {
-        expect(scMetadataTreeCreator(DATA)).toEqual(DATA_TRANSFORMED);
+    beforeEach(() => {
+        pipe = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
     });
 
+    it('transforms javascript object into a list of optimized trees', () => {
+        expect(pipe.transform(data)).toEqual(dataTransformed);
+    });
 });

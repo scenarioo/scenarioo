@@ -70,7 +70,7 @@ export class ScenariosComponent implements OnInit {
     usecaseInformationTree = {};
     metadataInformationTree = [];
     relatedIssues = {};
-    labels = {};
+    useCaseLabels = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -124,7 +124,7 @@ export class ScenariosComponent implements OnInit {
             this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
             this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
 
-            this.labels = useCaseScenarios.useCase.labels.labels;
+            this.useCaseLabels = useCaseScenarios.useCase.labels.labels;
 
             this.relatedIssueResource.getForScenariosOverview({
                 branchName: selection.branch,

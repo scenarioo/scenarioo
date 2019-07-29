@@ -43,10 +43,25 @@ export class DetailAccordionComponent {
     label: boolean;
 
     @Input()
+    panelIndex: {};
+
+    @Input()
     detailAccordionName: {};
 
     @Input()
     informationTree: {};
+
+    @Input()
+    scenarioLabels: {};
+
+    @Input()
+    useCaseLabels: {};
+
+    @Input()
+    stepLabels: {};
+
+    @Input()
+    pageLabels: {};
 
     @Input()
     relatedIssues: {};

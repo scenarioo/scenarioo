@@ -34,15 +34,19 @@ export class DetailareaComponent {
     @Input()
     buildInformationTree: {};
 
-    /*Input of scenarios-overview*/
+    /* Inputs of scenarios-overview */
     @Input()
     usecaseInformationTree: {};
 
-    /*Inputs of steps-overview*/
+    /* Inputs of steps-overview */
     @Input()
     scenarioInformationTree: {};
 
-    /*General Inputs*/
+    /* Inputs of step-view */
+    @Input()
+    stepInformationTree: {};
+
+    /* mixed */
     @Input()
     metadataInformationTree: [];
 
@@ -50,7 +54,16 @@ export class DetailareaComponent {
     relatedIssues: {};
 
     @Input()
+    scenarioLabels: {};
+
+    @Input()
     useCaseLabels: {};
+
+    @Input()
+    stepLabels: {};
+
+    @Input()
+    pageLabels: {};
 
     @Input()
     labelConfigurations: {};

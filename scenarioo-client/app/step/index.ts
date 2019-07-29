@@ -1,7 +1,7 @@
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './label-metadata/label-metadata.component';
 import './screenAnnotations/annotatedScreenshot.component';
-import './screenAnnotations/screenAnnotationsButton.directive';
+import './screenAnnotations/screenAnnotationsButton.component';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
 import './stepNotFound/stepNotFound.component';
