@@ -39,6 +39,7 @@ import {OrderPipe} from 'ngx-order-pipe';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
+import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
 import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
@@ -82,7 +83,7 @@ export class StepsOverviewComponent {
 
     scenario: IScenario;
     useCase: IUseCase;
-    pagesAndSteps;
+    pagesAndSteps: PageWithSteps[];
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
 
