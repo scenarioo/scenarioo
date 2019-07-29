@@ -38,6 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- screenshot and information -->
 <sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound" class="step-view col-sm-12">
+    <div class="pull-right">
+        <sc-screen-annotations-button visibility-toggle="$ctrl.showScreenAnnotations"
+                                      screen-annotations="$ctrl.step.screenAnnotations"></sc-screen-annotations-button>
+    </div>
 
     <!-- details -->
     <div>
@@ -45,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div ng-class="this.isPanelCollapsed ? 'sc-tabs col-sm-12' : 'sc-tabs col-sm-8'">
+
         <uib-tabset class="step-panes" active="activeTab">
             <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl"

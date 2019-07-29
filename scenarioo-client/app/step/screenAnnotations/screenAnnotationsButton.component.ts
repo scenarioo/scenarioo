@@ -17,22 +17,18 @@
 
 angular
     .module('scenarioo.directives')
-    .directive('scScreenAnnotationsButton', screenAnnotationsButton);
+    .component('scScreenAnnotationsButton', {
+        bindings: {
+            screenAnnotations: '<',
+            visibilityToggle: '<'
+        },
+        template: require('./screenAnnotationsButton.html'),
+        controller: screenAnnotationsButton,
+    });
 
 function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
 
     var SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
-
-    return {
-        restrict: 'E',
-        scope: {
-            screenAnnotations: '=',
-            visibilityToggle: '='
-        },
-        template: require('./screenAnnotationsButton.html'),
-        controller: ScreenAnnotationsButtonController,
-        controllerAs: 'screenAnnotationsButton'
-    };
 
     function ScreenAnnotationsButtonController($scope) {
 
@@ -72,6 +68,5 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
         }
 
     }
-
 
 }
