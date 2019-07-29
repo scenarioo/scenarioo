@@ -22,11 +22,11 @@ class ScenarioPage {
     }
 
     async assertFirstChangedPageDiffIconHasValue() {
-        return expect($('.steps-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
+        return expect($('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
     }
 
     async assertFirstChangedStepDiffIconHasValue() {
-        return expect($('.steps-view div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
+        return expect($('.step-view div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
     }
 
     async assertAddedPageDiffIconTextEqualsAdded() {
