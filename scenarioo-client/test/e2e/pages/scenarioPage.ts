@@ -27,11 +27,11 @@ class ScenarioPage {
     */
 
     async assertFirstChangedPageDiffIconHasValue() {
-        return expect($('.step-view tr:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper td').getText()).toContain('%');
+        return expect($('.steps-view tr:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper td').getText()).toContain('%');
     }
 
     async assertFirstChangedStepDiffIconHasValue() {
-        return expect($('.step-view tr:first-child .sc-step-in-overview:first-child .step-title td').getText()).toContain('%');
+        return expect($('.steps-view tr:first-child .sc-step-in-overview:first-child .step-title td').getText()).toContain('%');
     }
 
     async assertAddedPageDiffIconTextEqualsAdded() {
