@@ -118,7 +118,7 @@ useCase('Step - View')
 
         scenario('Metadata with link to object')
             .description('Click on a object link in Call tree and jump to object example.action.StartInitAction')
-            .pending("TODO #946 activate this test once expand collapse of metadata works")
+            .pending('TODO #946 activate this test once expand collapse of metadata works')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 await StepPage.openMetadataTabIfClosed(1);

@@ -23,7 +23,7 @@ useCase('Step - Screen Annotations')
 
         scenario('Screen with annotations')
             .description('Screen annotations are shown if the step has some')
-            .pending("TODO #918 fix Screen annotations")
+            .pending('TODO #918 fix Screen annotations')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
@@ -33,7 +33,7 @@ useCase('Step - Screen Annotations')
 
         scenario('Show and hide annotations')
             .description('Screen annotations can be hidden by clicking a button')
-            .pending("TODO #918 fix Screen annotations")
+            .pending('TODO #918 fix Screen annotations')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
@@ -51,7 +51,7 @@ useCase('Step - Screen Annotations')
 
         scenario('Popup')
             .description('Further information about the annotation is displayed in a popup')
-            .pending("TODO #918 fix Screen annotations")
+            .pending('TODO #918 fix Screen annotations')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Technical%20Corner%20Cases/dummy_scenario_with_screen_annotations_of_all_types_on_one_page/specialPageWithOnlyOneVariant.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
