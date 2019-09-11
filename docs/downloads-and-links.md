@@ -13,12 +13,14 @@ This page informs you where you can get the different versions (stable and unsta
 ### Release Candidate (develop)
 
 Our current release candidate on the develop branch can be found here (it may include unstable new functionality):
+
+* **Download as WAR from the [overview page](http://demo.scenarioo.org/overview/)** (Click on ``Download WAR`` underneath ``develop``)
  
 * **Live-Demo [demo.scenarioo.org/scenarioo-develop](http://demo.scenarioo.org/scenarioo-develop)**
 
 ### Other Special Versions
 
-For some other feature branches, there might be a deployed demo application. You can find the list of deployed applications [here](http://demo.scenarioo.org/overview/)
+For some feature branches, there might be a deployed demo application with a link to a WAR download. You can find the list of deployed applications [here](http://demo.scenarioo.org/overview/) 
 
 ## Scenarioo Writer Libraries
 
