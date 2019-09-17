@@ -138,49 +138,49 @@ describe('Pipe: scTreeDataCreator', () => {
         scTreeDataCreator = new TreeDataCreatorPipe();
     });
 
-    fit('Should return undefined from an undefined input', () => {
+    it('Should return undefined from an undefined input', () => {
         // Act
         input = scTreeDataCreator.transform(undefined);
         // Assert
         expect(input).toBeUndefined();
     });
 
-    fit('Should create a tree from a string', () => {
+    it('Should create a tree from a string', () => {
         // Act
         input = scTreeDataCreator.transform('someStringValue');
         // Assert
         expect(input).toEqual({nodeLabel: 'someStringValue'});
     });
 
-    fit('Should create a tree from an empty input', () => {
+    it('Should create a tree from an empty input', () => {
         // Act
         input = scTreeDataCreator.transform({});
         // Assert
         expect(input).toEqual({nodeLabel: '', childNodes: []});
     });
 
-    fit('Should create two trees from two input values', () => {
+    it('Should create two trees from two input values', () => {
         // Act
         input = scTreeDataCreator.transform(TWO_INPUTS);
         // Assert
         expect(input).toEqual(TWO_INPUTS_TRANSFORMED);
     });
 
-    fit('Should create correct trees from complex input values', () => {
+    it('Should create correct trees from complex input values', () => {
         // Act
         input = scTreeDataCreator.transform(COMPLEX_INPUTS);
         // Assert
         expect(input).toEqual(COMPLEX_INPUTS_TRANSFORMED);
     });
 
-    fit('Should identify childNodes of a nodeLabel', () => {
+    it('Should identify childNodes of a nodeLabel', () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITH_NODELABEL);
         // Assert
         expect(input).toEqual(CHILDNODES_WITH_NODELABEL_TRANSFORMED);
     });
 
-    fit('Should identify childNodes without having a nodeLabel', () => {
+    it('Should identify childNodes without having a nodeLabel', () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITHOUT_NODELABEL);
         // Assert
