@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {TreeDataCreatorPipe} from '../../../../app/pipes/metadata/treeDataCreator.pipe';
+import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
 'use strict';
 

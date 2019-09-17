@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {MetadataTreeListCreatorPipe} from '../../../../app/pipes/metadata/metadataTreeListCreator.pipe';
-import {MetadataTreeCreatorPipe} from '../../../../app/pipes/metadata/metadataTreeCreator.pipe';
-import {TreeDataOptimizerPipe} from '../../../../app/pipes/metadata/treeDataOptimizer.pipe';
-import {TreeDataCreatorPipe} from '../../../../app/pipes/metadata/treeDataCreator.pipe';
+import {MetadataTreeListCreatorPipe} from './metadataTreeListCreator.pipe';
+import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
+import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
+import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
 'use strict';
 

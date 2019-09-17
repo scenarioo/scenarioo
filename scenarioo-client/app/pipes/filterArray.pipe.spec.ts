@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {FilterArrayPipe} from '../../../app/pipes/filterArray.pipe';
+import {FilterArrayPipe} from './filterArray.pipe';
 
 'use strict';
 

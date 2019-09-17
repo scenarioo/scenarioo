@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {TreeDataOptimizerPipe} from '../../../../app/pipes/metadata/treeDataOptimizer.pipe';
+import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 
 'use strict';
 

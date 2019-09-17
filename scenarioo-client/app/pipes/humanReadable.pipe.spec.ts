@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {HumanReadablePipe} from '../../../app/pipes/humanReadable.pipe';
+import {HumanReadablePipe} from './humanReadable.pipe';
 
 'use strict';
 

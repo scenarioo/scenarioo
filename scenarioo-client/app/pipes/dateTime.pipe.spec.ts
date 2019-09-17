@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {DateTimePipe} from '../../../app/pipes/dateTime.pipe';
+import {DateTimePipe} from './dateTime.pipe';
 
 'use strict';
 
