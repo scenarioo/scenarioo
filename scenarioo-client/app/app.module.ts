@@ -30,9 +30,9 @@ import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {FilterArrayPipe} from './pipes/filterArray.pipe';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
-import {MetadataTreeCreatorPipe} from './pipes/metadataTreeCreator.pipe';
-import {TreeDataCreatorPipe} from './pipes/treeDataCreator.pipe';
-import {TreeDataOptimizerPipe} from './pipes/treeDataOptimizer.pipe';
+import {MetadataTreeCreatorPipe} from './pipes/metadata/metadataTreeCreator.pipe';
+import {TreeDataCreatorPipe} from './pipes/metadata/treeDataCreator.pipe';
+import {TreeDataOptimizerPipe} from './pipes/metadata/treeDataOptimizer.pipe';
 import {DateTimePipe} from './pipes/dateTime.pipe';
 import {TooltipModule} from 'ngx-bootstrap';
 import {AccordionModule} from 'ngx-bootstrap';
@@ -49,7 +49,7 @@ import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.di
 import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
-import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
+import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCreator.pipe';
 
 @NgModule({
     declarations: [

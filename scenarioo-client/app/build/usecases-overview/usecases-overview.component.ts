@@ -24,7 +24,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
 import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
 import {forkJoin} from 'rxjs';
