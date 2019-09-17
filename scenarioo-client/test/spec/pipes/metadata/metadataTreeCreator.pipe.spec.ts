@@ -55,9 +55,7 @@ describe('Pipe: scMetadataTreeCreator', () => {
 
     // Arrange: set up new instance of the pipe MetadataTreeCreator
     beforeEach(() => {
-        scTreeDataOptimizer = new TreeDataOptimizerPipe();
-        scTreeDataCreator = new TreeDataCreatorPipe();
-        scMetadataTreeCreator = new MetadataTreeCreatorPipe(inject(scTreeDataOptimizer), inject(scTreeDataCreator));
+        scMetadataTreeCreator = new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe());
     });
 
     it('transforms javascript object into an optimized tree', () => {

@@ -16,6 +16,9 @@
  */
 
 import {MetadataTreeListCreatorPipe} from '../../../../app/pipes/metadata/metadataTreeListCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../../../app/pipes/metadata/metadataTreeCreator.pipe';
+import {TreeDataOptimizerPipe} from '../../../../app/pipes/metadata/treeDataOptimizer.pipe';
+import {TreeDataCreatorPipe} from '../../../../app/pipes/metadata/treeDataCreator.pipe';
 
 'use strict';
 
@@ -46,7 +49,7 @@ describe('Pipe: scMetadataTreeListCreator', () => {
 
     // Arrange: set up new instance of the pipe MetadataTreeListCreator
     beforeEach(() => {
-        // scMetadataTreeListCreator = new MetadataTreeListCreatorPipe();
+        scMetadataTreeListCreator = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
     });
 
     it('transforms javascript object into a list of optimized trees', () => {
