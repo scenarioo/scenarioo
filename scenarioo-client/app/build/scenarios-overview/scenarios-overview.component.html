@@ -39,12 +39,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
-                <span *ngIf="(scenarios|filter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
-                <span *ngIf="(scenarios|filter: searchTerm).length != scenarios.length">Found {{(scenarios|filter: searchTerm).length}} of {{scenarios.length}}</span>
+                <span *ngIf="(scenarios|scFilterArray: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
+                <span *ngIf="(scenarios|scFilterArray: searchTerm).length != scenarios.length">Found {{(scenarios|scFilterArray: searchTerm).length}} of {{scenarios.length}}</span>
                 <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
                 <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
             </p>
-            <table *ngIf="(scenarios|filter: searchTerm).length!=0"
+            <table *ngIf="(scenarios|scFilterArray: searchTerm).length!=0"
                    class="table table-curved table-responsive scenario-table">
                 <thead>
                 <tr>
@@ -115,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </thead>
                 <tbody>
                 <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
-                    *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
+                    *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | scFilterArray: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="comparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
                     <td>
                         <span

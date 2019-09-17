@@ -28,7 +28,7 @@ import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.se
 import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
-import {FilterPipe} from './pipes/filter.pipe';
+import {FilterArrayPipe} from './pipes/filterArray.pipe';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
 import {MetadataTreeCreatorPipe} from './pipes/metadataTreeCreator.pipe';
 import {TreeDataCreatorPipe} from './pipes/treeDataCreator.pipe';
@@ -62,7 +62,7 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe'
         ComparisonsDirective,
         MainPageComponent,
         UseCasesComponent,
-        FilterPipe,
+        FilterArrayPipe,
         HumanReadablePipe,
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,
@@ -120,7 +120,7 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe'
         DiffInfoService,
         SharePageURL,
         Location,
-        FilterPipe,
+        FilterArrayPipe,
         MetadataTreeCreatorPipe,
         MetadataTreeListCreatorPipe,
         TreeDataCreatorPipe,

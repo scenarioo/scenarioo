@@ -1,11 +1,11 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'filter',
+    name: 'scFilterArray',
 })
 
 @Injectable()
-export class FilterPipe implements PipeTransform {
+export class FilterArrayPipe implements PipeTransform {
     transform(items: any[], value: string): any[] {
         if (!items) {
             return [];

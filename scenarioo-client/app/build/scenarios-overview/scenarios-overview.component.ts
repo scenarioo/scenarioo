@@ -35,7 +35,7 @@ import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -88,7 +88,7 @@ export class ScenariosComponent implements OnInit {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private filterPipe: FilterPipe) {
+                private filterArrayPipe: FilterArrayPipe) {
     }
 
     ngOnInit(): void {
@@ -170,7 +170,7 @@ export class ScenariosComponent implements OnInit {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                const filteredScenarios = this.filterArrayPipe.transform(this.scenarios, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
                     this.arrowkeyLocation++;
                 }
