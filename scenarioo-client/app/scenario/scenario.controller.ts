@@ -296,7 +296,7 @@ function ScenarioController($filter, $routeParams,
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             selectedBranch,
-            issue.id
+            issue.id,
         ).subscribe((result) => {
             $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
         });

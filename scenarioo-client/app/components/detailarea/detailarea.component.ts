@@ -31,14 +31,14 @@ export class DetailareaComponent {
 
     /* Inputs of usecases-overview */
     @Input()
-    branchInformationTree: Array<string>;
+    branchInformationTree: string[];
 
     @Input()
-    buildInformationTree: Array<string>;
+    buildInformationTree: string[];
 
     /*Inputs of scenarios-overview*/
     @Input()
-    usecaseInformationTree: Array<string>;
+    usecaseInformationTree: string[];
 
     @Input()
     metadataInformationTree: string[];
