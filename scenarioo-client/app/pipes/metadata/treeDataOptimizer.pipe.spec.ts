@@ -17,78 +17,76 @@
 
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 
-'use strict';
-
 describe('Pipe: scTreeDataOptimizer', () => {
     let scTreeDataOptimizer: TreeDataOptimizerPipe;
     let input;
 
-    let DATA_EMPTY_NODE = {
+    const DATA_EMPTY_NODE = {
         childNodes: [
             {
                 nodeLabel: 'keyTwo',
-                nodeValue: 'valueTwo'
+                nodeValue: 'valueTwo',
             },
             {
                 nodeLabel: 'empty',
                 childNodes: []
-            }
-        ]
+            },
+        ],
     };
 
-    let DATA_EMPTY_NODE_OPTIMIZED = {
+    const DATA_EMPTY_NODE_OPTIMIZED = {
         childNodes: [
             {
                 nodeLabel: 'keyTwo',
-                nodeValue: 'valueTwo'
-            }
-        ]
+                nodeValue: 'valueTwo',
+            },
+        ],
     };
 
-    let DATA_DETAILS = {
+    const DATA_DETAILS = {
         childNodes: [
             {
                 nodeLabel: 'details',
                 childNodes: [
                     {
                         nodeLabel: 'hero',
-                        nodeValue: 'Donald Duck'
-                    }
-                ]
-            }
-        ]
+                        nodeValue: 'Donald Duck',
+                    },
+                ],
+            },
+        ],
     };
 
-    let DATA_DETAILS_OPTIMIZED = {
+    const DATA_DETAILS_OPTIMIZED = {
         childNodes: [
             {
                 nodeLabel: 'hero',
-                nodeValue: 'Donald Duck'
-            }
-        ]
+                nodeValue: 'Donald Duck',
+            },
+        ],
     };
 
-    let DATA_HUMAN_READABLE = {
+    const DATA_HUMAN_READABLE = {
         nodeLabel: 'veryImportantNode',
         childNodes: [
             {
                 nodeLabel: 'firstName',
-                nodeValue: 'donaldDuck'
-            }
-        ]
+                nodeValue: 'donaldDuck',
+            },
+        ],
     };
 
-    let DATA_HUMAN_READABLE_OPTIMIZED = {
+    const DATA_HUMAN_READABLE_OPTIMIZED = {
         nodeLabel: 'veryImportantNode',
         childNodes: [
             {
                 nodeLabel: 'firstName',
-                nodeValue: 'donaldDuck'
-            }
-        ]
+                nodeValue: 'donaldDuck',
+            },
+        ],
     };
 
-    let DATA_EMPTY_LABEL = {
+    const DATA_EMPTY_LABEL = {
         nodeLabel: '',
         childNodes: [
             {
@@ -97,18 +95,18 @@ describe('Pipe: scTreeDataOptimizer', () => {
                 childNodes: [
                     {
                         nodeLabel: 'type',
-                        nodeValue: 'Person'
+                        nodeValue: 'Person',
                     },
                     {
                         nodeLabel: 'name',
-                        nodeValue: 'Romeo\'s love'
-                    }
-                ]
-            }
-        ]
+                        nodeValue: 'Romeo\'s love',
+                    },
+                ],
+            },
+        ],
     };
 
-    let DATA_EMPTY_LABEL_OPTIMIZED = {
+    const DATA_EMPTY_LABEL_OPTIMIZED = {
         childNodes: [
             {
                 nodeLabel: 'Person',
@@ -116,15 +114,15 @@ describe('Pipe: scTreeDataOptimizer', () => {
                 childNodes: [
                     {
                         nodeLabel: 'name',
-                        nodeValue: 'Romeo\'s love'
-                    }
+                        nodeValue: 'Romeo\'s love',
+                    },
                 ],
-                nodeObjectType: 'Person'
-            }
-        ]
+                nodeObjectType: 'Person',
+            },
+        ],
     };
 
-    let DATA_EMPTY_VALUE = {
+    const DATA_EMPTY_VALUE = {
         nodeLabel: '',
         childNodes: [
             {
@@ -133,48 +131,46 @@ describe('Pipe: scTreeDataOptimizer', () => {
                 childNodes: [
                     {
                         nodeLabel: 'name',
-                        nodeValue: 'Romeo\'s love'
-                    }
-                ]
-            }
-        ]
+                        nodeValue: 'Romeo\'s love',
+                    },
+                ],
+            },
+        ],
     };
 
-    let DATA_EMPTY_VALUE_OPTIMIZED = {
+    const DATA_EMPTY_VALUE_OPTIMIZED = {
         childNodes: [
             {
                 nodeLabel: 'Juliet',
                 nodeValue: 'Romeo\'s love',
                 childNodes: [],
-                nodeObjectName: 'Romeo\'s love'
-            }
-        ]
+                nodeObjectName: 'Romeo\'s love',
+            },
+        ],
     };
 
-    let DATA_TYPE = {
-
+    const DATA_TYPE = {
         childNodes: [
             {
                 nodeLabel: 'type',
-                nodeValue: 'MyObjectType'
+                nodeValue: 'MyObjectType',
             },
             {
                 nodeLabel: 'name',
-                nodeValue: 'MyObjectName'
-            }
-
-        ]
+                nodeValue: 'MyObjectName',
+            },
+        ],
     };
 
-    let DATA_TYPE_OPTIMIZED = {
+    const DATA_TYPE_OPTIMIZED = {
         nodeLabel: 'MyObjectType',
         nodeValue: 'MyObjectName',
         childNodes: [],
         nodeObjectType: 'MyObjectType',
-        nodeObjectName: 'MyObjectName'
+        nodeObjectName: 'MyObjectName',
     };
 
-    let CHILDREN = {
+    const CHILDREN = {
         nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
@@ -182,68 +178,68 @@ describe('Pipe: scTreeDataOptimizer', () => {
                 nodeLabel: 'children',
                 childNodes: [
                     {
-                        nodeLabel: 'someLabel'
-                    }
-                ]
+                        nodeLabel: 'someLabel',
+                    },
+                ],
             },
             {
-                nodeLabel: 'otherNode'
-            }
-        ]
+                nodeLabel: 'otherNode',
+            },
+        ],
     };
 
-    let CHILDREN_OPTIMIZED = {
+    const CHILDREN_OPTIMIZED = {
         nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
             {
-                nodeLabel: 'otherNode'
+                nodeLabel: 'otherNode',
             },
             {
                 nodeLabel: 'children',
                 childNodes: [
                     {
-                        nodeLabel: 'someLabel'
-                    }
-                ]
-            }
-        ]
+                        nodeLabel: 'someLabel',
+                    },
+                ],
+            },
+        ],
     };
 
-    let EMPTY_LABEL = {
+    const EMPTY_LABEL = {
         nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
             {
-                nodeLabel: ''
-            }
-        ]
+                nodeLabel: '',
+            },
+        ],
     };
 
-    let EMPTY_LABEL_OPTIMIZED = {
+    const EMPTY_LABEL_OPTIMIZED = {
         nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
             {
-                nodeLabel: 'Item'
-            }
-        ]
+                nodeLabel: 'Item',
+            },
+        ],
     };
 
-    let ITEM_LABEL_ROOT_NODE = {
-        nodeLabel: 'Item'
-    };
-
-    let ITEM_LABEL_ROOT_NODE_OPTIMIZED = {};
-
-    let ITEM_LABEL_WITH_VALUE_ROOT_NODE = {
+    const ITEM_LABEL_ROOT_NODE = {
         nodeLabel: 'Item',
-        nodeValue: 'someValue'
     };
 
-    let ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED = {
+    const ITEM_LABEL_ROOT_NODE_OPTIMIZED = {};
+
+    const ITEM_LABEL_WITH_VALUE_ROOT_NODE = {
         nodeLabel: 'Item',
-        nodeValue: 'someValue'
+        nodeValue: 'someValue',
+    };
+
+    const ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED = {
+        nodeLabel: 'Item',
+        nodeValue: 'someValue',
     };
 
     // Arrange: set up new instance of the pipe TreeDataOptimizer
@@ -256,70 +252,70 @@ describe('Pipe: scTreeDataOptimizer', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_NODE);
         // Assert
-        expect(input).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
+        void expect(input).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
     });
 
     it('pulls children of details nodes one level up', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_DETAILS);
         // Assert
-        expect(input).toEqual(DATA_DETAILS_OPTIMIZED);
+        void expect(input).toEqual(DATA_DETAILS_OPTIMIZED);
     });
 
     it('makes node labels human readable but does not touch node values', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_HUMAN_READABLE);
         // Assert
-        expect(input).toEqual(DATA_HUMAN_READABLE_OPTIMIZED);
+        void expect(input).toEqual(DATA_HUMAN_READABLE_OPTIMIZED);
     });
 
     it('uses the name child node to replace empty node label', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_LABEL);
         // Assert
-        expect(input).toEqual(DATA_EMPTY_LABEL_OPTIMIZED);
+        void expect(input).toEqual(DATA_EMPTY_LABEL_OPTIMIZED);
     });
 
     it('uses the name child node to replace empty node values', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_VALUE);
         // Assert
-        expect(input).toEqual(DATA_EMPTY_VALUE_OPTIMIZED);
+        void expect(input).toEqual(DATA_EMPTY_VALUE_OPTIMIZED);
     });
 
     it('always uses the type child node to replace the parent node label', () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_TYPE);
         // Assert
-        expect(input).toEqual(DATA_TYPE_OPTIMIZED);
+        void expect(input).toEqual(DATA_TYPE_OPTIMIZED);
     });
 
     it('moves nodes with label "children" behind all other childNodes', () => {
         // Act
         input = scTreeDataOptimizer.transform(CHILDREN);
         // Assert
-        expect(input).toEqual(CHILDREN_OPTIMIZED);
+        void expect(input).toEqual(CHILDREN_OPTIMIZED);
     });
 
     it('sets nodeLabel of nodes with empty label to "Item"', () => {
         // Act
         input = scTreeDataOptimizer.transform(EMPTY_LABEL);
         // Assert
-        expect(input).toEqual(EMPTY_LABEL_OPTIMIZED);
+        void expect(input).toEqual(EMPTY_LABEL_OPTIMIZED);
     });
 
     it('sets nodeLabel of root node to empty, if it is "Item"', () => {
         // Act
         input = scTreeDataOptimizer.transform(ITEM_LABEL_ROOT_NODE);
         // Assert
-        expect(input).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
+        void expect(input).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
     });
 
     it('does not change nodeLabel of root node to empty, if it is "Item" and also has a nodeValue', () => {
         // Act
         input = scTreeDataOptimizer.transform(ITEM_LABEL_WITH_VALUE_ROOT_NODE);
         // Assert
-        expect(input).toEqual(ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED);
+        void expect(input).toEqual(ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED);
     });
 
 });
