@@ -30,24 +30,23 @@ describe('Pipe: scMetadataTreeCreator', () => {
         },
     };
 
-    const DATA_TRANSFORMED =
-        {
-            childNodes: [
-                {
-                    nodeLabel: 'myKey',
-                    nodeValue: 'myValue',
-                },
-                {
-                    nodeLabel: 'keyTwo',
-                    childNodes: [
-                        {
-                            nodeLabel: 'theAnswer',
-                            nodeValue: 42,
-                        },
-                    ],
-                },
-            ],
-        };
+    const DATA_TRANSFORMED = {
+        childNodes: [
+            {
+                nodeLabel: 'myKey',
+                nodeValue: 'myValue',
+            },
+            {
+                nodeLabel: 'keyTwo',
+                childNodes: [
+                    {
+                        nodeLabel: 'theAnswer',
+                        nodeValue: 42,
+                    },
+                ],
+            },
+        ],
+    };
 
     // Arrange: set up new instance of the pipe MetadataTreeCreator
     beforeEach(() => {
