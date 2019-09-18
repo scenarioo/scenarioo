@@ -75,7 +75,6 @@ export class ScenariosOverviewComponent implements OnInit {
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
                 private scenarioResource: ScenarioResource,
-                private labelConfigurationService: LabelConfigurationService,
                 private selectedComparison: SelectedComparison,
                 private locationService: LocationService,
                 private configurationService: ConfigurationService,
