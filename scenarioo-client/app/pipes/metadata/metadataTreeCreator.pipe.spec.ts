@@ -19,38 +19,34 @@ import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
-'use strict';
-
 describe('Pipe: scMetadataTreeCreator', () => {
     let scMetadataTreeCreator: MetadataTreeCreatorPipe;
     let input;
-    let scTreeDataOptimizer: TreeDataOptimizerPipe;
-    let scTreeDataCreator: TreeDataCreatorPipe;
 
-    let DATA = {
+    const DATA = {
         myKey: 'myValue',
         keyTwo: {
-            theAnswer: 42
-        }
+            theAnswer: 42,
+        },
     };
 
-    let DATA_TRANSFORMED =
+    const DATA_TRANSFORMED =
         {
             childNodes: [
                 {
                     nodeLabel: 'myKey',
-                    nodeValue: 'myValue'
+                    nodeValue: 'myValue',
                 },
                 {
                     nodeLabel: 'keyTwo',
                     childNodes: [
                         {
                             nodeLabel: 'theAnswer',
-                            nodeValue: 42
-                        }
-                    ]
-                }
-            ]
+                            nodeValue: 42,
+                        },
+                    ],
+                },
+            ],
         };
 
     // Arrange: set up new instance of the pipe MetadataTreeCreator
@@ -62,6 +58,6 @@ describe('Pipe: scMetadataTreeCreator', () => {
         // Act
         input = scMetadataTreeCreator.transform(DATA);
         // Assert
-        expect(input).toEqual(DATA_TRANSFORMED);
+        void expect(input).toEqual(DATA_TRANSFORMED);
     });
 });

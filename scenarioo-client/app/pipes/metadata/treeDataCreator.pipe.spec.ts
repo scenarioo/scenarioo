@@ -17,44 +17,42 @@
 
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
-'use strict';
-
 describe('Pipe: scTreeDataCreator', () => {
     let scTreeDataCreator: TreeDataCreatorPipe;
     let input;
 
-    let TWO_INPUTS = {
+    const TWO_INPUTS = {
         myKey: 'myValue',
-        keyTwo: 'valueTwo'
+        keyTwo: 'valueTwo',
     };
 
-    let TWO_INPUTS_TRANSFORMED = {
+    const TWO_INPUTS_TRANSFORMED = {
         nodeLabel: '',
         childNodes: [
             {
                 nodeLabel: 'myKey',
-                nodeValue: 'myValue'
+                nodeValue: 'myValue',
             },
             {
                 nodeLabel: 'keyTwo',
-                nodeValue: 'valueTwo'
-            }
-        ]
+                nodeValue: 'valueTwo',
+            },
+        ],
     };
 
-    let COMPLEX_INPUTS = {
-        'details': {
-            'start': '12312',
-            'end': [
-                {'val': '23123'},
-                {'val2': '111'}
-            ]
+    const COMPLEX_INPUTS = {
+        details: {
+            start: '12312',
+            end: [
+                {val: '23123'},
+                {val2: '111'},
+            ],
         },
-        'name': 'page_load',
-        'type': 'statistics'
+        name: 'page_load',
+        type: 'statistics',
     };
 
-    let COMPLEX_INPUTS_TRANSFORMED = {
+    const COMPLEX_INPUTS_TRANSFORMED = {
         nodeLabel: '',
         childNodes: [
             {
@@ -62,7 +60,7 @@ describe('Pipe: scTreeDataCreator', () => {
                 childNodes: [
                     {
                         nodeLabel: 'start',
-                        nodeValue: '12312'
+                        nodeValue: '12312',
                     },
                     {
                         nodeLabel: 'end',
@@ -72,65 +70,65 @@ describe('Pipe: scTreeDataCreator', () => {
                                 childNodes: [
                                     {
                                         nodeLabel: 'val',
-                                        nodeValue: '23123'
-                                    }
-                                ]
+                                        nodeValue: '23123',
+                                    },
+                                ],
                             },
                             {
                                 nodeLabel: '',
                                 childNodes: [
                                     {
                                         nodeLabel: 'val2',
-                                        nodeValue: '111'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+                                        nodeValue: '111',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 nodeLabel: 'name',
-                nodeValue: 'page_load'
+                nodeValue: 'page_load',
             },
             {
                 nodeLabel: 'type',
-                nodeValue: 'statistics'
-            }
-        ]
+                nodeValue: 'statistics',
+            },
+        ],
     };
 
-    let CHILDNODES_WITH_NODELABEL = {
-        'list': [
-            'Listentry 0', 'Listentry 1'
-        ]
+    const CHILDNODES_WITH_NODELABEL = {
+        list: [
+            'Listentry 0', 'Listentry 1',
+        ],
     };
 
-    let CHILDNODES_WITH_NODELABEL_TRANSFORMED = {
+    const CHILDNODES_WITH_NODELABEL_TRANSFORMED = {
         nodeLabel: '',
         childNodes: [
             {
                 nodeLabel: 'list',
                 childNodes: [
                     {
-                        nodeLabel: 'Listentry 0'
+                        nodeLabel: 'Listentry 0',
                     },
                     {
-                        nodeLabel: 'Listentry 1'
-                    }
-                ]
-            }
-        ]
+                        nodeLabel: 'Listentry 1',
+                    },
+                ],
+            },
+        ],
     };
 
-    let CHILDNODES_WITHOUT_NODELABEL = ['Listentry 0', 'Listentry 1'];
+    const CHILDNODES_WITHOUT_NODELABEL = ['Listentry 0', 'Listentry 1'];
 
-    let CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED = {
+    const CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED = {
         nodeLabel: '',
         childNodes: [
             {nodeLabel: 'Listentry 0'},
-            {nodeLabel: 'Listentry 1'}
-        ]
+            {nodeLabel: 'Listentry 1'},
+        ],
     };
 
     // Arrange: set up new instance of the pipe TreeDataCreator
@@ -142,49 +140,49 @@ describe('Pipe: scTreeDataCreator', () => {
         // Act
         input = scTreeDataCreator.transform(undefined);
         // Assert
-        expect(input).toBeUndefined();
+        void expect(input).toBeUndefined();
     });
 
     it('Should create a tree from a string', () => {
         // Act
         input = scTreeDataCreator.transform('someStringValue');
         // Assert
-        expect(input).toEqual({nodeLabel: 'someStringValue'});
+        void expect(input).toEqual({nodeLabel: 'someStringValue'});
     });
 
     it('Should create a tree from an empty input', () => {
         // Act
         input = scTreeDataCreator.transform({});
         // Assert
-        expect(input).toEqual({nodeLabel: '', childNodes: []});
+        void expect(input).toEqual({nodeLabel: '', childNodes: []});
     });
 
     it('Should create two trees from two input values', () => {
         // Act
         input = scTreeDataCreator.transform(TWO_INPUTS);
         // Assert
-        expect(input).toEqual(TWO_INPUTS_TRANSFORMED);
+        void expect(input).toEqual(TWO_INPUTS_TRANSFORMED);
     });
 
     it('Should create correct trees from complex input values', () => {
         // Act
         input = scTreeDataCreator.transform(COMPLEX_INPUTS);
         // Assert
-        expect(input).toEqual(COMPLEX_INPUTS_TRANSFORMED);
+        void expect(input).toEqual(COMPLEX_INPUTS_TRANSFORMED);
     });
 
     it('Should identify childNodes of a nodeLabel', () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITH_NODELABEL);
         // Assert
-        expect(input).toEqual(CHILDNODES_WITH_NODELABEL_TRANSFORMED);
+        void expect(input).toEqual(CHILDNODES_WITH_NODELABEL_TRANSFORMED);
     });
 
     it('Should identify childNodes without having a nodeLabel', () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITHOUT_NODELABEL);
         // Assert
-        expect(input).toEqual(CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED);
+        void expect(input).toEqual(CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED);
     });
 
 });

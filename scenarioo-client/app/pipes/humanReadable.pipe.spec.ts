@@ -17,8 +17,6 @@
 
 import {HumanReadablePipe} from './humanReadable.pipe';
 
-'use strict';
-
 describe('Pipe: scHumanReadable', () => {
     let scHumanReadable: HumanReadablePipe;
     let input;
@@ -32,44 +30,44 @@ describe('Pipe: scHumanReadable', () => {
         // Act
         input = scHumanReadable.transform('');
         // Assert
-        expect(input).toEqual('');
+        void expect(input).toEqual('');
     });
 
     it('Should create a human readable string from a CamelCase string', () => {
         // Act
         input = scHumanReadable.transform('ThisIsSomeCamelCaseString');
         // Assert
-        expect(input).toEqual('This Is Some Camel Case String');
+        void expect(input).toEqual('This Is Some Camel Case String');
     });
 
     it('Should start with a capital letter', () => {
         // Act
         input = scHumanReadable.transform('someStringStartingSmall');
         // Assert
-        expect(input).toEqual('Some String Starting Small');
+        void expect(input).toEqual('Some String Starting Small');
     });
 
     it('Should place a blank between two capital letters', () => {
         // Act
         input = scHumanReadable.transform('ABadExample');
         // Assert
-        expect(input).toEqual('A Bad Example');
+        void expect(input).toEqual('A Bad Example');
     });
 
     it('Should accept special characters', () => {
         // Act
         input = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
         // Assert
-        expect(input).toContain(' Some Camel-Case');
-        expect(input).toContain('&/%');
-        expect(input).toContain('String');
+        void expect(input).toContain(' Some Camel-Case');
+        void expect(input).toContain('&/%');
+        void expect(input).toContain('String');
     });
 
     it('Should replace underline with blanks', () => {
         // Act
         input = scHumanReadable.transform('This_may_also_be_acceptable');
         // Assert
-        expect(input).toEqual('This may also be acceptable');
+        void expect(input).toEqual('This may also be acceptable');
     });
 
 });

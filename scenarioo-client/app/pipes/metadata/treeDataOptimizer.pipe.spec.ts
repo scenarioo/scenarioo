@@ -29,7 +29,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
             },
             {
                 nodeLabel: 'empty',
-                childNodes: []
+                childNodes: [],
             },
         ],
     };

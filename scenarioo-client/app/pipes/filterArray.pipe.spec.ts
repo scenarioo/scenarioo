@@ -17,40 +17,38 @@
 
 import {FilterArrayPipe} from './filterArray.pipe';
 
-'use strict';
-
 describe('Pipe: scFilterArray', () => {
     let scFilterArray: FilterArrayPipe;
     let input;
 
-    let MODEL = [
+    const MODEL = [
         {
             test: 'test',
             something: 'else',
             odd: {
-                weird: 'things'
-            }
+                weird: 'things',
+            },
         },
         {
             test: 'hi',
             something: 'there',
             odd: {
-                weird: 'things'
-            }
-        }
+                weird: 'things',
+            },
+        },
     ];
 
-    let MODEL_FILTERED = [
+    const MODEL_FILTERED = [
         {
             test: 'test',
             something: 'else',
             odd: {
-                weird: 'things'
-            }
-        }
+                weird: 'things',
+            },
+        },
     ];
 
-    let MODEL_EMPTY = [];
+    const MODEL_EMPTY = [];
 
     // Arrange: set up new instance of the pipe FilterArray
     beforeEach(() => {
@@ -61,21 +59,21 @@ describe('Pipe: scFilterArray', () => {
         // Act
         input = scFilterArray.transform(MODEL, '');
         // Assert
-        expect(input).toEqual(MODEL);
+        void expect(input).toEqual(MODEL);
     });
 
     it('Should filter the model when search text is a normal string', () => {
         // Act
         input = scFilterArray.transform(MODEL, 'test');
         // Assert
-        expect(input).toEqual(MODEL_FILTERED);
+        void expect(input).toEqual(MODEL_FILTERED);
     });
 
     it('Should filter the model, regarding search is not case sensitive', () => {
         // Act
         input = scFilterArray.transform(MODEL, 'TEST');
         // Assert
-        expect(input).toEqual(MODEL_FILTERED);
+        void expect(input).toEqual(MODEL_FILTERED);
     });
 
     describe('when search text consists of multiple words, ', () => {
@@ -83,21 +81,21 @@ describe('Pipe: scFilterArray', () => {
             // Act
             input = scFilterArray.transform(MODEL, 'test else');
             // Assert
-            expect(input).toEqual(MODEL_FILTERED);
+            void expect(input).toEqual(MODEL_FILTERED);
         });
 
         it('filters out all objects that miss one or more words', () => {
             // Act
             input = scFilterArray.transform(MODEL, 'test weirdthing');
             // Assert
-            expect(input).toEqual(MODEL_EMPTY);
+            void expect(input).toEqual(MODEL_EMPTY);
         });
 
         it('keeps the object if the search words were found internally on different levels', () => {
             // Act
             input = scFilterArray.transform(MODEL, 'test THINGS');
             // Assert
-            expect(input).toEqual(MODEL_FILTERED);
+            void expect(input).toEqual(MODEL_FILTERED);
         });
 
     });

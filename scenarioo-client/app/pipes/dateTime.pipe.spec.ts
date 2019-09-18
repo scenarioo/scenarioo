@@ -17,8 +17,6 @@
 
 import {DateTimePipe} from './dateTime.pipe';
 
-'use strict';
-
 describe('Pipe: scDateTime', () => {
     let scDateTime: DateTimePipe;
     let input;
@@ -32,21 +30,21 @@ describe('Pipe: scDateTime', () => {
         // Act
         input = scDateTime.transform(undefined);
         // Assert
-        expect(input).toEqual('');
+        void expect(input).toEqual('');
     });
 
     it('Empty string returns an empty string', () => {
         // Act
         input = scDateTime.transform('');
         // Assert
-        expect(input).toEqual('');
+        void expect(input).toEqual('');
     });
 
     it('Timestamp returns the formatted Date and time string', () => {
         // Act
         input = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
         // Assert
-        expect(input).toEqual('April 30, 2014, 11:09 PM');
+        void expect(input).toEqual('April 30, 2014, 11:09 PM');
     });
 
 });
