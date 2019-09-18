@@ -16,6 +16,8 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ILabelConfiguration} from '../../generated-types/backend-types';
+import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 @Component({
     selector: 'sc-detailarea',
@@ -29,26 +31,26 @@ export class DetailareaComponent {
 
     /* Inputs of usecases-overview */
     @Input()
-    branchInformationTree: {};
+    branchInformationTree: Array<string>;
 
     @Input()
-    buildInformationTree: {};
+    buildInformationTree: Array<string>;
 
     /*Inputs of scenarios-overview*/
     @Input()
-    usecaseInformationTree: {};
+    usecaseInformationTree: Array<string>;
 
     @Input()
-    metadataInformationTree: [];
+    metadataInformationTree: string[];
 
     @Input()
-    relatedIssues: {};
+    relatedIssues: RelatedIssueSummary[];
 
     @Input()
-    useCaseLabels: {};
+    useCaseLabels: string[];
 
     @Input()
-    labelConfigurations: {};
+    labelConfigurations: ILabelConfiguration;
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();

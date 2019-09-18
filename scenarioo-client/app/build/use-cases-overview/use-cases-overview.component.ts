@@ -58,9 +58,9 @@ export class UseCasesOverviewComponent {
 
     isPanelCollapsed: boolean;
 
-    branchesAndBuilds = [];
-    branchInformationTree = {};
-    buildInformationTree = {};
+    branchesAndBuilds: object = [];
+    branchInformationTree: object = {};
+    buildInformationTree: object = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -175,7 +175,7 @@ export class UseCasesOverviewComponent {
         }
     }
 
-    collapsePanel(event) {
+    collapsePanel(event: boolean) {
         this.isPanelCollapsed = event;
     }
 

@@ -58,17 +58,17 @@ export class ScenariosOverviewComponent implements OnInit {
     arrowkeyLocation: number = 0;
 
     labelConfigurations: LabelConfigurationMap = undefined;
-    labelConfig = undefined;
+    labelConfig: ILabelConfiguration = undefined;
 
     getStatusStyleClass = undefined;
     comparisonExisting = undefined;
 
     isPanelCollapsed: boolean;
 
-    usecaseInformationTree = {};
-    metadataInformationTree = [];
-    relatedIssues = {};
-    labels = {};
+    usecaseInformationTree: object = {};
+    metadataInformationTree: object = [];
+    relatedIssues: object = {};
+    labels: object = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -183,11 +183,11 @@ export class ScenariosOverviewComponent implements OnInit {
         }
     }
 
-    goToScenario(useCaseName, scenarioName) {
+    goToScenario(useCaseName: string, scenarioName: string) {
         this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
     }
 
-    goToStep(useCaseName, scenarioName) {
+    goToStep(useCaseName: string, scenarioName: string) {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
             // FIXME This could be improved, if the scenario service
             // for finding all scenarios would also retrieve the name of the first page
@@ -206,7 +206,7 @@ export class ScenariosOverviewComponent implements OnInit {
         });
     }
 
-    getLabelStyle(labelName) {
+    getLabelStyle(labelName: string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {
@@ -218,7 +218,7 @@ export class ScenariosOverviewComponent implements OnInit {
         }
     }
 
-    collapsePanel(event) {
+    collapsePanel(event: boolean) {
         this.isPanelCollapsed = event;
     }
 
