@@ -34,11 +34,11 @@ import {FilterPipe} from '../../pipes/filter.pipe';
 
 @Component({
     selector: 'sc-usecases-overview',
-    template: require('./usecases-overview.component.html'),
-    styles: [require('./usecases-overview.component.css').toString()],
+    template: require('./use-cases-overview.component.html'),
+    styles: [require('./use-cases-overview.component.css').toString()],
 })
 
-export class UseCasesComponent {
+export class UseCasesOverviewComponent {
 
     usecases: UseCaseSummary[] = [];
 

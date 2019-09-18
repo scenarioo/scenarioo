@@ -33,7 +33,7 @@ declare var angular: angular.IAngularStatic;
     template: require('./mainpage.component.html'),
     styles: [require('./mainpage.component.css').toString()],
 })
-export class MainPageComponent implements OnInit {
+export class MainpageComponent implements OnInit {
     @ViewChild('homeTabs') allTabs: TabsetComponent;
 
     customTabs: any[] = [];
@@ -143,4 +143,4 @@ export class MainPageComponent implements OnInit {
 
 angular.module('scenarioo.directives')
     .directive('scMainpage',
-        downgradeComponent({component: MainPageComponent}) as angular.IDirectiveFactory);
+        downgradeComponent({component: MainpageComponent}) as angular.IDirectiveFactory);

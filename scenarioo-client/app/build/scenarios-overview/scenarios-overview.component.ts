@@ -43,7 +43,7 @@ import {FilterPipe} from '../../pipes/filter.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosComponent implements OnInit {
+export class ScenariosOverviewComponent implements OnInit {
 
     useCaseName: string;
 
@@ -239,4 +239,4 @@ export class ScenariosComponent implements OnInit {
 
 angular.module('scenarioo.directives')
     .directive('scScenariosOverview',
-        downgradeComponent({component: ScenariosComponent}) as angular.IDirectiveFactory);
+        downgradeComponent({component: ScenariosOverviewComponent}) as angular.IDirectiveFactory);
