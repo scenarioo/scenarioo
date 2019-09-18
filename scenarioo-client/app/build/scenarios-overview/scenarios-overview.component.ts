@@ -22,8 +22,7 @@ import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {LabelConfigurationService} from '../../services/label-configuration.service';
-import {IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {OrderPipe} from 'ngx-order-pipe';
@@ -49,7 +48,6 @@ export class ScenariosOverviewComponent implements OnInit {
 
     scenarios: IScenarioSummary[] = [];
     scenario: IScenario[] = [];
-    propertiesToShow: any[];
 
     searchTerm: string;
 
