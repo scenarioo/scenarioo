@@ -50,6 +50,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
+import {ShareComponent} from './build/mainpage/share/share.component';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe'
         BuildsListDirective,
         ComparisonsDirective,
         MainpageComponent,
+        ShareComponent,
         UseCasesOverviewComponent,
         FilterPipe,
         HumanReadablePipe,
@@ -82,6 +84,7 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe'
         LabelMetadataComponent,
         ManageTabsComponent,
         MainpageComponent,
+        ShareComponent,
         UseCasesOverviewComponent,
         DetailareaComponent,
         DetailAccordionComponent,

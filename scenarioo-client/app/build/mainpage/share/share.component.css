@@ -1,0 +1,18 @@
+#grayBackground {
+    margin: -15px;
+    margin-bottom: -42px;
+    background-color: #eeeeee;
+    height: 75px;
+}
+
+.button-right {
+    float: right;
+    margin-top: 10px;
+}
+
+#shareButton {
+    border: unset;
+    background-color: unset;
+    padding: unset;
+    color: #337ab7;
+}

@@ -19,12 +19,8 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {SharePageURL} from '../../shared/navigation/sharePage/sharePageUrl.service';
 import {LocationService} from '../../shared/location.service';
 import {TabDirective, TabsetComponent} from 'ngx-bootstrap';
-import {Location} from '@angular/common';
-import {PlatformLocation} from '@angular/common';
 
 declare var angular: angular.IAngularStatic;
 
@@ -38,29 +34,12 @@ export class MainpageComponent implements OnInit {
 
     customTabs: any[] = [];
     tabs: any[];
-    modalRef: BsModalRef;
-
-    eMailSubject: string = undefined;
-    eMailUrl: string;
-    pageUrl: string;
-
-    imageUrl: string;
-
-    currentBrowserLocation: string;
 
     constructor(private configurationService: ConfigurationService,
-                private modalService: BsModalService,
-                private sharePageURL: SharePageURL,
-                private locationService: LocationService,
-                private location: Location,
-                private platformLocation: PlatformLocation) {
+                private locationService: LocationService,) {
     }
 
     ngOnInit(): void {
-
-        // TODO: Workaround until the full migration, when the Angular router is available
-        // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
-        this.currentBrowserLocation = (this.platformLocation as any).location.href;
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
             this.customTabs = configuration.customObjectTabs
@@ -84,13 +63,6 @@ export class MainpageComponent implements OnInit {
             // The problem is, that the customTabs which are added to allTabs are not available at this time, waiting for a bit solves this.
             setTimeout(() => this.setActiveTab(this.getSelectedTabFromUrl()), 0);
         });
-        this.pageUrl = this.getPageUrl();
-
-        this.imageUrl = this.sharePageURL.getImageUrl();
-
-        this.eMailSubject = encodeURIComponent('Link to Scenarioo');
-
-        this.eMailUrl = encodeURIComponent(this.pageUrl);
     }
 
     private setActiveTab(tabHeading: string) {
@@ -117,14 +89,6 @@ export class MainpageComponent implements OnInit {
         return this.tabs.filter((tab) => tab.id === selectedTab)[0].title;
     }
 
-    private getPageUrl() {
-        if (this.sharePageURL.getPageUrl() !== undefined) {
-            return this.sharePageURL.getPageUrl();
-        } else {
-            return this.currentBrowserLocation;
-        }
-    }
-
     private defineStaticTabs() {
         this.tabs.push({
             id: 'useCases',
@@ -136,9 +100,6 @@ export class MainpageComponent implements OnInit {
         });
     }
 
-    openShare(shareContent: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(shareContent);
-    }
 }
 
 angular.module('scenarioo.directives')
