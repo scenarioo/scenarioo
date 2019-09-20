@@ -36,7 +36,7 @@ export class MainpageComponent implements OnInit {
     tabs: any[];
 
     constructor(private configurationService: ConfigurationService,
-                private locationService: LocationService,) {
+                private locationService: LocationService) {
     }
 
     ngOnInit(): void {

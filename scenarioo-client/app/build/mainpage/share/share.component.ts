@@ -40,7 +40,8 @@ export class ShareComponent implements OnInit {
     constructor(private modalService: BsModalService,
                 private pageURLService: SharePageURL,
                 private location: Location,
-                private platformLocation: PlatformLocation){}
+                private platformLocation: PlatformLocation) {
+    }
 
     ngOnInit(): void {
 

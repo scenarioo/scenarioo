@@ -24,13 +24,12 @@ import {HashLocationStrategy, Location, LocationStrategy, PlatformLocation} from
 import {LocationService} from '../../../shared/location.service';
 import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
 
-
 describe('share component', () => {
     let component: ShareComponent;
     let fixture: ComponentFixture<ShareComponent>;
     let element;
 
-    let URL = 'http://www.scenarioo.org';
+    const URL = 'http://www.scenarioo.org';
 
     beforeAll(() => {
         TestBed.resetTestEnvironment();
@@ -39,7 +38,7 @@ describe('share component', () => {
     });
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
+        void TestBed.configureTestingModule({
             providers: [
                 SharePageURL,
                 Location,
@@ -48,7 +47,7 @@ describe('share component', () => {
                 {provide: LocationStrategy, useClass: HashLocationStrategy},
             ],
             imports: [ModalModule.forRoot()],
-            declarations: [ShareComponent]
+            declarations: [ShareComponent],
         })
             .compileComponents();
     }));
@@ -61,7 +60,7 @@ describe('share component', () => {
     });
 
     it('should be created', () => {
-        expect(component).toBeTruthy();
+        void expect(component).toBeTruthy();
     });
 
     it('should open the modal when the button is clicked', (done) => {
@@ -70,15 +69,15 @@ describe('share component', () => {
 
         // click button
         const shareButton = fixture.nativeElement.querySelector('button');
-        expect(shareButton).toBeDefined();
+        void expect(shareButton).toBeDefined();
 
-        let modalHeader = fixture.nativeElement.querySelector('h1');
-        expect(modalHeader).toBeNull();
+        const modalHeader = fixture.nativeElement.querySelector('h1');
+        void expect(modalHeader).toBeNull();
 
         shareButton.click();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-            expect(bsModalService.show).toHaveBeenCalledTimes(1);
+            void expect(bsModalService.show).toHaveBeenCalledTimes(1);
             done();
         });
     });
@@ -87,21 +86,20 @@ describe('share component', () => {
         const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
         spyOn(sharePageURLService, 'getPageUrl').and.returnValue(URL);
         component.ngOnInit();
-        expect(component.pageUrl).toBe(URL);
+        void expect(component.pageUrl).toBe(URL);
     });
 
     it('getPageUrl behaves correctly when url is not set', () => {
         const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
         spyOn(sharePageURLService, 'getPageUrl').and.returnValue(undefined);
         component.ngOnInit();
-        expect(component.pageUrl).toBe('http://localhost:7070/context.html');
+        void expect(component.pageUrl).toBe('http://localhost:7070/context.html');
     });
-
 
     it('should set data', () => {
         const email = 'scenarioo@scenarioo.org';
         component.eMailUrl = email;
-        expect(component.eMailUrl).toBe(email);
+        void expect(component.eMailUrl).toBe(email);
     });
 
 });
