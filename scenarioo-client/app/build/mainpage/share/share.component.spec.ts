@@ -76,7 +76,7 @@ describe('share component', () => {
 
         shareButton.click();
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
             void expect(bsModalService.show).toHaveBeenCalledTimes(1);
             done();
         });
