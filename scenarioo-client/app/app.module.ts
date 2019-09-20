@@ -10,10 +10,10 @@ import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
 import {TitleComponent} from './components/title/title.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MainPageComponent} from './build/mainpage/mainpage.component';
+import {MainpageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
-import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
+import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
@@ -47,9 +47,10 @@ import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
 import {TreeDirective} from './shared/metadata/tree.directive';
-import {ScenariosComponent} from './build/scenarios-overview/scenarios-overview.component';
+import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCreator.pipe';
+import {ShareComponent} from './build/mainpage/share/share.component';
 
 @NgModule({
     declarations: [
@@ -60,8 +61,9 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCrea
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
-        MainPageComponent,
-        UseCasesComponent,
+        MainpageComponent,
+        ShareComponent,
+        UseCasesOverviewComponent,
         FilterArrayPipe,
         HumanReadablePipe,
         MetadataTreeCreatorPipe,
@@ -75,18 +77,19 @@ import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCrea
         SketchesTabDirective,
         DiffInfoIconDirective,
         TreeDirective,
-        ScenariosComponent,
+        ScenariosOverviewComponent,
         TitleComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        MainPageComponent,
-        UseCasesComponent,
+        MainpageComponent,
+        ShareComponent,
+        UseCasesOverviewComponent,
         DetailareaComponent,
         DetailAccordionComponent,
         TitleComponent,
-        ScenariosComponent,
+        ScenariosOverviewComponent,
     ],
     imports: [
         BrowserModule,

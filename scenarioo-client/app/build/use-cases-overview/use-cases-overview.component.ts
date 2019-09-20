@@ -34,11 +34,11 @@ import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
 
 @Component({
     selector: 'sc-usecases-overview',
-    template: require('./usecases-overview.component.html'),
-    styles: [require('./usecases-overview.component.css').toString()],
+    template: require('./use-cases-overview.component.html'),
+    styles: [require('./use-cases-overview.component.css').toString()],
 })
 
-export class UseCasesComponent {
+export class UseCasesOverviewComponent {
 
     usecases: UseCaseSummary[] = [];
 
@@ -58,9 +58,9 @@ export class UseCasesComponent {
 
     isPanelCollapsed: boolean;
 
-    branchesAndBuilds = [];
-    branchInformationTree = {};
-    buildInformationTree = {};
+    branchesAndBuilds: object = [];
+    branchInformationTree: object = {};
+    buildInformationTree: object = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -175,7 +175,7 @@ export class UseCasesComponent {
         }
     }
 
-    collapsePanel(event) {
+    collapsePanel(event: boolean) {
         this.isPanelCollapsed = event;
     }
 

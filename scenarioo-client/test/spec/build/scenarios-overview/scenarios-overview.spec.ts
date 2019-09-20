@@ -1,14 +1,14 @@
-import {ScenariosComponent} from '../../../../app/build/scenarios-overview/scenarios-overview.component';
+import {ScenariosOverviewComponent} from '../../../../app/build/scenarios-overview/scenarios-overview.component';
 
-describe('ScenariosComponent', () => {
-    let component: ScenariosComponent;
+describe('ScenariosOverviewComponent', () => {
+    let component: ScenariosOverviewComponent;
 
     const BRANCH = 'branch_123',
          BUILD = 'build_123',
          USE_CASE = 'LogIn';
 
     beforeEach(() => {
-        // component = new ScenariosComponent(BRANCH, BUILD, USE_CASE);
+        // component = new ScenariosOverviewComponent(BRANCH, BUILD, USE_CASE);
     });
 
     it('should load all scenarios and and the selected use case', () => {

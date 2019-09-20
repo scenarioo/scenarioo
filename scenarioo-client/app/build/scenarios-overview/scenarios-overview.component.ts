@@ -22,8 +22,7 @@ import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {LabelConfigurationService} from '../../services/label-configuration.service';
-import {IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {OrderPipe} from 'ngx-order-pipe';
@@ -43,13 +42,12 @@ import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosComponent implements OnInit {
+export class ScenariosOverviewComponent implements OnInit {
 
     useCaseName: string;
 
     scenarios: IScenarioSummary[] = [];
     scenario: IScenario[] = [];
-    propertiesToShow: any[];
 
     searchTerm: string;
 
@@ -60,22 +58,21 @@ export class ScenariosComponent implements OnInit {
     arrowkeyLocation: number = 0;
 
     labelConfigurations: LabelConfigurationMap = undefined;
-    labelConfig = undefined;
+    labelConfig: ILabelConfiguration = undefined;
 
     getStatusStyleClass = undefined;
     comparisonExisting = undefined;
 
     isPanelCollapsed: boolean;
 
-    usecaseInformationTree = {};
-    metadataInformationTree = [];
-    relatedIssues = {};
-    labels = {};
+    usecaseInformationTree: object = {};
+    metadataInformationTree: object = [];
+    relatedIssues: object = {};
+    labels: object = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
                 private scenarioResource: ScenarioResource,
-                private labelConfigurationService: LabelConfigurationService,
                 private selectedComparison: SelectedComparison,
                 private locationService: LocationService,
                 private configurationService: ConfigurationService,
@@ -186,11 +183,11 @@ export class ScenariosComponent implements OnInit {
         }
     }
 
-    goToScenario(useCaseName, scenarioName) {
+    goToScenario(useCaseName: string, scenarioName: string) {
         this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
     }
 
-    goToStep(useCaseName, scenarioName) {
+    goToStep(useCaseName: string, scenarioName: string) {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
             // FIXME This could be improved, if the scenario service
             // for finding all scenarios would also retrieve the name of the first page
@@ -209,7 +206,7 @@ export class ScenariosComponent implements OnInit {
         });
     }
 
-    getLabelStyle(labelName) {
+    getLabelStyle(labelName: string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {
@@ -221,7 +218,7 @@ export class ScenariosComponent implements OnInit {
         }
     }
 
-    collapsePanel(event) {
+    collapsePanel(event: boolean) {
         this.isPanelCollapsed = event;
     }
 
@@ -239,4 +236,4 @@ export class ScenariosComponent implements OnInit {
 
 angular.module('scenarioo.directives')
     .directive('scScenariosOverview',
-        downgradeComponent({component: ScenariosComponent}) as angular.IDirectiveFactory);
+        downgradeComponent({component: ScenariosOverviewComponent}) as angular.IDirectiveFactory);

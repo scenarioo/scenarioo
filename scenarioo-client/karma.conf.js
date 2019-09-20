@@ -33,6 +33,7 @@ module.exports = function (config) {
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'app/app.ts',
+            'app/test.ts',
             'app/**/*.spec.ts',
             'test/mock/**/*.ts',
             'test/spec/**/*.ts',
@@ -43,6 +44,7 @@ module.exports = function (config) {
             'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
             'app/*.ts': ['webpack'],
             'app/!(components)/**/*.ts': ['webpack'],
+            'app/test.ts': ['webpack'],
             'app/**/*.spec.ts': ['webpack'],
             'test/mock/**/*.ts': ['webpack'],
             'test/spec/**/*.ts': ['webpack'],
@@ -62,7 +64,7 @@ module.exports = function (config) {
             'karma-jasmine',
             'karma-junit-reporter',
             'karma-chrome-launcher',
-            'karma-webpack'
+            'karma-webpack',
         ],
 
 
