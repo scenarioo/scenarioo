@@ -10,7 +10,7 @@ export class TreeDataCreatorPipe implements PipeTransform {
     transform(data: any): any {
 
         if (!data) {
-            return undefined ;
+            return undefined;
         }
 
         if (typeof data === 'string') {
@@ -26,26 +26,35 @@ export class TreeDataCreatorPipe implements PipeTransform {
             nodeLabel: nodeTitle,
         };
 
-        if (angular.isArray(node)) {
+        if (Array.isArray(node)) {
             transformedNode.childNodes = this.createArrayChildNodes(node);
-        } else if (angular.isObject(node)) {
+        } else if (TreeDataCreatorPipe.isObject(node)) {
             transformedNode.childNodes = this.createObjectChildNodes(node);
-        } else if (angular.isString(node)) {
+        } else if (TreeDataCreatorPipe.isString(node)) {
             transformedNode = node;
         }
 
         return transformedNode;
     }
 
-    createObjectChildNodes(node) {
+    private static isObject(o: any): boolean {
+        return (typeof o === 'object' || typeof o === 'function') && (o !== null);
+    }
+
+    private static isString(s: any): boolean {
+        return typeof s === 'string' || s instanceof String;
+    }
+
+    createObjectChildNodes(node: any) {
         const childNodes = [];
-        angular.forEach(node, (value, key) => {
-            if (angular.isArray(value)) {
+        Object.keys(node).forEach((key: string) => {
+            let value = node[key];
+            if (Array.isArray(value)) {
                 childNodes.push({
                     nodeLabel: key,
                     childNodes: this.createArrayChildNodes(value),
                 });
-            } else if (angular.isObject(value)) {
+            } else if (TreeDataCreatorPipe.isObject(value)) {
                 childNodes.push({
                     nodeLabel: key,
                     childNodes: this.createObjectChildNodes(value),
@@ -61,10 +70,10 @@ export class TreeDataCreatorPipe implements PipeTransform {
         return childNodes;
     }
 
-    createArrayChildNodes(array) {
+    createArrayChildNodes(array: any[]) {
         const childNodes = [];
-        angular.forEach(array, (element) => {
-            if (angular.isString(element)) {
+        array.forEach((element) => {
+            if (TreeDataCreatorPipe.isString(element)) {
                 childNodes.push({
                     nodeLabel: element,
                 });

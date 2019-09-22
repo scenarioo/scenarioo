@@ -14,9 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import {ConfigurationService} from '../../services/configuration.service';
 import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
 import {StepDiffInfoService} from '../../diffViewer/services/step-diff-info.service';
+
+declare var angular: angular.IAngularStatic;
+
 
 angular
     .module('scenarioo.directives')
