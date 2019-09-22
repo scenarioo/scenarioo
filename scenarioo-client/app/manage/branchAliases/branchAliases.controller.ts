@@ -20,7 +20,6 @@ import {BranchesResource} from '../../shared/services/branchesResource.service';
 
 declare var angular: angular.IAngularStatic;
 
-
 angular.module('scenarioo.controllers')
     .component('scBranchAliases', {
         template: require('./branchAliases.html'),

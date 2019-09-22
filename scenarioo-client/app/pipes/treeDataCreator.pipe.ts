@@ -48,7 +48,7 @@ export class TreeDataCreatorPipe implements PipeTransform {
     createObjectChildNodes(node: any) {
         const childNodes = [];
         Object.keys(node).forEach((key: string) => {
-            let value = node[key];
+            const value = node[key];
             if (Array.isArray(value)) {
                 childNodes.push({
                     nodeLabel: key,

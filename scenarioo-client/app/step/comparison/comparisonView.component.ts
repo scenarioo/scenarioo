@@ -19,7 +19,6 @@ import {StepDiffInfoService} from '../../diffViewer/services/step-diff-info.serv
 
 declare var angular: angular.IAngularStatic;
 
-
 angular
     .module('scenarioo.directives')
     .component('scComparisonView', {
