@@ -175,8 +175,8 @@ export class UseCasesOverviewComponent {
         }
     }
 
-    collapsePanel(event: boolean) {
-        this.isPanelCollapsed = event;
+    collapsePanel(isPanelCollapsed: boolean) {
+        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createBranchInformationTree(branch) {

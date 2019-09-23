@@ -218,8 +218,8 @@ export class ScenariosOverviewComponent implements OnInit {
         }
     }
 
-    collapsePanel(event: boolean) {
-        this.isPanelCollapsed = event;
+    collapsePanel(isPanelCollapsed: boolean) {
+        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createUseCaseInformationTree(usecase) {
