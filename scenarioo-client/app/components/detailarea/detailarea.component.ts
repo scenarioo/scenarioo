@@ -29,14 +29,12 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = false;
 
-    /* Inputs of usecases-overview */
     @Input()
     branchInformationTree: string[];
 
     @Input()
     buildInformationTree: string[];
 
-    /*Inputs of scenarios-overview*/
     @Input()
     usecaseInformationTree: string[];
 
