@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </span>
         <span>{{detailAccordionName}}</span>
     </div>
-    <sc-tree *ngIf="tree" [informationTree]="informationTree"></sc-tree>
-    <sc-label-metadata *ngIf="label" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
-    <div *ngIf="sketches">
+    <sc-tree *ngIf="isTreeComponent" [informationTree]="informationTree"></sc-tree>
+    <sc-label-metadata *ngIf="isLabelComponent" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
+    <div *ngIf="isSketchesComponent">
         <ul id="relatedSketches">
             <li *ngFor="let issue of relatedIssues">
                 <a (click)="goToIssue(issue)">{{issue.name}}</a>

@@ -34,13 +34,13 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
-    tree: boolean;
+    isTreeComponent: boolean;
 
     @Input()
-    sketches: boolean;
+    isSketchesComponent: boolean;
 
     @Input()
-    label: boolean;
+    isLabelComponent: boolean;
 
     @Input()
     detailAccordionName: {};
