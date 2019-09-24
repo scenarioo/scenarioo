@@ -106,7 +106,7 @@ export class ScenariosOverviewComponent implements OnInit {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            if (this.selectedComparison.isDefined()){
+            if (this.selectedComparison.isDefined()) {
                 this.isComparisonExisting = true;
             } else {
                 this.isComparisonExisting = false;
