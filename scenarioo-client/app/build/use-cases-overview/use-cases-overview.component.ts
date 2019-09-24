@@ -53,10 +53,8 @@ export class UseCasesOverviewComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
-    getStatusStyleClass = undefined;
-    comparisonExisting = undefined;
-
     isPanelCollapsed: boolean;
+    isComparisonExisting: boolean;
 
     branchesAndBuilds: any[];
     branchInformationTree: object = {};
@@ -91,7 +89,13 @@ export class UseCasesOverviewComponent {
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
 
-                    if (this.comparisonExisting) {
+                    if (this.selectedComparison.isDefined()) {
+                        this.isComparisonExisting = true;
+                    } else {
+                        this.isComparisonExisting = false;
+                    }
+
+                    if (this.isComparisonExisting) {
                         this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
                     } else {
                         this.usecases = useCaseSummaries;
@@ -111,11 +115,11 @@ export class UseCasesOverviewComponent {
                 this.labelConfigurations = labelConfigurations;
             }));
 
-        this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
-
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
+    }
 
-        this.comparisonExisting = this.selectedComparison.isDefined();
+    getStatusStyleClass(state: string): string {
+        return this.configurationService.getStatusStyleClass(state);
     }
 
     loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {

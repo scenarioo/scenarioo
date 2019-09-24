@@ -87,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <span class="bot">&#9207;</span>
                         </div>
                     </th>
-                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting"
                         [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                         Changes
                         <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <tr (click)="goToUseCase(dynamicUseCase.name)"
                     *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation"
-                    [ngClass]="comparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
+                    [ngClass]="isComparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
                     <td>
                     <span
                         [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
@@ -122,7 +122,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </td>
                     <td>{{dynamicUseCase.description}}</td>
                     <td>{{dynamicUseCase.numberOfScenarios}}</td>
-                    <td *ngIf="comparisonExisting">
+                    <td *ngIf="isComparisonExisting">
                         <sc-diff-info-icon [diffInfo]="dynamicUseCase.diffInfo" childElementType="scenario"
                                            elementType="use case"></sc-diff-info-icon>
                     </td>
