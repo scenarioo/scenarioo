@@ -94,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <span class="bot">&#9207;</span>
                         </div>
                     </th>
-                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting"
                         [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                         Changes
                         <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
@@ -115,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <tbody>
                 <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
                     *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="comparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
+                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
                     <td>
                         <span
                             [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
@@ -136,7 +136,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </td>
                     <td>{{dynamicScenarios.scenario.description}}</td>
                     <td>{{dynamicScenarios.numberOfSteps}}</td>
-                    <td *ngIf="comparisonExisting">
+                    <td *ngIf="isComparisonExisting">
                         <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" childElementType="step" elementType="scenario"></sc-diff-info-icon>
                     </td>
                 </tr>

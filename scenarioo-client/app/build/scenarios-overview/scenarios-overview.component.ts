@@ -61,6 +61,7 @@ export class ScenariosOverviewComponent implements OnInit {
     labelConfig: ILabelConfiguration = undefined;
 
     isPanelCollapsed: boolean;
+    isComparisonExisting: boolean;
 
     usecaseInformationTree: object = {};
     metadataInformationTree: object = [];
@@ -105,7 +106,9 @@ export class ScenariosOverviewComponent implements OnInit {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            if (this.comparisonExisting) {
+            this.isComparisonExisting = this.selectedComparison.selected() == '';
+
+            if (this.isComparisonExisting) {
                 this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
             } else {
                 this.scenarios = useCaseScenarios.scenarios;
@@ -131,10 +134,6 @@ export class ScenariosOverviewComponent implements OnInit {
 
     getStatusStyleClass(state: string): string {
         return this.configurationService.getStatusStyleClass(state);
-    }
-
-    comparisonExisting(): void {
-        return this.selectedComparison.isDefined();
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
