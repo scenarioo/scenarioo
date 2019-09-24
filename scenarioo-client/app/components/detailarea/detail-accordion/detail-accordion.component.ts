@@ -70,8 +70,8 @@ export class DetailAccordionComponent {
             this.sketchIdsResource.get(
                 selection.branch,
                 issue.id,
-            ).subscribe((result) => {
-                const params = this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            ).subscribe((result: ISketchIds) => {
+                this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
         });
     }
