@@ -22,7 +22,7 @@ import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {OrderPipe} from 'ngx-order-pipe';
@@ -63,10 +63,10 @@ export class ScenariosOverviewComponent implements OnInit {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    usecaseInformationTree: object = {};
-    metadataInformationTree: object = [];
-    relatedIssues: object = {};
-    labels: object = {};
+    usecaseInformationTree: IUseCaseSummary;
+    metadataInformationTree: any[];
+    relatedIssues: RelatedIssueSummary[];
+    labels: string[];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -93,7 +93,7 @@ export class ScenariosOverviewComponent implements OnInit {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadScenario(selection));
 
         this.labelConfigurationsResource.query()
-            .subscribe(((labelConfigurations) => {
+            .subscribe(((labelConfigurations: LabelConfigurationMap) => {
                 this.labelConfigurations = labelConfigurations;
             }));
     }
@@ -136,7 +136,7 @@ export class ScenariosOverviewComponent implements OnInit {
         return this.configurationService.getStatusStyleClass(state);
     }
 
-    loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
+    loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             forkJoin([
                 this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
@@ -199,7 +199,7 @@ export class ScenariosOverviewComponent implements OnInit {
                 useCaseName,
                 scenarioName,
             ).subscribe(
-                (scenarioResult) => {
+                (scenarioResult: IScenarioDetails) => {
                     const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
                 },
             );
@@ -222,7 +222,7 @@ export class ScenariosOverviewComponent implements OnInit {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
-    createUseCaseInformationTree(usecase) {
+    createUseCaseInformationTree(usecase: IUseCase) {
         const usecaseInformationTree: any = {};
         usecaseInformationTree['Use Case'] = usecase.name;
         if (usecase.description) {

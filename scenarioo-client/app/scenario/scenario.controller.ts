@@ -23,6 +23,7 @@ import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.servi
 import {forkJoin} from 'rxjs';
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 import {SketchIdsResource} from '../shared/services/sketchIdsResource.service';
+import {ISketchIds} from '../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -292,12 +293,12 @@ function ScenarioController($filter, $routeParams,
         });
     }
 
-    function goToIssue(issue) {
+    function goToIssue(issue: RelatedIssueSummary) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
             selectedBranch,
             issue.id,
-        ).subscribe((result) => {
+        ).subscribe((result: ISketchIds) => {
             $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
         });
     }

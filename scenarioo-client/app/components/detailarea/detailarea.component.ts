@@ -16,7 +16,7 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ILabelConfiguration} from '../../generated-types/backend-types';
+import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 @Component({
@@ -36,10 +36,10 @@ export class DetailareaComponent {
     buildInformationTree: string[];
 
     @Input()
-    usecaseInformationTree: string[];
+    usecaseInformationTree: IUseCaseSummary;
 
     @Input()
-    metadataInformationTree: string[];
+    metadataInformationTree: ICustomObjectTabTree;
 
     @Input()
     relatedIssues: RelatedIssueSummary[];

@@ -58,7 +58,7 @@ export class UseCasesOverviewComponent {
 
     isPanelCollapsed: boolean;
 
-    branchesAndBuilds: object = [];
+    branchesAndBuilds: any[];
     branchInformationTree: object = {};
     buildInformationTree: object = {};
 
