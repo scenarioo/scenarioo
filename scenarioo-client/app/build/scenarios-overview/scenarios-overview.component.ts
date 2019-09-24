@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
@@ -24,7 +24,6 @@ import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
 import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
@@ -42,7 +41,7 @@ import {FilterPipe} from '../../pipes/filter.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosOverviewComponent implements OnInit {
+export class ScenariosOverviewComponent {
 
     useCaseName: string;
 
