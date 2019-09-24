@@ -106,7 +106,7 @@ export class ScenariosOverviewComponent implements OnInit {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            this.isComparisonExisting = this.selectedComparison.selected() == '';
+            this.isComparisonExisting = this.selectedComparison.selected() === '';
 
             if (this.isComparisonExisting) {
                 this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
