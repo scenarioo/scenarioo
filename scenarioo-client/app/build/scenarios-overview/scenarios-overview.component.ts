@@ -237,7 +237,3 @@ export class ScenariosOverviewComponent implements OnInit {
     }
 
 }
-
-angular.module('scenarioo.directives')
-    .directive('scScenariosOverview',
-        downgradeComponent({component: ScenariosOverviewComponent}) as angular.IDirectiveFactory);
