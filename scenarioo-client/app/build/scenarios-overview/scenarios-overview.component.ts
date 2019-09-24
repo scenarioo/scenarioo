@@ -60,9 +60,6 @@ export class ScenariosOverviewComponent implements OnInit {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig: ILabelConfiguration = undefined;
 
-    getStatusStyleClass = undefined;
-    comparisonExisting = undefined;
-
     isPanelCollapsed: boolean;
 
     usecaseInformationTree: object = {};
@@ -98,10 +95,6 @@ export class ScenariosOverviewComponent implements OnInit {
             .subscribe(((labelConfigurations) => {
                 this.labelConfigurations = labelConfigurations;
             }));
-
-        this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
-
-        this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
     private loadScenario(selection) {
@@ -134,6 +127,14 @@ export class ScenariosOverviewComponent implements OnInit {
         });
 
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
+    }
+
+    getStatusStyleClass(state: string): string {
+        return this.configurationService.getStatusStyleClass(state);
+    }
+
+    comparisonExisting(): void {
+        return this.selectedComparison.isDefined();
     }
 
     loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
