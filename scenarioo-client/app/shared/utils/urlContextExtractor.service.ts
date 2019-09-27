@@ -15,39 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {downgradeInjectable} from '@angular/upgrade/static';
+
+declare var angular: angular.IAngularStatic;
+
+export class UrlContextExtractorService {
+
+    /**
+     * Extract the context path where the app is running form any URL (without domain name, protocol, port or any hash or parameters behind)
+     * @param url the current value of $location.absUrl()
+     */
+    getContextPathFromUrl(url) {
+        const urlWithoutParamsOrHash = this.before(this.before(url, '?'), '#');
+        const contextPath = this.after(this.after(urlWithoutParamsOrHash, '//'), '/', '');
+        return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
+    }
+
+    before(string, separator, optionalNotFoundResult?) {
+        const index = string.indexOf(separator);
+        if (index >= 0) {
+            return string.substring(0, index);
+        } else {
+            return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
+        }
+    }
+
+    after(string, separator, optionalNotFoundResult?) {
+        const index = string.indexOf(separator);
+        if (index >= 0) {
+            return string.substring(index + separator.length, string.length);
+        } else {
+            return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
+        }
+    }
+
+}
+
 angular.module('scenarioo.services')
-    .factory('UrlContextExtractorService', () => {
-
-        return {
-            getContextPathFromUrl,
-        };
-
-        /**
-         * Extract the context path where the app is running form any URL (without domain name, protocol, port or any hash or parameters behind)
-         * @param url the current value of $location.absUrl()
-         */
-        function getContextPathFromUrl(url) {
-            const urlWithoutParamsOrHash = before(before(url, '?'), '#');
-            const contextPath = after(after(urlWithoutParamsOrHash, '//'), '/', '');
-            return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
-        }
-
-        function before(string, separator, optionalNotFoundResult?) {
-            const index = string.indexOf(separator);
-            if (index >= 0) {
-                return string.substring(0, index);
-            } else {
-                return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
-            }
-        }
-
-        function after(string, separator, optionalNotFoundResult?) {
-            const index = string.indexOf(separator);
-            if (index >= 0) {
-                return string.substring(index + separator.length, string.length);
-            } else {
-                return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
-            }
-        }
-
-    });
+    .factory('urlContextExtractorService', downgradeInjectable(UrlContextExtractorService));

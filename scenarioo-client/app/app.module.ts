@@ -51,6 +51,8 @@ import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-o
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {ShareComponent} from './build/mainpage/share/share.component';
+import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
+import {LocalStorageService} from './services/localStorage.service';
 
 @NgModule({
     declarations: [
@@ -129,6 +131,8 @@ import {ShareComponent} from './build/mainpage/share/share.component';
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
         DateTimePipe,
+        LocalStorageService,
+        UrlContextExtractorService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
