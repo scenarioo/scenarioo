@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
+<button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
         class="btn btn-primary pull-right" type="button">
     {{ isPanelCollapsed ? "Show details" : "Hide details" }}
 </button>
@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
         <div class="detail-row">
 
-            <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
+            <div (click)="togglePannelCollapsedValue()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
                  class="detail-cell detail-button">
                 <i class="fas fa-angle-right"></i>
             </div>
