@@ -17,6 +17,8 @@
 
 import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
 
+declare var angular: angular.IAngularStatic;
+
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
 function CreateComparisonModalController($route, $location, $uibModalInstance, BranchesAndBuildsService,

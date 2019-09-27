@@ -100,7 +100,7 @@ export class ConfigurationService {
         return '#' + ('00000' + this._config.diffImageColor).toString().substr(-6);
     }
 
-    getStatusStyleClass(buildStatus): string {
+    getStatusStyleClass(buildStatus: string): string {
         if (!this._config) {
             return 'label-warning';
         }

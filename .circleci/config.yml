@@ -24,7 +24,7 @@ jobs:
             ./gradlew clean build -x test --no-daemon -s
       - run:
           name: Unit tests
-          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s
+          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s --info
       - run:
           name: JS tests
           command: ./gradlew scenarioo-client:npm_test --no-daemon -s

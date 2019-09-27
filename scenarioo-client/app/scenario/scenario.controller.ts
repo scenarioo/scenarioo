@@ -22,6 +22,8 @@ import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info
 import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
 import {forkJoin} from 'rxjs';
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
+import {SketchIdsResource} from '../shared/services/sketchIdsResource.service';
+import {ISketchIds} from '../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -30,7 +32,7 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
-                            SketchIdsResource,
+                            SketchIdsResource: SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
                             ScenarioDiffInfoResource: ScenarioDiffInfoService,
                             UseCaseDiffInfoResource: UseCaseDiffInfoService,
@@ -291,12 +293,13 @@ function ScenarioController($filter, $routeParams,
         });
     }
 
-    function goToIssue(issue) {
+    function goToIssue(issue: RelatedIssueSummary) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id},
-            (result) => {
-                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            });
+            selectedBranch,
+            issue.id,
+        ).subscribe((result: ISketchIds) => {
+            $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+        });
     }
 }

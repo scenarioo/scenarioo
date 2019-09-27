@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {BranchAliasesResource} from '../../shared/services/branchAliasResource.service';
+import {BranchesResource} from '../../shared/services/branchesResource.service';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.controllers')
@@ -24,7 +27,7 @@ angular.module('scenarioo.controllers')
         controllerAs: 'vm',
     });
 
-function BranchAliasesController(BranchAliasesResource, BranchesResource) {
+function BranchAliasesController(BranchAliasesResource: BranchAliasesResource, BranchesResource: BranchesResource) {
 
     const vm = this;
     vm.branches = [];

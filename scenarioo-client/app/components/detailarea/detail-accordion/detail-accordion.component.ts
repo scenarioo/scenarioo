@@ -19,6 +19,9 @@ import {Component, Input} from '@angular/core';
 import {LocationService} from '../../../shared/location.service';
 import {SelectedBranchAndBuildService} from '../../../shared/navigation/selectedBranchAndBuild.service';
 import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.service';
+import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
+import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
+import {ISketchIds} from '../../../generated-types/backend-types';
 
 @Component({
     selector: 'sc-detail-accordion',
@@ -34,25 +37,25 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
-    tree: boolean;
+    isTreeComponent: boolean;
 
     @Input()
-    sketches: boolean;
+    isSketchesComponent: boolean;
 
     @Input()
-    label: boolean;
+    isLabelComponent: boolean;
 
     @Input()
-    detailAccordionName: {};
+    detailAccordionName: string;
 
     @Input()
-    informationTree: {};
+    informationTree: any;
 
     @Input()
-    relatedIssues: {};
+    relatedIssues: RelatedIssueSummary;
 
     @Input()
-    labelConfigurations: {};
+    labelConfigurations: LabelConfigurationMap;
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private locationService: LocationService,
@@ -65,13 +68,13 @@ export class DetailAccordionComponent {
         }
     }
 
-    goToIssue(issue) {
+    goToIssue(issue: RelatedIssueSummary) {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
             this.sketchIdsResource.get(
                 selection.branch,
                 issue.id,
-            ).subscribe((result) => {
-                const params = this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            ).subscribe((result: ISketchIds) => {
+                this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
         });
     }
