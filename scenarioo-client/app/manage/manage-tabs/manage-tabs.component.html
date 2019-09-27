@@ -6,7 +6,7 @@
         <sc-comparisons *ngIf="isActiveTab(1)"></sc-comparisons>
     </tab>
     <tab [heading]="tabs[2].name" (selectTab)="onSelect($event)">
-        <sc-branch-aliases2 *ngIf="isActiveTab(2)"></sc-branch-aliases2>
+        <sc-branch-aliases *ngIf="isActiveTab(2)"></sc-branch-aliases>
 
     </tab>
     <tab [heading]="tabs[3].name" (selectTab)="onSelect($event)">

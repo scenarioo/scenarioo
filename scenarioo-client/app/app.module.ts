@@ -15,7 +15,6 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
@@ -57,7 +56,6 @@ import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.com
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        BranchAliasesDirective,
         GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,

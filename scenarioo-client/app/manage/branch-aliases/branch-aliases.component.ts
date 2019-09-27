@@ -5,7 +5,7 @@ import {IBranchAlias, IBranchBuilds} from '../../generated-types/backend-types';
 import {Observable} from 'rxjs';
 
 @Component({
-    selector: 'sc-branch-aliases2',
+    selector: 'sc-branch-aliases',
     template: require('./branch-aliases.component.html'),
     styles: [require('./branch-aliases.component.css').toString()],
 })
