@@ -1,0 +1,72 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div>
+    <a class="link" (click)="goToBuild(buildDetails)" tooltip="Show Import Log and Details" data-placement="left"><i class="fas fa-list-alt fa-fw"></i> Details & Log</a>
+
+    <ng-template #buildDetails>
+        <div class="modal-header">
+            <h1 class="modal-title">Build {{ build.identifier.buildName }} on Branch {{ build.identifier.branchName}}</h1>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <h3>Build</h3>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Revision: {{build.buildDescription.revision}}
+                    </div>
+                    <div class="col-md-4">
+                        Date: {{build.buildDescription.date | scDateTime}}
+                    </div>
+                    <div class="col-md-4">
+                        Status: <span [ngClass]="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h3>Import into Scenarioo</h3>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Status: <span [ngClass]="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>
+                    </div>
+                    <div class="col-md-4">
+                        Date: {{build.importDate | scDateTime}}
+                    </div>
+                    <div class="col-md-4">
+                        <div *ngIf="hasImportMessage()" class="label-warning">
+                            {{build.statusMessage}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h3 class="control-label">Import Log</h3>
+                <textarea id="importLog" class="form-control" rows="10" wrap="off" readonly="true"
+                          title="the output on the server on importing this build into scenarioo">{{log}}</textarea>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button (click)="modalRef.hide()" class="btn btn-primary" type="button">Close</button>
+        </div>
+    </ng-template>
+</div>

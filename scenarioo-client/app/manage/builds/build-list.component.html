@@ -1,0 +1,160 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div>
+    <div class="row sc-space-top sc-space-bottom">
+        <div class="col-lg-3">
+            <label class="input-group">
+                <input [(ngModel)]="searchTerm" class="form-control" data-placement="bottom"
+                       id="buildsSearchField" placeholder="Search build ..."
+                       tooltip="type words separated by spaces to search for" type="text" autofocus/>
+                <span class="input-group-btn">
+                    <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+                </span>
+            </label>
+        </div>
+        <div class="col-lg-9">
+            <a (click)="importAndUpdateBuilds()" class="link pull-right">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Import &amp; Update Builds
+            </a>
+        </div>
+    </div>
+
+    <!-- builds table -->
+    <table class="table table-curved table-responsive">
+        <thead>
+            <tr>
+                <th (click)="setOrder('identifier.branchName')" [class.selected]="order === 'identifier.branchName'">
+                    Branch
+                    <span *ngIf="order !== 'identifier.branchName'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'identifier.branchName' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'identifier.branchName' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th (click)="setOrder('identifier.buildName')" [class.selected]="order === 'identifier.buildName'">
+                    Build
+                    <span *ngIf="order !== 'identifier.buildName'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'identifier.buildName' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'identifier.buildName' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th (click)="setOrder('buildDescription.date')" [class.selected]="order === 'buildDescription.date'">
+                    Date
+                    <span *ngIf="order !== 'buildDescription.date'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.date' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.date' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th (click)="setOrder('buildDescription.revision')" [class.selected]="order === 'buildDescription.revision'">
+                    Revision
+                    <span *ngIf="order !== 'buildDescription.revision'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.revision' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.revision' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th>Use Cases</th>
+                <th>Scenarios</th>
+
+                <th (click)="setOrder('buildDescription.status')" [class.selected]="order === 'buildDescription.status'">
+                    Build Status
+                    <span *ngIf="order !== 'buildDescription.status'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.status' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'buildDescription.status' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th (click)="setOrder('status')" [class.selected]="order === 'status'">
+                    Import Status
+                    <span *ngIf="order !== 'status'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                    <span *ngIf="order === 'status' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                    <span *ngIf="order === 'status' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+
+                <th>Details & Log</th>
+                <th>Reimport</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let build of buildImportStates | orderBy: order:reverse:true | scSearchFilter: searchTerm">
+                <td>{{build.identifier.branchName}}</td>
+                <td>{{build.identifier.buildName}}</td>
+                <td>{{build.buildDescription.date | scDateTime}}</td>
+                <td>{{build.buildDescription.revision}}</td>
+                <td>
+                    <span *ngIf="build.status != 'PROCESSING'">
+                        {{ build.buildStatistics.numberOfSuccessfulUseCases + build.buildStatistics.numberOfFailedUseCases }}
+                        <span *ngIf="build.buildStatistics.numberOfFailedUseCases != 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
+                    </span>
+                </td>
+                <td>
+                    <span *ngIf="build.status != 'PROCESSING'">
+                        {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
+                        <span *ngIf="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+                    </span>
+                </td>
+                <td>
+                    <span [ngClass]="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                </td>
+                <td title="{{build.statusMessage}}">
+                    <span [ngClass]="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>
+                </td>
+                <td>
+                    <sc-build-detail [build]="build"></sc-build-detail>
+                </td>
+                <td>
+                    <a class="link" (click)="reimportBuild(build)" tooltip="Reimport and update this build" data-placement="left"><i class="fas fa-sync fa-fw"></i> Reimport</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

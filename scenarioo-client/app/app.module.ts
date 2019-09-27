@@ -15,9 +15,9 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
+import {BuildListComponent} from './manage/builds/build-list.component';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
-import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
@@ -53,6 +53,7 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {BuildDetailComponent} from './manage/builds/build-detail.component';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,8 @@ import {LocalStorageService} from './services/localStorage.service';
         ManageTabsComponent,
         GeneralSettingsDirective,
         LabelColorsDirective,
-        BuildsListDirective,
+        BuildListComponent,
+        BuildDetailComponent,
         ComparisonsDirective,
         MainpageComponent,
         ShareComponent,
