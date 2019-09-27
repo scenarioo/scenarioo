@@ -59,15 +59,10 @@ describe('share component', () => {
         element = fixture.debugElement.nativeElement;
     });
 
-    it('should be created', () => {
-        void expect(component).toBeTruthy();
-    });
-
     it('should open the modal when the button is clicked', (done) => {
         const bsModalService = fixture.debugElement.injector.get(BsModalService);
         spyOn(bsModalService, 'show');
 
-        // click button
         const shareButton = fixture.nativeElement.querySelector('button');
         void expect(shareButton).toBeDefined();
 

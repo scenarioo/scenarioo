@@ -18,6 +18,8 @@
 'use strict';
 
 import {ReplaySubject} from 'rxjs';
+declare var angular: angular.IAngularStatic;
+
 
 angular.module('scenarioo.services').service('ConfigMock', () => {
     return ({

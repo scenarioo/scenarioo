@@ -31,7 +31,7 @@ export class ShareComponent implements OnInit {
 
     modalRef: BsModalRef;
 
-    eMailSubject: string = undefined;
+    eMailSubject: string;
     eMailUrl: string;
     pageUrl: string;
 

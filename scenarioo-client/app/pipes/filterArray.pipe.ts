@@ -20,7 +20,6 @@ export class FilterArrayPipe implements PipeTransform {
             if (typeof singleItem === 'object') {
                 if (this.objectContainsAllSearchElements(singleItem, value)) {
                     filteredModel.push(singleItem);
-
                 }
             }
         });

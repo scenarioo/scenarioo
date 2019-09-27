@@ -15,16 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioSummary, IUseCaseScenarios} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
@@ -35,6 +34,9 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/r
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
 import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
+import {downgradeComponent} from '@angular/upgrade/static';
+
+declare var angular: angular.IAngularStatic;
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -42,7 +44,7 @@ import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
     styles: [require('./scenarios-overview.component.css').toString()],
 })
 
-export class ScenariosOverviewComponent implements OnInit {
+export class ScenariosOverviewComponent {
 
     useCaseName: string;
 
@@ -60,15 +62,13 @@ export class ScenariosOverviewComponent implements OnInit {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig: ILabelConfiguration = undefined;
 
-    getStatusStyleClass = undefined;
-    comparisonExisting = undefined;
-
     isPanelCollapsed: boolean;
+    isComparisonExisting: boolean;
 
-    usecaseInformationTree: object = {};
-    metadataInformationTree: object = [];
-    relatedIssues: object = {};
-    labels: object = {};
+    usecaseInformationTree: object;
+    metadataInformationTree: any[];
+    relatedIssues: RelatedIssueSummary[];
+    labels: string[];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -95,13 +95,9 @@ export class ScenariosOverviewComponent implements OnInit {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadScenario(selection));
 
         this.labelConfigurationsResource.query()
-            .subscribe(((labelConfigurations) => {
+            .subscribe(((labelConfigurations: LabelConfigurationMap) => {
                 this.labelConfigurations = labelConfigurations;
             }));
-
-        this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
-
-        this.comparisonExisting = this.selectedComparison.isDefined();
     }
 
     private loadScenario(selection) {
@@ -112,7 +108,9 @@ export class ScenariosOverviewComponent implements OnInit {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            if (this.comparisonExisting) {
+            this.isComparisonExisting = this.selectedComparison.isDefined();
+
+            if (this.isComparisonExisting) {
                 this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
             } else {
                 this.scenarios = useCaseScenarios.scenarios;
@@ -136,7 +134,11 @@ export class ScenariosOverviewComponent implements OnInit {
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
     }
 
-    loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: any, useCaseName: string) {
+    getStatusStyleClass(state: string): string {
+        return this.configurationService.getStatusStyleClass(state);
+    }
+
+    loadDiffInfoData(scenarios: IScenarioSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             forkJoin([
                 this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
@@ -199,7 +201,7 @@ export class ScenariosOverviewComponent implements OnInit {
                 useCaseName,
                 scenarioName,
             ).subscribe(
-                (scenarioResult) => {
+                (scenarioResult: IScenarioDetails) => {
                     const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
                 },
             );
@@ -218,11 +220,11 @@ export class ScenariosOverviewComponent implements OnInit {
         }
     }
 
-    collapsePanel(event: boolean) {
-        this.isPanelCollapsed = event;
+    collapsePanel(isPanelCollapsed: boolean) {
+        this.isPanelCollapsed = isPanelCollapsed;
     }
 
-    createUseCaseInformationTree(usecase) {
+    createUseCaseInformationTree(usecase: IUseCase) {
         const usecaseInformationTree: any = {};
         usecaseInformationTree['Use Case'] = usecase.name;
         if (usecase.description) {

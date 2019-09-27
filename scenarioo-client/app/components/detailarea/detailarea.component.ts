@@ -16,7 +16,7 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ILabelConfiguration} from '../../generated-types/backend-types';
+import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 @Component({
@@ -29,19 +29,17 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = false;
 
-    /* Inputs of usecases-overview */
     @Input()
-    branchInformationTree: string[];
+    branchInformationTree: any;
 
     @Input()
-    buildInformationTree: string[];
-
-    /*Inputs of scenarios-overview*/
-    @Input()
-    usecaseInformationTree: string[];
+    buildInformationTree: any;
 
     @Input()
-    metadataInformationTree: string[];
+    usecaseInformationTree: any;
+
+    @Input()
+    metadataInformationTree: ICustomObjectTabTree;
 
     @Input()
     relatedIssues: RelatedIssueSummary[];
@@ -56,11 +54,7 @@ export class DetailareaComponent {
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     valueChange() {
-        if (this.isPanelCollapsed === false) {
-            this.isPanelCollapsed = true;
-        } else {
-            this.isPanelCollapsed = false;
-        }
+        this.isPanelCollapsed = this.isPanelCollapsed === false;
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
