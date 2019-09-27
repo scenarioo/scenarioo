@@ -12,7 +12,7 @@ export class MetadataTreeListCreatorPipe implements PipeTransform {
     constructor(private metadataTreeCreatorPipe: MetadataTreeCreatorPipe) {
     }
 
-    transform(metadata: any): any[] {
+    transform(metadata: any): any {
 
         const metadataTrees = {};
 
