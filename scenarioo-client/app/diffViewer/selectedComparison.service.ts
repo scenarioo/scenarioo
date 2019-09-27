@@ -117,5 +117,7 @@ export class SelectedComparison {
         return '';
     }
 
-    isDefined() {}
+    isDefined(): boolean {
+        return true;
+    }
 }

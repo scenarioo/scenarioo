@@ -56,6 +56,7 @@ generateTypeScript {
             'org.scenarioo.rest.search.SearchEngineStatus',
             'org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary',
             'org.scenarioo.model.docu.aggregates.branches.BranchBuilds',
+            'org.scenarioo.rest.sketcher.issue.dto.SketchIds',
     ]
 
     addTypeNamePrefix = 'I'

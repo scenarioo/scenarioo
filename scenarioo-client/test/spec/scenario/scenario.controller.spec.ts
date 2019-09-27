@@ -24,7 +24,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('ScenarioController', () => {
 
-    let $scope, $httpBackend, $routeParams, ConfigurationService, TestData, ScenarioController, RelatedIssueResource, SelectedBranchAndBuildService;
+    let $scope, $httpBackend, $routeParams, ConfigurationService, TestData, ScenarioController, SelectedBranchAndBuildService;
 
     const LabelConfigurationsResourceMock = {
         query: () => of({}),
@@ -71,6 +71,16 @@ describe('ScenarioController', () => {
         },
     };
 
+    const RelatedIssueResourceMock = {
+        getForStepsOverview: () => of( {
+            0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+        })
+    };
     const DiffInfoServiceMock = {};
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
@@ -84,16 +94,17 @@ describe('ScenarioController', () => {
         $provide.value('UseCaseDiffInfoResource', {});
         $provide.value('ScenarioDiffInfoResource', {});
         $provide.value('StepDiffInfosResource', {});
+        $provide.value('RelatedIssueResource', RelatedIssueResourceMock);
+        $provide.value('SketchIdsResource', {})
     }));
 
-    beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService, _RelatedIssueResource_,
+    beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService,
                        _ConfigurationService_, _SelectedBranchAndBuildService_
         ) => {
             $scope = $rootScope.$new();
             $httpBackend = _$httpBackend_;
             $routeParams = _$routeParams_;
             TestData = _TestData_;
-            RelatedIssueResource = _RelatedIssueResource_;
             ConfigurationService = _ConfigurationService_;
 
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
@@ -104,8 +115,6 @@ describe('ScenarioController', () => {
             LocalStorageService.clearAll();
 
             ScenarioController = $controller('ScenarioController', {$scope: $scope});
-
-            spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         }
     ));
 
@@ -216,20 +225,4 @@ describe('ScenarioController', () => {
         expect(ScenarioController.showAllStepsForPage(1)).toBeTruthy();
         expect(ScenarioController.showAllStepsForPage(2)).toBeFalsy(); // Scenario has only 2 pages
     }
-
-    function queryRelatedIssuesFake() {
-        const DATA = {
-            0:
-                {
-                    id: '1',
-                    name: 'fakeTestingIssue',
-                    firstScenarioSketchId: '1'
-                }
-        };
-
-        return (params, onSuccess) => {
-            onSuccess(DATA);
-        };
-    }
-
 });

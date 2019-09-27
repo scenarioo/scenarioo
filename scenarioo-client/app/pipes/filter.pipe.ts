@@ -47,7 +47,9 @@ export class FilterPipe implements PipeTransform {
         Object.keys(object).forEach((key) => {
             if (!returnTrue) {
                 const value = object[key];
-                if (typeof value === 'string') {
+                if (value === null) {
+                    returnTrue = false;
+                } else if (typeof value === 'string') {
                     if (this.contains(value, string)) {
                         returnTrue = true;
                     }

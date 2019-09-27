@@ -73,7 +73,7 @@ import './search/search.controller';
 import './shared';
 import './sketcher';
 import './step';
-import './useCase/usecase.controller';
+import './components';
 import './diffViewer';
 
 import {AppModule} from './app.module';

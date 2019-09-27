@@ -21,6 +21,9 @@ import {UseCaseDiffInfoService} from '../diffViewer/services/use-case-diff-info.
 import {ScenarioDiffInfoService} from '../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../diffViewer/services/step-diff-infos.service';
 import {forkJoin} from 'rxjs';
+import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
+import {SketchIdsResource} from '../shared/services/sketchIdsResource.service';
+import {ISketchIds} from '../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -29,12 +32,13 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 function ScenarioController($filter, $routeParams,
                             $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
-                            RelatedIssueResource, SketchIdsResource,
+                            SketchIdsResource: SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
                             ScenarioDiffInfoResource: ScenarioDiffInfoService,
                             UseCaseDiffInfoResource: UseCaseDiffInfoService,
                             StepDiffInfosResource: StepDiffInfosService,
-                            ConfigurationService: ConfigurationService) {
+                            ConfigurationService: ConfigurationService,
+                            RelatedIssueResource: RelatedIssueResource) {
     const vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};
@@ -275,23 +279,27 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadRelatedIssues() {
-        RelatedIssueResource.query({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName,
-            scenarioName: $routeParams.scenarioName,
-        }, (result) => {
-            vm.relatedIssues = result;
-            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
+        RelatedIssueResource.getForStepsOverview({
+                branchName: SelectedBranchAndBuildService.selected().branch,
+                buildName: SelectedBranchAndBuildService.selected().build,
+            },
+            $routeParams.useCaseName,
+            $routeParams.scenarioName,
+        ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+            vm.relatedIssues = relatedIssueSummary;
+            vm.hasAnyRelatedIssues = relatedIssueSummary != null && relatedIssueSummary.length > 0;
+        }, (error) => {
+            throw error;
         });
     }
 
-    function goToIssue(issue) {
+    function goToIssue(issue: RelatedIssueSummary) {
         const selectedBranch = SelectedBranchAndBuildService.selected().branch;
         SketchIdsResource.get(
-            {branchName: selectedBranch, issueId: issue.id},
-            (result) => {
-                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            });
+            selectedBranch,
+            issue.id,
+        ).subscribe((result: ISketchIds) => {
+            $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+        });
     }
 }

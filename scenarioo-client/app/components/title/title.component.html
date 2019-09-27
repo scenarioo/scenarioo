@@ -1,0 +1,34 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Scenarios Overview: usecase.html -->
+<div *ngIf="useCaseName">
+    <p>Scenarios of Use Case</p>
+    <h1>{{useCaseName}}</h1>
+</div>
+
+<!-- Steps Overview: scenario.html -->
+<div *ngIf="scenarioName && !stepIndex">
+    <h4>Pages of Scenario</h4>
+    <h1>{{scenarioName}}</h1>
+</div>
+
+<!-- Step View: step.html -->
+<div *ngIf="stepIndex">
+    <h4>Step {{stepIndex}} of Scenario</h4>
+    <h1>{{scenarioName}}</h1>
+</div>

@@ -1,6 +1,3 @@
-import {of, ReplaySubject, throwError as observableThrowError} from 'rxjs';
-import {IConfiguration} from '../../../app/generated-types/backend-types';
-
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
  *
@@ -20,6 +17,9 @@ import {IConfiguration} from '../../../app/generated-types/backend-types';
 
 'use strict';
 
+import {of, ReplaySubject, throwError as observableThrowError} from 'rxjs';
+import {IConfiguration} from '../../../app/generated-types/backend-types';
+
 declare var angular: angular.IAngularStatic;
 
 describe('StepController', () => {
@@ -27,7 +27,7 @@ describe('StepController', () => {
     let $scope, $routeParams, $location, $q, $window, ConfigurationService,
         BuildDiffInfoResource, StepDiffInfoResource,
         SelectedBranchAndBuildService, DiffInfoService, BranchesResource,
-        $controller, $httpBackend, TestData, RelatedIssueResource;
+        $controller, $httpBackend, TestData;
 
     const STEP_INFORMATION_TREE = {
         childNodes: [
@@ -43,6 +43,16 @@ describe('StepController', () => {
         ],
     };
 
+    const RelatedIssueResourceMock = {
+        get: () => of( {
+            0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+        })
+    };
 
     const ConfigResourceMock = {
         get: () => of(angular.copy(TestData.CONFIG)),
@@ -109,6 +119,8 @@ describe('StepController', () => {
         $provide.value('ConfigurationService', ConfigurationServiceMock);
         $provide.value('SelectedBranchAndBuildService', SelectedBranchAndBuildServiceMock);
         $provide.value('DiffInfoService', DiffInfoServiceMock);
+        $provide.value('RelatedIssueResource', RelatedIssueResourceMock);
+        $provide.value('SketchIdsResource', {});
         $provide.value('BuildDiffInfoResource', {
             get() {
 
@@ -124,14 +136,13 @@ describe('StepController', () => {
     beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigurationService_,
                        _BuildDiffInfoResource_, _StepDiffInfoResource_,
                        _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
-                       _TestData_, LocalStorageService, _RelatedIssueResource_, _BranchesResource_) => {
+                       _TestData_, LocalStorageService, _BranchesResource_) => {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
         $q = _$q_;
         $window = _$window_;
         ConfigurationService = _ConfigurationService_;
-        RelatedIssueResource = _RelatedIssueResource_;
         BuildDiffInfoResource = _BuildDiffInfoResource_;
         StepDiffInfoResource = _StepDiffInfoResource_;
         BranchesResource = _BranchesResource_;
@@ -168,7 +179,6 @@ describe('StepController', () => {
                 SharePagePopupService: {},
             });
 
-            spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             spyOn(BranchesResource, 'query').and.returnValue(of({}));
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
@@ -217,21 +227,6 @@ describe('StepController', () => {
 
             $scope.$apply();
             expect($scope.stepNotFound).toBeFalsy();
-        }
-
-        function queryRelatedIssuesFake() {
-            const DATA = {
-                0:
-                    {
-                        id: '1',
-                        name: 'fakeTestingIssue',
-                        firstScenarioSketchId: '1',
-                    },
-            };
-
-            return (params, onSuccess) => {
-                onSuccess(DATA);
-            };
         }
     });
 

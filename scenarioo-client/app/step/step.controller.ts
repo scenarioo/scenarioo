@@ -18,6 +18,7 @@
 import {ConfigurationService} from '../services/configuration.service';
 import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
 import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
+import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -25,8 +26,9 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 
 function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
-                        SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, SelectedComparison) {
+                        SharePageService, SketcherContextService, SketchIdsResource,
+                        SketcherLinkService, SelectedComparison,
+                        RelatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -129,8 +131,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             $scope.pageOccurrence,
             $scope.stepInPageOccurrence,
             labels,
-        )
-            .subscribe((result) => stepResultToVm(result, selected),
+        ).subscribe((result) => stepResultToVm(result, selected),
                 (error) => {
                     $scope.stepNotFound = true;
                     $scope.httpResponse = {
@@ -298,18 +299,21 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     });
 
     function loadRelatedIssues() {
-        RelatedIssueResource.query({
+        RelatedIssueResource.get({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
+            },
             useCaseName,
             scenarioName,
-            pageName: $scope.pageName,
-            pageOccurence: $scope.pageOccurrence,
-            stepInPageOccurrence: $scope.stepInPageOccurrence,
-        }, (result) => {
-            $scope.relatedIssues = result;
-            $scope.hasAnyRelatedIssues = () => $scope.relatedIssues.length > 0;
+            $scope.pageName,
+            $scope.pageOccurrence,
+            $scope.stepInPageOccurrence,
+        ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+            $scope.relatedIssues = relatedIssueSummary;
+            $scope.hasAnyRelatedIssues = $scope.relatedIssues != null && $scope.relatedIssues.length > 0;
             $scope.goToIssue = goToIssue;
+        }, (error) => {
+            throw error;
         });
     }
 

@@ -39,7 +39,7 @@ function TreeComponentController($sce) {
         }
     };
 
-    function createTreeHtml(informationTree) {
+    function createTreeHtml(informationTree: any) {
 
         if (!angular.isObject(informationTree)) {
             return 'no data to display';

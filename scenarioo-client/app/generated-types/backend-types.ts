@@ -131,6 +131,11 @@ export interface IBranchBuilds {
     isAlias: boolean;
 }
 
+export interface ISketchIds {
+    scenarioSketchId: string;
+    stepSketchId: string;
+}
+
 export interface IComparisonConfiguration {
     name: string;
     baseBranchName: string;
