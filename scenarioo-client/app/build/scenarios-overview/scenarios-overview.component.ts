@@ -38,7 +38,6 @@ import {downgradeComponent} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
-
 @Component({
     selector: 'sc-scenarios-overview',
     template: require('./scenarios-overview.component.html'),
