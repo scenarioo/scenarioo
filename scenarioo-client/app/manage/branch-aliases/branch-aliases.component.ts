@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BranchAliasesResource} from '../../shared/services/branchAliasResource.service';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {IBranchAlias, IBranchBuilds} from '../../generated-types/backend-types';
-import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'sc-branch-aliases',
@@ -23,19 +23,15 @@ export class BranchAliasesComponent implements OnInit {
 
     ngOnInit(): void {
         this.refreshBranchAliases();
+        this.loadBranchesWithoutAliases();
+    }
 
-        // TODO replace with map
-        this.branchesResource.query().subscribe((branches: IBranchBuilds[]) => {
-            const branchesWithoutAliases = [];
-            for (let index = 0; index < branches.length; index++) {
-                const branch = branches[index];
-                if (!branch.isAlias) {
-                    branchesWithoutAliases.push(branch);
-                }
-            }
-
-            this.branches = branchesWithoutAliases;
-        });
+    private loadBranchesWithoutAliases() {
+        this.branchesResource.query()
+            .pipe(map(branches => branches.filter(branch => branch.isAlias)))
+            .subscribe((branches: IBranchBuilds[]) => {
+                this.branches = branches;
+            });
     }
 
     private refreshBranchAliases() {
@@ -69,7 +65,7 @@ export class BranchAliasesComponent implements OnInit {
         if (this.uniqueError || this.requiredError) {
             return;
         }
-        console.log('save');
+
         this.branchAliasResource.save(this.branchAliases
             .filter(alias => alias.name !== ''))
             .subscribe(() => {
