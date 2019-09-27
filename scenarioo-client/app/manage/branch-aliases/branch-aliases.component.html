@@ -3,43 +3,63 @@
         <table class="table table-curved table-responsive">
             <thead>
             <tr>
-                <th>Alias Name</th>
-                <th>Referenced Branch</th>
+                <th>Alias Name *</th>
+                <th>Referenced Branch *</th>
                 <th>Description</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let branchAlias for branchAliases$ | async">
+            <tr *ngFor="let branchAlias of branchAliases">
                 <td>
-                    <input type="text" class="form-control" [value]="branchAlias.name" name="aliasName"/>
-                    <!--
-                    <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name"
-                           ng-change="vm.aliasNameChanged()" name="aliasName"/>
-                           -->
+                    <input type="text" class="form-control" [(ngModel)]="branchAlias.name"
+                           (change)="onAliasNameChanged()"
+                           [ngModelOptions]="{standalone: true}"/>
                 </td>
                 <td>
-                    select
-                    <!--
-                    <select ng-model="branchAlias.referencedBranch"
-                            class="form-control"
-                            ng-required="branchAlias.name !== ''"
-                            name="referencedBranch">
+                    <select class="form-control" [(ngModel)]="branchAlias.referencedBranch"
+                            [ngModelOptions]="{standalone: true}">
                         <option value=""></option>
-                        <option ng-repeat="branch in vm.branches">{{branch.branch.name}}</option>
+                        <option *ngFor="let branch of branches"
+                                [value]="branch.branch.name">{{ branch.branch.name }}</option>
                     </select>
-                    -->
+
                 </td>
                 <td>
-                    <!--
-                    <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
-                    -->
+                    <input type="text" class="form-control" [(ngModel)]="branchAlias.description"
+                           [ngModelOptions]="{standalone: true}"/>
+
                 </td>
                 <td>
-                    <input type="button" class="btn btn-small btn-danger" value="Delete"/>
+                    <input type="button" class="btn btn-small btn-danger" (click)="onDelete(branchAlias)"
+                           value="Delete"/>
                 </td>
             </tr>
             </tbody>
         </table>
     </form>
+
+    <div class="alert alert-success fade-out" id="updated-branch-aliases-successfully"
+         *ngIf="successfullyUpdatedBranchAliases">
+        The branch aliases have been successfully updated.
+        <a (click)="successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover"
+           style="color: #468847"><i
+            class="fas fa-times"></i></a>
+    </div>
+
+    <div class="alert alert-danger fade-out" *ngIf="uniqueError" id="duplicateAliasErrorId">
+        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
+    </div>
+
+    <div class="alert alert-danger fade-out" *ngIf="requiredError" id="requiredFieldsErrorId">
+        <strong>Required fields are missing.</strong>
+    </div>
+
+
+    <div class="row sc-space-top-large">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="onReset()"/>
+            <input type="button" value="Save" class="btn btn-wide btn-primary" (click)="onSave()"/>
+        </div>
+    </div>
 </div>
