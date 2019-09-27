@@ -1,0 +1,45 @@
+<div>
+    <form name="branchAliasesForm">
+        <table class="table table-curved table-responsive">
+            <thead>
+            <tr>
+                <th>Alias Name</th>
+                <th>Referenced Branch</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let branchAlias for branchAliases$ | async">
+                <td>
+                    <input type="text" class="form-control" [value]="branchAlias.name" name="aliasName"/>
+                    <!--
+                    <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name"
+                           ng-change="vm.aliasNameChanged()" name="aliasName"/>
+                           -->
+                </td>
+                <td>
+                    select
+                    <!--
+                    <select ng-model="branchAlias.referencedBranch"
+                            class="form-control"
+                            ng-required="branchAlias.name !== ''"
+                            name="referencedBranch">
+                        <option value=""></option>
+                        <option ng-repeat="branch in vm.branches">{{branch.branch.name}}</option>
+                    </select>
+                    -->
+                </td>
+                <td>
+                    <!--
+                    <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
+                    -->
+                </td>
+                <td>
+                    <input type="button" class="btn btn-small btn-danger" value="Delete"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

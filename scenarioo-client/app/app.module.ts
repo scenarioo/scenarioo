@@ -51,6 +51,7 @@ import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-o
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {ShareComponent} from './build/mainpage/share/share.component';
+import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import {ShareComponent} from './build/mainpage/share/share.component';
         TreeDirective,
         ScenariosOverviewComponent,
         TitleComponent,
+        BranchAliasesComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
