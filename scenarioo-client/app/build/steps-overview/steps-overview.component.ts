@@ -42,6 +42,8 @@ import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.se
 import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
 import {FilterPipe} from '../../pipes/filter.pipe';
 
+declare var angular: angular.IAngularStatic;
+
 @Component({
     selector: 'sc-steps-overview',
     template: require('./steps-overview.component.html'),
