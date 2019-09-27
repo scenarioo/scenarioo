@@ -17,9 +17,9 @@
 
 angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, LocalStorageService, GlobalHotkeysService) => {
 
-    const STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
+    const METADATA_VISIBLE_KEY = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
-        const metadataVisible = LocalStorageService.get(STEP_METADATA_VISIBLE + key);
+        const metadataVisible = LocalStorageService.get(METADATA_VISIBLE_KEY + key);
         if (metadataVisible === 'true') {
             scope.linkingVariable = true;
         } else if (metadataVisible === 'false') {
@@ -46,7 +46,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = () => {
                 $scope.linkingVariable = !$scope.linkingVariable;
-                LocalStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
+                LocalStorageService.set(METADATA_VISIBLE_KEY + $scope.localStorageKey, '' + $scope.linkingVariable);
                 // if toggleShowingMetadata is triggered on the step page we have to potentially reload the page.
                 // Delegate this decision to the StepController
                 if (angular.isFunction($route.current.scope.refreshIfComparisonActive)) {
