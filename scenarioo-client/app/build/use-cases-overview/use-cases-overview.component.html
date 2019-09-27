@@ -34,16 +34,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
                 <span *ngIf="(usecases|filter: searchTerm).length === usecases.length">{{usecases.length}}</span>
-                <span *ngIf="(usecases|filter: searchTerm).length != usecases.length">Found {{(usecases|filter: searchTerm).length}} of {{usecases.length}}</span>
+                <span *ngIf="(usecases|filter: searchTerm).length !== usecases.length">Found {{(usecases|filter: searchTerm).length}} of {{usecases.length}}</span>
                 <span *ngIf="usecases.length>1"> Use Cases</span>
                 <span *ngIf="usecases.length<=1"> Use Case</span>
             </p>
-            <table *ngIf="(usecases|filter: searchTerm).length!=0" class="table table-curved table-responsive usecase-table">
+            <table *ngIf="(usecases|filter: searchTerm).length!==0" class="table table-curved table-responsive usecase-table">
                 <thead>
                 <tr>
                     <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                         Status
-                        <div *ngIf="order != 'status'" class="arrows">
+                        <div *ngIf="order !== 'status'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </th>
                     <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
                         Name
-                        <div *ngIf="order != 'name'" class="arrows">
+                        <div *ngIf="order !== 'name'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <th>Description</th>
                     <th (click)="setOrder('numberOfScenarios')" [class.selected]="order === 'numberOfScenarios' ">
                         # Scenarios
-                        <div *ngIf="order != 'numberOfScenarios'" class="arrows">
+                        <div *ngIf="order !== 'numberOfScenarios'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -87,10 +87,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <span class="bot">&#9207;</span>
                         </div>
                     </th>
-                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
+                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting"
                         [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                         Changes
-                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                        <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <tr (click)="goToUseCase(dynamicUseCase.name)"
                     *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation"
-                    [ngClass]="comparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
+                    [ngClass]="isComparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
                     <td>
                     <span
                         [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
@@ -122,7 +122,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </td>
                     <td>{{dynamicUseCase.description}}</td>
                     <td>{{dynamicUseCase.numberOfScenarios}}</td>
-                    <td *ngIf="comparisonExisting">
+                    <td *ngIf="isComparisonExisting">
                         <sc-diff-info-icon [diffInfo]="dynamicUseCase.diffInfo" childElementType="scenario"
                                            elementType="use case"></sc-diff-info-icon>
                     </td>

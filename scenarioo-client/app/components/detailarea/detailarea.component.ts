@@ -16,6 +16,8 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
+import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 @Component({
     selector: 'sc-detailarea',
@@ -27,33 +29,29 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = false;
 
-    /* Inputs of usecases-overview */
     @Input()
-    branchInformationTree: {};
+    branchInformationTree: any;
 
     @Input()
-    buildInformationTree: {};
+    buildInformationTree: any;
 
-    /* Inputs of scenarios-overview */
     @Input()
-    usecaseInformationTree: {};
+    usecaseInformationTree: any;
 
-    /* Inputs of step-view */
     @Input()
     stepInformationTree: {};
 
-    /* mixed */
     @Input()
-    metadataInformationTree;
+    metadataInformationTree: ICustomObjectTabTree;
 
     @Input()
-    relatedIssues: {};
+    relatedIssues: RelatedIssueSummary[];
 
     @Input()
     scenarioLabels: {};
 
     @Input()
-    useCaseLabels: {};
+    useCaseLabels: string[];
 
     @Input()
     stepLabels: {};
@@ -62,17 +60,13 @@ export class DetailareaComponent {
     pageLabels: {};
 
     @Input()
-    labelConfigurations: {};
+    labelConfigurations: ILabelConfiguration;
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     valueChange() {
-        if (this.isPanelCollapsed === false) {
-            this.isPanelCollapsed = true;
-        } else {
-            this.isPanelCollapsed = false;
-        }
+        this.isPanelCollapsed = this.isPanelCollapsed === false;
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 

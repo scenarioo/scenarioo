@@ -15,44 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div id="grayBackground"></div>
-<span class="button-right">
-    <button (click)="openShare(shareContent)" id="shareButton" tooltip="Share this page with others (using stable links)" container="body"
-            type="button">
-        <i class="glyphicon glyphicon-share"></i>
-        Share
-    </button>
-
-    <ng-template #shareContent>
-        <div class="modal-header">
-            <h1 class="modal-title pull-left">Share this page</h1>
-        </div>
-        <div class="modal-body">
-            <p>
-                <a href="mailto:?subject={{eMailSubject}}&body={{eMailUrl}}">
-                    <i class="fas fa-envelope"></i>
-                    Email this page
-                </a>
-            </p>
-            <div class="form-group" *ngIf="pageUrl">
-                <label for="stepLinkField">Link to current page</label>
-                <input class="form-control" id="stepLinkField" onfocus="this.select();"
-                   onmouseup="return false;" type="text" [value]="pageUrl"/>
-            </div>
-            <div class="form-group" *ngIf="imageUrl">
-                <label for="screenshotLinkField">Screenshot link</label>
-                <input class="form-control" id="screenshotLinkField" onfocus="this.select();"
-                   onmouseup="return false;" type="text" [value]="imageUrl"/>
-            </div>
-            <div *ngIf="pageUrl || imageUrl">
-                Click into the field and press Ctrl+C to copy or right-click and select copy from the drop down.
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button (click)="modalRef.hide()" class="btn btn-primary" type="button">Close</button>
-        </div>
-    </ng-template>
-</span>
+<sc-share></sc-share>
 
 <!-- TODO #938: Order of Tab on home page -->
 <div>

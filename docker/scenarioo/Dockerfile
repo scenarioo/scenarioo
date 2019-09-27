@@ -9,5 +9,7 @@ ENV SCENARIOO_DATA /scenarioo/data
 # ADD SCENARIOO.WAR TO DOCKER IMAGE
 ADD ./scenarioo-latest.war /scenarioo/bin/scenarioo.war
 
+WORKDIR /scenarioo/bin
+
 # RUN TOMCAT
 CMD java -Xms400m -Xmx800m -jar /scenarioo/bin/scenarioo.war

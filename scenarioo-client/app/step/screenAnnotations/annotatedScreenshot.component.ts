@@ -16,6 +16,7 @@
  */
 
 import * as $ from 'jquery';
+declare var angular: angular.IAngularStatic;
 
 /**
  * Shows a screenshot plus annotations, if available. The annotations are shown as a separate layer on top of the
