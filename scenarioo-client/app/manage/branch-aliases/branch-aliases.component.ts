@@ -29,11 +29,11 @@ export class BranchAliasesComponent implements OnInit {
 
     private loadBranchesWithoutAliases() {
         this.branches$ = this.branchesResource.query()
-            .pipe(map(branches => branches.filter(branch => !branch.isAlias)))
+            .pipe(map((branches) => branches.filter((branch) => !branch.isAlias)));
     }
 
     private refreshBranchAliases() {
-        this.branchAliasResource.get().subscribe(branchAliases => {
+        this.branchAliasResource.get().subscribe((branchAliases) => {
             this.branchAliases = [...branchAliases, (this.createEmptyAlias())];
         });
     }
@@ -54,7 +54,7 @@ export class BranchAliasesComponent implements OnInit {
     }
 
     onDelete(branchAliasToDelete: IBranchAlias) {
-        this.branchAliases = this.branchAliases.filter(alias => alias.name !== branchAliasToDelete.name);
+        this.branchAliases = this.branchAliases.filter((alias) => alias.name !== branchAliasToDelete.name);
     }
 
     onSave() {
@@ -65,7 +65,7 @@ export class BranchAliasesComponent implements OnInit {
         }
 
         this.branchAliasResource.save(this.branchAliases
-            .filter(alias => alias.name !== ''))
+            .filter((alias) => alias.name !== ''))
             .subscribe(() => {
                 this.successfullyUpdatedBranchAliases = true;
             });
@@ -77,14 +77,14 @@ export class BranchAliasesComponent implements OnInit {
     }
 
     private areBuildAliasesUnique(): boolean {
-        const branchAliasNames = this.branchAliases.map(alias => alias.name);
+        const branchAliasNames = this.branchAliases.map((alias) => alias.name);
         const uniqueAliases = branchAliasNames.filter((name, i) => branchAliasNames.indexOf(name) === i);
         return branchAliasNames.length === uniqueAliases.length;
     }
 
     private areRequiredFieldsEmpty(): boolean {
         return this.branchAliases
-            .filter(alias => alias.name !== '')
-            .some(alias => alias.referencedBranch === '' || alias.referencedBranch === undefined);
+            .filter((alias) => alias.name !== '')
+            .some((alias) => alias.referencedBranch === '' || alias.referencedBranch === undefined);
     }
 }
