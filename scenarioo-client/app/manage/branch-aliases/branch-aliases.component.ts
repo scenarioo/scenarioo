@@ -3,6 +3,7 @@ import {BranchAliasesResource} from '../../shared/services/branchAliasResource.s
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {IBranchAlias, IBranchBuilds} from '../../generated-types/backend-types';
 import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'sc-branch-aliases',
@@ -12,7 +13,7 @@ import {map} from 'rxjs/operators';
 export class BranchAliasesComponent implements OnInit {
 
     branchAliases: IBranchAlias[] = [];
-    branches: IBranchBuilds[] = [];
+    branches$: Observable<IBranchBuilds[]>;
     successfullyUpdatedBranchAliases = false;
     uniqueError = false;
     requiredError = false;
@@ -27,11 +28,8 @@ export class BranchAliasesComponent implements OnInit {
     }
 
     private loadBranchesWithoutAliases() {
-        this.branchesResource.query()
-            .pipe(map(branches => branches.filter(branch => branch.isAlias)))
-            .subscribe((branches: IBranchBuilds[]) => {
-                this.branches = branches;
-            });
+        this.branches$ = this.branchesResource.query()
+            .pipe(map(branches => branches.filter(branch => !branch.isAlias)))
     }
 
     private refreshBranchAliases() {

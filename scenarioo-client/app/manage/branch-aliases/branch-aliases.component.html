@@ -20,7 +20,7 @@
                     <select class="form-control" [(ngModel)]="branchAlias.referencedBranch"
                             [ngModelOptions]="{standalone: true}">
                         <option value=""></option>
-                        <option *ngFor="let branch of branches"
+                        <option *ngFor="let branch of (branches$ | async)"
                                 [value]="branch.branch.name">{{ branch.branch.name }}</option>
                     </select>
 
