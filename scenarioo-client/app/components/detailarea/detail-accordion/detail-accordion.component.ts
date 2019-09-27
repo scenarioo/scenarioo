@@ -49,7 +49,7 @@ export class DetailAccordionComponent {
     detailAccordionName: string;
 
     @Input()
-    informationTree: string[];
+    informationTree: any;
 
     @Input()
     relatedIssues: RelatedIssueSummary;

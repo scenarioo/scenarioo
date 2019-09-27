@@ -30,13 +30,13 @@ export class DetailareaComponent {
     isPanelCollapsed: boolean = false;
 
     @Input()
-    branchInformationTree: string[];
+    branchInformationTree: any;
 
     @Input()
-    buildInformationTree: string[];
+    buildInformationTree: any;
 
     @Input()
-    usecaseInformationTree: IUseCaseSummary;
+    usecaseInformationTree: any;
 
     @Input()
     metadataInformationTree: ICustomObjectTabTree;
@@ -54,11 +54,7 @@ export class DetailareaComponent {
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     valueChange() {
-        if (this.isPanelCollapsed === false) {
-            this.isPanelCollapsed = true;
-        } else {
-            this.isPanelCollapsed = false;
-        }
+        this.isPanelCollapsed = this.isPanelCollapsed === false;
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 

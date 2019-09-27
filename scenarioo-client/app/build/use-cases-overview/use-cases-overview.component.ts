@@ -31,6 +31,7 @@ import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
+import {IBranchBuilds} from '../../generated-types/backend-types';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -56,7 +57,7 @@ export class UseCasesOverviewComponent {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    branchesAndBuilds: any[];
+    branchesAndBuilds: IBranchBuilds[];
     branchInformationTree: object = {};
     buildInformationTree: object = {};
 
@@ -89,11 +90,7 @@ export class UseCasesOverviewComponent {
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
 
-                    if (this.selectedComparison.isDefined()) {
-                        this.isComparisonExisting = true;
-                    } else {
-                        this.isComparisonExisting = false;
-                    }
+                    this.isComparisonExisting = this.selectedComparison.isDefined();
 
                     if (this.isComparisonExisting) {
                         this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());

@@ -34,6 +34,10 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/r
 import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
+import {downgradeComponent} from '@angular/upgrade/static';
+
+declare var angular: angular.IAngularStatic;
+
 
 @Component({
     selector: 'sc-scenarios-overview',
@@ -62,7 +66,7 @@ export class ScenariosOverviewComponent {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    usecaseInformationTree: IUseCaseSummary;
+    usecaseInformationTree: object;
     metadataInformationTree: any[];
     relatedIssues: RelatedIssueSummary[];
     labels: string[];
@@ -105,11 +109,7 @@ export class ScenariosOverviewComponent {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            if (this.selectedComparison.isDefined()) {
-                this.isComparisonExisting = true;
-            } else {
-                this.isComparisonExisting = false;
-            }
+            this.isComparisonExisting = this.selectedComparison.isDefined();
 
             if (this.isComparisonExisting) {
                 this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
@@ -139,7 +139,7 @@ export class ScenariosOverviewComponent {
         return this.configurationService.getStatusStyleClass(state);
     }
 
-    loadDiffInfoData(scenarios, baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
+    loadDiffInfoData(scenarios: IScenarioSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             forkJoin([
                 this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
@@ -236,3 +236,7 @@ export class ScenariosOverviewComponent {
     }
 
 }
+
+angular.module('scenarioo.directives')
+    .directive('scScenariosOverview',
+        downgradeComponent({component: ScenariosOverviewComponent}) as angular.IDirectiveFactory);
