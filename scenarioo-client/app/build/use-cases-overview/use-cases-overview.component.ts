@@ -30,14 +30,16 @@ import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-i
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
+import {FilterPipe} from '../../pipes/filter.pipe';
+import {IBranchBuilds} from '../../generated-types/backend-types';
 
 @Component({
     selector: 'sc-usecases-overview',
-    template: require('./usecases-overview.component.html'),
-    styles: [require('./usecases-overview.component.css').toString()],
+    template: require('./use-cases-overview.component.html'),
+    styles: [require('./use-cases-overview.component.css').toString()],
 })
 
-export class UseCasesComponent {
+export class UseCasesOverviewComponent {
 
     usecases: UseCaseSummary[] = [];
 
@@ -52,14 +54,12 @@ export class UseCasesComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
-    getStatusStyleClass = undefined;
-    comparisonExisting = undefined;
-
     isPanelCollapsed: boolean;
+    isComparisonExisting: boolean;
 
-    branchesAndBuilds = [];
-    branchInformationTree = {};
-    buildInformationTree = {};
+    branchesAndBuilds: IBranchBuilds[];
+    branchInformationTree: object = {};
+    buildInformationTree: object = {};
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -73,7 +73,8 @@ export class UseCasesComponent {
                 private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
-                private diffInfoService: DiffInfoService) {
+                private diffInfoService: DiffInfoService,
+                private filterPipe: FilterPipe) {
 
     }
 
@@ -89,7 +90,9 @@ export class UseCasesComponent {
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
 
-                    if (this.comparisonExisting) {
+                    this.isComparisonExisting = this.selectedComparison.isDefined();
+
+                    if (this.isComparisonExisting) {
                         this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
                     } else {
                         this.usecases = useCaseSummaries;
@@ -109,11 +112,11 @@ export class UseCasesComponent {
                 this.labelConfigurations = labelConfigurations;
             }));
 
-        this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
-
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
+    }
 
-        this.comparisonExisting = this.selectedComparison.isDefined();
+    getStatusStyleClass(state: string): string {
+        return this.configurationService.getStatusStyleClass(state);
     }
 
     loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
@@ -134,6 +137,8 @@ export class UseCasesComponent {
     setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
+        } else {
+            this.reverse = false;
         }
         this.order = value;
     }
@@ -142,10 +147,15 @@ export class UseCasesComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                this.arrowkeyLocation++;
+                const filteredUsecases = this.filterPipe.transform(this.usecases, this.searchTerm);
+                if (this.arrowkeyLocation < (filteredUsecases.length - 1)) {
+                    this.arrowkeyLocation++;
+                }
                 break;
             case 'ArrowUp':
-                this.arrowkeyLocation--;
+                if (this.arrowkeyLocation > 0) {
+                    this.arrowkeyLocation--;
+                }
                 break;
             case 'Enter':
                 this.goToUseCase(this.usecases[this.arrowkeyLocation].name);
@@ -154,7 +164,7 @@ export class UseCasesComponent {
     }
 
     goToUseCase(useCase: string) {
-        const params = this.locationService.path('/usecase/' + useCase);
+        this.locationService.path('/usecase/' + useCase);
     }
 
     getLabelStyle(labelName: string) {
@@ -166,8 +176,8 @@ export class UseCasesComponent {
         }
     }
 
-    collapsePanel(event) {
-        this.isPanelCollapsed = event;
+    collapsePanel(isPanelCollapsed: boolean) {
+        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createBranchInformationTree(branch) {

@@ -16,6 +16,12 @@
  */
 
 import {Component, Input} from '@angular/core';
+import {LocationService} from '../../../shared/location.service';
+import {SelectedBranchAndBuildService} from '../../../shared/navigation/selectedBranchAndBuild.service';
+import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.service';
+import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
+import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
+import {ISketchIds} from '../../../generated-types/backend-types';
 
 @Component({
     selector: 'sc-detail-accordion',
@@ -31,17 +37,45 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
-    detailAccordionName: {};
+    isTreeComponent: boolean;
 
     @Input()
-    informationTree: {};
+    isSketchesComponent: boolean;
 
-    constructor() {
+    @Input()
+    isLabelComponent: boolean;
+
+    @Input()
+    detailAccordionName: string;
+
+    @Input()
+    informationTree: any;
+
+    @Input()
+    relatedIssues: RelatedIssueSummary;
+
+    @Input()
+    labelConfigurations: LabelConfigurationMap;
+
+    constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
+                private locationService: LocationService,
+                private sketchIdsResource: SketchIdsResource) {
     }
 
     ngOnInit(): void {
         if (this.isFirstOpen === false) {
             this.isAccordionCollapsed = true;
         }
+    }
+
+    goToIssue(issue: RelatedIssueSummary) {
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
+            this.sketchIdsResource.get(
+                selection.branch,
+                issue.id,
+            ).subscribe((result: ISketchIds) => {
+                this.locationService.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
+        });
     }
 }

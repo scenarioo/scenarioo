@@ -5,7 +5,6 @@ sc-detailarea button.btn.btn-primary {
     border: unset;
     color: #337AB7;
     font-style: italic;
-    margin-bottom: 5px;
     padding: 0;
     margin-right: 15px;
     margin-top: -25px;
@@ -70,7 +69,7 @@ sc-detailarea .detail-section h3 {
 /* Detail accordion */
 
 sc-detailarea accordion {
-    margin-right: 40px;
+    margin-right: 20px;
     margin-left: 10px;
 }
 
@@ -89,6 +88,7 @@ sc-detailarea div.panel-heading {
 
 sc-detailarea div.panel-body {
     background-color: #eeeeee;
+    word-break: break-word;
 }
 
 sc-detailarea .panel-group .panel+.panel {

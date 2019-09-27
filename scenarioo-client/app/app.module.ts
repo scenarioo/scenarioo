@@ -8,11 +8,12 @@ import {LabelConfigurationService} from './services/label-configuration.service'
 import {HttpClientModule} from '@angular/common/http';
 import {RestControllerModule} from './shared/services/restController.module';
 import {ConfigurationService} from './services/configuration.service';
+import {TitleComponent} from './components/title/title.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MainPageComponent} from './build/mainpage/mainpage.component';
+import {MainpageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
-import {UseCasesComponent} from './build/usecases-overview/usecases-overview.component';
+import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
@@ -46,6 +47,10 @@ import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
 import {TreeDirective} from './shared/metadata/tree.directive';
+import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
+import {RouteParamsService} from './shared/route-params.service';
+import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
+import {ShareComponent} from './build/mainpage/share/share.component';
 
 @NgModule({
     declarations: [
@@ -56,28 +61,35 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
-        MainPageComponent,
-        UseCasesComponent,
+        MainpageComponent,
+        ShareComponent,
+        UseCasesOverviewComponent,
         FilterPipe,
         HumanReadablePipe,
         MetadataTreeCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
         DateTimePipe,
+        MetadataTreeListCreatorPipe,
         DetailareaComponent,
         DetailAccordionComponent,
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
         TreeDirective,
+        ScenariosOverviewComponent,
+        TitleComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        MainPageComponent,
-        UseCasesComponent,
+        MainpageComponent,
+        ShareComponent,
+        UseCasesOverviewComponent,
         DetailareaComponent,
         DetailAccordionComponent,
+        TitleComponent,
+        ScenariosOverviewComponent,
     ],
     imports: [
         BrowserModule,
@@ -111,11 +123,14 @@ import {TreeDirective} from './shared/metadata/tree.directive';
         DiffInfoService,
         SharePageURL,
         Location,
+        FilterPipe,
         MetadataTreeCreatorPipe,
+        MetadataTreeListCreatorPipe,
         TreeDataCreatorPipe,
         TreeDataOptimizerPipe,
         DateTimePipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
+        {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
