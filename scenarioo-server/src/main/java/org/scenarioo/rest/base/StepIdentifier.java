@@ -64,19 +64,10 @@ public class StepIdentifier {
 	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
 			final int stepInPageOccurrence, final Set<String> labels) {
 		this.scenarioIdentifier = scenarioIdentifier;
-		this.setPageName(pageName);
+		this.pageName = pageName;
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 		this.labels = labels;
-	}
-
-	/**
-	 * Spring Boot automatically decodes all request parameters. This is a problem if a pageName should contain for example
-	 * an URL encoded space. Thus we need to patch the page name in this case. And since the default URL encoding replaces
-	 * a space with '+', we have to manually replace this with '%20'.
-	 */
-	private String patchPageName(String pageName) {
-		return pageName.contains(" ") ? UrlEncoding.encode(pageName).replace("+", "%20") : pageName;
 	}
 
 	public static StepIdentifier withDifferentStepInPageOccurrence(final StepIdentifier stepIdentifier,
@@ -162,7 +153,7 @@ public class StepIdentifier {
 	}
 
 	public void setPageName(final String pageName) {
-		this.pageName = patchPageName(pageName);
+		this.pageName = pageName;
 	}
 
 	public int getPageOccurrence() {

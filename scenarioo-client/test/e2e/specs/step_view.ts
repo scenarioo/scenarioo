@@ -149,4 +149,12 @@ useCase('Step - View')
                 await step('A step with no HTML source attached');
             });
 
+        scenario('Step and Scenario with parentheses and space in url')
+            .description('A step where the scenario and the step have parentheses and spaces in the url should be found')
+            .it(async () => {
+                await Utils.navigateToRoute('/step/Technical Corner Cases/Dummy Scenario with (Parentheses) in URL/url-(with-parentheses)-and space.jsp/0/0');
+                await StepPage.assertScreenshotIsShown();
+                await step('A step with parentheses and space in the path can be found');
+            });
+
     });

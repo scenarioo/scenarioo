@@ -57,25 +57,4 @@ public class StepIdentifierTest {
 		}
 	}
 
-	@Test
-	public void patchPageNameForPageNameWithSpaceInConstructor() {
-		//act
-		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "page name", 0, 1);
-
-		//assert
-		assertEquals("page%20name", testee.getPageName());
-	}
-
-	@Test
-	public void patchPageNameForPageNameWithSpaceInSetter() {
-		//arrange
-		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "pagename", 0, 1);
-
-		//act
-		testee.setPageName("page name");
-
-		//assert
-		assertEquals("page%20name", testee.getPageName());
-	}
-
 }

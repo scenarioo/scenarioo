@@ -12,7 +12,7 @@ import org.scenarioo.uitest.example.infrastructure.UITest;
 /**
  * Just some additional technical dummy test scenarios to test what happens in the webapplication, when there are
  * scenarios with unusal data (like no steps, no pages, only one step, or pages with only one variant etc.)
- * 
+ *
  * If you look for a good Use-Case-Test-Example better look at {@link FindPageUITest}.
  */
 @DocuDescription(
@@ -20,13 +20,13 @@ import org.scenarioo.uitest.example.infrastructure.UITest;
 		description = "Just some meaningless dummy scenarios for testing some corner cases in the Scenarioo web application, like what happens when there are no pages or a page has only one variant in all scenarios etc.")
 @Labels("corner-case")
 public class TechnicalCornerCasesUITest extends UITest {
-	
+
 	@Test
 	@DocuDescription(description = "Dummy scenario with no steps at all.")
 	public void dummy_scenario_with_no_steps() {
 		// dummy empty test scenario
 	}
-	
+
 	@Test
 	@DocuDescription(
 			description = "Dummy scenario with one step and no other page variants of this same step in other scenarios.")
@@ -35,7 +35,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ONE_PAGE_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/technical-one-page-scenario");
 	}
-	
+
 	@Test
 	@DocuDescription(
 			description = "Dummy scenario with no page names set for all pages, which should be presented in Scenarioo as if the steps are all for different (unknown) pages.")
@@ -46,7 +46,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 		toolkit.clickButton("go to page 2");
 		toolkit.clickButton("go to page 3");
 	}
-	
+
 	@Test
 	@DocuDescription(
 			description = "Dummy scenario with three steps on one page and all special variants of screen annotations and many labels on scenario level (with all different kind of breaking characters)")
@@ -61,7 +61,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 		toolkit.addScreenAnnotationOnSameStep("The Lord of The Rings", ScreenAnnotationStyle.INFO, region(0, 2, 1, 1));
 		toolkit.addScreenAnnotationOnSameStep("The Matrix", ScreenAnnotationStyle.WARN, region(0, 3, 1, 1));
 		toolkit.addScreenAnnotationOnSameStep("Titanic", ScreenAnnotationStyle.ERROR, region(0, 4, 1, 1));
-		
+
 		toolkit.addScreenAnnotationOnSameStep("High Fidelity", ScreenAnnotationStyle.EXPECTED, region(1, 0, 1, 1));
 		toolkit.addScreenAnnotationOnSameStep("Good Will Hunting", ScreenAnnotationStyle.CLICK, region(1, 1, 1, 1));
 		toolkit.addScreenAnnotationOnSameStep("Star Wars", ScreenAnnotationStyle.KEYBOARD, region(1, 2, 1, 1));
@@ -82,6 +82,16 @@ public class TechnicalCornerCasesUITest extends UITest {
 	public void dummy_scenario_with_one_step_that_has_a_jpeg_image() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_JPEG_STEP_IMAGES_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/jpeg-image-page");
+	}
+
+	@Test
+	@DocuDescription(
+		name = "Dummy Scenario with (Parentheses) in URL",
+		description = "Dummy scenario with Parentheses in URL.")
+	@Labels({ "jpeg" })
+	public void dummy_scenario_with_parentheses_in_url() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_PARENTHESES_STEP_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/url-(with-parentheses)-and space");
 	}
 
 
