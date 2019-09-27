@@ -18,16 +18,22 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+import {LocalStorageService} from '../../services/localStorage.service';
+
+const COLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
 
 @Component({
     selector: 'sc-detailarea',
     template: require('./detailarea.component.html'),
     styles: [require('./detailarea.component.css').toString()],
 })
-
 export class DetailareaComponent {
 
-    isPanelCollapsed: boolean = false;
+    /**
+     * A key to define under which key the detail area stores its state (like what is/was collapsed or expanded)
+     */
+    @Input()
+    key: string;
 
     @Input()
     branchInformationTree: any;
@@ -50,11 +56,22 @@ export class DetailareaComponent {
     @Input()
     labelConfigurations: ILabelConfiguration;
 
-    @Output('valueChange')
+    @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    valueChange() {
+    isPanelCollapsed: boolean = true;
+
+    constructor(private localStorageService: LocalStorageService){
+
+    }
+
+    ngOnInit(): void {
+        this.isPanelCollapsed = this.localStorageService.getBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, true);
+    }
+
+    togglePannelCollapsedValue() {
         this.isPanelCollapsed = this.isPanelCollapsed === false;
+        this.localStorageService.setBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, this.isPanelCollapsed)
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
