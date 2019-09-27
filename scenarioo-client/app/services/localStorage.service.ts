@@ -34,8 +34,7 @@ export class LocalStorageService {
                 ) {
     }
 
-
-    get(key: string):string {
+    get(key: string): string {
         return localStorage.getItem(this.getScenariooContextPathAwareKey(key));
     }
 
@@ -58,7 +57,6 @@ export class LocalStorageService {
         this.set(key, '' + value);
     }
 
-
     remove(key: string) {
         return localStorage.removeItem(this.getScenariooContextPathAwareKey(key));
     }
@@ -80,4 +78,3 @@ export class LocalStorageService {
 
 angular.module('scenarioo.services')
     .factory('LocalStorageService', downgradeInjectable(LocalStorageService));
-

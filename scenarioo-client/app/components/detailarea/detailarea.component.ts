@@ -61,7 +61,7 @@ export class DetailareaComponent {
 
     isPanelCollapsed: boolean = true;
 
-    constructor(private localStorageService: LocalStorageService){
+    constructor(private localStorageService: LocalStorageService) {
 
     }
 
@@ -71,7 +71,7 @@ export class DetailareaComponent {
 
     togglePannelCollapsedValue() {
         this.isPanelCollapsed = this.isPanelCollapsed === false;
-        this.localStorageService.setBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, this.isPanelCollapsed)
+        this.localStorageService.setBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, this.isPanelCollapsed);
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
