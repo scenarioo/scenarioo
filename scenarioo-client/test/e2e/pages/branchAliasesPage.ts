@@ -35,7 +35,7 @@ class BranchAliasesPage {
         const rowToEditIndex = count - 1;
         const rowToEdit = rows.get(rowToEditIndex);
 
-        await rowToEdit.$('input[name="aliasName"]').sendKeys(name);
+        await rowToEdit.$('input[name="aliasName' + rowToEditIndex + '"]').sendKeys(name);
         if (referencedBranchName !== '') {
             await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"]').click();
             await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"] option[value="' + referencedBranchName + '"]').click();
