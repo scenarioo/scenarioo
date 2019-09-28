@@ -3,8 +3,7 @@ jobs:
   build:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
-      # circleci/openjdk:8-jdk-browsers
-      - image: circleci/openjdk@sha256:fa630780e340d81ad974a06c9104e7c337b906186c42586ee61ec571eec730d3
+      - image: circleci/openjdk:8-jdk-stretch-browsers
       - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
         environment:
           cluster.name: elasticsearch
