@@ -14,10 +14,12 @@
                 <td>
                     <input type="text" class="form-control" [(ngModel)]="branchAlias.name"
                            (change)="onAliasNameChanged()"
+                           data-type="branchAlias"
                            [name]="'aliasName' + i"/>
                 </td>
                 <td>
                     <select class="form-control" [(ngModel)]="branchAlias.referencedBranch"
+                            data-type="referencedBranch"
                             [name]="'referencedBranch' + i">
                         <option value=""></option>
                         <option *ngFor="let branch of (branches$ | async)"
@@ -27,6 +29,7 @@
                 </td>
                 <td>
                     <input type="text" class="form-control" [(ngModel)]="branchAlias.description"
+                           data-type="aliasDescription"
                            [name]="'aliasDescription' + i"/>
 
                 </td>

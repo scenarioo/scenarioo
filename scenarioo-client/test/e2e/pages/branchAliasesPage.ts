@@ -35,12 +35,12 @@ class BranchAliasesPage {
         const rowToEditIndex = count - 1;
         const rowToEdit = rows.get(rowToEditIndex);
 
-        await rowToEdit.$('input[name="aliasName' + rowToEditIndex + '"]').sendKeys(name);
+        await rowToEdit.$('input[data-type="branchAlias"]').sendKeys(name);
         if (referencedBranchName !== '') {
-            await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"]').click();
-            await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"] option[value="' + referencedBranchName + '"]').click();
+            await rowToEdit.$('select[data-type="referencedBranch"]').click();
+            await rowToEdit.$('select[data-type="referencedBranch"] option[value="' + referencedBranchName + '"]').click();
         }
-        return rowToEdit.$('input[name="aliasDescription"]').sendKeys(description);
+        return rowToEdit.$('input[data-type="aliasDescription"]').sendKeys(description);
     }
 
     async saveAndAssertSuccessMessage() {
@@ -68,9 +68,9 @@ class BranchAliasesPage {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         const rowToEdit = rows.get(rowIndex);
 
-        const aliasNameField = rowToEdit.$('input[name="aliasName' + rowIndex + '"]');
-        const referencedBranchField = rowToEdit.$('select[name="referencedBranch' + rowIndex + '"]');
-        const aliasDescriptionField = rowToEdit.$('input[name="aliasDescription' + rowIndex + '"]');
+        const aliasNameField = rowToEdit.$('input[data-type="branchAlias"]');
+        const referencedBranchField = rowToEdit.$('select[data-type="referencedBranch"]');
+        const aliasDescriptionField = rowToEdit.$('input[data-type="aliasDescription"]');
 
         await aliasNameField.clear();
         await aliasNameField.sendKeys(newAlias);
@@ -87,6 +87,9 @@ class BranchAliasesPage {
         return expect(element(by.id('duplicateAliasErrorId')).isPresent()).toBe(true);
     }
 
+    async assertRequiredFieldsError() {
+        return expect(element(by.id('requiredFieldsErrorId')).isPresent()).toBe(true);
+    }
 }
 
 export default new BranchAliasesPage();

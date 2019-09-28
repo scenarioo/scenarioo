@@ -56,7 +56,8 @@ useCase('Manage branch aliases')
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 await BranchAliasesPage.enterAlias('Test', '', 'my description');
-                await BranchAliasesPage.assertSaveNotPossible();
+                await BranchAliasesPage.save();
+                await BranchAliasesPage.assertRequiredFieldsError();
                 await step('saving not possible because referenced branch is not selected');
             });
 
