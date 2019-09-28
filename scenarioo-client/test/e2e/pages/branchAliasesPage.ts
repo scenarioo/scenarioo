@@ -37,9 +37,8 @@ class BranchAliasesPage {
 
         await rowToEdit.$('input[name="aliasName"]').sendKeys(name);
         if (referencedBranchName !== '') {
-            // 'select option:nth-child(1)
-            await rowToEdit.$('select[name="referencedBranch"]').click();
-            await rowToEdit.$('select[name="referencedBranch"] option[value="' + referencedBranchName + '"]').click();
+            await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"]').click();
+            await rowToEdit.$('select[name="referencedBranch' + rowToEditIndex + '"] option[value="' + referencedBranchName + '"]').click();
         }
         return rowToEdit.$('input[name="aliasDescription"]').sendKeys(description);
     }
@@ -69,9 +68,9 @@ class BranchAliasesPage {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         const rowToEdit = rows.get(rowIndex);
 
-        const aliasNameField = rowToEdit.$('input[name="aliasName"]');
-        const referencedBranchField = rowToEdit.$('select[name="referencedBranch"]');
-        const aliasDescriptionField = rowToEdit.$('input[name="aliasDescription"]');
+        const aliasNameField = rowToEdit.$('input[name="aliasName' + rowIndex + '"]');
+        const referencedBranchField = rowToEdit.$('select[name="referencedBranch' + rowIndex + '"]');
+        const aliasDescriptionField = rowToEdit.$('input[name="aliasDescription' + rowIndex + '"]');
 
         await aliasNameField.clear();
         await aliasNameField.sendKeys(newAlias);

@@ -10,15 +10,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let branchAlias of branchAliases">
+            <tr *ngFor="let branchAlias of branchAliases; let i = index">
                 <td>
                     <input type="text" class="form-control" [(ngModel)]="branchAlias.name"
                            (change)="onAliasNameChanged()"
-                           [ngModelOptions]="{standalone: true}"/>
+                           [name]="'aliasName' + i"/>
                 </td>
                 <td>
                     <select class="form-control" [(ngModel)]="branchAlias.referencedBranch"
-                            [ngModelOptions]="{standalone: true}">
+                            [name]="'referencedBranch' + i">
                         <option value=""></option>
                         <option *ngFor="let branch of (branches$ | async)"
                                 [value]="branch.branch.name">{{ branch.branch.name }}</option>
@@ -27,7 +27,7 @@
                 </td>
                 <td>
                     <input type="text" class="form-control" [(ngModel)]="branchAlias.description"
-                           [ngModelOptions]="{standalone: true}"/>
+                           [name]="'aliasDescription' + i"/>
 
                 </td>
                 <td>
