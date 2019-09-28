@@ -1,6 +1,6 @@
 'use strict';
 
-import {by, element, ElementFinder, $, $$} from 'protractor';
+import {$, $$, by, element} from 'protractor';
 import * as Utils from '../util';
 
 class BranchAliasesPage {
@@ -14,7 +14,7 @@ class BranchAliasesPage {
     }
 
     async assertNumberOfAliases(expectedCount) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         // + 1 due to empty row
         return expect(rows.count()).toBe(expectedCount + 1);
     }
@@ -54,10 +54,6 @@ class BranchAliasesPage {
 
     async reset() {
         return this.resetButton.click();
-    }
-
-    async assertSaveNotPossible() {
-        return expect(this.saveButton.isEnabled()).toBe(false);
     }
 
     async deleteAlias(rowIndex) {

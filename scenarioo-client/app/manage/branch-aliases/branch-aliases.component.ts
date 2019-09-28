@@ -19,31 +19,11 @@ export class BranchAliasesComponent implements OnInit {
     requiredError = false;
 
     constructor(private branchAliasResource: BranchAliasesResource, private branchesResource: BranchesResource) {
-
     }
 
     ngOnInit(): void {
         this.refreshBranchAliases();
         this.loadBranchesWithoutAliases();
-    }
-
-    private loadBranchesWithoutAliases() {
-        this.branches$ = this.branchesResource.query()
-            .pipe(map((branches) => branches.filter((branch) => !branch.isAlias)));
-    }
-
-    private refreshBranchAliases() {
-        this.branchAliasResource.get().subscribe((branchAliases) => {
-            this.branchAliases = [...branchAliases, (this.createEmptyAlias())];
-        });
-    }
-
-    private createEmptyAlias(): IBranchAlias {
-        return {
-            name: '',
-            referencedBranch: '',
-            description: '',
-        };
     }
 
     onAliasNameChanged() {
@@ -74,6 +54,25 @@ export class BranchAliasesComponent implements OnInit {
 
     onReset() {
         this.refreshBranchAliases();
+    }
+
+    private loadBranchesWithoutAliases() {
+        this.branches$ = this.branchesResource.query()
+            .pipe(map((branches) => branches.filter((branch) => !branch.isAlias)));
+    }
+
+    private refreshBranchAliases() {
+        this.branchAliasResource.get().subscribe((branchAliases) => {
+            this.branchAliases = [...branchAliases, (this.createEmptyAlias())];
+        });
+    }
+
+    private createEmptyAlias(): IBranchAlias {
+        return {
+            name: '',
+            referencedBranch: '',
+            description: '',
+        };
     }
 
     private areBuildAliasesUnique(): boolean {
