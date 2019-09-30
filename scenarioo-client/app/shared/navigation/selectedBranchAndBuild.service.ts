@@ -20,7 +20,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
-    .factory('SelectedBranchAndBuildService', ($location, $rootScope, LocalStorageService, ConfigurationService: ConfigurationService) => {
+    .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService, ConfigurationService: ConfigurationService) => {
 
         const BRANCH_KEY = 'branch';
         const BUILD_KEY = 'build';
@@ -58,12 +58,12 @@ angular.module('scenarioo.services')
             const params = $location.search();
             if (params !== null && angular.isDefined(params[key])) {
                 value = params[key];
-                LocalStorageService.set(key, value);
+                localStorageService.set(key, value);
                 return value;
             }
 
             // check cookie if value was not found in URL
-            value = LocalStorageService.get(key);
+            value = localStorageService.get(key);
             if (angular.isDefined(value) && value !== null) {
                 $location.search(key, value);
                 return value;
@@ -72,7 +72,7 @@ angular.module('scenarioo.services')
             // If URL and cookie do not specify a value, we use the default from the config
             value = ConfigurationService.defaultBranchAndBuild()[key];
             if (angular.isDefined(value)) {
-                LocalStorageService.set(key, value);
+                localStorageService.set(key, value);
                 $location.search(key, value);
             }
             return value;

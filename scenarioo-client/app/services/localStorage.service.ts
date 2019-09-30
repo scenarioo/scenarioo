@@ -16,9 +16,8 @@
  */
 
 import {Injectable} from '@angular/core';
-import {Location, PlatformLocation} from '@angular/common';
+import {PlatformLocation} from '@angular/common';
 import {UrlContextExtractorService} from '../shared/utils/urlContextExtractor.service';
-// import {SESSION_STORAGE, StorageService} from 'ngx-webstorage-service';
 import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
@@ -28,10 +27,9 @@ export class LocalStorageService {
 
     currentBrowserLocation: string;
 
-    constructor(private location: Location,
-                private platformLocation: PlatformLocation,
+    constructor(private platformLocation: PlatformLocation,
                 private urlContextExtractorService: UrlContextExtractorService,
-                ) {
+    ) {
     }
 
     get(key: string): string {
@@ -59,6 +57,10 @@ export class LocalStorageService {
 
     remove(key: string) {
         return localStorage.removeItem(this.getScenariooContextPathAwareKey(key));
+    }
+
+    clearAll() {
+        return localStorage.clear();
     }
 
     /**
