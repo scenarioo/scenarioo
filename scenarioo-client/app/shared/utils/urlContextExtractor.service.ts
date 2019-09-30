@@ -25,13 +25,13 @@ export class UrlContextExtractorService {
      * Extract the context path where the app is running form any URL (without domain name, protocol, port or any hash or parameters behind)
      * @param url the current value of $location.absUrl()
      */
-    getContextPathFromUrl(url) {
+    getContextPathFromUrl(url: string): string {
         const urlWithoutParamsOrHash = this.before(this.before(url, '?'), '#');
         const contextPath = this.after(this.after(urlWithoutParamsOrHash, '//'), '/', '');
         return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
     }
 
-    before(string, separator, optionalNotFoundResult?) {
+    before(string: string, separator: string, optionalNotFoundResult?: string): string {
         const index = string.indexOf(separator);
         if (index >= 0) {
             return string.substring(0, index);
@@ -40,7 +40,7 @@ export class UrlContextExtractorService {
         }
     }
 
-    after(string, separator, optionalNotFoundResult?) {
+    after(string: string, separator: string, optionalNotFoundResult?: string): string {
         const index = string.indexOf(separator);
         if (index >= 0) {
             return string.substring(index + separator.length, string.length);
