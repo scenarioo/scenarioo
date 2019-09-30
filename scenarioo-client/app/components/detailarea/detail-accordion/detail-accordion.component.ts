@@ -22,16 +22,19 @@ import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.serv
 import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
 import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
 import {ISketchIds} from '../../../generated-types/backend-types';
+import {LocalStorageService} from '../../../services/localStorage.service';
+
+const MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
 @Component({
     selector: 'sc-detail-accordion',
     template: require('./detail-accordion.component.html'),
     styles: [require('./detail-accordion.component.css').toString()],
 })
-
 export class DetailAccordionComponent {
 
-    isAccordionCollapsed: boolean = false;
+    @Input()
+    key: string;
 
     @Input()
     isFirstOpen: boolean;
@@ -57,15 +60,23 @@ export class DetailAccordionComponent {
     @Input()
     labelConfigurations: LabelConfigurationMap;
 
+    isAccordionCollapsed: boolean = false;
+
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private locationService: LocationService,
-                private sketchIdsResource: SketchIdsResource) {
+                private sketchIdsResource: SketchIdsResource,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
-        if (this.isFirstOpen === false) {
-            this.isAccordionCollapsed = true;
-        }
+        this.isAccordionCollapsed = this.localStorageService.getBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isFirstOpen);
+        console.log(this.key, this.isAccordionCollapsed);
+    }
+
+    toggleAccordionCollapsedValue() {
+        this.isAccordionCollapsed = this.isAccordionCollapsed !== true;
+        console.log(this.key, this.isAccordionCollapsed);
+        this.localStorageService.setBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isAccordionCollapsed);
     }
 
     goToIssue(issue: RelatedIssueSummary) {

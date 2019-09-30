@@ -16,15 +16,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <accordion-group [attr.aria-expanded]="!isAccordionCollapsed"
-                 [isOpen]=isFirstOpen
-                 panelClass="customClass">
-    <div accordion-heading (click)="isAccordionCollapsed = !isAccordionCollapsed">
-                        <span *ngIf="isAccordionCollapsed">
-                            <i class="fas fa-angle-down"></i>
-                        </span>
+                 [isOpen]="!isAccordionCollapsed"
+                 panelClass="customClass"
+                 [isDisabled]="true"
+                 >
+    <div accordion-heading (click)="toggleAccordionCollapsedValue()">
+        <span *ngIf="isAccordionCollapsed">
+            <i class="fas fa-angle-down"></i>
+        </span>
         <span *ngIf="!isAccordionCollapsed">
-                            <i class="fas fa-angle-up"></i>
-                        </span>
+            <i class="fas fa-angle-up"></i>
+        </span>
         <span>{{detailAccordionName}}</span>
     </div>
     <sc-tree *ngIf="isTreeComponent" [informationTree]="informationTree"></sc-tree>
