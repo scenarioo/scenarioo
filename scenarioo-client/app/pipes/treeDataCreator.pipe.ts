@@ -61,7 +61,7 @@ export class TreeDataCreatorPipe implements PipeTransform {
                 });
             } else {
                 childNodes.push({
-                    nodeLabel: key,
+                    nodeLabel: key.charAt(0).toUpperCase()+key.slice(1),
                     nodeValue: value,
                 });
             }
