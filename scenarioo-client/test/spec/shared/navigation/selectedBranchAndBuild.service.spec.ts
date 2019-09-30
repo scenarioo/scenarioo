@@ -106,8 +106,8 @@ describe('SelectedBranchAndBuildService', () => {
 
             expect(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_COOKIE);
             expect(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_COOKIE);
-            expect(LocalStorageService.get(SelectedBranchAndBuildService.BRANCH_KEY)).toBe(BRANCH_COOKIE);
-            expect(LocalStorageService.get(SelectedBranchAndBuildService.BUILD_KEY)).toBe(BUILD_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuildService.BRANCH_KEY)).toBe(BRANCH_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuildService.BUILD_KEY)).toBe(BUILD_COOKIE);
         });
 
         it('has the url parameter values, if cookies and url parameters are set', () => {
@@ -211,6 +211,7 @@ describe('SelectedBranchAndBuildService', () => {
 
     describe('when a callback is registered and valid data is already available', () => {
         it('calls the callback immediately', () => {
+            spyOn(localStorageService, 'get').and.returnValue(null);
             branchAndBuildInLocalStorageIsNotSet();
             branchAndBuildInUrlParametersIsNotSet();
 
