@@ -36,10 +36,7 @@ export class DetailareaComponent {
     key: string;
 
     @Input()
-    branchInformationTree: any;
-
-    @Input()
-    buildInformationTree: any;
+    informationTreeArray: any;
 
     @Input()
     usecaseInformationTree: any;

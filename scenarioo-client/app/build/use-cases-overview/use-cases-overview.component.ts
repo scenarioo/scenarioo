@@ -60,6 +60,7 @@ export class UseCasesOverviewComponent {
     branchesAndBuilds: IBranchBuilds[];
     branchInformationTree: object = {};
     buildInformationTree: object = {};
+    informationTreeArray: object  = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -103,6 +104,8 @@ export class UseCasesOverviewComponent {
 
                     const build = branchesAndBuilds.selectedBuild.build;
                     this.buildInformationTree = this.createBuildInformationTree(build);
+
+                    this.createInformationTreeArray(this.branchInformationTree, this.buildInformationTree);
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -192,5 +195,24 @@ export class UseCasesOverviewComponent {
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
         return this.metadataTreeCreaterPipe.transform(buildInformationTree);
+    }
+
+    createInformationTreeArray(branchInformationTree, buildInformationTree) {
+
+        const branchInformationTreeDetails: any = {};
+        branchInformationTreeDetails.tree = branchInformationTree;
+        branchInformationTreeDetails.name = "Branch";
+        branchInformationTreeDetails.key= "-branch";
+        branchInformationTreeDetails.isFirstOpen= true;
+        branchInformationTreeDetails.whichTreeComponent= "treeComponent";
+
+        const buildInformationTreeDetails: any = {};
+        buildInformationTreeDetails.tree = buildInformationTree;
+        buildInformationTreeDetails.name = "Build";
+        buildInformationTreeDetails.key= "-build";
+        buildInformationTreeDetails.isFirstOpen= false;
+        buildInformationTreeDetails.whichTreeComponent= "treeComponent";
+
+        return this.informationTreeArray = [branchInformationTreeDetails, buildInformationTreeDetails];
     }
 }

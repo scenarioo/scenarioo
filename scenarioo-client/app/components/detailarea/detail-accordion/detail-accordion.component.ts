@@ -43,6 +43,9 @@ export class DetailAccordionComponent {
     isTreeComponent: boolean;
 
     @Input()
+    whichTreeComponent: string;
+
+    @Input()
     isSketchesComponent: boolean;
 
     @Input()

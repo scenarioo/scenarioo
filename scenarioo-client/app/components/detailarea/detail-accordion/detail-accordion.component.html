@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span>{{detailAccordionName}}</span>
     </div>
     <sc-tree *ngIf="isTreeComponent" [informationTree]="informationTree"></sc-tree>
+    <sc-tree *ngIf="whichTreeComponent == 'treeComponent'" [informationTree]="informationTree"></sc-tree>
     <sc-label-metadata *ngIf="isLabelComponent" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
     <div *ngIf="isSketchesComponent">
         <ul id="relatedSketches">
