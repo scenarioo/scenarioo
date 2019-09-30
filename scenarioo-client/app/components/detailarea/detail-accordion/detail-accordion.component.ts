@@ -70,12 +70,10 @@ export class DetailAccordionComponent {
 
     ngOnInit(): void {
         this.isAccordionCollapsed = this.localStorageService.getBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isFirstOpen);
-        console.log(this.key, this.isAccordionCollapsed);
     }
 
     toggleAccordionCollapsedValue() {
         this.isAccordionCollapsed = this.isAccordionCollapsed !== true;
-        console.log(this.key, this.isAccordionCollapsed);
         this.localStorageService.setBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isAccordionCollapsed);
     }
 
