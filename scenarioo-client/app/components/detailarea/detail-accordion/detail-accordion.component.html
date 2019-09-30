@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span *ngIf="!isAccordionCollapsed">
                             <i class="fas fa-angle-up"></i>
                         </span>
-        <span>{{detailAccordionName}}</span>
+        <span class="accordionHeader">{{detailAccordionName}}</span>
     </div>
     <sc-tree *ngIf="isTreeComponent" [informationTree]="informationTree"></sc-tree>
     <sc-label-metadata *ngIf="isLabelComponent" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>

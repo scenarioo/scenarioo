@@ -64,33 +64,3 @@ sc-detailarea .detail-section h3 {
     margin-bottom: 20px;
     margin-left: 10px;
 }
-
-
-/* Detail accordion */
-
-sc-detailarea accordion {
-    margin-right: 20px;
-    margin-left: 10px;
-}
-
-sc-detailarea accordion span {
-    margin-right: 10px;
-}
-
-sc-detailarea accordion accordion-group {
-    border: 2px solid #FFFFFF;
-    margin-bottom: 20px !important;
-}
-
-sc-detailarea div.panel-heading {
-    background-color: #FFFFFF;
-}
-
-sc-detailarea div.panel-body {
-    background-color: #eeeeee;
-    word-break: break-word;
-}
-
-sc-detailarea .panel-group .panel+.panel {
-    margin-top: 20px;
-}

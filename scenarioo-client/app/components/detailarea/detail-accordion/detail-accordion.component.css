@@ -1,7 +1,34 @@
 ul {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-sc-detail-accordion a {
+a {
     cursor: pointer;
+}
+
+accordion {
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+span.accordionHeader {
+    margin-left: 10px;
+}
+
+accordion accordion-group {
+    border: 2px solid #FFFFFF;
+    margin-bottom: 20px !important;
+}
+
+div.panel-heading {
+    background-color: #FFFFFF;
+}
+
+div.panel-body {
+    background-color: #eeeeee;
+    word-break: break-word;
+}
+
+.panel-group .panel+.panel {
+    margin-top: 20px;
 }
