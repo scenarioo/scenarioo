@@ -201,17 +201,17 @@ export class UseCasesOverviewComponent {
 
         const branchInformationTreeDetails: any = {};
         branchInformationTreeDetails.tree = branchInformationTree;
-        branchInformationTreeDetails.name = "Branch";
-        branchInformationTreeDetails.key= "-branch";
-        branchInformationTreeDetails.isFirstOpen= true;
-        branchInformationTreeDetails.whichTreeComponent= "treeComponent";
+        branchInformationTreeDetails.name = 'Branch';
+        branchInformationTreeDetails.key = '-branch';
+        branchInformationTreeDetails.isFirstOpen = true;
+        branchInformationTreeDetails.whichTreeComponent = 'treeComponent';
 
         const buildInformationTreeDetails: any = {};
         buildInformationTreeDetails.tree = buildInformationTree;
-        buildInformationTreeDetails.name = "Build";
-        buildInformationTreeDetails.key= "-build";
-        buildInformationTreeDetails.isFirstOpen= false;
-        buildInformationTreeDetails.whichTreeComponent= "treeComponent";
+        buildInformationTreeDetails.name = 'Build';
+        buildInformationTreeDetails.key = '-build';
+        buildInformationTreeDetails.isFirstOpen = false;
+        buildInformationTreeDetails.whichTreeComponent = 'treeComponent';
 
         return this.informationTreeArray = [branchInformationTreeDetails, buildInformationTreeDetails];
     }
