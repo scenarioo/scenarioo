@@ -34,6 +34,8 @@ import {FilterPipe} from '../../pipes/filter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
 
+declare var angular: angular.IAngularStatic;
+
 @Component({
     selector: 'sc-usecases-overview',
     template: require('./use-cases-overview.component.html'),
