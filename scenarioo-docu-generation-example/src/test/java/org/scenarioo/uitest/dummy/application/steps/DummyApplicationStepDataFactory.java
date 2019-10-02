@@ -154,10 +154,15 @@ public class DummyApplicationStepDataFactory {
 		title("Wikipedia Suche").pageName("jpegPage.jsp").callTreeStart();
 		createStep("jpegImage");
 
-		// create TECHNICAL_PARENTHESES_STEP_CONFIG
-		startConfig(TECHNICAL_PARENTHESES_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-(with-parentheses)-and space");
-		title("Technical Page with Parentheses").pageName("url-(with-parentheses)-and space.jsp").callTreeStart();
+		// create TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG
+		startConfig(TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-(with-parentheses)-and space");
+		title("Technical Page with Parentheses and Space").pageName("url-(with-parentheses)-and space.jsp").callTreeStart();
 		createStep("urlWithParenthesesAndSpace");
+
+		// create TECHNICAL_PARENTHESES_STEP_CONFIG
+		startConfig(TECHNICAL_ENCODED_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-with-encoded%20space");
+		title("Technical Page with Encoded Space").pageName("url-with-encoded%20space.jsp").callTreeStart();
+		createStep("urlWithEncodedSpace");
 
 		return steps;
 

@@ -18,7 +18,7 @@ useCase('Browse object details')
             .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 await step('Display object details page');
-                await ObjectDetailsPage.assertNumberOfRows(35);
+                await ObjectDetailsPage.assertNumberOfRows(38);
                 await ObjectDetailsPage.assertTreeNodeStatus('0', 'collapsed');
                 await ObjectDetailsPage.assertTreeNodeStatus('1', 'expanded');
                 await ObjectDetailsPage.assertTreeNodeStatus('4', 'expanded');

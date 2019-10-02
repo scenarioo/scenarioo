@@ -86,12 +86,20 @@ public class TechnicalCornerCasesUITest extends UITest {
 
 	@Test
 	@DocuDescription(
-		name = "Dummy Scenario with (Parentheses) in URL",
-		description = "Dummy scenario with Parentheses in URL.")
-	@Labels({ "jpeg" })
-	public void dummy_scenario_with_parentheses_in_url() {
-		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_PARENTHESES_STEP_CONFIG);
+		description = "Dummy scenario with one step with parentheses and a space in URL.")
+	@Labels({ "encoding" })
+	public void dummy_scenario_with_one_step_with_parentheses_and_space_in_url() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/url-(with-parentheses)-and space");
+	}
+
+	@Test
+	@DocuDescription(
+		description = "Dummy scenario with one step with an encoded space in URL.")
+	@Labels({ "encoding" })
+	public void dummy_scenario_with_one_step_with_an_encoded_space_in_url() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ENCODED_SPACE_STEP_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/url-with-encoded%20space");
 	}
 
 
