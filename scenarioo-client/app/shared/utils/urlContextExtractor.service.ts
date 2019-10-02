@@ -52,4 +52,4 @@ export class UrlContextExtractorService {
 }
 
 angular.module('scenarioo.services')
-    .factory('urlContextExtractorService', downgradeInjectable(UrlContextExtractorService));
+    .factory('UrlContextExtractorService', downgradeInjectable(UrlContextExtractorService));
