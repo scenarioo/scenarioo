@@ -63,7 +63,7 @@ export class DetailareaComponent {
     }
 
     ngOnInit(): void {
-        this.isPanelCollapsed = this.localStorageService.getBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, true);
+        this.isPanelCollapsed = this.localStorageService.getBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, false);
     }
 
     togglePannelCollapsedValue() {
