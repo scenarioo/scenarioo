@@ -28,44 +28,44 @@ describe('UrlContextExtractorService', () => {
     });
 
     it('returns empty string for usual URLs without context', () => {
-        expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/manage')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/manage?branch=xyz&build=1234')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/#/manage')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/#')).toBe('');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/#/manage')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/manage')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/#/manage?branch=xyz&build=1234')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/#/manage')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/#')).toBe('');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/#/manage')).toBe('');
     });
 
     it('returns context path for usual URLs with simple context', () => {
-        expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org/scenarioo-demo-master')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/#')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/#')).toBe('scenarioo-demo-master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org/scenarioo-demo-master')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/#')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/#')).toBe('scenarioo-demo-master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo-demo-master/#/manage')).toBe('scenarioo-demo-master');
     });
 
     it('returns context path for usual URLs with more complex context', () => {
-        expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org/scenarioo/master')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/#')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/#/manage')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/scenarioo/master/#/manage')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/#')).toBe('scenarioo/master');
-        expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/#/manage')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('demo.scenarioo.org/scenarioo/master')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/#')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('http://demo.scenarioo.org/scenarioo/master/#/manage')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('https://demo.scenarioo.org/scenarioo/master/#/manage')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/#')).toBe('scenarioo/master');
+        void expect(urlContextExtractorService.getContextPathFromUrl('localhost:9000/scenarioo/master/#/manage')).toBe('scenarioo/master');
     });
 
 });
