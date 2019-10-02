@@ -32,6 +32,7 @@ import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
+import {LocalStorageService} from '../../services/localStorage.service';
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -74,7 +75,8 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private filterPipe: FilterPipe) {
+                private filterPipe: FilterPipe,
+                private localStorageService: LocalStorageService) {
 
     }
 
@@ -113,6 +115,8 @@ export class UseCasesOverviewComponent {
             }));
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
+
+        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-mainView', false);
     }
 
     getStatusStyleClass(state: string): string {
