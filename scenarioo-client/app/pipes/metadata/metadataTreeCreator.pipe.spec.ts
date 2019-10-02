@@ -19,6 +19,8 @@ import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
+declare var angular: angular.IAngularStatic;
+
 describe('Pipe: scMetadataTreeCreator', () => {
     let scMetadataTreeCreator: MetadataTreeCreatorPipe;
     let input;

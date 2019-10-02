@@ -17,6 +17,8 @@
 
 import {HumanReadablePipe} from './humanReadable.pipe';
 
+declare var angular: angular.IAngularStatic;
+
 describe('Pipe: scHumanReadable', () => {
     let scHumanReadable: HumanReadablePipe;
     let input;
