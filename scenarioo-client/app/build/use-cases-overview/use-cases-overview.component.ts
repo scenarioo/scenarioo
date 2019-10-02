@@ -212,9 +212,9 @@ export class UseCasesOverviewComponent {
     }
 
     createBuildInformationTree(build) {
-        this.buildInformationTree.Date = this.dateTimePipe.transform(build.date);
-        this.buildInformationTree.Revision = build.revision;
-        this.buildInformationTree.Status = build.status;
+        this.buildInformationTree.date = new Date(this.dateTimePipe.transform(build.date));
+        this.buildInformationTree.revision = build.revision;
+        this.buildInformationTree.status = build.status;
         return this.metadataTreeCreaterPipe.transform(this.buildInformationTree);
     }
 
