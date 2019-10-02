@@ -59,8 +59,11 @@ export class UseCasesOverviewComponent {
     isComparisonExisting: boolean;
 
     branchesAndBuilds: IBranchBuilds[];
-    branchInformationTree: object = {};
-    buildInformationTree: object = {};
+    branchInformationTree: any = {};
+    branchInformationTreeDetails: any = {};
+    buildInformationTree: any = {};
+    buildInformationTreeDetails: any = {};
+
     informationTreeArray: object  = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
@@ -78,7 +81,6 @@ export class UseCasesOverviewComponent {
                 private diffInfoService: DiffInfoService,
                 private filterPipe: FilterPipe,
                 private localStorageService: LocalStorageService) {
-
     }
 
     ngOnInit(): void {
@@ -102,12 +104,10 @@ export class UseCasesOverviewComponent {
                     }
 
                     const branch = branchesAndBuilds.selectedBranch.branch;
-                    this.branchInformationTree = this.createBranchInformationTree(branch);
-
                     const build = branchesAndBuilds.selectedBuild.build;
-                    this.buildInformationTree = this.createBuildInformationTree(build);
 
-                    this.createInformationTreeArray(this.branchInformationTree, this.buildInformationTree);
+                    this.createInformationTreeArray(branch, build);
+
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -187,36 +187,44 @@ export class UseCasesOverviewComponent {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
+    createInformationTreeArray(branch, build) {
+        this.branchInformationTree = this.createBranchInformationTree(branch);
+        this.branchInformationTreeDetails = this.createBranchInformationTreeDetails(this.branchInformationTree);
+
+        this.buildInformationTree = this.createBuildInformationTree(build);
+        this.buildInformationTreeDetails = this.createBuildInformationTreeDetails(this.buildInformationTree);
+
+        this.informationTreeArray = [this.branchInformationTreeDetails, this.buildInformationTreeDetails];
+    }
+
     createBranchInformationTree(branch) {
-        const branchInformationTree: any = {};
-        branchInformationTree.description = branch.description;
-        return this.metadataTreeCreaterPipe.transform(branchInformationTree);
+        this.branchInformationTree.description = branch.description;
+        return this.metadataTreeCreaterPipe.transform(this.branchInformationTree);
+    }
+
+    createBranchInformationTreeDetails(branchInformationTree) {
+        this.branchInformationTreeDetails.tree = branchInformationTree;
+        this.branchInformationTreeDetails.name = 'Branch';
+        this.branchInformationTreeDetails.key = '-branch';
+        this.branchInformationTreeDetails.isFirstOpen = true;
+        this.branchInformationTreeDetails.whichTreeComponent = 'treeComponent';
+        return this.branchInformationTreeDetails;
     }
 
     createBuildInformationTree(build) {
-        const buildInformationTree: any = {};
-        buildInformationTree.Date = this.dateTimePipe.transform(build.date);
-        buildInformationTree.Revision = build.revision;
-        buildInformationTree.Status = build.status;
-        return this.metadataTreeCreaterPipe.transform(buildInformationTree);
+        this.buildInformationTree.Date = this.dateTimePipe.transform(build.date);
+        this.buildInformationTree.Revision = build.revision;
+        this.buildInformationTree.Status = build.status;
+        return this.metadataTreeCreaterPipe.transform(this.buildInformationTree);
     }
 
-    createInformationTreeArray(branchInformationTree, buildInformationTree) {
-
-        const branchInformationTreeDetails: any = {};
-        branchInformationTreeDetails.tree = branchInformationTree;
-        branchInformationTreeDetails.name = 'Branch';
-        branchInformationTreeDetails.key = '-branch';
-        branchInformationTreeDetails.isFirstOpen = true;
-        branchInformationTreeDetails.whichTreeComponent = 'treeComponent';
-
-        const buildInformationTreeDetails: any = {};
-        buildInformationTreeDetails.tree = buildInformationTree;
-        buildInformationTreeDetails.name = 'Build';
-        buildInformationTreeDetails.key = '-build';
-        buildInformationTreeDetails.isFirstOpen = false;
-        buildInformationTreeDetails.whichTreeComponent = 'treeComponent';
-
-        return this.informationTreeArray = [branchInformationTreeDetails, buildInformationTreeDetails];
+    createBuildInformationTreeDetails(buildInformationTree) {
+        this.buildInformationTreeDetails.tree = buildInformationTree;
+        this.buildInformationTreeDetails.name = 'Build';
+        this.buildInformationTreeDetails.key = '-build';
+        this.buildInformationTreeDetails.isFirstOpen = false;
+        this.buildInformationTreeDetails.whichTreeComponent = 'treeComponent';
+        return this.buildInformationTreeDetails;
     }
+
 }
