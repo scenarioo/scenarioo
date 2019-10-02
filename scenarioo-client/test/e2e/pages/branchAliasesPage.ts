@@ -29,8 +29,12 @@ class BranchAliasesPage {
         return expect(branchOptions.get(3).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
     }
 
+    async enterAliasWithoutReferenceBranch(name, description) {
+        return this.enterAlias(name, '', description);
+    }
+
     async enterAlias(name, referencedBranchName, description) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         const count = await rows.count();
         const rowToEditIndex = count - 1;
         const rowToEdit = rows.get(rowToEditIndex);
@@ -57,11 +61,11 @@ class BranchAliasesPage {
     }
 
     async deleteAlias(rowIndex) {
-        return this.branchAliasTable.all(by.css('tbody tr input.btn[value="Delete"]')).get(rowIndex).click();
+        return this.branchAliasTable.$$('tbody tr input.btn[value="Delete"]').get(rowIndex).click();
     }
 
     async updateAlias(rowIndex, newAlias, referencedBranchName, newDescription) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         const rowToEdit = rows.get(rowIndex);
 
         const aliasNameField = rowToEdit.$('input[data-type="branchAlias"]');

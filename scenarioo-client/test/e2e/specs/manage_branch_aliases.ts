@@ -1,6 +1,6 @@
 'use strict';
 
-import { scenario, step, useCase } from 'scenarioo-js';
+import {scenario, step, useCase} from 'scenarioo-js';
 import * as Utils from '../util';
 import BranchAliasesPage from '../pages/branchAliasesPage';
 
@@ -55,7 +55,7 @@ useCase('Manage branch aliases')
             .it(async () => {
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
-                await BranchAliasesPage.enterAlias('Test', '', 'my description');
+                await BranchAliasesPage.enterAliasWithoutReferenceBranch('Test', 'my description');
                 await BranchAliasesPage.save();
                 await BranchAliasesPage.assertRequiredFieldsError();
                 await step('saving not possible because referenced branch is not selected');
