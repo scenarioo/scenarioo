@@ -69,9 +69,14 @@ public enum DummySimulationConfig {
 	TECHNICAL_JPEG_STEP_IMAGES_CONFIG,
 
 	/**
-	 * Special technical configuration to have a page with parentheses in the URL
+	 * Special technical configuration to have a page with parentheses and a space in the URL
 	 */
-	TECHNICAL_PARENTHESES_STEP_CONFIG;
+	TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG,
+
+	/**
+	 * Special technical configuration to have an encoded space in the URL
+	 */
+	TECHNICAL_ENCODED_SPACE_STEP_CONFIG;
 
 	private static final String TYPE = "configuration";
 
