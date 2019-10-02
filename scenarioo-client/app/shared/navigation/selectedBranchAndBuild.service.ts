@@ -66,6 +66,7 @@ angular.module('scenarioo.services')
             value = localStorageService.get(key);
             if (angular.isDefined(value) && value !== null) {
                 $location.search(key, value);
+                console.log('getFromLocalStorageOrUrl check2', value);
                 return value;
             }
 
