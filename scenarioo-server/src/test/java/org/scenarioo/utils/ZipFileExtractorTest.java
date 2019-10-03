@@ -37,12 +37,8 @@ class ZipFileExtractorTest {
 	@Test
 	void extractFile_withFileThatDoesNotExists_throwsException() {
 		File zipFile = new File(currentFolder, "InexistentFile.zip");
-		try {
-			ZipFileExtractor.extractFile(zipFile, targetFolder);
-			fail();
-		} catch (ZipFileExtractionException e) {
-			assertTrue(e.getMessage().startsWith("Zip file does not exist "));
-		}
+		final ZipFileExtractionException thrown = assertThrows(ZipFileExtractionException.class, () -> ZipFileExtractor.extractFile(zipFile, targetFolder));
+		assertTrue(thrown.getMessage().startsWith("Zip file does not exist "));
 	}
 
 	@Test
