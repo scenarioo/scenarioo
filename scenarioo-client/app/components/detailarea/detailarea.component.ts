@@ -20,7 +20,7 @@ import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 
-const COLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
+const COLLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
 
 @Component({
     selector: 'sc-detailarea',
@@ -63,13 +63,17 @@ export class DetailareaComponent {
     }
 
     ngOnInit(): void {
-        this.isPanelCollapsed = this.localStorageService.getBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, false);
+        this.isPanelCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), false);
     }
 
     togglePannelCollapsedValue() {
-        this.isPanelCollapsed = this.isPanelCollapsed === false;
-        this.localStorageService.setBoolean(COLAPSED_STATE_KEY_PREFIX + this.key, this.isPanelCollapsed);
+        this.isPanelCollapsed = !this.isPanelCollapsed;
+        this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isPanelCollapsed);
         this.panelCollapsed.emit(this.isPanelCollapsed);
+    }
+
+    getLocalStorageKey() {
+        return COLLAPSED_STATE_KEY_PREFIX + this.key;
     }
 
     isEmptyObject(obj) {
