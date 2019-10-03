@@ -67,24 +67,16 @@ class LastSuccessfulScenariosBuildTest {
 	void theBuildSummaryParameterMustNotBeNull() {
 		givenBuildImportSummaryIsNull();
 
-		try {
-			whenUpdatingLastSuccessfulScenarioBuild();
-			fail();
-		} catch (NullPointerException e) {
-			assertEquals("summary must not be null", e.getMessage());
-		}
+		final NullPointerException thrown = assertThrows(NullPointerException.class, () -> whenUpdatingLastSuccessfulScenarioBuild());
+		assertEquals("summary must not be null", thrown.getMessage());
 	}
 
 	@Test
 	void theIdentifierInTheSummaryParameterMustNotBeNull() {
 		givenBuildImportSummaryWithNullIdentifier();
 
-		try {
-			whenUpdatingLastSuccessfulScenarioBuild();
-			fail();
-		} catch (NullPointerException e) {
-			assertEquals("build identifier must not be null", e.getMessage());
-		}
+		final NullPointerException thrown = assertThrows(NullPointerException.class, () -> whenUpdatingLastSuccessfulScenarioBuild());
+		assertEquals("build identifier must not be null", thrown.getMessage());
 	}
 
 	@Test
