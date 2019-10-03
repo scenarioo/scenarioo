@@ -67,7 +67,7 @@ export class LocalStorageService {
      * @param key the key to make scenarioo context aware
      * @returns {string} key with scenarioo context path from location url inside.
      */
-    getScenariooContextPathAwareKey(key: string) {
+    getScenariooContextPathAwareKey(key: string): string {
 
         // TODO: Workaround until the full migration, when the Angular router is available
         // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());

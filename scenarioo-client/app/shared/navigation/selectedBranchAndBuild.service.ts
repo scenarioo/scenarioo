@@ -16,11 +16,12 @@
  */
 
 import {ConfigurationService} from '../../services/configuration.service';
+import {LocalStorageService} from '../../services/localStorage.service';
 
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
-    .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService, ConfigurationService: ConfigurationService) => {
+    .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService: LocalStorageService, ConfigurationService: ConfigurationService) => {
 
         const BRANCH_KEY = 'branch';
         const BUILD_KEY = 'build';
