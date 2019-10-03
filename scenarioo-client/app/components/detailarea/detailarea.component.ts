@@ -39,16 +39,7 @@ export class DetailareaComponent {
     informationTreeArray: any;
 
     @Input()
-    usecaseInformationTree: any;
-
-    @Input()
     metadataInformationTree: ICustomObjectTabTree;
-
-    @Input()
-    relatedIssues: RelatedIssueSummary[];
-
-    @Input()
-    useCaseLabels: string[];
 
     @Input()
     labelConfigurations: ILabelConfiguration;
@@ -77,6 +68,6 @@ export class DetailareaComponent {
     }
 
     isEmptyObject(obj) {
-        return (obj && (Object.keys(obj).length === 0));
+        return (obj && (Object.keys(obj).length === 0) && (obj !== undefined));
     }
 }

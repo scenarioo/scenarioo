@@ -43,25 +43,13 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
-    isTreeComponent: boolean;
-
-    @Input()
     whichTreeComponent: string;
-
-    @Input()
-    isSketchesComponent: boolean;
-
-    @Input()
-    isLabelComponent: boolean;
 
     @Input()
     detailAccordionName: string;
 
     @Input()
     informationTree: any;
-
-    @Input()
-    relatedIssues: RelatedIssueSummary;
 
     @Input()
     labelConfigurations: LabelConfigurationMap;

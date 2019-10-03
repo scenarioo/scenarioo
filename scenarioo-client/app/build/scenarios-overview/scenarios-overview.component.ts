@@ -66,9 +66,14 @@ export class ScenariosOverviewComponent {
     isComparisonExisting: boolean;
 
     usecaseInformationTree: object;
+    usecaseInformationTreeDetails: any = {};
     metadataInformationTree: any[];
     relatedIssues: RelatedIssueSummary[];
+    relatedIssuesDetails: any = {};
     labels: string[];
+    labelsDetails: any = {};
+
+    informationTreeArray: object = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -128,6 +133,7 @@ export class ScenariosOverviewComponent {
                 useCaseScenarios.useCase.name,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
                 this.relatedIssues = relatedIssueSummary;
+                this.createInformationTreeArray(this.usecaseInformationTree, this.metadataInformationTree, this.labels, this.relatedIssues);
             });
         });
 
@@ -224,6 +230,14 @@ export class ScenariosOverviewComponent {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
+    createInformationTreeArray(usecaseInformationTree, metadataInformationTree, labels, relatedIssues) {
+        this.usecaseInformationTreeDetails = this.createUsecaseInformationTreeDetails(usecaseInformationTree);
+        this.labelsDetails = this.createLabelsDetails(labels);
+        this.relatedIssuesDetails = this.createRelatedIssueResourceDetails(relatedIssues);
+
+        this.informationTreeArray = [this.usecaseInformationTreeDetails, this.labelsDetails, this.relatedIssuesDetails];
+    }
+
     createUseCaseInformationTree(usecase: IUseCase) {
         const usecaseInformationTree: any = {};
         usecaseInformationTree['Use Case'] = usecase.name;
@@ -232,6 +246,34 @@ export class ScenariosOverviewComponent {
         }
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
+    }
+
+    createUsecaseInformationTreeDetails(usecaseInformationTree) {
+        this.usecaseInformationTreeDetails.tree = usecaseInformationTree;
+        this.usecaseInformationTreeDetails.name = 'Use Case';
+        this.usecaseInformationTreeDetails.key = '-useCase';
+        this.usecaseInformationTreeDetails.isFirstOpen = true;
+        this.usecaseInformationTreeDetails.whichTreeComponent = 'treeComponent';
+        return this.usecaseInformationTreeDetails;
+    }
+
+    createLabelsDetails(labels) {
+        this.labelsDetails.tree = labels;
+        this.labelsDetails.config = this.labelConfigurations;
+        this.labelsDetails.name = 'Labels';
+        this.labelsDetails.key = '-labels';
+        this.labelsDetails.isFirstOpen = false;
+        this.labelsDetails.whichTreeComponent = 'labelsComponent';
+        return this.labelsDetails;
+    }
+
+    createRelatedIssueResourceDetails(relatedIssues) {
+        this.relatedIssuesDetails.tree = relatedIssues;
+        this.relatedIssuesDetails.name = 'Related Sketches';
+        this.relatedIssuesDetails.key = '-relatedSketches';
+        this.relatedIssuesDetails.isFirstOpen = false;
+        this.relatedIssuesDetails.whichTreeComponent = 'sketchesComponent';
+        return this.relatedIssuesDetails;
     }
 
 }
