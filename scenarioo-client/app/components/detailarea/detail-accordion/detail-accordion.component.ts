@@ -33,6 +33,9 @@ const MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 })
 export class DetailAccordionComponent {
 
+    /**
+     * A key to define under which key the accordion stores its state (like what is/was collapsed or expanded)
+     */
     @Input()
     key: string;
 
@@ -69,12 +72,16 @@ export class DetailAccordionComponent {
     }
 
     ngOnInit(): void {
-        this.isAccordionCollapsed = this.localStorageService.getBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isFirstOpen);
+        this.isAccordionCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), this.isFirstOpen);
     }
 
     toggleAccordionCollapsedValue() {
-        this.isAccordionCollapsed = this.isAccordionCollapsed !== true;
-        this.localStorageService.setBoolean(MAIN_METADATA_SECTION_EXPANDED + this.key, this.isAccordionCollapsed);
+        this.isAccordionCollapsed = !this.isAccordionCollapsed;
+        this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isAccordionCollapsed);
+    }
+
+    getLocalStorageKey() {
+        return MAIN_METADATA_SECTION_EXPANDED + this.key;
     }
 
     goToIssue(issue: RelatedIssueSummary) {
