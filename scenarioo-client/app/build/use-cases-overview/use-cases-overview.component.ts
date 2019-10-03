@@ -182,7 +182,7 @@ export class UseCasesOverviewComponent {
 
     createBranchInformationTree(branch) {
         const branchInformationTree: any = {};
-        branchInformationTree.description = branch.description;
+        branchInformationTree.Description = branch.description;
         return this.metadataTreeCreaterPipe.transform(branchInformationTree);
     }
 
