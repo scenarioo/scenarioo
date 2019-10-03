@@ -2,8 +2,7 @@ package org.scenarioo.utils;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class NumberFormatterTest {
 
@@ -25,12 +24,8 @@ class NumberFormatterTest {
 	}
 
 	private void assertFormattingThrowsException(long number) {
-		try {
-			NumberFormatter.formatMinimumThreeDigits(number);
-			fail("Should have thrown RuntimeException when formatting " + number);
-		} catch(RuntimeException e) {
-			assertEquals("Encountered a negative number, which must be a bug: " + number, e.getMessage());
-		}
+		final RuntimeException thrown = assertThrows(RuntimeException.class, () -> NumberFormatter.formatMinimumThreeDigits(number), "Should have thrown RuntimeException when formatting " + number);
+		assertEquals("Encountered a negative number, which must be a bug: " + number, thrown.getMessage());
 	}
 
 }
