@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
@@ -52,6 +52,20 @@ export class DetailareaComponent {
 
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    ngOnInit(): void {
+        this.setHeightOfDetailarea();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        this.setHeightOfDetailarea();
+    }
+
+    setHeightOfDetailarea() {
+        const headerHeight = document.getElementById('sc-metadata-panel').offsetTop + 2;
+        document.getElementById('sc-metadata-panel').style.height = "calc(100vh - " + headerHeight + "px)";
+    }
 
     valueChange() {
         this.isPanelCollapsed = this.isPanelCollapsed === false;

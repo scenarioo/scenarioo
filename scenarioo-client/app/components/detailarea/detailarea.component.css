@@ -26,9 +26,12 @@ sc-detailarea button.btn.btn-primary:active {
 
 sc-detailarea .detail-container {
     border: 1px solid #ccc;
+    border-right: 0;
     display: table;
     padding: unset;
     background-color: #eeeeee;
+    position: absolute;
+    right: 0;
 }
 
 sc-detailarea .detail-row {
@@ -37,7 +40,6 @@ sc-detailarea .detail-row {
 
 sc-detailarea .detail-cell {
     display: table-cell;
-    /*visibility: hidden;*/
 }
 
 sc-detailarea .detail-button {
@@ -52,8 +54,7 @@ sc-detailarea .detail-button {
 
 sc-detailarea .detail-section {
     width: 100%;
-    padding: 0;
-    padding-left: 15px;
+    padding: 0 0 0 15px;
     margin-right: 0;
     float: right;
 }
