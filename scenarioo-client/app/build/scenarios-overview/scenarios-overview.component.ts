@@ -22,7 +22,7 @@ import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
@@ -35,6 +35,7 @@ import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {LocalStorageService} from '../../services/localStorage.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -85,7 +86,8 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private filterPipe: FilterPipe) {
+                private filterPipe: FilterPipe,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
@@ -98,6 +100,8 @@ export class ScenariosOverviewComponent {
             .subscribe(((labelConfigurations: LabelConfigurationMap) => {
                 this.labelConfigurations = labelConfigurations;
             }));
+
+        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-useCaseView', false);
     }
 
     private loadScenario(selection) {
