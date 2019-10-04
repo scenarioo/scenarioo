@@ -64,7 +64,7 @@ export class DetailareaComponent {
 
     setHeightOfDetailarea() {
         const headerHeight = document.getElementById('sc-metadata-panel').offsetTop + 2;
-        document.getElementById('sc-metadata-panel').style.height = "calc(100vh - " + headerHeight + "px)";
+        document.getElementById('sc-metadata-panel').style.height = 'calc(100vh - ' + headerHeight + 'px)';
     }
 
     valueChange() {
