@@ -45,11 +45,15 @@ sc-detailarea .detail-cell {
 sc-detailarea .detail-button {
     background-color: #CCCCCC;
     width: 30px !important;
-    vertical-align: middle;
     font-size: x-large;
     color: #337AB7;
-    text-align: center;
     cursor: pointer;
+}
+
+sc-detailarea #arrowCenter {
+    position: fixed;
+    margin-left: 10px;
+    top: 55%;
 }
 
 sc-detailarea .detail-section {
