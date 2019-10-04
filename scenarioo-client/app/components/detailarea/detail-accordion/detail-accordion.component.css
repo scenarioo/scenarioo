@@ -1,9 +1,14 @@
-ul {
-    margin-bottom: 0;
+.panel-heading {
+    cursor: pointer;
 }
 
-a {
-    cursor: pointer;
+span.accordionHeader {
+    margin-left: 10px;
+
+}
+
+.panel-title {
+    color: #337AB7;
 }
 
 accordion {
@@ -11,24 +16,25 @@ accordion {
     margin-left: 10px;
 }
 
-span.accordionHeader {
-    margin-left: 10px;
-}
-
 accordion accordion-group {
-    border: 2px solid #FFFFFF;
     margin-bottom: 20px !important;
 }
 
-div.panel-heading {
-    background-color: #FFFFFF;
-}
-
-div.panel-body {
-    background-color: #eeeeee;
-    word-break: break-word;
+.panel {
+    background-color: #CCCCCC;
 }
 
 .panel-group .panel+.panel {
     margin-top: 20px;
+}
+
+.panel-group .panel-heading+.panel-collapse>.panel-body {
+    border-top: 0;
+}
+
+.panel-body {
+    background-color: #FFFFFF;
+    word-break: break-word;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
