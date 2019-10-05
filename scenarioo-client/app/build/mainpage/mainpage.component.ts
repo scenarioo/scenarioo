@@ -42,25 +42,7 @@ export class MainpageComponent implements OnInit {
     ngOnInit(): void {
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
-            let tabs = [];
-            tabs.push({
-                id: 'useCases',
-                title: 'Use Cases',
-            });
-            configuration.customObjectTabs
-                .forEach((customObjectTab: ICustomObjectTab, index) => {
-                    tabs.push({
-                        title: customObjectTab.tabTitle,
-                        id: customObjectTab.id,
-                        isCustom: true,
-                        columns: customObjectTab.customObjectDetailColumns
-                    });
-                });
-            tabs.push({
-                id: 'sketches',
-                title: 'Sketches',
-            });
-            this.tabs = tabs;
+            this.tabs = this.createTabs(configuration);
 
             // TODO: We should find a better solution for this.
             // The problem is, that the customTabs which are added to allTabs are not available at this time, waiting for a bit solves this.
@@ -92,7 +74,26 @@ export class MainpageComponent implements OnInit {
         return this.tabs.filter((tab) => tab.id === selectedTab)[0].title;
     }
 
-    private defineStaticTabs() {
+    private createTabs(configuration: IConfiguration): ITab[] {
+        let tabs = [];
+        tabs.push({
+            id: 'useCases',
+            title: 'Use Cases',
+        });
+        configuration.customObjectTabs
+            .forEach((customObjectTab: ICustomObjectTab, index) => {
+                tabs.push({
+                    title: customObjectTab.tabTitle,
+                    id: customObjectTab.id,
+                    isCustom: true,
+                    columns: customObjectTab.customObjectDetailColumns
+                });
+            });
+        tabs.push({
+            id: 'sketches',
+            title: 'Sketches',
+        });
+        return tabs;
     }
 
 }
