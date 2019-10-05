@@ -17,21 +17,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-share></sc-share>
 
-<!-- TODO #938: Order of Tab on home page -->
 <div>
-    <tabset #homeTabs>
-        <tab heading="Use Cases" id="sc-main-tab-usecases" (selectTab)="onSelect($event)">
-            <sc-usecases-overview *ngIf="isActiveTab('Use Cases')"></sc-usecases-overview>
-        </tab>
-        <tab *ngFor="let dynamictab of customTabs"
-             [heading]="dynamictab.title"
+
+    <div *ngIf="tabs===undefined">
+        Loading ...
+    </div>
+
+    <tabset #homeTabs *ngIf="tabs">
+
+        <tab *ngFor="let tab of tabs"
+             [heading]="tab.title"
              (selectTab)="onSelect($event)"
-              id="sc-main-tab-{{dynamictab.id}}">
-            <sc-custom-tab [tabId]="dynamictab.id" [tabColumns]="dynamictab.columns" *ngIf="isActiveTab(dynamictab.title)"></sc-custom-tab>
+             id="sc-main-tab-{{tab.id}}">
+
+            <sc-usecases-overview *ngIf="tab.id == 'useCases' && isActiveTab(tab)"></sc-usecases-overview>
+
+            <sc-custom-tab *ngIf="tab.isCustom && isActiveTab(tab)"
+                           [tabId]="tab.id"
+                           [tabColumns]="tab.columns">
+            </sc-custom-tab>
+
+            <sc-sketches-tab *ngIf="tab.id == 'sketches' && isActiveTab(tab)"></sc-sketches-tab>
+
         </tab>
-        <tab heading="Sketches" id="sc-main-tab-sketches" (selectTab)="onSelect($event)">
-            <sc-sketches-tab *ngIf="isActiveTab('Sketches')"></sc-sketches-tab>
-        </tab>
+
     </tabset>
+
 </div>
 
