@@ -15,7 +15,6 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {BranchAliasesDirective} from './manage/branchAliases/branch-aliases.directive';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
@@ -51,13 +50,13 @@ import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-o
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadataTreeListCreator.pipe';
 import {ShareComponent} from './build/mainpage/share/share.component';
+import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {StepsOverviewComponent} from './build/steps-overview/steps-overview.component';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        BranchAliasesDirective,
         GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,
@@ -80,6 +79,7 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         TreeDirective,
         ScenariosOverviewComponent,
         TitleComponent,
+        BranchAliasesComponent,
         StepsOverviewComponent,
     ],
     entryComponents: [
