@@ -75,7 +75,7 @@ export class MainpageComponent implements OnInit {
     }
 
     private createTabs(configuration: IConfiguration): ITab[] {
-        let tabs = [];
+        const tabs = [];
         tabs.push({
             id: 'useCases',
             title: 'Use Cases',
@@ -86,7 +86,7 @@ export class MainpageComponent implements OnInit {
                     title: customObjectTab.tabTitle,
                     id: customObjectTab.id,
                     isCustom: true,
-                    columns: customObjectTab.customObjectDetailColumns
+                    columns: customObjectTab.customObjectDetailColumns,
                 });
             });
         tabs.push({
@@ -106,7 +106,7 @@ export interface ITab {
 
     isCustom?: boolean;
 
-    columns?: ICustomObjectDetailColumn,
+    columns?: ICustomObjectDetailColumn;
 
 }
 
