@@ -1,6 +1,6 @@
 'use strict';
 
-import {by, element, ElementFinder, $, $$} from 'protractor';
+import {$, $$, by, element} from 'protractor';
 import * as Utils from '../util';
 
 class BranchAliasesPage {
@@ -14,7 +14,7 @@ class BranchAliasesPage {
     }
 
     async assertNumberOfAliases(expectedCount) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         // + 1 due to empty row
         return expect(rows.count()).toBe(expectedCount + 1);
     }
@@ -29,19 +29,22 @@ class BranchAliasesPage {
         return expect(branchOptions.get(3).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
     }
 
+    async enterAliasWithoutReferenceBranch(name, description) {
+        return this.enterAlias(name, '', description);
+    }
+
     async enterAlias(name, referencedBranchName, description) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         const count = await rows.count();
         const rowToEditIndex = count - 1;
         const rowToEdit = rows.get(rowToEditIndex);
 
-        await rowToEdit.$('input[name="aliasName"]').sendKeys(name);
+        await rowToEdit.$('input[data-type="branchAlias"]').sendKeys(name);
         if (referencedBranchName !== '') {
-            // 'select option:nth-child(1)
-            await rowToEdit.$('select[name="referencedBranch"]').click();
-            await rowToEdit.$('select[name="referencedBranch"] option[value="' + referencedBranchName + '"]').click();
+            await rowToEdit.$('select[data-type="referencedBranch"]').click();
+            await rowToEdit.$('select[data-type="referencedBranch"] option[value="' + referencedBranchName + '"]').click();
         }
-        return rowToEdit.$('input[name="aliasDescription"]').sendKeys(description);
+        return rowToEdit.$('input[data-type="aliasDescription"]').sendKeys(description);
     }
 
     async saveAndAssertSuccessMessage() {
@@ -57,21 +60,17 @@ class BranchAliasesPage {
         return this.resetButton.click();
     }
 
-    async assertSaveNotPossible() {
-        return expect(this.saveButton.isEnabled()).toBe(false);
-    }
-
     async deleteAlias(rowIndex) {
-        return this.branchAliasTable.all(by.css('tbody tr input.btn[value="Delete"]')).get(rowIndex).click();
+        return this.branchAliasTable.$$('tbody tr input.btn[value="Delete"]').get(rowIndex).click();
     }
 
     async updateAlias(rowIndex, newAlias, referencedBranchName, newDescription) {
-        const rows = this.branchAliasTable.all(by.css('tbody tr'));
+        const rows = this.branchAliasTable.$$('tbody tr');
         const rowToEdit = rows.get(rowIndex);
 
-        const aliasNameField = rowToEdit.$('input[name="aliasName"]');
-        const referencedBranchField = rowToEdit.$('select[name="referencedBranch"]');
-        const aliasDescriptionField = rowToEdit.$('input[name="aliasDescription"]');
+        const aliasNameField = rowToEdit.$('input[data-type="branchAlias"]');
+        const referencedBranchField = rowToEdit.$('select[data-type="referencedBranch"]');
+        const aliasDescriptionField = rowToEdit.$('input[data-type="aliasDescription"]');
 
         await aliasNameField.clear();
         await aliasNameField.sendKeys(newAlias);
@@ -88,6 +87,9 @@ class BranchAliasesPage {
         return expect(element(by.id('duplicateAliasErrorId')).isPresent()).toBe(true);
     }
 
+    async assertRequiredFieldsError() {
+        return expect(element(by.id('requiredFieldsErrorId')).isPresent()).toBe(true);
+    }
 }
 
 export default new BranchAliasesPage();
