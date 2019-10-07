@@ -16,20 +16,18 @@ accordion {
     margin-left: 10px;
 }
 
-accordion accordion-group {
-    margin-bottom: 20px !important;
+.panel-group .panel {
+    margin-bottom: 10px;
+    background-color: unset;
+    box-shadow: unset;
 }
 
-.panel {
+.panel-group .panel-heading {
     background-color: #CCCCCC;
 }
 
-.panel-group .panel+.panel {
-    margin-top: 20px;
-}
-
 .panel-group .panel-heading+.panel-collapse>.panel-body {
-    border-top: 0;
+    border: 1px solid #CCCCCC;
 }
 
 .panel-body {
