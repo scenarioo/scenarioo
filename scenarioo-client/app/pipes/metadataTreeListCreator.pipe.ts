@@ -1,6 +1,5 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
-import {IDetailable, IUseCase} from '../generated-types/backend-types';
 
 @Pipe({
     name: 'scMetadataTreeListCreator',

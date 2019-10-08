@@ -67,7 +67,7 @@ export class DetailareaComponent {
 
     private setHeightOfDetailarea() {
         const metaDataPanelHeight = this.el.nativeElement;
-        const headerHeight = metaDataPanelHeight.offsetTop +2;
+        const headerHeight = metaDataPanelHeight.offsetTop + 2;
         metaDataPanelHeight.style.height = 'calc(100vh - ' + headerHeight + 'px)';
     }
 
