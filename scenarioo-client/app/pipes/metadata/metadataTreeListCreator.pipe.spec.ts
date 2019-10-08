@@ -52,11 +52,11 @@ describe('Pipe: scMetadataTreeListCreator', () => {
         scMetadataTreeListCreator = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
     });
 
-    xit('transforms javascript object into a list of optimized trees', () => {
+    xit('transforms javascript object into a list of optimized trees', async () => {
         // Act
         input = scMetadataTreeListCreator.transform(DATA);
         // Assert
-        void expect(input).toEqual(DATA_TRANSFORMED);
+        await expect(input).toEqual(DATA_TRANSFORMED);
     });
 
 });

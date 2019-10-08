@@ -138,53 +138,53 @@ describe('Pipe: scTreeDataCreator', () => {
         scTreeDataCreator = new TreeDataCreatorPipe();
     });
 
-    it('Should return undefined from an undefined input', () => {
+    it('Should return undefined from an undefined input', async () => {
         // Act
         input = scTreeDataCreator.transform(undefined);
         // Assert
-        void expect(input).toBeUndefined();
+        await expect(input).toBeUndefined();
     });
 
-    it('Should create a tree from a string', () => {
+    it('Should create a tree from a string', async () => {
         // Act
         input = scTreeDataCreator.transform('someStringValue');
         // Assert
-        void expect(input).toEqual({nodeLabel: 'someStringValue'});
+        await expect(input).toEqual({nodeLabel: 'someStringValue'});
     });
 
-    it('Should create a tree from an empty input', () => {
+    it('Should create a tree from an empty input', async () => {
         // Act
         input = scTreeDataCreator.transform({});
         // Assert
-        void expect(input).toEqual({nodeLabel: '', childNodes: []});
+        await expect(input).toEqual({nodeLabel: '', childNodes: []});
     });
 
-    it('Should create two trees from two input values', () => {
+    it('Should create two trees from two input values', async () => {
         // Act
         input = scTreeDataCreator.transform(TWO_INPUTS);
         // Assert
-        void expect(input).toEqual(TWO_INPUTS_TRANSFORMED);
+        await expect(input).toEqual(TWO_INPUTS_TRANSFORMED);
     });
 
-    it('Should create correct trees from complex input values', () => {
+    it('Should create correct trees from complex input values', async () => {
         // Act
         input = scTreeDataCreator.transform(COMPLEX_INPUTS);
         // Assert
-        void expect(input).toEqual(COMPLEX_INPUTS_TRANSFORMED);
+        await expect(input).toEqual(COMPLEX_INPUTS_TRANSFORMED);
     });
 
-    it('Should identify childNodes of a nodeLabel', () => {
+    it('Should identify childNodes of a nodeLabel', async () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITH_NODELABEL);
         // Assert
-        void expect(input).toEqual(CHILDNODES_WITH_NODELABEL_TRANSFORMED);
+        await expect(input).toEqual(CHILDNODES_WITH_NODELABEL_TRANSFORMED);
     });
 
-    it('Should identify childNodes without having a nodeLabel', () => {
+    it('Should identify childNodes without having a nodeLabel', async () => {
         // Act
         input = scTreeDataCreator.transform(CHILDNODES_WITHOUT_NODELABEL);
         // Assert
-        void expect(input).toEqual(CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED);
+        await expect(input).toEqual(CHILDNODES_WITHOUT_NODELABEL_TRANSFORMED);
     });
 
 });

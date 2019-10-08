@@ -28,48 +28,48 @@ describe('Pipe: scHumanReadable', () => {
         scHumanReadable = new HumanReadablePipe();
     });
 
-    it('Let an empty string be an empty string', () => {
+    it('Let an empty string be an empty string', async () => {
         // Act
         input = scHumanReadable.transform('');
         // Assert
-        void expect(input).toEqual('');
+        await expect(input).toEqual('');
     });
 
-    it('Should create a human readable string from a CamelCase string', () => {
+    it('Should create a human readable string from a CamelCase string', async () => {
         // Act
         input = scHumanReadable.transform('ThisIsSomeCamelCaseString');
         // Assert
-        void expect(input).toEqual('This Is Some Camel Case String');
+        await expect(input).toEqual('This Is Some Camel Case String');
     });
 
-    it('Should start with a capital letter', () => {
+    it('Should start with a capital letter', async () => {
         // Act
         input = scHumanReadable.transform('someStringStartingSmall');
         // Assert
-        void expect(input).toEqual('Some String Starting Small');
+        await expect(input).toEqual('Some String Starting Small');
     });
 
-    it('Should place a blank between two capital letters', () => {
+    it('Should place a blank between two capital letters', async () => {
         // Act
         input = scHumanReadable.transform('ABadExample');
         // Assert
-        void expect(input).toEqual('A Bad Example');
+        await expect(input).toEqual('A Bad Example');
     });
 
-    it('Should accept special characters', () => {
+    it('Should accept special characters', async () => {
         // Act
         input = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
         // Assert
-        void expect(input).toContain(' Some Camel-Case');
-        void expect(input).toContain('&/%');
-        void expect(input).toContain('String');
+        await expect(input).toContain(' Some Camel-Case');
+        await expect(input).toContain('&/%');
+        await expect(input).toContain('String');
     });
 
-    it('Should replace underline with blanks', () => {
+    it('Should replace underline with blanks', async () => {
         // Act
         input = scHumanReadable.transform('This_may_also_be_acceptable');
         // Assert
-        void expect(input).toEqual('This may also be acceptable');
+        await expect(input).toEqual('This may also be acceptable');
     });
 
 });

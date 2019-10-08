@@ -250,74 +250,74 @@ describe('Pipe: scTreeDataOptimizer', () => {
     });
 
     // TODO Check with Rolf whether we need to remove empty child nodes
-    xit('removes empty nodes"', () => {
+    xit('removes empty nodes"', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_NODE);
         // Assert
-        void expect(input).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
+        await expect(input).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
     });
 
-    it('pulls children of details nodes one level up', () => {
+    it('pulls children of details nodes one level up', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_DETAILS);
         // Assert
-        void expect(input).toEqual(DATA_DETAILS_OPTIMIZED);
+        await expect(input).toEqual(DATA_DETAILS_OPTIMIZED);
     });
 
-    it('makes node labels human readable but does not touch node values', () => {
+    it('makes node labels human readable but does not touch node values', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_HUMAN_READABLE);
         // Assert
-        void expect(input).toEqual(DATA_HUMAN_READABLE_OPTIMIZED);
+        await expect(input).toEqual(DATA_HUMAN_READABLE_OPTIMIZED);
     });
 
-    it('uses the name child node to replace empty node label', () => {
+    it('uses the name child node to replace empty node label', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_LABEL);
         // Assert
-        void expect(input).toEqual(DATA_EMPTY_LABEL_OPTIMIZED);
+        await expect(input).toEqual(DATA_EMPTY_LABEL_OPTIMIZED);
     });
 
-    it('uses the name child node to replace empty node values', () => {
+    it('uses the name child node to replace empty node values', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_EMPTY_VALUE);
         // Assert
-        void expect(input).toEqual(DATA_EMPTY_VALUE_OPTIMIZED);
+        await expect(input).toEqual(DATA_EMPTY_VALUE_OPTIMIZED);
     });
 
-    it('always uses the type child node to replace the parent node label', () => {
+    it('always uses the type child node to replace the parent node label', async () => {
         // Act
         input = scTreeDataOptimizer.transform(DATA_TYPE);
         // Assert
-        void expect(input).toEqual(DATA_TYPE_OPTIMIZED);
+        await expect(input).toEqual(DATA_TYPE_OPTIMIZED);
     });
 
-    it('moves nodes with label "children" behind all other childNodes', () => {
+    it('moves nodes with label "children" behind all other childNodes', async () => {
         // Act
         input = scTreeDataOptimizer.transform(CHILDREN);
         // Assert
-        void expect(input).toEqual(CHILDREN_OPTIMIZED);
+        await expect(input).toEqual(CHILDREN_OPTIMIZED);
     });
 
-    it('sets nodeLabel of nodes with empty label to "Item"', () => {
+    it('sets nodeLabel of nodes with empty label to "Item"', async () => {
         // Act
         input = scTreeDataOptimizer.transform(EMPTY_LABEL);
         // Assert
-        void expect(input).toEqual(EMPTY_LABEL_OPTIMIZED);
+        await expect(input).toEqual(EMPTY_LABEL_OPTIMIZED);
     });
 
-    it('sets nodeLabel of root node to empty, if it is "Item"', () => {
+    it('sets nodeLabel of root node to empty, if it is "Item"', async () => {
         // Act
         input = scTreeDataOptimizer.transform(ITEM_LABEL_ROOT_NODE);
         // Assert
-        void expect(input).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
+        await expect(input).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
     });
 
-    it('does not change nodeLabel of root node to empty, if it is "Item" and also has a nodeValue', () => {
+    it('does not change nodeLabel of root node to empty, if it is "Item" and also has a nodeValue', async () => {
         // Act
         input = scTreeDataOptimizer.transform(ITEM_LABEL_WITH_VALUE_ROOT_NODE);
         // Assert
-        void expect(input).toEqual(ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED);
+        await expect(input).toEqual(ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED);
     });
 
 });

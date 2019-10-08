@@ -55,10 +55,10 @@ describe('Pipe: scMetadataTreeCreator', () => {
         scMetadataTreeCreator = new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe());
     });
 
-    it('transforms javascript object into an optimized tree', () => {
+    it('transforms javascript object into an optimized tree', async () => {
         // Act
         input = scMetadataTreeCreator.transform(DATA);
         // Assert
-        void expect(input).toEqual(DATA_TRANSFORMED);
+        await expect(input).toEqual(DATA_TRANSFORMED);
     });
 });

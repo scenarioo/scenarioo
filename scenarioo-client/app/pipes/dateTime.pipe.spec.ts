@@ -28,25 +28,25 @@ describe('Pipe: scDateTime', () => {
         scDateTime = new DateTimePipe('en-US');
     });
 
-    it('Undefined returns an empty string', () => {
+    it('Undefined returns an empty string', async () => {
         // Act
         input = scDateTime.transform(undefined);
         // Assert
-        void expect(input).toEqual('');
+        await expect(input).toEqual('');
     });
 
-    it('Empty string returns an empty string', () => {
+    it('Empty string returns an empty string', async () => {
         // Act
         input = scDateTime.transform('');
         // Assert
-        void expect(input).toEqual('');
+        await expect(input).toEqual('');
     });
 
-    it('Timestamp returns the formatted Date and time string', () => {
+    it('Timestamp returns the formatted Date and time string', async () => {
         // Act
         input = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
         // Assert
-        void expect(input).toEqual('April 30, 2014, 11:09 PM');
+        await expect(input).toEqual('April 30, 2014, 11:09 PM');
     });
 
 });
