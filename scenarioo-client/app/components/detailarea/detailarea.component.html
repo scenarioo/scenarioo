@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </button>
 
 <div #collapse="bs-collapse" [collapse]="isPanelCollapsed">
-    <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
+    <div #metaDataPanelHeight id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
         <div class="detail-row">
 
             <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
