@@ -49,7 +49,7 @@ public class StepIndexResolver {
 
 	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps,
 			final StepIdentifier stepIdentifier) {
-		if (stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size()) {
+		if (isStepInRangeOfPageWithSteps(pageWithSteps, stepIdentifier)) {
 			StepDescription stepDescription = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence());
 			String screenshotFileName = stepDescription.getScreenshotFileName();
 			int index = stepDescription.getIndex();
@@ -68,6 +68,10 @@ public class StepIndexResolver {
 			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier,
 					stepDescription.getScreenshotFileName());
 		}
+	}
+
+	private boolean isStepInRangeOfPageWithSteps(PageSteps pageWithSteps, StepIdentifier stepIdentifier) {
+		return stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size();
 	}
 
 	private int getStepInPageOccurrenceWithMostMatchingLabels(final List<StepDescription> steps,
