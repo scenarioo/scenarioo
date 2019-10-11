@@ -149,4 +149,20 @@ useCase('Step - View')
                 await step('A step with no HTML source attached');
             });
 
+        scenario('Step with parentheses and space in url')
+            .description('A step where the step has parentheses and spaces in the url should be found')
+            .it(async () => {
+                await Utils.navigateToRoute('/step/Technical Corner Cases/dummy_scenario_with_one_step_with_parentheses_and_space_in_url/url-(with-parentheses)-and space.jsp/0/0');
+                await StepPage.assertScreenshotIsShown();
+                await step('A step with parentheses and space in the path can be found');
+            });
+
+        scenario('Step with encoded space in url')
+            .description('A step where the step has an encoded space in the url should be found')
+            .it(async () => {
+                await Utils.navigateToRoute('/step/Technical Corner Cases/dummy_scenario_with_one_step_with_an_encoded_space_in_url/url-with-encoded%2520space.jsp/0/0');
+                await StepPage.assertScreenshotIsShown();
+                await step('A step with an encoded space in the path can be found');
+            });
+
     });

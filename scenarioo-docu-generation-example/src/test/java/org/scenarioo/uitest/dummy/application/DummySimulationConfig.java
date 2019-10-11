@@ -40,12 +40,12 @@ import org.scenarioo.model.docu.entities.generic.ObjectList;
 
 /**
  * Some example dummy configurations for UI tests.
- * 
+ *
  * In a real application you would probably have defined this through config files for the simulator to simulate your
  * backend systems.
  */
 public enum DummySimulationConfig {
-	
+
 	DEFAULT_CONFIG(),
 	DIRECT_SEARCH_CONFIG(SEARCH_RESULTS_DIRECT_PAGE),
 	AMBIGUOTIES_CONFIG(SEARCH_RESULTS_DIRECT_PAGE_WITH_AMBIGUOTIES, PAGE_CONTENTS_WITH_AMBIGUOTIES),
@@ -66,18 +66,28 @@ public enum DummySimulationConfig {
 	/**
 	 * Special technical configuration to have a page with jpeg step images
 	 */
-	TECHNICAL_JPEG_STEP_IMAGES_CONFIG;
-	
+	TECHNICAL_JPEG_STEP_IMAGES_CONFIG,
+
+	/**
+	 * Special technical configuration to have a page with parentheses and a space in the URL
+	 */
+	TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG,
+
+	/**
+	 * Special technical configuration to have an encoded space in the URL
+	 */
+	TECHNICAL_ENCODED_SPACE_STEP_CONFIG;
+
 	private static final String TYPE = "configuration";
-	
+
 	private List<DummySimulationConfigModuleValue> overridenModules;
-	
+
 	private DummySimulationConfig(final DummySimulationConfigModuleValue... overridenModules) {
 		this.overridenModules = Arrays.asList(overridenModules);
 	}
-	
+
 	public ObjectDescription getObjectDescription() {
-		
+
 		ObjectDescription configObject = new ObjectDescription();
 		configObject.setName(name().toLowerCase());
 		configObject.setType(TYPE);
@@ -85,21 +95,21 @@ public enum DummySimulationConfig {
 		configObject.addDetail("defaultConfigModules", createModulesDescriptions(getDefaultModules()));
 		return configObject;
 	}
-	
+
 	private List<DummySimulationConfigModuleValue> getDefaultModules() {
 		List<DummySimulationConfigModuleValue> defaultModules = DummySimulationConfigModuleValue
 				.defaultValues();
 		removeModules(defaultModules, overridenModules);
 		return defaultModules;
 	}
-	
+
 	private void removeModules(final List<DummySimulationConfigModuleValue> defaultModules,
 			final List<DummySimulationConfigModuleValue> overridenModules2) {
 		for (DummySimulationConfigModuleValue value : overridenModules) {
 			removetModule(defaultModules, value.getModule());
 		}
 	}
-	
+
 	private void removetModule(final List<DummySimulationConfigModuleValue> defaultModules,
 			final DummySimulationConfigModule module) {
 		Iterator<DummySimulationConfigModuleValue> it = defaultModules.iterator();
@@ -111,7 +121,7 @@ public enum DummySimulationConfig {
 			}
 		}
 	}
-	
+
 	private ObjectList<ObjectDescription> createModulesDescriptions(
 			final List<DummySimulationConfigModuleValue> moduleValues) {
 		ObjectList<ObjectDescription> values = new ObjectList<ObjectDescription>();
