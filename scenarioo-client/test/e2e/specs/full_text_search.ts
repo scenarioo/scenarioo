@@ -61,8 +61,8 @@ useCase('Full Text Search')
                 await SearchResultsPage.clickIncludeHtml();
                 await BreadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
                 await BreadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');
-                await SearchResultsPage.assertResultTableTitle('Search Results (showing 33 of 33 hits)');
-                await SearchResultsPage.assertNumberOfResultRows(45);
+                await SearchResultsPage.assertResultTableTitle('Search Results (showing 35 of 35 hits)');
+                await SearchResultsPage.assertNumberOfResultRows(49);
                 await step('Many results, as now searching in html source as well');
             });
     });
