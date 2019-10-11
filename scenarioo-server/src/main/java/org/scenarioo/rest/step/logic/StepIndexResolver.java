@@ -12,10 +12,12 @@ import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.rest.base.StepIdentifier;
 
 public class StepIndexResolver {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(StepIndexResolver.class);
-	private String screenshotFileName;
-	
+
+	private static final String ENCODED_SPACE = "%20";
+	private static final String SPACE = " ";
+
 	/**
 	 * Retrieves the overall index of a step in the scenario given a step identifier. Can do a fallback in case the
 	 * requested step is not found in the scenario.
@@ -24,7 +26,7 @@ public class StepIndexResolver {
 			final StepIdentifier stepIdentifier) {
 		checkNotNull(scenarioPagesAndSteps);
 		checkNotNull(stepIdentifier);
-		
+
 		// Find other step in current page occurrence
 		List<PageSteps> pageOccurrences = new LinkedList<PageSteps>();
 		for (PageSteps pageWithSteps : scenarioPagesAndSteps.getPagesAndSteps()) {
@@ -35,21 +37,21 @@ public class StepIndexResolver {
 				pageOccurrences.add(pageWithSteps);
 			}
 		}
-		
+
 		// No page occurrence exists in this scenario
 		if (pageOccurrences.size() == 0) {
 			return ResolveStepIndexResult.noFallbackFound();
 		}
-		
+
 		// Find ideal page occurrence and step in page occurrence using labels
 		return findBestStepInEntireScenario(stepIdentifier, pageOccurrences);
 	}
-	
+
 	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps,
 			final StepIdentifier stepIdentifier) {
-		if (stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size()) {
+		if (isStepInRangeOfPageWithSteps(pageWithSteps, stepIdentifier)) {
 			StepDescription stepDescription = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence());
-			screenshotFileName = stepDescription.getScreenshotFileName();
+			String screenshotFileName = stepDescription.getScreenshotFileName();
 			int index = stepDescription.getIndex();
 			return ResolveStepIndexResult.requestedIndexFound(index, screenshotFileName);
 		} else {
@@ -59,21 +61,25 @@ public class StepIndexResolver {
 			int index = stepDescription.getIndex();
 			StepIdentifier redirectStepIdentifier = StepIdentifier.withDifferentStepInPageOccurrence(stepIdentifier,
 					redirectStepInPageOccurrence);
-			
+
 			LOGGER.warn("stepInPageOccurrence " + stepIdentifier.getStepInPageOccurrence() + " does not exist in "
 					+ stepIdentifier + ". Redirecting to " + redirectStepIdentifier);
-			
+
 			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier,
 					stepDescription.getScreenshotFileName());
 		}
 	}
-	
+
+	private boolean isStepInRangeOfPageWithSteps(PageSteps pageWithSteps, StepIdentifier stepIdentifier) {
+		return stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size();
+	}
+
 	private int getStepInPageOccurrenceWithMostMatchingLabels(final List<StepDescription> steps,
 			final StepIdentifier stepIdentifier) {
-		
+
 		int mostMatchingLabels = 0;
 		int indexOfBestStep = 0;
-		
+
 		int i = 0;
 		for (StepDescription step : steps) {
 			int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().getLabels(),
@@ -86,14 +92,22 @@ public class StepIndexResolver {
 			}
 			i++;
 		}
-		
+
 		return indexOfBestStep;
 	}
-	
+
 	private boolean isCorrectPage(final PageSteps pageWithSteps, final String pageName) {
-		return pageName.equals(pageWithSteps.getPage().getName());
+		if(pageName.equals(pageWithSteps.getPage().getName())) {
+			return true;
+		}
+		// Spring Boot automatically decodes all encoded spaces.
+		// As a consequence we may not be able to find a file that contains an encoded space.
+		// If we did not find a direct match we try again with all encoded spaces removed.
+		String sanitizedPageName = pageName.replaceAll(ENCODED_SPACE, SPACE);
+		String sanitizedPageWithStepsPageName =  pageWithSteps.getPage().getName().replaceAll(ENCODED_SPACE, SPACE);
+		return sanitizedPageName.equals(sanitizedPageWithStepsPageName);
 	}
-	
+
 	private ResolveStepIndexResult findBestStepInEntireScenario(final StepIdentifier stepIdentifier,
 			final List<PageSteps> pageOccurrences) {
 		StepIdentifier redirectStepIdentifier = getRedirectStepIdentifierForStepInAllPageOccurrences(stepIdentifier,
@@ -101,21 +115,21 @@ public class StepIndexResolver {
 		StepDescription stepDescription = pageOccurrences.get(redirectStepIdentifier.getPageOccurrence()).getSteps()
 				.get(redirectStepIdentifier.getStepInPageOccurrence());
 		int redirectStepIndex = stepDescription.getIndex();
-		
+
 		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence() + " does not exist in "
 				+ stepIdentifier.toString() + ". Redirecting to " + redirectStepIdentifier);
-		
+
 		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(redirectStepIndex, redirectStepIdentifier,
 				stepDescription.getScreenshotFileName());
 	}
-	
+
 	private StepIdentifier getRedirectStepIdentifierForStepInAllPageOccurrences(final StepIdentifier stepIdentifier,
 			final List<PageSteps> pageOccurrences) {
-		
+
 		int mostMatchingLabels = 0;
 		int pageOccurrenceOfBestStep = 0;
 		int stepInPageOccurrenceOfBestStep = 0;
-		
+
 		int pageOccurrence = 0;
 		for (PageSteps pageOccurrenceWithSteps : pageOccurrences) {
 			int stepInPageOccurrence = 0;
@@ -135,9 +149,9 @@ public class StepIndexResolver {
 			}
 			pageOccurrence++;
 		}
-		
+
 		return StepIdentifier
 				.withDifferentIds(stepIdentifier, pageOccurrenceOfBestStep, stepInPageOccurrenceOfBestStep);
 	}
-	
+
 }

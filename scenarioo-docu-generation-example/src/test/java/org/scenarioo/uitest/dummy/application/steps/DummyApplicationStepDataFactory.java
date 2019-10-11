@@ -49,36 +49,36 @@ import org.scenarioo.uitest.dummy.application.steps.calls.Service;
 
 /**
  * Creates the example data to simulate a running Wikipedia application for some dummy UI test examples.
- * 
+ *
  * In a real application you would not simulate this.
  */
 public class DummyApplicationStepDataFactory {
-	
+
 	private final List<DummyApplicationStepData> steps = new ArrayList<DummyApplicationStepData>();
-	
+
 	private final String screenshotPrefix = "screenshot_";
-	
+
 	private DummySimulationConfig config;
-	
+
 	private String startBrowserUrl;
-	
+
 	private int index = 0;
-	
+
 	private String browserUrl;
-	
+
 	private String pageName = null;
-	
+
 	private final Map<String, String> elementTexts = new HashMap<String, String>();
 
 	private ObjectTreeNode<ObjectDescription> callTree;
-	
+
 	private List<ObjectTreeNode<ObjectDescription>> callTreePathUnderConstruction;
-	
+
 	public static List<DummyApplicationStepData> createDummyStepData() {
 		DummyApplicationStepDataFactory factory = new DummyApplicationStepDataFactory();
 		return factory.createDummySteps();
 	}
-	
+
 	public List<DummyApplicationStepData> createDummySteps() {
 
 		// create DIRECT_SEARCH_CONFIG step data:
@@ -89,7 +89,7 @@ public class DummyApplicationStepDataFactory {
 		title("FC Basel").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/FC_Basel")
 				.callTreeFindPageOneResult();
 		createStep("pageFcBasel");
-		
+
 		// create DEFAULT_CONFIG step data:
 		startConfig(DEFAULT_CONFIG).startUrl("http://www.wikipedia.org");
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
@@ -100,7 +100,7 @@ public class DummyApplicationStepDataFactory {
 		createStep("searchResultsMultiple");
 		title("U2").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42_%28number%29").callTreeLoadPage();
 		createStep("pageU2");
-		
+
 		// create AMBIGUOTIES_CONFIG step data:
 		startConfig(AMBIGUOTIES_CONFIG).startUrl("http://www.wikipedia.org");
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
@@ -116,7 +116,7 @@ public class DummyApplicationStepDataFactory {
 				.url("http://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Answer_to_the_Ultimate_Question_of_Life.2C_the_Universe.2C_and_Everything_.2842.29")
 				.callTreeLoadPage();
 		createStep("page42AnswerToUltimateQuestion");
-		
+
 		// create SEARCH_NOT_FOUND_CONFIG step data:
 		startConfig(SEARCH_NOT_FOUND_CONFIG).startUrl("http://www.wikipedia.org");
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
@@ -124,7 +124,7 @@ public class DummyApplicationStepDataFactory {
 		createStep("startPageTypedScenarioo");
 		title("Search results").pageName("searchResults.jsp").url("http://en.wikipedia.org/wiki/42").callTreeFindPage();
 		createStep("searchResultsNone");
-		
+
 		startConfig(SWITCH_LANGUAGE_CONFIG).startUrl("http://www.wikipedia.org");
 		title("Wikipedia Search").pageName("startSearch.jsp").callTreeStart();
 		createStep("startPage");
@@ -133,7 +133,7 @@ public class DummyApplicationStepDataFactory {
 		createStep("pageAngularJSGerman");
 		title("AngularJS Spanish").pageName("contentPage.jsp").url("http://es.wikipedia.org/wiki/AngularJS");
 		createStep("pageAngularJSSpanish");
-		
+
 		// create TECHNICAL_NO_PAGE_NAMES_CONFIG:
 		startConfig(TECHNICAL_NO_PAGE_NAMES_CONFIG).startUrl(
 				"http://www.wikipedia.org/technical-multiple-pages-scenario");
@@ -143,7 +143,7 @@ public class DummyApplicationStepDataFactory {
 		createStep("specialDummyPage2");
 		title("Technical Page 3").pageName(null).callTreeFindPage();
 		createStep("specialDummyPage3");
-		
+
 		// create TECHNICAL_ONE_PAGE_CONFIG step data:
 		startConfig(TECHNICAL_ONE_PAGE_CONFIG).startUrl("http://www.wikipedia.org/technical-one-page-scenario");
 		title("Wikipedia Suche").pageName("specialPageWithOnlyOneVariant.jsp").callTreeStart();
@@ -154,10 +154,20 @@ public class DummyApplicationStepDataFactory {
 		title("Wikipedia Suche").pageName("jpegPage.jsp").callTreeStart();
 		createStep("jpegImage");
 
+		// create TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG
+		startConfig(TECHNICAL_PARENTHESES_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-(with-parentheses)-and space");
+		title("Technical Page with Parentheses and Space").pageName("url-(with-parentheses)-and space.jsp").callTreeStart();
+		createStep("urlWithParenthesesAndSpace");
+
+		// create TECHNICAL_PARENTHESES_STEP_CONFIG
+		startConfig(TECHNICAL_ENCODED_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-with-encoded%20space");
+		title("Technical Page with Encoded Space").pageName("url-with-encoded%20space.jsp").callTreeStart();
+		createStep("urlWithEncodedSpace");
+
 		return steps;
-		
+
 	}
-	
+
 	/**
 	 * Define some elements with screen regions, to place screen annotations on for demonstration purposes.
 	 */
@@ -186,13 +196,13 @@ public class DummyApplicationStepDataFactory {
 				.call(Service.MENU);
 		call(Action.SEARCH_INIT);
 	}
-	
+
 	private void callTreeFindPageOneResult() {
 		callTree();
 		call(Action.SEARCH_PROCESS).call(Business.SEARCH).call(Service.SEARCH);
 		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
 	}
-	
+
 	private void callTreeFindPage() {
 		callTree();
 		call(Action.SEARCH_PROCESS).call(Business.SEARCH).call(Service.SEARCH)
@@ -201,34 +211,34 @@ public class DummyApplicationStepDataFactory {
 		call(Action.SEARCH_RESULTS_LIST_INIT);
 		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
 	}
-	
+
 	private void callTreeLoadPage() {
 		callTree();
 		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
 	}
-	
+
 	private DummyApplicationStepDataFactory callTree() {
 		callTreePathUnderConstruction = new LinkedList<ObjectTreeNode<ObjectDescription>>();
 		ObjectDescription httpRequest = new ObjectDescription("httpCall", sanitize(browserUrl));
 		callTree = addCallTreeNode(httpRequest);
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory call(final Action action) {
 		addCallTreeNode(action.getObject());
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory call(final Business ejb) {
 		addCallTreeNode(ejb.getObject());
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory call(final Service service) {
 		addCallTreeNode(service.getObject());
 		return this;
 	}
-	
+
 	private ObjectTreeNode<ObjectDescription> addCallTreeNode(final ObjectDescription object) {
 		// Search parent node where to insert object of this type.
 		int index = 0;
@@ -242,7 +252,7 @@ public class DummyApplicationStepDataFactory {
 				index++;
 			}
 		}
-		
+
 		// Insert object
 		ObjectTreeNode<ObjectDescription> newNode = new ObjectTreeNode<ObjectDescription>(object);
 		if (parent != null) {
@@ -251,19 +261,19 @@ public class DummyApplicationStepDataFactory {
 		callTreePathUnderConstruction.add(newNode);
 		return newNode;
 	}
-	
+
 	private DummyApplicationStepDataFactory startConfig(final DummySimulationConfig config) {
 		this.config = config;
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory startUrl(final String url) {
 		index = 0;
 		startBrowserUrl = url;
 		browserUrl = url;
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory title(final String title) {
 		elementTexts.put("pagetitle", title);
 		return this;
@@ -273,12 +283,12 @@ public class DummyApplicationStepDataFactory {
 		this.browserUrl = url;
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory pageName(final String pageName) {
 		this.pageName = pageName;
 		return this;
 	}
-	
+
 	/**
 	 * Helper method for producing dummy application data for multiple steps with same screenshot and metadata
 	 */
@@ -301,7 +311,7 @@ public class DummyApplicationStepDataFactory {
 		steps.add(step);
 		index++;
 	}
-	
+
 	private ApplicationsStateData createApplicationsStateData() {
 		ApplicationsStateData stateData = new ApplicationsStateData();
 		stateData.setCurrentSimulationConfiguration(config.getObjectDescription());
@@ -310,5 +320,5 @@ public class DummyApplicationStepDataFactory {
 		callTree = null; // only use it once.
 		return stateData;
 	}
-	
+
 }

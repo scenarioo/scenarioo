@@ -18,7 +18,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
-import {IConfiguration, ICustomObjectTab} from '../../generated-types/backend-types';
+import {IConfiguration, ICustomObjectDetailColumn, ICustomObjectTab} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {TabDirective, TabsetComponent} from 'ngx-bootstrap';
 
@@ -30,10 +30,10 @@ declare var angular: angular.IAngularStatic;
     styles: [require('./mainpage.component.css').toString()],
 })
 export class MainpageComponent implements OnInit {
-    @ViewChild('homeTabs') allTabs: TabsetComponent;
 
-    customTabs: any[] = [];
-    tabs: any[];
+    @ViewChild('homeTabs') tabsetComponent: TabsetComponent;
+
+    tabs: ITab[] = undefined;
 
     constructor(private configurationService: ConfigurationService,
                 private locationService: LocationService) {
@@ -42,31 +42,16 @@ export class MainpageComponent implements OnInit {
     ngOnInit(): void {
 
         this.configurationService.getConfiguration().subscribe((configuration: IConfiguration) => {
-            this.customTabs = configuration.customObjectTabs
-                .map((customObjectTab: ICustomObjectTab, index) => {
-                    return {
-                        title: customObjectTab.tabTitle,
-                        id: customObjectTab.id,
-                        columns: customObjectTab.customObjectDetailColumns,
-                        index: index + 1,
-                    };
-                });
-            this.tabs = configuration.customObjectTabs
-                .map((customObjectTab: ICustomObjectTab) => {
-                    return {
-                        title: customObjectTab.tabTitle,
-                        id: customObjectTab.id,
-                    };
-                });
-            this.defineStaticTabs();
+            this.tabs = this.createTabs(configuration);
+
             // TODO: We should find a better solution for this.
             // The problem is, that the customTabs which are added to allTabs are not available at this time, waiting for a bit solves this.
-            setTimeout(() => this.setActiveTab(this.getSelectedTabFromUrl()), 0);
+            setTimeout(() => this.setActiveTab(this.getSelectedTabFromUrl()), 100);
         });
     }
 
     private setActiveTab(tabHeading: string) {
-        this.allTabs.tabs.filter((tab) => tab.heading === tabHeading)[0].active = true;
+        this.tabsetComponent.tabs.filter((tab) => tab.heading === tabHeading)[0].active = true;
     }
 
     private onSelect(data: TabDirective): void {
@@ -74,8 +59,8 @@ export class MainpageComponent implements OnInit {
         this.locationService.search('tab', activeTab.id);
     }
 
-    isActiveTab(tabId: string): boolean {
-        return this.allTabs.tabs.find((tab) => tab.heading === tabId).active;
+    isActiveTab(tab: ITab): boolean {
+        return this.tabsetComponent && this.tabsetComponent.tabs.find((tabComp) => tabComp.heading === tab.title).active;
     }
 
     private getSelectedTabFromUrl(): string {
@@ -89,16 +74,39 @@ export class MainpageComponent implements OnInit {
         return this.tabs.filter((tab) => tab.id === selectedTab)[0].title;
     }
 
-    private defineStaticTabs() {
-        this.tabs.push({
+    private createTabs(configuration: IConfiguration): ITab[] {
+        const tabs = [];
+        tabs.push({
             id: 'useCases',
             title: 'Use Cases',
         });
-        this.tabs.push({
+        configuration.customObjectTabs
+            .forEach((customObjectTab: ICustomObjectTab, index) => {
+                tabs.push({
+                    title: customObjectTab.tabTitle,
+                    id: customObjectTab.id,
+                    isCustom: true,
+                    columns: customObjectTab.customObjectDetailColumns,
+                });
+            });
+        tabs.push({
             id: 'sketches',
             title: 'Sketches',
         });
+        return tabs;
     }
+
+}
+
+export interface ITab {
+
+    id: string;
+
+    title: string;
+
+    isCustom?: boolean;
+
+    columns?: ICustomObjectDetailColumn;
 
 }
 
