@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.rest.step.logic.StepTestData;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StepIdentifierTest {
 
@@ -56,26 +56,4 @@ class StepIdentifierTest {
 			ContextPathHolder.INSTANCE.setContextPath(contextPath);
 		}
 	}
-
-	@Test
-	void patchPageNameForPageNameWithSpaceInConstructor() {
-		//act
-		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "page name", 0, 1);
-
-		//assert
-		assertEquals("page%20name", testee.getPageName());
-	}
-
-	@Test
-	void patchPageNameForPageNameWithSpaceInSetter() {
-		//arrange
-		StepIdentifier testee = new StepIdentifier(scenarioIdentifier, "pagename", 0, 1);
-
-		//act
-		testee.setPageName("page name");
-
-		//assert
-		assertEquals("page%20name", testee.getPageName());
-	}
-
 }
