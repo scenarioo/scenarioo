@@ -35,7 +35,7 @@ export class DetailareaComponent {
     key: string;
 
     @Input()
-    informationTreeArray: any;
+    detailAreaSections: any;
 
     @Input()
     metadataInformationTree: ICustomObjectTabTree;

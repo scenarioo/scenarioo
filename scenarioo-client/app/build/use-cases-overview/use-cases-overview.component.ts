@@ -61,12 +61,8 @@ export class UseCasesOverviewComponent {
     isComparisonExisting: boolean;
 
     branchesAndBuilds: IBranchBuilds[];
-    branchInformationTree: any = {};
-    branchInformationTreeDetails: any = {};
-    buildInformationTree: any = {};
-    buildInformationTreeDetails: any = {};
 
-    informationTreeArray: object  = [];
+    detailAreaSections: IDetailAreaSection[] = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -190,43 +186,48 @@ export class UseCasesOverviewComponent {
     }
 
     createInformationTreeArray(branch, build) {
-        this.branchInformationTree = this.createBranchInformationTree(branch);
-        this.branchInformationTreeDetails = this.createBranchInformationTreeDetails(this.branchInformationTree);
-
-        this.buildInformationTree = this.createBuildInformationTree(build);
-        this.buildInformationTreeDetails = this.createBuildInformationTreeDetails(this.buildInformationTree);
-
-        this.informationTreeArray = [this.branchInformationTreeDetails, this.buildInformationTreeDetails];
+        this.detailAreaSections = [
+            {
+                name: "Branch",
+                key: 'branch',
+                dataTree: this.createBranchInformationTree(branch),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: "Build",
+                key: 'build',
+                dataTree: this.createBuildInformationTree(build),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+        ];
     }
 
     createBranchInformationTree(branch) {
-        this.branchInformationTree.description = branch.description;
-        return this.metadataTreeCreaterPipe.transform(this.branchInformationTree);
-    }
-
-    createBranchInformationTreeDetails(branchInformationTree) {
-        this.branchInformationTreeDetails.tree = branchInformationTree;
-        this.branchInformationTreeDetails.name = 'Branch';
-        this.branchInformationTreeDetails.key = '-branch';
-        this.branchInformationTreeDetails.isFirstOpen = true;
-        this.branchInformationTreeDetails.whichTreeComponent = 'treeComponent';
-        return this.branchInformationTreeDetails;
+        const branchInformationTree: any = {};
+        branchInformationTree['Branch Name'] = branch.name;
+        branchInformationTree.Description = branch.description;
+        branchInformationTree.details = branch.details;
+        return this.metadataTreeCreaterPipe.transform(branchInformationTree);
     }
 
     createBuildInformationTree(build) {
-        this.buildInformationTree.Date = this.dateTimePipe.transform(build.date);
-        this.buildInformationTree.Revision = build.revision;
-        this.buildInformationTree.Status = build.status;
-        return this.metadataTreeCreaterPipe.transform(this.buildInformationTree);
+        const buildInformationTree: any = {};
+        buildInformationTree['Build Name'] = build.name;
+        buildInformationTree.Date = this.dateTimePipe.transform(build.date);
+        buildInformationTree.Revision = build.revision;
+        buildInformationTree.Status = build.status;
+        buildInformationTree.details = build.details;
+        return this.metadataTreeCreaterPipe.transform(buildInformationTree);
     }
 
-    createBuildInformationTreeDetails(buildInformationTree) {
-        this.buildInformationTreeDetails.tree = buildInformationTree;
-        this.buildInformationTreeDetails.name = 'Build';
-        this.buildInformationTreeDetails.key = '-build';
-        this.buildInformationTreeDetails.isFirstOpen = false;
-        this.buildInformationTreeDetails.whichTreeComponent = 'treeComponent';
-        return this.buildInformationTreeDetails;
-    }
+}
 
+interface IDetailAreaSection {
+    name: String,
+    key: String,
+    dataTree: any,
+    isFirstOpen: Boolean,
+    detailSectionType: String,
 }
