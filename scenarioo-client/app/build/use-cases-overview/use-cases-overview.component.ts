@@ -188,14 +188,14 @@ export class UseCasesOverviewComponent {
     createInformationTreeArray(branch, build) {
         this.detailAreaSections = [
             {
-                name: "Branch",
+                name: 'Branch',
                 key: 'branch',
                 dataTree: this.createBranchInformationTree(branch),
                 isFirstOpen: true,
                 detailSectionType: 'treeComponent',
             },
             {
-                name: "Build",
+                name: 'Build',
                 key: 'build',
                 dataTree: this.createBuildInformationTree(build),
                 isFirstOpen: true,
