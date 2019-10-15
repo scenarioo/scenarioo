@@ -16,8 +16,7 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
-import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
 
 const COLLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
@@ -68,6 +67,6 @@ export class DetailareaComponent {
     }
 
     isEmptyObject(obj) {
-        return (obj && (Object.keys(obj).length === 0) && (obj !== undefined));
+        return (obj && (Object.keys(obj).length === 0) && true);
     }
 }
