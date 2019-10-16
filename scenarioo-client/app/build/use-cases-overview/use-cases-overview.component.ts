@@ -62,7 +62,7 @@ export class UseCasesOverviewComponent {
 
     branchesAndBuilds: IBranchBuilds[];
 
-    detailAreaSections: IDetailAreaSection[] = [];
+    mainDetailsSections: IMainDetailsSection[] = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -186,7 +186,7 @@ export class UseCasesOverviewComponent {
     }
 
     createInformationTreeArray(branch, build) {
-        this.detailAreaSections = [
+        this.mainDetailsSections = [
             {
                 name: 'Branch',
                 key: 'branch',
@@ -224,7 +224,7 @@ export class UseCasesOverviewComponent {
 
 }
 
-interface IDetailAreaSection {
+interface IMainDetailsSection {
     name: String,
     key: String,
     dataTree: any,

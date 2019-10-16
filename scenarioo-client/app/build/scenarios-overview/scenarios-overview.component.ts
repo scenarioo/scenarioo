@@ -66,9 +66,8 @@ export class ScenariosOverviewComponent {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    detailAreaSections: IDetailAreaSection[] = [];
-
-    metadataInformationTree: any[];
+    mainDetailsSections: IMainDetailsSection[] = [];
+    additionalDetailsSections: any[];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -119,7 +118,7 @@ export class ScenariosOverviewComponent {
                 this.scenarios = useCaseScenarios.scenarios;
             }
 
-            this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
 
             this.relatedIssueResource.getForScenariosOverview({
                 branchName: selection.branch,
@@ -225,7 +224,7 @@ export class ScenariosOverviewComponent {
     }
 
     createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
-        this.detailAreaSections = [
+        this.mainDetailsSections = [
             {
                 name: 'Use Case',
                 key: 'useCase',
@@ -262,7 +261,7 @@ export class ScenariosOverviewComponent {
     }
 }
 
-interface IDetailAreaSection {
+interface IMainDetailsSection {
     name: String,
     key: String,
     dataTree: any,

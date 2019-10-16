@@ -35,10 +35,10 @@ export class DetailareaComponent {
     key: string;
 
     @Input()
-    detailAreaSections: any;
+    mainDetailsSections: any;
 
     @Input()
-    metadataInformationTree: ICustomObjectTabTree;
+    additionalDetailsSections: ICustomObjectTabTree;
 
     @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
