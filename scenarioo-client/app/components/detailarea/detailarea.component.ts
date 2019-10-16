@@ -40,9 +40,6 @@ export class DetailareaComponent {
     @Input()
     metadataInformationTree: ICustomObjectTabTree;
 
-    @Input()
-    labelConfigurations: ILabelConfiguration;
-
     @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 

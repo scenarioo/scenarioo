@@ -66,15 +66,9 @@ export class ScenariosOverviewComponent {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    usecaseInformationTree: object;
-    usecaseInformationTreeDetails: any = {};
-    metadataInformationTree: any[];
-    relatedIssues: RelatedIssueSummary[];
-    relatedIssuesDetails: any = {};
-    labels: string[];
-    labelsDetails: any = {};
+    detailAreaSections: IDetailAreaSection[] = [];
 
-    informationTreeArray: object = [];
+    metadataInformationTree: any[];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -125,10 +119,7 @@ export class ScenariosOverviewComponent {
                 this.scenarios = useCaseScenarios.scenarios;
             }
 
-            this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
             this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
-
-            this.labels = useCaseScenarios.useCase.labels.labels;
 
             this.relatedIssueResource.getForScenariosOverview({
                 branchName: selection.branch,
@@ -136,8 +127,7 @@ export class ScenariosOverviewComponent {
                 },
                 useCaseScenarios.useCase.name,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                this.relatedIssues = relatedIssueSummary;
-                this.createInformationTreeArray(this.usecaseInformationTree, this.metadataInformationTree, this.labels, this.relatedIssues);
+                this.createInformationTreeArray(useCaseScenarios.useCase, useCaseScenarios.useCase.labels.labels, relatedIssueSummary);
             });
         });
 
@@ -234,12 +224,31 @@ export class ScenariosOverviewComponent {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
-    createInformationTreeArray(usecaseInformationTree, metadataInformationTree, labels, relatedIssues) {
-        this.usecaseInformationTreeDetails = this.createUsecaseInformationTreeDetails(usecaseInformationTree);
-        this.labelsDetails = this.createLabelsDetails(labels);
-        this.relatedIssuesDetails = this.createRelatedIssueResourceDetails(relatedIssues);
-
-        this.informationTreeArray = [this.usecaseInformationTreeDetails, this.labelsDetails, this.relatedIssuesDetails];
+    createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
+        this.detailAreaSections = [
+            {
+                name: 'Use Case',
+                key: 'useCase',
+                dataTree: this.createUseCaseInformationTree(usecaseInformationTree),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: 'Labels',
+                key: 'labels',
+                dataTree: labels,
+                isFirstOpen: false,
+                detailSectionType: 'labelsComponent',
+                config: this.labelConfigurations,
+            },
+            {
+                name: 'Related Sketches',
+                key: '-relatedSketches',
+                dataTree: relatedIssues,
+                isFirstOpen: false,
+                detailSectionType: 'sketchesComponent',
+            },
+        ];
     }
 
     createUseCaseInformationTree(usecase: IUseCase) {
@@ -251,35 +260,15 @@ export class ScenariosOverviewComponent {
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
     }
+}
 
-    createUsecaseInformationTreeDetails(usecaseInformationTree) {
-        this.usecaseInformationTreeDetails.tree = usecaseInformationTree;
-        this.usecaseInformationTreeDetails.name = 'Use Case';
-        this.usecaseInformationTreeDetails.key = '-useCase';
-        this.usecaseInformationTreeDetails.isFirstOpen = true;
-        this.usecaseInformationTreeDetails.whichTreeComponent = 'treeComponent';
-        return this.usecaseInformationTreeDetails;
-    }
-
-    createLabelsDetails(labels) {
-        this.labelsDetails.tree = labels;
-        this.labelsDetails.config = this.labelConfigurations;
-        this.labelsDetails.name = 'Labels';
-        this.labelsDetails.key = '-labels';
-        this.labelsDetails.isFirstOpen = false;
-        this.labelsDetails.whichTreeComponent = 'labelsComponent';
-        return this.labelsDetails;
-    }
-
-    createRelatedIssueResourceDetails(relatedIssues) {
-        this.relatedIssuesDetails.tree = relatedIssues;
-        this.relatedIssuesDetails.name = 'Related Sketches';
-        this.relatedIssuesDetails.key = '-relatedSketches';
-        this.relatedIssuesDetails.isFirstOpen = false;
-        this.relatedIssuesDetails.whichTreeComponent = 'sketchesComponent';
-        return this.relatedIssuesDetails;
-    }
-
+interface IDetailAreaSection {
+    name: String,
+    key: String,
+    dataTree: any,
+    isFirstOpen: Boolean,
+    detailSectionType: String,
+    config?: LabelConfigurationMap,
 }
 
 angular.module('scenarioo.directives')

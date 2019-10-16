@@ -43,13 +43,13 @@ export class DetailAccordionComponent {
     isFirstOpen: boolean;
 
     @Input()
-    whichTreeComponent: string;
+    detailSectionType: string;
 
     @Input()
     detailAccordionName: string;
 
     @Input()
-    informationTree: any;
+    dataTree: any;
 
     @Input()
     labelConfigurations: LabelConfigurationMap;
