@@ -53,24 +53,6 @@ export class DetailareaComponent {
     @Output('valueChange')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    @ViewChild('metaDataPanelHeight')
-    el: ElementRef;
-
-    ngOnInit(): void {
-        this.setHeightOfDetailarea();
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize() {
-        this.setHeightOfDetailarea();
-    }
-
-    private setHeightOfDetailarea() {
-        const metaDataPanelHeight = this.el.nativeElement;
-        const headerHeight = metaDataPanelHeight.offsetTop + 2;
-        metaDataPanelHeight.style.height = 'calc(100vh - ' + headerHeight + 'px)';
-    }
-
     valueChange() {
         this.isPanelCollapsed = this.isPanelCollapsed === false;
         this.panelCollapsed.emit(this.isPanelCollapsed);

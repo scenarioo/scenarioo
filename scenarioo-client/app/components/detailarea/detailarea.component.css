@@ -14,7 +14,6 @@ sc-detailarea button.btn.btn-primary:focus {
     outline: unset;
     background-color: transparent;
     box-shadow: unset;
-
 }
 
 sc-detailarea button.btn.btn-primary:active {
@@ -24,13 +23,16 @@ sc-detailarea button.btn.btn-primary:active {
 
 /* Detailarea */
 
+sc-detailarea .sc-meta-data-panel {
+    margin-top: 35px;
+}
+
 sc-detailarea .detail-container {
     border: 1px solid #ccc;
     border-right: 0;
     display: table;
     padding: unset;
     background-color: #eeeeee;
-    position: absolute;
     right: 0;
 }
 
@@ -44,10 +46,11 @@ sc-detailarea .detail-cell {
 
 sc-detailarea .detail-button {
     background-color: #CCCCCC;
-    width: 30px !important;
+    width: 30px;
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
+    height: calc(100vh - 150px);
 }
 
 sc-detailarea .arrowCenter {
@@ -59,7 +62,6 @@ sc-detailarea .arrowCenter {
 sc-detailarea .detail-section {
     width: 100%;
     padding: 0 0 0 15px;
-    margin-right: 0;
     float: right;
 }
 
