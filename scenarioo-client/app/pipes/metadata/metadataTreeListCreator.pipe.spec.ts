@@ -26,14 +26,14 @@ describe('Pipe: scMetadataTreeListCreator', () => {
     let scMetadataTreeListCreator: MetadataTreeListCreatorPipe;
     let input;
 
-    const DATA = {
+    const INPUT_DETAILS_DATA_TREE = {
         myKey: 'myValue',
         keyTwo: {
             theAnswer: 42,
         },
     };
 
-    const DATA_TRANSFORMED = {
+    const EXPECTED_OUTCOME_DATA = {
         myKey: {
             nodeLabel: 'myValue',
         },
@@ -52,47 +52,11 @@ describe('Pipe: scMetadataTreeListCreator', () => {
         scMetadataTreeListCreator = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
     });
 
-    xit('transforms javascript object into a list of optimized trees', async () => {
+    it('transforms a details data structure into view model data structure', async () => {
         // Act
-        input = scMetadataTreeListCreator.transform(DATA);
+        input = scMetadataTreeListCreator.transform(INPUT_DETAILS_DATA_TREE);
         // Assert
-        await expect(input).toEqual(DATA_TRANSFORMED);
+        await expect(input).toEqual(EXPECTED_OUTCOME_DATA);
     });
 
 });
-
-// PROBLEM:
-/*Expected [
-    Object(
-        {
-            key: 'myKey',
-            value: Object(
-                {
-                    nodeLabel: 'myValue'
-                }
-            )
-        }
-    ),
-        Object(
-            {
-                key: 'keyTwo',
-                value: Object(
-                    {
-                        childNodes: [
-                            Object(
-                                {
-                                    nodeLabel: 'theAnswer',
-                                    nodeValue: 42
-                                }
-                            )
-                        ]
-                    }
-                )
-            }
-        )
-    ] to equal Object({
-    myKey: Object({
-        nodeLabel: 'myValue'
-    }), keyTwo: Object({childNodes: [Object({nodeLabel: 'the Answer', nodeValue: 42})]
-    })
-})*/
