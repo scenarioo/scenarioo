@@ -12,8 +12,9 @@ export async function navigateToRoute(route) {
 
 /**
  * Initialize local storage to "previously visited" for web tests to run without about dialog open.
+ * This method does not reload scenarioo, such that the set state takes effect, the test has to start the page it wants to test afterwards!
  */
-export async function startScenariooRevisited() {
+export async function clearLocalStorageAndSetPreviouslyVisited() {
     await navigateToRoute('/');
     await browser.executeScript(() => {
         const injector = angular.element(document.body).injector();
@@ -27,6 +28,11 @@ export async function startScenariooRevisited() {
         return LocalStorageService.get('scenariooPreviouslyVisited');
     });
     await expect(visited).toEqual('true');
+}
+
+export async function startScenariooRevisited() {
+    await clearLocalStorageAndSetPreviouslyVisited();
+    await refreshBrowser()
 }
 
 /**

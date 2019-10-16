@@ -10,7 +10,7 @@ useCase('Create comparison')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Create new comparison with existing name')
