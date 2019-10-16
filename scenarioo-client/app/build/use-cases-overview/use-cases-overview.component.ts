@@ -33,6 +33,7 @@ import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from '../IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
 
@@ -222,12 +223,4 @@ export class UseCasesOverviewComponent {
         return this.metadataTreeCreaterPipe.transform(buildInformationTree);
     }
 
-}
-
-interface IMainDetailsSection {
-    name: string;
-    key: string;
-    dataTree: any;
-    isFirstOpen: boolean;
-    detailSectionType: string;
 }

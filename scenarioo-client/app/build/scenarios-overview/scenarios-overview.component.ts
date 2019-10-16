@@ -36,6 +36,7 @@ import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.p
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from '../IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
 
@@ -259,15 +260,6 @@ export class ScenariosOverviewComponent {
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
     }
-}
-
-interface IMainDetailsSection {
-    name: string;
-    key: string;
-    dataTree: any;
-    isFirstOpen: boolean;
-    detailSectionType: string;
-    config?: LabelConfigurationMap;
 }
 
 angular.module('scenarioo.directives')
