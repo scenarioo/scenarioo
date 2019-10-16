@@ -32,7 +32,7 @@ export async function clearLocalStorageAndSetPreviouslyVisited() {
 
 export async function startScenariooRevisited() {
     await clearLocalStorageAndSetPreviouslyVisited();
-    await refreshBrowser()
+    await refreshBrowser();
 }
 
 /**
