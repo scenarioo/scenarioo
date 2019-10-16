@@ -10,7 +10,7 @@ useCase('Configure label colors')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Create, edit and delete label configurations')
