@@ -225,9 +225,9 @@ export class UseCasesOverviewComponent {
 }
 
 interface IMainDetailsSection {
-    name: String,
-    key: String,
-    dataTree: any,
-    isFirstOpen: Boolean,
-    detailSectionType: String,
+    name: string;
+    key: string;
+    dataTree: any;
+    isFirstOpen: boolean;
+    detailSectionType: string;
 }

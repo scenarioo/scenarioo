@@ -262,12 +262,12 @@ export class ScenariosOverviewComponent {
 }
 
 interface IMainDetailsSection {
-    name: String,
-    key: String,
-    dataTree: any,
-    isFirstOpen: Boolean,
-    detailSectionType: String,
-    config?: LabelConfigurationMap,
+    name: string;
+    key: string;
+    dataTree: any;
+    isFirstOpen: boolean;
+    detailSectionType: string;
+    config?: LabelConfigurationMap;
 }
 
 angular.module('scenarioo.directives')
