@@ -27,58 +27,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ng-content></ng-content>
     </div>
 
-    <div>
-        <div [collapse]="!isPanelCollapsed">
-            <div  class="detail-container pull-right">
-                <div class="detail-row">
-                    <div (click)="valueChange()" class="detail-cell detail-button">
-                        <i class="fas fa-angle-left arrowCenter"></i>
-                    </div>
-                </div>
+    <div class="detail-container pull-right" id="sc-metadata-panel" [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
+        <div class="detail-row">
+            <div (click)="valueChange()" class="detail-cell detail-button">
+                <span *ngIf="!isPanelCollapsed">
+                    <i class="fas arrowCenter fa-angle-right"></i>
+                </span>
+                <span *ngIf="isPanelCollapsed">
+                    <i class="fas arrowCenter fa-angle-left"></i>
+                </span>
             </div>
-        </div>
 
-        <div [collapse]="isPanelCollapsed">
-            <div class="detail-container col-sm-4 pull-right" id="sc-metadata-panel">
-                <div class="detail-row">
+            <div [collapse]="isPanelCollapsed">
+                <div class="detail-cell detail-section">
+                    <h3>Details</h3>
+                    <accordion [isAnimated]="true">
 
-                    <div (click)="valueChange()" class="detail-cell detail-button">
-                        <i class="fas fa-angle-right arrowCenter"></i>
-                    </div>
+                        <!-- TODO #946: Remember collapsed /expanded state of detail accordeon -->
 
-                    <div class="detail-cell detail-section">
-                        <h3>Details</h3>
-                        <accordion [isAnimated]="true">
+                        <!-- usecases-overview -->
+                        <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree"
+                                             [isFirstOpen]="true" [isTreeComponent]="true"
+                                             detailAccordionName="Branch"></sc-detail-accordion>
+                        <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree"
+                                             [isFirstOpen]="false" [isTreeComponent]="true"
+                                             detailAccordionName="Build"></sc-detail-accordion>
 
-                            <!-- TODO #946: Remember collapsed /expanded state of detail accordeon -->
-
-                            <!-- usecases-overview -->
-                            <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree"
-                                                 [isFirstOpen]="true" [isTreeComponent]="true"
-                                                 detailAccordionName="Branch"></sc-detail-accordion>
-                            <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree"
-                                                 [isFirstOpen]="false" [isTreeComponent]="true"
-                                                 detailAccordionName="Build"></sc-detail-accordion>
-
-                            <!-- scenarios-overview -->
-                            <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree"
-                                                 [isFirstOpen]="true" [isTreeComponent]="true"
-                                                 detailAccordionName="Use Case"></sc-detail-accordion>
-                            <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)"
-                                                 [isFirstOpen]="false" [isSketchesComponent]="true"
-                                                 [relatedIssues]="relatedIssues"
-                                                 detailAccordionName="Related Sketches"></sc-detail-accordion>
-                            <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)"
-                                                 [informationTree]="useCaseLabels" [isFirstOpen]="false"
-                                                 [isLabelComponent]="true" [labelConfigurations]="labelConfigurations"
-                                                 detailAccordionName="Labels"></sc-detail-accordion>
-                            <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree"
-                                                 [detailAccordionName]="dynamicInformationTree.key"
-                                                 [informationTree]="dynamicInformationTree.value" [isFirstOpen]="false"
-                                                 [isTreeComponent]="true"></sc-detail-accordion>
-
-                        </accordion>
-                    </div>
+                        <!-- scenarios-overview -->
+                        <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree"
+                                             [isFirstOpen]="true" [isTreeComponent]="true"
+                                             detailAccordionName="Use Case"></sc-detail-accordion>
+                        <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)"
+                                             [isFirstOpen]="false" [isSketchesComponent]="true"
+                                             [relatedIssues]="relatedIssues"
+                                             detailAccordionName="Related Sketches"></sc-detail-accordion>
+                        <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)"
+                                             [informationTree]="useCaseLabels" [isFirstOpen]="false"
+                                             [isLabelComponent]="true" [labelConfigurations]="labelConfigurations"
+                                             detailAccordionName="Labels"></sc-detail-accordion>
+                        <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree"
+                                             [detailAccordionName]="dynamicInformationTree.key"
+                                             [informationTree]="dynamicInformationTree.value" [isFirstOpen]="false"
+                                             [isTreeComponent]="true"></sc-detail-accordion>
+                    </accordion>
                 </div>
             </div>
         </div>
