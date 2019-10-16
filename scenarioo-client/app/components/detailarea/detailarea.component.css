@@ -50,7 +50,6 @@ sc-detailarea .detail-button {
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
-    height: calc(100vh - 150px);
 }
 
 sc-detailarea .arrowCenter {
