@@ -181,9 +181,6 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         optimizeChildNodes(rootNode, pullUpChildrenOfDetailsNodes);
         optimizeNodes(rootNode, pullUpTypeToReplaceNodeLabel);
         optimizeNodes(rootNode, moveChildrenChildNodeBehindOthers);
-
-        // this happens after making the labels human readable,
-        // because the name node value could be a technical expression
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeLabel);
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeValue);
         optimizeNodes(rootNode, setFallBackLabelIfLabelIsEmpty);

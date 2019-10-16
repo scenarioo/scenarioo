@@ -51,17 +51,17 @@ export class TreeDataCreatorPipe implements PipeTransform {
             const value = node[key];
             if (Array.isArray(value)) {
                 childNodes.push({
-                    nodeLabel: key.charAt(0).toUpperCase() + key.slice(1),
+                    nodeLabel: key,
                     childNodes: this.createArrayChildNodes(value),
                 });
             } else if (TreeDataCreatorPipe.isObject(value)) {
                 childNodes.push({
-                    nodeLabel: key.charAt(0).toUpperCase() + key.slice(1),
+                    nodeLabel: key,
                     childNodes: this.createObjectChildNodes(value),
                 });
             } else {
                 childNodes.push({
-                    nodeLabel: key.charAt(0).toUpperCase() + key.slice(1),
+                    nodeLabel: key,
                     nodeValue: value,
                 });
             }
