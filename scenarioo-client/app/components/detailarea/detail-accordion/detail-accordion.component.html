@@ -18,8 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <accordion-group [attr.aria-expanded]="!isAccordionCollapsed"
                  [isOpen]="!isAccordionCollapsed"
                  panelClass="customClass"
-                 [isDisabled]="true">
-    <div accordion-heading (click)="toggleAccordionCollapsedValue()">
+                 [isDisabled]="true"
+                 id="{{'sc-section-' + detailAccordionName}}">
+    <div accordion-heading (click)="toggleAccordionCollapsedValue()" id="{{'sc-toggleSection-' + detailAccordionName}}">
         <span *ngIf="isAccordionCollapsed">
             <i class="fas fa-angle-down"></i>
         </span>
