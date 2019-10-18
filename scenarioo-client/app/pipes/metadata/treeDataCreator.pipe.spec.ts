@@ -17,8 +17,6 @@
 
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 describe('Pipe: scTreeDataCreator', () => {
     let scTreeDataCreator: TreeDataCreatorPipe;
     let output;

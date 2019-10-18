@@ -2,8 +2,6 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 @Pipe({
     name: 'scMetadataTreeCreator',
 })

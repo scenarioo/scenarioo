@@ -17,8 +17,6 @@
 
 import {DateTimePipe} from './dateTime.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 describe('Pipe: scDateTime', () => {
     let scDateTime: DateTimePipe;
     let output: string;

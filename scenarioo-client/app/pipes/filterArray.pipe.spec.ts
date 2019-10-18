@@ -17,8 +17,6 @@
 
 import {FilterArrayPipe} from './filterArray.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 describe('Pipe: scFilterArray', () => {
     let scFilterArray: FilterArrayPipe;
     let output;

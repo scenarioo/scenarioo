@@ -1,7 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
-declare var angular: angular.IAngularStatic;
-
 @Pipe({
     name: 'scFilterArray',
 })

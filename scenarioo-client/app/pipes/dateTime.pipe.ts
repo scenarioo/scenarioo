@@ -1,8 +1,6 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {DatePipe} from '@angular/common';
 
-declare var angular: angular.IAngularStatic;
-
 @Pipe({
     name: 'scDateTime',
 })

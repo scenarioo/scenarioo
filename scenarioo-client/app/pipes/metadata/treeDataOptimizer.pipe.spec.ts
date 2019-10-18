@@ -17,8 +17,6 @@
 
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 describe('Pipe: scTreeDataOptimizer', () => {
     let scTreeDataOptimizer: TreeDataOptimizerPipe;
     let output;

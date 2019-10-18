@@ -1,8 +1,6 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
 
-declare var angular: angular.IAngularStatic;
-
 @Pipe({
     name: 'scMetadataTreeListCreator',
 })
