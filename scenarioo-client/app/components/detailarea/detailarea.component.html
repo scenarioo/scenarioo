@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ng-content></ng-content>
     </div>
 
-    <div #metaDataPanelHeight class="detail-container pull-right"  [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
+    <div #metaDataPanel class="detail-container pull-right"  [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
         <div class="detail-row">
             <div (click)="valueChange()" class="detail-cell detail-button">
                 <span *ngIf="!isPanelCollapsed">
