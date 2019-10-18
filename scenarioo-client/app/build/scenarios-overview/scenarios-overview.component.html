@@ -39,17 +39,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
                 <span *ngIf="(scenarios | scFilterArray: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
-                <span *ngIf="(scenarios | scFilterArray: searchTerm).length != scenarios.length">Found {{(scenarios | scFilterArray: searchTerm).length}} of {{scenarios.length}}</span>
+                <span *ngIf="(scenarios | scFilterArray: searchTerm).length !== scenarios.length">Found {{(scenarios | scFilterArray: searchTerm).length}} of {{scenarios.length}}</span>
                 <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
                 <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
             </p>
-            <table *ngIf="(scenarios | scFilterArray: searchTerm).length!=0"
+            <table *ngIf="(scenarios | scFilterArray: searchTerm).length !== 0"
                    class="table table-curved table-responsive scenario-table">
                 <thead>
                 <tr>
                     <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                         Status
-                        <div *ngIf="order != 'status'" class="arrows">
+                        <div *ngIf="order !== 'status'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -64,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </th>
                     <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
                         Scenario name
-                        <div *ngIf="order != 'name'" class="arrows">
+                        <div *ngIf="order !== 'name'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -81,7 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <th>Description</th>
                     <th (click)="setOrder('numberOfSteps')" [class.selected]="order === 'numberOfSteps' ">
                         # Steps
-                        <div *ngIf="order != 'numberOfSteps'" class="arrows">
+                        <div *ngIf="order !== 'numberOfSteps'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
@@ -97,7 +97,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting"
                         [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                         Changes
-                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                        <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
                             <span class="top"> &#9206; </span>
                             <span class="bot"> &#9207; </span>
                         </div>
