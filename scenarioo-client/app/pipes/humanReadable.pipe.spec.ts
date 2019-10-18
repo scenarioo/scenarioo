@@ -21,7 +21,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('Pipe: scHumanReadable', () => {
     let scHumanReadable: HumanReadablePipe;
-    let input;
+    let output;
 
     // Arrange: set up new instance of the pipe HumanReadable
     beforeEach(() => {
@@ -30,46 +30,46 @@ describe('Pipe: scHumanReadable', () => {
 
     it('Let an empty string be an empty string', async () => {
         // Act
-        input = scHumanReadable.transform('');
+        output = scHumanReadable.transform('');
         // Assert
-        await expect(input).toEqual('');
+        await expect(output).toEqual('');
     });
 
     it('Should create a human readable string from a CamelCase string', async () => {
         // Act
-        input = scHumanReadable.transform('ThisIsSomeCamelCaseString');
+        output = scHumanReadable.transform('ThisIsSomeCamelCaseString');
         // Assert
-        await expect(input).toEqual('This Is Some Camel Case String');
+        await expect(output).toEqual('This Is Some Camel Case String');
     });
 
     it('Should start with a capital letter', async () => {
         // Act
-        input = scHumanReadable.transform('someStringStartingSmall');
+        output = scHumanReadable.transform('someStringStartingSmall');
         // Assert
-        await expect(input).toEqual('Some String Starting Small');
+        await expect(output).toEqual('Some String Starting Small');
     });
 
     it('Should place a blank between two capital letters', async () => {
         // Act
-        input = scHumanReadable.transform('ABadExample');
+        output = scHumanReadable.transform('ABadExample');
         // Assert
-        await expect(input).toEqual('A Bad Example');
+        await expect(output).toEqual('A Bad Example');
     });
 
     it('Should accept special characters', async () => {
         // Act
-        input = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
+        output = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
         // Assert
-        await expect(input).toContain(' Some Camel-Case');
-        await expect(input).toContain('&/%');
-        await expect(input).toContain('String');
+        await expect(output).toContain(' Some Camel-Case');
+        await expect(output).toContain('&/%');
+        await expect(output).toContain('String');
     });
 
     it('Should replace underline with blanks', async () => {
         // Act
-        input = scHumanReadable.transform('This_may_also_be_acceptable');
+        output = scHumanReadable.transform('This_may_also_be_acceptable');
         // Assert
-        await expect(input).toEqual('This may also be acceptable');
+        await expect(output).toEqual('This may also be acceptable');
     });
 
 });

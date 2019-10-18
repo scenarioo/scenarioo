@@ -21,7 +21,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('Pipe: scFilterArray', () => {
     let scFilterArray: FilterArrayPipe;
-    let input;
+    let output;
 
     const MODEL = [
         {
@@ -59,45 +59,45 @@ describe('Pipe: scFilterArray', () => {
 
     it('Should return the original model when search text is empty', async () => {
         // Act
-        input = scFilterArray.transform(MODEL, '');
+        output = scFilterArray.transform(MODEL, '');
         // Assert
-        await expect(input).toEqual(MODEL);
+        await expect(output).toEqual(MODEL);
     });
 
     it('Should filter the model when search text is a normal string', async () => {
         // Act
-        input = scFilterArray.transform(MODEL, 'test');
+        output = scFilterArray.transform(MODEL, 'test');
         // Assert
-        await expect(input).toEqual(MODEL_FILTERED);
+        await expect(output).toEqual(MODEL_FILTERED);
     });
 
     it('Should filter the model, regarding search is not case sensitive', async () => {
         // Act
-        input = scFilterArray.transform(MODEL, 'TEST');
+        output = scFilterArray.transform(MODEL, 'TEST');
         // Assert
-        await expect(input).toEqual(MODEL_FILTERED);
+        await expect(output).toEqual(MODEL_FILTERED);
     });
 
     describe('when search text consists of multiple words, ', () => {
         it('keeps all objects in the model, that contain both words', async () => {
             // Act
-            input = scFilterArray.transform(MODEL, 'test else');
+            output = scFilterArray.transform(MODEL, 'test else');
             // Assert
-            await expect(input).toEqual(MODEL_FILTERED);
+            await expect(output).toEqual(MODEL_FILTERED);
         });
 
         it('filters out all objects that miss one or more words', async () => {
             // Act
-            input = scFilterArray.transform(MODEL, 'test weirdthing');
+            output = scFilterArray.transform(MODEL, 'test weirdthing');
             // Assert
-            await expect(input).toEqual(MODEL_EMPTY);
+            await expect(output).toEqual(MODEL_EMPTY);
         });
 
         it('keeps the object if the search words were found internally on different levels', async () => {
             // Act
-            input = scFilterArray.transform(MODEL, 'test THINGS');
+            output = scFilterArray.transform(MODEL, 'test THINGS');
             // Assert
-            await expect(input).toEqual(MODEL_FILTERED);
+            await expect(output).toEqual(MODEL_FILTERED);
         });
 
     });

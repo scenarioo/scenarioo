@@ -23,7 +23,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('Pipe: scMetadataTreeCreator', () => {
     let scMetadataTreeCreator: MetadataTreeCreatorPipe;
-    let input;
+    let output;
 
     const DATA = {
         myKey: 'myValue',
@@ -57,8 +57,8 @@ describe('Pipe: scMetadataTreeCreator', () => {
 
     it('transforms javascript object into an optimized tree', async () => {
         // Act
-        input = scMetadataTreeCreator.transform(DATA);
+        output = scMetadataTreeCreator.transform(DATA);
         // Assert
-        await expect(input).toEqual(DATA_TRANSFORMED);
+        await expect(output).toEqual(DATA_TRANSFORMED);
     });
 });

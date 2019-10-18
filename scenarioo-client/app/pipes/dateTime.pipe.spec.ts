@@ -21,7 +21,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('Pipe: scDateTime', () => {
     let scDateTime: DateTimePipe;
-    let input;
+    let output: string;
 
     // Arrange: set up new instance of the pipe DateTime
     beforeEach(() => {
@@ -30,23 +30,23 @@ describe('Pipe: scDateTime', () => {
 
     it('Undefined returns an empty string', async () => {
         // Act
-        input = scDateTime.transform(undefined);
+        output = scDateTime.transform(undefined);
         // Assert
-        await expect(input).toEqual('');
+        await expect(output).toEqual('');
     });
 
     it('Empty string returns an empty string', async () => {
         // Act
-        input = scDateTime.transform('');
+        output = scDateTime.transform('');
         // Assert
-        await expect(input).toEqual('');
+        await expect(output).toEqual('');
     });
 
     it('Timestamp returns the formatted Date and time string', async () => {
         // Act
-        input = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
+        output = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
         // Assert
-        await expect(input).toEqual('April 30, 2014, 11:09 PM');
+        await expect(output).toEqual('April 30, 2014, 11:09 PM');
     });
 
 });

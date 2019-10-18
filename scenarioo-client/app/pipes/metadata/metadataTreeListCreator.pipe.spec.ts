@@ -24,7 +24,7 @@ declare var angular: angular.IAngularStatic;
 
 describe('Pipe: scMetadataTreeListCreator', () => {
     let scMetadataTreeListCreator: MetadataTreeListCreatorPipe;
-    let input;
+    let output;
 
     const INPUT_DETAILS_DATA_TREE = {
         myKey: 'myValue',
@@ -54,9 +54,9 @@ describe('Pipe: scMetadataTreeListCreator', () => {
 
     it('transforms a details data structure into view model data structure', async () => {
         // Act
-        input = scMetadataTreeListCreator.transform(INPUT_DETAILS_DATA_TREE);
+        output = scMetadataTreeListCreator.transform(INPUT_DETAILS_DATA_TREE);
         // Assert
-        await expect(input).toEqual(EXPECTED_OUTCOME_DATA);
+        await expect(output).toEqual(EXPECTED_OUTCOME_DATA);
     });
 
 });
