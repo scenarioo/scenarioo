@@ -131,7 +131,6 @@ describe('Pipe: scTreeDataCreator', () => {
         ],
     };
 
-    // Arrange: set up new instance of the pipe TreeDataCreator
     beforeEach(() => {
         scTreeDataCreator = new TreeDataCreatorPipe();
     });

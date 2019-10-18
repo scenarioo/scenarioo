@@ -21,7 +21,6 @@ describe('Pipe: scDateTime', () => {
     let scDateTime: DateTimePipe;
     let output: string;
 
-    // Arrange: set up new instance of the pipe DateTime
     beforeEach(() => {
         scDateTime = new DateTimePipe('en-US');
     });

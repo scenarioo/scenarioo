@@ -50,7 +50,6 @@ describe('Pipe: scFilterArray', () => {
 
     const MODEL_EMPTY = [];
 
-    // Arrange: set up new instance of the pipe FilterArray
     beforeEach(() => {
         scFilterArray = new FilterArrayPipe();
     });

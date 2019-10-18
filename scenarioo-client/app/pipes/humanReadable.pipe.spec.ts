@@ -21,7 +21,6 @@ describe('Pipe: scHumanReadable', () => {
     let scHumanReadable: HumanReadablePipe;
     let output;
 
-    // Arrange: set up new instance of the pipe HumanReadable
     beforeEach(() => {
         scHumanReadable = new HumanReadablePipe();
     });

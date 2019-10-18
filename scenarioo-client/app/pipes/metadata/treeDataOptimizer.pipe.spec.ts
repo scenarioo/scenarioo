@@ -242,7 +242,6 @@ describe('Pipe: scTreeDataOptimizer', () => {
         nodeValue: 'someValue',
     };
 
-    // Arrange: set up new instance of the pipe TreeDataOptimizer
     beforeEach(() => {
         scTreeDataOptimizer = new TreeDataOptimizerPipe();
     });

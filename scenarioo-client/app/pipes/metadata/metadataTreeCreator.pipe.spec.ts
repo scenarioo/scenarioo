@@ -48,7 +48,6 @@ describe('Pipe: scMetadataTreeCreator', () => {
         ],
     };
 
-    // Arrange: set up new instance of the pipe MetadataTreeCreator
     beforeEach(() => {
         scMetadataTreeCreator = new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe());
     });
