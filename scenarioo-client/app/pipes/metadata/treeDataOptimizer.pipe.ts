@@ -5,24 +5,29 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
 })
 
 /**
- * Pipe to transform metadata details trees as received from the backend
- * to displayable view model data trees.
- * With several optimizations for displaying them more easily.
+ * Pipe to optimize metadata view model trees into a presentable form
+ * by doing several optimizations to display them more easily.
  */
 @Injectable()
 export class TreeDataOptimizerPipe implements PipeTransform {
 
+    /**
+     * Caution: this pipe seems to modify the passed data structure directly!
+     * (to improve next time we touch this code!)
+     * @param rootNode the view model data structure to optimize
+     */
     transform(rootNode: any): any {
 
-        this.optimizeChildNodes(rootNode, (node, childrenModified) => this.pullUpChildrenOfDetailsNodes(node, childrenModified));
-        this.optimizeNodes(rootNode, (node) => this.pullUpTypeToReplaceNodeLabel(node));
-        this.optimizeNodes(rootNode, (node) => this.moveChildrenChildNodeBehindOthers(node));
+        this.optimizeChildNodes(rootNode, this.pullUpChildrenOfDetailsNodes);
+
+        this.optimizeNodes(rootNode, this.pullUpTypeToReplaceNodeLabel);
+        this.optimizeNodes(rootNode, this.moveChildrenChildNodeBehindOthers);
 
         // this happens after making the labels human readable,
         // because the name node value could be a technical expression
-        this.optimizeNodes(rootNode, (node) => this.pullUpNameToReplaceEmptyNodeLabel(node));
-        this.optimizeNodes(rootNode, (node) => this.pullUpNameToReplaceEmptyNodeValue(node));
-        this.optimizeNodes(rootNode, (node) => this.setFallBackLabelIfLabelIsEmpty(node));
+        this.optimizeNodes(rootNode, this.pullUpNameToReplaceEmptyNodeLabel);
+        this.optimizeNodes(rootNode, this.pullUpNameToReplaceEmptyNodeValue);
+        this.optimizeNodes(rootNode, this.setFallBackLabelIfLabelIsEmpty);
         this.removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode);
 
         return rootNode;
@@ -46,20 +51,6 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         });
     }
 
-    private pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
-        if (this.isDetailsNode(childNode)) {
-            childNode.childNodes.forEach((grandChildNode) => {
-                modifiedChildNodes.push(grandChildNode);
-            });
-        } else {
-            modifiedChildNodes.push(childNode);
-        }
-    }
-
-    private isDetailsNode(node) {
-        return node.nodeLabel !== null && node.nodeLabel === 'details';
-    }
-
     private optimizeNodes(node, operation) {
 
         operation(node);
@@ -73,7 +64,22 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         });
     }
 
-    private pullUpTypeToReplaceNodeLabel(node) {
+    private pullUpChildrenOfDetailsNodes = (childNode, modifiedChildNodes) => {
+        if (this.isDetailsNode(childNode)) {
+            childNode.childNodes.forEach((grandChildNode) => {
+                modifiedChildNodes.push(grandChildNode);
+            });
+        } else {
+            modifiedChildNodes.push(childNode);
+        }
+    };
+
+    private isDetailsNode = (node) => {
+        return node.nodeLabel !== null && node.nodeLabel === 'details';
+    };
+
+
+    private pullUpTypeToReplaceNodeLabel = (node) => {
         const childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
 
         if (childNode === undefined) {
@@ -82,17 +88,17 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeLabel = childNode.nodeValue;
         node.nodeObjectType = childNode.nodeValue;
-    }
+    };
 
-    private moveChildrenChildNodeBehindOthers(node) {
+    private moveChildrenChildNodeBehindOthers = (node) => {
         const childrenNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
 
         if (childrenNode !== undefined) {
             this.addNodeToChildNodesAfterAllOthers(node, childrenNode);
         }
-    }
+    };
 
-    private pullUpNameToReplaceEmptyNodeLabel(node) {
+    private pullUpNameToReplaceEmptyNodeLabel = (node) => {
         if ((typeof node.nodeLabel === 'string') && node.nodeLabel !== '') {
             return;
         }
@@ -105,9 +111,9 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeLabel = childNode.nodeValue;
         node.nodeObjectName = childNode.nodeValue;
-    }
+    };
 
-    private pullUpNameToReplaceEmptyNodeValue(node) {
+    private pullUpNameToReplaceEmptyNodeValue = (node) => {
         if ((typeof node.nodeValue === 'string') && node.nodeValue !== '') {
             return;
         }
@@ -120,15 +126,15 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeValue = childNode.nodeValue;
         node.nodeObjectName = childNode.nodeValue;
-    }
+    };
 
-    private setFallBackLabelIfLabelIsEmpty(node) {
+    private setFallBackLabelIfLabelIsEmpty = (node) => {
         if ((typeof node.nodeLabel !== 'string') || node.nodeLabel.length === 0) {
             node.nodeLabel = 'Item';
         }
-    }
+    };
 
-    private getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, type): any {
+    private getChildNodeWithSpecifiedNodeLabelAndRemoveIt = (node, type) => {
         if (!Array.isArray(node.childNodes)) {
             return undefined;
         }
@@ -148,19 +154,19 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         node.childNodes = modifiedChildNodes;
 
         return nameChildNode;
-    }
+    };
 
-    private addNodeToChildNodesAfterAllOthers(node, childNodeToAdd) {
+    private addNodeToChildNodesAfterAllOthers = (node, childNodeToAdd) => {
         if (!Array.isArray(node.childNodes)) {
             node.childNodes = [];
         }
         node.childNodes.push(childNodeToAdd);
-    }
+    };
 
-    private removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode) {
+    private removeRootNodeLabelIfItIsItemAndHasNoValue = (rootNode) => {
         const ITEM = 'Item';
         if (rootNode.nodeLabel !== undefined && rootNode.nodeLabel === ITEM && (rootNode.nodeValue === undefined || rootNode.nodeValue === '')) {
             delete rootNode.nodeLabel;
         }
-    }
+    };
 }
