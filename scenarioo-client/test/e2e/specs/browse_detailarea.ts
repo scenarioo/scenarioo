@@ -64,7 +64,7 @@ useCase('Browse Detailarea')
 
         scenario('Remembers collapsed state of details area and sections on scenarios overview')
             .description('States of detailarea and sections are correctly saved in LocalStorage.')
-            .fit(async () => {
+            .it(async () => {
                 await HomePage.selectUseCase(SECOND_USE_CASE);
                 await step('select a scenario in the scenario list');
 

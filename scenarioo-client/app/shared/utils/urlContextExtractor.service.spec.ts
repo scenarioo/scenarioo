@@ -19,7 +19,7 @@ import {UrlContextExtractorService} from './urlContextExtractor.service';
 
 declare var angular: angular.IAngularStatic;
 
-fdescribe('UrlContextExtractorService', () => {
+describe('UrlContextExtractorService', () => {
 
     let urlContextExtractorService: UrlContextExtractorService;
 

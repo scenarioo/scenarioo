@@ -33,12 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
-                <span *ngIf="(usecases|filter: searchTerm).length === usecases.length">{{usecases.length}}</span>
-                <span *ngIf="(usecases|filter: searchTerm).length !== usecases.length">Found {{(usecases|filter: searchTerm).length}} of {{usecases.length}}</span>
+                <span *ngIf="(usecases | scSearchFilter: searchTerm).length === usecases.length">{{usecases.length}}</span>
+                <span *ngIf="(usecases | scSearchFilter: searchTerm).length !== usecases.length">Found {{(usecases | scSearchFilter: searchTerm).length}} of {{usecases.length}}</span>
                 <span *ngIf="usecases.length>1"> Use Cases</span>
                 <span *ngIf="usecases.length<=1"> Use Case</span>
             </p>
-            <table *ngIf="(usecases|filter: searchTerm).length!==0" class="table table-curved table-responsive usecase-table">
+            <table *ngIf="(usecases | scSearchFilter: searchTerm).length !== 0" class="table table-curved table-responsive usecase-table">
                 <thead>
                 <tr>
                     <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
@@ -106,24 +106,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
                 </thead>
                 <tbody>
-                <tr (click)="goToUseCase(dynamicUseCase.name)"
-                    *ngFor="let dynamicUseCase of usecases | orderBy: order:reverse:true | filter: searchTerm
+                <tr (click)="goToUseCase(usecase.name)"
+                    *ngFor="let usecase of usecases | orderBy: order:reverse:true | scSearchFilter: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation"
-                    [ngClass]="isComparisonExisting ? {'added': dynamicUseCase.diffInfo.isAdded, 'removed': dynamicUseCase.diffInfo.isRemoved} : {}">
+                    [ngClass]="isComparisonExisting ? {'added': usecase.diffInfo.isAdded, 'removed': usecase.diffInfo.isRemoved} : {}">
                     <td>
                     <span
-                        [ngClass]="[getStatusStyleClass(dynamicUseCase.status), 'label']">{{dynamicUseCase.status}}</span>
+                        [ngClass]="[getStatusStyleClass(usecase.status), 'label']">{{usecase.status}}</span>
                     </td>
                     <td>
-                        <span class="sc-text-before-label">{{dynamicUseCase.name | scHumanReadable}}</span>
-                        <span *ngFor="let dynamicLabel of dynamicUseCase.labels.labels"
-                              [ngStyle]="getLabelStyle(dynamicLabel)"
-                              class="label label-info sc-label">{{dynamicLabel}}</span>
+                        <span class="sc-text-before-label">{{usecase.name | scHumanReadable}}</span>
+                        <span *ngFor="let label of usecase.labels.labels"
+                              [ngStyle]="getLabelStyle(label)"
+                              class="label label-info sc-label">{{label}}</span>
                     </td>
-                    <td>{{dynamicUseCase.description}}</td>
-                    <td>{{dynamicUseCase.numberOfScenarios}}</td>
+                    <td>{{usecase.description}}</td>
+                    <td>{{usecase.numberOfScenarios}}</td>
                     <td *ngIf="isComparisonExisting">
-                        <sc-diff-info-icon [diffInfo]="dynamicUseCase.diffInfo" childElementType="scenario"
+                        <sc-diff-info-icon [diffInfo]="usecase.diffInfo" childElementType="scenario"
                                            elementType="use case"></sc-diff-info-icon>
                     </td>
                 </tr>
