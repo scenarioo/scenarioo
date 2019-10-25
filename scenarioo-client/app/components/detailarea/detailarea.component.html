@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <sc-detail-accordion *ngIf="dynamicInformationTree.dataTree && !isEmptyObject(dynamicInformationTree.dataTree)" [dataTree]="dynamicInformationTree.dataTree" [labelConfigurations]="dynamicInformationTree.config" [detailAccordionName]="dynamicInformationTree.name" key="{{key}}-{{dynamicInformationTree.key}}" [isFirstOpen]="dynamicInformationTree.isFirstOpen" [detailSectionType]="dynamicInformationTree.detailSectionType"></sc-detail-accordion>
                     </ng-container>
 
-                    <sc-detail-accordion *ngFor="let dynamicInformationTree of additionalDetailsSections" [dataTree]="dynamicInformationTree.value" [detailAccordionName]="dynamicInformationTree.key" key="{{key}}-{{dynamicInformationTree.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
+                    <sc-detail-accordion *ngFor="let dynamicInformationTree of additionalDetailsSections | keyvalue" [dataTree]="dynamicInformationTree.value" [detailAccordionName]="dynamicInformationTree.key" key="{{key}}-{{dynamicInformationTree.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
 
                 </accordion>
             </div>

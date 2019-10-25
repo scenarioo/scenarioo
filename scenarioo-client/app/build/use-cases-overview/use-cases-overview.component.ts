@@ -24,13 +24,13 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
 import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from '../IMainDetailsSection';
@@ -78,7 +78,7 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private filterPipe: FilterPipe,
+                private searchFilterPipe: ScSearchFilterPipe,
                 private localStorageService: LocalStorageService) {
     }
 
@@ -153,7 +153,7 @@ export class UseCasesOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredUsecases = this.filterPipe.transform(this.usecases, this.searchTerm);
+                const filteredUsecases = this.searchFilterPipe.transform(this.usecases, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredUsecases.length - 1)) {
                     this.arrowkeyLocation++;
                 }
