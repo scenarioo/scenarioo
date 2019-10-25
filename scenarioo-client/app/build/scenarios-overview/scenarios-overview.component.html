@@ -33,20 +33,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <p class="tableTitle">
-        <span *ngIf="(scenarios|filter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
+        <span *ngIf="(scenarios | scSearchFilter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
         <span
-            *ngIf="(scenarios|filter: searchTerm).length != scenarios.length">Found {{(scenarios|filter: searchTerm).length}}
+            *ngIf="(scenarios | scSearchFilter: searchTerm).length != scenarios.length">Found {{(scenarios | scSearchFilter: searchTerm).length}}
             of {{scenarios.length}}</span>
         <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
         <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
     </p>
-    <table *ngIf="(scenarios|filter: searchTerm).length!=0"
+    <table *ngIf="(scenarios | scSearchFilter: searchTerm).length!=0"
            class="table table-curved table-responsive scenario-table">
         <thead>
         <tr>
             <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
                 Status
-                <div *ngIf="order != 'status'" class="arrows">
+                <div *ngIf="order !== 'status'" class="arrows">
                     <span class="top"> &#9206; </span>
                     <span class="bot"> &#9207; </span>
                 </div>
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </th>
             <th (click)="setOrder('name')" [class.selected]="order === 'name' ">
                 Scenario name
-                <div *ngIf="order != 'name'" class="arrows">
+                <div *ngIf="order !== 'name'" class="arrows">
                     <span class="top"> &#9206; </span>
                     <span class="bot"> &#9207; </span>
                 </div>
@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <th>Description</th>
             <th (click)="setOrder('numberOfSteps')" [class.selected]="order === 'numberOfSteps' ">
                 # Steps
-                <div *ngIf="order != 'numberOfSteps'" class="arrows">
+                <div *ngIf="order !== 'numberOfSteps'" class="arrows">
                     <span class="top"> &#9206; </span>
                     <span class="bot"> &#9207; </span>
                 </div>
@@ -94,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting"
                 [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
                 Changes
-                <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
+                <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
                     <span class="top"> &#9206; </span>
                     <span class="bot"> &#9207; </span>
                 </div>
@@ -110,33 +110,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </tr>
         </thead>
         <tbody>
-        <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
-            *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | filter: searchTerm
+        <tr (click)="goToScenario(useCaseName, scenario.scenario.name)"
+            *ngFor="let scenario of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
                     let i = index" [class.active]="i == arrowkeyLocation"
-            [ngClass]="isComparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
+            [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
             <td>
-                <span [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
+                <span [ngClass]="[getStatusStyleClass(scenario.scenario.status), 'label']">{{scenario.scenario.status}}</span>
             </td>
             <td>
-                <span class="sc-text-before-label">{{dynamicScenarios.scenario.name | scHumanReadable}}</span>
-                <span *ngFor="let dynamicLabel of dynamicScenarios.scenario.labels.labels"
-                      [ngStyle]="getLabelStyle(dynamicLabel)"
-                      class="label label-info sc-label">{{dynamicLabel}}</span>
+                <span class="sc-text-before-label">{{scenario.scenario.name | scHumanReadable}}</span>
+                <span *ngFor="let label of scenario.scenario.labels.labels"
+                      [ngStyle]="getLabelStyle(label)"
+                      class="label label-info sc-label">{{label}}</span>
             </td>
             <td>
                 <a tooltip="Go to steps overview"
-                   (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)">
+                   (click)="goToScenario(useCaseName, scenario.scenario.name)">
                     <i class="fas fa-fw fa-list-ul"></i>
                 </a>
                 <a tooltip="Go directly to first step"
-                   (click)="goToStep(useCaseName, dynamicScenarios.scenario.name)">
+                   (click)="goToStep(useCaseName, scenario.scenario.name)">
                     <i class="fas fa-fw fa-tablet-alt"></i>
                 </a>
             </td>
-            <td>{{dynamicScenarios.scenario.description}}</td>
-            <td>{{dynamicScenarios.numberOfSteps}}</td>
+            <td>{{scenario.scenario.description}}</td>
+            <td>{{scenario.numberOfSteps}}</td>
             <td *ngIf="isComparisonExisting">
-                <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" childElementType="step"
+                <sc-diff-info-icon [diffInfo]="scenario.diffInfo" childElementType="step"
                                    elementType="scenario"></sc-diff-info-icon>
             </td>
         </tr>

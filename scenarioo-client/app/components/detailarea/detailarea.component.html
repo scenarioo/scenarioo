@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                              [informationTree]="useCaseLabels" [isFirstOpen]="false"
                                              [isLabelComponent]="true" [labelConfigurations]="labelConfigurations"
                                              detailAccordionName="Labels"></sc-detail-accordion>
-                        <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree"
+                        <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree | keyvalue"
                                              [detailAccordionName]="dynamicInformationTree.key"
                                              [informationTree]="dynamicInformationTree.value" [isFirstOpen]="false"
                                              [isTreeComponent]="true"></sc-detail-accordion>
