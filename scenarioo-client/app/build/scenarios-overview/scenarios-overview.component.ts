@@ -19,10 +19,20 @@ import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
-import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
+import {
+    LabelConfigurationMap,
+    LabelConfigurationsResource,
+} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios} from '../../generated-types/backend-types';
+import {
+    ILabelConfiguration,
+    IScenario,
+    IScenarioDetails,
+    IScenarioSummary,
+    IUseCase,
+    IUseCaseScenarios,
+} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
@@ -37,6 +47,8 @@ import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
+import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
+import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 declare var angular: angular.IAngularStatic;
 
@@ -68,7 +80,8 @@ export class ScenariosOverviewComponent {
     isComparisonExisting: boolean;
 
     mainDetailsSections: IMainDetailsSection[] = [];
-    additionalDetailsSections: any[];
+
+    additionalDetailsSections: IDetailsSections;
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -122,8 +135,8 @@ export class ScenariosOverviewComponent {
             this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
 
             this.relatedIssueResource.getForScenariosOverview({
-                branchName: selection.branch,
-                buildName: selection.build,
+                    branchName: selection.branch,
+                    buildName: selection.build,
                 },
                 useCaseScenarios.useCase.name,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
@@ -236,7 +249,7 @@ export class ScenariosOverviewComponent {
             {
                 name: 'Labels',
                 key: 'labels',
-                dataTree: labels,
+                values: labels,
                 isFirstOpen: false,
                 detailSectionType: 'labelsComponent',
                 config: this.labelConfigurations,
@@ -244,7 +257,7 @@ export class ScenariosOverviewComponent {
             {
                 name: 'Related Sketches',
                 key: '-relatedSketches',
-                dataTree: relatedIssues,
+                values: relatedIssues,
                 isFirstOpen: false,
                 detailSectionType: 'sketchesComponent',
             },

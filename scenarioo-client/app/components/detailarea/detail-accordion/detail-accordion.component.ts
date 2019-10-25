@@ -23,6 +23,7 @@ import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource
 import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
 import {ISketchIds} from '../../../generated-types/backend-types';
 import {LocalStorageService} from '../../../services/localStorage.service';
+import {IDetailsTreeNode} from '../IDetailsTreeNode';
 
 const MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
@@ -49,7 +50,13 @@ export class DetailAccordionComponent {
     detailAccordionName: string;
 
     @Input()
-    dataTree: any;
+    dataTree: IDetailsTreeNode;
+
+    /**
+     * Only for special section types like labels or issues
+     */
+    @Input()
+    values: any[];
 
     @Input()
     labelConfigurations: LabelConfigurationMap;

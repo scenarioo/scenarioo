@@ -16,9 +16,9 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from './IMainDetailsSection';
+import {IDetailsSections} from './IDetailsSections';
 
 const COLLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
 
@@ -38,8 +38,12 @@ export class DetailareaComponent {
     @Input()
     mainDetailsSections: IMainDetailsSection[];
 
+    /**
+     * Additional generic details sections, usually derived from an object's details field,
+     * by using the MetadataTreeListCreatorPipe.
+     */
     @Input()
-    additionalDetailsSections: ICustomObjectTabTree;
+    additionalDetailsSections: IDetailsSections;
 
     @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
