@@ -22,18 +22,18 @@ import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
+import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
-import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
@@ -85,7 +85,7 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private filterPipe: FilterPipe) {
+                private searchFilterPipe: ScSearchFilterPipe) {
     }
 
     ngOnInit(): void {
@@ -169,7 +169,7 @@ export class ScenariosOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                const filteredScenarios = this.searchFilterPipe.transform(this.scenarios, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
                     this.arrowkeyLocation++;
                 }
@@ -202,7 +202,7 @@ export class ScenariosOverviewComponent {
                 scenarioName,
             ).subscribe(
                 (scenarioResult: IScenarioDetails) => {
-                    const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                    this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
                 },
             );
         });

@@ -6,6 +6,9 @@ import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
     name: 'scMetadataTreeCreator',
 })
 
+/**
+ * A pipe to create a view model data tree to display a metadata input data object.
+ */
 @Injectable()
 export class MetadataTreeCreatorPipe implements PipeTransform {
 
