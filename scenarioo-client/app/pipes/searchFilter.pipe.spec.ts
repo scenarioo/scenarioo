@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {FilterArrayPipe} from './filterArray.pipe';
+import {ScSearchFilterPipe} from './searchFilter.pipe';
 
-describe('Pipe: scFilterArray', () => {
-    let scFilterArray: FilterArrayPipe;
+describe('Pipe: scSearchFilter', () => {
+    let scSearchFilter: ScSearchFilterPipe;
     let output;
 
     const MODEL = [
@@ -51,26 +51,26 @@ describe('Pipe: scFilterArray', () => {
     const MODEL_EMPTY = [];
 
     beforeEach(() => {
-        scFilterArray = new FilterArrayPipe();
+        scSearchFilter = new ScSearchFilterPipe();
     });
 
     it('Should return the original model when search text is empty', async () => {
         // Act
-        output = scFilterArray.transform(MODEL, '');
+        output = scSearchFilter.transform(MODEL, '');
         // Assert
         await expect(output).toEqual(MODEL);
     });
 
     it('Should filter the model when search text is a normal string', async () => {
         // Act
-        output = scFilterArray.transform(MODEL, 'test');
+        output = scSearchFilter.transform(MODEL, 'test');
         // Assert
         await expect(output).toEqual(MODEL_FILTERED);
     });
 
     it('Should filter the model, regarding search is not case sensitive', async () => {
         // Act
-        output = scFilterArray.transform(MODEL, 'TEST');
+        output = scSearchFilter.transform(MODEL, 'TEST');
         // Assert
         await expect(output).toEqual(MODEL_FILTERED);
     });
@@ -78,21 +78,21 @@ describe('Pipe: scFilterArray', () => {
     describe('when search text consists of multiple words, ', () => {
         it('keeps all objects in the model, that contain both words', async () => {
             // Act
-            output = scFilterArray.transform(MODEL, 'test else');
+            output = scSearchFilter.transform(MODEL, 'test else');
             // Assert
             await expect(output).toEqual(MODEL_FILTERED);
         });
 
         it('filters out all objects that miss one or more words', async () => {
             // Act
-            output = scFilterArray.transform(MODEL, 'test weirdthing');
+            output = scSearchFilter.transform(MODEL, 'test weirdthing');
             // Assert
             await expect(output).toEqual(MODEL_EMPTY);
         });
 
         it('keeps the object if the search words were found internally on different levels', async () => {
             // Act
-            output = scFilterArray.transform(MODEL, 'test THINGS');
+            output = scSearchFilter.transform(MODEL, 'test THINGS');
             // Assert
             await expect(output).toEqual(MODEL_FILTERED);
         });

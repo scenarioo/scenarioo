@@ -30,7 +30,7 @@ import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-i
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
-import {FilterArrayPipe} from '../../pipes/filterArray.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
 
 @Component({
@@ -74,7 +74,7 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private filterArrayPipe: FilterArrayPipe) {
+                private searchFilterPipe: ScSearchFilterPipe) {
 
     }
 
@@ -147,7 +147,7 @@ export class UseCasesOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredUsecases = this.filterArrayPipe.transform(this.usecases, this.searchTerm);
+                const filteredUsecases = this.searchFilterPipe.transform(this.usecases, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredUsecases.length - 1)) {
                     this.arrowkeyLocation++;
                 }
