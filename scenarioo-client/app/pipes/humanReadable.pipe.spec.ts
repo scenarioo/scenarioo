@@ -19,7 +19,6 @@ import {HumanReadablePipe} from './humanReadable.pipe';
 
 describe('Pipe: scHumanReadable', () => {
     let scHumanReadable: HumanReadablePipe;
-    let output;
 
     beforeEach(() => {
         scHumanReadable = new HumanReadablePipe();
@@ -27,35 +26,35 @@ describe('Pipe: scHumanReadable', () => {
 
     it('Let an empty string be an empty string', async () => {
         // Act
-        output = scHumanReadable.transform('');
+        let output = scHumanReadable.transform('');
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Should create a human readable string from a CamelCase string', async () => {
         // Act
-        output = scHumanReadable.transform('ThisIsSomeCamelCaseString');
+        let output = scHumanReadable.transform('ThisIsSomeCamelCaseString');
         // Assert
         await expect(output).toEqual('This Is Some Camel Case String');
     });
 
     it('Should start with a capital letter', async () => {
         // Act
-        output = scHumanReadable.transform('someStringStartingSmall');
+        let output = scHumanReadable.transform('someStringStartingSmall');
         // Assert
         await expect(output).toEqual('Some String Starting Small');
     });
 
     it('Should place a blank between two capital letters', async () => {
         // Act
-        output = scHumanReadable.transform('ABadExample');
+        let output = scHumanReadable.transform('ABadExample');
         // Assert
         await expect(output).toEqual('A Bad Example');
     });
 
     it('Should accept special characters', async () => {
         // Act
-        output = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
+        let output = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
         // Assert
         await expect(output).toContain(' Some Camel-Case');
         await expect(output).toContain('&/%');
@@ -64,7 +63,7 @@ describe('Pipe: scHumanReadable', () => {
 
     it('Should replace underline with blanks', async () => {
         // Act
-        output = scHumanReadable.transform('This_may_also_be_acceptable');
+        let output = scHumanReadable.transform('This_may_also_be_acceptable');
         // Assert
         await expect(output).toEqual('This may also be acceptable');
     });

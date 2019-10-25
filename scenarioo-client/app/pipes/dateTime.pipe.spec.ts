@@ -19,7 +19,6 @@ import {DateTimePipe} from './dateTime.pipe';
 
 describe('Pipe: scDateTime', () => {
     let scDateTime: DateTimePipe;
-    let output: string;
 
     beforeEach(() => {
         scDateTime = new DateTimePipe('en-US');
@@ -27,21 +26,21 @@ describe('Pipe: scDateTime', () => {
 
     it('Undefined returns an empty string', async () => {
         // Act
-        output = scDateTime.transform(undefined);
+        let output: string = scDateTime.transform(undefined);
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Empty string returns an empty string', async () => {
         // Act
-        output = scDateTime.transform('');
+        let output: string = scDateTime.transform('');
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Timestamp returns the formatted Date and time string', async () => {
         // Act
-        output = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
+        let output: string = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
         // Assert
         await expect(output).toEqual('April 30, 2014, 11:09 PM');
     });

@@ -27,31 +27,31 @@ export class TreeDataCreatorPipe implements PipeTransform {
 
     }
 
-    transformNode(node, nodeTitle) {
+    private transformNode(node, nodeTitle): any {
         let transformedNode: any = {
             nodeLabel: nodeTitle,
         };
 
         if (Array.isArray(node)) {
             transformedNode.childNodes = this.createArrayChildNodes(node);
-        } else if (TreeDataCreatorPipe.isObject(node)) {
+        } else if (this.isObject(node)) {
             transformedNode.childNodes = this.createObjectChildNodes(node);
-        } else if (TreeDataCreatorPipe.isString(node)) {
+        } else if (this.isString(node)) {
             transformedNode = node;
         }
 
         return transformedNode;
     }
 
-    private static isObject(o: any): boolean {
+    private isObject(o: any): boolean {
         return (typeof o === 'object' || typeof o === 'function') && (o !== null);
     }
 
-    private static isString(s: any): boolean {
+    private isString(s: any): boolean {
         return typeof s === 'string' || s instanceof String;
     }
 
-    createObjectChildNodes(node: any) {
+    private createObjectChildNodes(node: any) {
         const childNodes = [];
         Object.keys(node).forEach((key: string) => {
             const value = node[key];
@@ -60,7 +60,7 @@ export class TreeDataCreatorPipe implements PipeTransform {
                     nodeLabel: key,
                     childNodes: this.createArrayChildNodes(value),
                 });
-            } else if (TreeDataCreatorPipe.isObject(value)) {
+            } else if (this.isObject(value)) {
                 childNodes.push({
                     nodeLabel: key,
                     childNodes: this.createObjectChildNodes(value),
@@ -76,10 +76,10 @@ export class TreeDataCreatorPipe implements PipeTransform {
         return childNodes;
     }
 
-    createArrayChildNodes(array: any[]) {
+    private createArrayChildNodes(array: any[]) {
         const childNodes = [];
         array.forEach((element) => {
-            if (TreeDataCreatorPipe.isString(element)) {
+            if (this.isString(element)) {
                 childNodes.push({
                     nodeLabel: element,
                 });

@@ -22,28 +22,6 @@ import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
 describe('Pipe: scMetadataTreeListCreator', () => {
     let scMetadataTreeListCreator: MetadataTreeListCreatorPipe;
-    let output;
-
-    const INPUT_DETAILS_DATA_TREE = {
-        myKey: 'myValue',
-        keyTwo: {
-            theAnswer: 42,
-        },
-    };
-
-    const EXPECTED_OUTCOME_DATA = {
-        myKey: {
-            nodeLabel: 'myValue',
-        },
-        keyTwo: {
-            childNodes: [
-                {
-                    nodeLabel: 'theAnswer',
-                    nodeValue: 42,
-                },
-            ],
-        },
-    };
 
     beforeEach(() => {
         scMetadataTreeListCreator = new MetadataTreeListCreatorPipe(new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe()));
@@ -51,9 +29,26 @@ describe('Pipe: scMetadataTreeListCreator', () => {
 
     it('transforms a details data structure into view model data structure', async () => {
         // Act
-        output = scMetadataTreeListCreator.transform(INPUT_DETAILS_DATA_TREE);
+        let output = scMetadataTreeListCreator.transform({
+            myKey: 'myValue',
+            keyTwo: {
+                theAnswer: 42,
+            },
+        });
         // Assert
-        await expect(output).toEqual(EXPECTED_OUTCOME_DATA);
+        await expect(output).toEqual({
+            myKey: {
+                nodeLabel: 'myValue',
+            },
+            keyTwo: {
+                childNodes: [
+                    {
+                        nodeLabel: 'theAnswer',
+                        nodeValue: 42,
+                    },
+                ],
+            },
+        });
     });
 
 });

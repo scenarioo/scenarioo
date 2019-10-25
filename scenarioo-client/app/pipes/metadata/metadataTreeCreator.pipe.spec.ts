@@ -20,33 +20,8 @@ import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
 
 describe('Pipe: scMetadataTreeCreator', () => {
+
     let scMetadataTreeCreator: MetadataTreeCreatorPipe;
-    let output;
-
-    const DATA = {
-        myKey: 'myValue',
-        keyTwo: {
-            theAnswer: 42,
-        },
-    };
-
-    const DATA_TRANSFORMED = {
-        childNodes: [
-            {
-                nodeLabel: 'myKey',
-                nodeValue: 'myValue',
-            },
-            {
-                nodeLabel: 'keyTwo',
-                childNodes: [
-                    {
-                        nodeLabel: 'theAnswer',
-                        nodeValue: 42,
-                    },
-                ],
-            },
-        ],
-    };
 
     beforeEach(() => {
         scMetadataTreeCreator = new MetadataTreeCreatorPipe(new TreeDataOptimizerPipe(), new TreeDataCreatorPipe());
@@ -54,8 +29,39 @@ describe('Pipe: scMetadataTreeCreator', () => {
 
     it('transforms javascript object into an optimized tree', async () => {
         // Act
-        output = scMetadataTreeCreator.transform(DATA);
+        let output = scMetadataTreeCreator.transform({
+            keyWillNotBeMadeHumanReadable: 'myValue',
+            'Clients Can Set Human Readable Keys Them-selves in Test Reports': 'another value',
+            canHaveSubObject: {
+                content: 'a sub object',
+                theAnswer: 42,
+            },
+        });
         // Assert
-        await expect(output).toEqual(DATA_TRANSFORMED);
+        await expect(output).toEqual({
+            childNodes: [
+                {
+                    nodeLabel: 'keyWillNotBeMadeHumanReadable',
+                    nodeValue: 'myValue',
+                },
+                {
+                    nodeLabel: 'Clients Can Set Human Readable Keys Them-selves in Test Reports',
+                    nodeValue: 'another value'
+                },
+                {
+                    nodeLabel: 'canHaveSubObject',
+                    childNodes: [
+                        {
+                            nodeLabel: 'content',
+                            nodeValue: 'a sub object',
+                        },
+                        {
+                            nodeLabel: 'theAnswer',
+                            nodeValue: 42,
+                        },
+                    ],
+                },
+            ],
+        });
     });
 });

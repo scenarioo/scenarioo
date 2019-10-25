@@ -113,31 +113,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
                 </thead>
                 <tbody>
-                <tr (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)"
-                    *ngFor="let dynamicScenarios of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': dynamicScenarios.diffInfo.isAdded, 'removed': dynamicScenarios.diffInfo.isRemoved} : {}">
+                <tr (click)="goToScenario(useCaseName, scenario.scenario.name)"
+                    *ngFor="let scenario of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
+                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
                     <td>
                         <span
-                            [ngClass]="[getStatusStyleClass(dynamicScenarios.scenario.status), 'label']">{{dynamicScenarios.scenario.status}}</span>
+                            [ngClass]="[getStatusStyleClass(scenario.scenario.status), 'label']">{{scenario.scenario.status}}</span>
                     </td>
                     <td>
-                        <span class="sc-text-before-label">{{dynamicScenarios.scenario.name | scHumanReadable}}</span>
-                        <span *ngFor="let dynamicLabel of dynamicScenarios.scenario.labels.labels"
-                              [ngStyle]="getLabelStyle(dynamicLabel)"
-                              class="label label-info sc-label">{{dynamicLabel}}</span>
+                        <span class="sc-text-before-label">{{scenario.scenario.name | scHumanReadable}}</span>
+                        <span *ngFor="let label of scenario.scenario.labels.labels"
+                              [ngStyle]="getLabelStyle(label)"
+                              class="label label-info sc-label">{{label}}</span>
                     </td>
                     <td>
-                        <a tooltip="Go to steps overview" (click)="goToScenario(useCaseName, dynamicScenarios.scenario.name)">
+                        <a tooltip="Go to steps overview" (click)="goToScenario(useCaseName, scenario.scenario.name)">
                             <i class="fas fa-fw fa-list-ul"></i>
                         </a>
-                        <a tooltip="Go directly to first step" (click)="goToStep(useCaseName, dynamicScenarios.scenario.name)">
+                        <a tooltip="Go directly to first step" (click)="goToStep(useCaseName, scenario.scenario.name)">
                             <i class="fas fa-fw fa-tablet-alt"></i>
                         </a>
                     </td>
-                    <td>{{dynamicScenarios.scenario.description}}</td>
-                    <td>{{dynamicScenarios.numberOfSteps}}</td>
+                    <td>{{scenario.scenario.description}}</td>
+                    <td>{{scenario.numberOfSteps}}</td>
                     <td *ngIf="isComparisonExisting">
-                        <sc-diff-info-icon [diffInfo]="dynamicScenarios.diffInfo" childElementType="step" elementType="scenario"></sc-diff-info-icon>
+                        <sc-diff-info-icon [diffInfo]="scenario.diffInfo" childElementType="step" elementType="scenario"></sc-diff-info-icon>
                     </td>
                 </tr>
                 </tbody>
