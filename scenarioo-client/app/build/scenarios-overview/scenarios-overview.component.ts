@@ -29,11 +29,11 @@ import {forkJoin} from 'rxjs';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
-import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LocalStorageService} from '../../services/localStorage.service';
 
@@ -86,7 +86,7 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private filterPipe: FilterPipe,
+                private searchFilterPipe: ScSearchFilterPipe) {
                 private localStorageService: LocalStorageService) {
     }
 
@@ -173,7 +173,7 @@ export class ScenariosOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                const filteredScenarios = this.searchFilterPipe.transform(this.scenarios, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
                     this.arrowkeyLocation++;
                 }
@@ -206,7 +206,7 @@ export class ScenariosOverviewComponent {
                 scenarioName,
             ).subscribe(
                 (scenarioResult: IScenarioDetails) => {
-                    const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                    this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
                 },
             );
         });
