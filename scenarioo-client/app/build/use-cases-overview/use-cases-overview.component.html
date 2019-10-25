@@ -33,12 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>
-                <span *ngIf="(usecases | scFilterArray: searchTerm).length === usecases.length">{{usecases.length}}</span>
-                <span *ngIf="(usecases | scFilterArray: searchTerm).length !== usecases.length">Found {{(usecases | scFilterArray: searchTerm).length}} of {{usecases.length}}</span>
+                <span *ngIf="(usecases | scSearchFilter: searchTerm).length === usecases.length">{{usecases.length}}</span>
+                <span *ngIf="(usecases | scSearchFilter: searchTerm).length !== usecases.length">Found {{(usecases | scSearchFilter: searchTerm).length}} of {{usecases.length}}</span>
                 <span *ngIf="usecases.length>1"> Use Cases</span>
                 <span *ngIf="usecases.length<=1"> Use Case</span>
             </p>
-            <table *ngIf="(usecases | scFilterArray: searchTerm).length !== 0" class="table table-curved table-responsive usecase-table">
+            <table *ngIf="(usecases | scSearchFilter: searchTerm).length !== 0" class="table table-curved table-responsive usecase-table">
                 <thead>
                 <tr>
                     <th (click)="setOrder('status')" [class.selected]="order === 'status' ">
@@ -107,7 +107,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </thead>
                 <tbody>
                 <tr (click)="goToUseCase(usecase.name)"
-                    *ngFor="let usecase of usecases | orderBy: order:reverse:true | scFilterArray: searchTerm
+                    *ngFor="let usecase of usecases | orderBy: order:reverse:true | scSearchFilter: searchTerm
                 let i = index" [class.active]="i == arrowkeyLocation"
                     [ngClass]="isComparisonExisting ? {'added': usecase.diffInfo.isAdded, 'removed': usecase.diffInfo.isRemoved} : {}">
                     <td>
