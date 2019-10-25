@@ -53,21 +53,21 @@ describe('Pipe: scSearchFilter', () => {
 
     it('Should return the original model when search text is empty', async () => {
         // Act
-        let output = scSearchFilter.transform(MODEL, '');
+        const output = scSearchFilter.transform(MODEL, '');
         // Assert
         await expect(output).toEqual(MODEL);
     });
 
     it('Should filter the model when search text is a normal string', async () => {
         // Act
-        let output = scSearchFilter.transform(MODEL, 'test');
+        const output = scSearchFilter.transform(MODEL, 'test');
         // Assert
         await expect(output).toEqual(MODEL_FILTERED);
     });
 
     it('Should filter the model, regarding search is not case sensitive', async () => {
         // Act
-        let output = scSearchFilter.transform(MODEL, 'TEST');
+        const output = scSearchFilter.transform(MODEL, 'TEST');
         // Assert
         await expect(output).toEqual(MODEL_FILTERED);
     });
@@ -75,21 +75,21 @@ describe('Pipe: scSearchFilter', () => {
     describe('when search text consists of multiple words, ', () => {
         it('keeps all objects in the model, that contain both words', async () => {
             // Act
-            let output = scSearchFilter.transform(MODEL, 'test else');
+            const output = scSearchFilter.transform(MODEL, 'test else');
             // Assert
             await expect(output).toEqual(MODEL_FILTERED);
         });
 
         it('filters out all objects that miss one or more words', async () => {
             // Act
-            let output = scSearchFilter.transform(MODEL, 'test weirdthing');
+            const output = scSearchFilter.transform(MODEL, 'test weirdthing');
             // Assert
             await expect(output).toEqual([]);
         });
 
         it('keeps the object if the search words were found internally on different levels', async () => {
             // Act
-            let output = scSearchFilter.transform(MODEL, 'test THINGS');
+            const output = scSearchFilter.transform(MODEL, 'test THINGS');
             // Assert
             await expect(output).toEqual(MODEL_FILTERED);
         });

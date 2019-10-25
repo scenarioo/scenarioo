@@ -26,28 +26,28 @@ describe('Pipe: scTreeDataCreator', () => {
 
     it('Should return undefined from an undefined input', async () => {
         // Act
-        let output = scTreeDataCreator.transform(undefined);
+        const output = scTreeDataCreator.transform(undefined);
         // Assert
         await expect(output).toBeUndefined();
     });
 
     it('Should create a tree from a string', async () => {
         // Act
-        let output = scTreeDataCreator.transform('someStringValue');
+        const output = scTreeDataCreator.transform('someStringValue');
         // Assert
         await expect(output).toEqual({nodeLabel: 'someStringValue'});
     });
 
     it('Should create a tree from an empty input', async () => {
         // Act
-        let output = scTreeDataCreator.transform({});
+        const output = scTreeDataCreator.transform({});
         // Assert
         await expect(output).toEqual({nodeLabel: '', childNodes: []});
     });
 
     it('Should create two trees from two input values', async () => {
         // Act
-        let output = scTreeDataCreator.transform({
+        const output = scTreeDataCreator.transform({
             myKey: 'myValue',
             keyTwo: 'valueTwo',
         });
@@ -69,7 +69,7 @@ describe('Pipe: scTreeDataCreator', () => {
 
     it('Should create correct trees from complex input values', async () => {
         // Act
-        let output = scTreeDataCreator.transform({
+        const output = scTreeDataCreator.transform({
             details: {
                 start: '12312',
                 end: [
@@ -130,7 +130,7 @@ describe('Pipe: scTreeDataCreator', () => {
 
     it('Should identify childNodes of a nodeLabel', async () => {
         // Act
-        let output = scTreeDataCreator.transform({
+        const output = scTreeDataCreator.transform({
             list: [
                 'Listentry 0', 'Listentry 1',
             ],
@@ -156,7 +156,7 @@ describe('Pipe: scTreeDataCreator', () => {
 
     it('Should identify childNodes without having a nodeLabel', async () => {
         // Act
-        let output = scTreeDataCreator.transform(['Listentry 0', 'Listentry 1']);
+        const output = scTreeDataCreator.transform(['Listentry 0', 'Listentry 1']);
         // Assert
         await expect(output).toEqual({
             nodeLabel: '',

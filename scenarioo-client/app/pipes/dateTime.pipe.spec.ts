@@ -26,21 +26,21 @@ describe('Pipe: scDateTime', () => {
 
     it('Undefined returns an empty string', async () => {
         // Act
-        let output: string = scDateTime.transform(undefined);
+        const output: string = scDateTime.transform(undefined);
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Empty string returns an empty string', async () => {
         // Act
-        let output: string = scDateTime.transform('');
+        const output: string = scDateTime.transform('');
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Timestamp returns the formatted Date and time string', async () => {
         // Act
-        let output: string = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
+        const output: string = scDateTime.transform(new Date(2014, 3, 30, 23, 9).getTime());
         // Assert
         await expect(output).toEqual('April 30, 2014, 11:09 PM');
     });

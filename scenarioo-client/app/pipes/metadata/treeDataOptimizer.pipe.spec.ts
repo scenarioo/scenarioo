@@ -28,7 +28,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
     it('does not optimize empty nodes"', async () => {
 
         // Act
-        const dataWithEmptyNode = {
+        const output = scTreeDataOptimizer.transform({
             childNodes: [
                 {
                     nodeLabel: 'keyTwo',
@@ -40,8 +40,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
                     childNodes: [],
                 },
             ],
-        };
-        let output = scTreeDataOptimizer.transform(dataWithEmptyNode);
+        });
 
         // Assert
         await expect(output).toEqual({
@@ -61,7 +60,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('pulls children of details nodes one level up', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             childNodes: [
                 {
                     nodeLabel: 'details',
@@ -87,7 +86,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('makes node labels human readable but does not touch node values', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: 'veryImportantNode',
             childNodes: [
                 {
@@ -110,7 +109,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('uses the name child node to replace empty node label', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: '',
             childNodes: [
                 {
@@ -149,7 +148,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('uses the name child node to replace empty node values', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: '',
             childNodes: [
                 {
@@ -179,7 +178,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('always uses the type child node to replace the parent node label', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             childNodes: [
                 {
                     nodeLabel: 'type',
@@ -203,7 +202,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('moves nodes with label "children" behind all other childNodes', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: 'something',
             nodeValue: 'special',
             childNodes: [
@@ -242,7 +241,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('sets nodeLabel of nodes with empty label to "Item"', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: 'something',
             nodeValue: 'special',
             childNodes: [
@@ -265,7 +264,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('sets nodeLabel of root node to empty, if it is "Item"', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: 'Item',
         });
         // Assert
@@ -274,7 +273,7 @@ describe('Pipe: scTreeDataOptimizer', () => {
 
     it('does not change nodeLabel of root node to empty, if it is "Item" and also has a nodeValue', async () => {
         // Act
-        let output = scTreeDataOptimizer.transform({
+        const output = scTreeDataOptimizer.transform({
             nodeLabel: 'Item',
             nodeValue: 'someValue',
         });

@@ -74,12 +74,11 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         } else {
             modifiedChildNodes.push(childNode);
         }
-    };
+    }
 
     private isDetailsNode = (node) => {
         return node.nodeLabel !== null && node.nodeLabel === 'details';
-    };
-
+    }
 
     private pullUpTypeToReplaceNodeLabel = (node) => {
         const childNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
@@ -90,7 +89,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeLabel = childNode.nodeValue;
         node.nodeObjectType = childNode.nodeValue;
-    };
+    }
 
     private moveChildrenChildNodeBehindOthers = (node) => {
         const childrenNode = this.getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
@@ -98,7 +97,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         if (childrenNode !== undefined) {
             this.addNodeToChildNodesAfterAllOthers(node, childrenNode);
         }
-    };
+    }
 
     private pullUpNameToReplaceEmptyNodeLabel = (node) => {
         if ((typeof node.nodeLabel === 'string') && node.nodeLabel !== '') {
@@ -113,7 +112,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeLabel = childNode.nodeValue;
         node.nodeObjectName = childNode.nodeValue;
-    };
+    }
 
     private pullUpNameToReplaceEmptyNodeValue = (node) => {
         if ((typeof node.nodeValue === 'string') && node.nodeValue !== '') {
@@ -128,13 +127,13 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         node.nodeValue = childNode.nodeValue;
         node.nodeObjectName = childNode.nodeValue;
-    };
+    }
 
     private setFallBackLabelIfLabelIsEmpty = (node) => {
         if ((typeof node.nodeLabel !== 'string') || node.nodeLabel.length === 0) {
             node.nodeLabel = 'Item';
         }
-    };
+    }
 
     private getChildNodeWithSpecifiedNodeLabelAndRemoveIt = (node, type) => {
         if (!Array.isArray(node.childNodes)) {
@@ -156,19 +155,19 @@ export class TreeDataOptimizerPipe implements PipeTransform {
         node.childNodes = modifiedChildNodes;
 
         return nameChildNode;
-    };
+    }
 
     private addNodeToChildNodesAfterAllOthers = (node, childNodeToAdd) => {
         if (!Array.isArray(node.childNodes)) {
             node.childNodes = [];
         }
         node.childNodes.push(childNodeToAdd);
-    };
+    }
 
     private removeRootNodeLabelIfItIsItemAndHasNoValue = (rootNode) => {
         const ITEM = 'Item';
         if (rootNode.nodeLabel !== undefined && rootNode.nodeLabel === ITEM && (rootNode.nodeValue === undefined || rootNode.nodeValue === '')) {
             delete rootNode.nodeLabel;
         }
-    };
+    }
 }
