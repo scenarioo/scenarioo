@@ -1,7 +1,7 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 import {TreeDataCreatorPipe} from './treeDataCreator.pipe';
-import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode'
+import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 @Pipe({
     name: 'scMetadataTreeCreator',
