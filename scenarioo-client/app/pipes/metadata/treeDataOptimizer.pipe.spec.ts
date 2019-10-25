@@ -18,30 +18,9 @@
 import {TreeDataOptimizerPipe} from './treeDataOptimizer.pipe';
 
 describe('Pipe: scTreeDataOptimizer', () => {
+
     let scTreeDataOptimizer: TreeDataOptimizerPipe;
     let output;
-
-    const DATA_EMPTY_NODE = {
-        childNodes: [
-            {
-                nodeLabel: 'keyTwo',
-                nodeValue: 'valueTwo',
-            },
-            {
-                nodeLabel: 'empty',
-                childNodes: [],
-            },
-        ],
-    };
-
-    const DATA_EMPTY_NODE_OPTIMIZED = {
-        childNodes: [
-            {
-                nodeLabel: 'keyTwo',
-                nodeValue: 'valueTwo',
-            },
-        ],
-    };
 
     const DATA_DETAILS = {
         childNodes: [
@@ -246,12 +225,38 @@ describe('Pipe: scTreeDataOptimizer', () => {
         scTreeDataOptimizer = new TreeDataOptimizerPipe();
     });
 
-    // TODO Check with Rolf whether we need to remove empty child nodes
-    xit('removes empty nodes"', async () => {
+    it('does not optimize empty nodes"', async () => {
+
         // Act
-        output = scTreeDataOptimizer.transform(DATA_EMPTY_NODE);
+        const dataWithEmptyNode = {
+            childNodes: [
+                {
+                    nodeLabel: 'keyTwo',
+                    nodeValue: 'valueTwo',
+                },
+                {
+                    // empty node with label only
+                    nodeLabel: 'empty',
+                    childNodes: [],
+                },
+            ],
+        };
+        output = scTreeDataOptimizer.transform(dataWithEmptyNode);
+
         // Assert
-        await expect(output).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
+        await expect(output).toEqual({
+            childNodes: [
+                {
+                    nodeLabel: 'keyTwo',
+                    nodeValue: 'valueTwo',
+                },
+                {
+                    // empty node is kept - not optimized (who inputs crap, receives crap ;-) )
+                    nodeLabel: 'empty',
+                    childNodes: [],
+                },
+            ],
+        });
     });
 
     it('pulls children of details nodes one level up', async () => {
