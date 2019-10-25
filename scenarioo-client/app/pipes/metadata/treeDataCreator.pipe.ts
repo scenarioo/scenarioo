@@ -4,6 +4,12 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
     name: 'scTreeDataCreator',
 })
 
+/**
+ * A metadata data object tree into its view model representation.
+ *
+ * This implementation just transforms the input object ot a plain view model
+ * without doing any optimizations on the resulting view model yet (see treeDataOptimizer to do this).
+ */
 @Injectable()
 export class TreeDataCreatorPipe implements PipeTransform {
 

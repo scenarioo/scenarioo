@@ -5,8 +5,10 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
 })
 
 /**
- * Pipe to optimize metadata view model trees into a presentable form
- * by doing several optimizations to display them more easily.
+ * Optimizes a metadata view model tree into a more nicely displayable view model of a metadata tree.
+ * This not transforms but really modifies the passed data structure by optimizing it
+ * to a more nicely displayable form by applying several optimizations
+ * (like pulling up some fields into node labels etc.).
  */
 @Injectable()
 export class TreeDataOptimizerPipe implements PipeTransform {

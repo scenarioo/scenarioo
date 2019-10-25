@@ -5,6 +5,10 @@ import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
     name: 'scMetadataTreeListCreator',
 })
 
+/**
+ * A pipe to transform a list of several metadata tree structures (in an array)
+ * into a view model tree for displaying metadata.
+ */
 @Injectable()
 export class MetadataTreeListCreatorPipe implements PipeTransform {
 
