@@ -86,7 +86,7 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private searchFilterPipe: ScSearchFilterPipe) {
+                private searchFilterPipe: ScSearchFilterPipe,
                 private localStorageService: LocalStorageService) {
     }
 
