@@ -1,4 +1,4 @@
-import {LabelConfigurationMap} from '../shared/services/labelConfigurationsResource.service';
+import {LabelConfigurationMap} from '../../shared/services/labelConfigurationsResource.service';
 
 export interface IMainDetailsSection {
     name: string;

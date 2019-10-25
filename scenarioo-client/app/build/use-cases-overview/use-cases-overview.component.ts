@@ -33,7 +33,7 @@ import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
-import {IMainDetailsSection} from '../IMainDetailsSection';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
 

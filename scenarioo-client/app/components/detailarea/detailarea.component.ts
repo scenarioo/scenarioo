@@ -18,6 +18,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
 import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from './IMainDetailsSection';
 
 const COLLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
 
@@ -35,7 +36,7 @@ export class DetailareaComponent {
     key: string;
 
     @Input()
-    mainDetailsSections: any;
+    mainDetailsSections: IMainDetailsSection[];
 
     @Input()
     additionalDetailsSections: ICustomObjectTabTree;

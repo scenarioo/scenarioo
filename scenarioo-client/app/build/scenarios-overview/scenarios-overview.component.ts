@@ -36,7 +36,7 @@ import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.p
 import {FilterPipe} from '../../pipes/filter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LocalStorageService} from '../../services/localStorage.service';
-import {IMainDetailsSection} from '../IMainDetailsSection';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
 
