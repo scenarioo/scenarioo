@@ -29,7 +29,7 @@ describe('Pipe: scMetadataTreeListCreator', () => {
 
     it('transforms a details data structure into view model data structure', async () => {
         // Act
-        let output = scMetadataTreeListCreator.transform({
+        const output = scMetadataTreeListCreator.transform({
             myKey: 'myValue',
             keyTwo: {
                 theAnswer: 42,

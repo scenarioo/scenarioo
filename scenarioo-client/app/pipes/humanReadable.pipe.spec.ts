@@ -26,35 +26,35 @@ describe('Pipe: scHumanReadable', () => {
 
     it('Let an empty string be an empty string', async () => {
         // Act
-        let output = scHumanReadable.transform('');
+        const output = scHumanReadable.transform('');
         // Assert
         await expect(output).toEqual('');
     });
 
     it('Should create a human readable string from a CamelCase string', async () => {
         // Act
-        let output = scHumanReadable.transform('ThisIsSomeCamelCaseString');
+        const output = scHumanReadable.transform('ThisIsSomeCamelCaseString');
         // Assert
         await expect(output).toEqual('This Is Some Camel Case String');
     });
 
     it('Should start with a capital letter', async () => {
         // Act
-        let output = scHumanReadable.transform('someStringStartingSmall');
+        const output = scHumanReadable.transform('someStringStartingSmall');
         // Assert
         await expect(output).toEqual('Some String Starting Small');
     });
 
     it('Should place a blank between two capital letters', async () => {
         // Act
-        let output = scHumanReadable.transform('ABadExample');
+        const output = scHumanReadable.transform('ABadExample');
         // Assert
         await expect(output).toEqual('A Bad Example');
     });
 
     it('Should accept special characters', async () => {
         // Act
-        let output = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
+        const output = scHumanReadable.transform('thisIsSomeCamel-Case&/%String');
         // Assert
         await expect(output).toContain(' Some Camel-Case');
         await expect(output).toContain('&/%');
@@ -63,7 +63,7 @@ describe('Pipe: scHumanReadable', () => {
 
     it('Should replace underline with blanks', async () => {
         // Act
-        let output = scHumanReadable.transform('This_may_also_be_acceptable');
+        const output = scHumanReadable.transform('This_may_also_be_acceptable');
         // Assert
         await expect(output).toEqual('This may also be acceptable');
     });

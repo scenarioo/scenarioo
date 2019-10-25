@@ -29,10 +29,10 @@ describe('Pipe: scMetadataTreeCreator', () => {
 
     it('transforms javascript object into an optimized tree', async () => {
         // Act
-        let output = scMetadataTreeCreator.transform({
-            keyWillNotBeMadeHumanReadable: 'myValue',
+        const output = scMetadataTreeCreator.transform({
+            'keyWillNotBeMadeHumanReadable': 'myValue',
             'Clients Can Set Human Readable Keys Them-selves in Test Reports': 'another value',
-            canHaveSubObject: {
+            'canHaveSubObject': {
                 content: 'a sub object',
                 theAnswer: 42,
             },
@@ -46,7 +46,7 @@ describe('Pipe: scMetadataTreeCreator', () => {
                 },
                 {
                     nodeLabel: 'Clients Can Set Human Readable Keys Them-selves in Test Reports',
-                    nodeValue: 'another value'
+                    nodeValue: 'another value',
                 },
                 {
                     nodeLabel: 'canHaveSubObject',
