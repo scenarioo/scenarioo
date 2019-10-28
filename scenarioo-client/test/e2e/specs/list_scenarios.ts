@@ -18,7 +18,7 @@ useCase('List scenarios')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         /* TODO #860: Show/Hide Steps of a Page */

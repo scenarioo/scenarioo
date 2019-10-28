@@ -1,16 +1,20 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'filter',
+    name: 'scSearchFilter',
 })
 
+/**
+ * Filters an array by all occurrences of the given search string inside contained objects.
+ * Searches also recursively inside child nodes in arbitrary filed values.
+ */
 @Injectable()
-export class FilterPipe implements PipeTransform {
-    transform(items: any[], value: string): any[] {
+export class ScSearchFilterPipe implements PipeTransform {
+    transform(items: any[], searchText: string): any[] {
         if (!items) {
             return [];
         }
-        if (!value) {
+        if (!searchText) {
             return items;
         }
 
@@ -18,7 +22,7 @@ export class FilterPipe implements PipeTransform {
 
         items.forEach((singleItem) => {
             if (typeof singleItem === 'object') {
-                if (this.objectContainsAllSearchElements(singleItem, value)) {
+                if (this.objectContainsAllSearchElements(singleItem, searchText)) {
                     filteredModel.push(singleItem);
                 }
             }

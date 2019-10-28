@@ -24,14 +24,18 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
 import {UseCaseDiffInfosService} from '../../diffViewer/services/use-case-diff-infos.service';
 import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
+import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
+
+declare var angular: angular.IAngularStatic;
 
 @Component({
     selector: 'sc-usecases-overview',
@@ -58,8 +62,8 @@ export class UseCasesOverviewComponent {
     isComparisonExisting: boolean;
 
     branchesAndBuilds: IBranchBuilds[];
-    branchInformationTree: object = {};
-    buildInformationTree: object = {};
+
+    mainDetailsSections: IMainDetailsSection[] = [];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -74,8 +78,8 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private filterPipe: FilterPipe) {
-
+                private searchFilterPipe: ScSearchFilterPipe,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
@@ -99,10 +103,10 @@ export class UseCasesOverviewComponent {
                     }
 
                     const branch = branchesAndBuilds.selectedBranch.branch;
-                    this.branchInformationTree = this.createBranchInformationTree(branch);
-
                     const build = branchesAndBuilds.selectedBuild.build;
-                    this.buildInformationTree = this.createBuildInformationTree(build);
+
+                    this.createInformationTreeArray(branch, build);
+
                 });
             }).catch((error: any) => console.warn(error));
         });
@@ -113,6 +117,8 @@ export class UseCasesOverviewComponent {
             }));
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
+
+        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-mainView', false);
     }
 
     getStatusStyleClass(state: string): string {
@@ -147,7 +153,7 @@ export class UseCasesOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredUsecases = this.filterPipe.transform(this.usecases, this.searchTerm);
+                const filteredUsecases = this.searchFilterPipe.transform(this.usecases, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredUsecases.length - 1)) {
                     this.arrowkeyLocation++;
                 }
@@ -180,17 +186,41 @@ export class UseCasesOverviewComponent {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
+    createInformationTreeArray(branch, build) {
+        this.mainDetailsSections = [
+            {
+                name: 'Branch',
+                key: 'branch',
+                dataTree: this.createBranchInformationTree(branch),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: 'Build',
+                key: 'build',
+                dataTree: this.createBuildInformationTree(build),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+        ];
+    }
+
     createBranchInformationTree(branch) {
         const branchInformationTree: any = {};
-        branchInformationTree.description = branch.description;
+        branchInformationTree['Branch Name'] = branch.name;
+        branchInformationTree.Description = branch.description;
+        branchInformationTree.details = branch.details;
         return this.metadataTreeCreaterPipe.transform(branchInformationTree);
     }
 
     createBuildInformationTree(build) {
         const buildInformationTree: any = {};
+        buildInformationTree['Build Name'] = build.name;
         buildInformationTree.Date = this.dateTimePipe.transform(build.date);
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
+        buildInformationTree.details = build.details;
         return this.metadataTreeCreaterPipe.transform(buildInformationTree);
     }
+
 }

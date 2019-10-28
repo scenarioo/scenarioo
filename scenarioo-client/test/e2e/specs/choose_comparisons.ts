@@ -22,7 +22,7 @@ useCase('Diff viewer - Choose comparisons')
 	.describe(() => {
 
 		beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
 		});
 
 		afterEach(async () => {

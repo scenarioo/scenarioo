@@ -22,50 +22,64 @@ import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.serv
 import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
 import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
 import {ISketchIds} from '../../../generated-types/backend-types';
+import {LocalStorageService} from '../../../services/localStorage.service';
+import {IDetailsTreeNode} from '../IDetailsTreeNode';
+
+const LOCALSTORAGE_KEY_PREFIX_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
 @Component({
     selector: 'sc-detail-accordion',
     template: require('./detail-accordion.component.html'),
     styles: [require('./detail-accordion.component.css').toString()],
 })
-
 export class DetailAccordionComponent {
 
-    isAccordionCollapsed: boolean = false;
+    /**
+     * A key to define under which key the accordion stores its state (like what is/was collapsed or expanded)
+     */
+    @Input()
+    key: string;
 
     @Input()
     isFirstOpen: boolean;
 
     @Input()
-    isTreeComponent: boolean;
-
-    @Input()
-    isSketchesComponent: boolean;
-
-    @Input()
-    isLabelComponent: boolean;
+    detailSectionType: string;
 
     @Input()
     detailAccordionName: string;
 
     @Input()
-    informationTree: any;
+    dataTree: IDetailsTreeNode;
 
+    /**
+     * Only for special section types like labels or issues
+     */
     @Input()
-    relatedIssues: RelatedIssueSummary;
+    values: any[];
 
     @Input()
     labelConfigurations: LabelConfigurationMap;
 
+    isAccordionCollapsed: boolean = false;
+
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private locationService: LocationService,
-                private sketchIdsResource: SketchIdsResource) {
+                private sketchIdsResource: SketchIdsResource,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
-        if (this.isFirstOpen === false) {
-            this.isAccordionCollapsed = true;
-        }
+        this.isAccordionCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), !this.isFirstOpen);
+    }
+
+    toggleAccordionCollapsedValue() {
+        this.isAccordionCollapsed = !this.isAccordionCollapsed;
+        this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isAccordionCollapsed);
+    }
+
+    getLocalStorageKey() {
+        return LOCALSTORAGE_KEY_PREFIX_SECTION_EXPANDED + this.key;
     }
 
     goToIssue(issue: RelatedIssueSummary) {
