@@ -4,5 +4,5 @@
 export interface IDetailsTreeNode {
     nodeLabel?: string;
     nodeValue?: string | number;
-    childNodes: IDetailsTreeNode[];
+    childNodes?: IDetailsTreeNode[];
 }
