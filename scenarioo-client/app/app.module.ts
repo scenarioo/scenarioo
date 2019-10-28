@@ -55,6 +55,7 @@ import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.com
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
+import {StepViewComponent} from './build/step-view/step-view.component';
 
 @NgModule({
     declarations: [
@@ -84,6 +85,7 @@ import {ProgressbarComponent} from './components/progressbar/progressbar.compone
         TitleComponent,
         BranchAliasesComponent,
         ProgressbarComponent,
+        StepViewComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -96,6 +98,7 @@ import {ProgressbarComponent} from './components/progressbar/progressbar.compone
         TitleComponent,
         ScenariosOverviewComponent,
         ProgressbarComponent,
+        StepViewComponent,
     ],
     imports: [
         BrowserModule,
