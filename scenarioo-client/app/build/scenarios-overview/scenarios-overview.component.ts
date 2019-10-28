@@ -19,22 +19,36 @@ import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
-import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
+import {
+    LabelConfigurationMap,
+    LabelConfigurationsResource,
+} from '../../shared/services/labelConfigurationsResource.service';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
-import {ILabelConfiguration, IScenario, IScenarioDetails, IScenarioSummary, IUseCase, IUseCaseScenarios, IUseCaseSummary} from '../../generated-types/backend-types';
+import {
+    ILabelConfiguration,
+    IScenario,
+    IScenarioDetails,
+    IScenarioSummary,
+    IUseCase,
+    IUseCaseScenarios,
+} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {forkJoin} from 'rxjs';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfosService} from '../../diffViewer/services/scenario-diff-infos.service';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
-import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
+import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
+import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 declare var angular: angular.IAngularStatic;
 
@@ -65,10 +79,11 @@ export class ScenariosOverviewComponent {
     isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
-    usecaseInformationTree: object;
-    metadataInformationTree: any[];
-    relatedIssues: RelatedIssueSummary[];
-    useCaseLabels: string[];
+    mainDetailsSections: IMainDetailsSection[] = [];
+
+    additionalDetailsSections: IDetailsSections;
+
+    // useCaseLabels: string[];
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -85,7 +100,8 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private filterPipe: FilterPipe) {
+                private searchFilterPipe: ScSearchFilterPipe,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
@@ -98,6 +114,8 @@ export class ScenariosOverviewComponent {
             .subscribe(((labelConfigurations: LabelConfigurationMap) => {
                 this.labelConfigurations = labelConfigurations;
             }));
+
+        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-useCaseView', false);
     }
 
     private loadScenario(selection) {
@@ -116,18 +134,17 @@ export class ScenariosOverviewComponent {
                 this.scenarios = useCaseScenarios.scenarios;
             }
 
-            this.usecaseInformationTree = this.createUseCaseInformationTree(useCaseScenarios.useCase);
-            this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
 
-            this.useCaseLabels = useCaseScenarios.useCase.labels.labels;
+            // this.useCaseLabels = useCaseScenarios.useCase.labels.labels;
 
             this.relatedIssueResource.getForScenariosOverview({
-                branchName: selection.branch,
-                buildName: selection.build,
+                    branchName: selection.branch,
+                    buildName: selection.build,
                 },
                 useCaseScenarios.useCase.name,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                this.relatedIssues = relatedIssueSummary;
+                this.createInformationTreeArray(useCaseScenarios.useCase, useCaseScenarios.useCase.labels.labels, relatedIssueSummary);
             });
         });
 
@@ -169,7 +186,7 @@ export class ScenariosOverviewComponent {
     keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
-                const filteredScenarios = this.filterPipe.transform(this.scenarios, this.searchTerm);
+                const filteredScenarios = this.searchFilterPipe.transform(this.scenarios, this.searchTerm);
                 if (this.arrowkeyLocation < (filteredScenarios.length - 1)) {
                     this.arrowkeyLocation++;
                 }
@@ -202,7 +219,7 @@ export class ScenariosOverviewComponent {
                 scenarioName,
             ).subscribe(
                 (scenarioResult: IScenarioDetails) => {
-                    const params = this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                    this.locationService.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
                 },
             );
         });
@@ -224,6 +241,33 @@ export class ScenariosOverviewComponent {
         this.isPanelCollapsed = isPanelCollapsed;
     }
 
+    createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
+        this.mainDetailsSections = [
+            {
+                name: 'Use Case',
+                key: 'useCase',
+                dataTree: this.createUseCaseInformationTree(usecaseInformationTree),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: 'Labels',
+                key: 'labels',
+                values: labels,
+                isFirstOpen: false,
+                detailSectionType: 'labelsComponent',
+                labelConfigurations: this.labelConfigurations,
+            },
+            {
+                name: 'Related Sketches',
+                key: '-relatedSketches',
+                values: relatedIssues,
+                isFirstOpen: false,
+                detailSectionType: 'sketchesComponent',
+            },
+        ];
+    }
+
     createUseCaseInformationTree(usecase: IUseCase) {
         const usecaseInformationTree: any = {};
         usecaseInformationTree['Use Case'] = usecase.name;
@@ -233,7 +277,6 @@ export class ScenariosOverviewComponent {
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
     }
-
 }
 
 angular.module('scenarioo.directives')

@@ -10,7 +10,7 @@ useCase('List steps of scenario')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('ScenarioPage with comparisons')
