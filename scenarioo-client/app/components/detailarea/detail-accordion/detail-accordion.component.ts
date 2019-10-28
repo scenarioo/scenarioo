@@ -25,7 +25,7 @@ import {ISketchIds} from '../../../generated-types/backend-types';
 import {LocalStorageService} from '../../../services/localStorage.service';
 import {IDetailsTreeNode} from '../IDetailsTreeNode';
 
-const MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
+const LOCALSTORAGE_KEY_PREFIX_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
 @Component({
     selector: 'sc-detail-accordion',
@@ -79,7 +79,7 @@ export class DetailAccordionComponent {
     }
 
     getLocalStorageKey() {
-        return MAIN_METADATA_SECTION_EXPANDED + this.key;
+        return LOCALSTORAGE_KEY_PREFIX_SECTION_EXPANDED + this.key;
     }
 
     goToIssue(issue: RelatedIssueSummary) {

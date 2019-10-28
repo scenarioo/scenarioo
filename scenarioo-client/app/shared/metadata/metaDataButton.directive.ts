@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, LocalStorageService, GlobalHotkeysService) => {
 
-    const METADATA_VISIBLE_KEY = 'scenarioo-metadataVisible-';
+    const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
         const metadataVisible = LocalStorageService.get(getLocalStorageKey(key));
         if (metadataVisible === 'true') {
@@ -30,7 +30,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', ($window, L
         }
     }
     function getLocalStorageKey(key) {
-        return METADATA_VISIBLE_KEY + key;
+        return LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE + key;
     }
 
     return {

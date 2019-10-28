@@ -20,7 +20,7 @@ import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from './IMainDetailsSection';
 import {IDetailsSections} from './IDetailsSections';
 
-const COLLAPSED_STATE_KEY_PREFIX = 'scenarioo-metadataVisible-';
+const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
 
 @Component({
     selector: 'sc-detailarea',
@@ -65,7 +65,7 @@ export class DetailareaComponent {
     }
 
     getLocalStorageKey() {
-        return COLLAPSED_STATE_KEY_PREFIX + this.key;
+        return LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE + this.key;
     }
 
     isEmptyObject(obj) {
