@@ -18,7 +18,7 @@ useCase('List scenarios')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Expand all, collapse all on scenario page')

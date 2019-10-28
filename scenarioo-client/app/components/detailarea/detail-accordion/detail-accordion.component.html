@@ -16,22 +16,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <accordion-group [attr.aria-expanded]="!isAccordionCollapsed"
-                 [isOpen]=isFirstOpen
-                 panelClass="customClass">
-    <div accordion-heading (click)="isAccordionCollapsed = !isAccordionCollapsed">
-                        <span *ngIf="isAccordionCollapsed">
-                            <i class="fas fa-angle-down"></i>
-                        </span>
+                 [isOpen]="!isAccordionCollapsed"
+                 panelClass="customClass"
+                 [isDisabled]="true"
+                 id="{{'sc-section-' + detailAccordionName}}">
+    <div accordion-heading (click)="toggleAccordionCollapsedValue()" id="{{'sc-toggleSection-' + detailAccordionName}}">
+        <span *ngIf="isAccordionCollapsed">
+            <i class="fas fa-angle-down"></i>
+        </span>
         <span *ngIf="!isAccordionCollapsed">
-                            <i class="fas fa-angle-up"></i>
-                        </span>
+            <i class="fas fa-angle-up"></i>
+        </span>
         <span>{{detailAccordionName}}</span>
     </div>
-    <sc-tree *ngIf="isTreeComponent" [informationTree]="informationTree"></sc-tree>
-    <sc-label-metadata *ngIf="isLabelComponent" [useCaseLabels]="informationTree" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
-    <div *ngIf="isSketchesComponent">
+    <sc-tree *ngIf="detailSectionType == 'treeComponent'" [informationTree]="dataTree"></sc-tree>
+    <sc-label-metadata *ngIf="detailSectionType == 'labelsComponent'" [useCaseLabels]="values" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
+    <div *ngIf="detailSectionType == 'sketchesComponent'">
         <ul id="relatedSketches">
-            <li *ngFor="let issue of relatedIssues">
+            <li *ngFor="let issue of values">
                 <a (click)="goToIssue(issue)">{{issue.name}}</a>
             </li>
         </ul>

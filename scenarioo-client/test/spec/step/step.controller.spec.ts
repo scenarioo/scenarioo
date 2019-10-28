@@ -136,7 +136,7 @@ describe('StepController', () => {
     beforeEach(inject((_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigurationService_,
                        _BuildDiffInfoResource_, _StepDiffInfoResource_,
                        _SelectedBranchAndBuildService_, _DiffInfoService_, _$controller_, _$httpBackend_,
-                       _TestData_, LocalStorageService, _BranchesResource_) => {
+                       _TestData_, localStorageService, _BranchesResource_) => {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -158,7 +158,7 @@ describe('StepController', () => {
         $routeParams.pageOccurrence = 0;
         $routeParams.stepInPageOccurrence = 1;
 
-        LocalStorageService.clearAll();
+        localStorageService.clearAll();
     }));
 
     describe('scenario is found', () => {

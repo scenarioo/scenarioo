@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div id="sc-meta-data-panel">
-        <sc-detailarea (valueChange)="collapsePanel($event)" [usecaseInformationTree]="usecaseInformationTree" [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues" [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations"></sc-detailarea>
+        <sc-detailarea (togglePannelCollapsedValue)="collapsePanel($event)" [mainDetailsSections]="mainDetailsSections" [additionalDetailsSections]="additionalDetailsSections" key="useCaseView"></sc-detailarea>
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
             <p>

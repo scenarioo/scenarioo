@@ -16,49 +16,59 @@
  */
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ICustomObjectTabTree, ILabelConfiguration, IUseCaseSummary} from '../../generated-types/backend-types';
-import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from './IMainDetailsSection';
+import {IDetailsSections} from './IDetailsSections';
+
+const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
 
 @Component({
     selector: 'sc-detailarea',
     template: require('./detailarea.component.html'),
     styles: [require('./detailarea.component.css').toString()],
 })
-
 export class DetailareaComponent {
 
-    isPanelCollapsed: boolean = false;
+    /**
+     * A key to define under which key the detail area stores its state (like what is/was collapsed or expanded)
+     */
+    @Input()
+    key: string;
 
     @Input()
-    branchInformationTree: any;
+    mainDetailsSections: IMainDetailsSection[];
 
+    /**
+     * Additional generic details sections, usually derived from an object's details field,
+     * by using the MetadataTreeListCreatorPipe.
+     */
     @Input()
-    buildInformationTree: any;
+    additionalDetailsSections: IDetailsSections;
 
-    @Input()
-    usecaseInformationTree: any;
-
-    @Input()
-    metadataInformationTree: ICustomObjectTabTree;
-
-    @Input()
-    relatedIssues: RelatedIssueSummary[];
-
-    @Input()
-    useCaseLabels: string[];
-
-    @Input()
-    labelConfigurations: ILabelConfiguration;
-
-    @Output('valueChange')
+    @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    valueChange() {
-        this.isPanelCollapsed = this.isPanelCollapsed === false;
+    isPanelCollapsed: boolean = true;
+
+    constructor(private localStorageService: LocalStorageService) {
+
+    }
+
+    ngOnInit(): void {
+        this.isPanelCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), false);
+    }
+
+    togglePannelCollapsedValue() {
+        this.isPanelCollapsed = !this.isPanelCollapsed;
+        this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isPanelCollapsed);
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
+    getLocalStorageKey() {
+        return LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE + this.key;
+    }
+
     isEmptyObject(obj) {
-        return (obj && (Object.keys(obj).length === 0));
+        return obj && Object.keys(obj).length === 0;
     }
 }

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<button (click)="valueChange()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
+<button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
         class="btn btn-primary pull-right" type="button">
     {{ isPanelCollapsed ? "Show details" : "Hide details" }}
 </button>
@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
         <div class="detail-row">
 
-            <div (click)="valueChange()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
+            <div (click)="togglePannelCollapsedValue()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
                  class="detail-cell detail-button">
                 <i class="fas fa-angle-right"></i>
             </div>
@@ -33,17 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h3>Details</h3>
                 <accordion [isAnimated]="true">
 
-                    <!-- TODO #946: Remember collapsed /expanded state of detail accordeon -->
+                    <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
+                        <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.labelConfigurations" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
+                    </ng-container>
 
-                    <!-- usecases-overview -->
-                    <sc-detail-accordion *ngIf="branchInformationTree" [informationTree]="branchInformationTree" detailAccordionName="Branch" [isFirstOpen]="true" [isTreeComponent]="true"></sc-detail-accordion>
-                    <sc-detail-accordion *ngIf="buildInformationTree" [informationTree]="buildInformationTree" detailAccordionName="Build" [isFirstOpen]="false" [isTreeComponent]="true"></sc-detail-accordion>
-
-                    <!-- scenarios-overview -->
-                    <sc-detail-accordion *ngIf="usecaseInformationTree" [informationTree]="usecaseInformationTree" detailAccordionName="Use Case" [isFirstOpen]="true" [isTreeComponent]="true"></sc-detail-accordion>
-                    <sc-detail-accordion *ngIf="relatedIssues && !isEmptyObject(relatedIssues)" [relatedIssues]="relatedIssues" detailAccordionName="Related Sketches" [isFirstOpen]="false" [isSketchesComponent]="true"></sc-detail-accordion>
-                    <sc-detail-accordion *ngIf="useCaseLabels && !isEmptyObject(useCaseLabels)" [informationTree]="useCaseLabels" [labelConfigurations]="labelConfigurations" detailAccordionName="Labels" [isFirstOpen]="false" [isLabelComponent]="true"></sc-detail-accordion>
-                    <sc-detail-accordion *ngFor="let dynamicInformationTree of metadataInformationTree | keyvalue" [informationTree]="dynamicInformationTree.value" [detailAccordionName]="dynamicInformationTree.key" [isFirstOpen]="false" [isTreeComponent]="true"></sc-detail-accordion>
+                    <sc-detail-accordion *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue" [dataTree]="additionalDetailsSection.value" [detailAccordionName]="additionalDetailsSection.key" key="{{key}}-{{additionalDetailsSection.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
 
                 </accordion>
             </div>
