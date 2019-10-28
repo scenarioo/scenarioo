@@ -42,17 +42,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'" class="step-view">
             <p class="table-info">
-                <span *ngIf="(pagesAndSteps|filter: searchTerm)?.length === pagesAndSteps?.length">
+                <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length === pagesAndSteps?.length">
                     {{pagesAndSteps.length}}
                 </span>
-                <span *ngIf="(pagesAndSteps|filter: searchTerm)?.length != pagesAndSteps?.length">
-                    Found {{(pagesAndSteps|filter: searchTerm)?.length}} of {{pagesAndSteps?.length}}
+                <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length != pagesAndSteps?.length">
+                    Found {{(pagesAndSteps | scSearchFilter: searchTerm)?.length}} of {{pagesAndSteps?.length}}
                 </span>
                 <span *ngIf="pagesAndSteps?.length>1">Pages</span>
                 <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
                 in this Scenario
             </p>
-            <table *ngIf="(pagesAndSteps|filter: searchTerm)?.length!=0"
+            <table *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length!=0"
                    class="table table-curved table-responsive step-table">
                 <thead>
                 <tr>
@@ -91,7 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </th>
                 </tr>
                 </thead>
-                <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | filter: searchTerm">
+                <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm">
                 <tr>
                     <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
                         Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}<span

@@ -26,10 +26,10 @@ import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 import {HumanReadablePipe} from '../../pipes/humanReadable.pipe';
-import {MetadataTreeCreatorPipe} from '../../pipes/metadataTreeCreator.pipe';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {RelatedIssueResource} from '../../shared/services/relatedIssueResource.service';
-import {MetadataTreeListCreatorPipe} from '../../pipes/metadataTreeListCreator.pipe';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {forkJoin} from 'rxjs';
 import {BuildDiffInfoService} from '../../diffViewer/services/build-diff-info.service';
@@ -40,7 +40,6 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
 import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
-import {FilterPipe} from '../../pipes/filter.pipe';
 
 declare var angular: angular.IAngularStatic;
 
@@ -90,7 +89,7 @@ export class StepsOverviewComponent {
     scenarioStatistics: IScenarioStatistics;
 
     scenarioInformationTree = {};
-    metadataInformationTree = [];
+    metadataInformationTree;
     relatedIssues;
     labels = {};
 
@@ -112,8 +111,7 @@ export class StepsOverviewComponent {
                 private diffInfoService: DiffInfoService,
                 private orderPipe: OrderPipe,
                 private scenarioDiffInfoService: ScenarioDiffInfoService,
-                private stepDiffInfosService: StepDiffInfosService,
-                private filterPipe: FilterPipe) {
+                private stepDiffInfosService: StepDiffInfosService) {
     }
 
     ngOnInit(): void {
