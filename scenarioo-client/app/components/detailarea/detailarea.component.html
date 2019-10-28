@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <accordion [isAnimated]="true">
 
                     <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
-                        <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.config" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
+                        <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.labelConfigurations" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
                     </ng-container>
 
                     <sc-detail-accordion *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue" [dataTree]="additionalDetailsSection.value" [detailAccordionName]="additionalDetailsSection.key" key="{{key}}-{{additionalDetailsSection.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>

@@ -252,7 +252,7 @@ export class ScenariosOverviewComponent {
                 values: labels,
                 isFirstOpen: false,
                 detailSectionType: 'labelsComponent',
-                config: this.labelConfigurations,
+                labelConfigurations: this.labelConfigurations,
             },
             {
                 name: 'Related Sketches',

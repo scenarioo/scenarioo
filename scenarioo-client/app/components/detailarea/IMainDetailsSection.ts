@@ -20,5 +20,5 @@ export interface IMainDetailsSection {
     /**
      * just for special label section to display the right colors (might be solveable by injection instead!)
      */
-    config?: LabelConfigurationMap;
+    labelConfigurations?: LabelConfigurationMap;
 }
