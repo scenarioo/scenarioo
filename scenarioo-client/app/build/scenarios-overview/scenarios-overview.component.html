@@ -15,8 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-detailarea (togglePannelCollapsedValue)="collapsePanel($event)" [mainDetailsSections]="mainDetailsSections"
-               [additionalDetailsSections]="additionalDetailsSections" key="useCaseView">
+<sc-detailarea [mainDetailsSections]="mainDetailsSections" [additionalDetailsSections]="additionalDetailsSections" key="useCaseView">
 
     <sc-title useCaseName="{{useCaseName | scHumanReadable}}"></sc-title>
     <div class="searchbar">

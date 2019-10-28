@@ -47,9 +47,6 @@ export class DetailareaComponent {
     @Input()
     additionalDetailsSections: IDetailsSections;
 
-    @Output('togglePannelCollapsedValue')
-    panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
-
     @ViewChild('metaDataPanel')
     metaDataPanel: ElementRef;
 
@@ -81,7 +78,6 @@ export class DetailareaComponent {
     togglePannelCollapsedValue() {
         this.isPanelCollapsed = !this.isPanelCollapsed;
         this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isPanelCollapsed);
-        this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
     getLocalStorageKey() {
