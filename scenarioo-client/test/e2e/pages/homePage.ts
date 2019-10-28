@@ -30,7 +30,7 @@ class HomePage {
     }
 
     async assertScenariooInfoDialogNotShown() {
-        return Utils.assertElementNotPresentInDom(by.css('.modal-dialog.about-popup'));
+        return expect(this.aboutScenariooPopup.isPresent()).toBe(false);
     }
 
     async assertComparisonMenuNotShown() {
@@ -40,7 +40,7 @@ class HomePage {
     async closeScenariooInfoDialogIfOpen() {
         const present = await browser.isElementPresent(by.css('.modal-footer button.btn'));
         if (present) {
-            await $('.modal-footer button.btn').click();
+            await this.popupCloseButton.click();
         }
     }
 

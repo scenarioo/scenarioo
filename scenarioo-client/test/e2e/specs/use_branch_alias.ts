@@ -18,7 +18,7 @@ useCase('Use branch aliases')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Select branch by alias')

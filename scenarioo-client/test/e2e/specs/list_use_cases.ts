@@ -14,7 +14,7 @@ useCase('List use cases')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Display and filter usecases')

@@ -15,9 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-detailarea (valueChange)="collapsePanel($event)" [usecaseInformationTree]="usecaseInformationTree"
-               [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues"
-               [useCaseLabels]="labels" [labelConfigurations]="labelConfigurations">
+<sc-detailarea (togglePannelCollapsedValue)="collapsePanel($event)" [mainDetailsSections]="mainDetailsSections"
+               [additionalDetailsSections]="additionalDetailsSections" key="useCaseView">
 
     <sc-title useCaseName="{{useCaseName | scHumanReadable}}"></sc-title>
     <div class="searchbar">
@@ -34,13 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <p class="tableTitle">
         <span *ngIf="(scenarios | scSearchFilter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
-        <span
-            *ngIf="(scenarios | scSearchFilter: searchTerm).length != scenarios.length">Found {{(scenarios | scSearchFilter: searchTerm).length}}
-            of {{scenarios.length}}</span>
+        <span *ngIf="(scenarios | scSearchFilter: searchTerm).length !== scenarios.length">
+            Found {{(scenarios | scSearchFilter: searchTerm).length}} of {{scenarios.length}}</span>
         <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
         <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
     </p>
-    <table *ngIf="(scenarios | scSearchFilter: searchTerm).length!=0"
+    <table *ngIf="(scenarios | scSearchFilter: searchTerm).length !== 0"
            class="table table-curved table-responsive scenario-table">
         <thead>
         <tr>
@@ -112,8 +110,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tbody>
         <tr (click)="goToScenario(useCaseName, scenario.scenario.name)"
             *ngFor="let scenario of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
-                    let i = index" [class.active]="i == arrowkeyLocation"
-            [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
+                    let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
             <td>
                 <span [ngClass]="[getStatusStyleClass(scenario.scenario.status), 'label']">{{scenario.scenario.status}}</span>
             </td>
@@ -124,20 +121,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                       class="label label-info sc-label">{{label}}</span>
             </td>
             <td>
-                <a tooltip="Go to steps overview"
-                   (click)="goToScenario(useCaseName, scenario.scenario.name)">
+                <a tooltip="Go to steps overview" (click)="goToScenario(useCaseName, scenario.scenario.name)">
                     <i class="fas fa-fw fa-list-ul"></i>
                 </a>
-                <a tooltip="Go directly to first step"
-                   (click)="goToStep(useCaseName, scenario.scenario.name)">
+                <a tooltip="Go directly to first step" (click)="goToStep(useCaseName, scenario.scenario.name)">
                     <i class="fas fa-fw fa-tablet-alt"></i>
                 </a>
             </td>
             <td>{{scenario.scenario.description}}</td>
             <td>{{scenario.numberOfSteps}}</td>
             <td *ngIf="isComparisonExisting">
-                <sc-diff-info-icon [diffInfo]="scenario.diffInfo" childElementType="step"
-                                   elementType="scenario"></sc-diff-info-icon>
+                <sc-diff-info-icon [diffInfo]="scenario.diffInfo" childElementType="step" elementType="scenario"></sc-diff-info-icon>
             </td>
         </tr>
         </tbody>

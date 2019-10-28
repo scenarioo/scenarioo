@@ -1,4 +1,5 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
+import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 @Pipe({
     name: 'scTreeDataCreator',
@@ -13,7 +14,7 @@ import {Injectable, Pipe, PipeTransform} from '@angular/core';
 @Injectable()
 export class TreeDataCreatorPipe implements PipeTransform {
 
-    transform(data: any): any {
+    transform(data: any): IDetailsTreeNode {
 
         if (!data) {
             return undefined;

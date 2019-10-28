@@ -10,7 +10,7 @@ useCase('Manage comparisons')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Filter comparisons')

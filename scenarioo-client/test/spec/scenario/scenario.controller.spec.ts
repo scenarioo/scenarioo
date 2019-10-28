@@ -98,7 +98,7 @@ describe('ScenarioController', () => {
         $provide.value('SketchIdsResource', {})
     }));
 
-    beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, LocalStorageService,
+    beforeEach(inject(($controller, $rootScope, _$httpBackend_, _$routeParams_, _TestData_, localStorageService,
                        _ConfigurationService_, _SelectedBranchAndBuildService_
         ) => {
             $scope = $rootScope.$new();
@@ -112,7 +112,7 @@ describe('ScenarioController', () => {
             $routeParams.useCaseName = 'SearchUseCase';
             $routeParams.scenarioName = 'NotFoundScenario';
 
-            LocalStorageService.clearAll();
+            localStorageService.clearAll();
 
             ScenarioController = $controller('ScenarioController', {$scope: $scope});
         }

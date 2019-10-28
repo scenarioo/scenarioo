@@ -16,45 +16,52 @@
  */
 
 import {Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
+import {LocalStorageService} from '../../services/localStorage.service';
+import {IMainDetailsSection} from './IMainDetailsSection';
+import {IDetailsSections} from './IDetailsSections';
 import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
 import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+
+const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
 
 @Component({
     selector: 'sc-detailarea',
     template: require('./detailarea.component.html'),
     styles: [require('./detailarea.component.css').toString()],
 })
-
 export class DetailareaComponent {
 
-    isPanelCollapsed: boolean = false;
+    /**
+     * A key to define under which key the detail area stores its state (like what is/was collapsed or expanded)
+     */
+    @Input()
+    key: string;
 
     @Input()
-    branchInformationTree: any;
+    mainDetailsSections: IMainDetailsSection[];
 
+    /**
+     * Additional generic details sections, usually derived from an object's details field,
+     * by using the MetadataTreeListCreatorPipe.
+     */
     @Input()
-    buildInformationTree: any;
+    additionalDetailsSections: IDetailsSections;
 
-    @Input()
-    usecaseInformationTree: any;
-
-    @Input()
-    metadataInformationTree: ICustomObjectTabTree;
-
-    @Input()
-    relatedIssues: RelatedIssueSummary[];
-
-    @Input()
-    useCaseLabels: string[];
-
-    @Input()
-    labelConfigurations: ILabelConfiguration;
-
-    @Output('valueChange')
+    @Output('togglePannelCollapsedValue')
     panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @ViewChild('metaDataPanel')
     metaDataPanel: ElementRef;
+
+    isPanelCollapsed: boolean = true;
+
+    constructor(private localStorageService: LocalStorageService) {
+
+    }
+
+    ngOnInit(): void {
+        this.isPanelCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), false);
+    }
 
     ngAfterViewInit(): void {
         this.setHeightOfDetailarea();
@@ -71,12 +78,17 @@ export class DetailareaComponent {
         metaDataPanel.style.height = 'calc(100vh - ' + headerHeight + 'px)';
     }
 
-    valueChange() {
-        this.isPanelCollapsed = this.isPanelCollapsed === false;
+    togglePannelCollapsedValue() {
+        this.isPanelCollapsed = !this.isPanelCollapsed;
+        this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isPanelCollapsed);
         this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
+    getLocalStorageKey() {
+        return LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE + this.key;
+    }
+
     isEmptyObject(obj) {
-        return (obj && (Object.keys(obj).length === 0));
+        return obj && Object.keys(obj).length === 0;
     }
 }

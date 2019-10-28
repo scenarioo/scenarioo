@@ -1,7 +1,7 @@
 import './navigation/branchesAndBuilds.service';
 import './restServices';
 import './utils/urlContextExtractor.service';
-import './localStorage/localStorage.service';
+import '../services/localStorage.service';
 import './navigation/selectedBranchAndBuild.service';
 import './navigation/applicationInfoPopup/applicationInfoPopup.service';
 import './navigation/applicationInfoPopup/applicationInfoPopup.controller';

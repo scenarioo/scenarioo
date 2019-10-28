@@ -12,7 +12,7 @@ useCase('Step - Comparison')
     .describe(() => {
 
         beforeEach(async () => {
-            await Utils.startScenariooRevisited();
+            await Utils.clearLocalStorageAndSetPreviouslyVisited();
         });
 
         scenario('Compare Screens')

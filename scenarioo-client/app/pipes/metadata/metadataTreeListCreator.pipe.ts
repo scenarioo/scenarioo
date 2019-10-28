@@ -1,5 +1,6 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {MetadataTreeCreatorPipe} from './metadataTreeCreator.pipe';
+import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 
 @Pipe({
     name: 'scMetadataTreeListCreator',
@@ -15,7 +16,7 @@ export class MetadataTreeListCreatorPipe implements PipeTransform {
     constructor(private metadataTreeCreatorPipe: MetadataTreeCreatorPipe) {
     }
 
-    transform(metadata: any): any {
+    transform(metadata: any): IDetailsSections {
 
         const metadataTrees = {};
 

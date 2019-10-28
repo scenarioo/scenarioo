@@ -1,4 +1,5 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
+import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 @Pipe({
     name: 'scTreeDataOptimizer',
@@ -18,7 +19,7 @@ export class TreeDataOptimizerPipe implements PipeTransform {
      * (to improve next time we touch this code!)
      * @param rootNode the view model data structure to optimize
      */
-    transform(rootNode: any): any {
+    transform(rootNode: any): IDetailsTreeNode {
 
         this.optimizeChildNodes(rootNode, this.pullUpChildrenOfDetailsNodes);
 
