@@ -40,7 +40,7 @@ class HomePage {
     async closeScenariooInfoDialogIfOpen() {
         const present = await browser.isElementPresent(by.css('.modal-footer button.btn'));
         if (present) {
-            await $('.modal-footer button.btn').click();
+            await this.popupCloseButton.click();
         }
     }
 

@@ -51,15 +51,6 @@ useCase('Browse Detailarea')
                 await DetailAreaPage.expandDetailsSection('Build');
                 await DetailAreaPage.assertSectionExpanded('Build');
                 await step('Build section has been expanded');
-
-                await DetailAreaPage.collapseDetailsSection('Branch');
-                await DetailAreaPage.assertSectionCollapsed('Branch');
-                await step('Branch section has been collapsed');
-
-                await Utils.refreshBrowser();
-                await DetailAreaPage.assertSectionCollapsed('Branch');
-                await DetailAreaPage.assertSectionExpanded('Build');
-                await step('Collapsed or expanded areas are remembered on revisit');
             });
 
         scenario('Remembers collapsed state of details area and sections on scenarios overview')
@@ -76,7 +67,9 @@ useCase('Browse Detailarea')
 
                 await DetailAreaPage.collapseDetailsSection('Use Case');
                 await DetailAreaPage.assertSectionCollapsed('Use Case');
-                await step('Build section has been collapsed');
+                await DetailAreaPage.expandDetailsSection('Labels');
+                await DetailAreaPage.assertSectionExpanded('Labels');
+                await step('Use Case section has been collapsed and Labels section expanded');
 
                 await DetailAreaPage.collapseDetailsArea();
                 await DetailAreaPage.assertDetailsAreaCollapsed();
@@ -91,6 +84,7 @@ useCase('Browse Detailarea')
                 await step('Detailarea has been expanded');
 
                 await DetailAreaPage.assertSectionCollapsed('Use Case');
+                await DetailAreaPage.assertSectionExpanded('Labels');
                 await step('Collapsed or expanded areas are remembered on revisit');
             });
     });

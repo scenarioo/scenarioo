@@ -36,11 +36,13 @@ class DetailAreaPage {
     }
 
     async expandDetailsSection(detailsSection) {
+        await this.assertSectionCollapsed(detailsSection);
         const toggleSection = element(by.id('sc-toggleSection-' + detailsSection));
         return toggleSection.click();
     }
 
     async collapseDetailsSection(detailsSection) {
+        await this.assertSectionExpanded(detailsSection);
         const toggleSection = element(by.id('sc-toggleSection-' + detailsSection));
         return toggleSection.click();
     }
