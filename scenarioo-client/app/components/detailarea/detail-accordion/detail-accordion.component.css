@@ -1,7 +1,37 @@
-ul {
-    margin-bottom: 0px;
+.panel-heading {
+    cursor: pointer;
 }
 
-sc-detail-accordion a {
-    cursor: pointer;
+span.accordionHeader {
+    margin-left: 10px;
+}
+
+.panel-title {
+    color: #337AB7;
+}
+
+accordion {
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.panel-group .panel {
+    margin-bottom: 10px;
+    background-color: unset;
+    box-shadow: unset;
+}
+
+.panel-group .panel-heading {
+    background-color: #CCCCCC;
+}
+
+.panel-group .panel-heading+.panel-collapse>.panel-body {
+    border: 1px solid #CCCCCC;
+}
+
+.panel-body {
+    background-color: #FFFFFF;
+    word-break: break-word;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }

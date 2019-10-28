@@ -58,7 +58,6 @@ export class UseCasesOverviewComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
-    isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
     branchesAndBuilds: IBranchBuilds[];
@@ -117,8 +116,6 @@ export class UseCasesOverviewComponent {
             }));
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-
-        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-mainView', false);
     }
 
     getStatusStyleClass(state: string): string {
@@ -180,10 +177,6 @@ export class UseCasesOverviewComponent {
                 return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
             }
         }
-    }
-
-    collapsePanel(isPanelCollapsed: boolean) {
-        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createInformationTreeArray(branch, build) {

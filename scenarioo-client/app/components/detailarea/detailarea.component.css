@@ -14,7 +14,6 @@ sc-detailarea button.btn.btn-primary:focus {
     outline: unset;
     background-color: transparent;
     box-shadow: unset;
-
 }
 
 sc-detailarea button.btn.btn-primary:active {
@@ -24,11 +23,17 @@ sc-detailarea button.btn.btn-primary:active {
 
 /* Detailarea */
 
+sc-detailarea .sc-meta-data-panel {
+    margin-top: 35px;
+}
+
 sc-detailarea .detail-container {
     border: 1px solid #ccc;
+    border-right: 0;
     display: table;
     padding: unset;
     background-color: #eeeeee;
+    right: 0;
 }
 
 sc-detailarea .detail-row {
@@ -41,19 +46,21 @@ sc-detailarea .detail-cell {
 
 sc-detailarea .detail-button {
     background-color: #CCCCCC;
-    width: 30px !important;
-    vertical-align: middle;
+    width: 30px;
     font-size: x-large;
     color: #337AB7;
-    text-align: center;
     cursor: pointer;
+}
+
+sc-detailarea .arrowCenter {
+    position: fixed;
+    margin-left: 10px;
+    top: 55%;
 }
 
 sc-detailarea .detail-section {
     width: 100%;
-    padding: 0;
-    padding-left: 15px;
-    margin-right: 0;
+    padding: 0 0 0 15px;
     float: right;
 }
 
@@ -62,34 +69,4 @@ sc-detailarea .detail-section h3 {
     margin-top: 30px;
     margin-bottom: 20px;
     margin-left: 10px;
-}
-
-
-/* Detail accordion */
-
-sc-detailarea accordion {
-    margin-right: 20px;
-    margin-left: 10px;
-}
-
-sc-detailarea accordion span {
-    margin-right: 10px;
-}
-
-sc-detailarea accordion accordion-group {
-    border: 2px solid #FFFFFF;
-    margin-bottom: 20px !important;
-}
-
-sc-detailarea div.panel-heading {
-    background-color: #FFFFFF;
-}
-
-sc-detailarea div.panel-body {
-    background-color: #eeeeee;
-    word-break: break-word;
-}
-
-sc-detailarea .panel-group .panel+.panel {
-    margin-top: 20px;
 }

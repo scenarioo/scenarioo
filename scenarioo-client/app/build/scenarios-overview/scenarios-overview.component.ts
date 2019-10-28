@@ -76,7 +76,6 @@ export class ScenariosOverviewComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig: ILabelConfiguration = undefined;
 
-    isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
     mainDetailsSections: IMainDetailsSection[] = [];
@@ -114,8 +113,6 @@ export class ScenariosOverviewComponent {
             .subscribe(((labelConfigurations: LabelConfigurationMap) => {
                 this.labelConfigurations = labelConfigurations;
             }));
-
-        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-useCaseView', false);
     }
 
     private loadScenario(selection) {
@@ -235,10 +232,6 @@ export class ScenariosOverviewComponent {
                 };
             }
         }
-    }
-
-    collapsePanel(isPanelCollapsed: boolean) {
-        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
