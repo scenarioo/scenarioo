@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div [collapse]="isPanelCollapsed" id="sc-metadata-panel">
                 <div class="detail-cell detail-section">
                     <h3>Details</h3>
-                    <accordion [isAnimated]="true">
+                    <accordion>
 
                     <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
                         <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.labelConfigurations" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
