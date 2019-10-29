@@ -45,10 +45,8 @@ import {RouteParamsService} from '../../shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
 import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
-import {IDetailsTreeNode} from '../../components/detailarea/IDetailsTreeNode';
 
 declare var angular: angular.IAngularStatic;
 
@@ -99,8 +97,7 @@ export class ScenariosOverviewComponent {
                 private relatedIssueResource: RelatedIssueResource,
                 private routeParams: RouteParamsService,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
-                private searchFilterPipe: ScSearchFilterPipe,
-                private localStorageService: LocalStorageService) {
+                private searchFilterPipe: ScSearchFilterPipe) {
     }
 
     ngOnInit(): void {

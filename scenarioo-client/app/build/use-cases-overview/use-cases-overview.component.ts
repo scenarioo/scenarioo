@@ -32,7 +32,6 @@ import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
-import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
@@ -77,8 +76,7 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private searchFilterPipe: ScSearchFilterPipe,
-                private localStorageService: LocalStorageService) {
+                private searchFilterPipe: ScSearchFilterPipe) {
     }
 
     ngOnInit(): void {
