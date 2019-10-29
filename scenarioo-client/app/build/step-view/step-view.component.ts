@@ -20,6 +20,17 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {StepResource} from '../../shared/services/stepResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
+import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
+import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
+import {
+    LabelConfigurationMap,
+    LabelConfigurationsResource,
+} from '../../shared/services/labelConfigurationsResource.service';
+import {ILabelConfiguration} from '../../generated-types/backend-types';
+import {LocationService} from '../../shared/location.service';
+import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
+import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
 
 declare var angular: angular.IAngularStatic;
 
@@ -40,24 +51,43 @@ export class StepViewComponent {
 
     stepNavigation;
     stepStatistics;
+    stepInformationTree;
+
+    scenarioLabels;
+    useCaseLabels;
+
+    labelConfigurations: LabelConfigurationMap = undefined;
+    labelConfig: ILabelConfiguration = undefined;
 
     stepNotFound: boolean = false;
 
+    mainDetailsSections: IMainDetailsSection[] = [];
+    additionalDetailsSections: IDetailsSections;
+
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private routeParams: RouteParamsService,
-                private stepResource: StepResource) {
+                private stepResource: StepResource,
+                private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
+                private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
+                private relatedIssueResource: RelatedIssueResource,
+                private labelConfigurationsResource: LabelConfigurationsResource,
+                private locationService: LocationService) {
     }
 
     ngOnInit(): void {
         this.useCaseName = this.routeParams.useCaseName;
         this.scenarioName = this.routeParams.scenarioName;
-
         this.pageName = this.routeParams.pageName;
         this.pageOccurrence = parseInt(this.routeParams.pageOccurrence, 10);
         this.stepInPageOccurrence = parseInt(this.routeParams.stepInPageOccurrence, 10);
 
-        this.labels = null;
+        this.labels = this.locationService.search().labels;
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
+
+        this.labelConfigurationsResource.query()
+            .subscribe(((labelConfigurations: LabelConfigurationMap) => {
+                this.labelConfigurations = labelConfigurations;
+            }));
     }
 
     private loadStep(selection) {
@@ -75,11 +105,26 @@ export class StepViewComponent {
         ).subscribe((result) => {
             this.stepNavigation = result.stepNavigation;
             this.stepStatistics = result.stepStatistics;
-            /*const stepIdentifier = result.stepIdentifier;
+            this.useCaseLabels = result.useCaseLabels;
+            this.scenarioLabels = result.scenarioLabels;
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(result.step.metadata.details);
+
+            this.relatedIssueResource.get({
+                branchName: selection.branch,
+                buildName: selection.build,
+            },
+                this.useCaseName,
+                this.scenarioName,
+                this.pageName,
+                this.pageOccurrence,
+                this.stepInPageOccurrence,
+            ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+                this.stepInformationTree = this.createInformationTreeArray(result.step, relatedIssueSummary, this.useCaseLabels, this.scenarioLabels);
+            });
+            /*
+            const stepIdentifier = result.stepIdentifier;
             const fallback = result.fallback;
             const step = result.step;
-            const metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
-            const stepInformationTree = createStepInformationTree(result.step);
             const pageTree = transformMetadataToTree(result.step.page);
             const stepIndex = result.stepNavigation.stepIndex;
             const useCaseLabels = result.useCaseLabels;
@@ -96,6 +141,73 @@ export class StepViewComponent {
             return '?';
         }
         return this.stepNavigation.stepIndex + 1;
+    }
+
+    private createInformationTreeArray(stepInformationTree, relatedIssues, useCaseLabels, scenarioLabels) {
+        this.mainDetailsSections = [
+            {
+                name: 'Step',
+                key: 'step',
+                dataTree: this.createStepInformationTree(stepInformationTree),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: 'Labels',
+                key: 'labels',
+                dataTree: this.createLabelInformationTree(stepInformationTree, useCaseLabels, scenarioLabels),
+                isFirstOpen: false,
+                detailSectionType: 'labelsComponent',
+                labelConfigurations: this.labelConfigurations,
+            },
+            {
+                name: 'Related Sketches',
+                key: '-relatedSketches',
+                values: relatedIssues,
+                isFirstOpen: false,
+                detailSectionType: 'sketchesComponent',
+            },
+        ];
+    }
+
+    private createStepInformationTree(step) {
+        const stepInformationTree: any = {};
+        const stepDescription = step.stepDescription;
+
+        if (stepDescription.title) {
+            stepInformationTree['Step title'] = stepDescription.title;
+        }
+
+        if (step.page) {
+            const pageToRender = angular.copy(step.page);
+            // Will be displayed separately
+            delete pageToRender.labels;
+            stepInformationTree['Page name'] = pageToRender;
+        }
+
+        if (stepDescription.details) {
+            Object.keys(stepDescription.details).forEach((key) => {
+                const value = stepDescription.details[key];
+                stepInformationTree[key] = value;
+            });
+        }
+
+        if (stepDescription.status) {
+            stepInformationTree['Build status'] = stepDescription.status;
+        }
+
+        return this.metadataTreeCreatorPipe.transform(stepInformationTree);
+    }
+
+    private createLabelInformationTree(step, useCaseLabels, scenarioLabels) {
+        const labelInformationTree: any = {};
+
+        labelInformationTree['scenario-labels'] = scenarioLabels.labels;
+        labelInformationTree['use-case-labels'] = useCaseLabels.labels;
+        labelInformationTree['step-labels'] = step.stepDescription.labels.labels;
+        labelInformationTree['page-labels'] = step.page.labels;
+
+        return this.metadataTreeCreatorPipe.transform(labelInformationTree);
     }
 }
 

@@ -46,26 +46,11 @@ export class DetailAccordionComponent {
     @Input()
     detailSectionType: string;
 
-    // @Input()
-    // panelIndex: {};
-
     @Input()
     detailAccordionName: string;
 
     @Input()
     dataTree: IDetailsTreeNode;
-
-    // @Input()
-    // scenarioLabels: {};
-    //
-    // @Input()
-    // useCaseLabels: {};
-    //
-    // @Input()
-    // stepLabels: {};
-    //
-    // @Input()
-    // pageLabels: {};
 
     /**
      * Only for special section types like labels or issues
