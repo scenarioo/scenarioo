@@ -17,7 +17,6 @@
 
 import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
-import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {
     LabelConfigurationMap,
@@ -80,10 +79,7 @@ export class ScenariosOverviewComponent {
 
     additionalDetailsSections: IDetailsSections;
 
-    // useCaseLabels: string[];
-
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
-                private branchesAndBuildsService: BranchesAndBuildsService,
                 private scenarioResource: ScenarioResource,
                 private selectedComparison: SelectedComparison,
                 private locationService: LocationService,
@@ -129,8 +125,6 @@ export class ScenariosOverviewComponent {
             }
 
             this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(useCaseScenarios.useCase.details);
-
-            // this.useCaseLabels = useCaseScenarios.useCase.labels.labels;
 
             this.relatedIssueResource.getForScenariosOverview({
                     branchName: selection.branch,

@@ -15,22 +15,42 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="row sc-space-bottom">
-    <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-11' : 'sc-space-top col-sm-8'">
-        <div id="left">
-            <sc-title useCaseName="{{stepName | scHumanReadable}}"></sc-title>
+<sc-detailarea [mainDetailsSections]="mainDetailsSections" [additionalDetailsSections]="additionalDetailsSections" key="useCaseView">
+    <sc-title scenarioName="{{scenarioName | scHumanReadable}}" stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
+    <sc-progressbar *ngIf="!stepNotFound" [stepNavigation]="stepNavigation" [stepStatistics]="stepStatistics"></sc-progressbar>
+
+    <div class="stepView">
+        <div class="pull-right">
+            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"
+                                          screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
         </div>
-        <div id="right">
-            <sc-progressbar *ngIf="!stepNotFound" [step-navigation]="stepNavigation" [step-statistics]="stepStatistics"></sc-progressbar>
-        </div>
+
+        <tabset>
+            <tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
+                <!--
+                <sc-annotated-screenshot screenAnnotations="step.screenAnnotations" screen-shot-url="screenShotUrl"
+                                             visibility-toggle="showScreenAnnotations"
+                                             to-next-step-action="goStepForward()"></sc-annotated-screenshot>-->
+            </tab>
+            <tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
+                 <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
+            </tab>
+
+                <!-- Diff Viewer Step Comparison View -->
+                <!--<tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+
+                    <tab-heading>
+                        <span class="left">Comparison</span>
+                        <div class="diff-info-wrapper">
+                            <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot"
+                                               child-element-type="screenshot"></sc-diff-info-icon>
+                        </div>
+                    </tab-heading>
+                    <sc-comparison-view step="step" step-identifier="stepIdentifier" step-index="stepIndex"
+                                        screen-shot-url="screenShotUrl"></sc-comparison-view>
+                </tab>-->
+
+        </tabset>
     </div>
 
-    <div id='sc-meta-data-panel'>
-        <sc-detailarea (togglePannelCollapsedValue)="collapsePanel($event)"
-                       [mainDetailsSections]="mainDetailsSections" key="mainView"></sc-detailarea>
-
-        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'">
-
-        </div>
-    </div>
-</div>
+</sc-detailarea>

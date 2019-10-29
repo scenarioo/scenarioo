@@ -17,6 +17,9 @@
 
 import {Component} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
+import {StepResource} from '../../shared/services/stepResource.service';
+import {RouteParamsService} from '../../shared/route-params.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -27,15 +30,72 @@ declare var angular: angular.IAngularStatic;
 })
 export class StepViewComponent {
 
-    stepName: string;
+    useCaseName: string;
+    scenarioName: string;
 
-    isPanelCollapsed: boolean;
+    pageName: string;
+    pageOccurrence: number;
+    stepInPageOccurrence: number;
+    labels;
 
-    collapsePanel(isPanelCollapsed: boolean) {
-        this.isPanelCollapsed = isPanelCollapsed;
+    stepNavigation;
+    stepStatistics;
+
+    stepNotFound: boolean = false;
+
+    constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
+                private routeParams: RouteParamsService,
+                private stepResource: StepResource) {
     }
 
     ngOnInit(): void {
+        this.useCaseName = this.routeParams.useCaseName;
+        this.scenarioName = this.routeParams.scenarioName;
+
+        this.pageName = this.routeParams.pageName;
+        this.pageOccurrence = parseInt(this.routeParams.pageOccurrence, 10);
+        this.stepInPageOccurrence = parseInt(this.routeParams.stepInPageOccurrence, 10);
+
+        this.labels = null;
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
+    }
+
+    private loadStep(selection) {
+        this.stepResource.get(
+            {
+                branchName: selection.branch,
+                buildName: selection.build,
+            },
+            this.useCaseName,
+            this.scenarioName,
+            this.pageName,
+            this.pageOccurrence,
+            this.stepInPageOccurrence,
+            this.labels,
+        ).subscribe((result) => {
+            this.stepNavigation = result.stepNavigation;
+            this.stepStatistics = result.stepStatistics;
+            /*const stepIdentifier = result.stepIdentifier;
+            const fallback = result.fallback;
+            const step = result.step;
+            const metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
+            const stepInformationTree = createStepInformationTree(result.step);
+            const pageTree = transformMetadataToTree(result.step.page);
+            const stepIndex = result.stepNavigation.stepIndex;
+            const useCaseLabels = result.useCaseLabels;
+            const scenarioLabels = result.scenarioLabels;
+            const selectedBuild = selected.buildName;
+            const getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;*/
+        }, (error) => {
+            this.stepNotFound = true;
+        });
+    }
+
+    private getCurrentStepIndexForDisplay() {
+        if (angular.isUndefined(this.stepNavigation)) {
+            return '?';
+        }
+        return this.stepNavigation.stepIndex + 1;
     }
 }
 
