@@ -2,7 +2,6 @@ import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
-import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -46,7 +45,6 @@ import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
-import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCreator.pipe';
@@ -60,7 +58,6 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
 
 @NgModule({
     declarations: [
-        LabelMetadataComponent,
         ManageTabsComponent,
         GeneralSettingsDirective,
         LabelColorsDirective,
@@ -81,7 +78,6 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
-        TreeDirective,
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
@@ -90,7 +86,6 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
         TreeComponent,
     ],
     entryComponents: [
-        LabelMetadataComponent,
         ManageTabsComponent,
         MainpageComponent,
         ShareComponent,
