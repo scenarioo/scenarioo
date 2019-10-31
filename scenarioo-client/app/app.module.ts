@@ -56,6 +56,7 @@ import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.ser
 import {LocalStorageService} from './services/localStorage.service';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
+import {TreeComponent} from './components/detailarea/tree/tree.component';
 
 @NgModule({
     declarations: [
@@ -86,6 +87,7 @@ import {StepViewComponent} from './build/step-view/step-view.component';
         BranchAliasesComponent,
         ProgressbarComponent,
         StepViewComponent,
+        TreeComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -99,6 +101,7 @@ import {StepViewComponent} from './build/step-view/step-view.component';
         ScenariosOverviewComponent,
         ProgressbarComponent,
         StepViewComponent,
+        TreeComponent,
     ],
     imports: [
         BrowserModule,

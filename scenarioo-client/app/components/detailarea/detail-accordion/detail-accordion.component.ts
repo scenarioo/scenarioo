@@ -20,7 +20,6 @@ import {LocationService} from '../../../shared/location.service';
 import {SelectedBranchAndBuildService} from '../../../shared/navigation/selectedBranchAndBuild.service';
 import {SketchIdsResource} from '../../../shared/services/sketchIdsResource.service';
 import {RelatedIssueSummary} from '../../../shared/services/relatedIssueResource.service';
-import {LabelConfigurationMap} from '../../../shared/services/labelConfigurationsResource.service';
 import {ISketchIds} from '../../../generated-types/backend-types';
 import {LocalStorageService} from '../../../services/localStorage.service';
 import {IDetailsTreeNode} from '../IDetailsTreeNode';
@@ -53,13 +52,10 @@ export class DetailAccordionComponent {
     dataTree: IDetailsTreeNode;
 
     /**
-     * Only for special section types like labels or issues
+     * Only for special section types like issues
      */
     @Input()
     values: any[];
-
-    @Input()
-    labelConfigurations: LabelConfigurationMap;
 
     isAccordionCollapsed: boolean = false;
 

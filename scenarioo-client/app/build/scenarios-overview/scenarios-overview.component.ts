@@ -225,7 +225,7 @@ export class ScenariosOverviewComponent {
         }
     }
 
-    createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
+    private createInformationTreeArray(usecaseInformationTree, usecaseLabels, relatedIssues) {
         this.mainDetailsSections = [
             {
                 name: 'Use Case',
@@ -237,9 +237,9 @@ export class ScenariosOverviewComponent {
             {
                 name: 'Labels',
                 key: 'labels',
-                values: labels,
+                dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(usecaseLabels)]},
                 isFirstOpen: false,
-                detailSectionType: 'labelsComponent',
+                detailSectionType: 'treeComponent',
                 labelConfigurations: this.labelConfigurations,
             },
             {
@@ -260,6 +260,12 @@ export class ScenariosOverviewComponent {
         }
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
+    }
+
+    private createLabelInformationTree(usecaseLabels) {
+        const labelInformationTree: any = {};
+        labelInformationTree['Use Case:'] = usecaseLabels;
+        return this.metadataTreeCreatorPipe.transform(labelInformationTree);
     }
 }
 

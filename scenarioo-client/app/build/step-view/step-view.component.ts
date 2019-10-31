@@ -23,11 +23,6 @@ import {RouteParamsService} from '../../shared/route-params.service';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
 import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
-import {
-    LabelConfigurationMap,
-    LabelConfigurationsResource,
-} from '../../shared/services/labelConfigurationsResource.service';
-import {ILabelConfiguration} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
@@ -56,9 +51,6 @@ export class StepViewComponent {
     scenarioLabels;
     useCaseLabels;
 
-    labelConfigurations: LabelConfigurationMap = undefined;
-    labelConfig: ILabelConfiguration = undefined;
-
     stepNotFound: boolean = false;
 
     mainDetailsSections: IMainDetailsSection[] = [];
@@ -70,7 +62,6 @@ export class StepViewComponent {
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
                 private relatedIssueResource: RelatedIssueResource,
-                private labelConfigurationsResource: LabelConfigurationsResource,
                 private locationService: LocationService) {
     }
 
@@ -83,11 +74,6 @@ export class StepViewComponent {
 
         this.labels = this.locationService.search().labels;
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
-
-        this.labelConfigurationsResource.query()
-            .subscribe(((labelConfigurations: LabelConfigurationMap) => {
-                this.labelConfigurations = labelConfigurations;
-            }));
     }
 
     private loadStep(selection) {
@@ -155,10 +141,9 @@ export class StepViewComponent {
             {
                 name: 'Labels',
                 key: 'labels',
-                dataTree: this.createLabelInformationTree(stepInformationTree, useCaseLabels, scenarioLabels),
+                dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(stepInformationTree, useCaseLabels, scenarioLabels)]},
                 isFirstOpen: false,
-                detailSectionType: 'labelsComponent',
-                labelConfigurations: this.labelConfigurations,
+                detailSectionType: 'treeComponent',
             },
             {
                 name: 'Related Sketches',
@@ -179,7 +164,7 @@ export class StepViewComponent {
         }
 
         if (step.page) {
-            const pageToRender = angular.copy(step.page);
+            const pageToRender = Object.assign({}, step.page);
             // Will be displayed separately
             delete pageToRender.labels;
             stepInformationTree['Page name'] = pageToRender;
@@ -202,10 +187,10 @@ export class StepViewComponent {
     private createLabelInformationTree(step, useCaseLabels, scenarioLabels) {
         const labelInformationTree: any = {};
 
-        labelInformationTree['scenario-labels'] = scenarioLabels.labels;
-        labelInformationTree['use-case-labels'] = useCaseLabels.labels;
-        labelInformationTree['step-labels'] = step.stepDescription.labels.labels;
-        labelInformationTree['page-labels'] = step.page.labels;
+        labelInformationTree['Use case:'] = useCaseLabels.labels;
+        labelInformationTree['Scenario:'] = scenarioLabels.labels;
+        labelInformationTree['Step:'] = step.stepDescription.labels.labels;
+        labelInformationTree['Page:'] = step.page.labels.labels;
 
         return this.metadataTreeCreatorPipe.transform(labelInformationTree);
     }
