@@ -55,6 +55,7 @@ import {LocalStorageService} from './services/localStorage.service';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
+import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 
 @NgModule({
     declarations: [
@@ -84,6 +85,7 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     entryComponents: [
         ManageTabsComponent,
@@ -97,6 +99,7 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     imports: [
         BrowserModule,

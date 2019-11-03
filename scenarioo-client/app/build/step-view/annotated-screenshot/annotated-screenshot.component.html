@@ -1,0 +1,63 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="sc-annotated-screenshot-container">
+    <!--
+    <div [hidden]="!visibilityToggle" *ngIf="screenAnnotations.length !== 0">
+        <span class="sc-screenshot-annotation"
+              *ngFor="let screenAnnotation of screenAnnotations"
+              [ngClass]="{'sc-screenshot-annotation-with-action': hasClickAction(screenAnnotations)}"
+              (click)="doClickAction(screenAnnotations)"
+              [style]="getBoxCssStyle(screenAnnotation)"
+              [tooltip]="getTooltipText(screenAnnotation)" placement="bottom" >
+            <span class="sc-screenshot-annotation-text">
+                {{getBoxText(screenAnnotation)}}
+            </span>
+        </span>
+        <span class="sc-screenshot-annotation-icon"
+              (click)="openInfoPopup(screenAnnotation)"
+              [hidden]="!(getIconClass(screenAnnotation) !== '')" [style]="getIconCssStyle(screenAnnotation)">
+            <i class="fas fa-lg" [ngClass]="[getIconClass(screenAnnotation)]"></i>
+        </span>
+    </div>
+    -->
+    <div>
+        <img class="sc-screenshot sc-real-screenshot sc-screenshot-border" src="{{screenShotUrl}}"
+             [style]="{position: showDiff ? 'absolute':'static'}"/>
+        <img class="sc-screenshot sc-diff-screenshot sc-screenshot-border" [hidden]="showDiff"
+             src="{{diffScreenShotUrl}}" [style]="{position: 'absolute'}"/>
+    </div>
+</div>
+
+<ng-template #infoPopup>
+    <div class="modal-header">
+        <h1 class="modal-title"> <i class="fas fa-lg" [ngClass]="[annotationPopup.getIconClass()]"></i> &nbsp; {{annotationPopup.getTitleText()}}</h1>
+    </div>
+    <div class="modal-body info-popup">
+        <p>
+            {{annotationPopup.getDescriptionSection()}}
+        </p>
+
+        <p *ngIf="annotationPopup.annotation.clickAction">
+            <a (click)="annotationPopup.doClickAction()" class="link-no-hover"><i class="fas fa-fw {{annotationPopup.getClickActionIconStyle()}}"></i> {{annotationPopup.getClickActionText()}}</a>
+        </p>
+
+        <p [hidden]="!annotationPopup.hasDetails()">
+            <sc-tree information-tree="annotationPopup.detailsTrees"></sc-tree>
+        </p>
+    </div>
+</ng-template>

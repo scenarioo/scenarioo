@@ -20,17 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <sc-progressbar *ngIf="!stepNotFound" [stepNavigation]="stepNavigation" [stepStatistics]="stepStatistics"></sc-progressbar>
 
     <div class="stepView">
-        <div class="pull-right">
+        <div class="pull-right" *ngIf="step.screenAnnotations.length !== 0">
             <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"
                                           screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
         </div>
 
         <tabset>
             <tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
-                <!--
-                <sc-annotated-screenshot screenAnnotations="step.screenAnnotations" screen-shot-url="screenShotUrl"
+
+                <sc-annotated-screenshot screenAnnotations="step?.screenAnnotations" screen-shot-url="screenShotUrl"
                                              visibility-toggle="showScreenAnnotations"
-                                             to-next-step-action="goStepForward()"></sc-annotated-screenshot>-->
+                                             to-next-step-action="goStepForward()"></sc-annotated-screenshot>
             </tab>
             <tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
                  <pre ng-bind="step.html.htmlSource" id="html-source"></pre>

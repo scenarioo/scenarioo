@@ -44,9 +44,11 @@ export class StepViewComponent {
     stepInPageOccurrence: number;
     labels;
 
+    step;
     stepNavigation;
     stepStatistics;
     stepInformationTree;
+    screenShotUrl;
 
     scenarioLabels;
     useCaseLabels;
@@ -89,6 +91,10 @@ export class StepViewComponent {
             this.stepInPageOccurrence,
             this.labels,
         ).subscribe((result) => {
+            this.initScreenshotUrl();
+            this.step = result.step;
+            console.log(this.step);
+            console.log(this.step.screenAnnotations.length === 0);
             this.stepNavigation = result.stepNavigation;
             this.stepStatistics = result.stepStatistics;
             this.useCaseLabels = result.useCaseLabels;
@@ -193,6 +199,22 @@ export class StepViewComponent {
         labelInformationTree['Page:'] = step.page.labels.labels;
 
         return this.metadataTreeCreatorPipe.transform(labelInformationTree);
+    }
+
+    // This URL is only used internally, not for sharing
+    private initScreenshotUrl() {
+        if (this.step === undefined) {
+            return undefined;
+        }
+
+        const imageName = this.step.stepDescription.screenshotFileName;
+
+        if (imageName === undefined) {
+            return undefined;
+        }
+
+        const selected = this.selectedBranchAndBuildService.selected();
+        // this.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 }
 
