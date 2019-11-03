@@ -1,12 +1,17 @@
+sc-progressbar .sc-container {
+    display: table;
+    float: right;
+    margin-top: -10px;
+}
+
 sc-progressbar .sc-progressbar-container {
-    display:table;
     border-collapse: collapse;
     float: right;
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
-sc-progressbar .sc-progressbar-row {
+sc-progressbar .sc-progressbar {
     background-color: #ccc;
     padding: 1px;
     height: 30px;
@@ -14,10 +19,6 @@ sc-progressbar .sc-progressbar-row {
 
 sc-progressbar .row {
     display: table-row;
-}
-
-sc-progressbar .progressbar-menu {
-
 }
 
 sc-progressbar .sc-first {
@@ -63,35 +64,31 @@ sc-progressbar .text-nowrap {
     cursor: default;
 }
 
-sc-progressbar progressbar.sc-progressbar {
-    margin-bottom: 0;
-}
-
-.sc-page {
+sc-progressbar .page-navigation {
     float: left;
 }
 
-.sc-page-variant {
+sc-progressbar .page-variant-navigation {
     float: right;
 }
 
-.page {
+sc-progressbar .page {
     color: #337ab7;
     font-size: 12px;
     cursor: default;
 }
 
-.page-arrow {
+sc-progressbar .page-arrow {
     color: #337ab7;
     cursor: pointer;
 }
 
-.page-arrow-grey {
+sc-progressbar .page-arrow-grey {
     color: #EEEEEE;
     cursor: default;
 }
 
-.sc-progress.progress {
+sc-progressbar .sc-progress.progress {
     background-color: #EEEEEE;
     width: auto;
     border: 1px solid #CCCCCC;
