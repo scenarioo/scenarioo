@@ -93,8 +93,7 @@ export class StepViewComponent {
         ).subscribe((result) => {
             this.initScreenshotUrl();
             this.step = result.step;
-            console.log(this.step);
-            console.log(this.step.screenAnnotations.length === 0);
+            console.log(this.step.html.htmlSource);
             this.stepNavigation = result.stepNavigation;
             this.stepStatistics = result.stepStatistics;
             this.useCaseLabels = result.useCaseLabels;
@@ -215,6 +214,15 @@ export class StepViewComponent {
 
         const selected = this.selectedBranchAndBuildService.selected();
         // this.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+    }
+
+    private setActiveTab = (activeTab): void => {
+        this.storeActiveTab(activeTab);
+        window.location.reload();
+    }
+
+    storeActiveTab(activeTab) {
+        sessionStorage.setItem('activeTab', activeTab);
     }
 }
 
