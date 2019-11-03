@@ -1,11 +1,16 @@
+sc-title {
+    float:left;
+    margin-right: 100px;
+}
+
 sc-title h1 {
     font-weight: bold;
+    margin-bottom: 0;
 }
 
 sc-title p {
-    margin-top: 15px;
-    margin-bottom: 0 !important;
-    margin-left: 1px !important;
-    font-style: normal !important;
+    margin-bottom: 0;
+    margin-left: 1px;
+    font-style: normal;
     font-size: smaller;
 }

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!--
 <div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control"
                    data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="vm.searchFieldText"
@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-2 pull-right">
 		<div class="pull-right">
 			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="vm.isExpandAllPossible()" ng-click="vm.expandAll()">expand all</button>
 			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="vm.isCollapseAllPossible()" ng-click="vm.collapseAll()">collapse all</button>
@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-meta-data-panel linking-variable="scenarioShowMetadata">
     <div>-->
         <!-- steps --><!--
-        <div class="row step-view">
+        <div class="row step-overview">
             <div ng-repeat="page in vm.pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'added' : page.page.diffInfo.isAdded, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2 class="sc-scenario-page-title">

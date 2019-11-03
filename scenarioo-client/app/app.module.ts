@@ -2,7 +2,6 @@ import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
-import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -14,6 +13,7 @@ import {MainpageComponent} from './build/mainpage/mainpage.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
+import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
@@ -45,7 +45,6 @@ import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
 import {DiffInfoService} from './diffViewer/diffInfo.service';
 import {DiffInfoIconDirective} from './diffViewer/diffInfoIcon/diff-info-icon.directive';
-import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCreator.pipe';
@@ -53,11 +52,14 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {ProgressbarComponent} from './components/progressbar/progressbar.component';
+import {StepViewComponent} from './build/step-view/step-view.component';
+import {TreeComponent} from './components/detailarea/tree/tree.component';
+import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 import {StepsOverviewComponent} from './build/steps-overview/steps-overview.component';
 
 @NgModule({
     declarations: [
-        LabelMetadataComponent,
         ManageTabsComponent,
         GeneralSettingsDirective,
         LabelColorsDirective,
@@ -78,14 +80,16 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
-        TreeDirective,
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
         StepsOverviewComponent,
+        ProgressbarComponent,
+        StepViewComponent,
+        TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     entryComponents: [
-        LabelMetadataComponent,
         ManageTabsComponent,
         MainpageComponent,
         ShareComponent,
@@ -95,6 +99,10 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         TitleComponent,
         ScenariosOverviewComponent,
         StepsOverviewComponent,
+        ProgressbarComponent,
+        StepViewComponent,
+        TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     imports: [
         BrowserModule,
@@ -106,6 +114,7 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         DiffViewerModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
+        ProgressbarModule.forRoot(),
         OrderModule,
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),

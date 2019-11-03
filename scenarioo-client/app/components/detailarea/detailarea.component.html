@@ -15,31 +15,41 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic" id="sc-showHideDetailsButton"
-        class="btn btn-primary pull-right" type="button">
-    {{ isPanelCollapsed ? "Show details" : "Hide details" }}
-</button>
+<div class="sc-meta-data-panel row">
 
-<div #collapse="bs-collapse" [collapse]="isPanelCollapsed">
-    <div id="sc-metadata-panel" class="detail-container col-sm-4 pull-right">
+    <button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic"
+            class="btn btn-primary pull-right" id="sc-showHideDetailsButton" type="button">
+        {{ isPanelCollapsed ? "Show details" : "Hide details" }}
+    </button>
+
+    <div [ngClass]="isPanelCollapsed ? 'col-sm-11' : 'col-sm-8'">
+        <ng-content></ng-content>
+    </div>
+
+    <div #metaDataPanel class="detail-container pull-right"  [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
         <div class="detail-row">
-
-            <div (click)="togglePannelCollapsedValue()" *ngIf="!isPanelCollapsed" aria-controls="collapseManual"
-                 class="detail-cell detail-button">
-                <i class="fas fa-angle-right"></i>
+            <div (click)="togglePannelCollapsedValue()" class="detail-cell detail-button">
+                <span *ngIf="!isPanelCollapsed">
+                    <i class="fas arrowCenter fa-angle-right"></i>
+                </span>
+                <span *ngIf="isPanelCollapsed">
+                    <i class="fas arrowCenter fa-angle-left"></i>
+                </span>
             </div>
 
-            <div class="detail-cell detail-section">
-                <h3>Details</h3>
-                <accordion>
+            <div [collapse]="isPanelCollapsed" id="sc-metadata-panel">
+                <div class="detail-cell detail-section">
+                    <h3>Details</h3>
+                    <accordion>
 
-                    <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
-                        <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.labelConfigurations" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
-                    </ng-container>
+                        <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
+                            <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
+                        </ng-container>
 
-                    <sc-detail-accordion *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue" [dataTree]="additionalDetailsSection.value" [detailAccordionName]="additionalDetailsSection.key" key="{{key}}-{{additionalDetailsSection.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
+                        <sc-detail-accordion *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue" [dataTree]="additionalDetailsSection.value" [detailAccordionName]="additionalDetailsSection.key" key="{{key}}-{{additionalDetailsSection.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
 
-                </accordion>
+                    </accordion>
+                </div>
             </div>
         </div>
     </div>

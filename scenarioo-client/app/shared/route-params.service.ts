@@ -8,4 +8,7 @@ import {Injectable} from '@angular/core';
 export class RouteParamsService {
     useCaseName: string;
     scenarioName: string;
+    pageName;
+    pageOccurrence;
+    stepInPageOccurrence;
 }

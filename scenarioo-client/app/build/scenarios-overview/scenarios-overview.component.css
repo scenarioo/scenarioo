@@ -1,23 +1,24 @@
-.arrows {
+sc-scenarios-overview .arrows {
     display: inline;
     margin-left: 2px;
     margin-right: -2px;
+    cursor: pointer;
 }
 
-.top, .selectedTop {
+sc-scenarios-overview .top, sc-scenarios-overview .selectedTop {
     position: absolute;
     margin-top: -6px;
 }
 
-.top, .bot {
+sc-scenarios-overview .top, sc-scenarios-overview .bot {
     color: lightgray;
 }
 
-.bot, .selectedBot {
+sc-scenarios-overview .bot, sc-scenarios-overview .selectedBot {
     position: relative;
 }
 
-.table {
+sc-scenarios-overview tbody {
     cursor: pointer;
 }
 

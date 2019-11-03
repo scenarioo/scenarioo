@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from './IMainDetailsSection';
 import {IDetailsSections} from './IDetailsSections';
+import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
+import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
 
@@ -45,8 +47,8 @@ export class DetailareaComponent {
     @Input()
     additionalDetailsSections: IDetailsSections;
 
-    @Output('togglePannelCollapsedValue')
-    panelCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @ViewChild('metaDataPanel')
+    metaDataPanel: ElementRef;
 
     isPanelCollapsed: boolean = true;
 
@@ -58,10 +60,24 @@ export class DetailareaComponent {
         this.isPanelCollapsed = this.localStorageService.getBoolean(this.getLocalStorageKey(), false);
     }
 
+    ngAfterViewInit(): void {
+        this.setHeightOfDetailarea();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        this.setHeightOfDetailarea();
+    }
+
+    private setHeightOfDetailarea() {
+        const metaDataPanel = this.metaDataPanel.nativeElement;
+        const headerHeight = metaDataPanel.offsetTop;
+        metaDataPanel.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+    }
+
     togglePannelCollapsedValue() {
         this.isPanelCollapsed = !this.isPanelCollapsed;
         this.localStorageService.setBoolean(this.getLocalStorageKey(), this.isPanelCollapsed);
-        this.panelCollapsed.emit(this.isPanelCollapsed);
     }
 
     getLocalStorageKey() {

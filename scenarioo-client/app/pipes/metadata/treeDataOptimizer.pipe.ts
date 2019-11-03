@@ -25,9 +25,6 @@ export class TreeDataOptimizerPipe implements PipeTransform {
 
         this.optimizeNodes(rootNode, this.pullUpTypeToReplaceNodeLabel);
         this.optimizeNodes(rootNode, this.moveChildrenChildNodeBehindOthers);
-
-        // this happens after making the labels human readable,
-        // because the name node value could be a technical expression
         this.optimizeNodes(rootNode, this.pullUpNameToReplaceEmptyNodeLabel);
         this.optimizeNodes(rootNode, this.pullUpNameToReplaceEmptyNodeValue);
         this.optimizeNodes(rootNode, this.setFallBackLabelIfLabelIsEmpty);

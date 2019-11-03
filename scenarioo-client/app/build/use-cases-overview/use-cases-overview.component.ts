@@ -32,7 +32,6 @@ import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 import {IBranchBuilds} from '../../generated-types/backend-types';
-import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
@@ -58,7 +57,6 @@ export class UseCasesOverviewComponent {
     labelConfigurations: LabelConfigurationMap = undefined;
     labelConfig = undefined;
 
-    isPanelCollapsed: boolean;
     isComparisonExisting: boolean;
 
     branchesAndBuilds: IBranchBuilds[];
@@ -78,8 +76,7 @@ export class UseCasesOverviewComponent {
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
                 private diffInfoService: DiffInfoService,
-                private searchFilterPipe: ScSearchFilterPipe,
-                private localStorageService: LocalStorageService) {
+                private searchFilterPipe: ScSearchFilterPipe) {
     }
 
     ngOnInit(): void {
@@ -117,8 +114,6 @@ export class UseCasesOverviewComponent {
             }));
 
         this.sortedUsecases = this.orderPipe.transform(this.usecases, this.order);
-
-        this.isPanelCollapsed = this.localStorageService.getBoolean('scenarioo-metadataVisible-mainView', false);
     }
 
     getStatusStyleClass(state: string): string {
@@ -180,10 +175,6 @@ export class UseCasesOverviewComponent {
                 return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
             }
         }
-    }
-
-    collapsePanel(isPanelCollapsed: boolean) {
-        this.isPanelCollapsed = isPanelCollapsed;
     }
 
     createInformationTreeArray(branch, build) {
