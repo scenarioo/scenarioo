@@ -19,55 +19,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-step-view></sc-step-view>
 
-<sc-step-not-found-div show-component="stepNotFound" response="httpResponse"></sc-step-not-found-div>
+<!--<sc-step-not-found-div show-component="stepNotFound" response="httpResponse"></sc-step-not-found-div>-->
 
-<sc-fallback-div show-component="fallback" step-identifier="stepIdentifier"></sc-fallback-div>
+<!--<sc-fallback-div show-component="fallback" step-identifier="stepIdentifier"></sc-fallback-div>-->
 
-<div class="step-navigation row sc-space-bottom step-view col-sm-8">
+<!--&lt;!&ndash; Navigation toolbar-->
+<!--<sc-step-navigation-toolbar step-navigation="stepNavigation" step-statistics="stepStatistics" step="step" page-name="pageName" linking-variable="stepShowMetadata" show-screen-annotations="showScreenAnnotations" hide-toolbar="stepNotFound"></sc-step-navigation-toolbar>-->
+<!--&ndash;&gt;-->
 
-    <div id="right">
-        <sc-progressbar *ngIf="!stepNotFound" [step-navigation]="stepNavigation" [step-statistics]="stepStatistics"></sc-progressbar>
-    </div>
-</div>
+<!--&lt;!&ndash; screenshot and information &ndash;&gt;-->
+<!--<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound" class="step-view col-sm-12">-->
+<!--    <div class="pull-right">-->
+<!--        <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"-->
+<!--                                      screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>-->
+<!--    </div>-->
 
-<!-- Navigation toolbar
-<sc-step-navigation-toolbar step-navigation="stepNavigation" step-statistics="stepStatistics" step="step" page-name="pageName" linking-variable="stepShowMetadata" show-screen-annotations="showScreenAnnotations" hide-toolbar="stepNotFound"></sc-step-navigation-toolbar>
--->
+<!--    <div ng-class="this.isPanelCollapsed ? 'sc-tabs col-sm-12' : 'sc-tabs col-sm-8'">-->
 
-<!-- screenshot and information -->
-<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound" class="step-view col-sm-12">
-    <div class="pull-right">
-        <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"
-                                      screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
-    </div>
+<!--        <uib-tabset class="step-panes" active="activeTab">-->
+<!--&lt;!&ndash;            <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">&ndash;&gt;-->
+<!--&lt;!&ndash;                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl"&ndash;&gt;-->
+<!--&lt;!&ndash;                                         visibility-toggle="showScreenAnnotations"&ndash;&gt;-->
+<!--&lt;!&ndash;                                         to-next-step-action="goStepForward()"></sc-annotated-screenshot>&ndash;&gt;-->
+<!--&lt;!&ndash;            </uib-tab>&ndash;&gt;-->
 
-    <div ng-class="this.isPanelCollapsed ? 'sc-tabs col-sm-12' : 'sc-tabs col-sm-8'">
+<!--            &lt;!&ndash; Diff Viewer Step Comparison View &ndash;&gt;-->
+<!--            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">-->
 
-        <uib-tabset class="step-panes" active="activeTab">
-            <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
-                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl"
-                                         visibility-toggle="showScreenAnnotations"
-                                         to-next-step-action="goStepForward()"></sc-annotated-screenshot>
-            </uib-tab>
-            <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
-                <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
-            </uib-tab>
+<!--                <uib-tab-heading>-->
+<!--                    <span class="left">Comparison</span>-->
+<!--                    <div class="diff-info-wrapper">-->
+<!--                        <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot"-->
+<!--                                           child-element-type="screenshot"></sc-diff-info-icon>-->
+<!--                    </div>-->
+<!--                </uib-tab-heading>-->
+<!--                <sc-comparison-view step="step" step-identifier="stepIdentifier" step-index="stepIndex"-->
+<!--                                    screen-shot-url="screenShotUrl"></sc-comparison-view>-->
+<!--            </uib-tab>-->
 
-            <!-- Diff Viewer Step Comparison View -->
-            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+<!--        </uib-tabset>-->
+<!--    </div>-->
 
-                <uib-tab-heading>
-                    <span class="left">Comparison</span>
-                    <div class="diff-info-wrapper">
-                        <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot"
-                                           child-element-type="screenshot"></sc-diff-info-icon>
-                    </div>
-                </uib-tab-heading>
-                <sc-comparison-view step="step" step-identifier="stepIdentifier" step-index="stepIndex"
-                                    screen-shot-url="screenShotUrl"></sc-comparison-view>
-            </uib-tab>
-
-        </uib-tabset>
-    </div>
-
-</sc-meta-data-panel>
+<!--</sc-meta-data-panel>-->

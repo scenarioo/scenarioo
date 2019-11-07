@@ -22,13 +22,13 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/rela
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('StepController', StepController);
+angular.module('scenarioo.controllers').controller('StepController', OldstepController);
 
-function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
-                        $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
-                        SharePageService, SketcherContextService, SketchIdsResource,
-                        SketcherLinkService, SelectedComparison,
-                        RelatedIssueResource: RelatedIssueResource) {
+function OldstepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
+                           $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
+                           SharePageService, SketcherContextService, SketchIdsResource,
+                           SketcherLinkService, SelectedComparison,
+                           RelatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
