@@ -50,12 +50,14 @@ sc-detailarea .detail-button {
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
+    vertical-align: top;
 }
 
 sc-detailarea .arrowCenter {
-    position: fixed;
+    position: sticky;
     margin-left: 10px;
-    top: 55%;
+    margin-top: 300px;
+    top: 250px;
 }
 
 sc-detailarea .detail-section {
