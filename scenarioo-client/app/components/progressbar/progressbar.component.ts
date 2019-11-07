@@ -1,6 +1,5 @@
 import {Component, HostListener, Input} from '@angular/core';
 import {LocationService} from '../../shared/location.service';
-import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {RouteParamsService} from '../../shared/route-params.service';
 
 @Component({
@@ -29,7 +28,6 @@ export class ProgressbarComponent {
         this._stepNavigation = stepNavigation;
         if (this._stepNavigation) {
             this.bindStepNavigation();
-            // this.selectedBranchAndBuildService.callOnSelectionChange(this.bindStepNavigation());
         }
     }
 
@@ -42,8 +40,7 @@ export class ProgressbarComponent {
     }
 
     constructor(private locationService: LocationService,
-                private routeParamsService: RouteParamsService,
-                private selectedBranchAndBuildService: SelectedBranchAndBuildService) {
+                private routeParamsService: RouteParamsService) {
     }
 
     ngOnInit(): void {
@@ -82,7 +79,7 @@ export class ProgressbarComponent {
     }
 
     go(data) {
-        const params = this.locationService.path('/step/' + (data.useCaseName || this.useCaseName) + '/' + (data.scenarioName || this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
+        this.locationService.path('/step/' + (data.useCaseName || this.useCaseName) + '/' + (data.scenarioName || this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
     }
 
     bindStepNavigation() {
@@ -134,7 +131,7 @@ export class ProgressbarComponent {
     }
 
     goPageVariants(pageName) {
-        const params = this.locationService.path('/object/page/' + pageName);
+        this.locationService.path('/object/page/' + pageName);
     }
 
     goPageVariantBack() {
