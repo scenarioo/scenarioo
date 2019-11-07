@@ -21,7 +21,13 @@ import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBra
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
-import {IScenario, IScenarioStatistics, IStepDescription, IUseCase} from '../../generated-types/backend-types';
+import {
+    ILabelConfiguration,
+    IScenario,
+    IScenarioStatistics, IScenarioSummary,
+    IStepDescription,
+    IUseCase,
+} from '../../generated-types/backend-types';
 import {LocationService} from '../../shared/location.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {RouteParamsService} from '../../shared/route-params.service';
@@ -40,6 +46,8 @@ import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-in
 import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
 import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
+import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
+import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
 
@@ -57,7 +65,8 @@ export class StepsOverviewComponent {
     @Input()
     scenarioName: string;
 
-    scenarios;
+    scenarios: IScenarioSummary[] = [];
+    scenario: IScenario;
 
     searchTerm: string;
 
@@ -65,14 +74,14 @@ export class StepsOverviewComponent {
     sortedSteps: any[];
     reverse: boolean = false;
 
-    arrowkeyLocation = 0;
+    arrowkeyLocation: number = 0;
 
     selectedBranchAndBuild;
 
     labelConfigurations: LabelConfigurationMap = undefined;
-    labelConfig = undefined;
+    labelConfig: ILabelConfiguration = undefined;
 
-    comparisonExisting = undefined;
+    isComparisonExisting: boolean;
     comparisonBranchName;
     comparisonBuildName;
 
@@ -80,18 +89,14 @@ export class StepsOverviewComponent {
 
     propertiesToShow: any[];
 
-    isPanelCollapsed: boolean;
-
-    scenario: IScenario;
     useCase: IUseCase;
     pagesAndSteps: PageWithSteps[];
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
 
-    scenarioInformationTree = {};
-    metadataInformationTree;
-    relatedIssues;
-    labels = {};
+    mainDetailsSections: IMainDetailsSection[] = [];
+
+    additionalDetailsSections: IDetailsSections;
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private branchesAndBuildsService: BranchesAndBuildsService,
@@ -119,61 +124,59 @@ export class StepsOverviewComponent {
         this.useCaseName = this.routeParamsService.useCaseName;
         this.scenarioName = this.routeParamsService.scenarioName;
 
-        this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
+        this.selectedBranchAndBuildService.callOnSelectionChange((selection) =>  this.loadSteps(selection));
 
-            this.selectedBranchAndBuild = selection;
+        this.labelConfigurationsResource.query()
+            .subscribe(((labelConfigurations) => {
+                this.labelConfigurations = labelConfigurations;
+            }));
 
-            this.scenarioResource.get({
+        this.configurationService.scenarioPropertiesInOverview().subscribe((value) => {
+            this.propertiesToShow = value;
+        });
+
+        this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
+
+        this.sortedSteps = this.orderPipe.transform(this.pagesAndSteps, this.order);
+    }
+
+    private loadSteps(selection) {
+        this.selectedBranchAndBuild = selection;
+
+        this.scenarioResource.get({
+                branchName: selection.branch,
+                buildName: selection.build,
+            },
+            this.useCaseName,
+            this.scenarioName,
+        ).subscribe((result) => {
+            this.scenario = result.scenario;
+            this.pagesAndSteps = result.pagesAndSteps;
+            this.useCase = result.useCase;
+            this.scenarioStatistics = result.scenarioStatistics;
+
+            this.isComparisonExisting = this.selectedComparison.isDefined();
+
+            if (this.isComparisonExisting) {
+                this.loadDiffInfoData(result.pagesAndSteps, selection.branch, selection.build, this.selectedComparison.selected());
+            } else {
+                this.pagesAndSteps = result.pagesAndSteps;
+            }
+
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(result.scenario.details);
+
+            this.relatedIssueResource.getForScenariosOverview({
                     branchName: selection.branch,
                     buildName: selection.build,
                 },
-                this.useCaseName,
-                this.scenarioName,
-            ).subscribe((result) => {
-                this.scenario = result.scenario;
-                this.pagesAndSteps = result.pagesAndSteps;
-                this.useCase = result.useCase;
-                this.scenarioStatistics = result.scenarioStatistics;
-
-                this.scenarioInformationTree = this.createScenarioInformationTree(this.scenario, result.scenarioStatistics, this.useCase);
-                this.metadataInformationTree = this.metadataTreeListCreatorPipe.transform(result.scenario.details);
-                this.labels = this.useCase.labels.labels;
-
-                this.relatedIssueResource.getForScenariosOverview({
-                        branchName: selection.branch,
-                        buildName: selection.build,
-                    },
-                    this.useCase.name,
-                ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                    this.relatedIssues = relatedIssueSummary;
-                });
-
-                if (this.comparisonExisting) {
-                    this.loadDiffInfoData(result.pagesAndSteps, selection.branch, selection.build, this.selectedComparison.selected());
-                } else {
-                    this.pagesAndSteps = result.pagesAndSteps;
-                }
-
+                this.useCase.name,
+            ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
+                this.createInformationTreeArray(this.scenario, result.scenarioStatistics, this.useCase, this.useCase.labels.labels, relatedIssueSummary);
             });
-
-            this.configurationService.scenarioPropertiesInOverview().subscribe((value) => {
-                this.propertiesToShow = value;
-            });
-
-            this.labelConfigurationsResource.query()
-                .subscribe(((labelConfigurations) => {
-                    this.labelConfigurations = labelConfigurations;
-                }));
-
-            this.getStatusStyleClass = (state) => this.configurationService.getStatusStyleClass(state);
-
-            this.sortedSteps = this.orderPipe.transform(this.pagesAndSteps, this.order);
-
-            this.comparisonExisting = this.selectedComparison.isDefined();
         });
     }
 
-    loadDiffInfoData(pagesAndSteps, baseBranchName: string, baseBuildName: string, comparisonName: string) {
+    private loadDiffInfoData(pagesAndSteps, baseBranchName: string, baseBuildName: string, comparisonName: string) {
         if (pagesAndSteps && baseBranchName && baseBuildName && this.useCaseName && this.scenarioName) {
             this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName)
                 .subscribe((buildDiffInfo) => {
@@ -189,19 +192,19 @@ export class StepsOverviewComponent {
         }
     }
 
-    isAddedUseCase(buildDiffInfo) {
+    private isAddedUseCase(buildDiffInfo) {
         return buildDiffInfo.addedElements.find((addedElement) => {
             return addedElement === this.useCaseName;
         });
     }
 
-    isAddedScenario(useCaseDiffInfo) {
+    private isAddedScenario(useCaseDiffInfo) {
         return useCaseDiffInfo.addedElements.find((addedElement) => {
             return addedElement === this.scenarioName;
         });
     }
 
-    markPagesAndStepsAsAdded(pagesAndSteps) {
+    private markPagesAndStepsAsAdded(pagesAndSteps) {
         pagesAndSteps.forEach((pageAndStep) => {
             pageAndStep.page.diffInfo = {isAdded: true};
             pageAndStep.steps.forEach((step) => {
@@ -210,7 +213,7 @@ export class StepsOverviewComponent {
         });
     }
 
-    loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+    private loadUseCaseDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName)
             .subscribe((useCaseDiffInfo) => {
                 if (this.isAddedScenario(useCaseDiffInfo)) {
@@ -224,7 +227,7 @@ export class StepsOverviewComponent {
 
     }
 
-    loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+    private loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
         forkJoin([
             this.scenarioDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName, this.scenarioName),
             this.stepDiffInfosService.get(baseBranchName, baseBuildName, comparisonName, this.useCaseName, this.scenarioName),
@@ -234,41 +237,11 @@ export class StepsOverviewComponent {
             });
     }
 
-    createScenarioInformationTree(scenario, statistics, useCase) {
-        const stepInformation: any = {};
-        stepInformation['Use Case'] = useCase.name;
-        if (useCase.description) {
-            stepInformation['Use Case Description'] = useCase.description;
-        }
-        stepInformation.Scenario = this.humanReadablePipe.transform(scenario.name);
-        if (scenario.description) {
-            stepInformation['Scenario Description'] = scenario.description;
-        }
-
-        stepInformation['Number of Pages'] = statistics.numberOfPages;
-        stepInformation['Number of Steps'] = statistics.numberOfSteps;
-        stepInformation.Status = scenario.status;
-        return this.metadataTreeCreatorPipe.transform(stepInformation);
-    }
-
-    getLabelStyle(labelName) {
-        if (this.labelConfigurations) {
-            this.labelConfig = this.labelConfigurations[labelName];
-            if (this.labelConfig) {
-                return {'background-color': this.labelConfig.backgroundColor, 'color': this.labelConfig.foregroundColor};
-            }
-        }
-    }
-
-    collapsePanel(event) {
-        this.isPanelCollapsed = event;
-    }
-
-    resetSearchField() {
+    private resetSearchField() {
         this.searchTerm = '';
     }
 
-    setOrder(value: string) {
+    private setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
         }
@@ -276,7 +249,7 @@ export class StepsOverviewComponent {
     }
 
     @HostListener('window:keyup', ['$event'])
-    keyEvent(event: KeyboardEvent) {
+    private keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
                 /* TODO: set restriction for keyboard navigation (++) on filtered list */
@@ -302,7 +275,7 @@ export class StepsOverviewComponent {
         }
     }
 
-    getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
+    private getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
 
         this.locationService.path('/step/'
             + this.useCaseName + '/'
@@ -311,12 +284,62 @@ export class StepsOverviewComponent {
             + pageOccurrence + '/' + stepInPageOccurrence);
     }
 
-    getScreenShotUrl(imgName) {
+    private getScreenShotUrl(imgName) {
         const branch = this.selectedBranchAndBuild.branch;
         const build = this.selectedBranchAndBuild.build;
 
         return 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + this.useCaseName + '/scenario/' + this.scenarioName + '/image/' + imgName;
+    }
+
+    private createInformationTreeArray(scenario, statistics, useCase, usecaseLabels, relatedIssues) {
+        this.mainDetailsSections = [
+            {
+                name: 'Scenario',
+                key: 'scenario',
+                dataTree: this.createScenarioInformationTree(scenario, statistics, useCase),
+                isFirstOpen: true,
+                detailSectionType: 'treeComponent',
+            },
+            {
+                name: 'Labels',
+                key: 'labels',
+                dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(usecaseLabels)]},
+                isFirstOpen: false,
+                detailSectionType: 'treeComponent',
+                labelConfigurations: this.labelConfigurations,
+            },
+            {
+                name: 'Related Sketches',
+                key: '-relatedSketches',
+                values: relatedIssues,
+                isFirstOpen: false,
+                detailSectionType: 'sketchesComponent',
+            },
+        ];
+    }
+
+    private createScenarioInformationTree(scenario, statistics, useCase) {
+        const stepInformation: any = {};
+        stepInformation['Use Case'] = useCase.name;
+        if (useCase.description) {
+            stepInformation['Use Case Description'] = useCase.description;
+        }
+        stepInformation.Scenario = this.humanReadablePipe.transform(scenario.name);
+        if (scenario.description) {
+            stepInformation['Scenario Description'] = scenario.description;
+        }
+
+        stepInformation['Number of Pages'] = statistics.numberOfPages;
+        stepInformation['Number of Steps'] = statistics.numberOfSteps;
+        stepInformation.Status = scenario.status;
+        return this.metadataTreeCreatorPipe.transform(stepInformation);
+    }
+
+    private createLabelInformationTree(usecaseLabels) {
+        const labelInformationTree: any = {};
+        labelInformationTree['Use Case:'] = usecaseLabels;
+        return this.metadataTreeCreatorPipe.transform(labelInformationTree);
     }
 }
 

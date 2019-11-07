@@ -15,130 +15,111 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="row sc-space-bottom">
-    <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-11' : 'sc-space-top col-sm-8'">
-        <div id="left">
-            <!-- Title component -->
-            <sc-title scenarioName="{{scenarioName | scHumanReadable}}"></sc-title>
-        </div>
-        <div id="right">
-            <label class="input-group">
-                <input [(ngModel)]="searchTerm" autofocus class="form-control"
-                       data-toggle="tooltip"
-                       id="ScenarioSearchField"
-                       placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
-                       title="type words separated by spaces to search for" type="text"/>
-                <span class="input-group-btn">
-                    <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
-                </span>
-            </label>
-        </div>
+<sc-detailarea [additionalDetailsSections]="additionalDetailsSections" [mainDetailsSections]="mainDetailsSections" key="scenarioView">
+    <sc-title scenarioName="{{scenarioName | scHumanReadable}}"></sc-title>
+    <div class="searchbar">
+        <label class="input-group">
+            <input [(ngModel)]="searchTerm" autofocus class="form-control" data-toggle="tooltip"
+                   id="ScenarioSearchField"
+                   placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
+                   title="type words separated by spaces to search for" type="text"/>
+            <span class="input-group-btn">
+                <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+            </span>
+        </label>
     </div>
 
-    <div id="sc-meta-data-panel">
-        <sc-detailarea (valueChange)="collapsePanel($event)" [labelConfigurations]="labelConfigurations"
-                       [metadataInformationTree]="metadataInformationTree" [relatedIssues]="relatedIssues"
-                       [scenarioInformationTree]="scenarioInformationTree" [useCaseLabels]="labels"></sc-detailarea>
-
-        <div [ngClass]="isPanelCollapsed ? 'sc-space-top col-sm-12' : 'sc-space-top col-sm-8'" class="step-view">
-            <p class="table-info">
-                <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length === pagesAndSteps?.length">
-                    {{pagesAndSteps.length}}
-                </span>
-                <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length != pagesAndSteps?.length">
-                    Found {{(pagesAndSteps | scSearchFilter: searchTerm)?.length}} of {{pagesAndSteps?.length}}
-                </span>
-                <span *ngIf="pagesAndSteps?.length>1">Pages</span>
-                <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
-                in this Scenario
-            </p>
-            <table *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length!=0"
-                   class="table table-curved table-responsive step-table">
-                <thead>
-                <tr>
-                    <th (click)="setOrder('name')" [class.selected]="order === 'name' " *ngIf="pagesAndSteps.indexOf(pagesAndSteps.page) != 0">
-                        Page
-                        <div *ngIf="order != 'name'" class="arrows">
-                            <span class="top"> &#9206; </span>
-                            <span class="bot"> &#9207; </span>
-                        </div>
-                        <div *ngIf="order === 'name' && reverse" class="arrows">
-                            <span class="top"> &#9206; </span>
-                            <span class="selectedBot">&#9207;</span>
-                        </div>
-                        <div *ngIf="order === 'name' && !reverse" class="arrows">
-                            <span class="selectedTop"> &#9206; </span>
-                            <span class="bot">&#9207;</span>
-                        </div>
-                    </th>
-                    <th>Description</th>
-                    <th>Screenshot Preview</th>
-                    <th (click)="setOrder('diffInfo.changeRate')" *ngIf="comparisonExisting"
-                        [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
-                        Changes on Step
-                        <div *ngIf="order != 'diffInfo.changeRate'" class="arrows">
-                            <span class="top"> &#9206; </span>
-                            <span class="bot"> &#9207; </span>
-                        </div>
-                        <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
-                            <span class="top"> &#9206; </span>
-                            <span class="selectedBot">&#9207;</span>
-                        </div>
-                        <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
-                            <span class="selectedTop"> &#9206; </span>
-                            <span class="bot">&#9207;</span>
-                        </div>
-                    </th>
-                </tr>
-                </thead>
-                <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm">
-                <tr>
-                    <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
-                        Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}<span
-                        *ngIf="dynamicPageAndSteps.page.name">: {{dynamicPageAndSteps.page.name | scHumanReadable}}</span>
-                        <div *ngIf="dynamicPageAndSteps.steps.length>1">
-                            ({{dynamicPageAndSteps.steps.length}} Steps)
-                        </div>
-                        <div *ngIf="dynamicPageAndSteps.steps.length==1">
-                            ({{dynamicPageAndSteps.steps.length}} Step)
-                        </div>
-                        <br>
-                        <p *ngIf="comparisonExisting">
-                            <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" childElementType="step"
-                                               elementType="page"></sc-diff-info-icon>
-                        </p>
-                    </td>
-                </tr>
-                <tr (click)="getLinkToStep(dynamicPageAndSteps.page.name, dynamicPageAndSteps.page.pageOccurrence, dynamicPageAndSteps.steps.indexOf(dynamicSteps))"
-                    *ngFor="let dynamicSteps of dynamicPageAndSteps.steps"
-                    [class.active]="dynamicSteps.index == arrowkeyLocation"
-                    [ngClass]="comparisonExisting ? {'added': dynamicSteps.diffInfo.isAdded, 'removed': dynamicSteps.diffInfo.isRemoved} : {}"
-                    class="sc-step-in-overview">
-                    <td>
-                        <div *ngIf="!(comparisonExisting && dynamicSteps.diffInfo.isRemoved)">
-                            <h2 placement="left"
-                                tooltip="Step {{dynamicPageAndSteps.steps.indexOf(dynamicSteps) + 1}} of {{dynamicPageAndSteps.steps.length}} on this page &#013; Step {{dynamicSteps.index + 1}} of {{scenarioStatistics.numberOfSteps}} in this scenario">
-                                Step {{dynamicSteps.index + 1}}
-                                <span *ngIf="dynamicSteps.title">: {{dynamicSteps.title}}</span>
-                            </h2>
-                            Status:
-                            <span [ngClass]="[getStatusStyleClass(dynamicSteps.status), 'label']">
+    <div class="tableTitle">
+        <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length === pagesAndSteps?.length"> {{pagesAndSteps.length}} </span>
+        <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length !== pagesAndSteps?.length">
+            Found {{(pagesAndSteps | scSearchFilter: searchTerm)?.length}} of {{pagesAndSteps?.length}}
+        </span>
+        <span *ngIf="pagesAndSteps?.length>1">Pages</span>
+        <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
+        in this Scenario
+    </div>
+    <table *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length !== 0"
+           class="table table-curved table-responsive step-table">
+        <thead>
+        <tr>
+            <th (click)="setOrder('name')" *ngIf="pagesAndSteps.length !== 0" [class.selected]="order === 'name' ">
+                Page
+                <div *ngIf="order !== 'name'" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="bot"> &#9207; </span>
+                </div>
+                <div *ngIf="order === 'name' && reverse" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="selectedBot">&#9207;</span>
+                </div>
+                <div *ngIf="order === 'name' && !reverse" class="arrows">
+                    <span class="selectedTop"> &#9206; </span>
+                    <span class="bot">&#9207;</span>
+                </div>
+            </th>
+            <th>Description</th>
+            <th>Screenshot Preview</th>
+            <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting" [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
+                Changes on Step
+                <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="bot"> &#9207; </span>
+                </div>
+                <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="selectedBot">&#9207;</span>
+                </div>
+                <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                    <span class="selectedTop"> &#9206; </span>
+                    <span class="bot">&#9207;</span>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm">
+        <tr>
+            <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
+                Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}
+                <span *ngIf="dynamicPageAndSteps.page.name">: {{dynamicPageAndSteps.page.name | scHumanReadable}}</span>
+                <div *ngIf="dynamicPageAndSteps.steps.length>1">
+                    ({{dynamicPageAndSteps.steps.length}} Steps)
+                </div>
+                <div *ngIf="dynamicPageAndSteps.steps.length==1">
+                    ({{dynamicPageAndSteps.steps.length}} Step)
+                </div>
+                <br>
+                <p *ngIf="isComparisonExisting">
+                    <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" childElementType="step" elementType="page"></sc-diff-info-icon>
+                </p>
+            </td>
+        </tr>
+        <tr (click)="getLinkToStep(dynamicPageAndSteps.page.name, dynamicPageAndSteps.page.pageOccurrence, dynamicPageAndSteps.steps.indexOf(dynamicSteps))"
+            *ngFor="let dynamicSteps of dynamicPageAndSteps.steps"
+            [class.active]="dynamicSteps.index == arrowkeyLocation"
+            [ngClass]="isComparisonExisting ? {'added': dynamicSteps.diffInfo.isAdded, 'removed': dynamicSteps.diffInfo.isRemoved} : {}"
+            class="sc-step-in-overview">
+            <td>
+                <div *ngIf="!(isComparisonExisting && dynamicSteps.diffInfo.isRemoved)">
+                    <h2 placement="left"
+                        tooltip="Step {{dynamicPageAndSteps.steps.indexOf(dynamicSteps) + 1}} of {{dynamicPageAndSteps.steps.length}} on this page &#013; Step {{dynamicSteps.index + 1}} of {{scenarioStatistics.numberOfSteps}} in this scenario">
+                        Step {{dynamicSteps.index + 1}}
+                        <span *ngIf="dynamicSteps.title">: {{dynamicSteps.title}}</span>
+                    </h2>
+                    Status:
+                    <span [ngClass]="[getStatusStyleClass(dynamicSteps.status), 'label']">
                             {{dynamicSteps.status}}
                         </span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="screenshot-container">
-                            <img alt="" class="screenshot" src="{{getScreenShotUrl(dynamicSteps.screenshotFileName)}}"/>
-                        </div>
-                    </td>
-                    <td *ngIf="comparisonExisting">
-                        <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" childElementType="screenshot"
-                                           elementType="step"></sc-diff-info-icon>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                </div>
+            </td>
+            <td>
+                <div class="screenshot-container">
+                    <img alt="" class="screenshot" src="{{getScreenShotUrl(dynamicSteps.screenshotFileName)}}"/>
+                </div>
+            </td>
+            <td *ngIf="isComparisonExisting">
+                <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" childElementType="screenshot" elementType="step"></sc-diff-info-icon>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</sc-detailarea>

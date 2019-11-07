@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, element, ElementFinder, $ } from 'protractor';
+import { by, element, $ } from 'protractor';
 
 class ScenarioPage {
 
@@ -9,7 +9,7 @@ class ScenarioPage {
     private collapseAllButton =  element(by.id('collapseAllPages'));
 
     async openStepByName(stepIndex) {
-        const elements = this.stepTable.all(by.css('tbody tr:nth-of-type(2)'));
+        const elements = this.stepView.all(by.css('tbody tr:nth-of-type(2)'));
         return elements.get(stepIndex).click();
     }
 
