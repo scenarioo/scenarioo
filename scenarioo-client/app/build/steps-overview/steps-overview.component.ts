@@ -24,7 +24,8 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {
     ILabelConfiguration,
     IScenario,
-    IScenarioStatistics, IScenarioSummary,
+    IScenarioStatistics,
+    IScenarioSummary,
     IStepDescription,
     IUseCase,
 } from '../../generated-types/backend-types';
@@ -33,8 +34,7 @@ import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/s
 import {RouteParamsService} from '../../shared/route-params.service';
 import {HumanReadablePipe} from '../../pipes/humanReadable.pipe';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
-import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
-import {RelatedIssueResource} from '../../shared/services/relatedIssueResource.service';
+import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {forkJoin} from 'rxjs';
@@ -48,6 +48,7 @@ import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.se
 import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
+import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
 
 declare var angular: angular.IAngularStatic;
 
@@ -91,6 +92,7 @@ export class StepsOverviewComponent {
 
     useCase: IUseCase;
     pagesAndSteps: PageWithSteps[];
+    pagesAndStepsOrder: PageWithSteps[];
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
 
@@ -116,7 +118,8 @@ export class StepsOverviewComponent {
                 private diffInfoService: DiffInfoService,
                 private orderPipe: OrderPipe,
                 private scenarioDiffInfoService: ScenarioDiffInfoService,
-                private stepDiffInfosService: StepDiffInfosService) {
+                private stepDiffInfosService: StepDiffInfosService,
+                private searchFilterPipe: ScSearchFilterPipe) {
     }
 
     ngOnInit(): void {
@@ -152,6 +155,7 @@ export class StepsOverviewComponent {
         ).subscribe((result) => {
             this.scenario = result.scenario;
             this.pagesAndSteps = result.pagesAndSteps;
+            this.pagesAndStepsOrder = this.pagesAndSteps;
             this.useCase = result.useCase;
             this.scenarioStatistics = result.scenarioStatistics;
 
@@ -239,38 +243,48 @@ export class StepsOverviewComponent {
 
     private resetSearchField() {
         this.searchTerm = '';
+        if (this.reverse) {
+            this.pagesAndStepsOrder = this.pagesAndSteps.slice().reverse();
+        } else {
+            this.pagesAndStepsOrder = this.pagesAndSteps;
+        }
     }
 
     private setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
+            this.pagesAndStepsOrder = this.pagesAndSteps.slice().reverse();
         }
         this.order = value;
     }
-
     @HostListener('window:keyup', ['$event'])
     private keyEvent(event: KeyboardEvent) {
+        this.pagesAndStepsOrder = this.searchFilterPipe.transform(this.pagesAndStepsOrder, this.searchTerm);
+
+        let pageIndex = Math.floor(this.arrowkeyLocation);
+        const stepIndex = Math.floor((this.arrowkeyLocation - pageIndex) * 10);
+        let stepsPerPage = this.pagesAndStepsOrder[pageIndex].steps.length;
+
         switch (event.code) {
             case 'ArrowDown':
-                /* TODO: set restriction for keyboard navigation (++) on filtered list */
-                /*
-                const filteredPages = this.filterPipe.transform(this.pagesAndSteps, this.searchTerm);
-                const filteredSteps = this.filterPipe.transform(this.pagesAndSteps.steps, this.searchTerm);
-                if (this.arrowkeyLocation < ((filteredPages.length * filteredSteps.length) - 1)) {
-                    this.arrowkeyLocation++;
-                }
-                */
-                if (this.arrowkeyLocation < this.scenarioStatistics.numberOfSteps - 1) {
-                    this.arrowkeyLocation++;
+                if (pageIndex < this.pagesAndStepsOrder.length && stepIndex < stepsPerPage) {
+                    if (stepIndex < stepsPerPage - 1) {
+                        this.arrowkeyLocation = this.arrowkeyLocation + 0.1;
+                    } else if (pageIndex < this.pagesAndStepsOrder.length - 1) {
+                        this.arrowkeyLocation = pageIndex + 1.0;
+                    }
                 }
                 break;
             case 'ArrowUp':
-                if (this.arrowkeyLocation > 0) {
-                    this.arrowkeyLocation--;
+                if (stepIndex === 0 && pageIndex !== 0) {
+                    stepsPerPage = this.pagesAndStepsOrder[--pageIndex].steps.length;
+                    this.arrowkeyLocation = parseFloat(pageIndex + '.' + (--stepsPerPage));
+                } else if (stepIndex > 0 && pageIndex >= 0) {
+                    this.arrowkeyLocation = this.arrowkeyLocation - 0.1;
                 }
                 break;
             case 'Enter':
-                this.getLinkToStep(this.pagesAndSteps[this.arrowkeyLocation].page.name, this.pagesAndSteps[this.arrowkeyLocation].page.pageOccurrence, 0);
+                this.getLinkToStep(this.pagesAndStepsOrder[this.arrowkeyLocation].page.name, this.pagesAndSteps[this.arrowkeyLocation].page.pageOccurrence, 0);
                 break;
         }
     }
