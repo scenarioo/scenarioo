@@ -76,48 +76,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </th>
         </tr>
         </thead>
-        <tbody *ngFor="let dynamicPageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm">
+        <tbody *ngFor="let pageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm let pageIndex = index">
         <tr>
-            <td [rowSpan]="dynamicPageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
-                Page {{pagesAndSteps.indexOf(dynamicPageAndSteps) + 1}}
-                <span *ngIf="dynamicPageAndSteps.page.name">: {{dynamicPageAndSteps.page.name | scHumanReadable}}</span>
-                <div *ngIf="dynamicPageAndSteps.steps.length>1">
-                    ({{dynamicPageAndSteps.steps.length}} Steps)
+            <td [rowSpan]="pageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
+                Page {{pagesAndSteps.indexOf(pageAndSteps) + 1}}
+                <span *ngIf="pageAndSteps.page.name">: {{pageAndSteps.page.name | scHumanReadable}}</span>
+                <div *ngIf="pageAndSteps.steps.length>1">
+                    ({{pageAndSteps.steps.length}} Steps)
                 </div>
-                <div *ngIf="dynamicPageAndSteps.steps.length==1">
-                    ({{dynamicPageAndSteps.steps.length}} Step)
+                <div *ngIf="pageAndSteps.steps.length==1">
+                    ({{pageAndSteps.steps.length}} Step)
                 </div>
                 <br>
                 <p *ngIf="isComparisonExisting">
-                    <sc-diff-info-icon [diffInfo]="dynamicPageAndSteps.page.diffInfo" childElementType="step" elementType="page"></sc-diff-info-icon>
+                    <sc-diff-info-icon [diffInfo]="pageAndSteps.page.diffInfo" childElementType="step" elementType="page"></sc-diff-info-icon>
                 </p>
             </td>
         </tr>
-        <tr (click)="getLinkToStep(dynamicPageAndSteps.page.name, dynamicPageAndSteps.page.pageOccurrence, dynamicPageAndSteps.steps.indexOf(dynamicSteps))"
-            *ngFor="let dynamicSteps of dynamicPageAndSteps.steps"
-            [class.active]="dynamicSteps.index == arrowkeyLocation"
-            [ngClass]="isComparisonExisting ? {'added': dynamicSteps.diffInfo.isAdded, 'removed': dynamicSteps.diffInfo.isRemoved} : {}"
+        <tr (click)="getLinkToStep(pageAndSteps.page.name, pageAndSteps.page.pageOccurrence, pageAndSteps.steps.indexOf(step))"
+            *ngFor="let step of pageAndSteps.steps let stepIndex = index"
+            [class.selected]="pageIndex + '.' + stepIndex == arrowkeyLocation"
+            [ngClass]="isComparisonExisting ? {'added': step.diffInfo.isAdded, 'removed': step.diffInfo.isRemoved} : {}"
             class="sc-step-in-overview">
             <td>
-                <div *ngIf="!(isComparisonExisting && dynamicSteps.diffInfo.isRemoved)">
+                <div *ngIf="!(isComparisonExisting && step.diffInfo.isRemoved)">
                     <h2 placement="left"
-                        tooltip="Step {{dynamicPageAndSteps.steps.indexOf(dynamicSteps) + 1}} of {{dynamicPageAndSteps.steps.length}} on this page &#013; Step {{dynamicSteps.index + 1}} of {{scenarioStatistics.numberOfSteps}} in this scenario">
-                        Step {{dynamicSteps.index + 1}}
-                        <span *ngIf="dynamicSteps.title">: {{dynamicSteps.title}}</span>
+                        tooltip="Step {{pageAndSteps.steps.indexOf(step) + 1}} of {{pageAndSteps.steps.length}} on this page &#013; Step {{step.index + 1}} of {{scenarioStatistics.numberOfSteps}} in this scenario">
+                        Step {{step.index + 1}}
+                        <span *ngIf="step.title">: {{step.title}}</span>
                     </h2>
                     Status:
-                    <span [ngClass]="[getStatusStyleClass(dynamicSteps.status), 'label']">
-                            {{dynamicSteps.status}}
-                        </span>
+                    <span [ngClass]="[getStatusStyleClass(step.status), 'label']">{{step.status}}</span>
                 </div>
             </td>
             <td>
                 <div class="screenshot-container">
-                    <img alt="" class="screenshot" src="{{getScreenShotUrl(dynamicSteps.screenshotFileName)}}"/>
+                    <img alt="" class="screenshot" src="{{getScreenShotUrl(step.screenshotFileName)}}"/>
                 </div>
             </td>
             <td *ngIf="isComparisonExisting">
-                <sc-diff-info-icon [diffInfo]="dynamicSteps.diffInfo" childElementType="screenshot" elementType="step"></sc-diff-info-icon>
+                <sc-diff-info-icon [diffInfo]="step.diffInfo" childElementType="screenshot" elementType="step"></sc-diff-info-icon>
             </td>
         </tr>
         </tbody>
