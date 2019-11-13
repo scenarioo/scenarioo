@@ -155,6 +155,7 @@ export class StepsOverviewComponent {
         ).subscribe((result) => {
             this.scenario = result.scenario;
             this.pagesAndSteps = result.pagesAndSteps;
+            console.log(this.pagesAndSteps);
             this.pagesAndStepsOrder = this.pagesAndSteps;
             this.useCase = result.useCase;
             this.scenarioStatistics = result.scenarioStatistics;
@@ -284,13 +285,12 @@ export class StepsOverviewComponent {
                 }
                 break;
             case 'Enter':
-                this.getLinkToStep(this.pagesAndStepsOrder[this.arrowkeyLocation].page.name, this.pagesAndSteps[this.arrowkeyLocation].page.pageOccurrence, 0);
+                this.getLinkToStep(this.pagesAndStepsOrder[pageIndex].page.name, this.pagesAndStepsOrder[pageIndex].page.pageOccurrence, stepIndex);
                 break;
         }
     }
 
     private getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
-
         this.locationService.path('/step/'
             + this.useCaseName + '/'
             + this.scenarioName + '/'
