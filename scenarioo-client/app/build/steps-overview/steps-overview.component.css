@@ -1,3 +1,23 @@
+sc-steps-overview .arrows {
+    display: inline;
+    margin-left: 2px;
+    margin-right: -2px;
+    cursor: pointer;
+}
+
+sc-steps-overview .top, sc-steps-overview .selectedTop {
+    position: absolute;
+    margin-top: -6px;
+}
+
+sc-steps-overview .top, sc-steps-overview .bot {
+    color: lightgray;
+}
+
+sc-steps-overview .bot, sc-steps-overview .selectedBot {
+    position: relative;
+}
+
 sc-steps-overview .screenshot-container {
     border: 2px solid #DDDDDD;
     max-width: 300px;
@@ -60,4 +80,13 @@ sc-steps-overview p {
     font-style: italic;
     margin-left: 3px;
     margin-bottom: 5px;
+}
+
+sc-steps-overview .table tbody>tr:hover td {
+    cursor: pointer;
+    background-color: rgba(225, 225, 225, 0.5);
+}
+
+sc-steps-overview .table tbody>tr.selected td {
+    background-color: rgba(225, 225, 225, 0.5);
 }
