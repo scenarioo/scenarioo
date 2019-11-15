@@ -16,7 +16,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
-import {LabelColorsComponent} from './manage/labelColors/label-colors.component';
+import {LabelColorsComponent} from './manage/label-colors/label-colors.component';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';

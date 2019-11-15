@@ -17,7 +17,7 @@
 
 'use strict';
 
-import {LabelConfiguration} from '../../../../app/manage/labelColors/label-configuration';
+import {LabelConfiguration} from '../../../../app/manage/label-colors/label-configuration';
 
 describe('A LabelConfiguration', () => {
 
