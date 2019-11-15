@@ -131,15 +131,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{build.buildDescription.date | scDateTime}}</td>
                 <td>{{build.buildDescription.revision}}</td>
                 <td>
-                    <span *ngIf="build.status != 'PROCESSING'">
+                    <span *ngIf="build.status !== 'PROCESSING'">
                         {{ build.buildStatistics.numberOfSuccessfulUseCases + build.buildStatistics.numberOfFailedUseCases }}
-                        <span *ngIf="build.buildStatistics.numberOfFailedUseCases != 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
+                        <span *ngIf="build.buildStatistics.numberOfFailedUseCases !== 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
                     </span>
                 </td>
                 <td>
-                    <span *ngIf="build.status != 'PROCESSING'">
+                    <span *ngIf="build.status !== 'PROCESSING'">
                         {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
-                        <span *ngIf="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+                        <span *ngIf="build.buildStatistics.numberOfFailedScenarios !== 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
                     </span>
                 </td>
                 <td>
