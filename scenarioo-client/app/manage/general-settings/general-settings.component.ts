@@ -10,6 +10,7 @@ import {
 } from '../../generated-types/backend-types';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
 import {map} from 'rxjs/operators';
+import {ConfigurationService} from '../../services/configuration.service';
 
 @Component({
     selector: 'sc-general-settings',
@@ -24,9 +25,11 @@ export class GeneralSettingsComponent implements OnInit {
 
     configuration: IConfiguration;
     builds: IBuildLink[] = [];
+    successfullyUpdatedConfiguration: boolean = false;
 
-    constructor(private applicationStatusService: ApplicationStatusService, private branchesResource: BranchesResource) {
-
+    constructor(private applicationStatusService: ApplicationStatusService,
+                private branchesResource: BranchesResource,
+                private configurationService: ConfigurationService) {
     }
 
     ngOnInit(): void {
@@ -46,4 +49,14 @@ export class GeneralSettingsComponent implements OnInit {
         }));
     }
 
+    resetConfiguration() {
+        this.configuration = this.configurationService.getRawCopy();
+    }
+
+    updateConfiguration() {
+        this.successfullyUpdatedConfiguration = false;
+        this.configurationService.updateConfiguration(this.configuration).subscribe(() => {
+            this.successfullyUpdatedConfiguration = true;
+        });
+    }
 }

@@ -157,7 +157,6 @@
     </div>
 
 
-
     <h2>Additional Columns</h2>
 
     <div class="row sc-space-bottom">
@@ -188,5 +187,38 @@
         </div>
     </div>
 
+    <h2>Status Styling &nbsp;<span class="glyphicon glyphicon-info-sign"
+                                   tooltip="This status styles can currently only be changed in the scenarioo config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span>
+    </h2>
+
+    <div class="row sc-space-bottom" *ngFor="let buildState of status.configuration.buildstates | keyvalue">
+        <div class="col-lg-3">
+            <b>{{ buildState.key }}</b>
+        </div>
+
+        <div class="col-lg-1">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </div>
+
+        <div class="col-lg-8">
+            <span class="label {{buildState.value}}">{{ buildState.value }}</span>
+        </div>
+    </div>
+
+
+    <div class="alert alert-success fade-out sc-space-top" *ngIf="successfullyUpdatedConfiguration">
+        The configuration has been successfully updated.
+        <a (click)="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
+           style="color: #468847">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+
+    <div class="row sc-space-top">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" (click)="resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
+            <input type="button" (click)="updateConfiguration()" value="Save" class="btn btn-wide btn-primary"/>
+        </div>
+    </div>
 
 </div>
