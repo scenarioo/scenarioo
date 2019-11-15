@@ -99,7 +99,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 	@Labels({ "encoding" })
 	public void dummy_scenario_with_one_step_with_an_encoded_space_in_url() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ENCODED_SPACE_STEP_CONFIG);
-		toolkit.loadUrl("http://www.wikipedia.org/url-with-encoded%20space");
+		toolkit.loadUrl("http://www.wikipedia.org/url-with%2520encoded%20space");
 	}
 
 

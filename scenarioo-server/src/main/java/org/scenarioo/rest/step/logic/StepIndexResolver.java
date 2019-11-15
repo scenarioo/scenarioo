@@ -16,7 +16,9 @@ public class StepIndexResolver {
 	private static final Logger LOGGER = Logger.getLogger(StepIndexResolver.class);
 
 	private static final String ENCODED_SPACE = "%20";
+	private static final String ENCODED_PERCENT = "%25";
 	private static final String SPACE = " ";
+	private static final String PERCENT = "%";
 
 	/**
 	 * Retrieves the overall index of a step in the scenario given a step identifier. Can do a fallback in case the
@@ -99,9 +101,21 @@ public class StepIndexResolver {
 		// Spring Boot automatically decodes all encoded spaces.
 		// As a consequence we may not be able to find a file that contains an encoded space.
 		// If we did not find a direct match we try again with all encoded spaces removed.
-		String sanitizedPageName = pageName.replaceAll(ENCODED_SPACE, SPACE);
-		String sanitizedPageWithStepsPageName =  pageWithSteps.getPage().getName().replaceAll(ENCODED_SPACE, SPACE);
+		String sanitizedPageName = sanitizePageName(pageName);
+		String sanitizedPageWithStepsPageName = sanitizePageName(pageWithSteps.getPage().getName());
 		return sanitizedPageName.equals(sanitizedPageWithStepsPageName);
+	}
+
+	/**
+	 * A space is encoded with %20, this in turn is encoded as %2520 and every time it is further encoded
+	 * another 25 is added, thus we have to replace %25 with % for as long as it is still present in the String,
+	 * only then can we replace %20 with a space.
+	 */
+	private String sanitizePageName(String pageName) {
+		while(pageName.contains(ENCODED_PERCENT)) {
+			pageName = pageName.replaceAll(ENCODED_PERCENT, PERCENT);
+		}
+		return pageName.replaceAll(ENCODED_SPACE, SPACE);
 	}
 
 	private ResolveStepIndexResult findBestStepInEntireScenario(final StepIdentifier stepIdentifier,
