@@ -25,6 +25,13 @@ public class FileResponseCreator {
 			.body(getFileInputStream(imageFile));
 	}
 
+	public static ResponseEntity createSmallImageFileResponse(byte[] image) {
+		return ResponseEntity
+			.ok()
+			.cacheControl(CacheControl.empty().cachePrivate().proxyRevalidate())
+			.body(image);
+	}
+
 	public static ResponseEntity<InputStreamResource> createUncacheableImageFileResponse(File imageFile) {
 		return ResponseEntity
 			.ok()

@@ -30,6 +30,8 @@ import org.scenarioo.rest.step.logic.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
 public class ScreenshotResource {
@@ -77,6 +79,38 @@ public class ScreenshotResource {
 		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
 
 		return screenshotResponseFactory.createFoundImageResponse(scenarioIdentifier, imageFileName, false);
+	}
+
+
+	/**
+	 * This method is used internally for loading the image of a step on the step overview page. To load this page faster, the images have to be resized.
+	 * It is the faster method, because it already knows the filename of the image.
+	 */
+	@GetMapping(path = "{scenarioName}/smallImage/{imageFileName}.png", produces = "image/png")
+	public ResponseEntity getSmallScreenshotPng(@PathVariable("branchName") final String branchName,
+												@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+												@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) throws IOException {
+		return getSmallScreenshot(branchName, buildName, usecaseName, scenarioName, imageFileName + ".png");
+	}
+
+	/**
+	 * This method is used internally for loading the image of a step on the step overview page. To load this page faster, the images have to be resized.
+	 * It is the faster method, because it already knows the filename of the image.
+	 * Additional method with produces=image/jpeg is needed, as IE 11 is a bit picky in its accept headers, so produces image/* does not work for jpeg images.
+	 */
+	@GetMapping(path = "{scenarioName}/smallImage/{imageFileName}", produces = "image/jpeg")
+	public ResponseEntity getSmallScreenshotJpeg(@PathVariable("branchName") final String branchName,
+												 @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+												 @PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) throws IOException {
+		return getSmallScreenshot(branchName, buildName, usecaseName, scenarioName, imageFileName);
+	}
+
+	private ResponseEntity getSmallScreenshot(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, @PathVariable("usecaseName") String usecaseName, @PathVariable("scenarioName") String scenarioName, @PathVariable("imageFileName") String imageFileName) throws IOException {
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.getInstance().resolveBranchAndBuildAliases(branchName,
+			buildName);
+		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
+
+		return screenshotResponseFactory.createFoundSmallImageResponse(scenarioIdentifier, imageFileName);
 	}
 
 	/**
