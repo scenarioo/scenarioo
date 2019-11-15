@@ -5,12 +5,10 @@ export function addRoutes($routeProvider) {
     $routeProvider
         .when('/', {
             template: require('./build/build.html'),
-            controller: 'BuildController',
             breadcrumbId: 'main',
         })
         .when('/manage', {
             template: require('./manage/manage.html'),
-            controller: 'ManageController',
             controllerAs: 'vm',
             breadcrumbId: 'manage',
         })

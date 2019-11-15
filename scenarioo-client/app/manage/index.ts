@@ -1,4 +1,3 @@
-import './manage.controller';
 import './buildImport/buildsList.controller';
 import './buildImport/buildImportDetails.controller';
 import './labelColors/labelColors.controller';
