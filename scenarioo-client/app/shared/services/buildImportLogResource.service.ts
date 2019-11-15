@@ -19,6 +19,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import encodeUri from '../utils/httpUriEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -30,7 +31,7 @@ export class BuildImportLogResource {
     }
 
     get(branchName: string, buildName: string): Observable<string> {
-        const urlWithBranchAndBuild = `${this.url}${encodeURIComponent(branchName)}/${encodeURIComponent(buildName)}`;
+        const urlWithBranchAndBuild = this.url + encodeUri([branchName, buildName]);
         return this.httpClient.get(urlWithBranchAndBuild,
             {
                 headers: {Accept: 'text/plain'},
