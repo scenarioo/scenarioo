@@ -9,6 +9,7 @@ import {
     IConfiguration,
 } from '../../generated-types/backend-types';
 import {BranchesResource} from '../../shared/services/branchesResource.service';
+import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ConfigurationService} from '../../services/configuration.service';
 
@@ -39,11 +40,13 @@ export class GeneralSettingsComponent implements OnInit {
         });
 
         this.branchesWithBuilds$ = this.branchesResource.query();
-        this.branchesWithBuilds$.subscribe((branchesWithBuilds) => {
-            this.builds = branchesWithBuilds.find((branchWithBuilds) => {
-                return branchWithBuilds.branch.name === this.configuration.defaultBranchName;
-            }).builds;
-        });
+
+        combineLatest([this.branchesWithBuilds$, this.applicationStatus$])
+            .subscribe(([branchesWithBuilds, applicationStatus]) => {
+                this.builds = branchesWithBuilds.find((branchWithBuilds) => {
+                    return branchWithBuilds.branch.name === applicationStatus.configuration.defaultBranchName;
+                }).builds;
+            });
         this.branches$ = this.branchesWithBuilds$.pipe(map((branchBuilds) => {
             return branchBuilds.map((branchBuild) => branchBuild.branch);
         }));
