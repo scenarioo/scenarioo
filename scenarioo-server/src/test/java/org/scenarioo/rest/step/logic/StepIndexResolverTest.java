@@ -38,42 +38,6 @@ public class StepIndexResolverTest {
 		expectRequestedStepIndexIsFound();
 	}
 
-	@Test
-	public void resolveIndexSuccessful_whenSpaceEncodingDoesNotMatch_identifierEncoded() {
-		givenStepIdentifierWithEncodedSpaceOfAnExistingStepWithSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
-
-	@Test
-	public void resolveIndexSuccessful_whenSpaceEncodingDoesNotMatch_stepEncoded() {
-		givenStepIdentifierWithSpaceOfAnExistingStepWithEncodedSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
-
-	@Test
-	public void resolveIndexSuccessful_whenSpaceEncodingIsDoublyEncoded_stepEncoded() {
-		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
-
-	@Test
-	public void resolveIndexSuccessful_whenPercentageIsDoublyEncoded_stepEncoded() {
-		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedPercentageAndSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
-
 	//step_Technical Corner Cases_dummy_scenario_with_one_step_with_an_encoded_space_in_url_url-with-encoded%2520space.jsp_0_0
 
 	@Test

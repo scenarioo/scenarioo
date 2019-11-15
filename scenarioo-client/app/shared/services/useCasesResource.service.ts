@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
 import {ILabels} from '../../generated-types/backend-types';
+import encodeUrl from '../utils/httpUrlEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -22,7 +23,7 @@ export class UseCasesResource {
     }
 
     query(build: BuildInfo): Observable<UseCaseSummary[]> {
-        return this.httpClient.get<UseCaseSummary[]>(`rest/branch/${build.branchName}/build/${build.buildName}/usecase`);
+        return this.httpClient.get<UseCaseSummary[]>(`${encodeUrl(['rest', 'branch', build.branchName, 'build', build.buildName, 'usecase'])}`);
     }
 }
 
