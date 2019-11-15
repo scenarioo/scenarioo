@@ -57,7 +57,7 @@ public class StepIndexResolverTest {
 	}
 
 	@Test
-	void resolveIndexSuccessful_whenSpaceEncodingIsDoublyEncoded_stepEncoded() {
+	public void resolveIndexSuccessful_whenSpaceEncodingIsDoublyEncoded_stepEncoded() {
 		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedSpace();
 
 		whenResolvingTheStepIndex();
@@ -66,7 +66,7 @@ public class StepIndexResolverTest {
 	}
 
 	@Test
-	void resolveIndexSuccessful_whenPercentageIsDoublyEncoded_stepEncoded() {
+	public void resolveIndexSuccessful_whenPercentageIsDoublyEncoded_stepEncoded() {
 		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedPercentageAndSpace();
 
 		whenResolvingTheStepIndex();
