@@ -16,7 +16,7 @@ class GeneralSettingsPage {
     }
 
     async assertSearchEndpointConfiguredAndReachable() {
-        await expect(await this.searchNotConfiguredMessage.length).toBe(0);
+        await expect((await this.searchNotConfiguredMessage).length).toBe(0);
         await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9300');
         await expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
         await expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
