@@ -53,12 +53,12 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
@@ -81,6 +81,7 @@ import {LocalStorageService} from './services/localStorage.service';
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
+        GeneralSettingsComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -135,11 +136,19 @@ import {LocalStorageService} from './services/localStorage.service';
         UrlContextExtractorService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
-        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {
+            provide: SelectedBranchAndBuildService,
+            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
+            deps: ['$injector'],
+        },
+        {
+            provide: BranchesAndBuildsService,
+            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
+            deps: ['$injector'],
+        },
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
-        {provide: LocationStrategy, useClass: HashLocationStrategy },
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
