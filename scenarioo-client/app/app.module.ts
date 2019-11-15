@@ -1,5 +1,5 @@
-import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import {APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -16,7 +16,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
-import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
+import {LabelColorsComponent} from './manage/labelColors/label-colors.component';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
@@ -33,8 +33,7 @@ import {MetadataTreeCreatorPipe} from './pipes/metadata/metadataTreeCreator.pipe
 import {TreeDataCreatorPipe} from './pipes/metadata/treeDataCreator.pipe';
 import {TreeDataOptimizerPipe} from './pipes/metadata/treeDataOptimizer.pipe';
 import {DateTimePipe} from './pipes/dateTime.pipe';
-import {TooltipModule} from 'ngx-bootstrap';
-import {AccordionModule} from 'ngx-bootstrap';
+import {AccordionModule, TooltipModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {DetailAccordionComponent} from './components/detailarea/detail-accordion/detail-accordion.component';
@@ -59,7 +58,7 @@ import {LocalStorageService} from './services/localStorage.service';
         LabelMetadataComponent,
         ManageTabsComponent,
         GeneralSettingsDirective,
-        LabelColorsDirective,
+        LabelColorsComponent,
         BuildsListDirective,
         ComparisonsDirective,
         MainpageComponent,

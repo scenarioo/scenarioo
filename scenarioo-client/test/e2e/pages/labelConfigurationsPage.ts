@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, element, ElementFinder, $ } from 'protractor';
+import {$, by, element} from 'protractor';
 import * as Utils from '../util';
 
 class LabelConfigurationsPage {
@@ -14,33 +14,31 @@ class LabelConfigurationsPage {
     }
 
     async assertNumConfigurations(expectedCount) {
-        const tableElement = element(by.id('label-configurations-table'));
+        const rows = this.labelConfigurationsTable.$$('tbody tr');
         // adding one, because there's always an empty row
-        return Utils.assertNumberOfTableRows(tableElement, expectedCount + 1);
+        return expect(rows.count()).toBe(expectedCount + 1);
     }
 
     async addLabelConfiguration(labelName, colorIndex) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const numberOfElements = await elements.count();
         const lastRow = elements.get(numberOfElements - 1);
-        const labelNameField = lastRow.$('input[name="labelName"]');
+        const labelNameField = lastRow.$('input[data-type="labelName"]');
+        await labelNameField.sendKeys(labelName);
         const colors = lastRow.all(by.css('ul li span'));
         await colors.get(colorIndex).click();
-        await labelNameField.sendKeys(labelName);
-
         await this.saveButton.click();
-        return expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
+        return Utils.waitForElementVisible(this.savedSuccessfullyText);
     }
 
     async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const row = elements.get(rowIndex);
-        const labelNameField = row.$('input[name="labelName"]');
-        const colors = row.all(by.css('ul li span'));
-        await colors.get(colorIndex).click();
-
+        const labelNameField = row.$('input[data-type="labelName"]');
         await labelNameField.clear();
         await labelNameField.sendKeys(labelName);
+        const colors = row.all(by.css('ul li span'));
+        await colors.get(colorIndex).click();
 
         return this.saveButton.click();
     }
