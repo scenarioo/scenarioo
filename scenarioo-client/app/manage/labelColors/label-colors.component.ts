@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LabelConfigurationsListResource} from '../../shared/services/labelConfigurationsListResource.service';
 import {LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
+import {AvailableColor} from './available-color';
+import {LabelConfiguration} from './label-configuration';
 
 @Component({
     selector: 'sc-label-colors',
@@ -8,17 +10,18 @@ import {LabelConfigurationsResource} from '../../shared/services/labelConfigurat
     styles: [require('./label-colors.component.css').toString()],
 })
 export class LabelColorsComponent implements OnInit {
-    availableColors = [{backgroundColor: '#e11d21', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#eb6420', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#fbca04', foregroundColor: '#000000'},
-        {backgroundColor: '#009800', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#006b75', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#207de5', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#0052cc', foregroundColor: '#FFFFFF'},
-        {backgroundColor: '#5319e7', foregroundColor: '#FFFFFF'}];
+    availableColors: AvailableColor[] = [
+        new AvailableColor('#e11d21', '#FFFFFF'),
+        new AvailableColor('#eb6420', '#FFFFFF'),
+        new AvailableColor('#fbca04', '#000000'),
+        new AvailableColor('#009800', '#FFFFFF'),
+        new AvailableColor('#006b75', '#FFFFFF'),
+        new AvailableColor('#207de5', '#FFFFFF'),
+        new AvailableColor('#0052cc', '#FFFFFF'),
+        new AvailableColor('#5319e7', '#FFFFFF'),
+    ];
 
-    labelConfigurations = [];
-    colorMissing = [];
+    labelConfigurations: LabelConfiguration[] = [];
     successfullyUpdatedLabelConfigurations = false;
 
     constructor(private labelConfigurationsListResource: LabelConfigurationsListResource,
@@ -35,9 +38,9 @@ export class LabelColorsComponent implements OnInit {
     }
 
     onLabelNameChanged() {
-        const labelName = this.labelConfigurations[this.labelConfigurations.length - 1].name;
-        if (labelName !== '') {
-            this.labelConfigurations.push(this.createEmptyLabelConfiguration());
+        const lastLabelInList = this.labelConfigurations[this.labelConfigurations.length - 1];
+        if (!lastLabelInList.isEmpty()) {
+            this.labelConfigurations.push(LabelConfiguration.empty());
         }
     }
 
@@ -46,8 +49,6 @@ export class LabelColorsComponent implements OnInit {
     }
 
     onSave() {
-        this.validateLabelConfigurations();
-
         if (this.allConfigurationsAreValid()) {
             this.labelConfigurationsResource.save(this.mapLabelConfigurations())
                 .subscribe(() => {
@@ -56,45 +57,28 @@ export class LabelColorsComponent implements OnInit {
         }
     }
 
-    onColorSelected(labelConfiguration, color) {
+    onColorSelected(labelConfiguration: LabelConfiguration, color: AvailableColor) {
         labelConfiguration.backgroundColor = color.backgroundColor;
         labelConfiguration.foregroundColor = color.foregroundColor;
     }
 
-    loadLabelConfigurations() {
+    private loadLabelConfigurations() {
         this.labelConfigurationsListResource.query()
             .subscribe((labelConfigurations) => {
-                labelConfigurations.push(this.createEmptyLabelConfiguration());
-                this.labelConfigurations = labelConfigurations;
+                this.labelConfigurations = [
+                    ...labelConfigurations.map(LabelConfiguration.fromFlatLabelConfiguration),
+                    LabelConfiguration.empty()];
             });
     }
 
-    private createEmptyLabelConfiguration() {
-        return {name: '', backgroundColor: '', foregroundColor: ''};
-    }
-
     private allConfigurationsAreValid() {
-        return this.colorMissing.length === 0;
-    }
-
-    private validateLabelConfigurations() {
-        let everythingIsValid = true;
-        this.colorMissing = [];
-        for (let _i = 0; _i < this.labelConfigurations.length; _i++) {
-            if (this.labelConfigurations[_i].name !== '') {
-                if (!this.labelConfigurations[_i].backgroundColor) {
-                    everythingIsValid = false;
-                    this.colorMissing[_i] = true;
-                }
-            }
-        }
-        return everythingIsValid;
+        return this.labelConfigurations.every((value) => value.isValid());
     }
 
     private mapLabelConfigurations() {
         const labelConfigurationsAsMap = {};
         for (const labelConfiguration of this.labelConfigurations) {
-            if (labelConfiguration.name !== '') {
+            if (!labelConfiguration.isEmpty()) {
                 labelConfigurationsAsMap[labelConfiguration.name] = {
                     backgroundColor: labelConfiguration.backgroundColor,
                     foregroundColor: labelConfiguration.foregroundColor,

@@ -13,7 +13,7 @@
                 <td>
                     <input type="text" class="ng-pristine ng-valid form-control" data-type="labelName"
                            [(ngModel)]="labelConfiguration.name"
-                           [name]="'labelName' + i" (change)="onLabelNameChanged()"/>
+                           [name]="'labelName' + i" (keyup)="onLabelNameChanged()"/>
                 </td>
                 <td style="vertical-align: middle;">
                     <ul class="sc-color-chooser">
@@ -24,7 +24,7 @@
                         </li>
                     </ul>
 
-                    <span [hidden]="!colorMissing[i]" class="sc-error-span">Please choose a color</span>
+                    <span [hidden]="labelConfiguration.isValid()" class="sc-error-span">Please choose a color</span>
                 </td>
                 <td>
                     <input type="button" class="btn btn-small btn-danger" value="Delete"
