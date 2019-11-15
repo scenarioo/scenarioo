@@ -1,7 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationStatusService} from '../../shared/services/applicationStatus.service';
 import {Observable} from 'rxjs';
-import {IApplicationStatus, IConfiguration} from '../../generated-types/backend-types';
+import {
+    IApplicationStatus,
+    IBranch,
+    IBranchBuilds,
+    IBuildLink,
+    IConfiguration,
+} from '../../generated-types/backend-types';
+import {BranchesResource} from '../../shared/services/branchesResource.service';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'sc-general-settings',
@@ -11,9 +19,13 @@ import {IApplicationStatus, IConfiguration} from '../../generated-types/backend-
 export class GeneralSettingsComponent implements OnInit {
 
     applicationStatus$: Observable<IApplicationStatus>;
-    configuration: IConfiguration;
+    branchesWithBuilds$: Observable<IBranchBuilds[]>;
+    branches$: Observable<IBranch[]>;
 
-    constructor(private applicationStatusService: ApplicationStatusService) {
+    configuration: IConfiguration;
+    builds: IBuildLink[] = [];
+
+    constructor(private applicationStatusService: ApplicationStatusService, private branchesResource: BranchesResource) {
 
     }
 
@@ -22,6 +34,16 @@ export class GeneralSettingsComponent implements OnInit {
         this.applicationStatus$.subscribe((status) => {
             this.configuration = status.configuration;
         });
+
+        this.branchesWithBuilds$ = this.branchesResource.query();
+        this.branchesWithBuilds$.subscribe((branchesWithBuilds) => {
+            this.builds = branchesWithBuilds.find((branchWithBuilds) => {
+                return branchWithBuilds.branch.name === this.configuration.defaultBranchName;
+            }).builds;
+        });
+        this.branches$ = this.branchesWithBuilds$.pipe(map((branchBuilds) => {
+            return branchBuilds.map((branchBuild) => branchBuild.branch);
+        }));
     }
 
 }
