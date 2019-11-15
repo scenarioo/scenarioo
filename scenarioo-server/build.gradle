@@ -69,7 +69,7 @@ generateTypeScript {
 }
 
 dependencies {
-    compile 'com.google.guava:guava-base'
+
     compile 'org.apache.xmlgraphics:batik-transcoder'
     compile 'org.apache.xmlgraphics:batik-codec'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons'
@@ -81,6 +81,11 @@ dependencies {
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
+
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    
+    
     //These libraries are no longer provided in Java 9+, thus we need to add them manually
     compile 'javax.xml.bind:jaxb-api'
     compile 'com.sun.xml.bind:jaxb-core'
@@ -148,7 +153,7 @@ bootWar.doLast {
     }
 }
 
-bootWar.dependsOn createVersionPropertiesFile
+assemble.dependsOn createVersionPropertiesFile
 war.dependsOn createVersionPropertiesFile
 bootWar.dependsOn ":scenarioo-client:build"
 war.dependsOn ":scenarioo-client:build"

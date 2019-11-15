@@ -63,8 +63,6 @@ allprojects {
 		dependencies {
 			dependency "org.scenarioo:scenarioo-java:${scenariooApiVersion}"
 
-			dependency 'com.google.guava:guava-base:r03'
-
 			dependency 'org.apache.xmlgraphics:batik-transcoder:1.8'
 			dependency 'org.apache.xmlgraphics:batik-codec:1.8'
 			dependency 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
