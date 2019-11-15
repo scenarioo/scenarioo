@@ -57,6 +57,26 @@ class StepIndexResolverTest {
 	}
 
 	@Test
+	void resolveIndexSuccessful_whenSpaceEncodingIsDoublyEncoded_stepEncoded() {
+		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedSpace();
+
+		whenResolvingTheStepIndex();
+
+		expectRequestedStepIndexIsFound();
+	}
+
+	@Test
+	void resolveIndexSuccessful_whenPercentageIsDoublyEncoded_stepEncoded() {
+		givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedPercentageAndSpace();
+
+		whenResolvingTheStepIndex();
+
+		expectRequestedStepIndexIsFound();
+	}
+
+	//step_Technical Corner Cases_dummy_scenario_with_one_step_with_an_encoded_space_in_url_url-with-encoded%2520space.jsp_0_0
+
+	@Test
 	void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence() {
 		givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist();
 
@@ -124,6 +144,18 @@ class StepIndexResolverTest {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1+" Test", 1, 2);
 		scenarioPagesAndSteps = StepTestData.createScenarioPagesAndSteps();
 		scenarioPagesAndSteps.getPagesAndSteps().forEach(pageAndSteps -> pageAndSteps.getPage().setName(pageAndSteps.getPage().getName()+"%20Test"));
+	}
+
+	private void givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedSpace() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1 + " Test", 1, 2);
+		scenarioPagesAndSteps = StepTestData.createScenarioPagesAndSteps();
+		scenarioPagesAndSteps.getPagesAndSteps().forEach(pageAndSteps -> pageAndSteps.getPage().setName(pageAndSteps.getPage().getName() + "%2520Test"));
+	}
+
+	private void givenStepIdentifierWithSpaceOfAnExistingStepWithDoublyEncodedPercentageAndSpace() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1 + " Test", 1, 2);
+		scenarioPagesAndSteps = StepTestData.createScenarioPagesAndSteps();
+		scenarioPagesAndSteps.getPagesAndSteps().forEach(pageAndSteps -> pageAndSteps.getPage().setName(pageAndSteps.getPage().getName() + "%252520Test"));
 	}
 
 	private void givenStepIdentifierWithEncodedSpaceOfAnExistingStepWithSpace() {

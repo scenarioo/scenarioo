@@ -160,8 +160,8 @@ public class DummyApplicationStepDataFactory {
 		createStep("urlWithParenthesesAndSpace");
 
 		// create TECHNICAL_PARENTHESES_STEP_CONFIG
-		startConfig(TECHNICAL_ENCODED_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-with-encoded%20space");
-		title("Technical Page with Encoded Space").pageName("url-with-encoded%20space.jsp").callTreeStart();
+		startConfig(TECHNICAL_ENCODED_SPACE_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-with%2520encoded%20space");
+		title("Technical Page with Encoded Space").pageName("url-with%2520encoded%20space.jsp").callTreeStart();
 		createStep("urlWithEncodedSpace");
 
 		return steps;
