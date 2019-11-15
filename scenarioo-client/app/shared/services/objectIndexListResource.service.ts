@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
-import encodeUrl from '../utils/httpUrlEncoder';
+import encodeUri from '../utils/httpUriEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,7 +14,7 @@ export class ObjectIndexListResource {
     }
 
     get(build: BuildInfo, objectType, objectName): Observable<any[]> {
-        return this.httpClient.get<any[]>(`${encodeUrl(['rest', 'branch', build.branchName, 'build', build.buildName, 'object', objectType, 'name'])}?name=${encodeUrl([objectName])}`);
+        return this.httpClient.get<any[]>(`${encodeUri(['rest', 'branch', build.branchName, 'build', build.buildName, 'object', objectType, 'name'])}?name=${encodeUri([objectName])}`);
     }
 }
 

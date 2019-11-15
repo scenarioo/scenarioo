@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
 import {IScenarioDetails, IUseCaseScenarios} from '../../generated-types/backend-types';
-import encodeUrl from '../utils/httpUrlEncoder';
+import encodeUri from '../utils/httpUriEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -15,11 +15,11 @@ export class ScenarioResource {
     }
 
     getUseCaseScenarios(build: BuildInfo, usecaseName: string): Observable<IUseCaseScenarios> {
-        return this.httpClient.get<IUseCaseScenarios>(`${encodeUrl(['rest', 'branch', build.branchName, 'build', build.buildName, 'usecase', usecaseName, 'scenario'])}`);
+        return this.httpClient.get<IUseCaseScenarios>(encodeUri(['rest', 'branch', build.branchName, 'build', build.buildName, 'usecase', usecaseName, 'scenario']));
     }
 
     get(build: BuildInfo, usecaseName: string, scenarioName?: string): Observable<IScenarioDetails> {
-        return this.httpClient.get<IScenarioDetails>(`${encodeUrl(['rest', 'branch', build.branchName, 'build', build.buildName, 'usecase', usecaseName, 'scenario', scenarioName])}`);
+        return this.httpClient.get<IScenarioDetails>(encodeUri(['rest', 'branch', build.branchName, 'build', build.buildName, 'usecase', usecaseName, 'scenario', scenarioName]));
 
     }
 }

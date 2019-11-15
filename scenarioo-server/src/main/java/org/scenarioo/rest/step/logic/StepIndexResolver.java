@@ -19,8 +19,7 @@ public class StepIndexResolver {
 	 * Retrieves the overall index of a step in the scenario given a step identifier. Can do a fallback in case the
 	 * requested step is not found in the scenario.
 	 */
-	public ResolveStepIndexResult resolveStepIndex(final ScenarioPageSteps scenarioPagesAndSteps,
-												   final StepIdentifier stepIdentifier) {
+	public ResolveStepIndexResult resolveStepIndex(final ScenarioPageSteps scenarioPagesAndSteps, final StepIdentifier stepIdentifier) {
 		checkNotNull(scenarioPagesAndSteps);
 		checkNotNull(stepIdentifier);
 
@@ -44,8 +43,7 @@ public class StepIndexResolver {
 		return findBestStepInEntireScenario(stepIdentifier, pageOccurrences);
 	}
 
-	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps,
-															   final StepIdentifier stepIdentifier) {
+	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps, final StepIdentifier stepIdentifier) {
 		if (stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size()) {
 			StepDescription stepDescription = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence());
 			String screenshotFileName = stepDescription.getScreenshotFileName();
@@ -67,8 +65,7 @@ public class StepIndexResolver {
 		}
 	}
 
-	private int getStepInPageOccurrenceWithMostMatchingLabels(final List<StepDescription> steps,
-															  final StepIdentifier stepIdentifier) {
+	private int getStepInPageOccurrenceWithMostMatchingLabels(final List<StepDescription> steps, final StepIdentifier stepIdentifier) {
 
 		int mostMatchingLabels = 0;
 		int indexOfBestStep = 0;
@@ -93,8 +90,7 @@ public class StepIndexResolver {
 		return pageName.equals(pageWithSteps.getPage().getName());
 	}
 
-	private ResolveStepIndexResult findBestStepInEntireScenario(final StepIdentifier stepIdentifier,
-																final List<PageSteps> pageOccurrences) {
+	private ResolveStepIndexResult findBestStepInEntireScenario(final StepIdentifier stepIdentifier, final List<PageSteps> pageOccurrences) {
 		StepIdentifier redirectStepIdentifier = getRedirectStepIdentifierForStepInAllPageOccurrences(stepIdentifier,
 			pageOccurrences);
 		StepDescription stepDescription = pageOccurrences.get(redirectStepIdentifier.getPageOccurrence()).getSteps()
@@ -108,8 +104,7 @@ public class StepIndexResolver {
 			stepDescription.getScreenshotFileName());
 	}
 
-	private StepIdentifier getRedirectStepIdentifierForStepInAllPageOccurrences(final StepIdentifier stepIdentifier,
-																				final List<PageSteps> pageOccurrences) {
+	private StepIdentifier getRedirectStepIdentifierForStepInAllPageOccurrences(final StepIdentifier stepIdentifier, final List<PageSteps> pageOccurrences) {
 
 		int mostMatchingLabels = 0;
 		int pageOccurrenceOfBestStep = 0;
