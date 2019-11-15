@@ -1,0 +1,224 @@
+<div *ngIf="applicationStatus$ | async as status">
+    <h2>General</h2>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Documentation Data Directory Path
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Absolute path to the directory where the config.xml file and generated documentation data is stored (web server needs read & write access to this folder)"></span>
+        </div>
+        <div class="col-lg-9">
+            {{ status.documentationDataDirectory }}
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Application Name
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Name of your documented application. Is shown in the browser title bar and in the navigation bar."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" [(ngModel)]="configuration.applicationName" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Application Welcome Message
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Application specific welcome message to show to users of your scenarioo documentation in info popup dialog. This is the place to explain to your stakeholders how your scenarioo documentation is structured. It is also recommended to place an email link here, where your stakeholders could ask questions or give feedback about the documentation."></span>
+        </div>
+        <div class="col-lg-9">
+            <textarea class="form-control" rows="5" [(ngModel)]="configuration.applicationInformation"></textarea>
+        </div>
+    </div>
+
+    <h2>Full Text Search</h2>
+
+    <div id="sc-search-not-configured-message" class="row sc-space-bottom"
+         *ngIf="status.searchEngineStatus && !status.searchEngineStatus.endpointConfigured">
+        <div class="col-lg-12">
+            Full text search is <span class="sc-service-disabled">disabled</span>. <br/>
+            See <a
+            href="http://www.scenarioo.org/docs/{{status.version.documentationVersion}}/features/full-text-search/setup.html"
+            target="_blank">Setup instructions for Full Text Search</a> on how to configure and setup Full text
+            search for Scenarioo.
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
+        <div class="col-lg-3">Elasticsearch Endpoint
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. You can change the endpoint in the elasticSearchEndpoint tag in config.xml."></span>
+        </div>
+        <div class="col-lg-9" id="sc-configured-search-endpoint">
+            {{status.searchEngineStatus.endpoint}}
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
+        <div class="col-lg-3">Elasticsearch Cluster Name
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Elasticsearch cluster name used for scenarioo. Can be configured in config.xml in your scenarioo data directory."></span>
+        </div>
+        <div class="col-lg-9" id="sc-configured-search-cluster-name">
+            {{status.configuration.elasticSearchClusterName}}
+        </div>
+    </div>
+
+
+    <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
+        <div class="col-lg-3">Elasticsearch Status
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
+        </div>
+        <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" *ngIf="!status.searchEngineStatus.running">
+            <span class="sc-service-disabled">
+                Not running / reachable
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+            </span>
+        </div>
+        <div id="sc-search-endpoint-is-reachable" class="col-lg-9" *ngIf="status.searchEngineStatus.running">
+            <span class="sc-service-enabled">Running and reachable</span>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
+        <div class="col-lg-12">
+            See <a
+            href="http://www.scenarioo.org/docs/{{status.version.documentationVersion}}/features/full-text-search/setup.html"
+            target="_blank">Setup Instructions for Full Text Search</a> for more information.
+        </div>
+    </div>
+
+
+    <h2>Branches and Builds</h2>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Default Branch
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Branch to select by default for first-time visitors."></span>
+        </div>
+        <div class="col-lg-9">
+            <select [(ngModel)]="configuration.defaultBranchName"
+                    class="form-control">
+                <option *ngFor="let branch of (branches$ | async)"
+                        [value]="branch.name">{{branch.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Default Build
+            &nbsp;<span class="glyphicon glyphicon-info-sign"
+                        tooltip="Build to select by default for first-time visitors."></span>
+        </div>
+        <div class="col-lg-9">
+            <select [(ngModel)]="configuration.defaultBuildName"
+                    class="form-control">
+                <option *ngFor="let build of builds" [value]="build.linkName">{{build.linkName}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Most Recent Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                 tooltip="An alias build name for always refering to the most recent build inside a branch (no matter whether the build was successful or not)."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" [(ngModel)]="status.configuration.aliasForMostRecentBuild" class="form-control"/>
+        </div>
+    </div>
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Last Successful Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                     tooltip="An alias build name for always refering to the last build that was successful inside a branch."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" [(ngModel)]="status.configuration.aliasForLastSuccessfulBuild" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Create last successful scenario build
+            <span class="glyphicon glyphicon-info-sign"
+                  tooltip="Creates a virtual build containing the latest successful scenarios aggregated over all builds of a branch "></span>
+        </div>
+        <div class="col-lg-9">
+            <label>
+                <input type="radio" [(ngModel)]="status.configuration.createLastSuccessfulScenarioBuild"
+                       [value]="true"/>
+                yes
+            </label>&nbsp;&nbsp;&nbsp;
+            <label>
+                <input type="radio" [(ngModel)]="status.configuration.createLastSuccessfulScenarioBuild"
+                       [value]="false"/>
+                no
+            </label>
+        </div>
+    </div>
+
+
+    <h2>Additional Columns</h2>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Additional Scenario Details Property Columns
+            &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Details property values to show for a scenario as additional columns in the scenario list of a use case. Comma separated list of keys of entries in the 'details'-map inside the scenarios.
+                 Only simple property-keys are supported (no dot notation)."></span>
+        </div>
+        <div class="col-lg-9">
+            <input type="text" [(ngModel)]="status.configuration.scenarioPropertiesInOverview" class="form-control"/>
+        </div>
+    </div>
+
+
+    <h2>Display Options</h2>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">Default state of pages in scenario overview
+        </div>
+        <div class="col-lg-9">
+            <label>
+                <input type="radio" [(ngModel)]="status.configuration.expandPagesInScenarioOverview" [value]="false"/>
+                collapsed
+            </label>&nbsp;&nbsp;&nbsp;
+            <label>
+                <input type="radio" [(ngModel)]="status.configuration.expandPagesInScenarioOverview" [value]="true"/>
+                expanded
+            </label>
+        </div>
+    </div>
+
+    <h2>Status Styling &nbsp;<span class="glyphicon glyphicon-info-sign"
+                                   tooltip="This status styles can currently only be changed in the scenarioo config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span>
+    </h2>
+
+    <div class="row sc-space-bottom" *ngFor="let buildState of status.configuration.buildstates | keyvalue">
+        <div class="col-lg-3">
+            <b>{{ buildState.key }}</b>
+        </div>
+
+        <div class="col-lg-1">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </div>
+
+        <div class="col-lg-8">
+            <span class="label {{buildState.value}}">{{ buildState.value }}</span>
+        </div>
+    </div>
+
+
+    <div class="alert alert-success fade-out sc-space-top" *ngIf="successfullyUpdatedConfiguration">
+        The configuration has been successfully updated.
+        <a (click)="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
+           style="color: #468847">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+
+    <div class="row sc-space-top">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" (click)="resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
+            <input type="button" (click)="updateConfiguration()" value="Save" class="btn btn-wide btn-primary"/>
+        </div>
+    </div>
+
+</div>

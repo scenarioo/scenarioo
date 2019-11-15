@@ -10,26 +10,33 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class ConfigurationService {
 
-    private configuration = new ReplaySubject<IConfiguration>(1);
+    private readonly configuration = new ReplaySubject<IConfiguration>(1);
 
     // TODO remove eventually. It's hard to migrate such code. Thus this workaround.
     private _config: IConfiguration;
 
-    private updateConfigurationSubject = (configuration) => {
-        this._config = configuration;
-        this.configuration.next(configuration);
-    }
-
     constructor(private configResource: ConfigResource) {
     }
 
+    /**
+     * Will be called on application startup
+     */
     loadConfigurationFromBackend() {
-        this.configResource.get().subscribe(this.updateConfigurationSubject);
+        this.configResource.get().subscribe((configuration) => {
+            this.updateConfigurationSubject(configuration);
+        });
     }
 
-    updateConfiguration(configuration: IConfiguration): Observable<IConfiguration> {
+    updateConfiguration(configuration: IConfiguration): Observable<void> {
         return this.configResource.save(configuration)
-            .pipe(tap(this.updateConfigurationSubject));
+            .pipe(tap(() => {
+                this.updateConfigurationSubject(configuration);
+            }));
+    }
+
+    private updateConfigurationSubject(configuration: IConfiguration) {
+        this._config = configuration;
+        this.configuration.next(configuration);
     }
 
     getConfiguration(): Observable<IConfiguration> {

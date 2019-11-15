@@ -1,5 +1,5 @@
-import {APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -15,8 +15,7 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
-import {LabelColorsComponent} from './manage/label-colors/label-colors.component';
+import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
@@ -33,7 +32,8 @@ import {MetadataTreeCreatorPipe} from './pipes/metadata/metadataTreeCreator.pipe
 import {TreeDataCreatorPipe} from './pipes/metadata/treeDataCreator.pipe';
 import {TreeDataOptimizerPipe} from './pipes/metadata/treeDataOptimizer.pipe';
 import {DateTimePipe} from './pipes/dateTime.pipe';
-import {AccordionModule, TooltipModule} from 'ngx-bootstrap';
+import {TooltipModule} from 'ngx-bootstrap';
+import {AccordionModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {DetailAccordionComponent} from './components/detailarea/detail-accordion/detail-accordion.component';
@@ -52,13 +52,13 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 
 @NgModule({
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        GeneralSettingsDirective,
-        LabelColorsComponent,
+        LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
         MainpageComponent,
@@ -80,6 +80,7 @@ import {LocalStorageService} from './services/localStorage.service';
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
+        GeneralSettingsComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -134,11 +135,19 @@ import {LocalStorageService} from './services/localStorage.service';
         UrlContextExtractorService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
-        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {
+            provide: SelectedBranchAndBuildService,
+            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
+            deps: ['$injector'],
+        },
+        {
+            provide: BranchesAndBuildsService,
+            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
+            deps: ['$injector'],
+        },
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
-        {provide: LocationStrategy, useClass: HashLocationStrategy },
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

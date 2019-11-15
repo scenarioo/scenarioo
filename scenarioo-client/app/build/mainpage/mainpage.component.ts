@@ -51,7 +51,12 @@ export class MainpageComponent implements OnInit {
     }
 
     private setActiveTab(tabHeading: string) {
-        this.tabsetComponent.tabs.filter((tab) => tab.heading === tabHeading)[0].active = true;
+        const tab = this.tabsetComponent.tabs.find((tab) => tab.heading === tabHeading);
+        if (tab) {
+            tab.active = true;
+        } else {
+            console.warn(`Could not find tab ${tabHeading}`);
+        }
     }
 
     private onSelect(data: TabDirective): void {

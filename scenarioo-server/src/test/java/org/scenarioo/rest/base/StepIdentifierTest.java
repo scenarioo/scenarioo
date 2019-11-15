@@ -1,20 +1,20 @@
 package org.scenarioo.rest.base;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.rest.step.logic.StepTestData;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class StepIdentifierTest {
+public class StepIdentifierTest {
 
 	private BuildIdentifier buildIdentifier;
 	private ScenarioIdentifier scenarioIdentifier;
 	private StepIdentifier stepIdentifier;
 
-	@BeforeEach
-	void setupTest() {
+	@Before
+	public void setupTest() {
 		buildIdentifier = new BuildIdentifier(StepTestData.BRANCH_NAME_VALID, StepTestData.BUILD_NAME_VALID);
 		scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, StepTestData.USECASE_NAME_VALID,
 				StepTestData.SCENARIO_NAME_VALID);
@@ -25,7 +25,7 @@ class StepIdentifierTest {
 	}
 
 	@Test
-	void redirectUrlForScreenshot() {
+	public void redirectUrlForScreenshot() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
 				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image.jpeg",
@@ -34,7 +34,7 @@ class StepIdentifierTest {
 	}
 
 	@Test
-	void redirectUrlForStep() {
+	public void redirectUrlForStep() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
 				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
@@ -43,7 +43,7 @@ class StepIdentifierTest {
 	}
 
 	@Test
-	void redirectUrlForStepWithoutContextPath() {
+	public void redirectUrlForStepWithoutContextPath() {
 		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
 		ContextPathHolder.INSTANCE.setContextPath("");
@@ -56,4 +56,5 @@ class StepIdentifierTest {
 			ContextPathHolder.INSTANCE.setContextPath(contextPath);
 		}
 	}
+
 }
