@@ -6,7 +6,6 @@ export function addRoutes($routeProvider) {
         .when('/', {
             template: require('./build/build.html'),
             controller: 'BuildController',
-            controllerAs: 'main',
             breadcrumbId: 'main',
         })
         .when('/manage', {
