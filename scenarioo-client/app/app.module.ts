@@ -54,6 +54,7 @@ import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.com
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
 import {BuildDetailComponent} from './manage/builds/build-detail.component';
+import {BuildImportStatusService} from './services/build-import-status.service';
 
 @NgModule({
     declarations: [
@@ -122,6 +123,7 @@ import {BuildDetailComponent} from './manage/builds/build-detail.component';
             multi: true,
         },
         LabelConfigurationService,
+        BuildImportStatusService,
         BuildDiffInfoService,
         BuildDiffInfosService,
         DiffInfoService,

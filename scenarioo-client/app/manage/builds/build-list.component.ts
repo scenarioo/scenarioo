@@ -1,57 +1,48 @@
 import {Component, OnInit} from '@angular/core';
-import {tap} from 'rxjs/operators';
 import {BuildImportStatesResource} from '../../shared/services/buildImportStatesResource.service';
-import {IBuildImportSummary} from '../../generated-types/backend-types';
+import {IBuildImportStatus, IBuildImportSummary} from '../../generated-types/backend-types';
 import {ConfigurationService} from '../../services/configuration.service';
 import {BuildReimportResource} from '../../shared/services/buildReimportResource.service';
 import {BuildImportService} from '../../shared/services/buildImport.service';
+import {BuildImportStatusService} from '../../services/build-import-status.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'sc-build-list',
     template: require('./build-list.component.html'),
 })
 export class BuildListComponent implements OnInit {
-    buildImportStates: IBuildImportSummary[];
+    buildImportStates$: Observable<IBuildImportSummary[]>;
     updatingBuildsInProgress: boolean = false;
+
     searchTerm: string;
     order: string = 'identifier.branchName';
     reverse: boolean = false;
-    styleClassesForBuildImportStatus = {
-        SUCCESS: 'label-success',
-        FAILED: 'label-danger',
-        UNPROCESSED: 'label-default',
-        QUEUED_FOR_PROCESSING: 'label-info',
-        PROCESSING: 'label-primary',
-        OUTDATED: 'label-warning',
-    };
 
     constructor(private buildImportStatesResource: BuildImportStatesResource,
                 private buildReimportResource: BuildReimportResource,
                 private buildImportService: BuildImportService,
-                private configurationService: ConfigurationService) {
+                private configurationService: ConfigurationService,
+                private buildImportStatusService: BuildImportStatusService) {
     }
 
     ngOnInit(): void {
-        this.buildImportStatesResource.get()
-            .subscribe((buildImportStates) => {
-                this.buildImportStates = buildImportStates;
-            });
+        this.initializeBuildImportStates();
     }
 
-    resetSearchField() {
+    resetSearchField(): void {
         this.searchTerm = '';
     }
 
-    getStyleClassForBuildImportStatus(status) {
-        const styleClassFromMapping = this.styleClassesForBuildImportStatus[status];
-        return styleClassFromMapping ? styleClassFromMapping : 'label-warning';
+    getStyleClassForBuildImportStatus(status: IBuildImportStatus): string {
+        return this.buildImportStatusService.getStyleClassForBuildImportStatus(status);
     }
 
-    getStatusStyleClass(state) {
+    getStatusStyleClass(state: string): string {
         return this.configurationService.getStatusStyleClass(state);
     }
 
-    setOrder(value: string) {
+    setOrder(value: string): void {
         if (this.order === value) {
             this.reverse = !this.reverse;
         } else {
@@ -60,22 +51,30 @@ export class BuildListComponent implements OnInit {
         this.order = value;
     }
 
-    reimportBuild(build: IBuildImportSummary) {
+    reimportBuild(build: IBuildImportSummary): void {
         this.updatingBuildsInProgress = true;
         this.buildReimportResource.get(build.identifier.branchName, build.identifier.buildName)
-            .pipe(tap(() => this.updatingBuildsInProgress = false))
-            .subscribe(() => this.buildImportFinished());
+            .subscribe(() => {
+                this.updatingBuildsInProgress = false;
+                this.buildImportFinished();
+            });
     }
 
-    importAndUpdateBuilds() {
+    importAndUpdateBuilds(): void {
         this.updatingBuildsInProgress = true;
         this.buildImportService.updateData()
-            .pipe(tap(() => this.updatingBuildsInProgress = false))
-            .subscribe(() => this.buildImportFinished());
+            .subscribe(() => {
+                this.updatingBuildsInProgress = false;
+                this.buildImportFinished();
+            });
     }
 
-    private buildImportFinished() {
+    private initializeBuildImportStates(): void {
+        this.buildImportStates$ = this.buildImportStatesResource.get();
+    }
+
+    private buildImportFinished(): void {
         this.updatingBuildsInProgress = false;
-        this.ngOnInit();
+        this.initializeBuildImportStates();
     }
 }
