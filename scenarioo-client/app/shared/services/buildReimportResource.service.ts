@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import encodeUri from '../utils/httpUriEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -13,7 +14,7 @@ export class BuildReimportResource {
 
     get(branchName: string, buildName: string): Observable<any> {
         // Returns just OK or NOT_FOUND.
-        return this.httpClient.get(`rest/builds/${branchName}/${buildName}/import`, {responseType: 'text'});
+        return this.httpClient.get(encodeUri(['rest', 'builds', branchName, buildName, 'import']), {responseType: 'text'});
     }
 }
 
