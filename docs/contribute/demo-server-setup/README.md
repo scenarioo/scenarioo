@@ -55,3 +55,14 @@ tail -f /var/lib/tomcat8/logs/catalina.out
 ```Bash
 sudo systemctl restart tomcat8
 ```
+
+### Checking if Elasticsearch is running
+```Bash
+sudo docker ps -a
+```
+Verify the status of `docker.elastic.co/elasticsearch/elasticsearch:5.6.9`
+
+If it isn't running either run/restart a deploy job on Circle-CI [scenarioo-infrastructure/master/deploy](https://circleci.com/gh/scenarioo/scenarioo-infrastructure/tree/master) or try
+```Bash
+sudo docker start -ai <processId>
+```
