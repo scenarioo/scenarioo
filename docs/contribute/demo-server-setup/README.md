@@ -66,3 +66,8 @@ If it isn't running either run/restart a deploy job on Circle-CI [scenarioo-infr
 ```Bash
 sudo docker start -ai <processId>
 ```
+
+### Accessing the Elasticsearch Logfile
+```Bash
+ sudo docker logs -t elasticsearch-5 -f
+ ```
