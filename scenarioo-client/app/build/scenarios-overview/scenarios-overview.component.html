@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tbody>
         <tr (click)="goToScenario(useCaseName, scenario.scenario.name)"
             *ngFor="let scenario of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
-                    let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
+                    let i = index" [class.selected]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
             <td>
                 <span [ngClass]="[getStatusStyleClass(scenario.scenario.status), 'label']">{{scenario.scenario.status}}</span>
             </td>

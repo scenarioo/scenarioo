@@ -1,4 +1,11 @@
 # Scenarioo Release Notes
+## Version 5.0.2
+
+### Bugfixes
+
+* [#953 - Unable to display Step View](https://github.com/scenarioo/scenarioo/issues/953) Accessing the step view for step urls containing special characters (spaces, parentheses, etc) works again.
+* [#951 - Docker doesn't load external application.properties](https://github.com/scenarioo/scenarioo/issues/951) The docker image now has the correct working directory set, so that an externally supplied application.properties file can be used.
+
 ## Version 5.0.1
 
 ### Bugfixes

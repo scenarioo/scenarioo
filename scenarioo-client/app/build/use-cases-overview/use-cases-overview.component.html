@@ -104,7 +104,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </thead>
         <tbody>
         <tr (click)="goToUseCase(usecase.name)" *ngFor="let usecase of usecases | orderBy: order:reverse:true | scSearchFilter: searchTerm
-                let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': usecase.diffInfo.isAdded, 'removed': usecase.diffInfo.isRemoved} : {}">
+                let i = index" [class.selected]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': usecase.diffInfo.isAdded, 'removed': usecase.diffInfo.isRemoved} : {}">
             <td>
                 <span [ngClass]="[getStatusStyleClass(usecase.status), 'label']">{{usecase.status}}</span>
             </td>
