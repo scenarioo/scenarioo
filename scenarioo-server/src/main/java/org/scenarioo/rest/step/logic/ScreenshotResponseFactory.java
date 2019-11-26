@@ -1,9 +1,5 @@
 package org.scenarioo.rest.step.logic;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -58,66 +54,19 @@ public class ScreenshotResponseFactory {
 		return createFoundImageResponse(screenshot, showFallbackStamp);
 	}
 
-	public ResponseEntity createFoundSmallImageResponse(final ScenarioIdentifier scenarioIdentifier, final String imageFileName) {
+	public ResponseEntity createFoundThumbnailResponse(final ScenarioIdentifier scenarioIdentifier, final String thumbnailFileName) {
 
 		final BuildIdentifier buildIdentifier = scenarioIdentifier.getBuildIdentifier();
 		final String usecaseName = scenarioIdentifier.getUsecaseName();
 		final String scenarioName = scenarioIdentifier.getScenarioName();
 
 		File screenshot = scenarioDocuReader.getScreenshotFile(buildIdentifier.getBranchName(),
-			buildIdentifier.getBuildName(), usecaseName, scenarioName, imageFileName);
+			buildIdentifier.getBuildName(), usecaseName, scenarioName, thumbnailFileName);
 
 		if (screenshot == null || !screenshot.exists()) {
 			return notFoundResponse();
 		}
-
-		try {
-			BufferedImage originalScreenshot = ImageIO.read(screenshot);
-
-			int type = originalScreenshot.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalScreenshot.getType();
-			BufferedImage smallScreenshot = resizeScreenshot(originalScreenshot, 300, type);
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(smallScreenshot, imageFileName.endsWith(".png") ? "png" : "jpeg", baos);
-			return createOkResponse(baos.toByteArray());
-
-		} catch (IOException e) {
-			throw new RuntimeException("Image could not be loaded unexpectedly", e);
-		}
-
-	}
-
-	private static BufferedImage resizeScreenshot(BufferedImage screenshot, int targetWidth, int type) {
-		int imageWidth = screenshot.getWidth(null);
-		int imageHeight = screenshot.getHeight(null);
-		double aspectRatio = (double) imageWidth / (double) imageHeight;
-
-		/**
-		 * If downscaling in one step, the BILINEAR and BICUBIC algorithms tend to lose information due to the way pixels are sampled from the source image
-		 * To combat this issue, we are using a multi-step approach when downscaling by more than two times; this helps prevent the information loss issue and produces a much higher quality result.
-		 */
-		do {
-
-			if (imageWidth > targetWidth) {
-				imageWidth /= 10;
-				if (imageWidth < targetWidth) {
-					imageWidth = targetWidth;
-				}
-			}
-
-			imageHeight = (int) (imageWidth / aspectRatio);
-
-			BufferedImage resizedImage = new BufferedImage(imageWidth, imageHeight, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.drawImage(screenshot.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH), 0, 0, imageWidth, imageHeight, null);
-			g.dispose();
-
-			screenshot = resizedImage;
-
-		} while (imageWidth != targetWidth);
-
-		return screenshot;
+		return createOkResponse(screenshot);
 	}
 
 	private ResponseEntity createFoundImageResponse(final File screenshot,
@@ -145,10 +94,6 @@ public class ScreenshotResponseFactory {
 
 	private ResponseEntity createOkResponse(final File screenshot) {
 		return FileResponseCreator.createImageFileResponse(screenshot);
-	}
-
-	private ResponseEntity createOkResponse(final byte[] screenshot) {
-		return FileResponseCreator.createSmallImageFileResponse(screenshot);
 	}
 
 	private ResponseEntity redirectResponse(final StepLoaderResult stepImage,

@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.BuildLink;
+import org.scenarioo.business.steps.StepScreenshotThumbnailGenerator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.version.ApplicationVersionHolder;
@@ -92,6 +93,8 @@ public class ScenarioDocuAggregator {
 	private StepsAndPagesAggregator stepsAndPagesAggregator;
 
 	private ObjectRepository objectRepository;
+
+	private StepScreenshotThumbnailGenerator stepScreenshotThumbnailGenerator = new StepScreenshotThumbnailGenerator();
 
 	public ScenarioDocuAggregator(final BuildImportSummary buildSummary) {
 		this.buildSummary = buildSummary;
@@ -275,7 +278,14 @@ public class ScenarioDocuAggregator {
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
 
+		calculateThumbnailsForSteps(usecase, scenario, steps);
 		return scenarioPageSteps;
+	}
+
+	private void calculateThumbnailsForSteps(final UseCase usecase, final Scenario scenario, List<Step> steps) {
+		for (Step step : steps) {
+			stepScreenshotThumbnailGenerator.calculateThumbnail(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase, scenario, step);
+		}
 	}
 
 	public void updateBuildSummary(final BuildLink buildLink) {

@@ -302,7 +302,7 @@ export class StepsOverviewComponent {
         const build = this.selectedBranchAndBuild.build;
 
         return 'rest/branch/' + branch + '/build/' + build +
-            '/usecase/' + this.useCaseName + '/scenario/' + this.scenarioName + '/smallImage/' + imgName;
+            '/usecase/' + this.useCaseName + '/scenario/' + this.scenarioName + '/image/thumbnail_' + imgName;
     }
 
     private createInformationTreeArray(scenario, statistics, useCase, usecaseLabels, relatedIssues) {
