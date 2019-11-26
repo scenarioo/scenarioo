@@ -22,7 +22,7 @@ import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuild
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
 import {
-    ILabelConfiguration,
+    ILabelConfiguration, IPageWithSteps,
     IScenario,
     IScenarioStatistics,
     IScenarioSummary,
@@ -45,7 +45,6 @@ import {OrderPipe} from 'ngx-order-pipe';
 import {UseCaseDiffInfoService} from '../../diffViewer/services/use-case-diff-info.service';
 import {ScenarioDiffInfoService} from '../../diffViewer/services/scenario-diff-info.service';
 import {StepDiffInfosService} from '../../diffViewer/services/step-diff-infos.service';
-import {PageWithSteps} from '../../diffViewer/types/PageWithSteps';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
@@ -91,8 +90,8 @@ export class StepsOverviewComponent {
     propertiesToShow: any[];
 
     useCase: IUseCase;
-    pagesAndSteps: PageWithSteps[];
-    pagesAndStepsOrder: PageWithSteps[];
+    pagesAndSteps: IPageWithSteps[];
+    pagesAndStepsOrder: IPageWithSteps[];
     steps: IStepDescription[];
     scenarioStatistics: IScenarioStatistics;
 
