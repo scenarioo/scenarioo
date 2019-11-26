@@ -18,8 +18,8 @@ export class ConfigResource {
         return this.httpClient.get<IConfiguration>(this.url);
     }
 
-    save(config: IConfiguration): Observable<IConfiguration> {
-        return this.httpClient.post<IConfiguration>(this.url, config);
+    save(config: IConfiguration): Observable<void> {
+        return this.httpClient.post<void>(this.url, config);
     }
 }
 

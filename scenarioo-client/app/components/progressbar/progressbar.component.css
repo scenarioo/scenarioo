@@ -2,6 +2,7 @@ sc-progressbar .sc-container {
     display: table;
     float: right;
     margin-top: -10px;
+    margin-right: -5px;
 }
 
 sc-progressbar .sc-progressbar-container {
@@ -31,16 +32,6 @@ sc-progressbar .sc-last {
 
 sc-progressbar .sc-progressbar-cell {
     display: table-cell;
-}
-
-sc-progressbar .step-arrow {
-    color: #337ab7;
-    cursor: pointer;
-}
-
-sc-progressbar .step-arrow-grey {
-    color: #EEEEEE;
-    cursor: default;
 }
 
 sc-progressbar .step-arrow, sc-progressbar .step-arrow-grey {

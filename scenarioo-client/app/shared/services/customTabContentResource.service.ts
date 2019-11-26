@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
 import {ICustomObjectTabTree} from '../../generated-types/backend-types';
+import encodeUri from '../utils/httpUriEncoder';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,7 +15,7 @@ export class CustomTabContentResource {
     }
 
     get(buildInfo: BuildInfo, tabId: number): Observable<ICustomObjectTabTree> {
-        return this.httpClient.get<ICustomObjectTabTree>(`rest/branches/${buildInfo.branchName}/builds/${buildInfo.buildName}/customTabObjects/${tabId}`);
+        return this.httpClient.get<ICustomObjectTabTree>(encodeUri(['rest', 'branches', buildInfo.branchName, 'builds', buildInfo.buildName, 'customTabObjects', tabId.toString()]));
     }
 }
 

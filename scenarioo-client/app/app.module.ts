@@ -15,7 +15,6 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
@@ -52,6 +51,7 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
@@ -61,7 +61,6 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
 @NgModule({
     declarations: [
         ManageTabsComponent,
-        GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
@@ -83,6 +82,7 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
+        GeneralSettingsComponent,
         StepsOverviewComponent,
         ProgressbarComponent,
         StepViewComponent,
@@ -148,11 +148,19 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         UrlContextExtractorService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
-        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {
+            provide: SelectedBranchAndBuildService,
+            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
+            deps: ['$injector'],
+        },
+        {
+            provide: BranchesAndBuildsService,
+            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
+            deps: ['$injector'],
+        },
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
-        {provide: LocationStrategy, useClass: HashLocationStrategy },
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

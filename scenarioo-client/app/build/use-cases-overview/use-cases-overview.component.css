@@ -23,9 +23,13 @@ sc-usecases-overview .table thead span {
     cursor: pointer;
 }
 
-sc-usecases-overview .table tbody>tr:hover {
+sc-usecases-overview .table tbody>tr:hover td {
     cursor: pointer;
-    background-color: #F5F5F5;
+    background-color: rgba(225, 225, 225, 0.5);
+}
+
+sc-usecases-overview .table tbody>tr.selected td {
+    background-color: rgba(225, 225, 225, 0.5);
 }
 
 sc-usecases-overview p {

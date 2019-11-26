@@ -1,4 +1,3 @@
-import './screenAnnotations/annotatedScreenshot.component';
 import './screenAnnotations/screenAnnotationsButton.component';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
@@ -7,4 +6,4 @@ import './fallback/fallback.component';
 import './navigation/stepNavigation.component';
 import './comparison/comparisonToolbar.component';
 import './comparison/comparisonView.component';
-import './step.controller';
+import './oldstep.controller';

@@ -1,7 +1,5 @@
-import './manage.controller';
 import './buildImport/buildsList.controller';
 import './buildImport/buildImportDetails.controller';
-import './generalSettings/generalSettings.controller';
 import './labelColors/labelColors.controller';
 import './comparisons/comparisons.controller';
 import './comparisons/comparisonDetails.controller';
