@@ -55,6 +55,7 @@ import {LocalStorageService} from './services/localStorage.service';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
+import {RootScopeService} from './shared/rootScope.service';
 
 @NgModule({
     declarations: [
@@ -139,11 +140,12 @@ import {TreeComponent} from './components/detailarea/tree/tree.component';
         DateTimePipe,
         LocalStorageService,
         UrlContextExtractorService,
+        SelectedComparison,
+        {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
         {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
-        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
