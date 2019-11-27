@@ -1,8 +1,5 @@
 package org.scenarioo.rest.step.logic;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -10,13 +7,17 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StepIndexResolverTest {
 
 	private final BuildIdentifier BUILD_IDENTIFIER = new BuildIdentifier("branch", "build");
 	private final ScenarioIdentifier USECASE_IDENTIFIER = new ScenarioIdentifier(BUILD_IDENTIFIER, "scenario",
-			"usecase");
+		"usecase");
 
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 
@@ -38,23 +39,7 @@ class StepIndexResolverTest {
 		expectRequestedStepIndexIsFound();
 	}
 
-	@Test
-	void resolveIndexSuccessful_whenSpaceEncodingDoesNotMatch_identifierEncoded() {
-		givenStepIdentifierWithEncodedSpaceOfAnExistingStepWithSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
-
-	@Test
-	void resolveIndexSuccessful_whenSpaceEncodingDoesNotMatch_stepEncoded() {
-		givenStepIdentifierWithSpaceOfAnExistingStepWithEncodedSpace();
-
-		whenResolvingTheStepIndex();
-
-		expectRequestedStepIndexIsFound();
-	}
+	//step_Technical Corner Cases_dummy_scenario_with_one_step_with_an_encoded_space_in_url_url-with-encoded%2520space.jsp_0_0
 
 	@Test
 	void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence() {
@@ -120,29 +105,17 @@ class StepIndexResolverTest {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1, 1, 2);
 	}
 
-	private void givenStepIdentifierWithSpaceOfAnExistingStepWithEncodedSpace() {
-		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1+" Test", 1, 2);
-		scenarioPagesAndSteps = StepTestData.createScenarioPagesAndSteps();
-		scenarioPagesAndSteps.getPagesAndSteps().forEach(pageAndSteps -> pageAndSteps.getPage().setName(pageAndSteps.getPage().getName()+"%20Test"));
-	}
-
-	private void givenStepIdentifierWithEncodedSpaceOfAnExistingStepWithSpace() {
-		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1+"%20Test", 1, 2);
-		scenarioPagesAndSteps = StepTestData.createScenarioPagesAndSteps();
-		scenarioPagesAndSteps.getPagesAndSteps().forEach(pageAndSteps -> pageAndSteps.getPage().setName(pageAndSteps.getPage().getName()+" Test"));
-	}
-
 	private void givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist() {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1, 1, 3);
 	}
 
 	private void givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist_withLabels() {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1, 1, 3,
-				createLabels("step-label-3"));
+			createLabels("step-label-3"));
 	}
 
 	private Set<String> createLabels(final String label) {
-		Set<String> labels = new HashSet<>();
+		Set<String> labels = new HashSet<String>();
 		labels.add(label);
 		return labels;
 	}
@@ -153,7 +126,7 @@ class StepIndexResolverTest {
 
 	private void givenStepWherePageOccurrenceDoesNotExist_withLabels() {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, StepTestData.PAGE_NAME_VALID_1, 2, 3,
-				createLabels("step-label-3"));
+			createLabels("step-label-3"));
 	}
 
 	private void givenStepWithPageThatDoesNotExistInScenario() {

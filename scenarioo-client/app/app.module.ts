@@ -15,7 +15,6 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ProgressbarModule} from 'ngx-bootstrap/progressbar';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
-import {GeneralSettingsDirective} from './manage/generalSettings/general-settings.directive';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
@@ -52,15 +51,16 @@ import {ShareComponent} from './build/mainpage/share/share.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
+import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
+import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 import {RootScopeService} from './shared/rootScope.service';
 
 @NgModule({
     declarations: [
         ManageTabsComponent,
-        GeneralSettingsDirective,
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
@@ -82,9 +82,11 @@ import {RootScopeService} from './shared/rootScope.service';
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
+        GeneralSettingsComponent,
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     entryComponents: [
         ManageTabsComponent,
@@ -98,6 +100,7 @@ import {RootScopeService} from './shared/rootScope.service';
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
+        AnnotatedScreenshotComponent,
     ],
     imports: [
         BrowserModule,
@@ -144,10 +147,18 @@ import {RootScopeService} from './shared/rootScope.service';
         {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {provide: SelectedBranchAndBuildService, useFactory: (i: any) => i.get('SelectedBranchAndBuildService'), deps: ['$injector']},
-        {provide: BranchesAndBuildsService, useFactory: (i: any) => i.get('BranchesAndBuildsService'), deps: ['$injector']},
+        {
+            provide: SelectedBranchAndBuildService,
+            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
+            deps: ['$injector'],
+        },
+        {
+            provide: BranchesAndBuildsService,
+            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
+            deps: ['$injector'],
+        },
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
-        {provide: LocationStrategy, useClass: HashLocationStrategy },
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

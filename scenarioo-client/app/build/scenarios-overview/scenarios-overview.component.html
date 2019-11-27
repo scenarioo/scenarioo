@@ -30,13 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </label>
     </div>
 
-    <p class="tableTitle">
+    <div class="tableTitle">
         <span *ngIf="(scenarios | scSearchFilter: searchTerm).length === scenarios.length">{{scenarios.length}}</span>
         <span *ngIf="(scenarios | scSearchFilter: searchTerm).length !== scenarios.length">
             Found {{(scenarios | scSearchFilter: searchTerm).length}} of {{scenarios.length}}</span>
         <span *ngIf="scenarios.length>1"> Scenarios in this Use Case</span>
         <span *ngIf="scenarios.length<=1"> Scenario in this Use Case</span>
-    </p>
+    </div>
     <table *ngIf="(scenarios | scSearchFilter: searchTerm).length !== 0"
            class="table table-curved table-responsive scenario-table">
         <thead>
@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tbody>
         <tr (click)="goToScenario(useCaseName, scenario.scenario.name)"
             *ngFor="let scenario of scenarios | orderBy: order:reverse:true | scSearchFilter: searchTerm
-                    let i = index" [class.active]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
+                    let i = index" [class.selected]="i == arrowkeyLocation" [ngClass]="isComparisonExisting ? {'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved} : {}">
             <td>
                 <span [ngClass]="[getStatusStyleClass(scenario.scenario.status), 'label']">{{scenario.scenario.status}}</span>
             </td>

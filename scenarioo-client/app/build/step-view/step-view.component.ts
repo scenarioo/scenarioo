@@ -44,9 +44,14 @@ export class StepViewComponent {
     stepInPageOccurrence: number;
     labels;
 
+    stepIdentifier;
+    step;
     stepNavigation;
     stepStatistics;
     stepInformationTree;
+    screenShotUrl;
+    stepIndex;
+    totalNumberOfSteps;
 
     scenarioLabels;
     useCaseLabels;
@@ -89,8 +94,13 @@ export class StepViewComponent {
             this.stepInPageOccurrence,
             this.labels,
         ).subscribe((result) => {
+            this.stepIdentifier = result.stepIdentifier;
+            this.step = result.step;
+            this.initScreenshotUrl(selection);
             this.stepNavigation = result.stepNavigation;
+            this.stepIndex = this.stepNavigation.stepIndex + 1;
             this.stepStatistics = result.stepStatistics;
+            this.totalNumberOfSteps = this.stepStatistics.totalNumberOfStepsInScenario;
             this.useCaseLabels = result.useCaseLabels;
             this.scenarioLabels = result.scenarioLabels;
             this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(result.step.metadata.details);
@@ -108,16 +118,12 @@ export class StepViewComponent {
                 this.stepInformationTree = this.createInformationTreeArray(result.step, relatedIssueSummary, this.useCaseLabels, this.scenarioLabels);
             });
             /*
-            const stepIdentifier = result.stepIdentifier;
             const fallback = result.fallback;
-            const step = result.step;
             const pageTree = transformMetadataToTree(result.step.page);
             const stepIndex = result.stepNavigation.stepIndex;
-            const useCaseLabels = result.useCaseLabels;
-            const scenarioLabels = result.scenarioLabels;
             const selectedBuild = selected.buildName;
             const getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;*/
-        }, (error) => {
+        }, () => {
             this.stepNotFound = true;
         });
     }
@@ -172,8 +178,7 @@ export class StepViewComponent {
 
         if (stepDescription.details) {
             Object.keys(stepDescription.details).forEach((key) => {
-                const value = stepDescription.details[key];
-                stepInformationTree[key] = value;
+                stepInformationTree[key] = stepDescription.details[key];
             });
         }
 
@@ -193,6 +198,53 @@ export class StepViewComponent {
         labelInformationTree['Page:'] = step.page.labels.labels;
 
         return this.metadataTreeCreatorPipe.transform(labelInformationTree);
+    }
+
+    // This URL is only used internally, not for sharing
+    private initScreenshotUrl(selection) {
+        if (this.step === undefined) {
+            return undefined;
+        }
+
+        const imageName = this.step.stepDescription.screenshotFileName;
+
+        if (imageName === undefined) {
+            return undefined;
+        }
+
+        this.screenShotUrl = 'rest/branch/' + selection.branch + '/build/' + selection.build + '/usecase/' + this.stepIdentifier.usecaseName + '/scenario/' + this.stepIdentifier.scenarioName + '/image/' + imageName;
+    }
+
+    private setDefaultTab() {
+        this.storeActiveTab(0);
+        window.location.reload();
+    }
+
+    private setActiveTab = (activeTab): void => {
+        this.storeActiveTab(activeTab);
+        window.location.reload();
+    }
+
+    private storeActiveTab(activeTab) {
+        sessionStorage.setItem('activeTab', activeTab);
+    }
+
+    private goStepBack() {
+        if (!this.stepNavigation || !this.stepNavigation.previousStep) {
+            return;
+        }
+        this.go(this.stepNavigation.previousStep);
+    }
+
+    private goStepForward() {
+        if (!this.stepNavigation || !this.stepNavigation.nextStep) {
+            return;
+        }
+        this.go(this.stepNavigation.nextStep);
+    }
+
+    go(data) {
+        this.locationService.path('/step/' + (data.useCaseName || this.useCaseName) + '/' + (data.scenarioName || this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
     }
 }
 

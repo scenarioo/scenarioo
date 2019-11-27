@@ -21,3 +21,12 @@ sc-scenarios-overview .bot, sc-scenarios-overview .selectedBot {
 sc-scenarios-overview tbody {
     cursor: pointer;
 }
+
+sc-scenarios-overview .table tbody>tr:hover td {
+    cursor: pointer;
+    background-color: rgba(225, 225, 225, 0.5);
+}
+
+sc-scenarios-overview .table tbody>tr.selected td {
+    background-color: rgba(225, 225, 225, 0.5);
+}
