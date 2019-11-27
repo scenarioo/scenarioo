@@ -19,8 +19,7 @@ import {StepDiffInfoService} from '../../diffViewer/services/step-diff-info.serv
 
 declare var angular: angular.IAngularStatic;
 
-angular
-    .module('scenarioo.directives')
+angular.module('scenarioo.controllers')
     .component('scComparisonView', {
         bindings: {
             step: '<',

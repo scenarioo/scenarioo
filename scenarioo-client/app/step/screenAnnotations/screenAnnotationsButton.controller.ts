@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare var angular: angular.IAngularStatic;
+
 angular
-    .module('scenarioo.directives')
+    .module('scenarioo.controllers')
     .component('scScreenAnnotationsButton', {
         bindings: {
             screenAnnotations: '<',
-            visibilityToggle: '<',
         },
         template: require('./screenAnnotationsButton.html'),
         controller: screenAnnotationsButton,

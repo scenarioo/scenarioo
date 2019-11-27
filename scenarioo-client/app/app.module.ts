@@ -18,6 +18,7 @@ import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {ScreenAnnotationsButtonDirective} from './step/screenAnnotations/screenAnnotationsButton.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
@@ -57,6 +58,7 @@ import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
 import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 import {RootScopeService} from './shared/rootScope.service';
+import {ComparisonViewDirective} from './step/comparison/comparisonView.directive';
 
 @NgModule({
     declarations: [
@@ -64,6 +66,7 @@ import {RootScopeService} from './shared/rootScope.service';
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
+        ScreenAnnotationsButtonDirective,
         MainpageComponent,
         ShareComponent,
         UseCasesOverviewComponent,
@@ -79,6 +82,7 @@ import {RootScopeService} from './shared/rootScope.service';
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
+        ComparisonViewDirective,
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
