@@ -48,3 +48,10 @@ sc-step-view .step-arrow-grey {
     color: #FFFFFF;
     cursor: default;
 }
+
+sc-step-view .sc-label-after-text {
+    float: right;
+    margin-left: 5px;
+    width: 50px;
+    margin-top: -5px;
+}
