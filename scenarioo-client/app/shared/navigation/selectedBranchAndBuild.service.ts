@@ -148,12 +148,13 @@ angular.module('scenarioo.services')
 
     });
 
+// TODO: this service should be really upgraded to an injectable service and then be downgraded for AngularJS and it should use real types (instead of any!)
 export class SelectedBranchAndBuildService {
     callOnSelectionChange(fn: any) {
 
     }
 
-    selected(): string {
+    selected(): any {
         return '';
     }
 }
