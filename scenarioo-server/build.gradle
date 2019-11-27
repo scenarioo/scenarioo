@@ -35,7 +35,9 @@ buildscript {
         classpath group: 'cz.habarta.typescript-generator', name: 'typescript-generator-gradle-plugin', version: '2.13.489'
     }
 }
+
 generateTypeScript {
+
     classes = [
             'org.scenarioo.model.configuration.Configuration',
             'org.scenarioo.rest.configuration.ApplicationStatus',
@@ -51,12 +53,16 @@ generateTypeScript {
             'org.scenarioo.model.docu.aggregates.objects.ObjectIndex',
             'org.scenarioo.rest.objectRepository.StepReference',
             'org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios',
-            'org.scenarioo.rest.scenario.dto.ScenarioDetails',
             'org.scenarioo.rest.search.SearchResponse',
             'org.scenarioo.rest.search.SearchEngineStatus',
             'org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary',
             'org.scenarioo.model.docu.aggregates.branches.BranchBuilds',
-            'org.scenarioo.rest.sketcher.issue.dto.SketchIds',
+    ]
+
+    // all DTO classes by package name
+    classPatterns = [
+            'org.scenarioo.rest.**.dto.*',
+            'org.scenarioo.rest.**.dto.**.*',
     ]
 
     addTypeNamePrefix = 'I'
@@ -82,8 +88,8 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     compile 'io.springfox:springfox-swagger2'
-    compile 'io.springfox:springfox-swagger-ui'    
-    
+    compile 'io.springfox:springfox-swagger-ui'
+
     //These libraries are no longer provided in Java 9+, thus we need to add them manually
     compile 'javax.xml.bind:jaxb-api'
     compile 'com.sun.xml.bind:jaxb-core'
