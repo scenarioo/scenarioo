@@ -1,9 +1,9 @@
-import './screenAnnotations/screenAnnotationsButton.controller';
+import './screenAnnotations/screenAnnotationsButton.component';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
 import './stepNotFound/stepNotFound.component';
 import './fallback/fallback.component';
 import './navigation/stepNavigation.component';
 import './comparison/comparisonToolbar.component';
-import './comparison/comparisonView.controller';
+import './comparison/comparisonView.component';
 import './oldstep.controller';

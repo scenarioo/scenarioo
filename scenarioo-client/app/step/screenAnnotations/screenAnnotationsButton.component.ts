@@ -18,7 +18,7 @@
 declare var angular: angular.IAngularStatic;
 
 angular
-    .module('scenarioo.controllers')
+    .module('scenarioo.directives')
     .component('scScreenAnnotationsButton', {
         bindings: {
             screenAnnotations: '<',
