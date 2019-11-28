@@ -35,12 +35,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <tab heading="Screenshot" id="screenshot-tab" (selectTab)="setActiveTab('screenshot-tab')">
                     <div class="galleryRow">
                         <div (click)="goStepBack()" class="galleryButton galleryCell left" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'">
-                            <i class="fas gallaryArrow fa-angle-left"></i>
+                            <i class="fas stepNavArrow fa-angle-left"></i>
                         </div>
                         <sc-annotated-screenshot class="galleryCell" [screenAnnotations]="step?.screenAnnotations" [screenShotUrl]="screenShotUrl"
                                                  [visibilityToggle]="true"></sc-annotated-screenshot>
                         <div (click)="goStepForward()" class="galleryButton galleryCell right" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'">
-                            <i class="fas gallaryArrow fa-angle-right"></i>
+                            <i class="fas stepNavArrow fa-angle-right"></i>
                         </div>
                     </div>
                 </tab>
