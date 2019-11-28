@@ -32,11 +32,15 @@ sc-step-view .right {
     border-left: 0;
 }
 
+/**
+ * TODO: typo in styles and why "gallery" ?? because copied from some example? it is not really a gallery here! something like "stepNavArrow" ??  --> replace all "gallery" stuff accordingly)
+ */
 sc-step-view .gallaryArrow {
+    position: -webkit-sticky;
+    position: sticky;
     margin-left: 7px;
     margin-top: 300px;
     top: 250px;
-    position: sticky;
 }
 
 sc-step-view .step-arrow {

@@ -42,7 +42,7 @@ export class SelectedComparison {
     constructor(private locationService: LocationService,
                 private rootScope: RootScopeService,
                 private localStorageService: LocalStorageService) {
-        // TODO Angular-Migration: listen to thze URL change in pure Angular way ??
+        // TODO Angular-Migration: listen to the URL change in pure Angular way ?? (probably only doable once we introduce the router properly)
         rootScope.$watch(() => locationService.search()[this.COMPARISON_URL_PARAM_KEY], () => {
             this.setSelected();
         }, true);
