@@ -2,21 +2,16 @@ import {IFlatLabelConfiguration} from '../../generated-types/backend-types';
 
 export class LabelConfiguration implements IFlatLabelConfiguration {
 
-    backgroundColor: string;
-    foregroundColor: string;
-    name: string;
-
-    private constructor(backgroundColor: string, foregroundColor: string, name: string) {
-        this.backgroundColor = backgroundColor;
-        this.foregroundColor = foregroundColor;
-        this.name = name;
+    private constructor(public backgroundColor: string,
+                        public foregroundColor: string,
+                        public name: string) {
     }
 
     isEmpty(): boolean {
         return this.name === '' && this.backgroundColor === '' && this.foregroundColor === '';
     }
 
-    isValid() {
+    isValid(): boolean {
         return this.isEmpty() || (this.name !== '' && this.backgroundColor !== '');
     }
 
@@ -26,7 +21,7 @@ export class LabelConfiguration implements IFlatLabelConfiguration {
             flatLabelConfiguration.name);
     }
 
-    static empty() {
+    static empty(): LabelConfiguration {
         return new LabelConfiguration('', '', '');
     }
 }

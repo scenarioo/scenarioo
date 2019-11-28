@@ -32,7 +32,7 @@ export class LabelColorsComponent implements OnInit {
         this.loadLabelConfigurations();
     }
 
-    onDelete(configurationToDelete) {
+    onDelete(configurationToDelete: LabelConfiguration) {
         this.labelConfigurations = this.labelConfigurations
             .filter((configuration) => configuration.name !== configurationToDelete.name);
     }
@@ -40,7 +40,7 @@ export class LabelColorsComponent implements OnInit {
     onLabelNameChanged() {
         const lastLabelInList = this.labelConfigurations[this.labelConfigurations.length - 1];
         if (!lastLabelInList.isEmpty()) {
-            this.labelConfigurations.push(LabelConfiguration.empty());
+            this.labelConfigurations = [...this.labelConfigurations, LabelConfiguration.empty()];
         }
     }
 
@@ -71,18 +71,15 @@ export class LabelColorsComponent implements OnInit {
             });
     }
 
-    private allConfigurationsAreValid() {
+    private allConfigurationsAreValid(): boolean {
         return this.labelConfigurations.every((value) => value.isValid());
     }
 
-    private mapLabelConfigurations() {
+    private mapLabelConfigurations(): Record<string, LabelConfiguration> {
         const labelConfigurationsAsMap = {};
         for (const labelConfiguration of this.labelConfigurations) {
             if (!labelConfiguration.isEmpty()) {
-                labelConfigurationsAsMap[labelConfiguration.name] = {
-                    backgroundColor: labelConfiguration.backgroundColor,
-                    foregroundColor: labelConfiguration.foregroundColor,
-                };
+                labelConfigurationsAsMap[labelConfiguration.name] = labelConfiguration;
             }
         }
         return labelConfigurationsAsMap;
