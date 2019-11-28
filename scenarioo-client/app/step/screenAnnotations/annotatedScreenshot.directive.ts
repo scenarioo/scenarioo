@@ -17,6 +17,7 @@
 
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {INeighborStep} from '../../generated-types/backend-types';
 
 @Directive({
     selector: 'sc-annotated-screenshot',
@@ -26,6 +27,7 @@ export class AnnotatedScreenshotDirective extends UpgradeComponent {
     @Input() screenAnnotations;
     @Input() screenShotUrl: string;
     @Input() visibilityToggle: boolean;
+    @Input() toNextStepAction: INeighborStep;
 
     constructor(elementRef: ElementRef, injector: Injector) {
         super('scAnnotatedScreenshot', elementRef, injector);

@@ -29,7 +29,12 @@ import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeList
 import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {TabsetComponent} from 'ngx-bootstrap';
-import {INeighborStep, IStepDetails, IStepNavigation} from '../../generated-types/backend-types';
+import {
+    INeighborStep,
+    IStepDetails,
+    IStepIdentifier,
+    IStepNavigation, IStepStatistics,
+} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -50,25 +55,18 @@ export class StepViewComponent {
 
     useCaseName: string;
     scenarioName: string;
-
     pageName: string;
     pageOccurrence: number;
     stepInPageOccurrence: number;
-    labels;
+    labels: string;
 
-    comparisonInfo;
-    stepIdentifier;
+    // step: IStep ? -> diff-Info missing in type IStep
     step = null;
-    steps;
+    comparisonInfo;
+    stepIdentifier: IStepIdentifier;
     stepNavigation: IStepNavigation;
-    stepStatistics;
-    stepInformationTree;
-    screenShotUrl;
-    stepIndex;
-    totalNumberOfSteps;
-
-    scenarioLabels;
-    useCaseLabels;
+    stepStatistics: IStepStatistics;
+    screenShotUrl: string;
 
     stepNotFound: boolean = false;
 
@@ -95,6 +93,7 @@ export class StepViewComponent {
         this.pageOccurrence = parseInt(this.routeParams.pageOccurrence, 10);
         this.stepInPageOccurrence = parseInt(this.routeParams.stepInPageOccurrence, 10);
         this.labels = this.locationService.search().labels;
+        console.log(this.labels);
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
     }
 
@@ -110,24 +109,17 @@ export class StepViewComponent {
             this.pageOccurrence,
             this.stepInPageOccurrence,
             this.labels,
-        ).subscribe((result) => {
-            this.stepNavigation = result.stepNavigation;
-            this.stepIndex = this.stepNavigation.stepIndex + 1;
+        ).subscribe((stepDetails: IStepDetails) => {
+            this.step = stepDetails.step;
+            this.stepNavigation = stepDetails.stepNavigation;
+            this.stepIdentifier = stepDetails.stepIdentifier;
+            this.stepStatistics = stepDetails.stepStatistics;
 
             this.isComparisonExisting = this.selectedComparison.isDefined();
 
-            this.step = result.step;
-            console.log(this.step);
-
-            this.stepIdentifier = result.stepIdentifier;
-
             this.initScreenshotUrl(selection);
 
-            this.stepStatistics = result.stepStatistics;
-            this.totalNumberOfSteps = this.stepStatistics.totalNumberOfStepsInScenario;
-            this.useCaseLabels = result.useCaseLabels;
-            this.scenarioLabels = result.scenarioLabels;
-            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(result.step.metadata.details);
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(stepDetails.step.metadata.details);
 
             this.relatedIssueResource.get({
                     branchName: selection.branch,
@@ -139,14 +131,8 @@ export class StepViewComponent {
                 this.pageOccurrence,
                 this.stepInPageOccurrence,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                this.stepInformationTree = this.createInformationTreeArray(result.step, relatedIssueSummary, this.useCaseLabels, this.scenarioLabels);
+                this.createInformationTreeArray(this.step, relatedIssueSummary, stepDetails.useCaseLabels, stepDetails.scenarioLabels);
             });
-            /*
-            const fallback = result.fallback;
-            const pageTree = transformMetadataToTree(result.step.page);
-            const stepIndex = result.stepNavigation.stepIndex;
-            const selectedBuild = selected.buildName;
-            const getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;*/
 
             // init active tab (but only after tabs view is initialized)
             setTimeout(() => this.setActiveTab(this.getTabIdToActivate()), 0);
@@ -196,12 +182,12 @@ export class StepViewComponent {
         return this.stepNavigation.stepIndex + 1;
     }
 
-    private createInformationTreeArray(stepInformationTree, relatedIssues, useCaseLabels, scenarioLabels) {
+    private createInformationTreeArray(step, relatedIssues, useCaseLabels, scenarioLabels) {
         this.mainDetailsSections = [
             {
                 name: 'Step',
                 key: 'step',
-                dataTree: this.createStepInformationTree(stepInformationTree),
+                dataTree: this.createStepInformationTree(step),
                 isFirstOpen: true,
                 detailSectionType: 'treeComponent',
             },
@@ -210,7 +196,7 @@ export class StepViewComponent {
                 key: 'labels',
                 dataTree: {
                     nodeLabel: 'label',
-                    childNodes: [this.createLabelInformationTree(stepInformationTree, useCaseLabels, scenarioLabels)]
+                    childNodes: [this.createLabelInformationTree(step, useCaseLabels, scenarioLabels)],
                 },
                 isFirstOpen: false,
                 detailSectionType: 'treeComponent',
@@ -280,14 +266,15 @@ export class StepViewComponent {
         this.screenShotUrl = 'rest/branch/' + selection.branch + '/build/' + selection.build + '/usecase/' + this.stepIdentifier.usecaseName + '/scenario/' + this.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
-    private goStepBack() {
+    private goStepBack(): INeighborStep {
         if (!this.stepNavigation || !this.stepNavigation.previousStep) {
+            console.log('goStepBack if');
             return;
         }
         this.goToStepInSameScenario(this.stepNavigation.previousStep);
     }
 
-    private goStepForward() {
+    private goStepForward(): INeighborStep {
         if (!this.stepNavigation || !this.stepNavigation.nextStep) {
             return;
         }

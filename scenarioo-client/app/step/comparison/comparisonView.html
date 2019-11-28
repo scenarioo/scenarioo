@@ -16,12 +16,12 @@
             {{$ctrl.baseBuild.aliasName}}
             <div class="sc-step-comparison-current-screenshot clear">
                 <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
-                <sc-annotated-screenshot [screen-shot-url]="$ctrl.screenShotUrl"
-                                         [diff-screen-shot-url]="$ctrl.diffScreenShotUrl" [show-diff]="true"
-                                         *ngIf="$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
-                <sc-annotated-screenshot [screen-shot-url]="$ctrl.screenShotUrl"
-                                         [diff-screen-shot-url]="$ctrl.diffScreenShotUrl" [show-diff]="false"
-                                         *ngIf="!$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                <sc-annotated-screenshot screen-shot-url="$ctrl.screenShotUrl"
+                                         diff-screen-shot-url="$ctrl.diffScreenShotUrl" show-diff="true"
+                                         ng-if="$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                <sc-annotated-screenshot screen-shot-url="$ctrl.screenShotUrl"
+                                         diff-screen-shot-url="$ctrl.diffScreenShotUrl" show-diff="false"
+                                         ng-if="!$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
             </div>
         </div>
         <div class="col-lg-6">
@@ -31,12 +31,12 @@
                 </div>
                 <div class="sc-step-comparison-other-screenshot" ng-if="!$ctrl.step.diffInfo.isAdded">
                     <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
-                    <sc-annotated-screenshot [screen-shot-url]="$ctrl.comparisonScreenShotUrl"
-                                             [diff-screen-shot-url]="$ctrl.diffScreenShotUrl" [show-diff]="true"
-                                             *ngIf="$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
-                    <sc-annotated-screenshot [screen-shot-url]="$ctrl.comparisonScreenShotUrl"
-                                             [diff-screen-shot-url]="$ctrl.diffScreenShotUrl" [show-diff]="false"
-                                             *ngIf="!$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                    <sc-annotated-screenshot screen-shot-url="$ctrl.comparisonScreenShotUrl"
+                                             diff-screen-shot-url="$ctrl.diffScreenShotUrl" show-diff="true"
+                                             ng-if="$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                    <sc-annotated-screenshot screen-shot-url="$ctrl.comparisonScreenShotUrl"
+                                             diff-screen-shot-url="$ctrl.diffScreenShotUrl" show-diff="false"
+                                             ng-if="!$ctrl.comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
                 </div>
             </div>
         </div>
@@ -56,16 +56,16 @@
         </sc-screenshot-title>
         <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
         <sc-annotated-screenshot
-            [screen-shot-url]="$ctrl.screenShotUrl"
-            [diff-screen-shot-url]="$ctrl.diffScreenShotUrl"
-            [show-diff]="true"
-            *ngIf="$ctrl.comparisonViewOptions.changesHighlighted">
+            screen-shot-url="$ctrl.screenShotUrl"
+            diff-screen-shot-url="$ctrl.diffScreenShotUrl"
+            show-diff="true"
+            ng-if="$ctrl.comparisonViewOptions.changesHighlighted">
         </sc-annotated-screenshot>
         <sc-annotated-screenshot
-            [screen-shot-url]="$ctrl.screenShotUrl"
-            [diff-screen-shot-url]="$ctrl.diffScreenShotUrl"
-            [show-diff]="false"
-            *ngIf="!$ctrl.comparisonViewOptions.changesHighlighted">
+            screen-shot-url="$ctrl.screenShotUrl"
+            diff-screen-shot-url="$ctrl.diffScreenShotUrl"
+            show-diff="false"
+            ng-if="!$ctrl.comparisonViewOptions.changesHighlighted">
         </sc-annotated-screenshot>
     </div>
 
@@ -78,16 +78,16 @@
         </sc-screenshot-title>
         <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
         <sc-annotated-screenshot
-            [screen-shot-url]="$ctrl.comparisonScreenShotUrl"
-            [diff-screen-shot-url]="$ctrl.diffScreenShotUrl"
-            [show-diff]="true"
-            *ngIf="$ctrl.comparisonViewOptions.changesHighlighted">
+            screen-shot-url="$ctrl.comparisonScreenShotUrl"
+            diff-screen-shot-url="$ctrl.diffScreenShotUrl"
+            show-diff="true"
+            ng-if="$ctrl.comparisonViewOptions.changesHighlighted">
         </sc-annotated-screenshot>
         <sc-annotated-screenshot
-            [screen-shot-url]="$ctrl.comparisonScreenShotUrl"
-            [diff-screen-shot-url]="$ctrl.diffScreenShotUrl"
-            [show-diff]="false"
-            *ngIf="!$ctrl.comparisonViewOptions.changesHighlighted">
+            screen-shot-url="$ctrl.comparisonScreenShotUrl"
+            diff-screen-shot-url="$ctrl.diffScreenShotUrl"
+            show-diff="false"
+            ng-if="!$ctrl.comparisonViewOptions.changesHighlighted">
         </sc-annotated-screenshot>
     </div>
 

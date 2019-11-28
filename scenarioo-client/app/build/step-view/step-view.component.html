@@ -19,27 +19,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-page-loading
     [loadingObservable]="stepObservable"> -->
 
-    <sc-detailarea
+    <sc-detailarea key="stepView" *ngIf="step"
         [mainDetailsSections]="mainDetailsSections"
-        [additionalDetailsSections]="additionalDetailsSections"
-        key="stepView"
-        *ngIf="step">
+        [additionalDetailsSections]="additionalDetailsSections">
 
-        <sc-title scenarioName="{{scenarioName | scHumanReadable}}" stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
+        <sc-title scenarioName="{{scenarioName | scHumanReadable}}"
+                  stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
 
-        <sc-progressbar [stepNavigation]="stepNavigation" [stepStatistics]="stepStatistics"></sc-progressbar>
+        <sc-progressbar [stepNavigation]="stepNavigation"
+                        [stepStatistics]="stepStatistics"></sc-progressbar>
 
         <div class="stepView">
 
             <tabset #stepViewTabs>
                 <tab heading="Screenshot" id="screenshot-tab" (selectTab)="setActiveTab('screenshot-tab')">
                     <div class="stepNavRow">
-                        <div (click)="goStepBack()" class="stepNavButton stepNavCell left" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'">
+                        <div (click)="goStepBack()" class="stepNavButton stepNavCell left" [ngClass]="stepNavigation?.stepIndex === 0 ? 'step-arrow-grey':'step-arrow'">
                             <i class="fas stepNavArrow fa-angle-left"></i>
                         </div>
-                        <sc-annotated-screenshot class="stepNavCell" [screenAnnotations]="step?.screenAnnotations" [screenShotUrl]="screenShotUrl"
-                                                 [visibilityToggle]="true"></sc-annotated-screenshot>
-                        <div (click)="goStepForward()" class="stepNavButton stepNavCell right" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'">
+                        <sc-annotated-screenshot class="stepNavCell"
+                                                 [screenAnnotations]="step?.screenAnnotations"
+                                                 [screenShotUrl]="screenShotUrl"
+                                                 [visibilityToggle]="true">
+                        </sc-annotated-screenshot>
+                        <div (click)="goStepForward()" class="stepNavButton stepNavCell right" [ngClass]="stepNavigation?.stepIndex === (stepStatistics?.totalNumberOfStepsInScenario - 1) ? 'step-arrow-grey':'step-arrow'">
                             <i class="fas stepNavArrow fa-angle-right"></i>
                         </div>
                     </div>
@@ -50,15 +53,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tab>
 
                 <!-- Diff Viewer Step Comparison View -->
-                <tab  *ngIf="isComparisonExisting" id="comparison-tab" (selectTab)="setActiveTab('comparison-tab')">
+                <tab  *ngIf="isComparisonExisting"
+                      id="comparison-tab"
+                      (selectTab)="setActiveTab('comparison-tab')">
                     <ng-template tabHeading>
                         <span class="">Comparison&nbsp;</span>
                         <span class="sc-label sc-label-after-text">
-                            <sc-diff-info-icon [diffInfo]="step?.diffInfo" childElementType="screenshot" elementType="screenshot"></sc-diff-info-icon>
+                            <sc-diff-info-icon [diffInfo]="step?.diffInfo"
+                                               childElementType="screenshot"
+                                               elementType="screenshot"></sc-diff-info-icon>
                         </span>
                     </ng-template>
 
-                    <sc-comparison-view [step]="step" [stepIdentifier]="stepIdentifier" [stepIndex]="stepNavigation.stepIndex" [screenShotUrl]="screenShotUrl"></sc-comparison-view>
+                    <sc-comparison-view [step]="step"
+                                        [stepIdentifier]="stepIdentifier"
+                                        [stepIndex]="stepNavigation.stepIndex"
+                                        [screenShotUrl]="screenShotUrl"></sc-comparison-view>
 
                 </tab>
 
