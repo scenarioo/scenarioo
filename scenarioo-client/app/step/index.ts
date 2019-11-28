@@ -1,6 +1,7 @@
 import './screenAnnotations/screenAnnotationsButton.component';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
+import './screenAnnotations/annotatedScreenshot.component';
 import './stepNotFound/stepNotFound.component';
 import './fallback/fallback.component';
 import './navigation/stepNavigation.component';

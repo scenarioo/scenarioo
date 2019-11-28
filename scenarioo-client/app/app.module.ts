@@ -18,6 +18,7 @@ import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {AnnotatedScreenshotDirective} from './step/screenAnnotations/annotatedScreenshot.directive';
 import {ScreenAnnotationsButtonDirective} from './step/screenAnnotations/screenAnnotationsButton.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
@@ -56,7 +57,6 @@ import {GeneralSettingsComponent} from './manage/general-settings/general-settin
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
-import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 import {RootScopeService} from './shared/rootScope.service';
 import {ComparisonViewDirective} from './step/comparison/comparisonView.directive';
 
@@ -66,6 +66,7 @@ import {ComparisonViewDirective} from './step/comparison/comparisonView.directiv
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
+        AnnotatedScreenshotDirective,
         ScreenAnnotationsButtonDirective,
         MainpageComponent,
         ShareComponent,
@@ -90,7 +91,6 @@ import {ComparisonViewDirective} from './step/comparison/comparisonView.directiv
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
-        AnnotatedScreenshotComponent,
     ],
     entryComponents: [
         ManageTabsComponent,
@@ -104,7 +104,6 @@ import {ComparisonViewDirective} from './step/comparison/comparisonView.directiv
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
-        AnnotatedScreenshotComponent,
     ],
     imports: [
         BrowserModule,
