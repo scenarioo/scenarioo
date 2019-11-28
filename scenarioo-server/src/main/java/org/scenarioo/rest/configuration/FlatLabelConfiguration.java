@@ -2,9 +2,6 @@ package org.scenarioo.rest.configuration;
 
 import org.scenarioo.model.configuration.LabelConfiguration;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class FlatLabelConfiguration extends LabelConfiguration {
 	private String name;
 
