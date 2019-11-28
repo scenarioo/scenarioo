@@ -33,13 +33,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <tabset #stepViewTabs>
                 <tab heading="Screenshot" id="screenshot-tab" (selectTab)="setActiveTab('screenshot-tab')">
-                    <div class="galleryRow">
-                        <div (click)="goStepBack()" class="galleryButton galleryCell left" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'">
+                    <div class="stepNavRow">
+                        <div (click)="goStepBack()" class="stepNavButton stepNavCell left" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'">
                             <i class="fas stepNavArrow fa-angle-left"></i>
                         </div>
-                        <sc-annotated-screenshot class="galleryCell" [screenAnnotations]="step?.screenAnnotations" [screenShotUrl]="screenShotUrl"
+                        <sc-annotated-screenshot class="stepNavCell" [screenAnnotations]="step?.screenAnnotations" [screenShotUrl]="screenShotUrl"
                                                  [visibilityToggle]="true"></sc-annotated-screenshot>
-                        <div (click)="goStepForward()" class="galleryButton galleryCell right" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'">
+                        <div (click)="goStepForward()" class="stepNavButton stepNavCell right" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'">
                             <i class="fas stepNavArrow fa-angle-right"></i>
                         </div>
                     </div>

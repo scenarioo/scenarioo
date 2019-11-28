@@ -6,15 +6,15 @@ sc-step-view .stepView {
     margin-top: 70px;
 }
 
-sc-step-view .galleryRow {
+sc-step-view .stepNavRow {
     display: table-row;
 }
 
-sc-step-view .galleryCell {
+sc-step-view .stepNavCell {
     display: table-cell;
 }
 
-sc-step-view .galleryButton {
+sc-step-view .stepNavButton {
     background-color: #eeeeee;
     width: 30px;
     font-size: x-large;
