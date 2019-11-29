@@ -28,7 +28,7 @@ public class StepResponseFactory {
 		this.scenarioDocuReader = scenarioDocuReader;
 	}
 
-	public ResponseEntity createResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
+	public ResponseEntity<StepDetails> createResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
 										 final BuildIdentifier buildIdentifierBeforeAliasResolution, final boolean fallback) {
 		if (stepLoaderResult.isRequestedStepFound()) {
 			return foundStepResponse(stepLoaderResult, stepIdentifier, fallback, buildIdentifierBeforeAliasResolution);
@@ -39,7 +39,7 @@ public class StepResponseFactory {
 		}
 	}
 
-	private ResponseEntity foundStepResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
+	private ResponseEntity<StepDetails> foundStepResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
 			final boolean fallback, final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		StepDetails stepDetails = getStepDetails(stepLoaderResult, stepIdentifier, fallback,
 				buildIdentifierBeforeAliasResolution);
@@ -67,7 +67,7 @@ public class StepResponseFactory {
 				usecase.getLabels(), scenario.getLabels());
 	}
 
-	private ResponseEntity redirectResponse(final StepLoaderResult stepImage,
+	private ResponseEntity<StepDetails> redirectResponse(final StepLoaderResult stepImage,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		StepIdentifier stepIdentifier = stepImage.getStepIdentifier();
 		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier
@@ -77,7 +77,7 @@ public class StepResponseFactory {
 			.build();
 	}
 
-	private ResponseEntity notFoundResponse() {
+	private ResponseEntity<StepDetails> notFoundResponse() {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 

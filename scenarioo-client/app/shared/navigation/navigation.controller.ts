@@ -17,6 +17,7 @@
 
 import {ConfigurationService} from '../../services/configuration.service';
 import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
+import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -26,8 +27,12 @@ angular.module('scenarioo.controllers')
         controller: NavigationController,
     });
 
-function NavigationController($location, LocalStorageService, BranchesAndBuildsService,
-                              SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
+function NavigationController($location,
+                              LocalStorageService,
+                              BranchesAndBuildsService,
+                              SelectedBranchAndBuildService,
+                              SelectedComparison: SelectedComparison,
+                              ApplicationInfoPopupService,
                               ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource: BuildDiffInfosService,
@@ -97,7 +102,7 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
                     });
                     SelectedComparison.setSelected(selectedComparison.name);
                     if (selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
-                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
+                        $location.search(SelectedComparison.COMPARISON_URL_PARAM_KEY, selectedComparison.name);
                     }
                     ctrl.selectedComparison = selectedComparison;
                 }, () => {
@@ -120,26 +125,26 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
     function resetComparisonSelection() {
         ctrl.comparisonBuilds = [];
         SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
-        $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
+        $location.search(SelectedComparison.COMPARISON_URL_PARAM_KEY, SelectedComparison.COMPARISON_DISABLED);
         ctrl.selectedComparison = undefined;
     }
 
     ctrl.setBranch = (branch) => {
         ctrl.branchesAndBuilds.selectedBranch = branch;
         LocalStorageService.remove(SelectedBranchAndBuildService.BUILD_KEY);
-        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
+        LocalStorageService.remove(SelectedComparison.COMPARISON_URL_PARAM_KEY);
         $location.search(SelectedBranchAndBuildService.BRANCH_KEY, branch.branch.name);
     };
 
     ctrl.setBuild = (selectedBranch, build) => {
         ctrl.branchesAndBuilds.selectedBuild = build;
-        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
+        LocalStorageService.remove(SelectedComparison.COMPARISON_URL_PARAM_KEY);
         $location.search(SelectedBranchAndBuildService.BUILD_KEY, build.linkName);
         loadComparisonBuilds();
     };
 
     ctrl.setComparisonBuild = (comparisonBuild) => {
-        $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
+        $location.search(SelectedComparison.COMPARISON_URL_PARAM_KEY, comparisonBuild.name);
         ctrl.selectedComparison = comparisonBuild;
     };
 

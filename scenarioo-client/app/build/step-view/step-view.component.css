@@ -6,15 +6,15 @@ sc-step-view .stepView {
     margin-top: 70px;
 }
 
-sc-step-view .galleryRow {
+sc-step-view .stepNavRow {
     display: table-row;
 }
 
-sc-step-view .galleryCell {
+sc-step-view .stepNavCell {
     display: table-cell;
 }
 
-sc-step-view .galleryButton {
+sc-step-view .stepNavButton {
     background-color: #eeeeee;
     width: 30px;
     font-size: x-large;
@@ -32,11 +32,12 @@ sc-step-view .right {
     border-left: 0;
 }
 
-sc-step-view .gallaryArrow {
+sc-step-view .stepNavArrow {
+    position: -webkit-sticky;
+    position: sticky;
     margin-left: 7px;
     margin-top: 300px;
     top: 250px;
-    position: sticky;
 }
 
 sc-step-view .step-arrow {
@@ -47,4 +48,11 @@ sc-step-view .step-arrow {
 sc-step-view .step-arrow-grey {
     color: #FFFFFF;
     cursor: default;
+}
+
+sc-step-view .sc-label-after-text {
+    float: right;
+    margin-left: 5px;
+    width: 50px;
+    margin-top: -5px;
 }

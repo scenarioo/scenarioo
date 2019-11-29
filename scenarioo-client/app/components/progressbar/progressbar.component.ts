@@ -1,6 +1,7 @@
 import {Component, HostListener, Input} from '@angular/core';
 import {LocationService} from '../../shared/location.service';
 import {RouteParamsService} from '../../shared/route-params.service';
+import {IStepNavigation, IStepStatistics} from '../../generated-types/backend-types';
 
 @Component({
     selector: 'sc-progressbar',
@@ -24,7 +25,7 @@ export class ProgressbarComponent {
     totalNumberOfPageVariants: number;
 
     @Input()
-    set stepNavigation(stepNavigation: []) {
+    set stepNavigation(stepNavigation: IStepNavigation) {
         this._stepNavigation = stepNavigation;
         if (this._stepNavigation) {
             this.bindStepNavigation();
@@ -32,7 +33,7 @@ export class ProgressbarComponent {
     }
 
     @Input()
-    set stepStatistics(stepStatistics: []) {
+    set stepStatistics(stepStatistics: IStepStatistics) {
         this._stepStatistics = stepStatistics;
         if (this._stepStatistics) {
             this.bindStepStatistics();

@@ -18,6 +18,8 @@ import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {BuildsListDirective} from './manage/buildImport/builds-list.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {AnnotatedScreenshotDirective} from './step/screenAnnotations/annotatedScreenshot.directive';
+import {ScreenAnnotationsButtonDirective} from './step/screenAnnotations/screenAnnotationsButton.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
@@ -55,8 +57,9 @@ import {GeneralSettingsComponent} from './manage/general-settings/general-settin
 import {ProgressbarComponent} from './components/progressbar/progressbar.component';
 import {StepViewComponent} from './build/step-view/step-view.component';
 import {TreeComponent} from './components/detailarea/tree/tree.component';
-import {AnnotatedScreenshotComponent} from './build/step-view/annotated-screenshot/annotated-screenshot.component';
 import {StepsOverviewComponent} from './build/steps-overview/steps-overview.component';
+import {RootScopeService} from './shared/rootScope.service';
+import {ComparisonViewDirective} from './step/comparison/comparisonView.directive';
 
 @NgModule({
     declarations: [
@@ -64,6 +67,8 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         LabelColorsDirective,
         BuildsListDirective,
         ComparisonsDirective,
+        AnnotatedScreenshotDirective,
+        ScreenAnnotationsButtonDirective,
         MainpageComponent,
         ShareComponent,
         UseCasesOverviewComponent,
@@ -79,6 +84,7 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         CustomTabDirective,
         SketchesTabDirective,
         DiffInfoIconDirective,
+        ComparisonViewDirective,
         ScenariosOverviewComponent,
         TitleComponent,
         BranchAliasesComponent,
@@ -87,7 +93,6 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
-        AnnotatedScreenshotComponent,
     ],
     entryComponents: [
         ManageTabsComponent,
@@ -102,7 +107,6 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         ProgressbarComponent,
         StepViewComponent,
         TreeComponent,
-        AnnotatedScreenshotComponent,
     ],
     imports: [
         BrowserModule,
@@ -146,6 +150,8 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
         DateTimePipe,
         LocalStorageService,
         UrlContextExtractorService,
+        SelectedComparison,
+        {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {
@@ -158,7 +164,6 @@ import {StepsOverviewComponent} from './build/steps-overview/steps-overview.comp
             useFactory: (i: any) => i.get('BranchesAndBuildsService'),
             deps: ['$injector'],
         },
-        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],

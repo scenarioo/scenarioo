@@ -19,8 +19,7 @@ import {StepDiffInfoService} from '../../diffViewer/services/step-diff-info.serv
 
 declare var angular: angular.IAngularStatic;
 
-angular
-    .module('scenarioo.directives')
+angular.module('scenarioo.directives')
     .component('scComparisonView', {
         bindings: {
             step: '<',
@@ -29,12 +28,12 @@ angular
             screenShotUrl: '<',
         },
         template: require('./comparisonView.html'),
-        controller: ComparisonViewController,
+        controller: ComparisonViewComponent,
     });
-function ComparisonViewController($scope, $routeParams, localStorageService, SelectedBranchAndBuildService, ScreenshotUrlService,
-                                  SelectedComparison, BranchesAndBuildsService, DiffInfoService,
-                                  BuildDiffInfoResource: BuildDiffInfoService,
-                                  StepDiffInfoResource: StepDiffInfoService) {
+function ComparisonViewComponent($scope, $routeParams, localStorageService, SelectedBranchAndBuildService, ScreenshotUrlService,
+                                 SelectedComparison, BranchesAndBuildsService, DiffInfoService,
+                                 BuildDiffInfoResource: BuildDiffInfoService,
+                                 StepDiffInfoResource: StepDiffInfoService) {
     const ctrl = this;
 
     const useCaseName = $routeParams.useCaseName;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {StepResource} from '../../shared/services/stepResource.service';
@@ -26,8 +26,19 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/r
 import {LocationService} from '../../shared/location.service';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
+import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {LocalStorageService} from '../../services/localStorage.service';
+import {TabsetComponent} from 'ngx-bootstrap';
+import {
+    INeighborStep,
+    IStepDetails,
+    IStepIdentifier,
+    IStepNavigation, IStepStatistics,
+} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
+
+const LOCAL_STORAGE_KEY_ACTIVE_STEP_TAB = 'stepView.activeTab';
 
 @Component({
     selector: 'sc-step-view',
@@ -36,27 +47,30 @@ declare var angular: angular.IAngularStatic;
 })
 export class StepViewComponent {
 
+    @ViewChild('stepViewTabs')
+    tabsetComponent: TabsetComponent;
+
+    // TODO: remove all flat fields and instead rmemeber the whole step data structure (which is now typed :-) )
+    // step: IStepDetails;
+
     useCaseName: string;
     scenarioName: string;
-
     pageName: string;
     pageOccurrence: number;
     stepInPageOccurrence: number;
-    labels;
+    labels: string;
 
-    stepIdentifier;
-    step;
-    stepNavigation;
-    stepStatistics;
-    stepInformationTree;
-    screenShotUrl;
-    stepIndex;
-    totalNumberOfSteps;
-
-    scenarioLabels;
-    useCaseLabels;
+    // step: IStep ? -> diff-Info missing in type IStep
+    step = null;
+    comparisonInfo;
+    stepIdentifier: IStepIdentifier;
+    stepNavigation: IStepNavigation;
+    stepStatistics: IStepStatistics;
+    screenShotUrl: string;
 
     stepNotFound: boolean = false;
+
+    isComparisonExisting: boolean;
 
     mainDetailsSections: IMainDetailsSection[] = [];
     additionalDetailsSections: IDetailsSections;
@@ -67,7 +81,9 @@ export class StepViewComponent {
                 private metadataTreeCreatorPipe: MetadataTreeCreatorPipe,
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
                 private relatedIssueResource: RelatedIssueResource,
-                private locationService: LocationService) {
+                private locationService: LocationService,
+                private selectedComparison: SelectedComparison,
+                private localStorageService: LocalStorageService) {
     }
 
     ngOnInit(): void {
@@ -76,8 +92,8 @@ export class StepViewComponent {
         this.pageName = this.routeParams.pageName;
         this.pageOccurrence = parseInt(this.routeParams.pageOccurrence, 10);
         this.stepInPageOccurrence = parseInt(this.routeParams.stepInPageOccurrence, 10);
-
         this.labels = this.locationService.search().labels;
+        console.log(this.labels);
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
     }
 
@@ -93,39 +109,70 @@ export class StepViewComponent {
             this.pageOccurrence,
             this.stepInPageOccurrence,
             this.labels,
-        ).subscribe((result) => {
-            this.stepIdentifier = result.stepIdentifier;
-            this.step = result.step;
+        ).subscribe((stepDetails: IStepDetails) => {
+            this.step = stepDetails.step;
+            this.stepNavigation = stepDetails.stepNavigation;
+            this.stepIdentifier = stepDetails.stepIdentifier;
+            this.stepStatistics = stepDetails.stepStatistics;
+
+            this.isComparisonExisting = this.selectedComparison.isDefined();
+
             this.initScreenshotUrl(selection);
-            this.stepNavigation = result.stepNavigation;
-            this.stepIndex = this.stepNavigation.stepIndex + 1;
-            this.stepStatistics = result.stepStatistics;
-            this.totalNumberOfSteps = this.stepStatistics.totalNumberOfStepsInScenario;
-            this.useCaseLabels = result.useCaseLabels;
-            this.scenarioLabels = result.scenarioLabels;
-            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(result.step.metadata.details);
+
+            this.additionalDetailsSections = this.metadataTreeListCreatorPipe.transform(stepDetails.step.metadata.details);
 
             this.relatedIssueResource.get({
-                branchName: selection.branch,
-                buildName: selection.build,
-            },
+                    branchName: selection.branch,
+                    buildName: selection.build,
+                },
                 this.useCaseName,
                 this.scenarioName,
                 this.pageName,
                 this.pageOccurrence,
                 this.stepInPageOccurrence,
             ).subscribe((relatedIssueSummary: RelatedIssueSummary[]) => {
-                this.stepInformationTree = this.createInformationTreeArray(result.step, relatedIssueSummary, this.useCaseLabels, this.scenarioLabels);
+                this.createInformationTreeArray(this.step, relatedIssueSummary, stepDetails.useCaseLabels, stepDetails.scenarioLabels);
             });
-            /*
-            const fallback = result.fallback;
-            const pageTree = transformMetadataToTree(result.step.page);
-            const stepIndex = result.stepNavigation.stepIndex;
-            const selectedBuild = selected.buildName;
-            const getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;*/
+
+            // init active tab (but only after tabs view is initialized)
+            setTimeout(() => this.setActiveTab(this.getTabIdToActivate()), 0);
+
         }, () => {
+            // TODO: get rid of this placebo flag -- see idea as TODO in html --> page-loading component
             this.stepNotFound = true;
         });
+    }
+
+    public setActiveTab(tabId: string) {
+        const tab = this.tabsetComponent.tabs.find((tab) => tab.id === tabId);
+        if (tab) {
+            this.storeActiveTab(tabId);
+            tab.active = true;
+        } else {
+            console.warn(`Could not find tab with id ${tabId}`);
+        }
+    }
+
+    private storeActiveTab(activeTabId: string) {
+        this.localStorageService.set(LOCAL_STORAGE_KEY_ACTIVE_STEP_TAB, activeTabId);
+    }
+
+    private getTabIdToActivate() {
+
+        const defaultSelectedTabId = 'screenshot-tab';
+        const tabIdFromLocalStorage = this.localStorageService.get(LOCAL_STORAGE_KEY_ACTIVE_STEP_TAB);
+
+        if (tabIdFromLocalStorage == null) {
+            // use default if not set
+            return defaultSelectedTabId;
+        }
+
+        if (tabIdFromLocalStorage === 'comparison-tab' && !this.isComparisonExisting) {
+            // comparison not available --> fallback to default tab
+            return defaultSelectedTabId;
+        }
+
+        return tabIdFromLocalStorage;
     }
 
     private getCurrentStepIndexForDisplay() {
@@ -135,19 +182,22 @@ export class StepViewComponent {
         return this.stepNavigation.stepIndex + 1;
     }
 
-    private createInformationTreeArray(stepInformationTree, relatedIssues, useCaseLabels, scenarioLabels) {
+    private createInformationTreeArray(step, relatedIssues, useCaseLabels, scenarioLabels) {
         this.mainDetailsSections = [
             {
                 name: 'Step',
                 key: 'step',
-                dataTree: this.createStepInformationTree(stepInformationTree),
+                dataTree: this.createStepInformationTree(step),
                 isFirstOpen: true,
                 detailSectionType: 'treeComponent',
             },
             {
                 name: 'Labels',
                 key: 'labels',
-                dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(stepInformationTree, useCaseLabels, scenarioLabels)]},
+                dataTree: {
+                    nodeLabel: 'label',
+                    childNodes: [this.createLabelInformationTree(step, useCaseLabels, scenarioLabels)],
+                },
                 isFirstOpen: false,
                 detailSectionType: 'treeComponent',
             },
@@ -173,6 +223,7 @@ export class StepViewComponent {
             const pageToRender = Object.assign({}, step.page);
             // Will be displayed separately
             delete pageToRender.labels;
+            delete pageToRender.diffInfo;
             stepInformationTree['Page name'] = pageToRender;
         }
 
@@ -215,37 +266,51 @@ export class StepViewComponent {
         this.screenShotUrl = 'rest/branch/' + selection.branch + '/build/' + selection.build + '/usecase/' + this.stepIdentifier.usecaseName + '/scenario/' + this.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
-    private setDefaultTab() {
-        this.storeActiveTab(0);
-        window.location.reload();
-    }
-
-    private setActiveTab = (activeTab): void => {
-        this.storeActiveTab(activeTab);
-        window.location.reload();
-    }
-
-    private storeActiveTab(activeTab) {
-        sessionStorage.setItem('activeTab', activeTab);
-    }
-
-    private goStepBack() {
+    private goStepBack(): INeighborStep {
         if (!this.stepNavigation || !this.stepNavigation.previousStep) {
+            console.log('goStepBack if');
             return;
         }
-        this.go(this.stepNavigation.previousStep);
+        this.goToStepInSameScenario(this.stepNavigation.previousStep);
     }
 
-    private goStepForward() {
+    private goStepForward(): INeighborStep {
         if (!this.stepNavigation || !this.stepNavigation.nextStep) {
             return;
         }
-        this.go(this.stepNavigation.nextStep);
+        this.goToStepInSameScenario(this.stepNavigation.nextStep);
     }
 
-    go(data) {
-        this.locationService.path('/step/' + (data.useCaseName || this.useCaseName) + '/' + (data.scenarioName || this.scenarioName) + '/' + data.pageName + '/' + data.pageOccurrence + '/' + data.stepInPageOccurrence);
+    private goToStepInSameScenario(sameScenarioStepIdentifier: INeighborStep) {
+        this.goToStep({
+            useCaseName: this.useCaseName,
+            scenarioName: this.scenarioName,
+            ...sameScenarioStepIdentifier,
+        });
     }
+
+    // TODO #838: refactor into a general step navigations ervice, cause not really needed additional complexity
+    private goToStep(stepIdentifier: StepIdentifier) {
+        this.locationService.path('/step/' + (stepIdentifier.useCaseName) + '/' + (stepIdentifier.scenarioName) + '/' + stepIdentifier.pageName + '/' + stepIdentifier.pageOccurrence + '/' + stepIdentifier.stepInPageOccurrence);
+    }
+
+}
+
+/**
+ * to be extracted later, if we use it in other places
+ */
+export interface StepIdentifier {
+
+    useCaseName: string;
+
+    scenarioName: string;
+
+    pageName: string;
+
+    pageOccurrence: number;
+
+    stepInPageOccurrence: number;
+
 }
 
 angular.module('scenarioo.directives')
