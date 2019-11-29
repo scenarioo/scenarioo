@@ -3,6 +3,7 @@ package org.scenarioo.rest.step.logic;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ScreenshotResponseFactory {
+
+	private static final Logger LOGGER = Logger.getLogger(ScreenshotResponseFactory.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -51,6 +54,21 @@ public class ScreenshotResponseFactory {
 		return createFoundImageResponse(screenshot, showFallbackStamp);
 	}
 
+	public ResponseEntity createFoundThumbnailResponse(final ScenarioIdentifier scenarioIdentifier, final String thumbnailFileName) {
+
+		final BuildIdentifier buildIdentifier = scenarioIdentifier.getBuildIdentifier();
+		final String usecaseName = scenarioIdentifier.getUsecaseName();
+		final String scenarioName = scenarioIdentifier.getScenarioName();
+
+		File screenshot = scenarioDocuReader.getScreenshotFile(buildIdentifier.getBranchName(),
+			buildIdentifier.getBuildName(), usecaseName, scenarioName, thumbnailFileName);
+
+		if (screenshot == null || !screenshot.exists()) {
+			return notFoundResponse();
+		}
+		return createOkResponse(screenshot);
+	}
+
 	private ResponseEntity createFoundImageResponse(final File screenshot,
 													final boolean showFallbackStamp) {
 		if (screenshot == null || !screenshot.exists()) {
@@ -69,7 +87,7 @@ public class ScreenshotResponseFactory {
 			byte[] stampedScreenshot = fallbackImageMarker.getMarkedImage(screenshot);
 			return ResponseEntity.ok(stampedScreenshot);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to load image.", e);
 			return notFoundResponse();
 		}
 	}

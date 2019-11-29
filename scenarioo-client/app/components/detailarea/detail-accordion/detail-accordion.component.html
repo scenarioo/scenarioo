@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span class="accordionHeader">{{detailAccordionName}}</span>
     </div>
     <sc-tree *ngIf="detailSectionType == 'treeComponent'" [informationTree]="dataTree"></sc-tree>
-    <sc-label-metadata *ngIf="detailSectionType == 'labelsComponent'" [useCaseLabels]="values" [labelConfigurations]="labelConfigurations"></sc-label-metadata>
     <div *ngIf="detailSectionType == 'sketchesComponent'">
         <ul id="relatedSketches">
             <li *ngFor="let issue of values">

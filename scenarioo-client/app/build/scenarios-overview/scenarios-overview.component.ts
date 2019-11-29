@@ -17,7 +17,6 @@
 
 import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
-import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
 import {ScenarioResource} from '../../shared/services/scenarioResource.service';
 import {
     LabelConfigurationMap,
@@ -81,7 +80,6 @@ export class ScenariosOverviewComponent {
     additionalDetailsSections: IDetailsSections;
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
-                private branchesAndBuildsService: BranchesAndBuildsService,
                 private scenarioResource: ScenarioResource,
                 private selectedComparison: SelectedComparison,
                 private locationService: LocationService,
@@ -141,11 +139,11 @@ export class ScenariosOverviewComponent {
         this.sortedScenarios = this.orderPipe.transform(this.scenarios, this.order);
     }
 
-    getStatusStyleClass(state: string): string {
+    private getStatusStyleClass(state: string): string {
         return this.configurationService.getStatusStyleClass(state);
     }
 
-    loadDiffInfoData(scenarios: IScenarioSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
+    private loadDiffInfoData(scenarios: IScenarioSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string) {
         if (scenarios && baseBranchName && baseBuildName && useCaseName) {
             forkJoin([
                 this.useCaseDiffInfoService.get(baseBranchName, baseBuildName, comparisonName, useCaseName),
@@ -159,11 +157,11 @@ export class ScenariosOverviewComponent {
         }
     }
 
-    resetSearchField() {
+    private resetSearchField() {
         this.searchTerm = '';
     }
 
-    setOrder(value: string) {
+    private setOrder(value: string) {
         if (this.order === value) {
             this.reverse = !this.reverse;
         } else {
@@ -173,7 +171,7 @@ export class ScenariosOverviewComponent {
     }
 
     @HostListener('window:keyup', ['$event'])
-    keyEvent(event: KeyboardEvent) {
+    private keyEvent(event: KeyboardEvent) {
         switch (event.code) {
             case 'ArrowDown':
                 const filteredScenarios = this.searchFilterPipe.transform(this.scenarios, this.searchTerm);
@@ -192,11 +190,11 @@ export class ScenariosOverviewComponent {
         }
     }
 
-    goToScenario(useCaseName: string, scenarioName: string) {
+    private goToScenario(useCaseName: string, scenarioName: string) {
         this.locationService.path('/scenario/' + useCaseName + '/' + scenarioName);
     }
 
-    goToStep(useCaseName: string, scenarioName: string) {
+    private goToStep(useCaseName: string, scenarioName: string) {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
             // FIXME This could be improved, if the scenario service
             // for finding all scenarios would also retrieve the name of the first page
@@ -215,7 +213,7 @@ export class ScenariosOverviewComponent {
         });
     }
 
-    getLabelStyle(labelName: string) {
+    private getLabelStyle(labelName: string) {
         if (this.labelConfigurations) {
             this.labelConfig = this.labelConfigurations[labelName];
             if (this.labelConfig) {
@@ -227,7 +225,7 @@ export class ScenariosOverviewComponent {
         }
     }
 
-    createInformationTreeArray(usecaseInformationTree, labels, relatedIssues) {
+    private createInformationTreeArray(usecaseInformationTree, usecaseLabels, relatedIssues) {
         this.mainDetailsSections = [
             {
                 name: 'Use Case',
@@ -239,9 +237,9 @@ export class ScenariosOverviewComponent {
             {
                 name: 'Labels',
                 key: 'labels',
-                values: labels,
+                dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(usecaseLabels)]},
                 isFirstOpen: false,
-                detailSectionType: 'labelsComponent',
+                detailSectionType: 'treeComponent',
                 labelConfigurations: this.labelConfigurations,
             },
             {
@@ -254,7 +252,7 @@ export class ScenariosOverviewComponent {
         ];
     }
 
-    createUseCaseInformationTree(usecase: IUseCase) {
+    private createUseCaseInformationTree(usecase: IUseCase) {
         const usecaseInformationTree: any = {};
         usecaseInformationTree['Use Case'] = usecase.name;
         if (usecase.description) {
@@ -262,6 +260,12 @@ export class ScenariosOverviewComponent {
         }
         usecaseInformationTree.Status = usecase.status;
         return this.metadataTreeCreatorPipe.transform(usecaseInformationTree);
+    }
+
+    private createLabelInformationTree(usecaseLabels) {
+        const labelInformationTree: any = {};
+        labelInformationTree['Use Case:'] = usecaseLabels;
+        return this.metadataTreeCreatorPipe.transform(labelInformationTree);
     }
 }
 

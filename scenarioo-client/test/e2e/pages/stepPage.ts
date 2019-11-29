@@ -6,19 +6,23 @@ import * as Utils from '../util';
 class StepPage {
 
     async assertPreviousStepIsDisabled() {
-        return Utils.assertElementIsDisabled('prevStepBtn');
+        return expect(element(by.id('prevStepBtn')).getAttribute('class')).toContain('step-arrow-grey');
     }
 
     async assertPreviousPageIsDisabled() {
-        return Utils.assertElementIsDisabled('prevPageBtn');
+        return expect(element(by.id('prevPageBtn')).getAttribute('class')).toContain('page-arrow-grey');
     }
 
     async assertNextStepIsDisabled() {
-        return Utils.assertElementIsDisabled('nextStepBtn');
+        return expect(element(by.id('nextStepBtn')).getAttribute('class')).toContain('step-arrow-grey');
     }
 
     async assertNextPageIsDisabled() {
-        return Utils.assertElementIsDisabled('nextPageBtn');
+        return expect(element(by.id('nextPageBtn')).getAttribute('class')).toContain('page-arrow-grey');
+    }
+
+    async assertNextPageVariantButtonIsDisabled() {
+        return expect(element(by.id('nextPageVariantBtn')).getAttribute('class')).toContain('page-arrow-grey');
     }
 
     async assertPreviousStepIsEnabled() {
@@ -61,12 +65,8 @@ class StepPage {
         return Utils.clickElementById('nextPageVariantBtn');
     }
 
-    async assertNextPageVariantButtonIsDisabled() {
-        return Utils.assertElementIsDisabled('nextPageVariantBtn');
-    }
-
     async clickAllPageVariantsLink() {
-        return Utils.clickElementById('allPageVariants');
+        return Utils.clickElementById('pageVariantIndicator');
     }
 
     async assertErrorMessageIsShown() {

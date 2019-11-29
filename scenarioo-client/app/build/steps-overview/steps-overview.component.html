@@ -1,0 +1,123 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-detailarea [additionalDetailsSections]="additionalDetailsSections" [mainDetailsSections]="mainDetailsSections" key="scenarioView">
+    <sc-title scenarioName="{{scenarioName | scHumanReadable}}"></sc-title>
+    <div class="searchbar">
+        <label class="input-group">
+            <input [(ngModel)]="searchTerm" autofocus class="form-control" data-toggle="tooltip"
+                   id="ScenarioSearchField"
+                   placeholder="Search in scenario &quot;{{scenarioName | scHumanReadable}}&quot;..."
+                   title="type words separated by spaces to search for" type="text"/>
+            <span class="input-group-btn">
+                <button (click)="resetSearchField()" class="btn btn-default" type="button">reset</button>
+            </span>
+        </label>
+    </div>
+
+    <div class="tableTitle">
+        <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length === pagesAndSteps?.length"> {{pagesAndSteps.length}} </span>
+        <span *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length !== pagesAndSteps?.length">
+            Found {{(pagesAndSteps | scSearchFilter: searchTerm)?.length}} of {{pagesAndSteps?.length}}
+        </span>
+        <span *ngIf="pagesAndSteps?.length>1">Pages</span>
+        <span *ngIf="scenarioStatistics?.numberOfPages<=1">Page</span>
+        in this Scenario
+    </div>
+    <table *ngIf="(pagesAndSteps | scSearchFilter: searchTerm)?.length !== 0"
+           class="table table-curved table-responsive step-table">
+        <thead>
+        <tr>
+            <th (click)="setOrder('name')" *ngIf="pagesAndSteps.length !== 0" [class.selected]="order === 'name' ">
+                Page
+                <div *ngIf="order !== 'name'" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="bot"> &#9207; </span>
+                </div>
+                <div *ngIf="order === 'name' && reverse" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="selectedBot">&#9207;</span>
+                </div>
+                <div *ngIf="order === 'name' && !reverse" class="arrows">
+                    <span class="selectedTop"> &#9206; </span>
+                    <span class="bot">&#9207;</span>
+                </div>
+            </th>
+            <th>Description</th>
+            <th>Screenshot Preview</th>
+            <th (click)="setOrder('diffInfo.changeRate')" *ngIf="isComparisonExisting" [class.selected]="order === 'diffInfo.changeRate'" class="sort-diff-info">
+                Changes on Step
+                <div *ngIf="order !== 'diffInfo.changeRate'" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="bot"> &#9207; </span>
+                </div>
+                <div *ngIf="order === 'diffInfo.changeRate' && reverse" class="arrows">
+                    <span class="top"> &#9206; </span>
+                    <span class="selectedBot">&#9207;</span>
+                </div>
+                <div *ngIf="order === 'diffInfo.changeRate' && !reverse" class="arrows">
+                    <span class="selectedTop"> &#9206; </span>
+                    <span class="bot">&#9207;</span>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let pageAndSteps of pagesAndSteps | orderBy: order:reverse:true | scSearchFilter: searchTerm let pageIndex = index">
+        <tr>
+            <td [rowSpan]="pageAndSteps.steps.length +1" class="page-overview sc-scenario-page-title">
+                Page {{pagesAndSteps.indexOf(pageAndSteps) + 1}}
+                <span *ngIf="pageAndSteps.page.name">: {{pageAndSteps.page.name | scHumanReadable}}</span>
+                <div *ngIf="pageAndSteps.steps.length>1">
+                    ({{pageAndSteps.steps.length}} Steps)
+                </div>
+                <div *ngIf="pageAndSteps.steps.length==1">
+                    ({{pageAndSteps.steps.length}} Step)
+                </div>
+                <br>
+                <p *ngIf="isComparisonExisting">
+                    <sc-diff-info-icon [diffInfo]="pageAndSteps.page.diffInfo" childElementType="step" elementType="page"></sc-diff-info-icon>
+                </p>
+            </td>
+        </tr>
+        <tr (click)="getLinkToStep(pageAndSteps.page.name, pageAndSteps.page.pageOccurrence, pageAndSteps.steps.indexOf(step))"
+            *ngFor="let step of pageAndSteps.steps let stepIndex = index"
+            [class.selected]="pageIndex + '.' + stepIndex == arrowkeyLocation"
+            [ngClass]="isComparisonExisting ? {'added': step.diffInfo.isAdded, 'removed': step.diffInfo.isRemoved} : {}"
+            class="sc-step-in-overview">
+            <td>
+                <div *ngIf="!(isComparisonExisting && step.diffInfo.isRemoved)">
+                    <h2 placement="left"
+                        tooltip="Step {{pageAndSteps.steps.indexOf(step) + 1}} of {{pageAndSteps.steps.length}} on this page &#013; Step {{step.index + 1}} of {{scenarioStatistics.numberOfSteps}} in this scenario">
+                        Step {{step.index + 1}}
+                        <span *ngIf="step.title">: {{step.title}}</span>
+                    </h2>
+                    Status:
+                    <span [ngClass]="[getStatusStyleClass(step.status), 'label']">{{step.status}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="screenshot-container">
+                    <img alt="" class="screenshot" src="{{getScreenShotUrl(step.screenshotFileName)}}"/>
+                </div>
+            </td>
+            <td *ngIf="isComparisonExisting">
+                <sc-diff-info-icon [diffInfo]="step.diffInfo" childElementType="screenshot" elementType="step"></sc-diff-info-icon>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</sc-detailarea>

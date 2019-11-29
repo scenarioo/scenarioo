@@ -82,7 +82,7 @@ useCase('Diff viewer - Choose comparisons')
                 await ScenarioPage.assertNoDiffInfoDisplayed();
 				await step('Check for diff elements in scenario');
 
-                await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
+                await ScenarioPage.openStepByName(0);
                 await StepPage.assertNoDiffInfoDisplayed();
                 await step('Check for diff elements in step');
 			});

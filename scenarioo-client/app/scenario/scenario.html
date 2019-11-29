@@ -17,8 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 
-<sc-title scenario-name="{{vm.scenario.name | scHumanReadable}}"></sc-title>
+<sc-steps-overview scenario-name="{{vm.scenario.name}}" use-case-name="{{vm.usecase.name}}"></sc-steps-overview>
 
+<!--
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-7">
         <div class="input-group">
@@ -39,9 +40,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 <sc-meta-data-panel linking-variable="scenarioShowMetadata">
-    <div>
-        <!-- steps -->
-        <div class="row step-view">
+    <div>-->
+        <!-- steps --><!--
+        <div class="row step-overview">
             <div ng-repeat="page in vm.pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'added' : page.page.diffInfo.isAdded, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2 class="sc-scenario-page-title">
@@ -76,9 +77,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-    <div>
+    <div>-->
 
-        <!-- scenario -->
+        <!-- scenario --><!--
         <sc-collapsable-panel title="Scenario" key="scenarioView-scenario" initially-expanded="true">
             <sc-tree information-tree='vm.scenarioInformationTree'></sc-tree>
         </sc-collapsable-panel>
@@ -87,17 +88,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ul id="relatedSketches">
                 <li ng-repeat="issue in vm.relatedIssues"><a href="" ng-click="vm.goToIssue(issue)">{{issue.name}}</a></li>
             </ul>
-        </sc-collapsable-panel>
+        </sc-collapsable-panel>-->
 
-        <!-- labels -->
+        <!-- labels --><!--
         <sc-collapsable-panel title="Labels" key="scenarioView-labels" initially-expanded="false" ng-show="vm.hasAnyLabels">
             <sc-label-metadata [scenario-labels]="vm.scenario.labels.labels"
                                [use-case-labels]="vm.useCase.labels.labels"
                                [label-configurations]="vm.labelConfigurations">
             </sc-label-metadata>
-        </sc-collapsable-panel>
+        </sc-collapsable-panel>-->
 
-        <!-- Metadata -->
+        <!-- Metadata --><!--
         <sc-metadata-tree metadata-tree="vm.metadataTree"></sc-metadata-tree>
     </div>
 </sc-meta-data-panel>
+-->

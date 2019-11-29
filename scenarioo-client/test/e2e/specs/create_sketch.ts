@@ -30,7 +30,7 @@ useCase('Create sketch')
                 await UsecasePage.selectScenario(1);
 
                 await step('Select a step from the scenario');
-                await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
+                await ScenarioPage.openStepByName(0);
 
                 await step('Click "Create Sketch" button');
                 await StepPage.clickCreateSketchButton();

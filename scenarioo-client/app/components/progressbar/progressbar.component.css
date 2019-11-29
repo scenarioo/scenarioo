@@ -1,0 +1,88 @@
+sc-progressbar .sc-container {
+    display: table;
+    float: right;
+    margin-top: -10px;
+    margin-right: -5px;
+}
+
+sc-progressbar .sc-progressbar-container {
+    border-collapse: collapse;
+    float: right;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+sc-progressbar .sc-progressbar {
+    background-color: #ccc;
+    padding: 1px;
+    height: 30px;
+}
+
+sc-progressbar .row {
+    display: table-row;
+}
+
+sc-progressbar .sc-first {
+    border-radius: 10px 0 0 10px;
+}
+
+sc-progressbar .sc-last {
+    border-radius: 0 10px 10px 0;
+}
+
+sc-progressbar .sc-progressbar-cell {
+    display: table-cell;
+}
+
+sc-progressbar .step-arrow, sc-progressbar .step-arrow-grey {
+    width: 30px;
+    text-align: center;
+    background-color: #CCCCCC
+}
+
+sc-progressbar .progress-bar {
+    line-height: 32px;
+    margin-top: -1px;
+    margin-bottom: -1px;
+    font-size: 14px;
+    color: #777777;
+    background-color: #c1d9ee;
+}
+
+sc-progressbar .text-nowrap {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: default;
+}
+
+sc-progressbar .page-navigation {
+    float: left;
+}
+
+sc-progressbar .page-variant-navigation {
+    float: right;
+}
+
+sc-progressbar .page {
+    color: #337ab7;
+    font-size: 12px;
+    cursor: default;
+}
+
+sc-progressbar .page-arrow {
+    color: #337ab7;
+    cursor: pointer;
+}
+
+sc-progressbar .page-arrow-grey {
+    color: #EEEEEE;
+    cursor: default;
+}
+
+sc-progressbar .sc-progress.progress {
+    background-color: #EEEEEE;
+    width: auto;
+    border: 1px solid #CCCCCC;
+    height: unset;
+    margin-bottom: unset;
+}

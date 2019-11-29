@@ -1,0 +1,92 @@
+sc-steps-overview .arrows {
+    display: inline;
+    margin-left: 2px;
+    margin-right: -2px;
+    cursor: pointer;
+}
+
+sc-steps-overview .top, sc-steps-overview .selectedTop {
+    position: absolute;
+    margin-top: -6px;
+}
+
+sc-steps-overview .top, sc-steps-overview .bot {
+    color: lightgray;
+}
+
+sc-steps-overview .bot, sc-steps-overview .selectedBot {
+    position: relative;
+}
+
+sc-steps-overview .screenshot-container {
+    border: 2px solid #DDDDDD;
+    max-width: 300px;
+    height: 150px;
+    overflow: hidden;
+    text-align: center;
+}
+
+sc-steps-overview .screenshot {
+    max-width: 100%;
+    width: auto;
+}
+
+sc-steps-overview h2 {
+    font-weight: bold;
+    font-size: 16px;
+    color: #337ab7;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border: 0;
+}
+
+sc-steps-overview .page-overview {
+    cursor: default;
+}
+
+sc-steps-overview .page-overview:hover {
+    background-color: #FFFFFF;
+}
+
+sc-steps-overview .table-info {
+    font-size: smaller;
+    font-style: italic;
+}
+
+sc-steps-overview .table-curved tr:last-child td:first-child {
+    border-radius: 0;
+}
+
+sc-steps-overview #left {
+    float:left;
+    margin-right: 100px;
+}
+
+sc-steps-overview #right {
+    min-width: 100px;
+    margin-top: 20px;
+}
+
+sc-steps-overview #sc-meta-data-panel {
+    margin-top: 35px;
+}
+
+sc-steps-overview .tooltip-inner {
+    white-space: pre-wrap;
+}
+
+sc-steps-overview p {
+    font-size: smaller;
+    font-style: italic;
+    margin-left: 3px;
+    margin-bottom: 5px;
+}
+
+sc-steps-overview .table tbody>tr:hover td {
+    cursor: pointer;
+    background-color: rgba(225, 225, 225, 0.5);
+}
+
+sc-steps-overview .table tbody>tr.selected td {
+    background-color: rgba(225, 225, 225, 0.5);
+}

@@ -30,3 +30,25 @@ sc-scenarios-overview .table tbody>tr:hover td {
 sc-scenarios-overview .table tbody>tr.selected td {
     background-color: rgba(225, 225, 225, 0.5);
 }
+
+sc-scenarios-overview p {
+    font-size: smaller;
+    font-style: italic;
+    margin-left: 3px;
+    margin-bottom: 5px;
+}
+
+sc-scenarios-overview #left {
+    float:left;
+    margin-right: 100px;
+}
+
+sc-scenarios-overview #right {
+    min-width: 100px;
+    margin-top: 20px;
+}
+
+sc-scenarios-overview #sc-meta-data-panel {
+    margin-top: 35px;
+}
+

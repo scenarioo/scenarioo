@@ -1,0 +1,65 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-detailarea [mainDetailsSections]="mainDetailsSections" [additionalDetailsSections]="additionalDetailsSections" key="useCaseView">
+    <sc-title scenarioName="{{scenarioName | scHumanReadable}}" stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
+    <sc-progressbar *ngIf="!stepNotFound" [stepNavigation]="stepNavigation" [stepStatistics]="stepStatistics"></sc-progressbar>
+
+    <div class="stepView">
+
+        <!--
+        <div class="pull-right" *ngIf="step.screenAnnotations.length !== 0">
+            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"
+                                          screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
+        </div>-->
+
+        <tabset>
+            <tab heading="Screenshot" id="screenshot-tab" (click)="setDefaultTab()">
+                <div class="galleryRow">
+                    <div (click)="goStepBack()" class="galleryButton galleryCell left" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'">
+                        <i class="fas gallaryArrow fa-angle-left"></i>
+                    </div>
+                    <sc-annotated-screenshot class="galleryCell" [screenAnnotations]="step?.screenAnnotations" [screenShotUrl]="screenShotUrl"
+                                             [visibilityToggle]="true"></sc-annotated-screenshot>
+                    <div (click)="goStepForward()" class="galleryButton galleryCell right" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'">
+                        <i class="fas gallaryArrow fa-angle-right"></i>
+                    </div>
+                </div>
+            </tab>
+            <tab *ngIf="step.html !== null" heading="HTML" id="html-tab" (click)="setActiveTab(1)">
+                <pre [textContent]="step.html.htmlSource" id="html-source"></pre>
+            </tab>
+
+                <!-- Diff Viewer Step Comparison View -->
+                <!--<tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+
+                    <tab-heading>
+                        <span class="left">Comparison</span>
+                        <div class="diff-info-wrapper">
+                            <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot"
+                                               child-element-type="screenshot"></sc-diff-info-icon>
+                        </div>
+                    </tab-heading>
+                    <sc-comparison-view step="step" step-identifier="stepIdentifier" step-index="stepIndex"
+                                        screen-shot-url="screenShotUrl"></sc-comparison-view>
+                </tab>-->
+
+        </tabset>
+
+    </div>
+
+</sc-detailarea>

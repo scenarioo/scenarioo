@@ -1,0 +1,50 @@
+sc-step-view #sc-meta-data-panel {
+    margin-top: 35px;
+}
+
+sc-step-view .stepView {
+    margin-top: 70px;
+}
+
+sc-step-view .galleryRow {
+    display: table-row;
+}
+
+sc-step-view .galleryCell {
+    display: table-cell;
+}
+
+sc-step-view .galleryButton {
+    background-color: #eeeeee;
+    width: 30px;
+    font-size: x-large;
+    color: #337AB7;
+    cursor: pointer;
+    border: 2px solid #DDDDDD;
+    vertical-align: top;
+}
+
+sc-step-view .left {
+    border-right: 0;
+}
+
+sc-step-view .right {
+    border-left: 0;
+}
+
+sc-step-view .gallaryArrow {
+    margin-left: 7px;
+    margin-top: 300px;
+    top: 250px;
+    position: sticky;
+}
+
+sc-step-view .step-arrow {
+    color: #337ab7;
+    cursor: pointer;
+}
+
+sc-step-view .step-arrow-grey {
+    color: #FFFFFF;
+    cursor: default;
+}
