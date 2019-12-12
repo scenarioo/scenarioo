@@ -1,6 +1,6 @@
 <tabset #manageTabs>
     <tab [heading]="tabs[0].name" (selectTab)="onSelect($event)">
-        <sc-builds-list *ngIf="isActiveTab(0)"></sc-builds-list>
+        <sc-build-list *ngIf="isActiveTab(0)"></sc-build-list>
     </tab>
     <tab [heading]="tabs[1].name" (selectTab)="onSelect($event)">
         <sc-comparisons *ngIf="isActiveTab(1)"></sc-comparisons>
