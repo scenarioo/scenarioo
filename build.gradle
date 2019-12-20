@@ -49,7 +49,6 @@ buildscript {
 }
 
 allprojects {
-	apply plugin: 'eclipse'
 	apply plugin: 'io.spring.dependency-management'
 
 	group = 'org.scenarioo'
