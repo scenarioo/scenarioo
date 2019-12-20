@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {IBranchBuilds} from '../../generated-types/backend-types';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
@@ -151,7 +153,7 @@ angular.module('scenarioo.services')
     });
 
 export class BranchesAndBuildsService {
-    getBranchesAndBuilds(): Promise<any> {
+    getBranchesAndBuilds(): Promise<IBranchBuilds[]> {
         return undefined;
     }
 }

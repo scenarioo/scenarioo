@@ -21,7 +21,6 @@ angular.module('scenarioo.directives')
         bindings: {
             treedata: '<',
             rootIsCollapsed: '<',
-            expandFirstChildUpToRootNode: '<',
             filter: '<',
             columns: '<',
             treemodel: '=',

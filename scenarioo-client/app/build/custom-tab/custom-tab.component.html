@@ -1,0 +1,32 @@
+<div>
+    <div class="row sc-space-top sc-space-bottom">
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="text" class="tableSearch form-control" data-toggle="tooltip"
+                       title="type words separated by spaces to search for"
+                       [(ngModel)]="searchField" placeholder="Search ..."
+                       id="{{tabId}}SearchField"/>
+                <span class="input-group-btn">
+	                <button type="button" (click)="resetSearchField()" class="btn btn-default">reset</button>
+	            </span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="pull-right">
+                <button type="button" ng-click="expandAndCollapseTree(treemodel)"
+                        class="btn btn-default">{{toggleLabel}} all
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--
+    <sc-filterable-table-tree root-is-collapsed="$ctrl.rootIsCollapsed"
+                              expand-first-child-up-to-root-node="false"
+                              filter="$ctrl.searchField"
+                              treedata="$ctrl.tabContentTree"
+                              treemodel="$ctrl.treemodel"
+                              click-action="$ctrl.goToReferenceTree(node)"
+                              columns="$ctrl.tabColumns">
+    </sc-filterable-table-tree>
+    -->
+</div>

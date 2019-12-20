@@ -53,6 +53,8 @@ import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.com
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
 import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
+import {CustomTabComponent} from './build/custom-tab/custom-tab.component';
+import {FilterableTableTreeDirective} from './shared/filterableTableTree/filterable-table-tree.directive';
 
 @NgModule({
     declarations: [
@@ -81,6 +83,8 @@ import {GeneralSettingsComponent} from './manage/general-settings/general-settin
         TitleComponent,
         BranchAliasesComponent,
         GeneralSettingsComponent,
+        CustomTabComponent,
+        FilterableTableTreeDirective,
     ],
     entryComponents: [
         LabelMetadataComponent,
