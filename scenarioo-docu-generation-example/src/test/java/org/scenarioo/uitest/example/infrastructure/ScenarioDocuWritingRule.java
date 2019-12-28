@@ -104,8 +104,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		// store labels from test method's annotation (if any)
 		Labels labels = testMethodDescription.getAnnotation(Labels.class);
 		if (labels != null) {
-			Set<String> labelsSet = new HashSet<String>();
-			labelsSet.addAll(Arrays.asList(labels.value()));
+			Set<String> labelsSet = new HashSet<String>(Arrays.asList(labels.value()));
 			scenario.getLabels().setLabels(labelsSet);
 		}
 
