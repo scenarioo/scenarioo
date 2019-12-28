@@ -55,7 +55,8 @@ allprojects {
     version = getVersionName()
 
     wrapper {
-        gradleVersion = '4.10.3'
+        gradleVersion = '5.6.4'
+		distributionType = Wrapper.DistributionType.ALL
     }
 
 	dependencyManagement {
