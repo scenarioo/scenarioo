@@ -29,22 +29,10 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.api.util.IdentifierSanitizer.*;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuWriter;
-import org.scenarioo.model.docu.entities.Page;
-import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.model.docu.entities.StepHtml;
-import org.scenarioo.model.docu.entities.StepMetadata;
+import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -54,6 +42,14 @@ import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationClick
 import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationStyle;
 import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.scenarioo.api.util.IdentifierSanitizer.sanitize;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.SCENARIOO_DATA_DIRECTORY;
 
 /**
  * Example implementation of an abstraction layer that wrapps the used UI testing toolkit.
@@ -79,8 +75,8 @@ public class UITestToolkitAbstraction {
 
 	private final UITest test;
 
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
-			MultipleBuildsRule.getCurrentBuildName());
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsConfiguration.getCurrentBranchName(),
+		MultipleBuildsConfiguration.getCurrentBuildName());
 
 	private DummyImageResource lastScreenshot = new DummyImageResource(new byte[0]);
 

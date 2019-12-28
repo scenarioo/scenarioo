@@ -34,7 +34,7 @@ test {
     minHeapSize = "128m"
   	maxHeapSize = "512m"
   	scanForTestClasses = false
-  	include '**/AllTests.class'
+  	include '**/AllTests*.class'
 }
 
 dependencies {
