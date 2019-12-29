@@ -1,9 +1,9 @@
 package org.scenarioo.uitest.example.infrastructure;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Only used for testing. You would never use this in a production environment.
@@ -50,7 +50,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 	}
 
 	public static String getDifferentUseCaseNameForBuild(final String name) {
-		String configuredUseCaseName = getConfiguredUseCaseName(name, MultipleBuildsRule.getCurrentBuildRun());
+		String configuredUseCaseName = getConfiguredUseCaseName(name, MultipleBuildsConfiguration.getCurrentBuildRun());
 		if (StringUtils.isNotEmpty(configuredUseCaseName)) {
 			return configuredUseCaseName;
 		}
@@ -69,7 +69,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 
 
 	public static String getDifferentScenarioNameForBuild(final String name) {
-		String configuredScenarioName = getConfiguredScenarioName(name, MultipleBuildsRule.getCurrentBuildRun());
+		String configuredScenarioName = getConfiguredScenarioName(name, MultipleBuildsConfiguration.getCurrentBuildRun());
 		if (StringUtils.isNotEmpty(configuredScenarioName)) {
 			return configuredScenarioName;
 		}

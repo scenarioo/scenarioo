@@ -33,8 +33,10 @@ apply from: "${rootProject.projectDir}/build-java.gradle"
 test {
     minHeapSize = "128m"
   	maxHeapSize = "512m"
-  	scanForTestClasses = false
-  	include '**/AllTests.class'
+
+	filter {
+		includeTestsMatching "*AllTests*"
+	}
 }
 
 dependencies {

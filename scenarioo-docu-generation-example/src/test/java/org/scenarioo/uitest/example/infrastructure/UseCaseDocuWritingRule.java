@@ -29,11 +29,6 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.ClassRule;
@@ -42,6 +37,11 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.UseCase;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.SCENARIOO_DATA_DIRECTORY;
 
 /**
  * A {@link TestRule} to setup as a static {@link ClassRule} on your UI test classes to generate documentation content
@@ -58,7 +58,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		return new Statement() {
 
 			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY,
-					MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
+				MultipleBuildsConfiguration.getCurrentBranchName(), MultipleBuildsConfiguration.getCurrentBuildName());
 
 			@Override
 			public void evaluate() throws Throwable {
