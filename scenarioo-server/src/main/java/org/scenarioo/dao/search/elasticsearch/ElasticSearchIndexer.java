@@ -17,14 +17,12 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.log4j.Logger;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
@@ -36,6 +34,9 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
+
+import java.io.IOException;
+import java.util.List;
 
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
@@ -63,9 +64,7 @@ class ElasticSearchIndexer {
 			// In the future we need the new join datatype for parent child relations
 			// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
 			// https://www.elastic.co/guide/en/elasticsearch/reference/master/parent-join.html
-			.addMapping("scenario", createMappingForType("scenario"))
-			.addMapping("page", createMappingForType("page"))
-			.addMapping("step", createMappingForType("step"))
+			.addMapping(createMapping())
 			.get();
 		LOGGER.debug("Added new index " + indexName);
 	}
@@ -106,7 +105,7 @@ class ElasticSearchIndexer {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter writer = objectMapper.writer();
 
-			client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
+			client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document), XContentType.JSON).execute();
 
 //            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
 		} catch (IOException e) {
@@ -120,10 +119,10 @@ class ElasticSearchIndexer {
 			.execute().actionGet().isExists();
 	}
 
-	private String createMappingForType(final String type) {
+	private String createMapping() {
 
 		return "{" +
-			"	\"" + type + "\":	{" +
+			"	\"doc\":	{" +
 			"		\"dynamic_templates\": [" +
 			"			{" +
 			"				\"ignore_meta_data\": {" +

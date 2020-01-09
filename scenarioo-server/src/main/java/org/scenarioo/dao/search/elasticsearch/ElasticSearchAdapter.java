@@ -21,13 +21,13 @@ import com.carrotsearch.hppc.cursors.ObjectCursor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
@@ -81,7 +81,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
 			client = new PreBuiltTransportClient(Settings.builder()
 				.put("cluster.name", clusterName).build())
-				.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+				.addTransportAddress(new TransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
 			LOGGER.warn("No elasticsearch cluster running.");
 		} catch (Throwable e) {
@@ -187,7 +187,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
         return buildNames;
     }
 
-    private DeleteIndexResponse deleteIndex(final String indexName) {
+	private AcknowledgedResponse deleteIndex(final String indexName) {
         return client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
     }
 

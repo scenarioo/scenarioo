@@ -94,7 +94,7 @@ class ElasticSearchSearcher {
             }
         }
 
-        return new SearchResults(results, hits.length, searchResponse.getHits().getTotalHits());
+		return new SearchResults(results, hits.length, searchResponse.getHits().getTotalHits().value);
     }
 
     private SearchResponse executeSearch(final SearchRequest searchRequest) {
