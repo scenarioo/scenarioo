@@ -19,16 +19,16 @@ package org.scenarioo.dao.search.elasticsearch;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.client.transport.NoNodeAvailableException;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.action.admin.indices.settings.get.GetSettingsRequest;
+import org.elasticsearch.client.*;
+import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.elasticsearch.common.xcontent.XContentHelper;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
@@ -42,20 +42,23 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ElasticSearchAdapter implements SearchAdapter {
 
-    private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
+	private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
 
 	// It's ok that this is static because the Elasticsearch endpoint config can not be changed
 	// at runtime but only by restarting Scenarioo. If we ever make it possible to change
 	// the endpoint config in the UI (i.e. at runtime) then the client can not be created only
 	// once anymore but has to be recreated when changing the config.
-	private static TransportClient client;
+	private static RestHighLevelClient restClient;
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
@@ -64,8 +67,8 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final String clusterName = configurationRepository.getConfiguration().getElasticSearchClusterName();
 
-    public ElasticSearchAdapter() {
-		if (client != null) {
+	public ElasticSearchAdapter() {
+		if (restClient != null) {
 			// already initialized
 			return;
 		}
@@ -79,119 +82,132 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int portSeparator = endpoint.lastIndexOf(':');
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-			client = new PreBuiltTransportClient(Settings.builder()
-				.put("cluster.name", clusterName).build())
-				.addTransportAddress(new TransportAddress(InetAddress.getByName(host), port));
+			restClient = new RestHighLevelClient(
+				RestClient.builder(new HttpHost(InetAddress.getByName(host), port, "http")));
 		} catch (UnknownHostException e) {
 			LOGGER.warn("No elasticsearch cluster running.");
 		} catch (Throwable e) {
 			// Silently log the error in any case to not let Scenarioo crash just because Easticsearch connection fails somehow.
 			LOGGER.error("Could not connect to Elastic Search Engine", e);
 		}
-    }
+	}
 
 	@Override
 	public boolean isSearchEndpointConfigured() {
 		return endpoint != null && endpoint.contains(":");
 	}
 
-    @Override
-    public boolean isEngineRunning() {
-        if(client == null) {
-            return false;
-        }
+	@Override
+	public boolean isEngineRunning() {
+		if (restClient == null) {
+			return false;
+		}
 
-        try {
-            client.admin().cluster().prepareHealth().get();
+		try {
+			Request request = new Request("GET", "/_cluster/health");
+			request.addParameter("wait_for_status", "green");
+			Response response = restClient.getLowLevelClient().performRequest(request);
 
-            return true;
-        } catch (NoNodeAvailableException e) {
-            return false;
-        }
-    }
+			ClusterHealthStatus healthStatus;
+			try (InputStream is = response.getEntity().getContent()) {
+				Map<String, Object> map = XContentHelper.convertToMap(XContentType.JSON.xContent(), is, true);
+				healthStatus = ClusterHealthStatus.fromString((String) map.get("status"));
+			}
+			return ClusterHealthStatus.GREEN.equals(healthStatus);
+		} catch (IOException e) {
+			return false;
+		}
+	}
 
 	@Override
 	public String getEndpoint() {
 		return endpoint;
 	}
 
-    @Override
-    public SearchResults searchData(final SearchRequest searchRequest) {
-        final String indexName = getIndexName(searchRequest.getBuildIdentifier());
+	@Override
+	public SearchResults searchData(final SearchRequest searchRequest) {
+		final String indexName = getIndexName(searchRequest.getBuildIdentifier());
 
-        ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName, client);
-        return elasticSearchSearcher.search(searchRequest);
-    }
+		ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName, restClient);
+		return elasticSearchSearcher.search(searchRequest);
+	}
 
-    @Override
-    public void setupNewBuild(final BuildIdentifier buildIdentifier) {
-        String indexName = getIndexName(buildIdentifier);
+	@Override
+	public void setupNewBuild(final BuildIdentifier buildIdentifier) {
+		String indexName = getIndexName(buildIdentifier);
+		new ElasticSearchIndexer(indexName, restClient).setupCleanIndex(indexName);
+	}
 
-		new ElasticSearchIndexer(indexName, client).setupCleanIndex(indexName);
-    }
-
-    @Override
-    public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
+	@Override
+	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
-		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
-        elasticSearchIndexer.indexUseCases(useCaseScenariosList);
-    }
+		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, restClient);
+		elasticSearchIndexer.indexUseCases(useCaseScenariosList);
+	}
 
 	@Override
 	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinks, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
-		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
+		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, restClient);
 		elasticSearchIndexer.indexSteps(steps, stepLinks, scenario, usecase);
 	}
 
 	@Override
-    public void updateAvailableBuilds(final List<BuildIdentifier> availableBuilds) {
+	public void updateAvailableBuilds(final List<BuildIdentifier> availableBuilds) {
 		List<String> existingIndices = getAvailableIndicesOfCurrentContext();
-        List<String> availableBuildNames = getAvailableBuildNames(availableBuilds);
+		List<String> availableBuildNames = getAvailableBuildNames(availableBuilds);
 
-        for(String index : existingIndices) {
-            if (!availableBuildNames.contains(index)) {
-                deleteIndex(index);
-                LOGGER.debug("Removed index " + index);
-            }
-        }
-    }
+		for (String index : existingIndices) {
+			if (!availableBuildNames.contains(index)) {
+				try {
+					deleteIndex(index);
+					LOGGER.debug("Removed index " + index);
+				} catch (IOException e) {
+					LOGGER.error("Could not remove index " + index, e);
+				}
+			}
+		}
+	}
 
 	/**
 	 * It's important to only get the indices that belong to the current context. Otherwise
 	 * we also delete indices of other contexts.
 	 */
 	private List<String> getAvailableIndicesOfCurrentContext() {
-        ImmutableOpenMap<String, IndexMetaData> indices = client.admin().cluster()
-                .prepareState().get().getState()
-                .getMetaData().getIndices();
+		ImmutableOpenMap<String, Settings> indices;
+		try {
+			indices = restClient.indices().getSettings(new GetSettingsRequest(), RequestOptions.DEFAULT).getIndexToSettings();
+		} catch (IOException e) {
+			LOGGER.error("Could not load indices", e);
+			return new ArrayList<>();
+		}
 
-        List<String> indicesOfCurrentContext = new ArrayList<>(indices.keys().size());
-        for (ObjectCursor<String> key : indices.keys()) {
+		List<String> indicesOfCurrentContext = new ArrayList<>(indices.keys().size());
+		for (ObjectCursor<String> key : indices.keys()) {
 			if (key.value.startsWith(getContextPrefix())) {
 				indicesOfCurrentContext.add(key.value);
 			}
-        }
-        return indicesOfCurrentContext;
-    }
+		}
+		return indicesOfCurrentContext;
+	}
 
-    private List<String> getAvailableBuildNames(final List<BuildIdentifier> existingBuilds) {
-        List<String> buildNames = new ArrayList<>();
+	private List<String> getAvailableBuildNames(final List<BuildIdentifier> existingBuilds) {
+		List<String> buildNames = new ArrayList<>();
 
-        for(BuildIdentifier identifier : existingBuilds) {
-            buildNames.add(getIndexName(identifier));
-        }
+		for (BuildIdentifier identifier : existingBuilds) {
+			buildNames.add(getIndexName(identifier));
+		}
 
-        return buildNames;
-    }
+		return buildNames;
+	}
 
-	private AcknowledgedResponse deleteIndex(final String indexName) {
-        return client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
-    }
+	private void deleteIndex(final String indexName) throws IOException {
+		restClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+	}
 
-    private String getIndexName(final BuildIdentifier buildIdentifier) {
+	private String getIndexName(final BuildIdentifier buildIdentifier) {
 		String index = getContextPrefix() + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
 		// index for elastic search must be lowercase
 		return index.toLowerCase();
@@ -202,10 +218,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		// e.g. "scenarioo-develop" should not include indices of "scenarioo-develop-pr" so that
 		// they are not deleted during cleanup of indices.
 		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
-		if(StringUtils.isBlank(contextPath)) {
+		if (StringUtils.isBlank(contextPath)) {
 			//Elasticsearch indexes may not start with -, _ or +
 			contextPath = "rootContext";
 		}
 		return contextPath + "---";
-    }
+	}
 }

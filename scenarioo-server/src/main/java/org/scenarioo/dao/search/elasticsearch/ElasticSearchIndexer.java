@@ -20,7 +20,12 @@ package org.scenarioo.dao.search.elasticsearch;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.log4j.Logger;
-import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.search.FullTextSearch;
@@ -41,28 +46,31 @@ import java.util.List;
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
 
-	private final TransportClient client;
 	private final String indexName;
+	private final RestHighLevelClient restClient;
 
-	ElasticSearchIndexer(final String indexName, final TransportClient client) {
-		this.client = client;
+	ElasticSearchIndexer(final String indexName, RestHighLevelClient restClient) {
 		this.indexName = indexName;
+		this.restClient = restClient;
 	}
 
 	void setupCleanIndex(final String indexName) {
-		if (indexExists(indexName)) {
-			client.admin().indices().prepareDelete(indexName).get();
+		try {
+			if (indexExists(indexName)) {
+				restClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+				LOGGER.debug("Removed existing index " + indexName);
+			}
 
-			LOGGER.debug("Removed existing index " + indexName);
+			CreateIndexRequest request = new CreateIndexRequest(indexName)
+				.settings(Settings.builder()
+					.put("index.number_of_shards", 1)
+					.put("index.number_of_replicas", 1))
+				.mapping(createMapping(), XContentType.JSON);
+			restClient.indices().create(request, RequestOptions.DEFAULT);
+			LOGGER.debug("Added new index " + indexName);
+		} catch (IOException e) {
+			LOGGER.error("Could not remove index " + indexName, e);
 		}
-
-		client.admin().indices().prepareCreate(indexName)
-			.setSettings(Settings.builder()
-				.put("index.number_of_shards", 1)
-				.put("index.number_of_replicas", 1))
-//			.addMapping(createMapping(), XContentType.JSON)
-			.get();
-		LOGGER.debug("Added new index " + indexName);
 	}
 
 	void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
@@ -101,18 +109,17 @@ class ElasticSearchIndexer {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter writer = objectMapper.writer();
 
-			client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document), XContentType.JSON).execute();
-
-//            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
+			IndexRequest indexRequest = new IndexRequest(indexName)
+				.id(documentName)
+				.source(writer.writeValueAsBytes(document), XContentType.JSON);
+			restClient.index(indexRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
 			LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
 		}
 	}
 
-	private boolean indexExists(final String indexName) {
-		return client.admin().indices()
-			.prepareExists(indexName)
-			.execute().actionGet().isExists();
+	private boolean indexExists(final String indexName) throws IOException {
+		return restClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
 	}
 
 	private String createMapping() {

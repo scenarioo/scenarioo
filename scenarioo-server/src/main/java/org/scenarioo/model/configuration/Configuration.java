@@ -19,19 +19,10 @@ package org.scenarioo.model.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import javax.xml.bind.annotation.*;
+import java.awt.*;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
 
 /**
  * The configuration for the server and the client.
@@ -55,7 +46,7 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
-	private String elasticSearchEndpoint = "localhost:9300";
+	private String elasticSearchEndpoint = "localhost:9200";
 
 	private String elasticSearchClusterName = "elasticsearch";
 

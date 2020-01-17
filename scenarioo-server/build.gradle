@@ -75,15 +75,15 @@ dependencies {
     compile 'org.apache.xmlgraphics:xmlgraphics-commons'
     compile 'com.thetransactioncompany:cors-filter'
     compile 'org.elasticsearch:elasticsearch'
-    compile 'org.elasticsearch.client:transport'
+    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     compile 'io.springfox:springfox-swagger2'
-    compile 'io.springfox:springfox-swagger-ui'    
-    
+    compile 'io.springfox:springfox-swagger-ui'
+
     //These libraries are no longer provided in Java 9+, thus we need to add them manually
     compile 'javax.xml.bind:jaxb-api'
     compile 'com.sun.xml.bind:jaxb-core'

@@ -70,8 +70,8 @@ allprojects {
 			dependency 'com.thetransactioncompany:cors-filter:2.5'
 
 			dependency 'org.elasticsearch:elasticsearch:7.5.1'
-			dependency 'org.elasticsearch.client:transport:7.5.1'
-			dependency 'org.elasticsearch.plugin:transport-netty4-client:7.5.1'
+			dependency 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.5.1'
+
 
 			dependency 'org.apache.commons:commons-lang3:3.5'
 			dependency 'org.apache.commons:commons-collections4:4.1'
