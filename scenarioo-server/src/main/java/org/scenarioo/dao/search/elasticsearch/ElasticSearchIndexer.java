@@ -60,11 +60,7 @@ class ElasticSearchIndexer {
 			.setSettings(Settings.builder()
 				.put("index.number_of_shards", 1)
 				.put("index.number_of_replicas", 1))
-			// Multi types are deprecated and not supported anymore in elasticsearch 6.x
-			// In the future we need the new join datatype for parent child relations
-			// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
-			// https://www.elastic.co/guide/en/elasticsearch/reference/master/parent-join.html
-			.addMapping(createMapping())
+//			.addMapping(createMapping(), XContentType.JSON)
 			.get();
 		LOGGER.debug("Added new index " + indexName);
 	}
@@ -122,7 +118,7 @@ class ElasticSearchIndexer {
 	private String createMapping() {
 
 		return "{" +
-			"	\"doc\":	{" +
+			"	\"mappings\":	{" +
 			"		\"dynamic_templates\": [" +
 			"			{" +
 			"				\"ignore_meta_data\": {" +
