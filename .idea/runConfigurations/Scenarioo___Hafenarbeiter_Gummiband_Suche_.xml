@@ -4,7 +4,6 @@
       <settings>
         <option name="JSONFilePath" value="" />
         <option name="command" value="" />
-        <option name="commandLineOptions" value="" />
         <option name="containerName" value="elasticsearch-scenarioo" />
         <option name="entrypoint" value="" />
         <option name="envVars">
@@ -21,9 +20,13 @@
               <option name="name" value="xpack.security.enabled" />
               <option name="value" value="false" />
             </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="discovery.type" />
+              <option name="value" value="single-node" />
+            </DockerEnvVarImpl>
           </list>
         </option>
-        <option name="imageTag" value="docker.elastic.co/elasticsearch/elasticsearch:5.6.9" />
+        <option name="imageTag" value="docker.elastic.co/elasticsearch/elasticsearch:7.5.1" />
         <option name="portBindings">
           <list>
             <DockerPortBindingImpl>
@@ -36,9 +39,7 @@
             </DockerPortBindingImpl>
           </list>
         </option>
-        <option name="startBrowserSettings">
-          <browser url="http://127.0.0.1" />
-        </option>
+        <option name="commandLineOptions" value="" />
       </settings>
     </deployment>
     <method v="2" />
