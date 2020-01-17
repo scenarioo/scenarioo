@@ -5,9 +5,8 @@ jobs:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
       - image: circleci/openjdk:8-jdk-stretch-browsers
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
-        container_name: es01
         environment:
-          cluster.initial_master_nodes: es01
+          discovery.type: single-node
           cluster.name: elasticsearch
           xpack.ml.enabled: false
           xpack.security.enabled: false
