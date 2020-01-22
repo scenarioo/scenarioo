@@ -120,6 +120,6 @@ Example to add in `config.xml` inside the `<configuration>`-element:
 
 Please refer to the documentation of advanced features for more information on how to configure those features in `config.xml`. For example the following advanced features:
 
-* [Details & Object Repository for additional object tabs on start page](../features/details/Details.md)
+* [Details & Object Repository for additional object tabs on start page](../features/Details.md)
 * [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
 * [DiffViewer Setup Instructions](../features/diff-viewer/diff-viewer.md)

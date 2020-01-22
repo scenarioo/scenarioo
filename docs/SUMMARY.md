@@ -17,7 +17,7 @@
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
     * [Safe Identifiers](features/Safe-Identifiers.md)
     * [Labels](features/Labels.md)
-    * [Details & Object Repository](features/details/Details.md)
+    * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
   * [Diff Viewer](features/diff-viewer/diff-viewer.md)
     * [Diff Viewer REST API](features/diff-viewer/diff-viewer-rest-api.md)
