@@ -17,7 +17,7 @@
     "gitbook-plugin-expandable-chapters": "^0.2.0",
     "gitbook-plugin-ga": "^1.0.1",
     "gitbook-plugin-github": "^2.0.0",
-    "gitbook-plugin-puml": "^1.0.1",
+    "gitbook-plugin-uml": "^1.0.3",
     "gitbook-plugin-sitemap": "^1.2.0",
     "gitbook-plugin-versions": "^2.1.4"
   }
