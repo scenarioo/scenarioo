@@ -2,38 +2,18 @@
 
 Details are a generic data structure used for storing additional (application specific) information inside the Scenarioo documentation.
 
-This `details` are simple maps of key-value-pairs that define further properties of an object. Each such  property which has a `key` and a `value`.
+This `details` are simple maps of key-value-pairs. Each `entry` in such a details map has a `key` and a `value`. 
 
-## Details - Class Diagram
+The `key` is always a simple string (the name of the information). 
 
-
-This class diagram shows the generic data structure of what you can store in a details map as values:
-
-```puml { src="features/details/class-diagram.puml" }
-```
-
-## Details - Example Object Diagram
-
-Here is such an example of such a data structure you could add like this to the details of a scenario object:
-
-```puml { src="features/details/example.object-diagram.puml" }
-```
-
-See further examples as xml examples further below.
-
-## Details - Entry Types 
-
-Each entry in a details object represents a property with a key and a value.
-
-The `key` is always a simple string (the name of the property). 
-
-The `value` of such a property can be of different types:
+The `value` of such an entry can be of different kinds:
    * `string`: a simple textual information
    * `ObjectDescription` (complex type): describes an object with an identity given by a `type` (string to group all objects of same kind) and a unique `name` to identify this object of this type (the `name` should be unique for all objects of this same type, such that all occurrences of the same object can be identified correctly). Every value of type ObjectDescription will be stored in the Scenarioo object repository, which means, that you can easily browse for all occurrences of this same object with same type and name. Such an object typically can have again `details` with additional information about the object (this details can again recursively contain `ObjectDescritpion` or any other value types, as listed here).
    * `ObjectReference` (complex type): possibility to only store a reference to an object (only by `type` and `name`, without `details`), to reference the full object that is already stored in some other place inside the documentation (with all its details as a full `ObjectDescription`).
    * `ObjectList`: possibility to store a list of values (e.g. as a bullet list). The contained values could be simply strings, or again of `ObjectDescription` or any other supported value type, as listed here.
    * `ObjectTreeNode`: possibility to store tree structures. Each tree node has an `item` which is the payload of the node, that can be a simple string information or again an `ObjectDescription` or any other supported value type, as listed here. Furthermore each tree node can again have `details` for specific additional information about an item (e.g. the item could be an `ObjectDescription` or `ObjectReference` and the `details` of the tree node contain additional information that is only valid for this specific occurrence of this object inside this tree but not belongs to the object itself). The `children` are again `ObjectTreeNode`s (which are the sub trees of the tree).
 
+See also some data structure examples below.
 
 ### Scenarioo Object Repository: the power of `ObjectDescription`s
 
