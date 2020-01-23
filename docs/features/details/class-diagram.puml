@@ -1,5 +1,7 @@
 @startuml
 
+class Branch
+class Build
 class UseCase
 class Scenario
 class Step
@@ -39,6 +41,8 @@ class ObjectTreeNode {
     children: List<ObjectTreeNode>
 }
 
+Branch --> Details : details
+Build --> Details : details
 UseCase --> Details : details
 Scenario --> Details : details
 Step --> Details : details
