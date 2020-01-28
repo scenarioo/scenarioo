@@ -114,7 +114,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				healthStatus = ClusterHealthStatus.fromString((String) map.get("status"));
 			}
 			return ClusterHealthStatus.GREEN.equals(healthStatus);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
