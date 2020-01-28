@@ -24,7 +24,7 @@ You can either install it on the same machine where you host Scenarioo or on a s
 You have to configure the endpoint URL and cluster name of the Elasticsearch cluster.
 
 By default following values are preconfigured for you:
-* elasticSearchEndpoint: localhost:9300 (usually the default of elasticsearch installations)
+* elasticSearchEndpoint: localhost:9200 (usually the default of elasticsearch installations)
 * elasticSearchClusterName: elasticsearch (usually the default of elasticsearch installations)
 
 You can change those values in the `config.xml` file of Scenarioo in your Scenarioo data directory.
@@ -34,7 +34,7 @@ Here's an example configuration for the search feature in the `config.xml`:
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
+    <elasticSearchEndpoint>localhost:9200</elasticSearchEndpoint>
     <elasticSearchClusterName>scenarioo</elasticSearchClusterName>
     <!-- omitted other config tags -->
 </configuration>

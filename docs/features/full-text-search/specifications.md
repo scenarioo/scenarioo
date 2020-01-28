@@ -29,7 +29,7 @@ running (e.g. localhost:9000).
 ### TC3: Elasticsearch enabled and endpoint available
 
 Set the elasticSearchEndpoint tag in config.xml to the endpoint where
-Elasticsearch is actually available (e.g. localhost:9300).
+Elasticsearch is actually available (e.g. localhost:9200).
 
 * Search box is shown in the header
 * Settings page shows the configured Elasticsearch endpoint

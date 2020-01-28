@@ -3,7 +3,7 @@
     <defaultBranchName>master</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
-    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
+    <elasticSearchEndpoint>localhost:9200</elasticSearchEndpoint>
     <elasticSearchClusterName>elasticsearch</elasticSearchClusterName>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
