@@ -6,6 +6,7 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.FileResponseCreator;
@@ -74,7 +75,7 @@ public class ComparisonsResource {
 	/**
 	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
 	 *
-	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
+	 * @return 404 NOT FOUND if the build specified by branchName/buildName does not exist.
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
@@ -84,11 +85,18 @@ public class ComparisonsResource {
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName) {
 
-		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
-		String status = buildDiffInfo.getStatus().toString();
-		return ResponseEntity.ok(status);
-	}
+		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
+		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
 
+		ComparisonCalculationStatus status;
+		try {
+			status = new DiffViewerDao().loadBuildDiffInfo(branchName, buildName, comparisonName).getStatus();
+		} catch (Exception e) {
+			// If the BuildDiffInfo cannot be unmarshalled then it is very likely that the file is currently being updated with the comparison results, thus we return PROCESSING.
+			status = ComparisonCalculationStatus.PROCESSING;
+		}
+		return ResponseEntity.ok(status.toString());
+	}
 
 	/**
 	 * Returns the log file of the build comparison.
@@ -99,8 +107,8 @@ public class ComparisonsResource {
 	 */
 	@GetMapping(path = "/log", produces = "text/plain")
 	public ResponseEntity getLog(@PathVariable("branchName") final String branchName,
-						   @PathVariable("buildName") final String buildName,
-						   @PathVariable("comparisonName") final String comparisonName) {
+								 @PathVariable("buildName") final String buildName,
+								 @PathVariable("comparisonName") final String comparisonName) {
 
 		DiffViewerDao diffViewerDao = new DiffViewerDao();
 		File logFile = diffViewerDao.getBuildComparisonLogFile(branchName, buildName, comparisonName);
@@ -171,12 +179,12 @@ public class ComparisonsResource {
 		return getBuildDiffInfo(branchName, buildName, comparisonName);
 	}
 
-	private BuildIdentifier resolveAndCreateBuildIdentifier(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName) {
+	private BuildIdentifier resolveAndCreateBuildIdentifier(String branchName, String buildName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		return new BuildIdentifier(resolvedBranchName, buildName);
 	}
 
-	private void checkBuildIsSuccessfullyImported(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, BuildIdentifier buildIdentifier) {
+	private void checkBuildIsSuccessfullyImported(String branchName, String buildName, BuildIdentifier buildIdentifier) {
 		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Build " + branchName + "/" + buildName + " does not exist.");
 			throw new NotFoundException();
