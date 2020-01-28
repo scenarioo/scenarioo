@@ -125,7 +125,6 @@ class ElasticSearchIndexer {
 	private String createMapping() {
 
 		return "{" +
-			"	\"mappings\":	{" +
 			"		\"dynamic_templates\": [" +
 			"			{" +
 			"				\"ignore_meta_data\": {" +
@@ -140,13 +139,11 @@ class ElasticSearchIndexer {
 			"			\"step\": {" +
 			"				\"properties\": {" +
 			"					\"html\": {" +
-			"						\"type\": \"object\"," +
-			"						\"include_in_all\": false" +
+			"						\"type\": \"object\"" +
 			"					}" +
 			"				}" +
 			"			}" +
 			"		}" +
-			"	}" +
 			"}";
 	}
 }
