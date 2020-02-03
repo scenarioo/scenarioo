@@ -2,7 +2,7 @@
 
 Details are a generic data structure used for storing additional (application specific) information inside the Scenarioo documentation.
 
-This `details` are simple maps of key-value-pairs that define further properties of an object. Each such  property which has a `key` and a `value`.
+This `details` are simple maps of key-value-pairs that define further properties of an object. Each such property has a `key` and a `value`.
 
 ## Details - Class Diagram
 
@@ -14,12 +14,12 @@ This class diagram shows the generic data structure of what you can store in a d
 
 ## Details - Example Object Diagram
 
-Here is such an example of such a data structure you could add like this to the details of a scenario object:
+Here is an example of such a data structure added to the details of a scenario:
 
 ```puml { src="features/details/example.object-diagram.puml" }
 ```
 
-See further examples as xml examples further below.
+See additional examples as xml examples further below.
 
 ## Details - Entry Types 
 
