@@ -25,7 +25,6 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class LabelConfigurationsResource {
 		Configuration configuration = configurationRepository.getConfiguration();
 		Map<String, LabelConfiguration> labelConfigurations = configuration.getLabelConfigurations();
 
-		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<FlatLabelConfiguration>();
+		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<>();
 		for (Entry<String, LabelConfiguration> labelConfiguration : labelConfigurations.entrySet()) {
 			flatLabelConfigurations.add(new FlatLabelConfiguration(labelConfiguration.getKey(), labelConfiguration
 					.getValue()));
@@ -70,28 +69,6 @@ public class LabelConfigurationsResource {
 		configuration.setLabelConfigurations(labelConfigurations);
 		configurationRepository.updateConfiguration(configuration);
 		ScenarioDocuBuildsManager.getInstance().refreshBranchAliases();
-	}
-
-	@XmlRootElement
-	static class FlatLabelConfiguration extends LabelConfiguration {
-		private String name;
-
-		public FlatLabelConfiguration() {
-		}
-
-		public FlatLabelConfiguration(final String name, final LabelConfiguration configuration) {
-			this.name = name;
-			setForegroundColor(configuration.getForegroundColor());
-			setBackgroundColor(configuration.getBackgroundColor());
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(final String name) {
-			this.name = name;
-		}
 	}
 
 }

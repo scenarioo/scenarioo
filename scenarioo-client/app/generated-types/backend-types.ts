@@ -35,6 +35,10 @@ export interface IBranchAlias {
     description: string;
 }
 
+export interface IFlatLabelConfiguration extends ILabelConfiguration {
+    name: string;
+}
+
 export interface IApplicationVersion {
     version: string;
     buildDate: string;

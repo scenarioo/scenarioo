@@ -1,5 +1,5 @@
-import {APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import {APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
@@ -15,8 +15,8 @@ import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-overview.component';
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
+import {LabelColorsComponent} from './manage/label-colors/label-colors.component';
 import {BuildListComponent} from './manage/builds/build-list.component';
-import {LabelColorsDirective} from './manage/labelColors/label-colors.directive';
 import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
@@ -32,8 +32,7 @@ import {MetadataTreeCreatorPipe} from './pipes/metadata/metadataTreeCreator.pipe
 import {TreeDataCreatorPipe} from './pipes/metadata/treeDataCreator.pipe';
 import {TreeDataOptimizerPipe} from './pipes/metadata/treeDataOptimizer.pipe';
 import {DateTimePipe} from './pipes/dateTime.pipe';
-import {TooltipModule} from 'ngx-bootstrap';
-import {AccordionModule} from 'ngx-bootstrap';
+import {AccordionModule, TooltipModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {DetailAccordionComponent} from './components/detailarea/detail-accordion/detail-accordion.component';
@@ -60,7 +59,7 @@ import {BuildImportStatusService} from './services/build-import-status.service';
     declarations: [
         LabelMetadataComponent,
         ManageTabsComponent,
-        LabelColorsDirective,
+        LabelColorsComponent,
         BuildListComponent,
         BuildDetailComponent,
         ComparisonsDirective,
