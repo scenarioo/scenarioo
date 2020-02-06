@@ -29,12 +29,6 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Rule;
@@ -51,6 +45,12 @@ import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.uitest.example.issues.IssuesTrackingAccessHelper;
 import org.scenarioo.uitest.example.issues.UserStories;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.SCENARIOO_DATA_DIRECTORY;
 
 /**
  * A {@link TestRule} to setup as a {@link Rule} on your UI test classes to generate documentation content for each
@@ -104,8 +104,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		// store labels from test method's annotation (if any)
 		Labels labels = testMethodDescription.getAnnotation(Labels.class);
 		if (labels != null) {
-			Set<String> labelsSet = new HashSet<String>();
-			labelsSet.addAll(Arrays.asList(labels.value()));
+			Set<String> labelsSet = new HashSet<String>(Arrays.asList(labels.value()));
 			scenario.getLabels().setLabels(labelsSet);
 		}
 
@@ -175,8 +174,8 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
 
-		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
-				MultipleBuildsRule.getCurrentBuildName());
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsConfiguration.getCurrentBranchName(),
+			MultipleBuildsConfiguration.getCurrentBuildName());
 
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("

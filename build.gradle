@@ -49,21 +49,19 @@ buildscript {
 }
 
 allprojects {
-	apply plugin: 'eclipse'
 	apply plugin: 'io.spring.dependency-management'
 
 	group = 'org.scenarioo'
     version = getVersionName()
 
     wrapper {
-        gradleVersion = '4.10.3'
+        gradleVersion = '6.0.1'
+		distributionType = Wrapper.DistributionType.ALL
     }
 
 	dependencyManagement {
 		dependencies {
 			dependency "org.scenarioo:scenarioo-java:${scenariooApiVersion}"
-
-			dependency 'com.google.guava:guava-base:r03'
 
 			dependency 'org.apache.xmlgraphics:batik-transcoder:1.8'
 			dependency 'org.apache.xmlgraphics:batik-codec:1.8'
@@ -89,20 +87,27 @@ allprojects {
 			dependency 'javax.activation:activation:1.1.1'
 
 			dependency 'log4j:log4j:1.2.17'
+
 			//Spring Boot 2.0.2 uses log4j 2.10.0 which has a known bug which is fixed in 2.11.0
 			dependency 'org.apache.logging.log4j:log4j-api:2.11.0'
 			dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
 
-			dependency 'org.junit.jupiter:junit-jupiter-api:5.5.0'
-			dependency 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
-			dependency 'org.junit.vintage:junit-vintage-engine:5.5.0'
+			dependency 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+			dependency 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+			dependency 'org.junit.vintage:junit-vintage-engine:5.5.2'
 			dependency 'junit:junit:4.12'
 			dependency 'org.assertj:assertj-core:3.10.0'
 			dependency 'org.mockito:mockito-core:2.28.2'
+
 			// mockito needs version 1.9.7 or newer, Spring Boot references version 1.7.11
 			dependency 'net.bytebuddy:byte-buddy:1.9.7'
 			dependency 'net.bytebuddy:byte-buddy-agent:1.9.7'
 			dependency 'org.mockito:mockito-junit-jupiter:2.28.2'
+
+			// Swagger UI Stuff
+			dependency 'io.springfox:springfox-swagger2:2.9.2'
+			dependency 'io.springfox:springfox-swagger-ui:2.9.2'
+
 		}
 	}
 }
