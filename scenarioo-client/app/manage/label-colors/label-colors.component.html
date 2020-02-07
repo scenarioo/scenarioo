@@ -1,0 +1,54 @@
+<div>
+    <form #labelConfigurationForm="ngForm" name="labelConfigurationsForm" (ngSubmit)="onSave()">
+        <table class="table table-curved table-responsive" id="label-configurations-table">
+            <thead>
+            <tr>
+                <th>Label Name</th>
+                <th>Color</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let labelConfiguration of labelConfigurations, index as i" id="label-configuration-{{i}}">
+                <td>
+                    <input type="text" class="ng-pristine ng-valid form-control" data-type="labelName"
+                           [(ngModel)]="labelConfiguration.name"
+                           [name]="'labelName' + i" (keyup)="onLabelNameChanged()"/>
+                    <span [hidden]="labelConfiguration.name || labelConfiguration.isEmpty()" class="sc-error-span">Please define a name</span>
+                </td>
+                <td style="vertical-align: middle;">
+                    <ul class="sc-color-chooser">
+                        <li *ngFor="let color of availableColors">
+                                <span [style.background-color]="color.backgroundColor" class="sc-color-field"
+                                      (click)="onColorSelected(labelConfiguration, color)"
+                                      [ngClass]="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
+                        </li>
+                    </ul>
+
+                    <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-small btn-danger" value="Delete"
+                           (click)="onDelete(labelConfiguration)"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-success fade-out" id="changed-label-config-successfully"
+             [hidden]="!successfullyUpdatedLabelConfigurations">
+            The label configurations have been successfully updated.
+            <a (click)="successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover"
+               style="color: #468847">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+
+        <div class="row sc-space-top-large">
+            <div class="col-lg-12" style="text-align: right">
+                <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="onReset()"/>
+                <input id="save-label-configuration-button" type="submit" value="Save" class="btn btn-wide btn-primary"
+                       [disabled]="labelConfigurationForm.form.invalid"/>
+            </div>
+        </div>
+    </form>
+</div>

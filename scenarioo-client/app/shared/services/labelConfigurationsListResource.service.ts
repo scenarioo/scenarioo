@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {ILabelConfiguration} from '../../generated-types/backend-types';
+import {IFlatLabelConfiguration} from '../../generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,8 +14,8 @@ export class LabelConfigurationsListResource {
 
     }
 
-    query(): Observable<ILabelConfiguration[]> {
-        return this.httpClient.get<ILabelConfiguration[]>(this.url);
+    query(): Observable<IFlatLabelConfiguration[]> {
+        return this.httpClient.get<IFlatLabelConfiguration[]>(this.url);
     }
 }
 

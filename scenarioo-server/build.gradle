@@ -40,6 +40,7 @@ generateTypeScript {
             'org.scenarioo.model.configuration.Configuration',
             'org.scenarioo.rest.configuration.ApplicationStatus',
             'org.scenarioo.model.configuration.BranchAlias',
+            'org.scenarioo.rest.configuration.FlatLabelConfiguration',
             'org.scenarioo.dao.version.ApplicationVersion',
             'org.scenarioo.model.docu.aggregates.branches.BuildImportSummary',
             'org.scenarioo.model.diffViewer.BuildDiffInfo',
