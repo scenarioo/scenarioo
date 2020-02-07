@@ -172,8 +172,7 @@ jobs:
 
   publish_docs:
     docker:
-      #TODO: Push image to scenarioo docker hub once finalized
-      - image: lynparbone/circleci-node-with-graphvis
+      - image: scenarioo/circleci-with-graphviz:1.0.0
     working_directory: ~/gitbook
     steps:
       # Add keys with write access to scenarioo.github.io:
