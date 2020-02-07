@@ -3,6 +3,7 @@ import {LabelConfigurationsListResource} from '../../shared/services/labelConfig
 import {LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {AvailableColor} from './available-color';
 import {LabelConfiguration} from './label-configuration';
+import * as contrast from 'contrast/index.js';
 
 @Component({
     selector: 'sc-label-colors',
@@ -60,6 +61,21 @@ export class LabelColorsComponent implements OnInit {
     onColorSelected(labelConfiguration: LabelConfiguration, color: AvailableColor) {
         labelConfiguration.backgroundColor = color.backgroundColor;
         labelConfiguration.foregroundColor = color.foregroundColor;
+    }
+
+    onColorInputChanged(labelConfiguration: LabelConfiguration) {
+        if (labelConfiguration.backgroundColorIsValid()) {
+            labelConfiguration.foregroundColor = this.getForegroundColorForBackgroundColor(labelConfiguration.backgroundColor);
+        }
+    }
+
+    private getForegroundColorForBackgroundColor(color: string) {
+        const LIGHT_FOREGROUND_COLOR = '#FFF';
+        const DARK_FOREGROUND_COLOR = '#000';
+        if (contrast(color) === 'light') {
+            return DARK_FOREGROUND_COLOR;
+        }
+        return LIGHT_FOREGROUND_COLOR;
     }
 
     private loadLabelConfigurations() {

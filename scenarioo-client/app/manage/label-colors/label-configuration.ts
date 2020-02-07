@@ -13,12 +13,11 @@ export class LabelConfiguration implements IFlatLabelConfiguration {
     }
 
     isValid(): boolean {
-        return this.isEmpty() || (this.name !== '' && this.colorIsValid());
+        return this.isEmpty() || (this.name !== '' && this.backgroundColor !== '' && this.backgroundColorIsValid());
     }
 
-    private colorIsValid(): boolean {
-        console.log(this.backgroundColor);
-        return this.backgroundColor !== '' && this.VALID_HEX_COLOR_REGEX_PATTERN.test(this.backgroundColor);
+    backgroundColorIsValid(): boolean {
+        return this.VALID_HEX_COLOR_REGEX_PATTERN.test(this.backgroundColor);
     }
 
     static fromFlatLabelConfiguration(flatLabelConfiguration: IFlatLabelConfiguration): LabelConfiguration {
