@@ -1,6 +1,7 @@
 import {IFlatLabelConfiguration} from '../../generated-types/backend-types';
 
 export class LabelConfiguration implements IFlatLabelConfiguration {
+    private readonly VALID_HEX_COLOR_REGEX_PATTERN = /^#([0-9A-F]{3}){1,2}$/i;
 
     private constructor(public backgroundColor: string,
                         public foregroundColor: string,
@@ -12,7 +13,12 @@ export class LabelConfiguration implements IFlatLabelConfiguration {
     }
 
     isValid(): boolean {
-        return this.isEmpty() || (this.name !== '' && this.backgroundColor !== '');
+        return this.isEmpty() || (this.name !== '' && this.colorIsValid());
+    }
+
+    private colorIsValid(): boolean {
+        console.log(this.backgroundColor);
+        return this.backgroundColor !== '' && this.VALID_HEX_COLOR_REGEX_PATTERN.test(this.backgroundColor);
     }
 
     static fromFlatLabelConfiguration(flatLabelConfiguration: IFlatLabelConfiguration): LabelConfiguration {
