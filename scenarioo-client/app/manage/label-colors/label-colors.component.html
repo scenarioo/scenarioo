@@ -25,6 +25,13 @@
                         </li>
                     </ul>
 
+                    <input type="text" class="ng-pristine ng-valid form-control"
+                           [(ngModel)]="labelConfiguration.backgroundColor"
+                           [value]="labelConfiguration.backgroundColor"
+                           [name]="'labelColor' + i"
+                    />
+                    <input type="button" [style.background-color]="labelConfiguration.backgroundColor" class="btn btn-small" />
+
                     <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
                 </td>
                 <td>
