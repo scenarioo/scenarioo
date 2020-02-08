@@ -11,6 +11,7 @@ import * as contrast from 'contrast/index.js';
     styles: [require('./label-colors.component.css').toString()],
 })
 export class LabelColorsComponent implements OnInit {
+    private readonly VALID_HEX_COLOR_REGEX_PATTERN = /^#([0-9A-F]{3}){1,2}$/i;
     availableColors: AvailableColor[] = [
         new AvailableColor('#e11d21', '#FFFFFF'),
         new AvailableColor('#eb6420', '#FFFFFF'),
@@ -63,10 +64,15 @@ export class LabelColorsComponent implements OnInit {
         labelConfiguration.foregroundColor = color.foregroundColor;
     }
 
-    onColorInputChanged(labelConfiguration: LabelConfiguration) {
-        if (labelConfiguration.backgroundColorIsValid()) {
+    onColorInputChanged(labelConfiguration: LabelConfiguration, color: string) {
+        if (this.hexColorIsValid(color)) {
+            labelConfiguration.backgroundColor = color;
             labelConfiguration.foregroundColor = this.getForegroundColorForBackgroundColor(labelConfiguration.backgroundColor);
         }
+    }
+
+    private hexColorIsValid(color: string): boolean {
+        return this.VALID_HEX_COLOR_REGEX_PATTERN.test(color);
     }
 
     private getForegroundColorForBackgroundColor(color: string) {
