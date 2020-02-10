@@ -71,6 +71,7 @@ export class LabelColorsComponent implements OnInit {
         }
     }
 
+    // TODO: Move to different class/ file
     private hexColorIsValid(color: string): boolean {
         return this.VALID_HEX_COLOR_REGEX_PATTERN.test(color);
     }
