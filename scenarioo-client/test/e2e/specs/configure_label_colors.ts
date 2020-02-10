@@ -15,6 +15,7 @@ useCase('Configure label colors')
 
         scenario('Create, edit and delete label configurations')
             .it(async () => {
+                const greenLabelColor = '#00FF00';
                 await LabelConfigurationsPage.navigateToPage();
                 await step('show label configurations');
 
@@ -30,7 +31,7 @@ useCase('Configure label colors')
                 await LabelConfigurationsPage.assertNumConfigurations(1);
                 await step('go back to label config page, label is still there');
 
-                await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
+                await LabelConfigurationsPage.updateLabelConfigurationWithColorAsHexadecimal(0, 'updated', greenLabelColor);
                 await step('update label configuration');
 
                 await LabelConfigurationsPage.deleteLabelConfiguration(0);

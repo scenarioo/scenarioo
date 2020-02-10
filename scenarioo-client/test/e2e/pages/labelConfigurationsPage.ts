@@ -43,6 +43,19 @@ class LabelConfigurationsPage {
         return this.saveButton.click();
     }
 
+    async updateLabelConfigurationWithColorAsHexadecimal(rowIndex, labelName, colorAsHexadecimal) {
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        const labelNameField = row.$('input[data-type="labelName"]');
+        await labelNameField.clear();
+        await labelNameField.sendKeys(labelName);
+        const colorInputField = row.$('input[data-type="labelColorInput"');
+        await colorInputField.clear();
+        await colorInputField.sendKeys(colorAsHexadecimal);
+
+        return this.saveButton.click();
+    }
+
     async deleteLabelConfiguration(rowIndex) {
         await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
         await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown

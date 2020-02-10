@@ -25,12 +25,14 @@
                         </li>
                     </ul>
 
-                    <input type="button" [ngStyle]="{'background-color' : labelConfiguration.backgroundColor}" class="btn btn-small" />
-                    <input type="text" class="ng-pristine ng-valid"
-                           [value]="labelConfiguration.backgroundColor"
-                           [name]="'labelColor' + i"
-                           (keyup)="onColorInputChanged(labelConfiguration, $event.target.value)"
-                    />
+                    <div>
+                        <input type="button" [ngStyle]="{'background-color' : labelConfiguration.backgroundColor}" class="btn btn-small" />
+                        <input type="text" class="ng-pristine ng-valid" data-type="labelColorInput"
+                               [value]="labelConfiguration.backgroundColor"
+                               [name]="'labelColor' + i"
+                               (keyup)="onColorInputChanged(labelConfiguration, $event.target.value)"
+                        />
+                    </div>
 
                     <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
                 </td>
