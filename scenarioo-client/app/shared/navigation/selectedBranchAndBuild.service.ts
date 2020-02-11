@@ -17,21 +17,22 @@
 
 import {ConfigurationService} from '../../services/configuration.service';
 import {LocalStorageService} from '../../services/localStorage.service';
+import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
 
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
     .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService: LocalStorageService, ConfigurationService: ConfigurationService) => {
 
-        const BRANCH_KEY = 'branch';
-        const BUILD_KEY = 'build';
+        const BRANCH_KEY: string = 'branch';
+        const BUILD_KEY: string = 'build';
 
         let selectedBranch;
         let selectedBuild;
-        let initialValuesFromUrlAndCookieLoaded = false;
+        let initialValuesFromUrlAndCookieLoaded: boolean = false;
         const selectionChangeCallbacks = [];
 
-        function getSelectedBranchAndBuild() {
+        function getSelectedBranchAndBuild(): SelectedBranchAndBuild {
             if (!initialValuesFromUrlAndCookieLoaded) {
                 // Here we calculate the selected branch and build because
                 // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
@@ -57,7 +58,7 @@ angular.module('scenarioo.services')
 
             // check URL first, this has priority over the cookie value
             const params = $location.search();
-            if (params !== null && angular.isDefined(params[key])) {
+            if (params !== null && params[key] !== undefined) {
                 value = params[key];
                 localStorageService.set(key, value);
                 return value;
@@ -65,14 +66,14 @@ angular.module('scenarioo.services')
 
             // check cookie if value was not found in URL
             value = localStorageService.get(key);
-            if (angular.isDefined(value) && value !== null) {
+            if (value !== undefined && value !== null) {
                 $location.search(key, value);
                 return value;
             }
 
             // If URL and cookie do not specify a value, we use the default from the config
             value = ConfigurationService.defaultBranchAndBuild()[key];
-            if (angular.isDefined(value)) {
+            if (value !== undefined) {
                 localStorageService.set(key, value);
                 $location.search(key, value);
             }
@@ -96,7 +97,7 @@ angular.module('scenarioo.services')
          * @returns true if branch and build are both specified (i.e. not 'undefined').
          */
         function isBranchAndBuildDefined() {
-            return angular.isDefined(selectedBranch) && angular.isDefined(selectedBuild);
+            return selectedBranch !== undefined && selectedBuild !== undefined;
         }
 
         function registerSelectionChangeCallback(callback) {
@@ -149,11 +150,24 @@ angular.module('scenarioo.services')
     });
 
 export class SelectedBranchAndBuildService {
-    callOnSelectionChange(fn: any) {
+    readonly BRANCH_KEY: string = 'branch';
+    readonly BUILD_KEY: string = 'build';
 
-    }
+    private selectedBranch: string;
+    private selectedBuild: string;
+    private initialValuesFromUrlAndCookieLoaded: boolean = false;
+    private selectionChangeCallbacks = [];
 
     selected(): string {
         return '';
     }
+
+    callOnSelectionChange(fn: any): void {
+
+    }
+
+    isDefined(): boolean {
+        return this.selectedBranch !== undefined && this.selectedBuild !== undefined;
+    }
+
 }
