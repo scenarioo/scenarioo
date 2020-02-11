@@ -15,10 +15,14 @@ useCase('Configure label colors')
 
         scenario('Create, edit and delete label configurations')
             .it(async () => {
+
+                // Given number of preconfigured colors (in config.xml for demo)
+                const numberOfPreconfiguredColors = 3;
+
                 await LabelConfigurationsPage.navigateToPage();
                 await step('show label configurations');
 
-                await LabelConfigurationsPage.assertNumConfigurations(0);
+                await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
 
                 await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
                 await step('add label configuration');
@@ -27,16 +31,16 @@ useCase('Configure label colors')
                 await step('navigate away from the label config page to some other page');
 
                 await LabelConfigurationsPage.navigateToPage();
-                await LabelConfigurationsPage.assertNumConfigurations(1);
+                await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors + 1);
                 await step('go back to label config page, label is still there');
 
                 await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
                 await step('update label configuration');
 
-                await LabelConfigurationsPage.deleteLabelConfiguration(0);
+                await LabelConfigurationsPage.deleteLabelConfiguration(3);  // delete the just added one
 
                 await LabelConfigurationsPage.navigateToPage();
-                await LabelConfigurationsPage.assertNumConfigurations(0);
+                await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
             });
 
     });
