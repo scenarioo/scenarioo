@@ -18,6 +18,7 @@
 import {ConfigurationService} from '../../services/configuration.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
+import {LocationService} from '../location.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -159,6 +160,11 @@ export class SelectedBranchAndBuildService {
     // TODO: Add type for functions?
     private selectionChangeCallbacks: any[] = [];
 
+    // TODO: Pass in constructor
+    private localStorageService: LocalStorageService;
+    private configurationService: ConfigurationService;
+    private $location: LocationService;
+
     selected(): string {
         return '';
     }
@@ -168,7 +174,49 @@ export class SelectedBranchAndBuildService {
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
-        return {branch: '', build: ''};
+        if (!this.initialValuesFromUrlAndCookieLoaded) {
+            // Here we calculate the selected branch and build because
+            // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
+            this.calculateSelectedBranchAndBuild();
+            this.initialValuesFromUrlAndCookieLoaded = true;
+        }
+
+        return {
+            branch: this.selectedBranch,
+            build: this.selectedBuild,
+        };
+    }
+
+    private calculateSelectedBranchAndBuild() {
+        this.selectedBranch = this.getFromLocalStorageOrUrl(this.BRANCH_KEY);
+        this.selectedBuild = this.getFromLocalStorageOrUrl(this.BUILD_KEY);
+    }
+
+    private getFromLocalStorageOrUrl(key: string) {
+        let value: string;
+
+        // check URL first, this has priority over the cookie value
+        const params = this.$location.search();
+        if (params !== null && params[key] !== undefined) {
+            value = params[key];
+            this.localStorageService.set(key, value);
+            return value;
+        }
+
+        // check cookie if value was not found in URL
+        value = this.localStorageService.get(key);
+        if (value !== undefined && value !== null) {
+            this.$location.search(key, value);
+            return value;
+        }
+
+        // If URL and cookie do not specify a value, we use the default from the config
+        value = this.configurationService.defaultBranchAndBuild()[key];
+        if (value !== undefined) {
+            this.localStorageService.set(key, value);
+            this.$location.search(key, value);
+        }
+        return value;
     }
 
     private registerSelectionChangeCallback(callback) {
