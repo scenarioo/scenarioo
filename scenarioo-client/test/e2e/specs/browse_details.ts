@@ -7,8 +7,8 @@ import DetailAreaPage from '../pages/detailAreaPage';
 
 const SECOND_USE_CASE = 1;
 
-useCase('Browse Detailarea')
-    .description('The user is presented the detailarea (collapsed/expanded) as it is saved in the LocalStorage')
+useCase('Browse Details')
+    .description('The user can browse details sections and expanded/collapsed state is remembered on revisit')
     .describe(() => {
 
         beforeEach(async () => {
@@ -17,8 +17,8 @@ useCase('Browse Detailarea')
             await HomePage.assertPageIsDisplayed();
         });
 
-        scenario('Remembers collapsed state of details area and sections on usecases overview')
-            .description('States of detailarea and sections are correctly saved in LocalStorage.')
+        scenario('on usecases overview')
+            .description('Remembers collapsed state of details area and sections on usecases overview')
             .it(async () => {
                 await DetailAreaPage.assertDetailsExpanded();
                 await DetailAreaPage.assertSectionExpanded('Build');
@@ -50,8 +50,8 @@ useCase('Browse Detailarea')
                 await step('Build section has been expanded');
             });
 
-        scenario('Remembers collapsed state of details area and sections on scenarios overview')
-            .description('States of detailarea and sections are correctly saved in LocalStorage.')
+        scenario('on scenarios overview')
+            .description('Remembers collapsed state of details area and sections on scenarios overview')
             .it(async () => {
                 await HomePage.selectUseCase(SECOND_USE_CASE);
                 await step('select a scenario in the scenario list');

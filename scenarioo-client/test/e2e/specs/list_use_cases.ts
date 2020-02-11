@@ -34,18 +34,18 @@ useCase('List use cases')
                 await step('other filter applied: one use case found');
             });
 
-        scenario('Show and hide metadata')
+        scenario('Show and hide details')
             .it(async () => {
                 await HomePage.goToPage();
-                await step('display the homePage, metadata shown');
+                await step('display the use cases with expanded details');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertDetailsExpanded();
                 await HomePage.collapseDetails();
                 await HomePage.assertDetailsCollapsed();
-                await step('metadata hidden');
+                await step('details hidden');
                 await HomePage.expandDetails();
                 await HomePage.assertDetailsExpanded();
-                await step('metadata shown');
+                await step('details shown again');
             });
 
         scenario('Display Diff-Information')
