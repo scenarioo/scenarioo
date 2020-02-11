@@ -17,8 +17,6 @@ class UseCase
 class Scenario
 class Step
 
-class Object
-
 class Details {
     properties: Map<String, Object>
 }
@@ -29,7 +27,21 @@ An object's further detail properties as entries with
                  e.g. a simple string or a more complex object
 end note
 
+Branch --> Details : details
+Build --> Details : details
+UseCase --> Details : details
+Scenario --> Details : details
+Step --> Details : details
+
+class Object
+
+Details --> "*" Object
+
+
 class String
+
+Object <|-- String
+
 
 class ObjectDescription {
     name: String
@@ -37,14 +49,24 @@ class ObjectDescription {
     details: Details
 }
 
+Object <|-- ObjectDescription
+
+
 class ObjectReference {
     name: String
     type: String
 }
 
+Object <|-- ObjectReference
+
+
 class ObjectList {
     items: List<Object>
 }
+
+Object <|-- ObjectList
+ObjectList --> "*" Object : items
+
 
 class ObjectTreeNode {
     item: Object
@@ -52,23 +74,10 @@ class ObjectTreeNode {
     children: List<ObjectTreeNode>
 }
 
-Branch --> Details : details
-Build --> Details : details
-UseCase --> Details : details
-Scenario --> Details : details
-Step --> Details : details
-
-Details --> "*" Object
-
-Object <|-- String
-Object <|-- ObjectDescription
-Object <|-- ObjectReference
-Object <|-- ObjectList
 Object <|-- ObjectTreeNode
-
-ObjectList --> "*" Object : items
 ObjectTreeNode --> "1" Object : item
 ObjectTreeNode --> "*" ObjectTreeNode : children
+
 
 @enduml
 ```
