@@ -1,5 +1,10 @@
-/* Buttons over detailarea */
+/* Details Area Container (top level div) */
+sc-detailarea .details-area-container {
+    margin-top: 35px;
+    height: 100%;
+}
 
+/* Buttons over detailarea (to hide / expand the details area) */
 sc-detailarea button.btn.btn-primary {
     background-color: unset;
     border: unset;
@@ -20,42 +25,57 @@ sc-detailarea button.btn.btn-primary:active {
     color: #333333;
 }
 
+/* General flex box layout styles */
 
-/* Detailarea */
-
-sc-detailarea .sc-meta-data-panel {
-    margin-top: 35px;
+sc-detailarea .flex {
+    display: flex;
 }
 
-sc-detailarea .detail-container {
+sc-detailarea .flex-fill {
+    flex: 1 1 auto;
+}
+
+/* Colapsable Details Panel */
+
+sc-detailarea .details-panel {
     border: 1px solid #ccc;
     border-right: 0;
-    display: table;
     padding: unset;
     background-color: #eeeeee;
-    right: 0;
 }
 
-sc-detailarea .detail-row {
-    display: table-row;
-}
-
-sc-detailarea .detail-cell {
-    display: table-cell;
-}
-
-sc-detailarea .detail-button {
+sc-detailarea .details-collapse-button {
     background-color: #CCCCCC;
     width: 30px;
+    min-width: 30px; /* do never shrink */
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
 }
 
+sc-detailarea .sticky-arrow-container {
+    display: block;
+    vertical-align: top;
+    top: 0;
+    height: 100%;
+}
+
+sc-detailarea .sticky-arrow-icon-area {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 33vh; /* 2 times this plus the height should add to 100vh => sticky arrow is centered once full container is scrolled into view */
+    height: 34vh;
+    /* reasons for choosen height - it seems a good compromise between:
+     * 100vh = having to scroll too far down on small screens until you see the arrow
+     * 5vh = having the arrow too near to the top of the details panel until full panel scrolled into view
+     */
+    vertical-align: middle;
+}
+
 sc-detailarea .arrowCenter {
-    position: fixed;
+    position: relative;
     margin-left: 10px;
-    top: 55%;
+    height: 100%;
 }
 
 sc-detailarea .detail-section {

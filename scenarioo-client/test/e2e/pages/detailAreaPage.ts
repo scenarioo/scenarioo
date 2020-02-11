@@ -5,16 +5,16 @@ import {by, element} from 'protractor';
 class DetailAreaPage {
 
     private toggleMetaDataButton = element(by.id('sc-showHideDetailsButton'));
-    private metaDataPanel = element(by.id('sc-metadata-panel'));
+    private detailsPanel = element(by.class('details-content'));
 
     async assertDetailsAreaExpanded() {
         await expect(this.toggleMetaDataButton.getText()).toEqual('Hide details');
-        return expect(this.metaDataPanel.isDisplayed()).toBe(true);
+        return expect(this.detailsPanel.isDisplayed()).toBe(true);
     }
 
     async assertDetailsAreaCollapsed() {
         await expect(this.toggleMetaDataButton.getText()).toEqual('Show details');
-        return expect(this.metaDataPanel.isDisplayed()).toBe(false);
+        return expect(this.detailsPanel.isDisplayed()).toBe(false);
     }
 
     async expandDetailsArea() {
