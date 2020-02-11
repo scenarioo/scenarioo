@@ -19,19 +19,19 @@
                 <td style="vertical-align: middle;">
                     <div>
                         <ul class="sc-color-chooser">
-                            <li *ngFor="let color of availableColors">
-                                <span [style.background-color]="color.backgroundColor" class="sc-color-field"
-                                      (click)="onColorSelected(labelConfiguration, color)"
-                                      [ngClass]="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
+                            <li *ngFor="let color of availableBackgroundColors">
+                                <span [style.background-color]="color" class="sc-color-field"
+                                      (click)="onBackgroundColorSelected(labelConfiguration, color)"
+                                      [ngClass]="{'sc-color-field-selected' : color === labelConfiguration.backgroundColor}"></span>
                             </li>
                         </ul>
 
                         <div class="sc-color-advanced-input">
-                            <input type="button" [ngStyle]="{'background-color' : labelConfiguration.backgroundColor}" class="btn btn-small">
+                            <input type="button" [style.background-color]="labelConfiguration.backgroundColor" class="btn btn-small">
                             <input type="text" class="ng-pristine ng-valid form-control" data-type="labelColorInput"
-                                   [value]="labelConfiguration.backgroundColor"
-                                   [name]="'labelColor' + i"
-                                   (keyup)="onColorInputChanged(labelConfiguration, $event.target.value)"
+                                   [(ngModel)]= "labelConfiguration.backgroundColor"
+                                   [name] = "'labelColor' + i"
+                                   (keyup)="onBackgroundColorChanged(labelConfiguration);"
                             />
                         </div>
                     </div>
