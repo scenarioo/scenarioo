@@ -124,8 +124,8 @@
         <entry>
             <key>corner-case</key>
             <value>
-                <backgroundColor>#009898</backgroundColor>
-                <foregroundColor>#303030</foregroundColor>
+                <backgroundColor>#fbca04</backgroundColor>
+                <foregroundColor>#000000</foregroundColor>
             </value>
         </entry>
     </labelConfigurations>
