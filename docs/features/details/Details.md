@@ -6,17 +6,132 @@ This `details` are simple maps of key-value-pairs that define further properties
 
 ## Details - Class Diagram
 
-
 This class diagram shows the generic data structure of what you can store in a details map as values:
 
-```puml { src="features/details/class-diagram.puml" }
+```puml
+@startuml
+
+class Branch
+class Build
+class UseCase
+class Scenario
+class Step
+
+class Object
+
+class Details {
+    properties: Map<String, Object>
+}
+note right
+An object's further detail properties as entries with
+* key: String = the name of the property
+* value: can be of different object types,
+                 e.g. a simple string or a more complex object
+end note
+
+class String
+
+class ObjectDescription {
+    name: String
+    type: String
+    details: Details
+}
+
+class ObjectReference {
+    name: String
+    type: String
+}
+
+class ObjectList {
+    items: List<Object>
+}
+
+class ObjectTreeNode {
+    item: Object
+    details: Details
+    children: List<ObjectTreeNode>
+}
+
+Branch --> Details : details
+Build --> Details : details
+UseCase --> Details : details
+Scenario --> Details : details
+Step --> Details : details
+
+Details --> "*" Object
+
+Object <|-- String
+Object <|-- ObjectDescription
+Object <|-- ObjectReference
+Object <|-- ObjectList
+Object <|-- ObjectTreeNode
+
+ObjectList --> "*" Object : items
+ObjectTreeNode --> "1" Object : item
+ObjectTreeNode --> "*" ObjectTreeNode : children
+
+@enduml
 ```
 
 ## Details - Example Object Diagram
 
 Here is such an example of such a data structure you could add like this to the details of a scenario object:
 
-```puml { src="features/details/example.object-diagram.puml" }
+```puml 
+@startuml
+
+object "<u>scenario: Scenario" as scenario {
+    name = "Search Book by Author"
+}
+
+object "<u>scenarioDetails: Details" as scenarioDetails
+note top
+ Details are key-value-maps,
+ where values can be of type ObjectDescription
+ to define further objects
+end note
+
+scenario -> scenarioDetails : details
+
+object "<u>service1: ObjectDescription" as service1 {
+  type = "service"
+  name = "Search"
+}
+
+scenarioDetails --> service1 : service1
+
+
+object "<u>service2: ObjectDescription" as service2 {
+  type = "service"
+  name = "Rating"
+}
+
+scenarioDetails --> service2 : service2
+
+object "<u>service1Details: Details" as service1Details {
+    method = "GET"
+    url = "http://mybookstore.com/api/search"
+    query-param = "?q=Kafka"
+    response = "<books><book>Der Prozess</book></books>"
+}
+
+note bottom
+    Simple Details example
+    with only String as values
+end note
+
+service1 --> service1Details : details
+
+object "<u>service2Details: Details" as service2Details {
+    method: "GET"
+    url: "http://mybookstore.com/api/rating"
+    query-param: "?author=kafka&book=der+prozess"
+    response: "5"
+  }
+
+service2 --> service2Details : details
+
+@enduml
 ```
 
 See further examples as xml examples further below.
