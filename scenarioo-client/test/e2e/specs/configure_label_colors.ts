@@ -37,7 +37,7 @@ useCase('Configure label colors')
                 await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated-label', 4);
                 await step('update label configuration');
 
-                await LabelConfigurationsPage.deleteLastLabelConfiguration(3);  // delete the just added one
+                await LabelConfigurationsPage.deleteLastLabelConfiguration(4);  // delete the just added one
 
                 await LabelConfigurationsPage.navigateToPage();
                 await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
