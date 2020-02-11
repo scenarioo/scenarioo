@@ -1,0 +1,58 @@
+@startuml
+
+class UseCase
+class Scenario
+class Step
+
+class Object
+
+class Details {
+    properties: Map<String, Object>
+}
+note right
+An object's further detail properties as entries with
+* key: String = the name of the property
+* value: can be of different object types,
+                 e.g. a simple string or a more complex object
+end note
+
+class String
+
+class ObjectDescription {
+    name: String
+    type: String
+    details: Details
+}
+
+class ObjectReference {
+    name: String
+    type: String
+}
+
+class ObjectList {
+    items: List<Object>
+}
+
+class ObjectTreeNode {
+    item: Object
+    details: Details
+    children: List<ObjectTreeNode>
+}
+
+UseCase --> Details : details
+Scenario --> Details : details
+Step --> Details : details
+
+Details --> "*" Object
+
+Object <|-- String
+Object <|-- ObjectDescription
+Object <|-- ObjectReference
+Object <|-- ObjectList
+Object <|-- ObjectTreeNode
+
+ObjectList --> "*" Object : items
+ObjectTreeNode --> "1" Object : item
+ObjectTreeNode --> "*" ObjectTreeNode : children
+
+@enduml
