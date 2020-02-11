@@ -21,7 +21,6 @@ import './metadata/metaDataPanel.component';
 import './metadata/metaDataTree.component';
 import './metadata/collapsablePanel.directive';
 import './navigation/navigation.controller';
-import './navigation/title.controller';
 import './utils/humanReadable.filter';
 import './utils/filterArray.filter';
 import './navigation/branchOrderBy.filter';

@@ -54,6 +54,7 @@ import {LocalStorageService} from './services/localStorage.service';
 import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 import {BuildDetailComponent} from './manage/builds/build-detail.component';
 import {BuildImportStatusService} from './services/build-import-status.service';
+import {AppTitleComponent} from './shared/navigation/title.component';
 
 @NgModule({
     declarations: [
@@ -83,6 +84,7 @@ import {BuildImportStatusService} from './services/build-import-status.service';
         TitleComponent,
         BranchAliasesComponent,
         GeneralSettingsComponent,
+        AppTitleComponent,
     ],
     entryComponents: [
         LabelMetadataComponent,
@@ -94,6 +96,7 @@ import {BuildImportStatusService} from './services/build-import-status.service';
         DetailAccordionComponent,
         TitleComponent,
         ScenariosOverviewComponent,
+        AppTitleComponent,
     ],
     imports: [
         BrowserModule,
