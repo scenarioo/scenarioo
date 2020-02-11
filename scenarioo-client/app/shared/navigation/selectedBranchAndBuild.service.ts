@@ -156,14 +156,36 @@ export class SelectedBranchAndBuildService {
     private selectedBranch: string;
     private selectedBuild: string;
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
-    private selectionChangeCallbacks = [];
+    // TODO: Add type for functions?
+    private selectionChangeCallbacks: any[] = [];
 
     selected(): string {
         return '';
     }
 
-    callOnSelectionChange(fn: any): void {
+    callOnSelectionChange(callback: any): void {
+        this.registerSelectionChangeCallback(callback);
+    }
 
+    private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
+        return {branch: '', build: ''};
+    }
+
+    private registerSelectionChangeCallback(callback) {
+        this.addCallback(this.selectionChangeCallbacks, callback);
+        const selected = this.getSelectedBranchAndBuild();
+        if (this.isDefined()) {
+            callback(selected);
+        }
+    }
+
+    private addCallback(callbackList, newCallback) {
+        callbackList.forEach((callback) => {
+            if (callback.toString() === newCallback.toString()) {
+                return;
+            }
+        });
+        callbackList.push(newCallback);
     }
 
     isDefined(): boolean {
