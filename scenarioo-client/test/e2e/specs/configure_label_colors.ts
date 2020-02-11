@@ -24,7 +24,7 @@ useCase('Configure label colors')
 
                 await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
 
-                await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
+                await LabelConfigurationsPage.addLabelConfiguration('added-label', 5);
                 await step('add label configuration');
 
                 await HomePage.goToPage();
@@ -34,7 +34,7 @@ useCase('Configure label colors')
                 await LabelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors + 1);
                 await step('go back to label config page, label is still there');
 
-                await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
+                await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated-label', 4);
                 await step('update label configuration');
 
                 await LabelConfigurationsPage.deleteLastLabelConfiguration(3);  // delete the just added one
