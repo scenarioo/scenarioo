@@ -39,12 +39,12 @@ useCase('List use cases')
                 await HomePage.goToPage();
                 await step('display the homePage, metadata shown');
                 await HomePage.assertPageIsDisplayed();
-                await HomePage.assertMetaDataShown();
-                await HomePage.hideMetaData();
-                await HomePage.assertMetaDataHidden();
+                await HomePage.assertDetailsExpanded();
+                await HomePage.collapseDetails();
+                await HomePage.assertDetailsCollapsed();
                 await step('metadata hidden');
-                await HomePage.showMetaData();
-                await HomePage.assertMetaDataShown();
+                await HomePage.expandDetails();
+                await HomePage.assertDetailsExpanded();
                 await step('metadata shown');
             });
 

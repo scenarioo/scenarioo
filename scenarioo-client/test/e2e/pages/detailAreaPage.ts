@@ -4,46 +4,46 @@ import {by, element} from 'protractor';
 
 class DetailAreaPage {
 
-    private toggleMetaDataButton = element(by.id('sc-showHideDetailsButton'));
-    private detailsPanel = element(by.css('.details-content'));
+    private collapseButton = element(by.id('sc-showHideDetailsButton'));
+    private detailsContentPanel = element(by.css('sc-detailarea .details-content'));
 
-    async assertDetailsAreaExpanded() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual('Hide details');
-        return expect(this.detailsPanel.isDisplayed()).toBe(true);
+    async assertDetailsExpanded() {
+        await expect(this.collapseButton.getText()).toEqual('Hide details');
+        return expect(this.detailsContentPanel.isDisplayed()).toBe(true);
     }
 
-    async assertDetailsAreaCollapsed() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual('Show details');
-        return expect(this.detailsPanel.isDisplayed()).toBe(false);
+    async assertDetailsCollapsed() {
+        await expect(this.collapseButton.getText()).toEqual('Show details');
+        return expect(this.detailsContentPanel.isDisplayed()).toBe(false);
     }
 
-    async expandDetailsArea() {
-        return this.toggleMetaDataButton.click();
+    async expandDetails() {
+        return this.collapseButton.click();
     }
 
-    async collapseDetailsArea() {
-        return this.toggleMetaDataButton.click();
+    async collapseDetails() {
+        return this.collapseButton.click();
     }
 
-    async assertSectionExpanded(detailsSection) {
-        const section = element(by.id('sc-section-' + detailsSection));
+    async assertSectionExpanded(sectionName) {
+        const section = element(by.id('sc-section-' + sectionName));
         return expect(section.getAttribute('aria-expanded')).toEqual('true');
     }
 
-    async assertSectionCollapsed(detailsSection) {
-        const section = element(by.id('sc-section-' + detailsSection));
+    async assertSectionCollapsed(sectionName) {
+        const section = element(by.id('sc-section-' + sectionName));
         return expect(section.getAttribute('aria-expanded')).toEqual('false');
     }
 
-    async expandDetailsSection(detailsSection) {
-        await this.assertSectionCollapsed(detailsSection);
-        const toggleSection = element(by.id('sc-toggleSection-' + detailsSection));
+    async expandSection(sectionName) {
+        await this.assertSectionCollapsed(sectionName);
+        const toggleSection = element(by.id('sc-toggleSection-' + sectionName));
         return await toggleSection.click();
     }
 
-    async collapseDetailsSection(detailsSection) {
-        await this.assertSectionExpanded(detailsSection);
-        const toggleSection = element(by.id('sc-toggleSection-' + detailsSection));
+    async collapseSection(sectionName) {
+        await this.assertSectionExpanded(sectionName);
+        const toggleSection = element(by.id('sc-toggleSection-' + sectionName));
         return await toggleSection.click();
     }
 }
