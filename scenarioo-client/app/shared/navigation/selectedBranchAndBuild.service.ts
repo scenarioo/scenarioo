@@ -20,6 +20,8 @@ import {LocalStorageService} from '../../services/localStorage.service';
 import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
 import {LocationService} from '../location.service';
 import {Location} from '@angular/common';
+import {Injectable, OnInit} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 declare var angular: angular.IAngularStatic;
 
@@ -155,23 +157,43 @@ angular.module('scenarioo.services')
     });
 
 export class SelectedBranchAndBuildService {
+    selected(): string {
+        return '';
+    }
+
+    callOnSelectionChange(fn: any){
+    }
+
+}
+
+@Injectable()
+// tslint:disable-next-line:max-classes-per-file
+export class SelectedBranchAndBuildService2 implements OnInit {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
 
-    private selectedBranchAndBuild: SelectedBranchAndBuild;
+    private selectedBranchAndBuild: SelectedBranchAndBuild = {
+        branch: '',
+        build: '',
+    };
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
     // TODO: Add type for functions?
     private selectionChangeCallbacks: any[] = [];
 
-    // TODO: Pass in constructor
-    private localStorageService: LocalStorageService;
-    private configurationService: ConfigurationService;
-    // TODO: Rename to locationService once migrated/ constructor is included
-    private $location: LocationService;
+    constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
+                private locationService: LocationService, private location: Location) {
+    }
+
+    ngOnInit(): void {
+        this.configurationService.getConfiguration().subscribe(this.calculateSelectedBranchAndBuild);
+        this.location.subscribe(() => {
+            this.calculateSelectedBranchAndBuild();
+        });
+    }
 
     // TODO: Rename appropriately once fully migrated (getSelectedBranchAndBuild)?
-    selected(): string {
-        return '';
+    selected(): SelectedBranchAndBuild {
+        return this.getSelectedBranchAndBuild();
     }
 
     callOnSelectionChange(callback: any): void {
@@ -205,7 +227,7 @@ export class SelectedBranchAndBuildService {
         let value: string;
 
         // check URL first, this has priority over the cookie value
-        const params = this.$location.search();
+        const params = this.locationService.search();
         if (params !== null && params[key] !== undefined) {
             value = params[key];
             this.localStorageService.set(key, value);
@@ -215,7 +237,7 @@ export class SelectedBranchAndBuildService {
         // check cookie if value was not found in URL
         value = this.localStorageService.get(key);
         if (value !== undefined && value !== null) {
-            this.$location.search(key, value);
+            this.locationService.search(key, value);
             return value;
         }
 
@@ -223,7 +245,7 @@ export class SelectedBranchAndBuildService {
         value = this.configurationService.defaultBranchAndBuild()[key];
         if (value !== undefined) {
             this.localStorageService.set(key, value);
-            this.$location.search(key, value);
+            this.locationService.search(key, value);
         }
         return value;
     }
@@ -254,3 +276,6 @@ export class SelectedBranchAndBuildService {
     }
 
 }
+
+angular.module('scenarioo.services')
+    .factory('SelectedBranchAndBuildService2', downgradeInjectable(SelectedBranchAndBuildService2));

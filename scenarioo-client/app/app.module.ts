@@ -21,7 +21,10 @@ import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
-import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
+import {
+    SelectedBranchAndBuildService,
+    SelectedBranchAndBuildService2
+} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
@@ -136,6 +139,7 @@ import {BuildImportStatusService} from './services/build-import-status.service';
         DateTimePipe,
         LocalStorageService,
         UrlContextExtractorService,
+        SelectedBranchAndBuildService2,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
         {
