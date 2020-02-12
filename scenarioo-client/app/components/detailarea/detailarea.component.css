@@ -6,8 +6,8 @@ sc-detailarea .details-area-container {
 
 /* Buttons over detailarea (to hide / expand the details area) */
 sc-detailarea button.btn.btn-primary {
-    background-color: unset;
-    border: unset;
+    background-color: transparent;
+    border: none;
     color: #337AB7;
     font-style: italic;
     padding: 0;
@@ -16,9 +16,8 @@ sc-detailarea button.btn.btn-primary {
 }
 
 sc-detailarea button.btn.btn-primary:focus {
-    outline: unset;
     background-color: transparent;
-    box-shadow: unset;
+    box-shadow: none;
 }
 
 sc-detailarea button.btn.btn-primary:active {
