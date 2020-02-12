@@ -45,7 +45,7 @@ class LabelConfigurationsPage {
 
     async deleteLastLabelConfiguration(rowIndex) {
         await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
-        await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, rowIndex); // one row less with now empty row on last row
+        await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, rowIndex + 1); // one row less with now empty row on last row
         await this.saveButton.click();
         return Utils.waitForElementVisible(element(by.id('changed-label-config-successfully')));
     }
