@@ -19,10 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <!-- Top Level Button Row -->
     <div class="row">
-        <button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic"
-                class="btn btn-primary pull-right" id="sc-showHideDetailsButton" type="button">
-            {{ isPanelCollapsed ? "Show details" : "Hide details" }}
-        </button>
+        <a id="sc-showHideDetailsButton"
+            role="button"
+            class="btn btn-link pull-right"
+            (click)="togglePannelCollapsedValue()"
+            [attr.aria-expanded]="!isPanelCollapsed"
+            aria-controls="collapseBasic"
+            >
+            {{ isPanelCollapsed ? "Show Details" : "Hide Details" }}
+        </a>
     </div>
 
     <!-- Content Area -->
