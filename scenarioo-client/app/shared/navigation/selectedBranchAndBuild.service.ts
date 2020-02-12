@@ -19,6 +19,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
 import {LocationService} from '../location.service';
+import {Location} from '@angular/common';
 
 declare var angular: angular.IAngularStatic;
 
@@ -47,6 +48,7 @@ angular.module('scenarioo.services')
             };
         }
 
+        // TODO: Subscribe in ngOnInit in new Angular service
         ConfigurationService.getConfiguration().subscribe(calculateSelectedBranchAndBuild);
 
         function calculateSelectedBranchAndBuild() {
@@ -81,6 +83,8 @@ angular.module('scenarioo.services')
             return value;
         }
 
+        // LYBO: Listen for any changes to the URL?
+        // Maybe this could be replaced with an Observable?
         $rootScope.$watch(() => $location.search(), () => {
             calculateSelectedBranchAndBuild();
         }, true);
@@ -154,8 +158,7 @@ export class SelectedBranchAndBuildService {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
 
-    private selectedBranch: string;
-    private selectedBuild: string;
+    private selectedBranchAndBuild: SelectedBranchAndBuild;
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
     // TODO: Add type for functions?
     private selectionChangeCallbacks: any[] = [];
@@ -163,8 +166,10 @@ export class SelectedBranchAndBuildService {
     // TODO: Pass in constructor
     private localStorageService: LocalStorageService;
     private configurationService: ConfigurationService;
+    // TODO: Rename to locationService once migrated/ constructor is included
     private $location: LocationService;
 
+    // TODO: Rename appropriately once fully migrated (getSelectedBranchAndBuild)?
     selected(): string {
         return '';
     }
@@ -181,15 +186,19 @@ export class SelectedBranchAndBuildService {
             this.initialValuesFromUrlAndCookieLoaded = true;
         }
 
-        return {
-            branch: this.selectedBranch,
-            build: this.selectedBuild,
-        };
+        // TODO: Verify if this works (above is a subscribe to the getSelectedBranchAndBuild function)
+        if (this.isDefined()) {
+            for (const selectionChangeCallback of this.selectionChangeCallbacks) {
+                selectionChangeCallback(this.selectedBranchAndBuild);
+            }
+        }
+
+        return this.selectedBranchAndBuild;
     }
 
     private calculateSelectedBranchAndBuild() {
-        this.selectedBranch = this.getFromLocalStorageOrUrl(this.BRANCH_KEY);
-        this.selectedBuild = this.getFromLocalStorageOrUrl(this.BUILD_KEY);
+        this.selectedBranchAndBuild.branch = this.getFromLocalStorageOrUrl(this.BRANCH_KEY);
+        this.selectedBranchAndBuild.build = this.getFromLocalStorageOrUrl(this.BUILD_KEY);
     }
 
     private getFromLocalStorageOrUrl(key: string) {
@@ -236,8 +245,12 @@ export class SelectedBranchAndBuildService {
         callbackList.push(newCallback);
     }
 
+    // TODO: Rename appropriately once migrated (isBranchAndBuildDefined)?
+    /**
+     * @returns true if branch and build are both specified (i.e. not 'undefined').
+     */
     isDefined(): boolean {
-        return this.selectedBranch !== undefined && this.selectedBuild !== undefined;
+        return this.selectedBranchAndBuild.branch !== undefined && this.selectedBranchAndBuild.build !== undefined;
     }
 
 }
