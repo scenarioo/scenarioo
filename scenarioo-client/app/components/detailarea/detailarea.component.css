@@ -40,7 +40,7 @@ sc-detailarea .flex-fill {
 sc-detailarea .details-panel {
     border: 1px solid #ccc;
     border-right: 0;
-    padding: unset;
+    padding: 0;
     background-color: #eeeeee;
 }
 
@@ -54,28 +54,21 @@ sc-detailarea .details-collapse-button {
 }
 
 sc-detailarea .sticky-arrow-container {
-    display: block;
-    vertical-align: top;
-    top: 0;
     height: 100%;
 }
 
 sc-detailarea .sticky-arrow-icon-area {
     position: -webkit-sticky;
     position: sticky;
-    top: 33vh; /* 2 times this plus the height should add to 100vh => sticky arrow is centered once full container is scrolled into view */
-    height: 34vh;
+    top: 10vh; /* 2 times this plus the height should add to 100vh => sticky arrow is centered once full container is scrolled into view */
+    height: 80vh;
     /* reasons for choosen height - it seems a good compromise between:
      * 100vh = having to scroll too far down on small screens until you see the arrow
-     * 5vh = having the arrow too near to the top of the details panel until full panel scrolled into view
+     * 50vh = having the arrow too near to the top of the details panel (as long as not yet scrolled down)
      */
-    vertical-align: middle;
-}
-
-sc-detailarea .arrowCenter {
-    position: relative;
-    margin-left: 10px;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 sc-detailarea .detail-section {
