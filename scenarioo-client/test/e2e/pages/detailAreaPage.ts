@@ -8,12 +8,12 @@ class DetailAreaPage {
     private detailsContentPanel = element(by.css('sc-detailarea .details-content'));
 
     async assertDetailsExpanded() {
-        await expect(this.collapseButton.getText()).toEqual('Hide details');
+        await expect(this.collapseButton.getText()).toEqual('Hide Details');
         return expect(this.detailsContentPanel.isDisplayed()).toBe(true);
     }
 
     async assertDetailsCollapsed() {
-        await expect(this.collapseButton.getText()).toEqual('Show details');
+        await expect(this.collapseButton.getText()).toEqual('Show Details');
         return expect(this.detailsContentPanel.isDisplayed()).toBe(false);
     }
 
