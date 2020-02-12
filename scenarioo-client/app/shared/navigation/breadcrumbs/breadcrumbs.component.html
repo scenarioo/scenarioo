@@ -1,0 +1,30 @@
+<div id="sc-breadcrumbs">
+    <span>
+        <ol class="breadcrumb">
+            <li [ngClass]="{'active': breadcrumb.isLast}" *ngFor="let breadcrumb of breadcrumbs; index as i">
+                <a id="breadcrumb_{{i}}" [hidden]="breadcrumb.showTooltip || breadcrumb.isLast"
+                   href="{{breadcrumb.href}}" [innerHTML]="breadcrumb.text"></a>
+                <a id="tooltip_{{i}}" [hidden]="!breadcrumb.showTooltip || breadcrumb.isLast"
+                   attr.data-tooltip-text="{{breadcrumb.tooltip}}"
+                   tooltip="{{breadcrumb.tooltip}}" placement="top" href="{{breadcrumb.href}}"
+                   [innerHTML]="breadcrumb.text"></a>
+                <span id="breadcrumb_last_{{i}}" [hidden]="!breadcrumb.isLast" [innerHTML]="breadcrumb.text"></span>
+            </li>
+        </ol>
+    </span>
+    <span class="pull-right">
+        <span
+            id="sketchThis"
+            class="btn btn-sm btn-primary breadcrumb-button"
+            (click)="sketcherLink.executeLinkClickedAction()"
+            [hidden]="!sketcherLink.isShowCreateOrEditSketchLink()"
+            tooltip="Sketch on current screen to share with others"
+            container="body"
+            placement="bottom">
+            <i class="glyphicon glyphicon-pencil"></i>
+            {{sketcherLink.getCreateOrEditSketchLinkTitle()}}
+        </span>
+        &nbsp;&nbsp;
+        <sc-share></sc-share>
+    </span>
+</div>

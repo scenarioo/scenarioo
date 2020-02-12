@@ -17,7 +17,7 @@
 
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {SharePageURL} from '../../../shared/navigation/sharePage/sharePageUrl.service';
+import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
 import {Location, PlatformLocation} from '@angular/common';
 
 @Component({
@@ -38,7 +38,7 @@ export class ShareComponent implements OnInit {
     imageUrl: string;
 
     constructor(private modalService: BsModalService,
-                private pageURLService: SharePageURL,
+                private sharePageService: SharePageService,
                 private location: Location,
                 private platformLocation: PlatformLocation) {
     }
@@ -49,21 +49,24 @@ export class ShareComponent implements OnInit {
         // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
         this.currentBrowserLocation = (this.platformLocation as any).location.href;
 
-        this.pageUrl = this.getPageUrl();
+        this.sharePageService.getPageUrl().subscribe((pageUrl) => {
+            this.pageUrl = this.getPageUrl(pageUrl);
+            this.eMailUrl = encodeURIComponent(this.pageUrl);
+        });
 
-        this.imageUrl = this.pageURLService.getImageUrl();
+        this.sharePageService.getImageUrl().subscribe((imageUrl) => {
+            this.imageUrl = imageUrl;
+        });
 
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
 
-        this.eMailUrl = encodeURIComponent(this.pageUrl);
-
     }
 
-    public getPageUrl() {
-        if (this.pageURLService.getPageUrl() === undefined) {
+    public getPageUrl(pageUrl: string): string {
+        if (pageUrl === undefined) {
             return this.currentBrowserLocation;
         } else {
-            return this.pageURLService.getPageUrl();
+            return pageUrl;
         }
     }
 

@@ -19,7 +19,6 @@ import {ShareComponent} from './share.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 import {BsModalService, ModalModule} from 'ngx-bootstrap';
-import {SharePageURL} from '../../../shared/navigation/sharePage/sharePageUrl.service';
 import {HashLocationStrategy, Location, LocationStrategy, PlatformLocation} from '@angular/common';
 import {LocationService} from '../../../shared/location.service';
 import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
@@ -40,10 +39,9 @@ describe('share component', () => {
     beforeEach(async(() => {
         void TestBed.configureTestingModule({
             providers: [
-                SharePageURL,
+                SharePageService,
                 Location,
                 {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
-                {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
                 {provide: LocationStrategy, useClass: HashLocationStrategy},
             ],
             imports: [ModalModule.forRoot()],
@@ -78,15 +76,23 @@ describe('share component', () => {
     });
 
     it('getPageUrl behaves correctly when url is set', () => {
-        const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
-        spyOn(sharePageURLService, 'getPageUrl').and.returnValue(URL);
+        const sharePageService = fixture.debugElement.injector.get(SharePageService);
+        spyOn(sharePageService, 'getPageUrl').and.returnValue({
+            subscribe: (cb) => {
+                cb(URL);
+            },
+        });
         component.ngOnInit();
         void expect(component.pageUrl).toBe(URL);
     });
 
     it('getPageUrl behaves correctly when url is not set', () => {
-        const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
-        spyOn(sharePageURLService, 'getPageUrl').and.returnValue(undefined);
+        const sharePageService = fixture.debugElement.injector.get(SharePageService);
+        spyOn(sharePageService, 'getPageUrl').and.returnValue({
+            subscribe: (cb) => {
+                cb(undefined);
+            },
+        });
         component.ngOnInit();
         void expect(component.pageUrl).toBe('http://localhost:7070/context.html');
     });

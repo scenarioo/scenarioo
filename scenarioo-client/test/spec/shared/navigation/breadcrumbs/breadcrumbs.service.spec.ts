@@ -15,40 +15,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('BreadcrumbsService', function () {
+import {BreadcrumbsService} from '../../../../../app/shared/navigation/breadcrumbs/breadcrumbs.service';
+import {HumanReadablePipe} from '../../../../../app/pipes/humanReadable.pipe';
 
-    var BreadcrumbsService;
+describe('BreadcrumbsService', () => {
 
-    var NAV_PARAMETERS_FOR_STEP = {
+    let breadcrumbsService: BreadcrumbsService;
+
+    const NAV_PARAMETERS_FOR_STEP = {
         usecase: 'search_book',
         scenario: 'SearchBookThatDoesNotExist',
         pageName: 'search_results',
         pageOccurrence: 0,
-        stepInPageOccurrence: 1
+        stepInPageOccurrence: 1,
     };
 
-    var NAVIGATION_ELEMENTS_FOR_STEP = [
+    const NAVIGATION_ELEMENTS_FOR_STEP = [
         { label: '<i class="fas fa-home"></i> Home', route: 'build/build.html', isLastNavigationElement: false, textForTooltip: ' Home' },
         { label: '<strong>Use Case:</strong> Search book', route: '/usecase/search_book/', isLastNavigationElement: false, textForTooltip: 'Use Case: Search book' },
         { label: '<strong>Scenario:</strong> Search Book That Does Not Exist', route: '/scenario/search_book/SearchBookThatDoesNotExist/', isLastNavigationElement: false, textForTooltip: 'Scenario: Search Book That Does Not Exist' },
-        { label: '<strong>Step:</strong> search_results/0/1', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/0/1' }
+        { label: '<strong>Step:</strong> search_results/0/1', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/0/1' },
     ];
 
-    beforeEach(angular.mock.module('scenarioo.services'));
-    beforeEach(angular.mock.module('scenarioo.filters'));
-
-    beforeEach(inject(function (_BreadcrumbsService_) {
-        BreadcrumbsService = _BreadcrumbsService_;
-    }));
-
-    it('getNavigationElements with undefined parameters returns undefined', function () {
-        expect(BreadcrumbsService.getNavigationElements(undefined, undefined)).toBeUndefined();
+    beforeEach(() => {
+        breadcrumbsService = new BreadcrumbsService(new HumanReadablePipe());
     });
 
-    it('loadNavigationElements returns a path with four elements for a step', function () {
-        var navigationElements = BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP);
+    it('getNavigationElements with undefined parameters returns undefined',  () => {
+        expect(breadcrumbsService.getNavigationElements(undefined, undefined)).toBeUndefined();
+    });
 
-        expect(BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP)).toEqual(NAVIGATION_ELEMENTS_FOR_STEP);
+    it('loadNavigationElements returns a path with four elements for a step', () => {
+        const navigationElements = breadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP);
+
+        expect(breadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP)).toEqual(NAVIGATION_ELEMENTS_FOR_STEP);
         expectUseCaseAndScenarioAreHumanReadable(navigationElements);
         expectStepIsNotMadeHumanReadable(navigationElements);
     });
