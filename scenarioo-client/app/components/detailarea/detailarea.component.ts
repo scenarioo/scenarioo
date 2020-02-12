@@ -74,7 +74,8 @@ export class DetailareaComponent {
         const detailsPanel = this.detailsPanel.nativeElement;
         const headerHeight = detailsPanel.offsetTop;
 
-        // let the details area expand to minimum of rest of visible area! (but still keep its height to 100% for larger pages!)
+        // let the details area expand to minimum of rest of visible area!
+        // (but still let it expand to full page size if it is even higher)
         detailsPanel.style.minHeight = 'calc(100vh - ' + headerHeight + 'px)';
     }
 
