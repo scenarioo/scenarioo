@@ -13,13 +13,20 @@ class LabelConfigurationsPage {
         return Utils.navigateToRoute('/manage?tab=labelConfigurations');
     }
 
-    async assertNumConfigurations(expectedCount) {
+    async assertNumConfigurations(expectedCount: number) {
         const rows = this.labelConfigurationsTable.$$('tbody tr');
         // adding one, because there's always an empty row
         return expect(rows.count()).toBe(expectedCount + 1);
     }
 
-    async addLabelConfiguration(labelName, colorIndex) {
+    async assertConfigurationColor(rowIndex: number, expectedColorAsHex: string) {
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        const labelColorField = row.$('input[data-type="labelColor"]');
+        return expect(labelColorField.getAttribute('value')).toBe(expectedColorAsHex);
+    }
+
+    async addLabelConfigurationWithPresetColor(labelName: string, colorIndex: number) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const numberOfElements = await elements.count();
         const lastRow = elements.get(numberOfElements - 1);
@@ -31,7 +38,19 @@ class LabelConfigurationsPage {
         return Utils.waitForElementVisible(this.savedSuccessfullyText);
     }
 
-    async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
+    async addLabelConfigurationWithCustomColor(labelName: string, colorAsHex: string) {
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const numberOfElements = await elements.count();
+        const lastRow = elements.get(numberOfElements - 1);
+        const labelNameField = lastRow.$('input[data-type="labelName"]');
+        await labelNameField.sendKeys(labelName);
+        const colorInputField = lastRow.$('input[data-type="labelColor"');
+        await colorInputField.sendKeys(colorAsHex);
+        await this.saveButton.click();
+        return Utils.waitForElementVisible(this.savedSuccessfullyText);
+    }
+
+    async updateLabelConfigurationWithPresetColor(rowIndex: number, labelName: string, colorIndex: number) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const row = elements.get(rowIndex);
         const labelNameField = row.$('input[data-type="labelName"]');
@@ -43,22 +62,11 @@ class LabelConfigurationsPage {
         return this.saveButton.click();
     }
 
-    async updateLabelConfigurationWithColorAsHexadecimal(rowIndex, labelName, colorAsHexadecimal) {
-        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
-        const row = elements.get(rowIndex);
-        const labelNameField = row.$('input[data-type="labelName"]');
-        await labelNameField.clear();
-        await labelNameField.sendKeys(labelName);
-        const colorInputField = row.$('input[data-type="labelColorInput"');
-        await colorInputField.clear();
-        await colorInputField.sendKeys(colorAsHexadecimal);
-
-        return this.saveButton.click();
-    }
-
-    async deleteLastLabelConfiguration(rowIndex) {
+    async deleteLabelConfiguration(rowIndex, currentNumberOfConfiguredLabels) {
+        // One additional row for the empty input fields
+        const numberOfTableRows = currentNumberOfConfiguredLabels + 1;
         await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
-        await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, rowIndex + 1); // one row less with now empty row on last row
+        await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, numberOfTableRows - 1);
         await this.saveButton.click();
         return Utils.waitForElementVisible(element(by.id('changed-label-config-successfully')));
     }

@@ -25,10 +25,10 @@
                                 (click)="setRandomColor(labelConfiguration)">
                             <span [style.color]="labelConfiguration.foregroundColor" class="glyphicon glyphicon-refresh"></span>
                         </button>
-                        <input #labelColorInput type="text" class="ng-pristine ng-valid form-control" data-type="labelColorInput"
+                        <input #labelColor type="text" class="ng-pristine ng-valid form-control" data-type="labelColor"
                                [value]= "labelConfiguration.backgroundColor"
                                [name] = "'labelColor' + i"
-                               (keyup)="onBackgroundColorChanged(labelConfiguration, labelColorInput.value);"
+                               (keyup)="onBackgroundColorChanged(labelConfiguration, labelColor.value);"
                         />
                     </div>
 
