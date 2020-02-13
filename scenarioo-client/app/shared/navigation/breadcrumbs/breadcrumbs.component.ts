@@ -17,7 +17,6 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {DomSanitizer} from '@angular/platform-browser';
 import * as $ from 'jquery';
 import {SketcherLinkService} from './sketcherLink.service';
 import {BreadcrumbsService} from './breadcrumbs.service';
@@ -54,7 +53,7 @@ export class Breadcrumbs implements OnInit {
     @Input()
     breadcrumbId: string;
 
-    constructor(private sketcherLink: SketcherLinkService, private breadcrumbsService: BreadcrumbsService, private routeParamsService: RouteParamsService, private sanitizer: DomSanitizer) {
+    constructor(private sketcherLink: SketcherLinkService, private breadcrumbsService: BreadcrumbsService, private routeParamsService: RouteParamsService) {
 
     }
 
