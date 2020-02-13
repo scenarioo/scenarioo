@@ -44,25 +44,10 @@ export class ShareComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
-        // TODO: Workaround until the full migration, when the Angular router is available
-        // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
-        this.currentBrowserLocation = (this.platformLocation as any).location.href;
-
-        this.sharePageService.getPageUrl().subscribe((pageUrl) => {
-            this.pageUrl = this.getPageUrl(pageUrl);
-            this.eMailUrl = encodeURIComponent(this.pageUrl);
-        });
-
-        this.sharePageService.getImageUrl().subscribe((imageUrl) => {
-            this.imageUrl = imageUrl;
-        });
-
-        this.eMailSubject = encodeURIComponent('Link to Scenarioo');
-
     }
 
-    public getPageUrl(pageUrl: string): string {
+    public getPageUrl(): string {
+        const pageUrl = this.sharePageService.getPageUrl();
         if (pageUrl === undefined) {
             return this.currentBrowserLocation;
         } else {
@@ -71,6 +56,17 @@ export class ShareComponent implements OnInit {
     }
 
     openShare(shareContent: TemplateRef<string>) {
+
+        // TODO: Workaround until the full migration, when the Angular router is available
+        // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
+        this.currentBrowserLocation = (this.platformLocation as any).location.href;
+
+        // Get state from current share this page service to render in dialog.
+        this.pageUrl = this.getPageUrl();
+        this.eMailUrl = encodeURIComponent(this.pageUrl);
+        this.imageUrl = this.sharePageService.getImageUrl();
+        this.eMailSubject = encodeURIComponent('Link to Scenarioo');
+
         this.modalRef = this.modalService.show(shareContent);
     }
 

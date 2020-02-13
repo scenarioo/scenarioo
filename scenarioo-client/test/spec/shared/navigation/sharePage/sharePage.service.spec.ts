@@ -34,18 +34,12 @@ describe('SharePageService', () => {
 
     it('stores the page Url', (done) => {
         sharePageService.setPageUrl(URL);
-        sharePageService.getPageUrl().subscribe((value) => {
-            expect(value).toBe(URL);
-            done();
-        });
+        expect(sharePageService.getPageUrl()).toBe(URL);
     });
 
     it('stores the image Url', (done) => {
         sharePageService.setImageUrl(URL);
-        sharePageService.getImageUrl().subscribe((value) => {
-            expect(value).toBe(URL);
-            done();
-        });
+        expect(sharePageService.getImageUrl()).toBe(URL);
     });
 
     it('sets both URLs to undefined when the invalidateUrl method is called', async () => {
@@ -58,18 +52,8 @@ describe('SharePageService', () => {
     });
 
     async function expectBothUrlsAreUndefined() {
-        await new Promise((resolve) => {
-            sharePageService.getPageUrl().subscribe((value) => {
-                expect(value).toBeUndefined();
-                resolve();
-            });
-        });
-        await new Promise((resolve) => {
-            sharePageService.getImageUrl().subscribe((value) => {
-                expect(value).toBeUndefined();
-                resolve();
-            });
-        });
+        expect(sharePageService.getPageUrl()).toBeUndefined();
+        expect(sharePageService.getImageUrl()).toBeUndefined();
     }
 
 });
