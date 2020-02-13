@@ -15,7 +15,7 @@
     <span class="pull-right">
         <span
             id="sketchThis"
-            class="btn btn-sm btn-primary breadcrumb-button"
+            [ngClass]="{'btn btn-sm btn-primary breadcrumb-button': sketcherLink.isShowCreateOrEditSketchLink()}"
             (click)="sketcherLink.executeLinkClickedAction()"
             [hidden]="!sketcherLink.isShowCreateOrEditSketchLink()"
             tooltip="Sketch on current screen to share with others"
