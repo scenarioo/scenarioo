@@ -19,7 +19,7 @@ import {ShareComponent} from './share.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 import {BsModalService, ModalModule} from 'ngx-bootstrap';
-import {HashLocationStrategy, Location, LocationStrategy, PlatformLocation} from '@angular/common';
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 import {LocationService} from '../../../shared/location.service';
 import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
 
@@ -77,30 +77,22 @@ describe('share component', () => {
 
     it('getPageUrl behaves correctly when url is set', () => {
         const sharePageService = fixture.debugElement.injector.get(SharePageService);
-        spyOn(sharePageService, 'getPageUrl').and.returnValue({
-            subscribe: (cb) => {
-                cb(URL);
-            },
-        });
+        spyOn(sharePageService, 'getPageUrl').and.returnValue(URL);
         component.ngOnInit();
+        const shareButton = fixture.nativeElement.querySelector('button');
+        void expect(shareButton).toBeDefined();
+        shareButton.click();
         void expect(component.pageUrl).toBe(URL);
     });
 
     it('getPageUrl behaves correctly when url is not set', () => {
         const sharePageService = fixture.debugElement.injector.get(SharePageService);
-        spyOn(sharePageService, 'getPageUrl').and.returnValue({
-            subscribe: (cb) => {
-                cb(undefined);
-            },
-        });
+        spyOn(sharePageService, 'getPageUrl').and.returnValue(undefined);
         component.ngOnInit();
+        const shareButton = fixture.nativeElement.querySelector('button');
+        void expect(shareButton).toBeDefined();
+        shareButton.click();
         void expect(component.pageUrl).toBe('http://localhost:7070/context.html');
-    });
-
-    it('should set data', () => {
-        const email = 'scenarioo@scenarioo.org';
-        component.eMailUrl = email;
-        void expect(component.eMailUrl).toBe(email);
     });
 
 });
