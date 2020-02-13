@@ -117,8 +117,10 @@ const breadcrumbPaths: BreadcrumbTypeMap = {
 
 @Injectable()
 export class BreadcrumbsService {
+
     constructor(private humanReadable: HumanReadablePipe) {
     }
+
     public getNavigationElements(breadcrumbId, navParameters): NavigationElement[] {
         if (breadcrumbId === undefined || navParameters === undefined) {
             return undefined;
@@ -144,11 +146,11 @@ export class BreadcrumbsService {
         return [];
     }
 
-    private convertToPlainText(text) {
+    private convertToPlainText(text): string {
         return text.replace(/<\/?[^>]+(>|$)/g, '');
     }
 
-    private setValuesInRoute(text, navParameter) {
+    private setValuesInRoute(text, navParameter): string {
         const placeholders = text.match(/:.*?[^<](?=\/)/g);
 
         if (placeholders !== null) {
@@ -162,7 +164,7 @@ export class BreadcrumbsService {
         return text;
     }
 
-    private getText(navParameter, placeholder) {
+    private getText(navParameter, placeholder): string {
         const value = navParameter[placeholder];
 
         if (placeholder === 'usecase' || placeholder === 'scenario') {
@@ -172,7 +174,7 @@ export class BreadcrumbsService {
         return value;
     }
 
-    private setValuesInLabel(text, navParameter) {
+    private setValuesInLabel(text, navParameter): string {
         const placeholders = text.match(/\[.*?(?=])./g);
 
         if (placeholders !== null) {

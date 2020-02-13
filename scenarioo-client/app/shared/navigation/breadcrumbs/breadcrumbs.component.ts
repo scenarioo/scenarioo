@@ -25,13 +25,32 @@ import {RouteParamsService} from '../../route-params.service';
 
 declare var angular: angular.IAngularStatic;
 
+interface BreadcrumbInfo {
+    text: string;
+    tooltip: string;
+    showTooltip: boolean;
+    href: string;
+    isLast: boolean;
+}
+
+interface BreadcrumbParams {
+    usecase: string;
+    scenario: string;
+    searchTerm: string;
+    objectType: string;
+    objectName: string;
+    pageName: string;
+    pageOccurrence: number;
+    stepInPageOccurrence: number;
+}
+
 @Component({
     selector: 'sc-breadcrumbs',
     template: require('./breadcrumbs.component.html'),
 })
 export class Breadcrumbs implements OnInit {
     limit = 50;
-    breadcrumbs: any[];
+    breadcrumbs: BreadcrumbInfo[];
     @Input()
     breadcrumbId: string;
 
@@ -57,11 +76,11 @@ export class Breadcrumbs implements OnInit {
         });
     }
 
-    private getShortenedLabelText(breadcrumbItem, isLabelTextShortened) {
+    private getShortenedLabelText(breadcrumbItem, isLabelTextShortened): string {
         return isLabelTextShortened ? this.getShortenedText(breadcrumbItem.label) : breadcrumbItem.label;
     }
 
-    private getShortenedText(text) {
+    private getShortenedText(text): string {
         if (text.length > this.limit) {
             const shortenedText = text.substr(0, this.limit);
             return shortenedText + '...';
@@ -69,7 +88,7 @@ export class Breadcrumbs implements OnInit {
         return text;
     }
 
-    private getNavigationParameters() {
+    private getNavigationParameters(): BreadcrumbParams {
         return {
             usecase: this.routeParamsService.useCaseName,
             scenario: this.routeParamsService.scenarioName,
