@@ -21,9 +21,9 @@ declare var angular: angular.IAngularStatic;
  * Contains the information about whether to show the sketcher link in the navigation. The link can either be
  * displayed as "Create sketch" or "Edit sketch".
  */
-angular.module('scenarioo.services').factory('SketcherLinkService', SketcherLinkServiceWrapper);
+angular.module('scenarioo.services').factory('SketcherLinkService', SketcherLinkServiceImpl);
 
-function SketcherLinkServiceWrapper() {
+function SketcherLinkServiceImpl() {
 
     const service = this;
     service.showCreateOrEditSketchLink = false;
@@ -57,23 +57,13 @@ function SketcherLinkServiceWrapper() {
 }
 
 export class SketcherLinkService {
-    showCreateOrEditSketchLinkInBreadcrumbs() {
-        return undefined;
-    }
+    showCreateOrEditSketchLinkInBreadcrumbs() {}
 
-    hideCreateOrEditSketchLinkInBreadcrumbs() {
-        return undefined;
-    }
+    hideCreateOrEditSketchLinkInBreadcrumbs() {}
 
-    isShowCreateOrEditSketchLink() {
-        return undefined;
-    }
+    isShowCreateOrEditSketchLink() {}
 
-    getCreateOrEditSketchLinkTitle() {
+    getCreateOrEditSketchLinkTitle() {}
 
-    }
-
-    executeLinkClickedAction() {
-
-    }
+    executeLinkClickedAction() {}
 }
