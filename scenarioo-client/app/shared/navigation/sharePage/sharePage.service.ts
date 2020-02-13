@@ -7,12 +7,10 @@ declare var angular: angular.IAngularStatic;
 @Injectable()
 export class SharePageService {
 
-    private readonly pageUrl: ReplaySubject<string>;
-    private readonly imageUrl: ReplaySubject<string>;
+    private readonly pageUrl: ReplaySubject<string> = new ReplaySubject(1);
+    private readonly imageUrl: ReplaySubject<string> = new ReplaySubject(1);
 
     constructor() {
-        this.pageUrl = new ReplaySubject(1);
-        this.imageUrl = new ReplaySubject(1);
         this.invalidateUrls();
     }
 
