@@ -15,7 +15,7 @@ export const getContrastingColor = (hexColor: string): string => {
 
 const contrast = (hexColor: string) => {
     const [r, g, b] = [...hexToRgb(hexColor)];
-    console.log(r + ' ' + g + ' ' + b);
+    // Determine the contrast of the color using the HSP color model
     const hsp = Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
     if (hsp > 127.5) {
         return 'light';
@@ -31,13 +31,11 @@ const hexToRgb = (hexColor: string): number[] => {
     if (hexColor.length === 3) {
         hexColor = hexColor
             .split('')
-            .reduce((accum, value) => {
-                return accum.concat([value, value])
+            .reduce((fullHexColor: string[], currentValue: string) => {
+                return fullHexColor.concat([currentValue, currentValue]);
             }, [])
             .join('');
     }
-
-    console.log(hexColor);
 
     const r: number = parseInt(hexColor.slice(0, 2), 16);
     const g: number = parseInt(hexColor.slice(2, 4), 16);

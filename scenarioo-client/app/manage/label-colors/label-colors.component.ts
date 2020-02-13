@@ -58,12 +58,15 @@ export class LabelColorsComponent implements OnInit {
     }
 
     onBackgroundColorSelected(labelConfiguration: LabelConfiguration, color: string) {
-        labelConfiguration.backgroundColor = color;
-        labelConfiguration.foregroundColor = getContrastingColor(labelConfiguration.backgroundColor);
+            labelConfiguration.backgroundColor = color;
+            labelConfiguration.foregroundColor = getContrastingColor(labelConfiguration.backgroundColor);
     }
 
-    onBackgroundColorChanged(labelConfiguration: LabelConfiguration) {
-        labelConfiguration.foregroundColor = getContrastingColor(labelConfiguration.backgroundColor);
+    onBackgroundColorChanged(labelConfiguration: LabelConfiguration, color: string) {
+        if (isHexadecimalColorValid(color)) {
+            labelConfiguration.backgroundColor = color;
+            labelConfiguration.foregroundColor = getContrastingColor(labelConfiguration.backgroundColor);
+        }
     }
 
     getLabelStyle(labelConfiguration: LabelConfiguration) {
@@ -71,7 +74,7 @@ export class LabelColorsComponent implements OnInit {
     }
 
     setRandomColor(labelConfiguration: LabelConfiguration) {
-        console.log('TODO');
+        // TODO: Calculate a random background color (maybe check what has already been set)
     }
 
     private loadLabelConfigurations() {
