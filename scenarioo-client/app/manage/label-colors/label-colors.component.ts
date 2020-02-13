@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LabelConfigurationsListResource} from '../../shared/services/labelConfigurationsListResource.service';
 import {LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {LabelConfiguration} from './label-configuration';
-import {getContrastingColor, isHexadecimalColorValid} from './color-helpers';
+import {getContrastingColor, getRandomHexadecimalColor, isHexadecimalColorValid} from './color-helpers';
 
 @Component({
     selector: 'sc-label-colors',
@@ -64,12 +64,12 @@ export class LabelColorsComponent implements OnInit {
         }
     }
 
-    getLabelStyle(labelConfiguration: LabelConfiguration) {
-        return {'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor};
+    setRandomColor(labelConfiguration: LabelConfiguration) {
+        this.onBackgroundColorChanged(labelConfiguration, getRandomHexadecimalColor());
     }
 
-    setRandomColor(labelConfiguration: LabelConfiguration) {
-        // TODO: Calculate a random background color (maybe check what has already been set)
+    getLabelStyle(labelConfiguration: LabelConfiguration) {
+        return {'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor};
     }
 
     private loadLabelConfigurations() {
