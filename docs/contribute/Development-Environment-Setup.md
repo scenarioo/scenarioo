@@ -15,19 +15,20 @@ The following tools should be installed and running on your computer:
 
  * Git (most recent version)
  * Java JDK 1.8
- * Node.js 8.11+ (optional)
-   * To work in the scenarioo-js writer library, you will need Node.js
-   * To work in the scenarioo-java writer library or in the scenarioo viewer application, Node.js is optional 
  * IntelliJ IDEA Ultimate (most recent version) 
    * Ask @bruderol if you want to use an open source license for it
- * Docker (recommended)
+ * Docker: highly recommended for local e2e testing
+ * Graphviz & PlantUML: optional, but recommended to see and edit UML diagrams in our markdown documentation
+   * see paragraph below about [Setup PlantUML](#setup-plantuml-for-diagrams-in-documentation)
+ * Node.js 8.11+ (optional)
+    * To work in the scenarioo-js writer library, you will need Node.js
+    * To work in the scenarioo-java writer library or in the scenarioo viewer application, Node.js is optional 
    
 To work with the Full Text Search feature, you additionally need one of the following:
 
  * Docker
  * Elasticsearch (5+)
    * See the [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details on how to setup.
-
 
 ### Setup Git
 
@@ -50,7 +51,6 @@ To work with the Full Text Search feature, you additionally need one of the foll
      See also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
      
  * Please refer to our [Branching Strategy](Branching-strategy.md) for more information about how we use branches and create releases
-
 
 ### Get the Sources
 
@@ -78,7 +78,10 @@ Also make sure you have an up-to-date version of Git installed.
  * Install the following IntelliJ IDEA plugins if you don't have them already:
    * NodeJs
    * Karma
-   * .ignore
+   * .ignore 
+   * PlantUML (useful for UML preview in PUML files)
+  
+ * Install Graphviz and PlantUML as described later [here](#setup-plantuml-for-diagrams-in-documentation) to be able to see and edit diagrams directly in markdown files.
                  
  * Import Scenarioo by using "New project from existing sources":
    * Choose 'scenarioo' folder
@@ -100,6 +103,24 @@ In Docker Settings:
  * "Shared Drives" > Share the drive where you checked out the Scenarioo repository
     * This is needed if you want to use the "Scenarioo - Hafenarbeiter komponiert Dev Cluster" run configuration, because it accesses the war and the generated test data. 
 
+### Setup PlantUML for Diagrams in Documentation
+
+We use PlantUML notation for diagrams in our markdown documentation. 
+
+An example of such a diagram can be found [here in the documentation of the Details feature](../features/details/Details.md)
+
+To render and edit those diagrams you need Graphviz installed and PlantUML in IntelliJ.
+
+Setup:
+* Install Graphviz:
+   * download from here: https://graphviz.gitlab.io/download/
+   * see also https://plantuml.com/de/graphviz-dot for more installation instructions     
+* Install PlantUML for IntelliJ (see also https://www.jetbrains.com/help/idea/markdown.html#diagrams)
+  * File / Settings / Language & Frameworks / Markdown
+  * Click "Install" next to "PlantUML framework isn't installed"
+
+When this is installed you should see the diagrams in Markdown previews in IntelliJ (otherwise empty your intelliJ cache to regenerate). You should be able to modify the diagrams in markdown text and immediately see the changes.
+ 
 ## Developer Guide
 
 For more information on how to develop, build and test Scenarioo properly, head over to the [Developer Guide](Developer-Guide.md)!
