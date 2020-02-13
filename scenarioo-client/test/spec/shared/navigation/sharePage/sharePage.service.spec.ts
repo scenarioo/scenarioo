@@ -28,30 +28,30 @@ describe('SharePageService', () => {
         sharePageService = new SharePageService();
     });
 
-    it('is initialized with undefined values by default', async () => {
-        await expectBothUrlsAreUndefined();
+    it('is initialized with undefined values by default', () => {
+        expectBothUrlsAreUndefined();
     });
 
-    it('stores the page Url', (done) => {
+    it('stores the page Url', () => {
         sharePageService.setPageUrl(URL);
         expect(sharePageService.getPageUrl()).toBe(URL);
     });
 
-    it('stores the image Url', (done) => {
+    it('stores the image Url', () => {
         sharePageService.setImageUrl(URL);
         expect(sharePageService.getImageUrl()).toBe(URL);
     });
 
-    it('sets both URLs to undefined when the invalidateUrl method is called', async () => {
+    it('sets both URLs to undefined when the invalidateUrl method is called', () => {
         sharePageService.setPageUrl(URL);
         sharePageService.setImageUrl(URL);
 
         sharePageService.invalidateUrls();
 
-        await expectBothUrlsAreUndefined();
+        expectBothUrlsAreUndefined();
     });
 
-    async function expectBothUrlsAreUndefined() {
+    function expectBothUrlsAreUndefined() {
         expect(sharePageService.getPageUrl()).toBeUndefined();
         expect(sharePageService.getImageUrl()).toBeUndefined();
     }
