@@ -5,6 +5,7 @@
             <tr>
                 <th>Label Name</th>
                 <th>Color</th>
+                <th>Preview</th>
                 <th></th>
             </tr>
             </thead>
@@ -16,27 +17,34 @@
                            [name]="'labelName' + i" (keyup)="onLabelNameChanged()"/>
                     <span [hidden]="labelConfiguration.name || labelConfiguration.isEmpty()" class="sc-error-span">Please define a name</span>
                 </td>
-                <td style="vertical-align: middle;">
-                    <div>
-                        <ul class="sc-color-chooser">
-                            <li *ngFor="let color of availableBackgroundColors">
-                                <span [style.background-color]="color" class="sc-color-field"
-                                      (click)="onBackgroundColorSelected(labelConfiguration, color)"
-                                      [ngClass]="{'sc-color-field-selected' : color === labelConfiguration.backgroundColor}"></span>
-                            </li>
-                        </ul>
-
-                        <div class="sc-color-advanced-input">
-                            <input type="button" [style.background-color]="labelConfiguration.backgroundColor" class="btn btn-small">
-                            <input type="text" class="ng-pristine ng-valid form-control" data-type="labelColorInput"
-                                   [(ngModel)]= "labelConfiguration.backgroundColor"
-                                   [name] = "'labelColor' + i"
-                                   (keyup)="onBackgroundColorChanged(labelConfiguration);"
-                            />
-                        </div>
+                <td>
+                    <div class="sc-color-advanced-input">
+                        <button type="button" [style.background-color]="labelConfiguration.backgroundColor"
+                                class="btn btn-small"
+                                (click)="setRandomColor(labelConfiguration)">
+                            <span [style.color]="labelConfiguration.foregroundColor" class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                        <input type="text" class="ng-pristine ng-valid form-control" data-type="labelColorInput"
+                               [(ngModel)]= "labelConfiguration.backgroundColor"
+                               [name] = "'labelColor' + i"
+                               (keyup)="onBackgroundColorChanged(labelConfiguration);"
+                        />
                     </div>
 
+                    <ul class="sc-color-chooser">
+                        <li *ngFor="let color of availableBackgroundColors">
+                            <span [style.background-color]="color" class="sc-color-field"
+                                  (click)="onBackgroundColorSelected(labelConfiguration, color)"
+                                  [ngClass]="{'sc-color-field-selected' : color === labelConfiguration.backgroundColor}"></span>
+                        </li>
+                    </ul>
+
                     <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
+                </td>
+                <td>
+                    <span class="label label-info sc-label"
+                          [ngStyle]="{'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor}"
+                    >{{labelConfiguration.name}}</span>
                 </td>
                 <td>
                     <input type="button" class="btn btn-small btn-danger" value="Delete"

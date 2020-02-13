@@ -66,6 +66,14 @@ export class LabelColorsComponent implements OnInit {
         labelConfiguration.foregroundColor = getContrastingColor(labelConfiguration.backgroundColor);
     }
 
+    getLabelStyle(labelConfiguration: LabelConfiguration) {
+        return {'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor};
+    }
+
+    setRandomColor(labelConfiguration: LabelConfiguration) {
+        console.log('TODO');
+    }
+
     private loadLabelConfigurations() {
         this.labelConfigurationsListResource.query()
             .subscribe((labelConfigurations) => {
