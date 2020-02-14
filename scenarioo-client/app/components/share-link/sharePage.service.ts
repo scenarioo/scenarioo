@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {Observable, ReplaySubject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
+/**
+ * Service to provide special link urls for share this page dialog for special pages.
+ */
 @Injectable()
 export class SharePageService {
 

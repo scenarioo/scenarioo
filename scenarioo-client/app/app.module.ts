@@ -36,7 +36,7 @@ import {FontAwesomeModule} from 'ngx-icons';
 import {DetailareaComponent} from './components/detailarea/detailarea.component';
 import {DetailAccordionComponent} from './components/detailarea/detail-accordion/detail-accordion.component';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
-import {SharePageService} from './shared/navigation/sharePage/sharePage.service';
+import {SharePageService} from './components/share-link/sharePage.service';
 import {DiffViewerModule} from './diffViewer/diff-viewer.module';
 import {CustomTabDirective} from './build/custom-tab.directive';
 import {SketchesTabDirective} from './build/sketches-tab.directive';
@@ -46,7 +46,7 @@ import {TreeDirective} from './shared/metadata/tree.directive';
 import {ScenariosOverviewComponent} from './build/scenarios-overview/scenarios-overview.component';
 import {RouteParamsService} from './shared/route-params.service';
 import {MetadataTreeListCreatorPipe} from './pipes/metadata/metadataTreeListCreator.pipe';
-import {ShareComponent} from './build/mainpage/share/share.component';
+import {ShareLinkComponent} from './components/share-link/share-link.component';
 import {BranchAliasesComponent} from './manage/branch-aliases/branch-aliases.component';
 import {UrlContextExtractorService} from './shared/utils/urlContextExtractor.service';
 import {LocalStorageService} from './services/localStorage.service';
@@ -66,7 +66,7 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         BuildDetailComponent,
         ComparisonsDirective,
         MainpageComponent,
-        ShareComponent,
+        ShareLinkComponent,
         UseCasesOverviewComponent,
         ScSearchFilterPipe,
         HumanReadablePipe,
@@ -91,7 +91,7 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         LabelMetadataComponent,
         ManageTabsComponent,
         MainpageComponent,
-        ShareComponent,
+        ShareLinkComponent,
         UseCasesOverviewComponent,
         DetailareaComponent,
         DetailAccordionComponent,

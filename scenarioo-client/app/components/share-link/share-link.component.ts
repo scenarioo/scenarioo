@@ -17,15 +17,15 @@
 
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
+import {SharePageService} from './sharePage.service';
 import {Location, PlatformLocation} from '@angular/common';
 
 @Component({
-    selector: 'sc-share',
-    template: require('./share.component.html'),
-    styles: [require('./share.component.css').toString()],
+    selector: 'sc-share-link',
+    template: require('./share-link.component.html'),
+    styles: [require('./share-link.component.css').toString()],
 })
-export class ShareComponent implements OnInit {
+export class ShareLinkComponent implements OnInit {
 
     currentBrowserLocation: string;
 

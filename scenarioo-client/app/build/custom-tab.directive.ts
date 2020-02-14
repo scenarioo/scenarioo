@@ -17,6 +17,7 @@
 
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {ICustomObjectDetailColumn} from '../generated-types/backend-types';
 
 @Directive({
     selector: 'sc-custom-tab',
@@ -24,7 +25,7 @@ import {Directive, ElementRef, Injector, Input} from '@angular/core';
 export class CustomTabDirective extends UpgradeComponent {
 
     @Input() tabId: string;
-    @Input() tabColumns: string;
+    @Input() tabColumns: ICustomObjectDetailColumn[];
 
     constructor(elementRef: ElementRef, injector: Injector) {
         super('scCustomTab', elementRef, injector);
