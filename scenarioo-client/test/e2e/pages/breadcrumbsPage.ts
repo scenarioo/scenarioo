@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, ElementFinder, $ } from 'protractor';
+import {$, by} from 'protractor';
 
 class BreadcrumbPage {
 
@@ -17,7 +17,7 @@ class BreadcrumbPage {
 
     async assertThatTooltipIsShown(toolTipId, toolTipText) {
         const toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
-        const toolTipAttribute = await toolTipElement.getAttribute('uib-tooltip');
+        const toolTipAttribute = await toolTipElement.getAttribute('data-tooltip-text');
 
         return expect(toolTipAttribute).toBe(toolTipText);
     }

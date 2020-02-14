@@ -17,8 +17,6 @@ class UseCase
 class Scenario
 class Step
 
-class Object
-
 class Details {
     properties: Map<String, Object>
 }
@@ -29,7 +27,20 @@ An object's further detail properties as entries with
                  e.g. a simple string or a more complex object
 end note
 
+Branch --> "1" Details : details
+Build --> "1" Details : details
+UseCase --> "1" Details : details
+Scenario --> "1" Details : details
+Step --> "1" Details : details
+
+class Object
+
+Details --> "*" Object
+
 class String
+
+Object <|-- String
+
 
 class ObjectDescription {
     name: String
@@ -37,14 +48,24 @@ class ObjectDescription {
     details: Details
 }
 
+Object <|-- ObjectDescription
+
+
 class ObjectReference {
     name: String
     type: String
 }
 
+Object <|-- ObjectReference
+
+
 class ObjectList {
     items: List<Object>
 }
+
+Object <|-- ObjectList
+ObjectList --> "*" Object : items
+
 
 class ObjectTreeNode {
     item: Object
@@ -52,23 +73,10 @@ class ObjectTreeNode {
     children: List<ObjectTreeNode>
 }
 
-Branch --> Details : details
-Build --> Details : details
-UseCase --> Details : details
-Scenario --> Details : details
-Step --> Details : details
-
-Details --> "*" Object
-
-Object <|-- String
-Object <|-- ObjectDescription
-Object <|-- ObjectReference
-Object <|-- ObjectList
 Object <|-- ObjectTreeNode
-
-ObjectList --> "*" Object : items
 ObjectTreeNode --> "1" Object : item
 ObjectTreeNode --> "*" ObjectTreeNode : children
+
 
 @enduml
 ```
@@ -188,16 +196,20 @@ You can also define more than one such tab, and a tab can also only list objects
 The default configuration since Scenarioo version 2.0 already comes with two such simple object tabs predefined: Labels and Pages, to list all pages and labels in your documentation. If you upgrade from version 1.x you have to manually enable this two tabs by adding the following to your configuration:
 
 ```xml
-     <customObjectTabs>
-        <id>pages</id>
-        <tabTitle>Pages</tabTitle>
-        <objectTypesToDisplay>page</objectTypesToDisplay>
-     </customObjectTabs>
-     <customObjectTabs>
-        <id>labels</id>
-        <tabTitle>Labels</tabTitle>
-        <objectTypesToDisplay>label</objectTypesToDisplay>
-     </customObjectTabs>
+    <configuration>
+        ...
+        <customObjectTabs>
+            <id>pages</id>
+            <tabTitle>Pages</tabTitle>
+            <objectTypesToDisplay>page</objectTypesToDisplay>
+         </customObjectTabs>
+         <customObjectTabs>
+            <id>labels</id>
+            <tabTitle>Labels</tabTitle>
+            <objectTypesToDisplay>label</objectTypesToDisplay>
+         </customObjectTabs>
+    </configuration>
+     
 ```
 
 In case you are using the default version 2.0 configuration and you do not want to see "Labels" and "Pages" in your documentation, you can remove those tabs by removing this configuration part from your config.xml file and restart the server.

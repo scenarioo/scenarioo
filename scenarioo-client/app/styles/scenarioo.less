@@ -463,9 +463,13 @@ span.sc-screenshot-annotation-with-action {
   margin-bottom: @vertical-space;
 }
 
+
+/* Tabs (reduce taking too much vertical space) */
 .tab-content {
-  /* reduced margins for not taking too much vertical space */
-  margin-top: @vertical-space;
+  margin-top: 0;
+}
+tabset .nav-tabs {
+    margin-bottom: 0;
 }
 
 .panel {

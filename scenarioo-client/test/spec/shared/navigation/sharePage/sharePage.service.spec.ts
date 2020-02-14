@@ -17,45 +17,43 @@
 
 'use strict';
 
-describe('SharePageService', function () {
+import {SharePageService} from '../../../../../app/shared/navigation/sharePage/sharePage.service';
 
-    var SharePageService;
-    var URL = 'http://www.scenarioo.org';
+describe('SharePageService', () => {
 
-    beforeEach(angular.mock.module('scenarioo.services'));
-    beforeEach(angular.mock.module('scenarioo.filters'));
+    let sharePageService: SharePageService;
+    const URL = 'http://www.scenarioo.org';
 
-    beforeEach(inject(function (_SharePageService_) {
-        SharePageService = _SharePageService_;
-    }));
+    beforeEach(() => {
+        sharePageService = new SharePageService();
+    });
 
-
-    it('is initialized with undefined values by default', function () {
+    it('is initialized with undefined values by default', () => {
         expectBothUrlsAreUndefined();
     });
 
-    it('stores the page Url', function() {
-        SharePageService.setPageUrl(URL);
-        expect(SharePageService.getPageUrl()).toBe(URL);
+    it('stores the page Url', () => {
+        sharePageService.setPageUrl(URL);
+        expect(sharePageService.getPageUrl()).toBe(URL);
     });
 
-    it('stores the image Url', function() {
-        SharePageService.setImageUrl(URL);
-        expect(SharePageService.getImageUrl()).toBe(URL);
+    it('stores the image Url', () => {
+        sharePageService.setImageUrl(URL);
+        expect(sharePageService.getImageUrl()).toBe(URL);
     });
 
-    it('sets both URLs to undefined when the invalidateUrl method is called', function() {
-        SharePageService.setPageUrl(URL);
-        SharePageService.setImageUrl(URL);
+    it('sets both URLs to undefined when the invalidateUrl method is called', () => {
+        sharePageService.setPageUrl(URL);
+        sharePageService.setImageUrl(URL);
 
-        SharePageService.invalidateUrls();
+        sharePageService.invalidateUrls();
 
         expectBothUrlsAreUndefined();
     });
 
     function expectBothUrlsAreUndefined() {
-        expect(SharePageService.getPageUrl()).toBeUndefined();
-        expect(SharePageService.getImageUrl()).toBeUndefined();
+        expect(sharePageService.getPageUrl()).toBeUndefined();
+        expect(sharePageService.getImageUrl()).toBeUndefined();
     }
 
 });

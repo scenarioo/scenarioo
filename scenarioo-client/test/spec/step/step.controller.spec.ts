@@ -22,6 +22,14 @@ import {IConfiguration} from '../../../app/generated-types/backend-types';
 
 declare var angular: angular.IAngularStatic;
 
+const noop = () => undefined;
+
+const SharePageService = {
+    invalidateUrls: noop,
+    setImageUrl: noop,
+    setPageUrl: noop,
+};
+
 describe('StepController', () => {
 
     let $scope, $routeParams, $location, $q, $window, ConfigurationService,
@@ -176,7 +184,7 @@ describe('StepController', () => {
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 DiffInfoService: DiffInfoService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {},
+                SharePageService,
             });
 
             spyOn(BranchesResource, 'query').and.returnValue(of({}));
@@ -245,7 +253,7 @@ describe('StepController', () => {
                 StepResource: StepResourceMock,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService,
                 ApplicationInfoPopupService: {},
-                SharePagePopupService: {},
+                SharePageService,
             });
         });
 

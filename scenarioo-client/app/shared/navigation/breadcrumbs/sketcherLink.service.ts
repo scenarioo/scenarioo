@@ -15,45 +15,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare var angular: angular.IAngularStatic;
+
 /**
  * Contains the information about whether to show the sketcher link in the navigation. The link can either be
  * displayed as "Create sketch" or "Edit sketch".
  */
-angular.module('scenarioo.services').factory('SketcherLinkService', SketcherLinkService);
+angular.module('scenarioo.services').factory('SketcherLinkService', SketcherLinkServiceImpl);
 
-function SketcherLinkService() {
+function SketcherLinkServiceImpl() {
 
-    var service = this;
+    const service = this;
     service.showCreateOrEditSketchLink = false;
-    service.createOrEditSketchLinkTitle;
-    service.linkClickedAction;
 
     return {
 
-        showCreateOrEditSketchLinkInBreadcrumbs: function(createOrEditSketchLinkTitle, linkClickedAction) {
+        showCreateOrEditSketchLinkInBreadcrumbs(createOrEditSketchLinkTitle, linkClickedAction) {
             service.showCreateOrEditSketchLink = true;
             service.createOrEditSketchLinkTitle = createOrEditSketchLinkTitle;
             service.linkClickedAction = linkClickedAction;
         },
 
-        hideCreateOrEditSketchLinkInBreadcrumbs: function() {
+        hideCreateOrEditSketchLinkInBreadcrumbs() {
             service.showCreateOrEditSketchLink = false;
             service.createOrEditSketchLinkTitle = undefined;
             service.linkClickedAction = undefined;
         },
 
-        isShowCreateOrEditSketchLink: function() {
+        isShowCreateOrEditSketchLink() {
             return service.showCreateOrEditSketchLink;
         },
 
-        getCreateOrEditSketchLinkTitle: function() {
+        getCreateOrEditSketchLinkTitle() {
             return service.createOrEditSketchLinkTitle;
         },
 
-        executeLinkClickedAction: function() {
+        executeLinkClickedAction() {
             service.linkClickedAction();
-        }
-
+        },
     };
+}
 
-};
+export class SketcherLinkService {
+    showCreateOrEditSketchLinkInBreadcrumbs() {}
+
+    hideCreateOrEditSketchLinkInBreadcrumbs() {}
+
+    isShowCreateOrEditSketchLink() {}
+
+    getCreateOrEditSketchLinkTitle() {}
+
+    executeLinkClickedAction() {}
+}

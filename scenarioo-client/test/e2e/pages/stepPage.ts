@@ -95,7 +95,7 @@ class StepPage {
     }
 
     async clickShareThisPageLink() {
-        return element(by.id('shareThisPageLink')).click();
+        return element(by.id('shareButton')).click();
     }
 
     async clickHtmlTabButton() {
@@ -139,7 +139,7 @@ class StepPage {
     }
 
     async assertToolTipInBreadcrumb(expectedTooltip) {
-        const toolTip = await element(by.id('tooltip_1')).getAttribute('uib-tooltip');
+        const toolTip = await element(by.id('tooltip_1')).getAttribute('data-tooltip-text');
         await expect(toolTip).toBe(expectedTooltip);
     }
 
