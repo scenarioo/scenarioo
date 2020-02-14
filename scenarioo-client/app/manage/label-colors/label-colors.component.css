@@ -1,14 +1,3 @@
-.sc-color-field {
-    display: block;
-    width: 25px;
-    height: 25px;
-    margin-right: 5px;
-}
-
-.sc-color-field-selected {
-    border: 3px solid black;
-}
-
 .sc-color-advanced-input {
     float: left;
     display: inline-block;
@@ -35,5 +24,16 @@
 .sc-color-chooser li {
     list-style-type: none;
     display: table-cell;
+}
+
+.sc-color-field {
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.sc-color-field-selected {
+    border: 3px solid black;
 }
 
