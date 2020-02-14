@@ -1,10 +1,10 @@
-export const isHexadecimalColorValid = (color: string): boolean => {
+export const isHexColorValid = (color: string): boolean => {
     // Color hexadecimal should have the format #000 or #0000000
     const hexadecimalColorRegexPattern = /^#([0-9A-F]{3}){1,2}$/i;
     return hexadecimalColorRegexPattern.test(color);
 };
 
-export const getRandomHexadecimalColor = (): string => {
+export const getRandomHexColor = (): string => {
     const hexChars: string = '0123456789ABCDEF';
     const numberOfChars: number = 6;
     let randomHexColor: string = '#';
@@ -19,8 +19,8 @@ export const getContrastingColor = (hexColor: string): string => {
     const darkColor = '#000';
     const [r, g, b] = [...hexToRgb(hexColor)];
     // Determine the contrast of the color by calculating the brightness using YIQ values
-    const luminance = (299 * r + 587 * g + 114 * b) / 1000;
-    if (luminance > 127.5) {
+    const brightness = (299 * r + 587 * g + 114 * b) / 1000;
+    if (brightness > 127.5) {
         return darkColor;
     }
     return lightColor;
@@ -44,10 +44,11 @@ const extendColorHex = (hexColor: string): string => {
       return hexColor;
     }
 
+    // Convert e.g. #ABC to #AABBCC
     return '#' + hexColorValue
         .split('')
-        .reduce((fullHexColor: string[], currentValue: string) => {
-            return fullHexColor.concat([currentValue, currentValue]);
+        .reduce((extendedHexColor: string[], currentHexValue: string) => {
+            return extendedHexColor.concat([currentHexValue, currentHexValue]);
         }, [])
         .join('');
 };

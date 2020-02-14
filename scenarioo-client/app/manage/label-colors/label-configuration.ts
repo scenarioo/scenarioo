@@ -1,5 +1,5 @@
 import {IFlatLabelConfiguration} from '../../generated-types/backend-types';
-import {isHexadecimalColorValid} from './color-helpers';
+import {isHexColorValid} from './color-helpers';
 
 export class LabelConfiguration implements IFlatLabelConfiguration {
     private constructor(public backgroundColor: string,
@@ -12,7 +12,7 @@ export class LabelConfiguration implements IFlatLabelConfiguration {
     }
 
     isValid(): boolean {
-        const validBackgroundColorSet = this.backgroundColor !== '' && isHexadecimalColorValid(this.backgroundColor);
+        const validBackgroundColorSet = this.backgroundColor !== '' && isHexColorValid(this.backgroundColor);
         return this.isEmpty() || (this.name !== '' && validBackgroundColorSet);
     }
 
