@@ -60,3 +60,9 @@ If you ever need to publish manually:
 * When done: 
     * make sure that your changes to scenarioo/scenarioo are merged to develop 
     * on develop verify in `book.json` that the "develop"-version is configured as selected again!
+
+### Additional Requirements for PlantUML
+[PlantUML](https://plantuml.com/) is used to create and display UML diagrams in the documentation. To render the PlantUML diagrams, [Graphviz](https://graphviz.gitlab.io/about/) and Java 8 are required. 
+For these reasons, we've setup a special Docker image with the necessary tools installed and use it in the CircleCI job for automatically publishing the documentation.
+
+For more details, refer to the [Scenarioo Docker Hub](https://hub.docker.com/r/scenarioo).
