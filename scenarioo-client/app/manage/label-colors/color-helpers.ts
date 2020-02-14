@@ -15,8 +15,8 @@ export const getRandomHexColor = (): string => {
 };
 
 export const getContrastingColor = (hexColor: string): string => {
-    const lightColor = '#FFF';
-    const darkColor = '#000';
+    const lightColor = '#FFFFFF';
+    const darkColor = '#000000';
     const [r, g, b] = [...hexToRgb(hexColor)];
     // Determine the contrast of the color by calculating the brightness using YIQ values
     const brightness = (299 * r + 587 * g + 114 * b) / 1000;

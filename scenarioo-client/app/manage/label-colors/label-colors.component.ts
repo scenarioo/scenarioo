@@ -58,8 +58,8 @@ export class LabelColorsComponent implements OnInit {
     }
 
     onColorChanged(labelConfiguration: LabelConfiguration, color: string) {
+        labelConfiguration.backgroundColor = color;
         if (isHexColorValid(color)) {
-            labelConfiguration.backgroundColor = color;
             labelConfiguration.foregroundColor = getContrastingColor(color);
         }
     }

@@ -28,8 +28,8 @@
                         <input #labelColor type="text" class="ng-pristine ng-valid form-control" data-type="labelColor"
                                [value]= "labelConfiguration.backgroundColor"
                                [name] = "'labelColor' + i"
-                               maxlength="7"
                                (keyup)="onColorChanged(labelConfiguration, labelColor.value);"
+                               maxlength="7"
                         />
                     </div>
 
@@ -44,7 +44,7 @@
                     <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
                 </td>
                 <td>
-                    <span class="label label-info sc-label"
+                    <span *ngIf="labelConfiguration.isValid() && !labelConfiguration.isEmpty()" class="label label-info sc-label"
                           [ngStyle]="{'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor}">
                         {{labelConfiguration.name}}
                     </span>
