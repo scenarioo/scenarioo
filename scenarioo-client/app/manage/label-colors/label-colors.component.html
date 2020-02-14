@@ -28,6 +28,7 @@
                         <input #labelColor type="text" class="ng-pristine ng-valid form-control" data-type="labelColor"
                                [value]= "labelConfiguration.backgroundColor"
                                [name] = "'labelColor' + i"
+                               maxlength="7"
                                (keyup)="onBackgroundColorChanged(labelConfiguration, labelColor.value);"
                         />
                     </div>
@@ -44,8 +45,9 @@
                 </td>
                 <td>
                     <span class="label label-info sc-label"
-                          [ngStyle]="{'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor}"
-                    >{{labelConfiguration.name}}</span>
+                          [ngStyle]="{'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor}">
+                        {{labelConfiguration.name}}
+                    </span>
                 </td>
                 <td>
                     <input type="button" class="btn btn-small btn-danger" value="Delete"
