@@ -29,14 +29,14 @@
                                [value]= "labelConfiguration.backgroundColor"
                                [name] = "'labelColor' + i"
                                maxlength="7"
-                               (keyup)="onBackgroundColorChanged(labelConfiguration, labelColor.value);"
+                               (keyup)="onColorChanged(labelConfiguration, labelColor.value);"
                         />
                     </div>
 
                     <ul class="sc-color-chooser">
                         <li *ngFor="let color of availableBackgroundColors">
                             <span [style.background-color]="color" class="sc-color-field"
-                                  (click)="onBackgroundColorChanged(labelConfiguration, color)"
+                                  (click)="onColorChanged(labelConfiguration, color)"
                                   [ngClass]="{'sc-color-field-selected' : color === labelConfiguration.backgroundColor}"></span>
                         </li>
                     </ul>

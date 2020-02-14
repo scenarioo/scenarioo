@@ -61,7 +61,7 @@ useCase('Configure label colors')
 
                 await labelConfigurationsPage.navigateToPage();
                 await labelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors + 1);
-                await labelConfigurationsPage.assertConfigurationColor(numberOfPreconfiguredColors, customLabelColor);
+                await labelConfigurationsPage.assertConfigurationColor(3, customLabelColor);
                 await step('go back to label config page, label is still there and has the custom color');
 
             });

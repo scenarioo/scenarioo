@@ -63,7 +63,7 @@ class LabelConfigurationsPage {
     }
 
     async deleteLabelConfiguration(rowIndex, currentNumberOfConfiguredLabels) {
-        // One additional row for the empty input fields
+        // One additional row for adding a new label configuration
         const numberOfTableRows = currentNumberOfConfiguredLabels + 1;
         await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
         await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, numberOfTableRows - 1);
