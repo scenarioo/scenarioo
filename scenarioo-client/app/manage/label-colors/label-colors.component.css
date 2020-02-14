@@ -1,8 +1,8 @@
 .sc-color-advanced-input {
     float: left;
-    display: inline-block;
-    padding-right: 20px;
-    padding-bottom: 5px;
+    height: 34px;
+    margin-right: 20px;
+    margin-bottom: 5px;
 }
 
 .sc-color-advanced-input input[type=text] {
@@ -16,7 +16,7 @@
 
 .sc-color-chooser {
     padding-left: 0;
-    margin-bottom: 0;
+    margin-bottom: 5px;
     margin-top: 0;
 }
 
@@ -27,8 +27,8 @@
 
 .sc-color-field {
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     margin-right: 5px;
 }
 
