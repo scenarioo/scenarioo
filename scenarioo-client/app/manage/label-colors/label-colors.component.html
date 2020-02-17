@@ -50,7 +50,7 @@
                     </span>
                 </td>
                 <td>
-                    <input *ngIf="labelConfiguration.name.length > 0" type="button" class="btn btn-small btn-danger"
+                    <input *ngIf="i < labelConfigurations.length - 1" type="button" class="btn btn-small btn-danger"
                            value="Delete"
                            (click)="onDelete(labelConfiguration)"
                     />
