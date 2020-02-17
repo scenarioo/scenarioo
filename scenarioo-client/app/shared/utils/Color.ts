@@ -28,7 +28,7 @@ export class Color {
     }
 
     private static hexToRgb(hexColor: string): number[] {
-        hexColor = Color.extendColorHex(hexColor);
+        hexColor = Color.extendHexColor(hexColor);
 
         hexColor = hexColor.replace('#', '');
 
@@ -38,7 +38,8 @@ export class Color {
         return [r, g, b];
     }
 
-    private static extendColorHex(hexColor: string): string {
+    // Assumes that the hexColor parameter consists of 3 (#000) or 6 (#000000) values
+    private static extendHexColor(hexColor: string): string {
         const hexGoalLength: number = 6;
         const hexColorValue: string = hexColor.replace('#', '');
         if (hexColorValue.length === hexGoalLength) {
