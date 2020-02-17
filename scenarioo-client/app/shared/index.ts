@@ -1,4 +1,4 @@
-import './navigation/sharePage/sharePage.service';
+import '../components/share-link/sharePage.service';
 import './navigation/branchesAndBuilds.service';
 import './restServices';
 import './utils/urlContextExtractor.service';

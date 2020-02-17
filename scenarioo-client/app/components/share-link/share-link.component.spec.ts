@@ -15,17 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {ShareComponent} from './share.component';
+import {ShareLinkComponent} from './share-link.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 import {BsModalService, ModalModule} from 'ngx-bootstrap';
 import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
-import {LocationService} from '../../../shared/location.service';
-import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
+import {LocationService} from '../../shared/location.service';
+import {SharePageService} from './sharePage.service';
 
 describe('share component', () => {
-    let component: ShareComponent;
-    let fixture: ComponentFixture<ShareComponent>;
+    let component: ShareLinkComponent;
+    let fixture: ComponentFixture<ShareLinkComponent>;
     let element;
 
     const URL = 'http://www.scenarioo.org';
@@ -45,13 +45,13 @@ describe('share component', () => {
                 {provide: LocationStrategy, useClass: HashLocationStrategy},
             ],
             imports: [ModalModule.forRoot()],
-            declarations: [ShareComponent],
+            declarations: [ShareLinkComponent],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ShareComponent);
+        fixture = TestBed.createComponent(ShareLinkComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
         element = fixture.debugElement.nativeElement;

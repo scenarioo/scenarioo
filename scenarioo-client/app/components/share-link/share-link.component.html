@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <button id="shareButton"
-   (click)="openShare(shareContent)"
+   (click)="openShare(shareThisPageDialogContent)"
    style="margin-right: 5px;"
    tooltip="Share this page with others (using stable links)"
    container="body"
@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <i class="glyphicon glyphicon-share"></i> Share
 </button>
 
-<ng-template #shareContent>
+<ng-template #shareThisPageDialogContent>
     <div id="stepLinksDialog">
         <div class="modal-header">
             <h1 class="modal-title pull-left">Share this page</h1>

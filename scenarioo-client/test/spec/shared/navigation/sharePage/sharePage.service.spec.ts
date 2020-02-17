@@ -17,7 +17,7 @@
 
 'use strict';
 
-import {SharePageService} from '../../../../../app/shared/navigation/sharePage/sharePage.service';
+import {SharePageService} from '../../../../../app/components/share-link/sharePage.service';
 
 describe('SharePageService', () => {
 
