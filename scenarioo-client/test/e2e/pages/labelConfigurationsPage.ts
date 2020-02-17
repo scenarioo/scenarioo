@@ -63,7 +63,7 @@ class LabelConfigurationsPage {
     }
 
     async updateLabelConfigurationWithRandomColor(rowIndex: number) {
-        const hexColorDefinitionLength = 7;
+        const hexColorPattern = /^#([0-9A-F]{6})$/i;
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const row = elements.get(rowIndex);
         const colorInputField = row.$('input[data-type="labelColor"]');
@@ -71,7 +71,7 @@ class LabelConfigurationsPage {
         const randomColorButton = row.$('button[data-type="buttonColor"]');
         await randomColorButton.click();
         const colorInputValue = await colorInputField.getAttribute('value');
-        return expect(colorInputValue.length).toBe(hexColorDefinitionLength);
+        return expect(colorInputValue).toMatch(hexColorPattern);
     }
 
     async deleteLabelConfiguration(rowIndex, currentNumberOfConfiguredLabels) {
