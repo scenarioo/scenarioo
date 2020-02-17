@@ -62,6 +62,18 @@ class LabelConfigurationsPage {
         return this.saveButton.click();
     }
 
+    async updateLabelConfigurationWithRandomColor(rowIndex: number) {
+        const hexColorDefinitionLength = 7;
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        const colorInputField = row.$('input[data-type="labelColor"]');
+        await colorInputField.clear();
+        const randomColorButton = row.$('button[data-type="buttonColor"]');
+        await randomColorButton.click();
+        const colorInputValue = await colorInputField.getAttribute('value');
+        return expect(colorInputValue.length).toBe(hexColorDefinitionLength);
+    }
+
     async deleteLabelConfiguration(rowIndex, currentNumberOfConfiguredLabels) {
         // One additional row for adding a new label configuration
         const numberOfTableRows = currentNumberOfConfiguredLabels + 1;

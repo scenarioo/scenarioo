@@ -16,7 +16,7 @@ useCase('Configure label colors')
         scenario('Create, edit and delete label configurations')
             .it(async () => {
                 // Given number of preconfigured colors (in config.xml for demo)
-                const numberOfPreconfiguredColors: number = 3;
+                const numberOfPreconfiguredColors = 3;
 
                 await labelConfigurationsPage.navigateToPage();
                 await step('show label configurations');
@@ -47,8 +47,8 @@ useCase('Configure label colors')
 
         scenario('Create a label configuration with a custom color')
             .it(async () => {
-                const customLabelColor: string = '#00FF00';
-                const numberOfPreconfiguredColors: number = 3;
+                const customLabelColor = '#00FF00';
+                const numberOfPreconfiguredColors = 3;
 
                 await labelConfigurationsPage.navigateToPage();
                 await step('show label configurations');
@@ -63,6 +63,9 @@ useCase('Configure label colors')
                 await labelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors + 1);
                 await labelConfigurationsPage.assertConfigurationColor(3, customLabelColor);
                 await step('go back to label config page, label is still there and has the custom color');
+
+                await labelConfigurationsPage.updateLabelConfigurationWithRandomColor(3);
+                await step('set a new color using the random color button');
 
             });
 
