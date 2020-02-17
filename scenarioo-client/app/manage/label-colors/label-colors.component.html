@@ -19,7 +19,7 @@
                 </td>
                 <td>
                     <div class="sc-color-advanced-input">
-                        <button type="button" [style.background-color]="labelConfiguration.backgroundColor"
+                        <button type="button" [style.background-color]="labelConfiguration.backgroundColor" data-type="buttonColor"
                                 data-toggle="tooltip" title="Get a new color"
                                 class="btn btn-small"
                                 (click)="setRandomColor(labelConfiguration)">
@@ -50,8 +50,10 @@
                     </span>
                 </td>
                 <td>
-                    <input type="button" class="btn btn-small btn-danger" value="Delete"
-                           (click)="onDelete(labelConfiguration)"/>
+                    <input *ngIf="!labelConfiguration.isEmpty()" type="button" class="btn btn-small btn-danger"
+                           value="Delete"
+                           (click)="onDelete(labelConfiguration)"
+                    />
                 </td>
             </tr>
             </tbody>
