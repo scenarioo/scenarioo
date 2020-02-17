@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {IMainDetailsSection} from './IMainDetailsSection';
 import {IDetailsSections} from './IDetailsSections';
-import {ICustomObjectTabTree, ILabelConfiguration} from '../../generated-types/backend-types';
-import {RelatedIssueSummary} from '../../shared/services/relatedIssueResource.service';
 
 const LOCALSTORAGE_KEY_PREFIX_DETAILS_VISIBLE = 'scenarioo-metadataVisible-';
 
@@ -47,8 +45,11 @@ export class DetailareaComponent {
     @Input()
     additionalDetailsSections: IDetailsSections;
 
-    @ViewChild('metaDataPanel')
-    metaDataPanel: ElementRef;
+    /**
+     * The element of the collapsable details panel (that can be opened and closed).
+     */
+    @ViewChild('detailsPanel')
+    detailsPanel: ElementRef;
 
     isPanelCollapsed: boolean = true;
 
@@ -70,9 +71,12 @@ export class DetailareaComponent {
     }
 
     private setHeightOfDetailarea() {
-        const metaDataPanel = this.metaDataPanel.nativeElement;
-        const headerHeight = metaDataPanel.offsetTop;
-        metaDataPanel.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+        const detailsPanel = this.detailsPanel.nativeElement;
+        const headerHeight = detailsPanel.offsetTop + 2;
+
+        // let the details area expand to minimum of rest of visible area!
+        // (but still let it expand to full page size if it is even higher)
+        detailsPanel.style.minHeight = 'calc(100vh - ' + headerHeight + 'px)';
     }
 
     togglePannelCollapsedValue() {

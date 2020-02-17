@@ -106,7 +106,29 @@
             <comparisonBuildName>most recent</comparisonBuildName>
         </comparisonConfiguration>
     </comparisonConfigurations>
-    <labelConfigurations/>
+    <labelConfigurations>
+        <entry>
+            <key>normal-case</key>
+            <value>
+                <backgroundColor>#009800</backgroundColor>
+                <foregroundColor>#FFFFFF</foregroundColor>
+            </value>
+        </entry>
+        <entry>
+            <key>happy</key>
+            <value>
+                <backgroundColor>#009800</backgroundColor>
+                <foregroundColor>#FFFFFF</foregroundColor>
+            </value>
+        </entry>
+        <entry>
+            <key>corner-case</key>
+            <value>
+                <backgroundColor>#fbca04</backgroundColor>
+                <foregroundColor>#000000</foregroundColor>
+            </value>
+        </entry>
+    </labelConfigurations>
     <customObjectTabs>
         <id>pages</id>
         <tabTitle>Pages</tabTitle>

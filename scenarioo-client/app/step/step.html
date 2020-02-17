@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-breadcrumbs></sc-breadcrumbs>
+<sc-breadcrumbs breadcrumb-id="step"></sc-breadcrumbs>
 
 <sc-step-not-found-div show-component="stepNotFound" response="httpResponse"></sc-step-not-found-div>
 
@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </sc-collapsable-panel>
 
         <sc-collapsable-panel title="Related Sketches" key="stepView-relatedSketches" initially-expanded="true"
-                              ng-show="hasAnyRelatedIssues()">
+                              ng-show="hasAnyRelatedIssues">
             <ul id="relatedSketches">
                 <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
             </ul>

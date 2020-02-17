@@ -3,7 +3,7 @@
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util';
 import HomePage from '../pages/homePage';
-import LabelConfigurationsPage from '../pages/labelConfigurationsPage';
+import labelConfigurationsPage from '../pages/labelConfigurationsPage';
 
 useCase('Configure label colors')
     .description('Each label string can be configured to be displayed in a certain color.')
@@ -15,28 +15,35 @@ useCase('Configure label colors')
 
         scenario('Create, edit and delete label configurations')
             .it(async () => {
-                await LabelConfigurationsPage.navigateToPage();
+
+                // Given number of preconfigured colors (in config.xml for demo)
+                const numberOfPreconfiguredColors = 3;
+
+                await labelConfigurationsPage.navigateToPage();
                 await step('show label configurations');
 
-                await LabelConfigurationsPage.assertNumConfigurations(0);
+                await labelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
 
-                await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
+                await labelConfigurationsPage.addLabelConfiguration('added-label', 5);
                 await step('add label configuration');
 
                 await HomePage.goToPage();
                 await step('navigate away from the label config page to some other page');
 
-                await LabelConfigurationsPage.navigateToPage();
-                await LabelConfigurationsPage.assertNumConfigurations(1);
+                await labelConfigurationsPage.navigateToPage();
+                await labelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors + 1);
                 await step('go back to label config page, label is still there');
 
-                await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
-                await step('update label configuration');
+                await labelConfigurationsPage.updateLabelConfiguration(0, 'updated-label', 4);
+                await step('label configuration updated');
 
-                await LabelConfigurationsPage.deleteLabelConfiguration(0);
+                await labelConfigurationsPage.deleteLastLabelConfiguration(3);  // delete the just added one
+                await step('label configuration deleted');
 
-                await LabelConfigurationsPage.navigateToPage();
-                await LabelConfigurationsPage.assertNumConfigurations(0);
+                await labelConfigurationsPage.navigateToPage();
+                await labelConfigurationsPage.assertNumConfigurations(numberOfPreconfiguredColors);
+                await step('expected number of label configs on revisit');
+
             });
 
     });

@@ -1,21 +1,15 @@
 export function addRoutes($routeProvider) {
-    /**
-     * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
-     */
     $routeProvider
         .when('/', {
             template: require('./build/build.html'),
-            breadcrumbId: 'main',
         })
         .when('/manage', {
             template: require('./manage/manage.html'),
             controllerAs: 'vm',
-            breadcrumbId: 'manage',
         })
         .when('/usecase/:useCaseName', {
             template: require('./useCase/usecase.html'),
             useCaseName: '@useCaseName',
-            breadcrumbId: 'usecase',
         })
         .when('/scenario/:useCaseName/:scenarioName', {
             template: require('./scenario/scenario.html'),
@@ -23,13 +17,11 @@ export function addRoutes($routeProvider) {
             controllerAs: 'vm',
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName',
-            breadcrumbId: 'scenario',
         })
         .when('/search/:searchTerm', {
             template: require('./search/search.html'),
             controller: 'SearchController',
             controllerAs: 'vm',
-            breadcrumbId: 'search',
             searchTerm: '@searchTerm',
         })
         .when('/object/:objectType/:objectName', {
@@ -38,7 +30,6 @@ export function addRoutes($routeProvider) {
             controllerAs: 'vm',
             objectType: '@objectType',
             objectName: '@objectName',
-            breadcrumbId: 'object',
         })
         .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
             template: require('./step/step.html'),
@@ -48,13 +39,11 @@ export function addRoutes($routeProvider) {
             pageName: '@pageName',
             pageOccurrence: '@pageOccurrence',
             stepInPageOccurrence: '@stepInPageOccurrence',
-            breadcrumbId: 'step',
         })
         .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
             template: require('./sketcher/stepSketch.html'),
             controller: 'StepSketchController',
             controllerAs: 'vm',
-            breadcrumbId: 'stepsketch',
         })
         .when('/editor', {
             template: require('./sketcher/sketcherEditor.html'),

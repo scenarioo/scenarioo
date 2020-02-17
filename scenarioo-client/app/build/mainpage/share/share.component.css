@@ -11,8 +11,8 @@
 }
 
 #shareButton {
-    border: unset;
-    background-color: unset;
-    padding: unset;
+    border: none;
+    background-color: transparent;
+    padding: 0;
     color: #337ab7;
 }

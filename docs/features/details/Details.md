@@ -2,18 +2,161 @@
 
 Details are a generic data structure used for storing additional (application specific) information inside the Scenarioo documentation.
 
-This `details` are simple maps of key-value-pairs. Each `entry` in such a details map has a `key` and a `value`. 
+This `details` are simple maps of key-value-pairs that define further properties of an object. Each such property has a `key` and a `value`.
 
-The `key` is always a simple string (the name of the information). 
+## Details - Class Diagram
 
-The `value` of such an entry can be of different kinds:
+This class diagram shows the generic data structure of what you can store in a details map as values:
+
+```puml
+@startuml
+
+class Branch
+class Build
+class UseCase
+class Scenario
+class Step
+
+class Details {
+    properties: Map<String, Object>
+}
+note right
+An object's further detail properties as entries with
+* key: String = the name of the property
+* value: can be of different object types,
+                 e.g. a simple string or a more complex object
+end note
+
+Branch --> "1" Details : details
+Build --> "1" Details : details
+UseCase --> "1" Details : details
+Scenario --> "1" Details : details
+Step --> "1" Details : details
+
+class Object
+
+Details --> "*" Object
+
+class String
+
+Object <|-- String
+
+
+class ObjectDescription {
+    name: String
+    type: String
+    details: Details
+}
+
+Object <|-- ObjectDescription
+
+
+class ObjectReference {
+    name: String
+    type: String
+}
+
+Object <|-- ObjectReference
+
+
+class ObjectList {
+    items: List<Object>
+}
+
+Object <|-- ObjectList
+ObjectList --> "*" Object : items
+
+
+class ObjectTreeNode {
+    item: Object
+    details: Details
+    children: List<ObjectTreeNode>
+}
+
+Object <|-- ObjectTreeNode
+ObjectTreeNode --> "1" Object : item
+ObjectTreeNode --> "*" ObjectTreeNode : children
+
+
+@enduml
+```
+
+## Details - Example Object Diagram
+
+Here is an example of such a data structure added to the details of a scenario:
+
+```puml 
+@startuml
+
+object "<u>scenario: Scenario" as scenario {
+    name = "Search Book by Author"
+}
+
+object "<u>scenarioDetails: Details" as scenarioDetails
+note top
+ Details are key-value-maps,
+ where values can be of type ObjectDescription
+ to define further objects
+end note
+
+scenario -> scenarioDetails : details
+
+object "<u>service1: ObjectDescription" as service1 {
+  type = "service"
+  name = "Search"
+}
+
+scenarioDetails --> service1 : service1
+
+
+object "<u>service2: ObjectDescription" as service2 {
+  type = "service"
+  name = "Rating"
+}
+
+scenarioDetails --> service2 : service2
+
+object "<u>service1Details: Details" as service1Details {
+    method = "GET"
+    url = "http://mybookstore.com/api/search"
+    query-param = "?q=Kafka"
+    response = "<books><book>Der Prozess</book></books>"
+}
+
+note bottom
+    Simple Details example
+    with only String as values
+end note
+
+service1 --> service1Details : details
+
+object "<u>service2Details: Details" as service2Details {
+    method: "GET"
+    url: "http://mybookstore.com/api/rating"
+    query-param: "?author=kafka&book=der+prozess"
+    response: "5"
+  }
+
+service2 --> service2Details : details
+
+@enduml
+```
+
+See additional examples as xml examples further below.
+
+## Details - Entry Types 
+
+Each entry in a details object represents a property with a key and a value.
+
+The `key` is always a simple string (the name of the property). 
+
+The `value` of such a property can be of different types:
    * `string`: a simple textual information
    * `ObjectDescription` (complex type): describes an object with an identity given by a `type` (string to group all objects of same kind) and a unique `name` to identify this object of this type (the `name` should be unique for all objects of this same type, such that all occurrences of the same object can be identified correctly). Every value of type ObjectDescription will be stored in the Scenarioo object repository, which means, that you can easily browse for all occurrences of this same object with same type and name. Such an object typically can have again `details` with additional information about the object (this details can again recursively contain `ObjectDescritpion` or any other value types, as listed here).
    * `ObjectReference` (complex type): possibility to only store a reference to an object (only by `type` and `name`, without `details`), to reference the full object that is already stored in some other place inside the documentation (with all its details as a full `ObjectDescription`).
    * `ObjectList`: possibility to store a list of values (e.g. as a bullet list). The contained values could be simply strings, or again of `ObjectDescription` or any other supported value type, as listed here.
    * `ObjectTreeNode`: possibility to store tree structures. Each tree node has an `item` which is the payload of the node, that can be a simple string information or again an `ObjectDescription` or any other supported value type, as listed here. Furthermore each tree node can again have `details` for specific additional information about an item (e.g. the item could be an `ObjectDescription` or `ObjectReference` and the `details` of the tree node contain additional information that is only valid for this specific occurrence of this object inside this tree but not belongs to the object itself). The `children` are again `ObjectTreeNode`s (which are the sub trees of the tree).
 
-See also some data structure examples below.
 
 ### Scenarioo Object Repository: the power of `ObjectDescription`s
 
@@ -53,16 +196,20 @@ You can also define more than one such tab, and a tab can also only list objects
 The default configuration since Scenarioo version 2.0 already comes with two such simple object tabs predefined: Labels and Pages, to list all pages and labels in your documentation. If you upgrade from version 1.x you have to manually enable this two tabs by adding the following to your configuration:
 
 ```xml
-     <customObjectTabs>
-        <id>pages</id>
-        <tabTitle>Pages</tabTitle>
-        <objectTypesToDisplay>page</objectTypesToDisplay>
-     </customObjectTabs>
-     <customObjectTabs>
-        <id>labels</id>
-        <tabTitle>Labels</tabTitle>
-        <objectTypesToDisplay>label</objectTypesToDisplay>
-     </customObjectTabs>
+    <configuration>
+        ...
+        <customObjectTabs>
+            <id>pages</id>
+            <tabTitle>Pages</tabTitle>
+            <objectTypesToDisplay>page</objectTypesToDisplay>
+         </customObjectTabs>
+         <customObjectTabs>
+            <id>labels</id>
+            <tabTitle>Labels</tabTitle>
+            <objectTypesToDisplay>label</objectTypesToDisplay>
+         </customObjectTabs>
+    </configuration>
+     
 ```
 
 In case you are using the default version 2.0 configuration and you do not want to see "Labels" and "Pages" in your documentation, you can remove those tabs by removing this configuration part from your config.xml file and restart the server.
