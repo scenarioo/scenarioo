@@ -168,7 +168,7 @@ export class SelectedBranchAndBuildService {
 
 @Injectable()
 // tslint:disable-next-line:max-classes-per-file
-export class SelectedBranchAndBuildService2 implements OnInit {
+export class SelectedBranchAndBuildService2 {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
 
@@ -182,13 +182,8 @@ export class SelectedBranchAndBuildService2 implements OnInit {
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private location: Location) {
-    }
-
-    ngOnInit(): void {
-        this.configurationService.getConfiguration().subscribe(this.calculateSelectedBranchAndBuild);
-        this.location.subscribe(() => {
-            this.calculateSelectedBranchAndBuild();
-        });
+        this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild);
+        this.location.subscribe(() => this.calculateSelectedBranchAndBuild());
     }
 
     // TODO: Rename appropriately once fully migrated (getSelectedBranchAndBuild)?
