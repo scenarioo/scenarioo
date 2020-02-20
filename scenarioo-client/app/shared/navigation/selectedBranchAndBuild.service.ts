@@ -22,10 +22,12 @@ import {LocationService} from '../location.service';
 import {Location} from '@angular/common';
 import {Injectable, OnInit} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {RootScopeService} from '../rootScope.service';
+import {RoutingTempService} from '../routingTemp.service';
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.services')
+/*angular.module('scenarioo.services')
     .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService: LocalStorageService, ConfigurationService: ConfigurationService) => {
 
         const BRANCH_KEY: string = 'branch';
@@ -100,9 +102,9 @@ angular.module('scenarioo.services')
                 }
             }, true);
 
-        /**
+        /!**
          * @returns true if branch and build are both specified (i.e. not 'undefined').
-         */
+         *!/
         function isBranchAndBuildDefined() {
             return selectedBranch !== undefined && selectedBuild !== undefined;
         }
@@ -131,17 +133,17 @@ angular.module('scenarioo.services')
             BRANCH_KEY,
             BUILD_KEY,
 
-            /**
+            /!**
              * Returns the currently selected branch and build as a map with the keys 'branch' and 'build'.
-             */
+             *!/
             selected: getSelectedBranchAndBuild,
 
-            /**
+            /!**
              * Returns true only if both values (branch and build) are defined.
-             */
+             *!/
             isDefined: isBranchAndBuildDefined,
 
-            /**
+            /!**
              * This method lets you register callbacks that get called, as soon as a new and also valid build and branch
              * selection is available. The callback is called with the new selection as a parameter.
              *
@@ -150,7 +152,7 @@ angular.module('scenarioo.services')
              *   is called immediately when it is registered.
              * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
              *   the callback is not called.
-             */
+             *!/
             callOnSelectionChange: registerSelectionChangeCallback,
         };
 
@@ -161,14 +163,14 @@ export class SelectedBranchAndBuildService {
         return '';
     }
 
-    callOnSelectionChange(fn: any){
+    callOnSelectionChange(fn: any) {
     }
 
-}
+}*/
 
 @Injectable()
 // tslint:disable-next-line:max-classes-per-file
-export class SelectedBranchAndBuildService2 {
+export class SelectedBranchAndBuildService {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
 
@@ -177,13 +179,21 @@ export class SelectedBranchAndBuildService2 {
         build: '',
     };
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
-    // TODO: Add type for functions?
+    // TODO: Add type for functions? Or use Observables
     private selectionChangeCallbacks: any[] = [];
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
-                private locationService: LocationService, private location: Location) {
+                private locationService: LocationService, private rootScopeService: RootScopeService) {
         this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild);
-        this.location.subscribe(() => this.calculateSelectedBranchAndBuild());
+        this.rootScopeService.$watch(() => this.locationService.search, () => this.calculateSelectedBranchAndBuild, true);
+        this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild,
+            (selected) => {
+                if (this.isDefined()) {
+                    for (const selectionChangeCallback of this.selectionChangeCallbacks) {
+                        selectionChangeCallback(selected);
+                    }
+                }
+            }, true);
     }
 
     // TODO: Rename appropriately once fully migrated (getSelectedBranchAndBuild)?
@@ -196,18 +206,11 @@ export class SelectedBranchAndBuildService2 {
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
+        // Here we calculate the selected branch and build because
+        this.calculateSelectedBranchAndBuild();
         if (!this.initialValuesFromUrlAndCookieLoaded) {
-            // Here we calculate the selected branch and build because
             // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
-            this.calculateSelectedBranchAndBuild();
             this.initialValuesFromUrlAndCookieLoaded = true;
-        }
-
-        // TODO: Verify if this works (above is a subscribe to the getSelectedBranchAndBuild function)
-        if (this.isDefined()) {
-            for (const selectionChangeCallback of this.selectionChangeCallbacks) {
-                selectionChangeCallback(this.selectedBranchAndBuild);
-            }
         }
 
         return this.selectedBranchAndBuild;
@@ -273,4 +276,4 @@ export class SelectedBranchAndBuildService2 {
 }
 
 angular.module('scenarioo.services')
-    .factory('SelectedBranchAndBuildService2', downgradeInjectable(SelectedBranchAndBuildService2));
+    .factory('SelectedBranchAndBuildService', downgradeInjectable(SelectedBranchAndBuildService));

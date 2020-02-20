@@ -21,10 +21,7 @@ import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
-import {
-    SelectedBranchAndBuildService,
-    SelectedBranchAndBuildService2
-} from './shared/navigation/selectedBranchAndBuild.service';
+import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
 import {SelectedComparison} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
@@ -59,6 +56,7 @@ import {BuildImportStatusService} from './services/build-import-status.service';
 import {Breadcrumbs} from './shared/navigation/breadcrumbs/breadcrumbs.component';
 import {SketcherLinkService} from './shared/navigation/breadcrumbs/sketcherLink.service';
 import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.service';
+import {RootScopeService} from './shared/rootScope.service';
 
 @NgModule({
     declarations: [
@@ -144,15 +142,14 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         DateTimePipe,
         LocalStorageService,
         UrlContextExtractorService,
-        SelectedBranchAndBuildService2,
         HumanReadablePipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {
+        /*{
             provide: SelectedBranchAndBuildService,
             useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
             deps: ['$injector'],
-        },
+        },*/
         {
             provide: BranchesAndBuildsService,
             useFactory: (i: any) => i.get('BranchesAndBuildsService'),
@@ -164,7 +161,9 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
             deps: ['$injector'],
         },
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
+        {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
+        SelectedBranchAndBuildService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
