@@ -24,6 +24,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {RootScopeService} from '../rootScope.service';
 import {RoutingTempService} from '../routingTemp.service';
+import {ReplaySubject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -181,6 +182,7 @@ export class SelectedBranchAndBuildService {
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
     // TODO: Add type for functions? Or use Observables
     private selectionChangeCallbacks: any[] = [];
+    private selectionChange$ = new ReplaySubject<SelectedBranchAndBuild>();
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private rootScopeService: RootScopeService) {
@@ -189,9 +191,7 @@ export class SelectedBranchAndBuildService {
         this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild,
             (selected) => {
                 if (this.isDefined()) {
-                    for (const selectionChangeCallback of this.selectionChangeCallbacks) {
-                        selectionChangeCallback(selected);
-                    }
+                    this.selectionChange$.next(this.selectedBranchAndBuild);
                 }
             }, true);
     }
@@ -202,12 +202,14 @@ export class SelectedBranchAndBuildService {
     }
 
     callOnSelectionChange(callback: any): void {
+        this.selectionChange$.subscribe(callback);
         this.registerSelectionChangeCallback(callback);
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
         // Here we calculate the selected branch and build because
         this.calculateSelectedBranchAndBuild();
+        // TODO: What is this check for, can it be ommitted?
         if (!this.initialValuesFromUrlAndCookieLoaded) {
             // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
             this.initialValuesFromUrlAndCookieLoaded = true;
