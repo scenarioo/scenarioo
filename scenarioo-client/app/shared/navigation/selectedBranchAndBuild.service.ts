@@ -19,12 +19,10 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
 import {LocationService} from '../location.service';
-import {Location} from '@angular/common';
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {RootScopeService} from '../rootScope.service';
-import {RoutingTempService} from '../routingTemp.service';
-import {ReplaySubject} from 'rxjs';
+import {Subject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -182,7 +180,7 @@ export class SelectedBranchAndBuildService {
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
     // TODO: Add type for functions? Or use Observables
     private selectionChangeCallbacks: any[] = [];
-    private selectionChange$ = new ReplaySubject<SelectedBranchAndBuild>();
+    private selectionChange$ = new Subject<SelectedBranchAndBuild>();
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private rootScopeService: RootScopeService) {
@@ -203,7 +201,10 @@ export class SelectedBranchAndBuildService {
 
     callOnSelectionChange(callback: any): void {
         this.selectionChange$.subscribe(callback);
-        this.registerSelectionChangeCallback(callback);
+        this.calculateSelectedBranchAndBuild();
+        if (this.isDefined()) {
+            this.selectionChange$.next(this.selectedBranchAndBuild);
+        }
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
@@ -248,23 +249,6 @@ export class SelectedBranchAndBuildService {
             this.locationService.search(key, value);
         }
         return value;
-    }
-
-    private registerSelectionChangeCallback(callback) {
-        this.addCallback(this.selectionChangeCallbacks, callback);
-        const selected = this.getSelectedBranchAndBuild();
-        if (this.isDefined()) {
-            callback(selected);
-        }
-    }
-
-    private addCallback(callbackList, newCallback) {
-        callbackList.forEach((callback) => {
-            if (callback.toString() === newCallback.toString()) {
-                return;
-            }
-        });
-        callbackList.push(newCallback);
     }
 
     // TODO: Rename appropriately once migrated (isBranchAndBuildDefined)?
