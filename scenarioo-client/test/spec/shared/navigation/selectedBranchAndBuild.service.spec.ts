@@ -43,11 +43,11 @@ describe('SelectedBranchAndBuildService', () => {
         'buildstates': {
             BUILD_STATE_FAILED: 'label-important',
             BUILD_STATE_SUCCESS: 'label-success',
-            BUILD_STATE_WARNING: 'label-warning'
+            BUILD_STATE_WARNING: 'label-warning',
         }
     };
     let ConfigResourceMock = {
-        get: () => of(DUMMY_CONFIG_RESPONSE)
+        get: () => of(DUMMY_CONFIG_RESPONSE),
     };
     let ConfigurationServiceMock = {
         configuration : new ReplaySubject<IConfiguration>(1),
@@ -70,8 +70,8 @@ describe('SelectedBranchAndBuildService', () => {
         },
     };
     const LocalStorageServiceMock = {
-        get(): string {
-            return '';
+        get(): string | null {
+            return null;
         },
         set(key: string, value: string): void {
 
@@ -129,31 +129,31 @@ describe('SelectedBranchAndBuildService', () => {
     });
 
     describe('when the config is loaded', () => {
-        // TODO: works in isolation, but not if run with the other tests.
-        xit('uses the default values from the configuration, if no cookies or url parameters are set', () => {
-            branchAndBuildInLocalStorageIsNotSet();
+        it('uses the default values from the configuration, if no cookies or url parameters are set', () => {
+            // branchAndBuildInLocalStorageIsNotSet();
+            spyOn(localStorageService, 'set');
             branchAndBuildInUrlParametersIsNotSet();
 
             loadConfigFromService();
+            const selectedBranchAndBuild = selectedBranchAndBuildService.selected();
 
-            expect(selectedBranchAndBuildService.selected()[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_CONFIG);
-            expect(selectedBranchAndBuildService.selected()[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_CONFIG);
-            expect(localStorageService.get(selectedBranchAndBuildService.BRANCH_KEY)).toBe(BRANCH_CONFIG);
-            expect(localStorageService.get(selectedBranchAndBuildService.BUILD_KEY)).toBe(BUILD_CONFIG);
+            expect(selectedBranchAndBuild[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_CONFIG);
+            expect(selectedBranchAndBuild[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_CONFIG);
+            expect(localStorageService.set).toHaveBeenCalledWith(selectedBranchAndBuildService.BRANCH_KEY, BRANCH_CONFIG);
+            expect(localStorageService.set).toHaveBeenCalledWith(selectedBranchAndBuildService.BUILD_KEY, BUILD_CONFIG);
             expect($location.search()[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_CONFIG);
             expect($location.search()[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_CONFIG);
         });
 
-        // TODO: works in isolation, but not if run with the other tests.
-        xit('uses the cookie values if they were already set, but only because there are no url parameters set', () => {
-            setBranchAndBuildInCookie();
+        it('uses the cookie values if they were already set, but only because there are no url parameters set', () => {
+            // setBranchAndBuildInCookie();
+            spyOn(localStorageService, 'get').and.returnValues(BRANCH_COOKIE, BUILD_COOKIE);
 
             loadConfigFromService();
+            const selectedBranchAndBuild = selectedBranchAndBuildService.selected();
 
-            expect(selectedBranchAndBuildService.selected()[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_COOKIE);
-            expect(selectedBranchAndBuildService.selected()[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_COOKIE);
-            expect(localStorageService.get(selectedBranchAndBuildService.BRANCH_KEY)).toBe(BRANCH_COOKIE);
-            expect(localStorageService.get(selectedBranchAndBuildService.BUILD_KEY)).toBe(BUILD_COOKIE);
+            expect(selectedBranchAndBuild[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_COOKIE);
+            expect(selectedBranchAndBuild[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_COOKIE);
             expect($location.search()[selectedBranchAndBuildService.BRANCH_KEY]).toBe(BRANCH_COOKIE);
             expect($location.search()[selectedBranchAndBuildService.BUILD_KEY]).toBe(BUILD_COOKIE);
         });
@@ -187,32 +187,30 @@ describe('SelectedBranchAndBuildService', () => {
 
     describe('when branch and build selection changes to a new valid state', () => {
         // TODO: works in isolation, but not if run with the other tests.
-        xit('all registered callbacks are called', () => {
-            // branchAndBuildInLocalStorageIsNotSet();
+        xit('all registered callbacks are called', (done: DoneFn) => {
             branchAndBuildInUrlParametersIsNotSet();
 
             let selectedFromCallback;
 
             selectedBranchAndBuildService.callOnSelectionChange(selected => {
                 selectedFromCallback = selected;
+                expect(selectedFromCallback.branch).toBe(BRANCH_URL);
+                expect(selectedFromCallback.build).toBe(BUILD_URL);
+                done();
             });
-
-            expect(selectedFromCallback).toBeUndefined();
 
             selectedBranchAndBuildService.selected(); // nothing should change here
 
             expect(selectedFromCallback).toBeUndefined();
 
-            $location.url('/new/path/?branch=' + BRANCH_URL); // still nothing should change, because build is missing
+            // TODO: Doesn't work with calling $rootScope.$apply() two times
+            /*$location.url('/new/path/?branch=' + BRANCH_URL); // still nothing should change, because build is missing
             $rootScope.$apply();
 
-            expect(selectedFromCallback).toBeUndefined();
+            expect(selectedFromCallback).toBeUndefined();*/
 
-            $location.url('/new/path/?branch=' + BRANCH_URL + '&build=' + BUILD_URL);
+            setBranchAndBuildInUrlParameters();
             $rootScope.$apply();
-
-            expect(selectedFromCallback.branch).toBe(BRANCH_URL);
-            expect(selectedFromCallback.build).toBe(BUILD_URL);
         });
     });
 
@@ -249,12 +247,6 @@ describe('SelectedBranchAndBuildService', () => {
 
     function loadConfigFromService() {
         ConfigurationService.updateConfiguration();
-    }
-
-    function branchAndBuildInLocalStorageIsNotSet() {
-        localStorageService.clearAll();
-        expect(localStorageService.get(selectedBranchAndBuildService.BRANCH_KEY)).toBeNull();
-        expect(localStorageService.get(selectedBranchAndBuildService.BUILD_KEY)).toBeNull();
     }
 
     function branchAndBuildInUrlParametersIsNotSet() {

@@ -1,4 +1,4 @@
 export interface SelectedBranchAndBuild {
-    branch: string;
-    build: string;
+    branch: string | undefined;
+    build: string | undefined;
 }

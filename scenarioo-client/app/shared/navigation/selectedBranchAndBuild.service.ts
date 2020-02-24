@@ -26,155 +26,14 @@ import {Subject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
-/*angular.module('scenarioo.services')
-    .factory('SelectedBranchAndBuildService', ($location, $rootScope, localStorageService: LocalStorageService, ConfigurationService: ConfigurationService) => {
-
-        const BRANCH_KEY: string = 'branch';
-        const BUILD_KEY: string = 'build';
-
-        let selectedBranch;
-        let selectedBuild;
-        let initialValuesFromUrlAndCookieLoaded: boolean = false;
-        const selectionChangeCallbacks = [];
-
-        function getSelectedBranchAndBuild(): SelectedBranchAndBuild {
-            if (!initialValuesFromUrlAndCookieLoaded) {
-                // Here we calculate the selected branch and build because
-                // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
-                calculateSelectedBranchAndBuild();
-                initialValuesFromUrlAndCookieLoaded = true;
-            }
-
-            return {
-                branch: selectedBranch,
-                build: selectedBuild,
-            };
-        }
-
-        // TODO: Subscribe in ngOnInit in new Angular service
-        ConfigurationService.getConfiguration().subscribe(calculateSelectedBranchAndBuild);
-
-        function calculateSelectedBranchAndBuild() {
-            selectedBranch = getFromLocalStorageOrUrl(BRANCH_KEY);
-            selectedBuild = getFromLocalStorageOrUrl(BUILD_KEY);
-        }
-
-        function getFromLocalStorageOrUrl(key: string) {
-            let value;
-
-            // check URL first, this has priority over the cookie value
-            const params = $location.search();
-            if (params !== null && params[key] !== undefined) {
-                value = params[key];
-                localStorageService.set(key, value);
-                return value;
-            }
-
-            // check cookie if value was not found in URL
-            value = localStorageService.get(key);
-            if (value !== undefined && value !== null) {
-                $location.search(key, value);
-                return value;
-            }
-
-            // If URL and cookie do not specify a value, we use the default from the config
-            value = ConfigurationService.defaultBranchAndBuild()[key];
-            if (value !== undefined) {
-                localStorageService.set(key, value);
-                $location.search(key, value);
-            }
-            return value;
-        }
-
-        // LYBO: Listen for any changes to the URL?
-        // Maybe this could be replaced with an Observable?
-        $rootScope.$watch(() => $location.search(), () => {
-            calculateSelectedBranchAndBuild();
-        }, true);
-
-        $rootScope.$watch(getSelectedBranchAndBuild,
-            (selected) => {
-                if (isBranchAndBuildDefined()) {
-                    for (const selectionChangeCallback of selectionChangeCallbacks) {
-                        selectionChangeCallback(selected);
-                    }
-                }
-            }, true);
-
-        /!**
-         * @returns true if branch and build are both specified (i.e. not 'undefined').
-         *!/
-        function isBranchAndBuildDefined() {
-            return selectedBranch !== undefined && selectedBuild !== undefined;
-        }
-
-        function registerSelectionChangeCallback(callback) {
-            addCallback(selectionChangeCallbacks, callback);
-            const selected = getSelectedBranchAndBuild();
-            if (isBranchAndBuildDefined()) {
-                callback(selected);
-            }
-        }
-
-        function addCallback(callbackList, newCallback) {
-            let callbackListContainsNewCallback = false;
-            angular.forEach(callbackList, (callback) => {
-                if (callback.toString() === newCallback.toString()) {
-                    callbackListContainsNewCallback = true;
-                }
-            });
-            if (!callbackListContainsNewCallback) {
-                callbackList.push(newCallback);
-            }
-        }
-
-        return {
-            BRANCH_KEY,
-            BUILD_KEY,
-
-            /!**
-             * Returns the currently selected branch and build as a map with the keys 'branch' and 'build'.
-             *!/
-            selected: getSelectedBranchAndBuild,
-
-            /!**
-             * Returns true only if both values (branch and build) are defined.
-             *!/
-            isDefined: isBranchAndBuildDefined,
-
-            /!**
-             * This method lets you register callbacks that get called, as soon as a new and also valid build and branch
-             * selection is available. The callback is called with the new selection as a parameter.
-             *
-             * Note these special cases:
-             * - If there is already a valid selection available (i.e. branch and build are both defined), the callback
-             *   is called immediately when it is registered.
-             * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
-             *   the callback is not called.
-             *!/
-            callOnSelectionChange: registerSelectionChangeCallback,
-        };
-
-    });
-
-export class SelectedBranchAndBuildService {
-    selected(): string {
-        return '';
-    }
-
-    callOnSelectionChange(fn: any) {
-    }
-
-}*/
-
 @Injectable()
 export class SelectedBranchAndBuildService {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
 
     private selectedBranchAndBuild: SelectedBranchAndBuild = {
-        branch: '',
-        build: '',
+        branch: undefined,
+        build: undefined,
     };
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
     private selectionChange$ = new Subject<SelectedBranchAndBuild>();
@@ -182,7 +41,7 @@ export class SelectedBranchAndBuildService {
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private rootScopeService: RootScopeService) {
         this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild);
-        this.rootScopeService.$watch(() => this.locationService.search, () => this.calculateSelectedBranchAndBuild, true);
+        this.rootScopeService.$watch(() => this.locationService.search, () => this.calculateSelectedBranchAndBuild(), true);
         this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild,
             (selected) => {
                 if (this.isDefined()) {
@@ -198,21 +57,21 @@ export class SelectedBranchAndBuildService {
 
     callOnSelectionChange(callback: any): void {
         this.selectionChange$.subscribe(callback);
-        this.calculateSelectedBranchAndBuild();
+        // TODO: Verify if this is the way to call/ get the values
+        this.getSelectedBranchAndBuild();
         if (this.isDefined()) {
             this.selectionChange$.next(this.selectedBranchAndBuild);
         }
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
+        // TODO: What is this check for, can it be ommitted?
         // Here we calculate the selected branch and build because
         this.calculateSelectedBranchAndBuild();
-        // TODO: What is this check for, can it be ommitted?
         if (!this.initialValuesFromUrlAndCookieLoaded) {
             // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
             this.initialValuesFromUrlAndCookieLoaded = true;
         }
-
         return this.selectedBranchAndBuild;
     }
 
