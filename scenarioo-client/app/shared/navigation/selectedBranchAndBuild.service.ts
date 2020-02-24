@@ -168,7 +168,6 @@ export class SelectedBranchAndBuildService {
 }*/
 
 @Injectable()
-// tslint:disable-next-line:max-classes-per-file
 export class SelectedBranchAndBuildService {
     readonly BRANCH_KEY: string = 'branch';
     readonly BUILD_KEY: string = 'build';
@@ -178,8 +177,6 @@ export class SelectedBranchAndBuildService {
         build: '',
     };
     private initialValuesFromUrlAndCookieLoaded: boolean = false;
-    // TODO: Add type for functions? Or use Observables
-    private selectionChangeCallbacks: any[] = [];
     private selectionChange$ = new Subject<SelectedBranchAndBuild>();
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
