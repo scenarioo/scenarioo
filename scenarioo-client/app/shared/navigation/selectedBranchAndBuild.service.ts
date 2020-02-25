@@ -39,32 +39,35 @@ export class SelectedBranchAndBuildService {
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private rootScopeService: RootScopeService) {
-        this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild());
-        this.rootScopeService.$watch(() => this.locationService.search(), () => this.calculateSelectedBranchAndBuild(), true);
-        this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild(),
-            () => {
-                if (this.isDefined()) {
-                    this.selectionChange$.next(this.selectedBranchAndBuild);
-                }
-            }, true);
+        this.configurationService.getConfiguration().subscribe(() => this.selectedBranchAndBuildChanged());
+        // TODO: Replace with Angular router once migrated
+        this.rootScopeService.$watch(() => this.locationService.search(), () => this.selectedBranchAndBuildChanged(), true);
     }
 
-    // TODO: Rename appropriately once fully migrated (getSelectedBranchAndBuild)?
+    // TODO: This could be replaced eventually by callOnSelectionChange, as they both return the currently selected branch and build
     selected(): SelectedBranchAndBuild {
-        return this.getSelectedBranchAndBuild();
+        if (!this.isDefined()) {
+            this.calculateSelectedBranchAndBuild();
+        }
+        return this.selectedBranchAndBuild;
     }
 
     callOnSelectionChange(callback: any): void {
         this.selectionChange$.subscribe(callback);
     }
 
-    private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
-        // Still need to find an optimal solution...
-        // Option: Initialize the branch and build e.g. in the constructor, so it definitely has a value, then use the get function for returning an Observable
-        if (!this.isDefined()) {
-            this.calculateSelectedBranchAndBuild();
+    /**
+     * @returns true if branch and build are both specified (i.e. not 'undefined').
+     */
+    isDefined(): boolean {
+        return this.selectedBranchAndBuild.branch !== undefined && this.selectedBranchAndBuild.build !== undefined;
+    }
+
+    private selectedBranchAndBuildChanged() {
+        this.calculateSelectedBranchAndBuild();
+        if (this.isDefined()) {
+            this.selectionChange$.next(this.selectedBranchAndBuild);
         }
-        return this.selectedBranchAndBuild;
     }
 
     private calculateSelectedBranchAndBuild() {
@@ -97,13 +100,6 @@ export class SelectedBranchAndBuildService {
             this.locationService.search(key, value);
         }
         return value;
-    }
-
-    /**
-     * @returns true if branch and build are both specified (i.e. not 'undefined').
-     */
-    isDefined(): boolean {
-        return this.selectedBranchAndBuild.branch !== undefined && this.selectedBranchAndBuild.build !== undefined;
     }
 
 }
