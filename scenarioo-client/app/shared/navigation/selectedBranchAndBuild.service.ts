@@ -22,7 +22,7 @@ import {LocationService} from '../location.service';
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {RootScopeService} from '../rootScope.service';
-import {Subject} from 'rxjs';
+import {ReplaySubject, Subject} from 'rxjs';
 
 declare var angular: angular.IAngularStatic;
 
@@ -35,15 +35,14 @@ export class SelectedBranchAndBuildService {
         branch: undefined,
         build: undefined,
     };
-    private initialValuesFromUrlAndCookieLoaded: boolean = false;
-    private selectionChange$ = new Subject<SelectedBranchAndBuild>();
+    private selectionChange$ = new ReplaySubject<SelectedBranchAndBuild>(1);
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
                 private locationService: LocationService, private rootScopeService: RootScopeService) {
-        this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild);
-        this.rootScopeService.$watch(() => this.locationService.search, () => this.calculateSelectedBranchAndBuild(), true);
-        this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild,
-            (selected) => {
+        this.configurationService.getConfiguration().subscribe(() => this.calculateSelectedBranchAndBuild());
+        this.rootScopeService.$watch(() => this.locationService.search(), () => this.calculateSelectedBranchAndBuild(), true);
+        this.rootScopeService.$watch(() => this.getSelectedBranchAndBuild(),
+            () => {
                 if (this.isDefined()) {
                     this.selectionChange$.next(this.selectedBranchAndBuild);
                 }
@@ -57,20 +56,13 @@ export class SelectedBranchAndBuildService {
 
     callOnSelectionChange(callback: any): void {
         this.selectionChange$.subscribe(callback);
-        // TODO: Verify if this is the way to call/ get the values
-        this.getSelectedBranchAndBuild();
-        if (this.isDefined()) {
-            this.selectionChange$.next(this.selectedBranchAndBuild);
-        }
     }
 
     private getSelectedBranchAndBuild(): SelectedBranchAndBuild {
-        // TODO: What is this check for, can it be ommitted?
-        // Here we calculate the selected branch and build because
-        this.calculateSelectedBranchAndBuild();
-        if (!this.initialValuesFromUrlAndCookieLoaded) {
-            // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
-            this.initialValuesFromUrlAndCookieLoaded = true;
+        // Still need to find an optimal solution...
+        // Option: Initialize the branch and build e.g. in the constructor, so it definitely has a value, then use the get function for returning an Observable
+        if (!this.isDefined()) {
+            this.calculateSelectedBranchAndBuild();
         }
         return this.selectedBranchAndBuild;
     }
@@ -107,7 +99,6 @@ export class SelectedBranchAndBuildService {
         return value;
     }
 
-    // TODO: Rename appropriately once migrated (isBranchAndBuildDefined)?
     /**
      * @returns true if branch and build are both specified (i.e. not 'undefined').
      */
