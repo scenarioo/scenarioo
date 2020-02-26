@@ -19,14 +19,14 @@
 
 import {Observable, of, ReplaySubject} from 'rxjs';
 import {IConfiguration} from '../../../../app/generated-types/backend-types';
-import {LocalStorageService} from '../../../../app/services/localStorage.service';
 import {SelectedBranchAndBuildService} from '../../../../app/shared/navigation/selectedBranchAndBuild.service';
+import {RoutingWrapperService} from '../../../../app/shared/routing-wrapper.service';
 
 declare var angular: angular.IAngularStatic;
 
 describe('SelectedBranchAndBuildService', () => {
 
-    let selectedBranchAndBuildService, ConfigurationService, localStorageService,
+    let selectedBranchAndBuildService, ConfigurationService, localStorageService, routingWrapperService,
         $location, $rootScope;
     const BRANCH_COOKIE = 'branch_cookie';
     const BUILD_COOKIE = 'build_cookie';
@@ -90,13 +90,14 @@ describe('SelectedBranchAndBuildService', () => {
     beforeEach(inject((_ConfigurationService_, _LocalStorageService_, _$location_, _$rootScope_) => {
         ConfigurationService = _ConfigurationService_;
         localStorageService = _LocalStorageService_;
-
         $location = _$location_;
         $rootScope = _$rootScope_;
 
+        routingWrapperService = new RoutingWrapperService($location, $rootScope);
+
         $location.url('/new/path/');
 
-        selectedBranchAndBuildService = new SelectedBranchAndBuildService(localStorageService, ConfigurationService, $location, $rootScope);
+        selectedBranchAndBuildService = new SelectedBranchAndBuildService(localStorageService, ConfigurationService, routingWrapperService);
     }));
 
     describe('when the config is not yet loaded', () => {

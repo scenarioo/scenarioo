@@ -18,11 +18,10 @@
 import {ConfigurationService} from '../../services/configuration.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {SelectedBranchAndBuild} from './SelectedBranchAndBuild';
-import {LocationService} from '../location.service';
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {RootScopeService} from '../rootScope.service';
-import {ReplaySubject, Subject} from 'rxjs';
+import {ReplaySubject} from 'rxjs';
+import {RoutingWrapperService} from '../routing-wrapper.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -38,13 +37,13 @@ export class SelectedBranchAndBuildService {
     private selectionChange$ = new ReplaySubject<SelectedBranchAndBuild>(1);
 
     constructor(private localStorageService: LocalStorageService, private configurationService: ConfigurationService,
-                private locationService: LocationService, private rootScopeService: RootScopeService) {
-        this.configurationService.getConfiguration().subscribe(() => this.selectedBranchAndBuildChanged());
-        // TODO: Replace with Angular router once migrated
-        this.rootScopeService.$watch(() => this.locationService.search(), () => this.selectedBranchAndBuildChanged(), true);
+                private routingWrapperService: RoutingWrapperService) {
+        this.configurationService.getConfiguration().subscribe(() => this.updateSelectedBranchAndBuild());
+        // Using wrapper service for Routing, which will eventually implement the Angular Router once migrated
+        this.routingWrapperService.onQueryParamsChanged(() => this.updateSelectedBranchAndBuild());
     }
 
-    // TODO: This could be replaced eventually by callOnSelectionChange, as they both return the currently selected branch and build
+    // TODO: Replace with callOnSelectionChange?
     selected(): SelectedBranchAndBuild {
         if (!this.isDefined()) {
             this.calculateSelectedBranchAndBuild();
@@ -52,6 +51,7 @@ export class SelectedBranchAndBuildService {
         return this.selectedBranchAndBuild;
     }
 
+    // TODO: Return Observable instead
     callOnSelectionChange(callback: any): void {
         this.selectionChange$.subscribe(callback);
     }
@@ -63,7 +63,7 @@ export class SelectedBranchAndBuildService {
         return this.selectedBranchAndBuild.branch !== undefined && this.selectedBranchAndBuild.build !== undefined;
     }
 
-    private selectedBranchAndBuildChanged() {
+    private updateSelectedBranchAndBuild() {
         this.calculateSelectedBranchAndBuild();
         if (this.isDefined()) {
             this.selectionChange$.next(this.selectedBranchAndBuild);
@@ -79,7 +79,7 @@ export class SelectedBranchAndBuildService {
         let value: string;
 
         // check URL first, this has priority over the cookie value
-        const params = this.locationService.search();
+        const params = this.routingWrapperService.getAllQueryParams();
         if (params !== null && params[key] !== undefined) {
             value = params[key];
             this.localStorageService.set(key, value);
@@ -89,7 +89,7 @@ export class SelectedBranchAndBuildService {
         // check cookie if value was not found in URL
         value = this.localStorageService.get(key);
         if (value !== undefined && value !== null) {
-            this.locationService.search(key, value);
+            this.routingWrapperService.setQueryParam(key, value);
             return value;
         }
 
@@ -97,7 +97,7 @@ export class SelectedBranchAndBuildService {
         value = this.configurationService.defaultBranchAndBuild()[key];
         if (value !== undefined) {
             this.localStorageService.set(key, value);
-            this.locationService.search(key, value);
+            this.routingWrapperService.setQueryParam(key, value);
         }
         return value;
     }

@@ -57,6 +57,7 @@ import {Breadcrumbs} from './shared/navigation/breadcrumbs/breadcrumbs.component
 import {SketcherLinkService} from './shared/navigation/breadcrumbs/sketcherLink.service';
 import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.service';
 import {RootScopeService} from './shared/rootScope.service';
+import {RoutingWrapperService} from './shared/routing-wrapper.service';
 
 @NgModule({
     declarations: [
@@ -145,11 +146,6 @@ import {RootScopeService} from './shared/rootScope.service';
         HumanReadablePipe,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        /*{
-            provide: SelectedBranchAndBuildService,
-            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
-            deps: ['$injector'],
-        },*/
         {
             provide: BranchesAndBuildsService,
             useFactory: (i: any) => i.get('BranchesAndBuildsService'),
@@ -164,6 +160,7 @@ import {RootScopeService} from './shared/rootScope.service';
         {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         SelectedBranchAndBuildService,
+        RoutingWrapperService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
