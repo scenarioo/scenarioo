@@ -144,13 +144,11 @@ import {RoutingWrapperService} from './shared/routing-wrapper.service';
         LocalStorageService,
         UrlContextExtractorService,
         HumanReadablePipe,
+        BranchesAndBuildsService,
+        SelectedBranchAndBuildService,
+        RoutingWrapperService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {
-            provide: BranchesAndBuildsService,
-            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
-            deps: ['$injector'],
-        },
         {
             provide: SketcherLinkService,
             useFactory: (i: any) => i.get('SketcherLinkService'),
@@ -159,8 +157,6 @@ import {RoutingWrapperService} from './shared/routing-wrapper.service';
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        SelectedBranchAndBuildService,
-        RoutingWrapperService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
