@@ -82,7 +82,7 @@ export class UseCasesOverviewComponent {
     ngOnInit(): void {
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => {
 
-            this.branchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
+            this.branchesAndBuildsService.getBranchesAndBuilds().subscribe((branchesAndBuilds) => {
 
                 this.branchesAndBuilds = branchesAndBuilds;
 
@@ -105,7 +105,7 @@ export class UseCasesOverviewComponent {
                     this.createInformationTreeArray(branch, build);
 
                 });
-            }).catch((error: any) => console.warn(error));
+            }, (error: any) => console.warn(error));
         });
 
         this.labelConfigurationsResource.query()

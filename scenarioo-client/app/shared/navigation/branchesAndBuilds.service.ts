@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {Observable} from 'rxjs';
+import {IBranchBuilds, IBuildLink} from '../../generated-types/backend-types';
+
 declare var angular: angular.IAngularStatic;
 
 angular.module('scenarioo.services')
@@ -22,38 +25,39 @@ angular.module('scenarioo.services')
         $rootScope, BranchesResource,
         $q, SelectedBranchAndBuildService) => {
 
-        const getBranchesAndBuildsData = () => {
-            const deferred = $q.defer();
-            BranchesResource.query().subscribe((branches) => {
-                if (branches.length === 0) {
-                    deferred.reject('Branch list empty!');
-                    return;
-                }
+        // TODO: Add type for Observable - Needs to include selected branch and build
+        const getBranchesAndBuildsData = (): Observable<any> => {
+            return new Observable<any>((subscriber) => {
+                BranchesResource.query().subscribe((branches) => {
+                    if (branches.length === 0) {
+                        subscriber.error('Branch list empty!');
+                        return;
+                    }
 
-                const loadedData: any = {
-                    branches,
-                };
+                    const loadedData: any = {
+                        branches,
+                    };
 
-                if (SelectedBranchAndBuildService.isDefined()) {
-                    const selected = SelectedBranchAndBuildService.selected();
+                    if (SelectedBranchAndBuildService.isDefined()) {
+                        const selected = SelectedBranchAndBuildService.selected();
 
-                    loadedData.selectedBranch = getBranch(loadedData, selected.branch);
-                    loadedData.selectedBuild = getBuild(loadedData.selectedBranch, selected.build);
-                }
+                        loadedData.selectedBranch = getBranch(loadedData, selected.branch);
+                        loadedData.selectedBuild = getBuild(loadedData.selectedBranch, selected.build);
+                    }
 
-                deferred.resolve(loadedData);
-            }, (error) => {
-                deferred.reject(error);
+                    subscriber.next(loadedData);
+                }, (error) => {
+                    subscriber.error(error);
+                });
             });
-
-            return deferred.promise;
         };
 
-        function getBranch(loadedData, branchName) {
+        // TODO: Set type for loadedData
+        function getBranch(loadedData: any, branchName: string): IBranchBuilds {
             return loadedData.branches.find((currentBranch) => currentBranch.branch.name === branchName);
         }
 
-        function getBuild(branch, buildName) {
+        function getBuild(branch: IBranchBuilds, buildName: string): IBuildLink {
             if (angular.isDefined(branch)) {
                 return branch.builds.find((build) => build.linkName === buildName);
             }
@@ -72,21 +76,19 @@ angular.module('scenarioo.services')
             return displayName;
         }
 
-        function getDisplayNameForBuildName(branchName, buildName) {
-            const deferred = $q.defer();
+        function getDisplayNameForBuildName(branchName: string, buildName: string): Observable<string> {
+            return new Observable<string>((subscriber) => {
+                getBranchesAndBuildsData().subscribe((result) => {
+                    const selectedBranch = getBranch(result, branchName);
+                    const selectedBuild = getBuild(selectedBranch, buildName);
+                    const baseBuildName = getDisplayNameForBuild(selectedBuild, false);
 
-            getBranchesAndBuildsData().then((result) => {
-                const selectedBranch = getBranch(result, branchName);
-                const selectedBuild = getBuild(selectedBranch, buildName);
-                const baseBuildName = getDisplayNameForBuild(selectedBuild, false);
-
-                deferred.resolve(baseBuildName);
+                    subscriber.next(baseBuildName);
+                });
             });
-
-            return deferred.promise;
         }
 
-        function getDisplayNameForBuild(build, returnShortText) {
+        function getDisplayNameForBuild(build: IBuildLink, returnShortText: boolean): string {
             if (!build) {
                 return '';
             }
@@ -103,7 +105,7 @@ angular.module('scenarioo.services')
             }
         }
 
-        function getDisplayNameForAliasBuild(build, returnShortText) {
+        function getDisplayNameForAliasBuild(build: IBuildLink, returnShortText: boolean): string {
             if (returnShortText) {
                 return build.linkName;
             } else {
@@ -111,7 +113,7 @@ angular.module('scenarioo.services')
             }
         }
 
-        function isBuildAlias(build) {
+        function isBuildAlias(build: IBuildLink): boolean {
             if (!build) {
                 return false;
             }
@@ -119,24 +121,22 @@ angular.module('scenarioo.services')
             return build.build.name !== build.linkName;
         }
 
-        function isLastSuccessfulScenariosBuild(build) {
+        function isLastSuccessfulScenariosBuild(build: IBuildLink) {
             if (!build) {
                 return false;
             }
 
-            return build.getDisplayNameForBuild === 'last successful scenarios';
+            return getDisplayNameForBuild(build, false) === 'last successful scenarios';
         }
 
-        function getBuildByName(branchName, buildName) {
-            const deferred = $q.defer();
-
-            getBranchesAndBuildsData().then((result) => {
-                const branch = getBranch(result, branchName);
-                const build = getBuild(branch, buildName);
-                deferred.resolve(build);
+        function getBuildByName(branchName, buildName): Observable<IBuildLink> {
+            return new Observable<any>((subscriber) => {
+                getBranchesAndBuildsData().subscribe((result) => {
+                    const branch = getBranch(result, branchName);
+                    const build = getBuild(branch, buildName);
+                    subscriber.next(build);
+                });
             });
-
-            return deferred.promise;
         }
 
         return {
@@ -151,7 +151,7 @@ angular.module('scenarioo.services')
     });
 
 export class BranchesAndBuildsService {
-    getBranchesAndBuilds(): Promise<any> {
+    getBranchesAndBuilds(): Observable<any> {
         return undefined;
     }
 }
