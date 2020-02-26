@@ -26,8 +26,12 @@ declare var angular: angular.IAngularStatic;
 
 describe('SelectedBranchAndBuildService', () => {
 
-    let selectedBranchAndBuildService, ConfigurationService, localStorageService, routingWrapperService,
-        $location, $rootScope;
+    let selectedBranchAndBuildService;
+    let ConfigurationService;
+    let localStorageService;
+    let routingWrapperService;
+    let $location;
+    let $rootScope;
     const BRANCH_COOKIE = 'branch_cookie';
     const BUILD_COOKIE = 'build_cookie';
     const BRANCH_URL = 'branch_url';
@@ -36,24 +40,24 @@ describe('SelectedBranchAndBuildService', () => {
     const BUILD_CONFIG = 'build_config';
 
     const DUMMY_CONFIG_RESPONSE = {
-        'defaultBuildName': BUILD_CONFIG,
-        'defaultBranchName': BRANCH_CONFIG,
-        'scenarioPropertiesInOverview': 'userProfile, configuration',
-        'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-        'buildstates': {
+        defaultBuildName: BUILD_CONFIG,
+        defaultBranchName: BRANCH_CONFIG,
+        scenarioPropertiesInOverview: 'userProfile, configuration',
+        applicationInformation: 'This is my personal copy of Scenarioo :-)',
+        buildstates: {
             BUILD_STATE_FAILED: 'label-important',
             BUILD_STATE_SUCCESS: 'label-success',
             BUILD_STATE_WARNING: 'label-warning',
-        }
+        },
     };
-    let ConfigResourceMock = {
+    const ConfigResourceMock = {
         get: () => of(DUMMY_CONFIG_RESPONSE),
     };
-    let ConfigurationServiceMock = {
+    const ConfigurationServiceMock = {
         configuration : new ReplaySubject<IConfiguration>(1),
         _config : {
-            'defaultBuildName': undefined,
-            'defaultBranchName': undefined},
+            defaultBuildName: undefined,
+            defaultBranchName: undefined},
 
         getConfiguration(): Observable<IConfiguration> {
             return this.configuration.asObservable();
@@ -195,7 +199,7 @@ describe('SelectedBranchAndBuildService', () => {
 
             let selectedFromCallback;
 
-            selectedBranchAndBuildService.callOnSelectionChange(selected => {
+            selectedBranchAndBuildService.callOnSelectionChange((selected) => {
                 selectedFromCallback = selected;
                 expect(selectedFromCallback.branch).toBe(BRANCH_URL);
                 expect(selectedFromCallback.build).toBe(BUILD_URL);
