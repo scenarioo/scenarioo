@@ -18,9 +18,9 @@
 'use strict';
 
 import {Observable, of, ReplaySubject} from 'rxjs';
-import {IConfiguration} from '../../../../app/generated-types/backend-types';
-import {SelectedBranchAndBuildService} from '../../../../app/shared/navigation/selectedBranchAndBuild.service';
-import {RoutingWrapperService} from '../../../../app/shared/routing-wrapper.service';
+import {IConfiguration} from '../../generated-types/backend-types';
+import {SelectedBranchAndBuildService} from './selectedBranchAndBuild.service';
+import {RoutingWrapperService} from '../routing-wrapper.service';
 
 declare var angular: angular.IAngularStatic;
 
