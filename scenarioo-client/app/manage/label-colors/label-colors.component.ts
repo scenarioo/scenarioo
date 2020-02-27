@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LabelConfigurationsListResource} from '../../shared/services/labelConfigurationsListResource.service';
 import {LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
-import {AvailableColor} from './available-color';
 import {LabelConfiguration} from './label-configuration';
+import {Color} from '../../shared/utils/Color';
 
 @Component({
     selector: 'sc-label-colors',
@@ -10,15 +10,15 @@ import {LabelConfiguration} from './label-configuration';
     styles: [require('./label-colors.component.css').toString()],
 })
 export class LabelColorsComponent implements OnInit {
-    availableColors: AvailableColor[] = [
-        new AvailableColor('#e11d21', '#FFFFFF'),
-        new AvailableColor('#eb6420', '#FFFFFF'),
-        new AvailableColor('#fbca04', '#000000'),
-        new AvailableColor('#009800', '#FFFFFF'),
-        new AvailableColor('#006b75', '#FFFFFF'),
-        new AvailableColor('#207de5', '#FFFFFF'),
-        new AvailableColor('#0052cc', '#FFFFFF'),
-        new AvailableColor('#5319e7', '#FFFFFF'),
+    availableBackgroundColors: string[] = [
+        '#e11d21',
+        '#eb6420',
+        '#fbca04',
+        '#009800',
+        '#006b75',
+        '#207de5',
+        '#0052cc',
+        '#5319e7',
     ];
 
     labelConfigurations: LabelConfiguration[] = [];
@@ -57,9 +57,19 @@ export class LabelColorsComponent implements OnInit {
         }
     }
 
-    onColorSelected(labelConfiguration: LabelConfiguration, color: AvailableColor) {
-        labelConfiguration.backgroundColor = color.backgroundColor;
-        labelConfiguration.foregroundColor = color.foregroundColor;
+    onColorChanged(labelConfiguration: LabelConfiguration, color: string) {
+        labelConfiguration.backgroundColor = color;
+        if (Color.isHexColorValid(color)) {
+            labelConfiguration.foregroundColor = Color.getContrastingColor(color);
+        }
+    }
+
+    setRandomColor(labelConfiguration: LabelConfiguration) {
+        this.onColorChanged(labelConfiguration, Color.getRandomHexColor());
+    }
+
+    getLabelStyle(labelConfiguration: LabelConfiguration) {
+        return {'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor};
     }
 
     private loadLabelConfigurations() {

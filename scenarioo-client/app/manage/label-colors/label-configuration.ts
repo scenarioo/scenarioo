@@ -1,7 +1,7 @@
 import {IFlatLabelConfiguration} from '../../generated-types/backend-types';
+import {Color} from '../../shared/utils/Color';
 
 export class LabelConfiguration implements IFlatLabelConfiguration {
-
     private constructor(public backgroundColor: string,
                         public foregroundColor: string,
                         public name: string) {
@@ -12,7 +12,8 @@ export class LabelConfiguration implements IFlatLabelConfiguration {
     }
 
     isValid(): boolean {
-        return this.isEmpty() || (this.name !== '' && this.backgroundColor !== '');
+        const validBackgroundColorSet = this.backgroundColor !== '' && Color.isHexColorValid(this.backgroundColor);
+        return this.isEmpty() || (this.name !== '' && validBackgroundColorSet);
     }
 
     static fromFlatLabelConfiguration(flatLabelConfiguration: IFlatLabelConfiguration): LabelConfiguration {
