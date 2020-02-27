@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +59,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	// the endpoint config in the UI (i.e. at runtime) then the client can not be created only
 	// once anymore but has to be recreated when changing the config.
 	private static RestHighLevelClient restClient;
+	private static boolean elasticSearchConfigured = true;
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
@@ -69,13 +69,14 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	private final String clusterName = configurationRepository.getConfiguration().getElasticSearchClusterName();
 
 	public ElasticSearchAdapter() {
-		if (restClient != null) {
-			// already initialized
+		if (restClient != null || !elasticSearchConfigured) {
+			// already initialized or no configuration provided.
 			return;
 		}
 
 		if (!isSearchEndpointConfigured()) {
 			LOGGER.info("no valid elasticsearch endpoint configured.");
+			elasticSearchConfigured = false;
 			return;
 		}
 
