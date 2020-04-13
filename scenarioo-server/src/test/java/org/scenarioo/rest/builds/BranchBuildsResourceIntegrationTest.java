@@ -37,8 +37,7 @@ class BranchBuildsResourceIntegrationTest extends AbstractIntegrationTest {
 		BranchBuilds actualBranchBuilds = actual.get(0);
 		assertThat(actualBranchBuilds.getBranch().getName()).isEqualTo("testBranch");
 		assertThat(actualBranchBuilds.getBuilds())
-			.hasSize(4)
 			.extracting(BuildLink::getLinkName)
-			.contains("testBuild");
+			.contains("testBuild", "most recent", "last successful");
 	}
 }
