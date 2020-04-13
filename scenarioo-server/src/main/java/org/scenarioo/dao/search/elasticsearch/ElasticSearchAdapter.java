@@ -44,7 +44,6 @@ import org.scenarioo.rest.search.SearchRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,13 +83,8 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int portSeparator = endpoint.lastIndexOf(':');
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-			RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
+			restClient = new RestHighLevelClient(
 				RestClient.builder(new HttpHost(InetAddress.getByName(host), port, "http")));
-			if (restHighLevelClient.ping(RequestOptions.DEFAULT)) {
-				restClient = restHighLevelClient;
-			}
-		} catch (ConnectException e) {
-			LOGGER.warn("No elasticsearch cluster running.");
 		} catch (Throwable e) {
 			// Silently log the error in any case to not let Scenarioo crash just because Easticsearch connection fails somehow.
 			LOGGER.error("Could not connect to Elastic Search Engine", e);
@@ -104,11 +98,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	@Override
 	public boolean isEngineRunning() {
-		if (restClient == null) {
-			return false;
-		}
-
 		try {
+			if (restClient == null || !restClient.ping(RequestOptions.DEFAULT)) {
+				return false;
+			}
 			Request request = new Request("GET", "/_cluster/health");
 			Response response = restClient.getLowLevelClient().performRequest(request);
 
