@@ -125,6 +125,10 @@ class ElasticSearchIndexer {
 	private String createMapping() {
 
 		return "{" +
+			"\"settings\": {\n" +
+			"    		\"number_of_shards\": 1\n" +
+			"    		\"number_of_replicas\": 0\n" +
+			"  		}," +
 			"		\"dynamic_templates\": [" +
 			"			{" +
 			"				\"ignore_meta_data\": {" +
