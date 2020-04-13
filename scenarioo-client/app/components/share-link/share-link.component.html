@@ -14,15 +14,18 @@ GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<div id="grayBackground"></div>
-<span class="button-right">
-    <button (click)="openShare(shareContent)" id="shareButton" tooltip="Share this page with others (using stable links)" container="body"
-            type="button">
-        <i class="glyphicon glyphicon-share"></i>
-        Share
-    </button>
 
-    <ng-template #shareContent>
+<button id="shareButton"
+   (click)="openShare(shareThisPageDialogContent)"
+   style="margin-right: 5px;"
+   tooltip="Share this page with others (using stable links)"
+   container="body"
+   placement="bottom">
+    <i class="glyphicon glyphicon-share"></i> Share
+</button>
+
+<ng-template #shareThisPageDialogContent>
+    <div id="stepLinksDialog">
         <div class="modal-header">
             <h1 class="modal-title pull-left">Share this page</h1>
         </div>
@@ -50,5 +53,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="modal-footer">
             <button (click)="modalRef.hide()" class="btn btn-primary" type="button">Close</button>
         </div>
-    </ng-template>
-</span>
+    </div>
+</ng-template>
+

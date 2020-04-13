@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-stretch-browsers
+      - image: circleci/openjdk:8-jdk-browsers
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
         environment:
           discovery.type: single-node
@@ -173,7 +173,7 @@ jobs:
 
   publish_docs:
     docker:
-      - image: circleci/node:8-stretch
+      - image: scenarioo/circleci-with-graphviz:1.0.0
     working_directory: ~/gitbook
     steps:
       # Add keys with write access to scenarioo.github.io:

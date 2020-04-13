@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from '../../services/configuration.service';
 import {IConfiguration, ICustomObjectDetailColumn, ICustomObjectTab} from '../../generated-types/backend-types';
@@ -86,7 +86,7 @@ export class MainpageComponent implements OnInit {
             title: 'Use Cases',
         });
         configuration.customObjectTabs
-            .forEach((customObjectTab: ICustomObjectTab, index) => {
+            .forEach((customObjectTab: ICustomObjectTab) => {
                 tabs.push({
                     title: customObjectTab.tabTitle,
                     id: customObjectTab.id,
@@ -111,7 +111,7 @@ export interface ITab {
 
     isCustom?: boolean;
 
-    columns?: ICustomObjectDetailColumn;
+    columns?: ICustomObjectDetailColumn[];
 
 }
 

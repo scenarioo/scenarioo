@@ -17,8 +17,8 @@ accordion {
 
 .panel-group .panel {
     margin-bottom: 10px;
-    background-color: unset;
-    box-shadow: unset;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 .panel-group .panel-heading {

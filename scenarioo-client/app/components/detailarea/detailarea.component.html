@@ -15,41 +15,88 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="sc-meta-data-panel row">
+<div class="details-area-container">
 
-    <button (click)="togglePannelCollapsedValue()" [attr.aria-expanded]="!isPanelCollapsed" aria-controls="collapseBasic"
-            class="btn btn-primary pull-right" id="sc-showHideDetailsButton" type="button">
-        {{ isPanelCollapsed ? "Show details" : "Hide details" }}
-    </button>
-
-    <div [ngClass]="isPanelCollapsed ? 'col-sm-11' : 'col-sm-8'">
-        <ng-content></ng-content>
+    <!-- Top Level Button Row -->
+    <div class="row">
+        <a id="sc-showHideDetailsButton"
+            role="button"
+            class="btn btn-link pull-right"
+            (click)="togglePannelCollapsedValue()"
+            [attr.aria-expanded]="!isPanelCollapsed"
+            aria-controls="collapseBasic"
+            >
+            {{ isPanelCollapsed ? "Show Details" : "Hide Details" }}
+        </a>
     </div>
 
-    <div #metaDataPanel class="detail-container pull-right"  [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
-        <div class="detail-row">
-            <div (click)="togglePannelCollapsedValue()" class="detail-cell detail-button">
-                <span *ngIf="!isPanelCollapsed">
-                    <i class="fas arrowCenter fa-angle-right"></i>
-                </span>
-                <span *ngIf="isPanelCollapsed">
-                    <i class="fas arrowCenter fa-angle-left"></i>
-                </span>
-            </div>
+    <!-- Content Area -->
+    <div class="row flex">
 
-            <div [collapse]="isPanelCollapsed" id="sc-metadata-panel">
-                <div class="detail-cell detail-section">
-                    <h3>Details</h3>
-                    <accordion>
 
-                    <ng-container  *ngFor="let mainDetailsSection of mainDetailsSections" >
-                        <sc-detail-accordion *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))" [dataTree]="mainDetailsSection.dataTree" [values]="mainDetailsSection.values" [labelConfigurations]="mainDetailsSection.labelConfigurations" [detailAccordionName]="mainDetailsSection.name" key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen" [detailSectionType]="mainDetailsSection.detailSectionType"></sc-detail-accordion>
-                    </ng-container>
-
-                    <sc-detail-accordion *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue" [dataTree]="additionalDetailsSection.value" [detailAccordionName]="additionalDetailsSection.key" key="{{key}}-{{additionalDetailsSection.key}}" [isFirstOpen]="false" detailSectionType="treeComponent"></sc-detail-accordion>
-
-                </accordion>
-            </div>
+        <!-- Page Content left (will fill if details are collapsed) -->
+        <div class="detailarea-page-content"
+             [ngClass]="isPanelCollapsed ? 'col-sm-11 flex-fill' : 'col-sm-8'">
+            <ng-content></ng-content>
         </div>
+
+        <!-- Details Panel right -->
+        <div #detailsPanel
+             class="details-panel flex"
+             [ngClass]="isPanelCollapsed ? '' : 'col-sm-4'">
+
+            <div class="flex-fill flex">
+
+                <!-- Button to collapse or expand -->
+                <div (click)="togglePannelCollapsedValue()" class="details-collapse-button">
+
+                    <div class="sticky-arrow-container">
+                        <!-- the sticky arrow needs a parent container that is not otherwise styled (just a simple block to take the full available height!) -->
+                        <div class="sticky-arrow-icon-area" *ngIf="!isPanelCollapsed">
+                            <i class="fas fa-angle-right"></i>
+                        </div>
+                        <div class="sticky-arrow-icon-area" *ngIf="isPanelCollapsed">
+                            <i class="fas fa-angle-left"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Details Content (collapsable) -->
+                <div [collapse]="isPanelCollapsed" class="details-content flex-fill">
+
+                    <div class="detail-section">
+                        <h3>Details</h3>
+                        <accordion>
+
+                            <ng-container *ngFor="let mainDetailsSection of mainDetailsSections" >
+                                <sc-detail-accordion
+                                    *ngIf="(mainDetailsSection.dataTree && !isEmptyObject(mainDetailsSection.dataTree)) || (mainDetailsSection.values && !isEmptyObject(mainDetailsSection.values))"
+                                    [dataTree]="mainDetailsSection.dataTree"
+                                    [values]="mainDetailsSection.values"
+                                    [detailAccordionName]="mainDetailsSection.name"
+                                    key="{{key}}-{{mainDetailsSection.key}}" [isFirstOpen]="mainDetailsSection.isFirstOpen"
+                                    [detailSectionType]="mainDetailsSection.detailSectionType">
+                                </sc-detail-accordion>
+                            </ng-container>
+
+                            <sc-detail-accordion
+                                *ngFor="let additionalDetailsSection of additionalDetailsSections | keyvalue"
+                                [dataTree]="additionalDetailsSection.value"
+                                [detailAccordionName]="additionalDetailsSection.key"
+                                key="{{key}}-{{additionalDetailsSection.key}}"
+                                [isFirstOpen]="false"
+                                detailSectionType="treeComponent">
+                            </sc-detail-accordion>
+
+                        </accordion>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>

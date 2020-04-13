@@ -1,7 +1,8 @@
 'use strict';
 
-import { browser, by, element, $ } from 'protractor';
+import {$, browser, by, element} from 'protractor';
 import * as Utils from '../util';
+import detailAreaPage from './detailAreaPage';
 
 class HomePage {
 
@@ -10,8 +11,7 @@ class HomePage {
     private aboutScenariooPopup = $('.modal.about-popup');
     private popupCloseButton = $('.modal-footer button.btn');
     private usecaseTable = $('table.usecase-table');
-    private toggleMetaDataButton = element(by.id('sc-showHideDetailsButton'));
-    private metaDataPanel = element(by.id('sc-metadata-panel'));
+    private detailArea = detailAreaPage;
     private sketchesTab = element(by.id('sc-main-tab-sketches-link'));
     private pagesTab = element(by.id('sc-main-tab-pages-link'));
 
@@ -63,22 +63,20 @@ class HomePage {
         });
     }
 
-    async showMetaData() {
-        return this.toggleMetaDataButton.click();
+    async assertDetailsExpanded() {
+        return this.detailArea.assertDetailsExpanded();
     }
 
-    async assertMetaDataShown() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual('Hide details');
-        return expect(this.metaDataPanel.isDisplayed()).toBe(true);
+    async assertDetailsCollapsed() {
+        return this.detailArea.assertDetailsCollapsed();
     }
 
-    async assertMetaDataHidden() {
-        await expect(this.toggleMetaDataButton.getText()).toEqual('Show details');
-        return expect(this.metaDataPanel.isDisplayed()).toBe(false);
+    async expandDetails() {
+        return this.detailArea.expandDetails();
     }
 
-    async hideMetaData() {
-        return this.toggleMetaDataButton.click();
+    async collapseDetails() {
+        return this.detailArea.collapseDetails();
     }
 
     async sortByChanges() {

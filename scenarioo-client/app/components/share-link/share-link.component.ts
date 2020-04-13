@@ -17,15 +17,15 @@
 
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {SharePageURL} from '../../../shared/navigation/sharePage/sharePageUrl.service';
+import {SharePageService} from './sharePage.service';
 import {Location, PlatformLocation} from '@angular/common';
 
 @Component({
-    selector: 'sc-share',
-    template: require('./share.component.html'),
-    styles: [require('./share.component.css').toString()],
+    selector: 'sc-share-link',
+    template: require('./share-link.component.html'),
+    styles: [require('./share-link.component.css').toString()],
 })
-export class ShareComponent implements OnInit {
+export class ShareLinkComponent implements OnInit {
 
     currentBrowserLocation: string;
 
@@ -38,36 +38,35 @@ export class ShareComponent implements OnInit {
     imageUrl: string;
 
     constructor(private modalService: BsModalService,
-                private pageURLService: SharePageURL,
+                private sharePageService: SharePageService,
                 private location: Location,
                 private platformLocation: PlatformLocation) {
     }
 
     ngOnInit(): void {
+    }
+
+    public getPageUrl(): string {
+        const pageUrl = this.sharePageService.getPageUrl();
+        if (pageUrl === undefined) {
+            return this.currentBrowserLocation;
+        } else {
+            return pageUrl;
+        }
+    }
+
+    openShare(shareContent: TemplateRef<string>) {
 
         // TODO: Workaround until the full migration, when the Angular router is available
         // this.currentBrowserLocation = this.location.prepareExternalUrl(this.location.path());
         this.currentBrowserLocation = (this.platformLocation as any).location.href;
 
+        // Get state from current share this page service to render in dialog.
         this.pageUrl = this.getPageUrl();
-
-        this.imageUrl = this.pageURLService.getImageUrl();
-
+        this.eMailUrl = encodeURIComponent(this.pageUrl);
+        this.imageUrl = this.sharePageService.getImageUrl();
         this.eMailSubject = encodeURIComponent('Link to Scenarioo');
 
-        this.eMailUrl = encodeURIComponent(this.pageUrl);
-
-    }
-
-    public getPageUrl() {
-        if (this.pageURLService.getPageUrl() === undefined) {
-            return this.currentBrowserLocation;
-        } else {
-            return this.pageURLService.getPageUrl();
-        }
-    }
-
-    openShare(shareContent: TemplateRef<string>) {
         this.modalRef = this.modalService.show(shareContent);
     }
 

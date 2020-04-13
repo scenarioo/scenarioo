@@ -15,18 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {ShareComponent} from './share.component';
+import {ShareLinkComponent} from './share-link.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 import {BsModalService, ModalModule} from 'ngx-bootstrap';
-import {SharePageURL} from '../../../shared/navigation/sharePage/sharePageUrl.service';
-import {HashLocationStrategy, Location, LocationStrategy, PlatformLocation} from '@angular/common';
-import {LocationService} from '../../../shared/location.service';
-import {SharePageService} from '../../../shared/navigation/sharePage/sharePage.service';
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+import {LocationService} from '../../shared/location.service';
+import {SharePageService} from './sharePage.service';
 
 describe('share component', () => {
-    let component: ShareComponent;
-    let fixture: ComponentFixture<ShareComponent>;
+    let component: ShareLinkComponent;
+    let fixture: ComponentFixture<ShareLinkComponent>;
     let element;
 
     const URL = 'http://www.scenarioo.org';
@@ -40,20 +39,19 @@ describe('share component', () => {
     beforeEach(async(() => {
         void TestBed.configureTestingModule({
             providers: [
-                SharePageURL,
+                SharePageService,
                 Location,
                 {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
-                {provide: SharePageService, useFactory: (i: any) => i.get('SharePageService'), deps: ['$injector']},
                 {provide: LocationStrategy, useClass: HashLocationStrategy},
             ],
             imports: [ModalModule.forRoot()],
-            declarations: [ShareComponent],
+            declarations: [ShareLinkComponent],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ShareComponent);
+        fixture = TestBed.createComponent(ShareLinkComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
         element = fixture.debugElement.nativeElement;
@@ -78,23 +76,23 @@ describe('share component', () => {
     });
 
     it('getPageUrl behaves correctly when url is set', () => {
-        const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
-        spyOn(sharePageURLService, 'getPageUrl').and.returnValue(URL);
+        const sharePageService = fixture.debugElement.injector.get(SharePageService);
+        spyOn(sharePageService, 'getPageUrl').and.returnValue(URL);
         component.ngOnInit();
+        const shareButton = fixture.nativeElement.querySelector('button');
+        void expect(shareButton).toBeDefined();
+        shareButton.click();
         void expect(component.pageUrl).toBe(URL);
     });
 
     it('getPageUrl behaves correctly when url is not set', () => {
-        const sharePageURLService = fixture.debugElement.injector.get(SharePageURL);
-        spyOn(sharePageURLService, 'getPageUrl').and.returnValue(undefined);
+        const sharePageService = fixture.debugElement.injector.get(SharePageService);
+        spyOn(sharePageService, 'getPageUrl').and.returnValue(undefined);
         component.ngOnInit();
+        const shareButton = fixture.nativeElement.querySelector('button');
+        void expect(shareButton).toBeDefined();
+        shareButton.click();
         void expect(component.pageUrl).toBe('http://localhost:7070/context.html');
-    });
-
-    it('should set data', () => {
-        const email = 'scenarioo@scenarioo.org';
-        component.eMailUrl = email;
-        void expect(component.eMailUrl).toBe(email);
     });
 
 });
