@@ -207,7 +207,7 @@ jobs:
   smoketest:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-stretch-browsers
+      - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/smoketest
     steps:
       - checkout
