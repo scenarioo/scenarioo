@@ -109,10 +109,9 @@ class ElasticSearchIndexer {
 			ObjectWriter writer = objectMapper.writer();
 
 			IndexRequest indexRequest = new IndexRequest(indexName)
-					.id(documentName)
 					.source(writer.writeValueAsBytes(document), XContentType.JSON);
 			restClient.index(indexRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
 		}
 	}
