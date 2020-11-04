@@ -174,7 +174,6 @@ import {ComparisonViewDirective} from './step/comparison/comparisonView.directiv
             useFactory: (i: any) => i.get('SketcherLinkService'),
             deps: ['$injector'],
         },
-        {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
