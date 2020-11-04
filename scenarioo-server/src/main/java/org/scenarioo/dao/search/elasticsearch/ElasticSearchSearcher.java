@@ -115,9 +115,9 @@ class ElasticSearchSearcher {
 
 	private String[] getFieldNames(SearchRequest searchRequest) {
 		if (searchRequest.includeHtml()) {
-			return new String[]{"_all", "step.html.htmlSource"};
+			return new String[]{"catch_all", "step.html.htmlSource"};
 		} else {
-			return new String[]{"_all"};
+			return new String[]{"catch_all"};
 		}
 	}
 

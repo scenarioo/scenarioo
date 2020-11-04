@@ -109,8 +109,8 @@ class ElasticSearchIndexer {
 			ObjectWriter writer = objectMapper.writer();
 
 			IndexRequest indexRequest = new IndexRequest(indexName)
-				.id(documentName)
-				.source(writer.writeValueAsBytes(document), XContentType.JSON);
+					.id(documentName)
+					.source(writer.writeValueAsBytes(document), XContentType.JSON);
 			restClient.index(indexRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
 			LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
@@ -124,25 +124,36 @@ class ElasticSearchIndexer {
 	private String createMapping() {
 
 		return "{" +
-			"		\"dynamic_templates\": [" +
-			"			{" +
-			"				\"ignore_meta_data\": {" +
-			"					\"path_match\": \"SearchableObjectContext.*\"," +
-			"					\"mapping\": {" +
-			"						\"index\": \"no\"" +
-			"					}" +
-			"				}" +
-			"			}" +
-			"		]," +
-			"		\"properties\": {" +
-			"			\"step\": {" +
-			"				\"properties\": {" +
-			"					\"html\": {" +
-			"						\"type\": \"object\"" +
-			"					}" +
-			"				}" +
-			"			}" +
-			"		}" +
-			"}";
+				"		\"dynamic_templates\": [" +
+				"			{" +
+				"				\"strings\": {\n" +
+				"            		\"match_mapping_type\": \"string\",\n" +
+				"            		\"match\": \"*\",\n" +
+				"            		\"unmatch\": \"htmlSource\",\n" +
+				"		            \"mapping\": {\n" +
+				"       		       \"type\": \"text\",\n" +
+				"              			\"copy_to\": \"catch_all\"\n" +
+				"            		}\n" +
+				"          		}" +
+				"			}," +
+				"			{" +
+				"				\"ignore_meta_data\": {" +
+				"					\"path_match\": \"SearchableObjectContext.*\"," +
+				"					\"mapping\": {" +
+				"						\"index\": \"no\"" +
+				"					}" +
+				"				}" +
+				"			}" +
+				"		]," +
+				"		\"properties\": {" +
+				"			\"step\": {" +
+				"				\"properties\": {" +
+				"					\"html\": {" +
+				"						\"type\": \"object\"" +
+				"					}" +
+				"				}" +
+				"			}" +
+				"		}" +
+				"}";
 	}
 }
