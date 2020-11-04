@@ -203,7 +203,9 @@ jobs:
             echo "Publish docs for $DOCU_VERSION"
             cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
-
+      - store_artifacts:
+          path: /home/circleci/.npm/_logs
+          destination: /logs
   smoketest:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
