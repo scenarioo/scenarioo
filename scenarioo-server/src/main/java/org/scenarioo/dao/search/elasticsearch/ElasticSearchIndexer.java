@@ -128,7 +128,6 @@ class ElasticSearchIndexer {
 				"			{" +
 				"				\"strings\": {\n" +
 				"            		\"match_mapping_type\": \"string\",\n" +
-				"            		\"match\": \"*\",\n" +
 				"            		\"unmatch\": \"htmlSource\",\n" +
 				"		            \"mapping\": {\n" +
 				"       		       \"type\": \"text\",\n" +
