@@ -1,0 +1,78 @@
+<div>
+    <form #labelConfigurationForm="ngForm" name="labelConfigurationsForm" (ngSubmit)="onSave()">
+        <table class="table table-curved table-responsive" id="label-configurations-table">
+            <thead>
+            <tr>
+                <th>Label Name</th>
+                <th>Color</th>
+                <th>Preview</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let labelConfiguration of labelConfigurations, index as i" id="label-configuration-{{i}}">
+                <td>
+                    <input type="text" class="ng-pristine ng-valid form-control" data-type="labelName"
+                           [(ngModel)]="labelConfiguration.name"
+                           [name]="'labelName' + i" (keyup)="onLabelNameChanged()"/>
+                    <span [hidden]="labelConfiguration.name || labelConfiguration.isEmpty()" class="sc-error-span">Please define a name</span>
+                </td>
+                <td>
+                    <div class="sc-color-advanced-input">
+                        <button type="button" [style.background-color]="labelConfiguration.backgroundColor" data-type="buttonColor"
+                                data-toggle="tooltip" title="Get a new color"
+                                class="btn btn-small"
+                                (click)="setRandomColor(labelConfiguration)">
+                            <span [style.color]="labelConfiguration.foregroundColor" class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                        <input #labelColor type="text" class="ng-pristine ng-valid form-control" data-type="labelColor"
+                               [value]= "labelConfiguration.backgroundColor"
+                               [name] = "'labelColor' + i"
+                               (keyup)="onColorChanged(labelConfiguration, labelColor.value);"
+                               maxlength="7"
+                        />
+                    </div>
+
+                    <ul class="sc-color-chooser">
+                        <li *ngFor="let color of availableBackgroundColors">
+                            <span [style.background-color]="color" class="sc-color-field"
+                                  (click)="onColorChanged(labelConfiguration, color)"
+                                  [ngClass]="{'sc-color-field-selected' : color === labelConfiguration.backgroundColor}"></span>
+                        </li>
+                    </ul>
+
+                    <span [hidden]="labelConfiguration.isValid() || !labelConfiguration.name" class="sc-error-span">Please choose a color</span>
+                </td>
+                <td>
+                    <span *ngIf="labelConfiguration.isValid() && !labelConfiguration.isEmpty()" class="label label-info sc-label"
+                          [ngStyle]="{'background-color': labelConfiguration.backgroundColor, 'color': labelConfiguration.foregroundColor}">
+                        {{labelConfiguration.name}}
+                    </span>
+                </td>
+                <td>
+                    <input *ngIf="i < labelConfigurations.length - 1" type="button" class="btn btn-small btn-danger"
+                           value="Delete"
+                           (click)="onDelete(labelConfiguration)"
+                    />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-success fade-out" id="changed-label-config-successfully"
+             [hidden]="!successfullyUpdatedLabelConfigurations">
+            The label configurations have been successfully updated.
+            <a (click)="successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover"
+               style="color: #468847">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+
+        <div class="row sc-space-top-large">
+            <div class="col-lg-12" style="text-align: right">
+                <input type="button" value="Reset" class="btn btn-wide btn-default" (click)="onReset()"/>
+                <input id="save-label-configuration-button" type="submit" value="Save" class="btn btn-wide btn-primary"
+                       [disabled]="labelConfigurationForm.form.invalid"/>
+            </div>
+        </div>
+    </form>
+</div>

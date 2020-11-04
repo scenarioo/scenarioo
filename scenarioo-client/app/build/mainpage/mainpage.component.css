@@ -2,3 +2,10 @@ sc-mainpage .nav-tabs {
     border: 0;
     margin-bottom: 20px;
 }
+
+#tabsHeader {
+    margin: -15px;
+    margin-bottom: -42px;
+    background-color: #eeeeee;
+    height: 75px;
+}

@@ -49,14 +49,14 @@ buildscript {
 }
 
 allprojects {
-	apply plugin: 'eclipse'
 	apply plugin: 'io.spring.dependency-management'
 
 	group = 'org.scenarioo'
     version = getVersionName()
 
     wrapper {
-        gradleVersion = '4.10.3'
+        gradleVersion = '6.0.1'
+		distributionType = Wrapper.DistributionType.ALL
     }
 
 	dependencyManagement {

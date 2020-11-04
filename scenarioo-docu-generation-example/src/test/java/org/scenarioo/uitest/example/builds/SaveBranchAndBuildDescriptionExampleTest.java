@@ -29,14 +29,14 @@
 
 package org.scenarioo.uitest.example.builds;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Branch;
-import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
+import org.scenarioo.uitest.example.infrastructure.MultipleBuildsConfiguration;
+
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.SCENARIOO_DATA_DIRECTORY;
 
 /**
  * A simple example test to show how to save example branch and build description files.
@@ -54,7 +54,7 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 	@BeforeClass
 	public static void createDocuWriter() {
 		SCENARIOO_DATA_DIRECTORY.mkdirs(); // make sure the root directory is precreated
-		docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
+		docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsConfiguration.getCurrentBranchName(), MultipleBuildsConfiguration.getCurrentBuildName());
 	}
 
 	@AfterClass
@@ -65,7 +65,7 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 	@Test
 	public void write_branch_description() {
 		Branch branch = new Branch();
-		branch.setName(MultipleBuildsRule.getCurrentBranchName());
+		branch.setName(MultipleBuildsConfiguration.getCurrentBranchName());
 		branch.setDescription("Example documentation of the Wikipedia Web Application as an example. The content is generated from dummy data in the 'scenarioo-docu-generation-example' for testing and demonstration purposes.");
 		docuWriter.saveBranchDescription(branch);
 	}

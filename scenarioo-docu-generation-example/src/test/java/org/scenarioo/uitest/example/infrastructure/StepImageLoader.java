@@ -1,11 +1,11 @@
 package org.scenarioo.uitest.example.infrastructure;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 
 public class StepImageLoader {
 
@@ -64,11 +64,11 @@ public class StepImageLoader {
 	}
 
 	private static URL getImageUrl(final String fileName, String extension) {
-		URL url = StepImageLoader.class.getClassLoader().getResource("example/screenshots/" + fileName + "." + MultipleBuildsRule.getCurrentBuildName() + extension);
+		URL url = StepImageLoader.class.getClassLoader().getResource("example/screenshots/" + fileName + "." + MultipleBuildsConfiguration.getCurrentBuildName() + extension);
 		if (url == null) {
 			url = StepImageLoader.class.getClassLoader().getResource("example/screenshots/" + fileName + extension);
 		} else {
-			LOGGER.info("Specific image for build run " + MultipleBuildsRule.getCurrentBuildName() + " found: " + fileName);
+			LOGGER.info("Specific image for build run " + MultipleBuildsConfiguration.getCurrentBuildName() + " found: " + fileName);
 		}
 		return url;
 	}

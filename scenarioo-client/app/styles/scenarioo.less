@@ -477,9 +477,13 @@ span.sc-screenshot-annotation-with-action {
   margin-bottom: @vertical-space;
 }
 
+
+/* Tabs (reduce taking too much vertical space) */
 .tab-content {
-  /* reduced margins for not taking too much vertical space */
-  margin-top: @vertical-space;
+  margin-top: 0;
+}
+tabset .nav-tabs {
+    margin-bottom: 0;
 }
 
 .panel {
@@ -589,29 +593,6 @@ span.sc-text-before-label {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 1em;
-}
-
-.sc-color-field {
-  display: block;
-  width: 50px;
-  height: 25px;
-  margin-right: 2px;
-}
-
-
-.sc-color-field-selected {
-  border: 3px solid black;
-}
-
-.sc-color-chooser {
-  padding-left: 0px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-
-.sc-color-chooser li {
-  list-style-type: none;
-  display: table-cell;
 }
 
 .sc-error-span {

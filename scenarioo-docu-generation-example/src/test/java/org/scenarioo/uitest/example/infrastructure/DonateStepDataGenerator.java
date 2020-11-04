@@ -1,16 +1,16 @@
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.api.util.IdentifierSanitizer.*;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.scenarioo.api.util.IdentifierSanitizer.sanitize;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.SCENARIOO_DATA_DIRECTORY;
 
 /**
  * This is a new generator that does not try to emulate an actual UI testing framework. Unlike
@@ -23,8 +23,8 @@ public class DonateStepDataGenerator {
 	private int stepIndex = 0;
 	private Map<BuildRun, Map<String, String>> buildToPageName;
 
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
-			MultipleBuildsRule.getCurrentBuildName());
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsConfiguration.getCurrentBranchName(),
+		MultipleBuildsConfiguration.getCurrentBuildName());
 
 	public DonateStepDataGenerator(UITest uiTest) {
 		this.uiTest = uiTest;
@@ -91,7 +91,7 @@ public class DonateStepDataGenerator {
 	}
 
 	private String getPageNameForBuildRun(String stepName) {
-		Map<String, String> stepToPageName = buildToPageName.get(MultipleBuildsRule.getCurrentBuildRun());
+		Map<String, String> stepToPageName = buildToPageName.get(MultipleBuildsConfiguration.getCurrentBuildRun());
 		return stepToPageName.get(stepName);
 	}
 
