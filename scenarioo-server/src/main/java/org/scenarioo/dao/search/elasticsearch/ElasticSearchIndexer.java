@@ -28,7 +28,6 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
 import org.scenarioo.dao.search.model.SearchableUseCase;
@@ -62,10 +61,10 @@ class ElasticSearchIndexer {
 			}
 
 			CreateIndexRequest request = new CreateIndexRequest(indexName)
-				.settings(Settings.builder()
-						.put("index.number_of_shards", 1)
-						.put("index.number_of_replicas", 0))
-				.mapping(createMapping(), XContentType.JSON);
+					.settings(Settings.builder()
+							.put("index.number_of_shards", 1)
+							.put("index.number_of_replicas", 0))
+					.mapping(createMapping(), XContentType.JSON);
 			restClient.indices().create(request, RequestOptions.DEFAULT);
 			LOGGER.debug("Added new index " + indexName);
 		} catch (Exception e) {
@@ -93,18 +92,18 @@ class ElasticSearchIndexer {
 	}
 
 	private void indexUseCase(final SearchableUseCase searchableUseCase) {
-		indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
+		indexDocument(searchableUseCase, searchableUseCase.getUseCase().getName());
 	}
 
 	private void indexScenario(final SearchableScenario scenariosearchDao) {
-		indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
+		indexDocument(scenariosearchDao, scenariosearchDao.getScenario().getName());
 	}
 
 	private void indexStep(final SearchableStep stepSearchDao) {
-		indexDocument(FullTextSearch.STEP, stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
+		indexDocument(stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
 	}
 
-	private <T> void indexDocument(final String type, final T document, final String documentName) {
+	private <T> void indexDocument(final T document, final String documentName) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter writer = objectMapper.writer();

@@ -31,7 +31,6 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
 import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -47,12 +46,12 @@ class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
 	private final static int MAX_SEARCH_RESULTS = 200;
 
-	private String indexName;
-	private RestHighLevelClient restClient;
+	private final String indexName;
+	private final RestHighLevelClient restClient;
 
-	private ObjectReader useCaseReader;
-	private ObjectReader scenarioReader;
-	private ObjectReader stepReader;
+	private final ObjectReader useCaseReader;
+	private final ObjectReader scenarioReader;
+	private final ObjectReader stepReader;
 
 	ElasticSearchSearcher(final String indexName, RestHighLevelClient restClient) {
 		this.indexName = indexName;
@@ -64,7 +63,7 @@ class ElasticSearchSearcher {
 	}
 
 	SearchResults search(final SearchRequest searchRequest) {
-		SearchResponse searchResponse = null;
+		SearchResponse searchResponse;
 		try {
 			searchResponse = executeSearch(searchRequest);
 		} catch (IOException e) {
@@ -102,14 +101,14 @@ class ElasticSearchSearcher {
 		LOGGER.debug("Search in index " + indexName + " for " + searchRequest.getQ());
 
 		org.elasticsearch.action.search.SearchRequest elasticSearchRequest = Requests.searchRequest(indexName)
-			.searchType(SearchType.QUERY_THEN_FETCH)
-			.source(new SearchSourceBuilder()
-				.size(MAX_SEARCH_RESULTS)
-				.query(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
-					.fuzziness(Fuzziness.AUTO)
-					.operator(Operator.AND)
-				)
-			);
+				.searchType(SearchType.QUERY_THEN_FETCH)
+				.source(new SearchSourceBuilder()
+						.size(MAX_SEARCH_RESULTS)
+						.query(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
+								.fuzziness(Fuzziness.AUTO)
+								.operator(Operator.AND)
+						)
+				);
 
 		return restClient.search(elasticSearchRequest, RequestOptions.DEFAULT);
 	}
@@ -128,12 +127,12 @@ class ElasticSearchSearcher {
 
 	private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
 		return scenarioReader.<SearchableScenario>readValue(searchHit.getSourceRef()
-			.streamInput());
+				.streamInput());
 	}
 
 	private SearchableObject parseStep(final SearchHit searchHit) throws IOException {
 		return stepReader.<SearchableStep>readValue(searchHit.getSourceRef()
-			.streamInput());
+				.streamInput());
 	}
 
 	// TODO #552 Remove the IgnoreUseCaseSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
