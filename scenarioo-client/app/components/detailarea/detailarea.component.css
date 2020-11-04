@@ -15,16 +15,6 @@ sc-detailarea a#sc-showHideDetailsButton:hover {
     text-decoration: none
 }
 
-/* General flex box layout styles (because we not have bootstrap 4 yet) */
-
-sc-detailarea .flex {
-    display: flex;
-}
-
-sc-detailarea .flex-fill {
-    flex: 1 1 auto;
-}
-
 /* Colapsable Details Panel */
 
 sc-detailarea .details-panel {
