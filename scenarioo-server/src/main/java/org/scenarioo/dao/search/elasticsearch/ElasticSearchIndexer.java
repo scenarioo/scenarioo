@@ -68,7 +68,7 @@ class ElasticSearchIndexer {
 				.mapping(createMapping(), XContentType.JSON);
 			restClient.indices().create(request, RequestOptions.DEFAULT);
 			LOGGER.debug("Added new index " + indexName);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOGGER.error("Could not add index " + indexName, e);
 		}
 	}
