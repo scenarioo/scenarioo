@@ -176,7 +176,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		ImmutableOpenMap<String, Settings> indices;
 		try {
 			indices = restClient.indices().getSettings(new GetSettingsRequest(), RequestOptions.DEFAULT).getIndexToSettings();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOGGER.error("Could not load indices", e);
 			return new ArrayList<>();
 		}
