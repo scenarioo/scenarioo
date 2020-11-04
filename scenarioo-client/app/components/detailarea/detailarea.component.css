@@ -37,7 +37,7 @@ sc-detailarea .details-panel {
 sc-detailarea .details-collapse-button {
     background-color: #CCCCCC;
     width: 30px;
-    min-width: 30px; /* do never shrink */
+    flex-shrink: 0;
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
