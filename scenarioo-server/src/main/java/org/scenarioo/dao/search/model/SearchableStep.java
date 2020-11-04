@@ -17,6 +17,7 @@
 
 package org.scenarioo.dao.search.model;
 
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -27,21 +28,27 @@ public class SearchableStep implements SearchableObject {
 	private Step step;
 	private SearchableObjectContext searchableObjectContext;
 
-    public SearchableStep() {
-    }
+	public SearchableStep() {
+	}
 
-    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
-        this.step = step;
-        this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
-    }
+	public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
+		this();
+		this.step = step;
+		this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
+	}
 
-    public Step getStep() {
-        return step;
-    }
+	@Override
+	public String getType() {
+		return FullTextSearch.STEP;
+	}
 
-    public void setStep(final Step step) {
-        this.step = step;
-    }
+	public Step getStep() {
+		return step;
+	}
+
+	public void setStep(final Step step) {
+		this.step = step;
+	}
 
 	public void setSearchableObjectContext(final SearchableObjectContext searchableObjectContext) {
         this.searchableObjectContext = searchableObjectContext;

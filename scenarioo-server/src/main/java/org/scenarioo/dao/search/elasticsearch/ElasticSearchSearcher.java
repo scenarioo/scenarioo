@@ -82,20 +82,13 @@ class ElasticSearchSearcher {
 		List<SearchableObject> results = new ArrayList<>();
 		for (SearchHit searchHit : hits) {
 			try {
-				String type = searchHit.getType();
-				switch (type) {
-					case FullTextSearch.USECASE:
-						results.add(parseUseCase(searchHit));
-						break;
-					case FullTextSearch.SCENARIO:
-						results.add(parseScenario(searchHit));
-						break;
-					case FullTextSearch.STEP:
-						results.add(parseStep(searchHit));
-						break;
-					default:
-						LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
-						break;
+				String stringRepresentation = searchHit.toString();
+				if (stringRepresentation.contains("\"type\" : \"scenario\"")) {
+					results.add(parseScenario(searchHit));
+				} else if (stringRepresentation.contains("\"type\" : \"usecase\"")) {
+					results.add(parseUseCase(searchHit));
+				} else if (stringRepresentation.contains("\"type\" : \"step\"")) {
+					results.add(parseStep(searchHit));
 				}
 			} catch (IOException e) {
 				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);

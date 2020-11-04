@@ -17,6 +17,7 @@
 
 package org.scenarioo.dao.search.model;
 
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.entities.UseCase;
 
 public class SearchableUseCase implements SearchableObject {
@@ -27,7 +28,13 @@ public class SearchableUseCase implements SearchableObject {
 	}
 
 	public SearchableUseCase(UseCase useCase) {
+		this();
 		this.useCase = useCase;
+	}
+
+	@Override
+	public String getType() {
+		return FullTextSearch.USECASE;
 	}
 
 	public UseCase getUseCase() {
@@ -37,5 +44,4 @@ public class SearchableUseCase implements SearchableObject {
 	public void setUseCase(final UseCase useCase) {
 		this.useCase = useCase;
 	}
-
 }

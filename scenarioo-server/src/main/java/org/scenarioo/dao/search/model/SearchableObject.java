@@ -19,4 +19,5 @@ package org.scenarioo.dao.search.model;
 
 public interface SearchableObject {
 	// Marker
+	String getType();
 }
