@@ -31,6 +31,7 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
 import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -66,7 +67,7 @@ class ElasticSearchSearcher {
 		SearchResponse searchResponse;
 		try {
 			searchResponse = executeSearch(searchRequest);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOGGER.error("Search failed", e);
 			return SearchResults.noHits();
 		}

@@ -161,7 +161,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				try {
 					deleteIndex(index);
 					LOGGER.debug("Removed index " + index);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					LOGGER.error("Could not remove index " + index, e);
 				}
 			}
