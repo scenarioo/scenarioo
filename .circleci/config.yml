@@ -4,7 +4,7 @@ jobs:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
       - image: circleci/openjdk:8-jdk-browsers
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
         environment:
           discovery.type: single-node
           cluster.name: elasticsearch
