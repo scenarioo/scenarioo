@@ -63,13 +63,13 @@ class ElasticSearchIndexer {
 
 			CreateIndexRequest request = new CreateIndexRequest(indexName)
 				.settings(Settings.builder()
-					.put("index.number_of_shards", 1)
-					.put("index.number_of_replicas", 1))
+						.put("index.number_of_shards", 1)
+						.put("index.number_of_replicas", 0))
 				.mapping(createMapping(), XContentType.JSON);
 			restClient.indices().create(request, RequestOptions.DEFAULT);
 			LOGGER.debug("Added new index " + indexName);
 		} catch (IOException e) {
-			LOGGER.error("Could not remove index " + indexName, e);
+			LOGGER.error("Could not add index " + indexName, e);
 		}
 	}
 
