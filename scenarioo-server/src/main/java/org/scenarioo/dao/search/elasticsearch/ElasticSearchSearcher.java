@@ -83,12 +83,14 @@ class ElasticSearchSearcher {
 		for (SearchHit searchHit : hits) {
 			try {
 				String stringRepresentation = searchHit.toString();
-				if (stringRepresentation.contains("\"type\" : \"scenario\"")) {
+				if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.SCENARIO + "\"")) {
 					results.add(parseScenario(searchHit));
-				} else if (stringRepresentation.contains("\"type\" : \"usecase\"")) {
+				} else if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.USECASE + "\"")) {
 					results.add(parseUseCase(searchHit));
-				} else if (stringRepresentation.contains("\"type\" : \"step\"")) {
+				} else if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.STEP + "\"")) {
 					results.add(parseStep(searchHit));
+				} else {
+					LOGGER.error("No type mapping for " + stringRepresentation + " known.");
 				}
 			} catch (IOException e) {
 				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
