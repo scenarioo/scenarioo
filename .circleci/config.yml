@@ -75,7 +75,7 @@ jobs:
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
-          no_output_timeout: 2m # abort build if no output is produced for 2 minutes
+          no_output_timeout: 20m # abort build if no output is produced for 2 minutes
 
       - run:
           name: Collect test results
