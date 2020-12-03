@@ -66,6 +66,7 @@ jobs:
               done
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
+            export CHROME_VERSION=86.0.4240.111
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
 
