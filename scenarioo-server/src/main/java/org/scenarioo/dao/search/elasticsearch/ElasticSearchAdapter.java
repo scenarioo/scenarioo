@@ -84,7 +84,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
 			restClient = new RestHighLevelClient(
 					RestClient.builder(new HttpHost(InetAddress.getByName(host), port, "http")));
-			//Sometimes a deadlock occurs when a CreateIndexRequest is created, by accesssing Settings.Builder.EMPTY_SETTINGS first this can be stopped.
+			//Sometimes a deadlock occurs when a CreateIndexRequest is created, by accessing Settings.Builder.EMPTY_SETTINGS first this can be stopped.
 			//noinspection unused
 			Settings emptySettings = Settings.Builder.EMPTY_SETTINGS;
 		} catch (Throwable e) {
