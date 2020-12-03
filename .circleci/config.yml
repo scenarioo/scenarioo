@@ -1,9 +1,9 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-      # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-browsers
+      # See https://circleci.com/developer/images/image/cimg/openjdk
+      - image: cimg/openjdk:8.0.275-browsers
       - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
         environment:
           cluster.name: elasticsearch
