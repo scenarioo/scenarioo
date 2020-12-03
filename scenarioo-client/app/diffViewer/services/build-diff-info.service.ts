@@ -14,8 +14,12 @@ export class BuildDiffInfoService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string): Observable<IBuildDiffInfo> {
+        const encodedBaseBranch = encodeURIComponent(baseBranchName);
+        const encodedBaseBuild = encodeURIComponent(baseBuildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
+
         return this.http
-            .get<IBuildDiffInfo>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/buildDiffInfo`)
+            .get<IBuildDiffInfo>(`rest/diffViewer/baseBranchName/${encodedBaseBranch}/baseBuildName/${encodedBaseBuild}/comparisonName/${encodedComparison}/buildDiffInfo`)
             .pipe(catchError(handleError));
     }
 }

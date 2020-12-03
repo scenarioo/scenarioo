@@ -13,9 +13,11 @@ export class ComparisonLogResource {
     }
 
     logComparision(comparisonName: string, branchInfo: BuildInfo): Observable<string> {
-
+        const encodedBranch = encodeURIComponent(branchInfo.branchName);
+        const encodedBuild = encodeURIComponent(branchInfo.buildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
         return this.httpClient
-            .get(`rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/log`,
+            .get(`rest/builds/${encodedBranch}/${encodedBuild}/comparisons/${encodedComparison}/log`,
                 {
                     responseType: 'text',
                 });

@@ -21,13 +21,25 @@ function ScreenshotUrlService() {
 
     function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex) {
         if (step && stepIndex >= 0 && useCaseName) {
-            return 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/useCaseName/' + useCaseName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
+            const encodedBranch = encodeURIComponent(selected.branch);
+            const encodedBuild = encodeURIComponent(selected.build);
+            const encodedComparison = encodeURIComponent(comparisonName);
+            const encodedUseCase = encodeURIComponent(useCaseName);
+            const encodedScenario = encodeURIComponent(scenarioName);
+
+            return `rest/diffViewer/baseBranchName/${encodedBranch}/baseBuildName/${encodedBuild}/comparisonName/${encodedComparison}/useCaseName/${encodedUseCase}/scenarioName/${encodedScenario}/stepIndex/${stepIndex}/stepDiffScreenshot`;
         }
     }
 
     function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName) {
         if (comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName) {
-            return 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
+            const encodedComparisonBranch = encodeURIComponent(comparisonBranchName);
+            const encodedComparisonBuild = encodeURIComponent(comparisonBuildName);
+            const encodedUseCase = encodeURIComponent(useCaseName);
+            const encodedScenario = encodeURIComponent(scenarioName);
+            const encodedComparisonScreenshot = encodeURIComponent(comparisonScreenshotName);
+
+            return `rest/branch/${encodedComparisonBranch}/build/${encodedComparisonBuild}/usecase/${encodedUseCase}/scenario/${encodedScenario}/image/${encodedComparisonScreenshot}`;
         }
     }
 

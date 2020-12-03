@@ -187,8 +187,13 @@ function ScenarioController($filter, $routeParams,
             build = comparisonBuildName;
         }
 
-        return 'rest/branch/' + branch + '/build/' + build +
-            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
+        const encodedBranch = encodeURIComponent(branch);
+        const encodedBuild = encodeURIComponent(build);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+        const encodedScenario = encodeURIComponent(scenarioName);
+        const encodedImg = encodeURIComponent(imgName);
+
+        return `rest/branch/${encodedBranch}/build/${encodedBuild}/usecase/${encodedUseCase}/scenario/${encodedScenario}/image/${encodedImg}`;
     }
 
     function getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {

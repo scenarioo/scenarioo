@@ -19,15 +19,30 @@ export class RelatedIssueResource {
     }
 
     get(build: BuildInfo, useCaseName: string, scenarioName: string, pageName: string, pageOccurence: number, stepInPageOccurrence: number): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence}/${stepInPageOccurrence}`);
+        const encodedBranch = encodeURIComponent(build.branchName);
+        const encodedBuild = encodeURIComponent(build.buildName);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+        const encodedScenario = encodeURIComponent(scenarioName);
+        const encodedPage = encodeURIComponent(pageName);
+
+        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${encodedBranch}/issue/related/${encodedBuild}/${encodedUseCase}/${encodedScenario}/${encodedPage}/${pageOccurence}/${stepInPageOccurrence}`);
     }
 
     getForStepsOverview(build: BuildInfo, useCaseName: string, scenarioName: string): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}`);
+        const encodedBranch = encodeURIComponent(build.branchName);
+        const encodedBuild = encodeURIComponent(build.buildName);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+        const encodedScenario = encodeURIComponent(scenarioName);
+
+        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${encodedBranch}/issue/related/${encodedBuild}/${encodedUseCase}/${encodedScenario}`);
     }
 
     getForScenariosOverview(build: BuildInfo, useCaseName: string): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}`);
+        const encodedBranch = encodeURIComponent(build.branchName);
+        const encodedBuild = encodeURIComponent(build.buildName);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+
+        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${encodedBranch}/issue/related/${encodedBuild}/${encodedUseCase}`);
     }
 }
 

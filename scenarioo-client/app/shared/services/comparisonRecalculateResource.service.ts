@@ -13,9 +13,12 @@ export class ComparisonRecalculateResource {
     }
 
     recalculate(comparisonName: string, branchInfo: BuildInfo): Observable<void> {
+        const encodedBranch = encodeURIComponent(branchInfo.branchName);
+        const encodedBuild = encodeURIComponent(branchInfo.buildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
 
         return this.httpClient
-            .post<void>(`rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/recalculate`,
+            .post<void>(`rest/builds/${encodedBranch}/${encodedBuild}/comparisons/${encodedComparison}/recalculate`,
                 {
                     responseType: 'text',
                 });

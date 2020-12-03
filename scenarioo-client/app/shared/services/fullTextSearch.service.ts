@@ -14,8 +14,11 @@ export class FullTextSearchService {
 
     search(buildInfo: BuildInfo, query: string, includeHtmlAsString: string): Observable<any> {
         // TODO: Return typed results.
+        const encodedBranch = encodeURIComponent(buildInfo.branchName);
+        const encodedBuild = encodeURIComponent(buildInfo.buildName);
+
         return this.httpClient
-            .get<any>(`rest/branch/${buildInfo.branchName}/build/${buildInfo.buildName}/search`,
+            .get<any>(`rest/branch/${encodedBranch}/build/${encodedBuild}/search`,
                 {
                     params: {
                         q: query,

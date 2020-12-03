@@ -102,7 +102,8 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        const encodedBranch = encodeURIComponent(selected.branch);
+        return `rest/branch/${encodedBranch}/issue/${issueId}/scenariosketch/${scenarioSketchId}/stepsketch/${stepSketchId}/image/sketch.png`;
     };
 
     function getOriginalScreenshotUrl() {
@@ -111,7 +112,8 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
+        const encodedBranch = encodeURIComponent(selected.branch);
+        return `rest/branch/${encodedBranch}/issue/${issueId}/scenariosketch/${scenarioSketchId}/stepsketch/${stepSketchId}/image/original.png`;
     };
 
     function getUseCaseUrl() {

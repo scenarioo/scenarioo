@@ -14,8 +14,13 @@ export class UseCaseDiffInfoService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string): Observable<IUseCaseDiffInfo> {
+        const encodedBaseBranch = encodeURIComponent(baseBranchName);
+        const encodedBaseBuild = encodeURIComponent(baseBuildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+
         return this.http
-            .get<IUseCaseDiffInfo>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseName/${useCaseName}/useCaseDiffInfo`)
+            .get<IUseCaseDiffInfo>(`rest/diffViewer/baseBranchName/${encodedBaseBranch}/baseBuildName/${encodedBaseBuild}/comparisonName/${encodedComparison}/useCaseName/${encodedUseCase}/useCaseDiffInfo`)
             .pipe(catchError(handleError));
     }
 }

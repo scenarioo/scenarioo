@@ -86,8 +86,8 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + vm.currentIssue.issueId
-            + '/scenariosketch/' + vm.scenarioSketchId + '/stepsketch/' + vm.stepSketchId + '/svg/1';
+        const encodedBranch = encodeURIComponent(selected.branch);
+        return `rest/branch/${encodedBranch}/issue/${vm.currentIssue.issueId}/scenariosketch/${vm.scenarioSketchId}/stepsketch/${vm.stepSketchId}/svg/1`;
     }
 
     function setAuthorFromLocalStorageIfAvailable() {

@@ -14,8 +14,14 @@ export class StepDiffInfosService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string, scenarioName: string): Observable<IScenarioDiffInfo[]> {
+        const encodedBaseBranch = encodeURIComponent(baseBranchName);
+        const encodedBaseBuild = encodeURIComponent(baseBuildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
+        const encodedUseCase = encodeURIComponent(useCaseName);
+        const encodedScenario = encodeURIComponent(scenarioName);
+
         return this.http
-            .get<IScenarioDiffInfo[]>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseName/${useCaseName}/scenarioName/${scenarioName}/stepDiffInfos`)
+            .get<IScenarioDiffInfo[]>(`rest/diffViewer/baseBranchName/${encodedBaseBranch}/baseBuildName/${encodedBaseBuild}/comparisonName/${encodedComparison}/useCaseName/${encodedUseCase}/scenarioName/${encodedScenario}/stepDiffInfos`)
             .pipe(catchError(handleError));
     }
 }

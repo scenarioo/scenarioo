@@ -17,8 +17,12 @@ export class ComparisonCreateResource {
     }
 
     createComparision(comparisonName: string, baseBranch: BuildInfo, compareBranch: BuildInfo): Observable<void> {
+        const encodedBranch = encodeURIComponent(baseBranch.branchName);
+        const encodedBuild = encodeURIComponent(baseBranch.buildName);
+        const encodedComparison = encodeURIComponent(comparisonName);
+
         return this.httpClient
-            .post<void>(`rest/builds/${baseBranch.branchName}/${baseBranch.buildName}/comparisons/${comparisonName}/calculate`, compareBranch);
+            .post<void>(`rest/builds/${encodedBranch}/${encodedBuild}/comparisons/${encodedComparison}/calculate`, compareBranch);
     }
 }
 

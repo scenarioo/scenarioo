@@ -15,9 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {ConfigurationService} from '../services/configuration.service';
-import {BuildDiffInfoService} from '../diffViewer/services/build-diff-info.service';
-import {StepDiffInfoService} from '../diffViewer/services/step-diff-info.service';
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 
 declare var angular: angular.IAngularStatic;
@@ -238,8 +235,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         }
 
         const selected = SelectedBranchAndBuildService.selected();
+        const encodedBranch = encodeURIComponent(selected.branch);
+        const encodedBuild = encodeURIComponent(selected.build);
+        const encodedUsecase = encodeURIComponent($scope.stepIdentifier.usecaseName);
+        const encodedScenario = encodeURIComponent($scope.stepIdentifier.scenarioName);
+        const encodedImage = encodeURIComponent(imageName);
 
-        $scope.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+        $scope.screenShotUrl = `rest/branch/${encodedBranch}/build/${encodedBuild}/usecase/${encodedUsecase}/scenario/${encodedScenario}/image/${encodedImage}`;
     }
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());

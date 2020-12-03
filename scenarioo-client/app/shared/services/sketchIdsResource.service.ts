@@ -13,7 +13,8 @@ export class SketchIdsResource {
     }
 
     get(branchName: string, issueId: number): Observable<ISketchIds> {
-        return this.httpClient.get<ISketchIds>(`rest/branch/${branchName}/issue/${issueId}/ids`);
+        const encodedBranch = encodeURIComponent(branchName);
+        return this.httpClient.get<ISketchIds>(`rest/branch/${encodedBranch}/issue/${issueId}/ids`);
     }
 }
 
