@@ -1,0 +1,152 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div>
+    <div class="row sc-space-bottom">
+        <div class="col-lg-9">
+            See <a href="http://www.scenarioo.org/docs/{{documentationVersion}}/features/diff-viewer/diff-viewer.html"
+                   target="_blank">DiffViewer Documentation</a> for more information on how to configure automatic
+            calculated Comparisons.
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input [(ngModel)]="searchTerm" type="text" class="ng-pristine ng-valid tableSearch form-control"
+                       id="comparisonsSearchField"
+                       data-toggle="tooltip" title="type words separated by spaces to search for"
+                       placeholder="Search comparison ..."/>
+                <span class="input-group-btn">
+                    <button type="button" (click)="resetSearchField()" class="btn btn-default"
+                            id="resetComparisonsSearchField">reset</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <a (click)="refresh()" class="link pull-right" id="refreshComparisons">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Refresh
+            </a>
+        </div>
+    </div>
+
+    <!-- comparisons table -->
+    <table class="table table-curved table-responsive ">
+        <thead>
+        <tr>
+            <th (click)="setOrder('baseBuild.branchName')" [class.selected]="order === 'identifier.branchName'">
+                Branch
+                <span *ngIf="order !== 'baseBuild.branchName'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'baseBuild.branchName' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'baseBuild.branchName' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th (click)="setOrder('baseBuild.buildName')" [class.selected]="order === 'identifier.branchName'">
+                Build
+                <span *ngIf="order !== 'baseBuild.buildName'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'baseBuild.buildName' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'baseBuild.buildName' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th (click)="setOrder('name')" [class.selected]="order === 'identifier.branchName'">
+                Comparison Name
+                <span *ngIf="order !== 'name'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'name' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'name' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th (click)="setOrder('changeRate')" [class.selected]="order === 'identifier.branchName'">
+                Change Rate
+                <span *ngIf="order !== 'changeRate'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'changeRate' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'changeRate' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th (click)="setOrder('calculationDate')" [class.selected]="order === 'identifier.branchName'">
+                Calculation Date
+                <span *ngIf="order !== 'calculationDate'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'calculationDate' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'calculationDate' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th (click)="setOrder('status')" [class.selected]="order === 'identifier.branchName'">
+                Comparison Status
+                <span *ngIf="order !== 'status'">
+                        <i class="fas fa-sort"></i>
+                    </span>
+                <span *ngIf="order === 'status' && reverse">
+                        <i class="fas fa-sort-down"></i>
+                    </span>
+                <span *ngIf="order === 'status' && !reverse">
+                        <i class="fas fa-sort-up"></i>
+                    </span>
+            </th>
+            <th>Details & Log</th>
+            <th>Recalculate</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let comparison of (comparisons$ | async) | orderBy: order:reverse:true | scSearchFilter: searchTerm">
+            <td>{{comparison.baseBuild.branchName}}</td>
+            <td>{{comparison.baseBuild.buildName}}</td>
+            <td>{{comparison.name}}</td>
+            <td>
+                <sc-diff-info-icon *ngIf="comparison.status=='SUCCESS'" [diffInfo]="comparison" elementType="build"
+                                   childElementType="use case"></sc-diff-info-icon>
+            </td>
+            <td>{{comparison.calculationDate | scDateTime}}</td>
+            <td>
+                <span
+                    [ngClass]="[getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+            </td>
+            <td>
+                <sc-comparison-detail [comparison]="comparison"></sc-comparison-detail>
+            </td>
+            <td>
+                <a class="link" (click)="recalculateComparison(comparison)" uib-tooltip="Recalculate this comparison"
+                   tooltip-placement="bottom"><i class="fas fa-sync fa-fw"></i> Recalculate</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
