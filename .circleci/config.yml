@@ -172,7 +172,7 @@ jobs:
 
   publish_docs:
     docker:
-      - image: scenarioo/circleci-with-graphviz:1.0.0
+      - image: scenarioo/circleci-graphviz-java-node:1.0
     working_directory: ~/gitbook
     steps:
       # Add keys with write access to scenarioo.github.io:
