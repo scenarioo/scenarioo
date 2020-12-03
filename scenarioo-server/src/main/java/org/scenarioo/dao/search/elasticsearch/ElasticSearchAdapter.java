@@ -98,8 +98,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	@Override
 	public boolean isEngineRunning() {
+		LOGGER.info("isEngineRunning Called");
 		try {
 			if (restClient == null || !restClient.ping(RequestOptions.DEFAULT)) {
+				LOGGER.info("isEngineRunning: false");
 				return false;
 			}
 			Request request = new Request("GET", "/_cluster/health");
@@ -110,8 +112,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				Map<String, Object> map = XContentHelper.convertToMap(XContentType.JSON.xContent(), is, true);
 				healthStatus = ClusterHealthStatus.fromString((String) map.get("status"));
 			}
+			LOGGER.info("isEngineRunning Status: " + healthStatus);
 			return ClusterHealthStatus.GREEN.equals(healthStatus);
 		} catch (Exception e) {
+			LOGGER.info("isEngineRunning: false");
 			return false;
 		}
 	}
