@@ -63,6 +63,9 @@ If you ever need to publish manually:
 
 ### Additional Requirements for PlantUML
 [PlantUML](https://plantuml.com/) is used to create and display UML diagrams in the documentation. To render the PlantUML diagrams, [Graphviz](https://graphviz.gitlab.io/about/) and Java 8 are required. 
-For these reasons, we've setup a special Docker image with the necessary tools installed and use it in the CircleCI job for automatically publishing the documentation. The Dockerfile can be found in the [docker](https://github.com/scenarioo/scenarioo/tree/develop/docker/gitbook-docs-ci) directory.
+For these reasons, we've setup a special Docker image with the necessary tools installed and use it in the CircleCI job for automatically publishing the documentation. 
+
+The Dockerfile can be found in the [docker](https://github.com/scenarioo/scenarioo/tree/develop/docker/gitbook-docs-ci) directory. 
+There is also a README that explains how to update this image.
 
 For more information, refer to the [Scenarioo Docker Hub](https://hub.docker.com/r/scenarioo).
