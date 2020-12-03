@@ -21,14 +21,15 @@ import com.carrotsearch.hppc.cursors.ObjectCursor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.settings.get.GetSettingsRequest;
-import org.elasticsearch.client.*;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.XContentHelper;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
@@ -43,11 +44,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ElasticSearchAdapter implements SearchAdapter {
 
@@ -104,14 +103,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				LOGGER.info("isEngineRunning: false");
 				return false;
 			}
-			Request request = new Request("GET", "/_cluster/health");
-			Response response = restClient.getLowLevelClient().performRequest(request);
 
-			ClusterHealthStatus healthStatus;
-			try (InputStream is = response.getEntity().getContent()) {
-				Map<String, Object> map = XContentHelper.convertToMap(XContentType.JSON.xContent(), is, true);
-				healthStatus = ClusterHealthStatus.fromString((String) map.get("status"));
-			}
+			ClusterHealthStatus healthStatus = restClient.cluster()
+					.health(new ClusterHealthRequest(), RequestOptions.DEFAULT)
+					.getStatus();
 			LOGGER.info("isEngineRunning Status: " + healthStatus);
 			return ClusterHealthStatus.GREEN.equals(healthStatus);
 		} catch (Exception e) {
