@@ -9,10 +9,6 @@
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>
-              <option name="name" value="cluster.name" />
-              <option name="value" value="elasticsearch" />
-            </DockerEnvVarImpl>
-            <DockerEnvVarImpl>
               <option name="name" value="xpack.ml.enabled" />
               <option name="value" value="false" />
             </DockerEnvVarImpl>

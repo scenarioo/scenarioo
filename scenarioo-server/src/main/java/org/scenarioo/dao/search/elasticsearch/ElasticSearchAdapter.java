@@ -64,8 +64,6 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
 
-	private final String clusterName = configurationRepository.getConfiguration().getElasticSearchClusterName();
-
 	public ElasticSearchAdapter() {
 		if (restClient != null || !elasticSearchConfigured) {
 			// already initialized or no configuration provided.

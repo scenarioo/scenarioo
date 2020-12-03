@@ -48,8 +48,6 @@ public class Configuration {
 
 	private String elasticSearchEndpoint = "localhost:9200";
 
-	private String elasticSearchClusterName = "elasticsearch";
-
 	private String applicationName = "";
 
 	private String applicationInformation = "";
@@ -60,7 +58,7 @@ public class Configuration {
 	 */
 	private String branchSelectionListOrder = "name-ascending";
 
-	private Map<String, String> buildstates = new HashMap<String, String>();
+	private Map<String, String> buildstates = new HashMap<>();
 
 	/**
 	 * RGB Hex Color
@@ -86,15 +84,15 @@ public class Configuration {
 
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
-	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
+	private List<BranchAlias> branchAliases = new LinkedList<>();
 
 	@XmlElementWrapper(name = "comparisonConfigurations")
 	@XmlElement(name = "comparisonConfiguration")
-	private List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+	private List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<>();
 
-	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<>();
 
-	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
+	private List<CustomObjectTab> customObjectTabs = new ArrayList<>();
 
 	public String getDefaultBranchName() {
 		return defaultBranchName;
@@ -152,14 +150,6 @@ public class Configuration {
 		this.elasticSearchEndpoint = elasticSearchEndpoint;
 	}
 
-	public String getElasticSearchClusterName() {
-		return elasticSearchClusterName;
-	}
-
-	public void setElasticSearchClusterName(String elasticSearchClusterName) {
-		this.elasticSearchClusterName = elasticSearchClusterName;
-	}
-
 	public String getApplicationName() {
 		return applicationName;
 	}
@@ -206,7 +196,7 @@ public class Configuration {
 
 	public List<BranchAlias> getBranchAliases() {
 		if (branchAliases == null) {
-			branchAliases = new LinkedList<BranchAlias>();
+			branchAliases = new LinkedList<>();
 		}
 		return branchAliases;
 	}
@@ -225,7 +215,7 @@ public class Configuration {
 
 	public Map<String, LabelConfiguration> getLabelConfigurations() {
 		if (labelConfigurations == null) {
-			labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+			labelConfigurations = new LinkedHashMap<>();
 		}
 		return labelConfigurations;
 	}
