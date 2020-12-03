@@ -71,29 +71,29 @@ generateTypeScript {
 
 dependencies {
 
-    compile 'org.apache.xmlgraphics:batik-transcoder'
-    compile 'org.apache.xmlgraphics:batik-codec'
-    compile 'org.apache.xmlgraphics:xmlgraphics-commons'
-    compile 'com.thetransactioncompany:cors-filter'
-    compile 'org.elasticsearch:elasticsearch'
-    compile 'org.elasticsearch.client:transport'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.apache.xmlgraphics:batik-transcoder'
+    implementation 'org.apache.xmlgraphics:batik-codec'
+    implementation 'org.apache.xmlgraphics:xmlgraphics-commons'
+    implementation 'com.thetransactioncompany:cors-filter'
+    implementation 'org.elasticsearch:elasticsearch'
+    implementation 'org.elasticsearch.client:transport'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    compile 'io.springfox:springfox-swagger2'
-    compile 'io.springfox:springfox-swagger-ui'    
-    
-    //These libraries are no longer provided in Java 9+, thus we need to add them manually
-    compile 'javax.xml.bind:jaxb-api'
-    compile 'com.sun.xml.bind:jaxb-core'
-    compile 'com.sun.xml.bind:jaxb-impl'
-    compile 'javax.activation:activation'
+    implementation 'io.springfox:springfox-swagger2'
+    implementation 'io.springfox:springfox-swagger-ui'
 
-    testCompile 'org.mockito:mockito-core'
-    testCompile 'org.mockito:mockito-junit-jupiter'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    //These libraries are no longer provided in Java 9+, thus we need to add them manually
+    implementation 'javax.xml.bind:jaxb-api'
+    implementation 'com.sun.xml.bind:jaxb-core'
+    implementation 'com.sun.xml.bind:jaxb-impl'
+    implementation 'javax.activation:activation'
+
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 eclipse {
