@@ -2,13 +2,13 @@
     <div class="sc-progressbar-container">
         <div class="sc-progressbar row">
             <div (click)="goStepBack()" class="sc-progressbar-cell sc-first" [tooltip]="stepIndex === 1 ? '':'Previous Step [Left]'" placement="bottom" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'" id="prevStepBtn">
-                <i class="fas fa-angle-left"></i>
+                <span>&#9204;</span>
             </div>
             <progressbar [max]="totalNumberOfSteps" [value]="stepIndex" class="progress-bar-cell sc-progress">
                 <span class="text-nowrap" tooltip="of all steps in this scenario" placement="bottom">Step {{stepIndex}} of {{totalNumberOfSteps}} in Scenario "{{scenarioName | scHumanReadable}}"</span>
             </progressbar>
             <div (click)="goStepForward()" class="sc-progressbar-cell sc-last" [tooltip]="stepIndex === totalNumberOfSteps ? '':'Next Step [Right]'" placement="bottom" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'" id="nextStepBtn">
-                <i class="fas fa-angle-right"></i>
+                <span>&#9205;</span>
             </div>
         </div>
     </div>
