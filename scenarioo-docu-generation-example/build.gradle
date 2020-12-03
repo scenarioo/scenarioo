@@ -41,5 +41,5 @@ test {
 
 dependencies {
 	// Required for java 11 as it's not part anymore
-	compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
+	implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
 }
