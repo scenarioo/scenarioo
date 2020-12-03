@@ -124,7 +124,7 @@ bootJar {
     from('../scenarioo-client/dist') {
         into('static')
     }
-    archiveFileName = 'scenarioo-viewer-' + version + '.jar'
+    archiveFileName = 'scenarioo-viewer-' + versionWithGitCommit + '.jar'
 }
 
 bootJar.doLast {
@@ -140,15 +140,15 @@ bootWar {
     from('../scenarioo-client/dist') {
         into('WEB-INF/classes/static')
     }
-    archiveFileName = 'scenarioo-viewer-' + version + '.war'
+    archiveFileName = 'scenarioo-viewer-' + versionWithGitCommit + '.war'
 }
 
 bootWar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-viewer-' + version + '.war')
-        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + versionWithGitCommit + '.war')
+        rename('scenarioo-viewer-' + versionWithGitCommit + '.war', 'scenarioo-latest.war')
     }
 }
 
