@@ -13,7 +13,6 @@ jobs:
           xpack.security.enabled: false
           ES_JAVA_OPTS: -Xms512m -Xmx512m
     working_directory: ~/repo
-    executor: browser-tools/default
     steps:
       - browser-tools/install-browser-tools:
           chrome-version: 86.0.4240.111
@@ -216,7 +215,6 @@ jobs:
       # See https://circleci.com/developer/images/image/cimg/openjdk
       - image: cimg/openjdk:8.0.275-browsers
     working_directory: ~/smoketest
-    executor: browser-tools/default
     steps:
       - browser-tools/install-browser-tools:
           chrome-version: 86.0.4240.111
