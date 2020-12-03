@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import handleError from '../../shared/utils/httpErrorHandling';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {Url} from '../../shared/utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,14 +15,9 @@ export class StepDiffInfosService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string, useCaseName: string, scenarioName: string): Observable<IScenarioDiffInfo[]> {
-        const encodedBaseBranch = encodeURIComponent(baseBranchName);
-        const encodedBaseBuild = encodeURIComponent(baseBuildName);
-        const encodedComparison = encodeURIComponent(comparisonName);
-        const encodedUseCase = encodeURIComponent(useCaseName);
-        const encodedScenario = encodeURIComponent(scenarioName);
-
+        const url = Url.encodeComponents `rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseName/${useCaseName}/scenarioName/${scenarioName}/stepDiffInfos`;
         return this.http
-            .get<IScenarioDiffInfo[]>(`rest/diffViewer/baseBranchName/${encodedBaseBranch}/baseBuildName/${encodedBaseBuild}/comparisonName/${encodedComparison}/useCaseName/${encodedUseCase}/scenarioName/${encodedScenario}/stepDiffInfos`)
+            .get<IScenarioDiffInfo[]>(url)
             .pipe(catchError(handleError));
     }
 }

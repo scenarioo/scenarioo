@@ -16,6 +16,7 @@
  */
 
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
+import {Url} from '../shared/utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -235,13 +236,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         }
 
         const selected = SelectedBranchAndBuildService.selected();
-        const encodedBranch = encodeURIComponent(selected.branch);
-        const encodedBuild = encodeURIComponent(selected.build);
-        const encodedUsecase = encodeURIComponent($scope.stepIdentifier.usecaseName);
-        const encodedScenario = encodeURIComponent($scope.stepIdentifier.scenarioName);
-        const encodedImage = encodeURIComponent(imageName);
-
-        $scope.screenShotUrl = `rest/branch/${encodedBranch}/build/${encodedBuild}/usecase/${encodedUsecase}/scenario/${encodedScenario}/image/${encodedImage}`;
+        $scope.screenShotUrl = Url.encodeComponents `rest/branch/${selected.branch}/build/${selected.build}/usecase/${$scope.stepIdentifier.usecaseName}/scenario/${$scope.stepIdentifier.scenarioName}/image/${imageName}`;
     }
 
     $scope.getCurrentUrlForSharing = () => $location.absUrl() + createLabelUrl('&', getAllLabels());
@@ -251,13 +246,11 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             return undefined;
         }
 
-        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY]) +
-            '/build/' + encodeURIComponent(SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY]) +
-            '/usecase/' + encodeURIComponent(useCaseName) +
-            '/scenario/' + encodeURIComponent(scenarioName) +
-            '/pageName/' + encodeURIComponent($scope.pageName) +
-            '/pageOccurrence/' + $scope.pageOccurrence +
-            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
+        const selectedBranch = SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY];
+        const selectedBuild = SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY];
+        const relativeUrl = Url.encodeComponents `rest/branch/${selectedBranch}/build/${selectedBuild}/usecase/${useCaseName}/scenario/${scenarioName}/pageName/${$scope.pageName}/pageOccurrence/${$scope.pageOccurrence}/stepInPageOccurrence/${$scope.stepInPageOccurrence}/image.${getImageFileExtension()}`;
+        const queryParameter = createLabelUrl('?', getAllLabels());
+        return getUrlPartBeforeHash($location.absUrl()) + relativeUrl + queryParameter;
     };
 
     function getUrlPartBeforeHash(url) {

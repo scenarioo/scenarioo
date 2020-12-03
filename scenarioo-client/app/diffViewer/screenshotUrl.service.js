@@ -15,31 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {Url} from '../shared/utils/url';
+
 angular.module('scenarioo.services').service('ScreenshotUrlService', ScreenshotUrlService);
 
 function ScreenshotUrlService() {
 
     function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex) {
         if (step && stepIndex >= 0 && useCaseName) {
-            const encodedBranch = encodeURIComponent(selected.branch);
-            const encodedBuild = encodeURIComponent(selected.build);
-            const encodedComparison = encodeURIComponent(comparisonName);
-            const encodedUseCase = encodeURIComponent(useCaseName);
-            const encodedScenario = encodeURIComponent(scenarioName);
-
-            return `rest/diffViewer/baseBranchName/${encodedBranch}/baseBuildName/${encodedBuild}/comparisonName/${encodedComparison}/useCaseName/${encodedUseCase}/scenarioName/${encodedScenario}/stepIndex/${stepIndex}/stepDiffScreenshot`;
+            return Url.encodeComponents `rest/diffViewer/baseBranchName/${selected.branch}/baseBuildName/${selected.build}/comparisonName/${comparisonName}/useCaseName/${useCaseName}/scenarioName/${scenarioName}/stepIndex/${stepIndex}/stepDiffScreenshot`;
         }
     }
 
     function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName) {
         if (comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName) {
-            const encodedComparisonBranch = encodeURIComponent(comparisonBranchName);
-            const encodedComparisonBuild = encodeURIComponent(comparisonBuildName);
-            const encodedUseCase = encodeURIComponent(useCaseName);
-            const encodedScenario = encodeURIComponent(scenarioName);
-            const encodedComparisonScreenshot = encodeURIComponent(comparisonScreenshotName);
-
-            return `rest/branch/${encodedComparisonBranch}/build/${encodedComparisonBuild}/usecase/${encodedUseCase}/scenario/${encodedScenario}/image/${encodedComparisonScreenshot}`;
+            return Url.encodeComponents `rest/branch/${comparisonBranchName}/build/${comparisonBuildName}/usecase/${useCaseName}/scenario/${scenarioName}/image/${comparisonScreenshotName}`;
         }
     }
 

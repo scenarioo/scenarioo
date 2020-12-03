@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import handleError from '../../shared/utils/httpErrorHandling';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {Url} from '../../shared/utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,12 +15,9 @@ export class UseCaseDiffInfosService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string): Observable<IUseCaseDiffInfo[]> {
-        const encodedBaseBranch = encodeURIComponent(baseBranchName);
-        const encodedBaseBuild = encodeURIComponent(baseBuildName);
-        const encodedComparison = encodeURIComponent(comparisonName);
-
+        const url = Url.encodeComponents `rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/useCaseDiffInfos`;
         return this.http
-            .get<IUseCaseDiffInfo[]>(`rest/diffViewer/baseBranchName/${encodedBaseBranch}/baseBuildName/${encodedBaseBuild}/comparisonName/${encodedComparison}/useCaseDiffInfos`)
+            .get<IUseCaseDiffInfo[]>(url)
             .pipe(catchError(handleError));
     }
 }
