@@ -69,8 +69,8 @@ allprojects {
 
 			dependency 'com.thetransactioncompany:cors-filter:2.5'
 
-			dependency 'org.elasticsearch:elasticsearch:7.9.3'
-			dependency 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.9.3'
+			dependency 'org.elasticsearch:elasticsearch:7.10.0'
+			dependency 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.10.0'
 
 			dependency 'org.apache.commons:commons-lang3:3.5'
 			dependency 'org.apache.commons:commons-collections4:4.1'

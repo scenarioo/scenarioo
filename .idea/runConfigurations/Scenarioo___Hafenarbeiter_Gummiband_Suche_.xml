@@ -2,7 +2,7 @@
   <configuration default="false" name="Scenarioo - Hafenarbeiter Gummiband Suche " type="docker-deploy" factoryName="docker-image" server-name="Docker">
     <deployment type="docker-image">
       <settings>
-        <option name="imageTag" value="docker.elastic.co/elasticsearch/elasticsearch:7.9.3" />
+        <option name="imageTag" value="docker.elastic.co/elasticsearch/elasticsearch:7.10.0" />
         <option name="command" value="" />
         <option name="containerName" value="elasticsearch-scenarioo" />
         <option name="entrypoint" value="" />
