@@ -51,6 +51,7 @@ The easiest way to publish the documentation is to use the automation on CircleC
 If you ever need to publish manually:
 
 * Make sure the version of scenarioo/scenarioo you want to release the docu for is checked out (usually `develop`, `master` or a release branch).
+* ensure you have the uml tooling properly installed (graphviz - see below!)
 * Run `npm install` and `npm run build` in `docs` folder.
 * Use the npm tooling, similar to `/ci/publishGitbookMarkdownDocu.sh`.
 * OR: Copy the generated content of the `docs/_book` folder to the scenarioo.github.io repository into the appropriate subfolder of `docs` for the version you want to deploy

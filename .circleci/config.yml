@@ -202,6 +202,8 @@ jobs:
             export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
             echo "Publish docs for $DOCU_VERSION"
             cd docs
+            echo "copy missing assets - over assets in _book - there seems to be a problem with generated uml diagrams otherwise ..."
+            cp -rf assets _book
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
       - store_artifacts:
           path: /home/circleci/.npm/_logs
