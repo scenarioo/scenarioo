@@ -17,10 +17,9 @@
 
 group = 'org.scenarioo'
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/build-java.gradle"
 apply plugin: 'org.springframework.boot'
 apply plugin: 'cz.habarta.typescript-generator'
@@ -96,28 +95,20 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-eclipse {
-  wtp {
-    component {
-      contextPath = 'scenarioo'
-      deployName = 'scenarioo'
-    }
-  }
-}
 
 task createVersionPropertiesFile {
-	doLast {
-		def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
-		def apiVersion = project.scenariooApiVersion
-		def documentationVersion = project.documentationVersion
+    doLast {
+        def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
+        def apiVersion = project.scenariooApiVersion
+        def documentationVersion = project.documentationVersion
 
-		File versionFile = new File(sourceSets.main.output.classesDirs.getSingleFile().absolutePath + '/version.properties');
-		versionFile.write('version=' + versionWithGitCommit + '\n' +
-				'build-date=' + new Date() + '\n' +
-				'apiVersion=' + apiVersion + '\n' +
-				'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-				'documentationVersion=' + documentationVersion + '\n')
-	}
+        File versionFile = new File(sourceSets.main.output.classesDirs.getSingleFile().absolutePath + '/version.properties');
+        versionFile.write('version=' + versionWithGitCommit + '\n' +
+                'build-date=' + new Date() + '\n' +
+                'apiVersion=' + apiVersion + '\n' +
+                'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
+                'documentationVersion=' + documentationVersion + '\n')
+    }
 }
 
 bootJar {
@@ -129,8 +120,8 @@ bootJar {
 
 bootJar.doLast {
     copy {
-        from ('build/libs/')
-        into ('build/libs/')
+        from('build/libs/')
+        into('build/libs/')
         include('scenarioo-viewer-' + version + '.jar')
         rename('scenarioo-viewer-' + version + '.jar', 'scenarioo-latest.jar')
     }
@@ -145,8 +136,8 @@ bootWar {
 
 bootWar.doLast {
     copy {
-        from ('build/libs/')
-        into ('build/libs/')
+        from('build/libs/')
+        into('build/libs/')
         include('scenarioo-viewer-' + versionWithGitCommit + '.war')
         rename('scenarioo-viewer-' + versionWithGitCommit + '.war', 'scenarioo-latest.war')
     }
@@ -157,9 +148,9 @@ war.dependsOn createVersionPropertiesFile
 bootWar.dependsOn ":scenarioo-client:build"
 war.dependsOn ":scenarioo-client:build"
 
-if(ossrhPassword) {
+if (ossrhPassword) {
     signing {
-        sign configurations.archives
+        sign bootWar
     }
 }
 
@@ -167,45 +158,52 @@ tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            artifact bootWar
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
+            groupId 'org.scenarioo'
+            artifactId 'scenarioo-viewer'
+            version '5.0.2'
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Scenarioo Viewer'
-                packaging 'war'
-                description 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
-                url 'http://www.scenarioo.org'
+            pom {
+                name = 'Scenarioo Viewer'
+                packaging = 'war'
+                description = 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
+                url = 'http://www.scenarioo.org'
 
                 scm {
-                    connection 'https://github.com/scenarioo/scenarioo.git'
-                    developerConnection 'https://github.com/scenarioo/scenarioo.git'
-                    url 'https://github.com/scenarioo/scenarioo.git'
+                    connection = 'https://github.com/scenarioo/scenarioo.git'
+                    developerConnection = 'https://github.com/scenarioo/scenarioo.git'
+                    url = 'https://github.com/scenarioo/scenarioo.git'
                 }
 
                 licenses {
                     license {
-                        name 'GNU GENERAL PUBLIC LICENSE'
-                        url 'https://github.com/scenarioo/scenarioo/blob/develop/LICENSE.txt'
+                        name = 'GNU GENERAL PUBLIC LICENSE'
+                        url = 'https://github.com/scenarioo/scenarioo/blob/develop/LICENSE.txt'
                     }
                 }
 
                 developers {
                     developer {
-                        id 'scenarioo'
-                        name 'Scenarioo'
-                        email 'contact@scenarioo.org'
+                        id = 'scenarioo'
+                        name = 'Scenarioo'
+                        email = 'contact@scenarioo.org'
                     }
                 }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            // SNAPSHOTS: https://oss.sonatype.org/content/repositories/snapshots/
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
             }
         }
     }

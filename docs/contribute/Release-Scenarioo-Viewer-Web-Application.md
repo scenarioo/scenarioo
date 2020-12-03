@@ -131,7 +131,7 @@ http://central.sonatype.org/pages/releasing-the-deployment.html
 ### Publish the Release on Webpage, Twitter and Newsletter
 
 * **Update the Webpage (if needed):** Merge the prepared changes for the webpage for the release (release branch on scenarioo.github.io repository) to master to update the webpage for the release (if needed)
-* **Post on Twitter:** Send out a notfication about the new released version on our Twitter news channel: scenarioo_org (Login with our master password)
+* **Post on Twitter:** Send out a notification about the new released version on our Twitter news channel: scenarioo_org (Login with our master password)
 * **Send out Newsletter** to scenarioo-news@googlegroups.com
 * **Post it on Yammer and other important news channels**
 
