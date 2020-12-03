@@ -19,78 +19,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-page-loading
     [loadingObservable]="stepObservable"> -->
 
-    <sc-detailarea key="stepView" *ngIf="step"
-        [mainDetailsSections]="mainDetailsSections"
-        [additionalDetailsSections]="additionalDetailsSections">
+<sc-detailarea *ngIf="step" [additionalDetailsSections]="additionalDetailsSections"
+               [mainDetailsSections]="mainDetailsSections"
+               key="stepView">
 
-        <sc-title scenarioName="{{scenarioName | scHumanReadable}}"
-                  stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
+    <sc-title scenarioName="{{scenarioName | scHumanReadable}}"
+              stepIndex="{{getCurrentStepIndexForDisplay()}}"></sc-title>
 
+    <div class="step-view-container">
         <sc-progressbar [stepNavigation]="stepNavigation"
                         [stepStatistics]="stepStatistics"></sc-progressbar>
 
-        <div class="step-view-container">
-
-            <tabset #stepViewTabs>
-                <tab heading="Screenshot" id="screenshot-tab" (selectTab)="setActiveTab('screenshot-tab')">
-                    <div class="flex-fill flex">
-                        <div (click)="goStepBack()" class="step-nav-button no-border-right" [ngClass]="stepNavigation?.stepIndex === 0 ? 'step-arrow-grey':'step-arrow'">
-                            <div class="sticky-arrow-container">
-                                <div class="sticky-arrow-icon-area">
-                                    <span>&#9204;</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- TODO: Screen Annotations must work again -->
-                        <sc-annotated-screenshot [screenAnnotations]="step?.screenAnnotations"
-                                                 [screenShotUrl]="screenShotUrl"
-                                                 [visibilityToggle]="true">
-                        </sc-annotated-screenshot>
-                        <div (click)="goStepForward()" class="step-nav-button no-border-left" [ngClass]="stepNavigation?.stepIndex === (stepStatistics?.totalNumberOfStepsInScenario - 1) ? 'step-arrow-grey':'step-arrow'">
-                            <div class="sticky-arrow-container">
-                                <div class="sticky-arrow-icon-area">
-                                    <span>&#9205;</span>
-                                </div>
+        <tabset #stepViewTabs>
+            <tab (selectTab)="setActiveTab('screenshot-tab')" heading="Screenshot" id="screenshot-tab">
+                <div class="flex-fill flex">
+                    <div (click)="goStepBack()"
+                         [ngClass]="stepNavigation?.stepIndex === 0 ? 'step-arrow-grey':'step-arrow'"
+                         class="step-nav-button no-border-right">
+                        <div class="sticky-arrow-container">
+                            <div class="sticky-arrow-icon-area">
+                                <span>&#9204;</span>
                             </div>
                         </div>
                     </div>
-                </tab>
 
-                <tab *ngIf="step?.html" heading="HTML" id="html-tab" (selectTab)="setActiveTab('html-tab')">
-                    <pre [textContent]="step.html.htmlSource" id="html-source"></pre>
-                </tab>
+                    <!-- TODO: Screen Annotations must work again -->
+                    <sc-annotated-screenshot [screenAnnotations]="step?.screenAnnotations"
+                                             [screenShotUrl]="screenShotUrl"
+                                             [visibilityToggle]="true">
+                    </sc-annotated-screenshot>
+                    <div (click)="goStepForward()"
+                         [ngClass]="stepNavigation?.stepIndex === (stepStatistics?.totalNumberOfStepsInScenario - 1) ? 'step-arrow-grey':'step-arrow'"
+                         class="step-nav-button no-border-left">
+                        <div class="sticky-arrow-container">
+                            <div class="sticky-arrow-icon-area">
+                                <span>&#9205;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
 
-                <!-- Diff Viewer Step Comparison View -->
-                <tab  *ngIf="isComparisonExisting"
-                      id="comparison-tab"
-                      (selectTab)="setActiveTab('comparison-tab')">
-                    <ng-template tabHeading>
-                        <span>Comparison&nbsp;</span>
-                        <span class="sc-label sc-label-after-text">
+            <tab (selectTab)="setActiveTab('html-tab')" *ngIf="step?.html" heading="HTML" id="html-tab">
+                <pre [textContent]="step.html.htmlSource" id="html-source"></pre>
+            </tab>
+
+            <tab (selectTab)="setActiveTab('comparison-tab')"
+                 *ngIf="isComparisonExisting"
+                 id="comparison-tab">
+                <ng-template tabHeading>
+                    <span>Comparison&nbsp;</span>
+                    <span class="sc-label sc-label-after-text">
                             <sc-diff-info-icon [diffInfo]="step?.diffInfo"
                                                childElementType="screenshot"
                                                elementType="screenshot"></sc-diff-info-icon>
                         </span>
-                    </ng-template>
+                </ng-template>
 
-                    <sc-comparison-view [step]="step"
-                                        [stepIdentifier]="stepIdentifier"
-                                        [stepIndex]="stepNavigation.stepIndex"
-                                        [screenShotUrl]="screenShotUrl"></sc-comparison-view>
+                <sc-comparison-view [screenShotUrl]="screenShotUrl"
+                                    [stepIdentifier]="stepIdentifier"
+                                    [stepIndex]="stepNavigation.stepIndex"
+                                    [step]="step"></sc-comparison-view>
+            </tab>
 
-                </tab>
+            <tab *ngIf="step?.screenAnnotations?.length !== 0" id="toggleScreenAnnotationsDisplayed">
+                <ng-template tabHeading>
+                    <sc-screen-annotations-button
+                        [screenAnnotations]="step?.screenAnnotations"></sc-screen-annotations-button>
+                </ng-template>
+            </tab>
 
-                <tab *ngIf="step?.screenAnnotations?.length !== 0" id="toggleScreenAnnotationsDisplayed">
-                    <ng-template tabHeading>
-                        <sc-screen-annotations-button [screenAnnotations]="step?.screenAnnotations"></sc-screen-annotations-button>
-                    </ng-template>
-                </tab>
+        </tabset>
+    </div>
 
-            </tabset>
-
-        </div>
-
-    </sc-detailarea>
+</sc-detailarea>
 
 <!-- </sc-page-loading> -->

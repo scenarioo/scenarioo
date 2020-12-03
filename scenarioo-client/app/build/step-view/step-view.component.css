@@ -3,7 +3,9 @@ sc-step-view #sc-meta-data-panel {
 }
 
 sc-step-view .step-view-container {
-    margin-top: 70px;
+    margin-top: 40px;
+    position: relative;
+    display: inline-block;
 }
 
 sc-step-view .step-nav-button {

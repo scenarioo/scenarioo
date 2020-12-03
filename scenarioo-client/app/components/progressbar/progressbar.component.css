@@ -1,37 +1,24 @@
-sc-progressbar .sc-container {
-    display: table;
+sc-progressbar .navigation-container {
     float: right;
-    margin-top: -10px;
-    margin-right: -5px;
 }
 
-sc-progressbar .sc-progressbar-container {
-    border-collapse: collapse;
-    float: right;
-    margin-bottom: 10px;
-    margin-top: 10px;
+sc-progressbar .progressbar-element {
+    float: left;
 }
 
-sc-progressbar .sc-progressbar {
-    background-color: #ccc;
-    padding: 1px;
-    height: 30px;
+sc-progressbar .navigation {
+    font-size: 30px;
+    line-height: 40px;
 }
 
-sc-progressbar .row {
-    display: table-row;
-}
-
-sc-progressbar .sc-first {
+sc-progressbar .first {
     border-radius: 10px 0 0 10px;
+    padding-left: 4px;
 }
 
-sc-progressbar .sc-last {
+sc-progressbar .last {
     border-radius: 0 10px 10px 0;
-}
-
-sc-progressbar .sc-progressbar-cell {
-    display: table-cell;
+    padding-right: 4px;
 }
 
 sc-progressbar .step-arrow, sc-progressbar .step-arrow-grey {
@@ -40,13 +27,12 @@ sc-progressbar .step-arrow, sc-progressbar .step-arrow-grey {
     background-color: #CCCCCC
 }
 
-sc-progressbar .progress-bar {
-    line-height: 32px;
-    margin-top: -1px;
-    margin-bottom: -1px;
+.progress-bar {
+    line-height: 38px;
     font-size: 14px;
     color: #777777;
     background-color: #c1d9ee;
+    box-shadow: none;
 }
 
 sc-progressbar .text-nowrap {
@@ -57,10 +43,12 @@ sc-progressbar .text-nowrap {
 
 sc-progressbar .page-navigation {
     float: left;
+    margin-top: 5px;
 }
 
 sc-progressbar .page-variant-navigation {
     float: right;
+    margin-top: 5px;
 }
 
 sc-progressbar .page {
@@ -79,10 +67,11 @@ sc-progressbar .page-arrow-grey {
     cursor: default;
 }
 
-sc-progressbar .sc-progress.progress {
+sc-progressbar .progress.progress {
     background-color: #EEEEEE;
     width: auto;
-    border: 1px solid #CCCCCC;
-    height: unset;
+    border: 3px solid #CCCCCC;
+    height: 40px;
     margin-bottom: unset;
+    border-radius: 0;
 }
