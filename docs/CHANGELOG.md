@@ -1,4 +1,43 @@
 # Scenarioo Release Notes
+
+## WIP Version 6.0.0
+
+### Frontend Modernisation
+
+* [?? - Improved Startscreen with Tabs](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Usecases List](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Scenarios List](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Scenario Overview](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Step View](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Details Side Bar](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved Breadcrumbs](https://github.com/scenarioo/scenarioo/issues/TODO)
+* [?? - Improved label colors configuration management page](https://github.com/scenarioo/scenarioo/issues/TODO)
+* ...
+
+### Breaking Changes and Backwards Compatibility
+
+TODO Currently no breaking changes are known - please list here if any.
+
+* Maybe Elasticsearch Upgrade ??
+
+### Supported Scenarioo Format
+
+* The used Scenarioo Data format is still version 2.1. You can safely use Scenarioo 5.0 with the same data format as before and do not have to upgrade the used Scenarioo writer library to use the new Scenarioo viewer version. 
+* The internal format has not been changed either, so you do not even have to reimport your builds that have been imported with the previous version in the data directory. All build and comparison data will still work with the new version.
+
+### Fixed Issues
+
+See complete [List of Fixed Issues in this Release](https://github.com/scenarioo/scenarioo/milestone/37?closed=1).
+
+### Known Issues
+
+See [List of Known Issues on GitHub](https://github.com/scenarioo/scenarioo/issues?q=is%3Aopen+is%3Aissue+label%3A%22known+issue%22).
+
+### Feedback and Support
+
+Don't hesitate to open new issues if you find a bug or problem, or have feedback or questions:
+https://github.com/scenarioo/scenarioo/issues/new?labels=feedback
+
 ## Version 5.0.2
 
 ### Bugfixes

@@ -15,16 +15,6 @@ sc-detailarea a#sc-showHideDetailsButton:hover {
     text-decoration: none
 }
 
-/* General flex box layout styles (because we not have bootstrap 4 yet) */
-
-sc-detailarea .flex {
-    display: flex;
-}
-
-sc-detailarea .flex-fill {
-    flex: 1 1 auto;
-}
-
 /* Colapsable Details Panel */
 
 sc-detailarea .details-panel {
@@ -37,7 +27,7 @@ sc-detailarea .details-panel {
 sc-detailarea .details-collapse-button {
     background-color: #CCCCCC;
     width: 30px;
-    min-width: 30px; /* do never shrink */
+    flex-shrink: 0;
     font-size: x-large;
     color: #337AB7;
     cursor: pointer;
