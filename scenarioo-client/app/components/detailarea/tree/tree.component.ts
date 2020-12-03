@@ -27,7 +27,7 @@ const CHILDREN = 'children';
 
 @Component({
     selector: 'sc-tree',
-    template: '<div [innerHTML]=this.treeHtml class="sc-tree"></div>',
+    template: require('./tree.component.html'),
     styles: [require('./tree.component.css').toString()],
 })
 export class TreeComponent {
@@ -207,4 +207,4 @@ export class TreeComponent {
 
 angular.module('scenarioo.directives')
     .directive('scTree',
-        downgradeComponent({component: ScenariosOverviewComponent}) as angular.IDirectiveFactory);
+        downgradeComponent({component: TreeComponent}) as angular.IDirectiveFactory);

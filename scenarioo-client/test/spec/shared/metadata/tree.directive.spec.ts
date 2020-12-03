@@ -71,7 +71,7 @@ xdescribe('Directive scTree', function () {
     });
 
     function compileDirective() {
-        var html = '<sc-tree information-tree="data"></sc-tree>';
+        var html = '<sc-tree [information-tree]="data"></sc-tree>';
         element = $compile(html)($scope);
         $scope.$apply();
     }
