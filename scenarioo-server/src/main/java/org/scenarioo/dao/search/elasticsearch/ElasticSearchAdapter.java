@@ -91,6 +91,21 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		}
 	}
 
+	/**
+	 * If an open connection to ElasticSearch is present it should be closed before the server is stopped.
+	 */
+	public void close() {
+		if (restClient != null) {
+			try {
+				LOGGER.info("Closing Rest Client");
+				restClient.close();
+			} catch (IOException e) {
+				LOGGER.error("Could not close ElasticSearch Rest Client", e);
+			}
+			restClient = null;
+		}
+	}
+
 	@Override
 	public boolean isSearchEndpointConfigured() {
 		return endpoint != null && endpoint.contains(":");
