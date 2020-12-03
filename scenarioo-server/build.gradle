@@ -124,7 +124,7 @@ bootJar {
     from('../scenarioo-client/dist') {
         into('static')
     }
-    archiveFileName = 'scenarioo-viewer-' + archiveVersion + '.jar'
+    archiveFileName = 'scenarioo-viewer-' + version + '.jar'
 }
 
 bootJar.doLast {
@@ -140,7 +140,7 @@ bootWar {
     from('../scenarioo-client/dist') {
         into('WEB-INF/classes/static')
     }
-    archiveFileName = 'scenarioo-viewer-' + archiveVersion + '.war'
+    archiveFileName = 'scenarioo-viewer-' + version + '.war'
 }
 
 bootWar.doLast {
