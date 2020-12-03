@@ -54,7 +54,7 @@ import org.scenarioo.uitest.dummy.application.steps.calls.Service;
  */
 public class DummyApplicationStepDataFactory {
 
-	private final List<DummyApplicationStepData> steps = new ArrayList<DummyApplicationStepData>();
+	private final List<DummyApplicationStepData> steps = new ArrayList<>();
 
 	private final String screenshotPrefix = "screenshot_";
 
@@ -68,7 +68,7 @@ public class DummyApplicationStepDataFactory {
 
 	private String pageName = null;
 
-	private final Map<String, String> elementTexts = new HashMap<String, String>();
+	private final Map<String, String> elementTexts = new HashMap<>();
 
 	private ObjectTreeNode<ObjectDescription> callTree;
 
@@ -164,6 +164,10 @@ public class DummyApplicationStepDataFactory {
 		title("Technical Page with Encoded Space").pageName("url-with%2520encoded%20space.jsp").callTreeStart();
 		createStep("urlWithEncodedSpace");
 
+		startConfig(TECHNICAL_ENCODED_SPECIAL_CHARACTERS_STEP_CONFIG).startUrl("http://www.wikipedia.org/url-with-sp€c!al#ch@racters");
+		title("Technical Page with Encoded Characters").pageName("url-with-sp€c!al#ch@racters.jsp").callTreeStart();
+		createStep("specialDummyPage");
+
 		return steps;
 
 	}
@@ -172,7 +176,7 @@ public class DummyApplicationStepDataFactory {
 	 * Define some elements with screen regions, to place screen annotations on for demonstration purposes.
 	 */
 	private Map<String, ScreenRegion> createElementRegions(final String stepName) {
-		Map<String, ScreenRegion> elementRegions = new HashMap<String, ScreenRegion>();
+		Map<String, ScreenRegion> elementRegions = new HashMap<>();
 
 		// Define some default element positions for most used elements
 		elementRegions.put("searchField", new ScreenRegion(382, 462, 164, 26));
@@ -218,7 +222,7 @@ public class DummyApplicationStepDataFactory {
 	}
 
 	private DummyApplicationStepDataFactory callTree() {
-		callTreePathUnderConstruction = new LinkedList<ObjectTreeNode<ObjectDescription>>();
+		callTreePathUnderConstruction = new LinkedList<>();
 		ObjectDescription httpRequest = new ObjectDescription("httpCall", sanitize(browserUrl));
 		callTree = addCallTreeNode(httpRequest);
 		return this;
@@ -254,7 +258,7 @@ public class DummyApplicationStepDataFactory {
 		}
 
 		// Insert object
-		ObjectTreeNode<ObjectDescription> newNode = new ObjectTreeNode<ObjectDescription>(object);
+		ObjectTreeNode<ObjectDescription> newNode = new ObjectTreeNode<>(object);
 		if (parent != null) {
 			parent.addChild(newNode);
 		}
@@ -301,7 +305,7 @@ public class DummyApplicationStepDataFactory {
 	private void createStep(final String stepName) {
 		DummyApplicationStepData step = new DummyApplicationStepData();
 		step.setBrowserUrl(browserUrl);
-		step.setElementTexts(new HashMap<String, String>(elementTexts));
+		step.setElementTexts(new HashMap<>(elementTexts));
 		step.setElementRegions(createElementRegions(stepName));
 		step.setIndex(index);
 		step.setScreenshotFileName(screenshotPrefix + stepName);

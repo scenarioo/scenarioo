@@ -76,13 +76,18 @@ public enum DummySimulationConfig {
 	/**
 	 * Special technical configuration to have an encoded space in the URL
 	 */
-	TECHNICAL_ENCODED_SPACE_STEP_CONFIG;
+	TECHNICAL_ENCODED_SPACE_STEP_CONFIG,
+
+	/**
+	 * Special technical configuration to have encoded characters in the URL
+	 */
+	TECHNICAL_ENCODED_SPECIAL_CHARACTERS_STEP_CONFIG;
 
 	private static final String TYPE = "configuration";
 
 	private List<DummySimulationConfigModuleValue> overridenModules;
 
-	private DummySimulationConfig(final DummySimulationConfigModuleValue... overridenModules) {
+	DummySimulationConfig(final DummySimulationConfigModuleValue... overridenModules) {
 		this.overridenModules = Arrays.asList(overridenModules);
 	}
 
@@ -124,7 +129,7 @@ public enum DummySimulationConfig {
 
 	private ObjectList<ObjectDescription> createModulesDescriptions(
 			final List<DummySimulationConfigModuleValue> moduleValues) {
-		ObjectList<ObjectDescription> values = new ObjectList<ObjectDescription>();
+		ObjectList<ObjectDescription> values = new ObjectList<>();
 		for (DummySimulationConfigModuleValue moduleValue : moduleValues) {
 			values.add(moduleValue.getObjectDescription());
 		}

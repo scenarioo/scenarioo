@@ -102,6 +102,16 @@ public class TechnicalCornerCasesUITest extends UITest {
 		toolkit.loadUrl("http://www.wikipedia.org/url-with%2520encoded%20space");
 	}
 
+	@Test
+	@DocuDescription(
+		name = "T€stC@ase!d #9000",
+		description = "Dummy scenario with one step with special characters in URL and scenario name")
+	@Labels({ "encoding" })
+	public void dummy_scenario_with_one_step_with_special_characters() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ENCODED_SPECIAL_CHARACTERS_STEP_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/url-with-sp€c!al#ch@racters");
+	}
+
 
 
 	private ScreenRegion region(final int colIndex, final int rowIndex, final int spanCols, final int spanRows) {
