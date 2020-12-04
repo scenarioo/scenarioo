@@ -17,24 +17,19 @@
 
 package org.scenarioo.dao.search.model;
 
-import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.entities.UseCase;
 
-public class SearchableUseCase implements SearchableObject {
+public class SearchableUseCase extends SearchableObject {
 
 	private UseCase useCase;
 
 	public SearchableUseCase() {
+		super(SearchableObjectType.USECASE);
 	}
 
 	public SearchableUseCase(UseCase useCase) {
 		this();
 		this.useCase = useCase;
-	}
-
-	@Override
-	public String getType() {
-		return FullTextSearch.USECASE;
 	}
 
 	public UseCase getUseCase() {

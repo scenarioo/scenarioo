@@ -17,29 +17,24 @@
 
 package org.scenarioo.dao.search.model;
 
-import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
-public class SearchableStep implements SearchableObject {
+public class SearchableStep extends SearchableObject {
 
 	private Step step;
 	private SearchableObjectContext searchableObjectContext;
 
 	public SearchableStep() {
+		super(SearchableObjectType.STEP);
 	}
 
 	public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
 		this();
 		this.step = step;
 		this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
-	}
-
-	@Override
-	public String getType() {
-		return FullTextSearch.STEP;
 	}
 
 	public Step getStep() {

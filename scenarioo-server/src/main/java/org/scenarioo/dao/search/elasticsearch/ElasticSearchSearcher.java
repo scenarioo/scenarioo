@@ -31,7 +31,6 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
 import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -83,14 +82,20 @@ class ElasticSearchSearcher {
 		for (SearchHit searchHit : hits) {
 			try {
 				String stringRepresentation = searchHit.getSourceAsString();
-				if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.SCENARIO + "\"}")) {
-					results.add(parseScenario(searchHit));
-				} else if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.USECASE + "\"}")) {
-					results.add(parseUseCase(searchHit));
-				} else if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.STEP + "\"}")) {
-					results.add(parseStep(searchHit));
-				} else {
-					LOGGER.error("No type mapping for " + stringRepresentation + " known.");
+				//parse without class information to retrieve the type of the search result.
+				SearchableObject searchableObject = parseSearchableObject(searchHit);
+				switch (searchableObject.getType()) {
+					case SCENARIO:
+						results.add(parseScenario(searchHit));
+						break;
+					case USECASE:
+						results.add(parseUseCase(searchHit));
+						break;
+					case STEP:
+						results.add(parseStep(searchHit));
+						break;
+					default:
+						LOGGER.error("No type mapping for " + stringRepresentation + " known.");
 				}
 			} catch (IOException e) {
 				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
@@ -122,6 +127,10 @@ class ElasticSearchSearcher {
 		} else {
 			return new String[]{"catch_all"};
 		}
+	}
+
+	private SearchableObject parseSearchableObject(final SearchHit searchHit) throws IOException {
+		return useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 	}
 
 	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
