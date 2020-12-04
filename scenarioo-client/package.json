@@ -19,7 +19,7 @@
         "e2e": "npm run e2e-before && protractor protractor-e2e.conf.js ",
         "e2e-scenarioo": "npm run e2e-before && protractor protractor-e2e-scenarioo.conf.js",
         "e2e-circleci": "webdriver-manager update --versions.chrome=$CHROME_VERSION && wait-on $PROTRACTOR_BASE_URL && protractor protractor-e2e-scenarioo.conf.js",
-        "smoketest": "webdriver-manager update && wait-on $PROTRACTOR_BASE_URL && protractor protractor-smoketest.conf.js",
+        "smoketest": "webdriver-manager update --versions.chrome=$CHROME_VERSION && wait-on $PROTRACTOR_BASE_URL && protractor protractor-smoketest.conf.js",
         "webpack-dev-server": "webpack-dev-server",
         "start": "webpack-dev-server -d --inline --progress --port 8500",
         "start-dev": "webpack-dev-server -d --inline --progress --port 8500 --watch",
