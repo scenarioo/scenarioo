@@ -81,7 +81,6 @@ class ElasticSearchSearcher {
 		List<SearchableObject> results = new ArrayList<>();
 		for (SearchHit searchHit : hits) {
 			try {
-				String stringRepresentation = searchHit.getSourceAsString();
 				//parse without class information to retrieve the type of the search result.
 				SearchableObject searchableObject = parseSearchableObject(searchHit);
 				switch (searchableObject.getType()) {
@@ -95,7 +94,7 @@ class ElasticSearchSearcher {
 						results.add(parseStep(searchHit));
 						break;
 					default:
-						LOGGER.error("No type mapping for " + stringRepresentation + " known.");
+						LOGGER.error("No type mapping for " + searchableObject.getType() + " known.");
 				}
 			} catch (IOException e) {
 				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
