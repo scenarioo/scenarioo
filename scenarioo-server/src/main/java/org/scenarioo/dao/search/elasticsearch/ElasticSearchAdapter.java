@@ -97,10 +97,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	public void close() {
 		if (restClient != null) {
 			try {
-				LOGGER.info("Closing Rest Client");
+				LOGGER.info("Closing ElasticSearch connection");
 				restClient.close();
 			} catch (IOException e) {
-				LOGGER.error("Could not close ElasticSearch Rest Client", e);
+				LOGGER.error("Could not close ElasticSearch connection", e);
 			}
 			restClient = null;
 		}
@@ -113,20 +113,16 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	@Override
 	public boolean isEngineRunning() {
-		LOGGER.info("isEngineRunning Called");
 		try {
 			if (restClient == null || !restClient.ping(RequestOptions.DEFAULT)) {
-				LOGGER.info("isEngineRunning: false");
 				return false;
 			}
 
 			ClusterHealthStatus healthStatus = restClient.cluster()
 					.health(new ClusterHealthRequest(), RequestOptions.DEFAULT)
 					.getStatus();
-			LOGGER.info("isEngineRunning Status: " + healthStatus);
 			return ClusterHealthStatus.GREEN.equals(healthStatus);
 		} catch (Exception e) {
-			LOGGER.info("isEngineRunning: false");
 			return false;
 		}
 	}
