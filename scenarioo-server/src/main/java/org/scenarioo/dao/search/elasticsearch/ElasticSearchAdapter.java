@@ -82,9 +82,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
 			restClient = new RestHighLevelClient(
 					RestClient.builder(new HttpHost(InetAddress.getByName(host), port, "http")));
-			//Sometimes a deadlock occurs when a CreateIndexRequest is created, by accessing Settings.Builder.EMPTY_SETTINGS first this can be stopped.
-			//noinspection unused
-			Settings emptySettings = Settings.Builder.EMPTY_SETTINGS;
+			prepareEmptySettingsToAvoidClassloadingDeadlockInElasticSearch();
 		} catch (Throwable e) {
 			// Silently log the error in any case to not let Scenarioo crash just because Easticsearch connection fails somehow.
 			LOGGER.error("Could not connect to Elastic Search Engine", e);
@@ -177,6 +175,14 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Sometimes a deadlock occurs when a CreateIndexRequest is created, by accessing Settings.Builder.EMPTY_SETTINGS first this can be stopped.
+	 */
+	@SuppressWarnings("unused")
+	private void prepareEmptySettingsToAvoidClassloadingDeadlockInElasticSearch() {
+		Settings emptySettings = Settings.Builder.EMPTY_SETTINGS;
 	}
 
 	/**
