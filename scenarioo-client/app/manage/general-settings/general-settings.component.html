@@ -55,17 +55,6 @@
     </div>
 
     <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
-        <div class="col-lg-3">Elasticsearch Cluster Name
-            &nbsp;<span class="glyphicon glyphicon-info-sign"
-                        tooltip="Elasticsearch cluster name used for scenarioo. Can be configured in config.xml in your scenarioo data directory."></span>
-        </div>
-        <div class="col-lg-9" id="sc-configured-search-cluster-name">
-            {{status.configuration.elasticSearchClusterName}}
-        </div>
-    </div>
-
-
-    <div class="row sc-space-bottom" *ngIf="status.searchEngineStatus.endpointConfigured">
         <div class="col-lg-3">Elasticsearch Status
             &nbsp;<span class="glyphicon glyphicon-info-sign"
                         tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>

@@ -6,7 +6,6 @@ import * as Utils from '../util';
 class GeneralSettingsPage {
 
     private configuredSearchEndpoint = element(by.id('sc-configured-search-endpoint'));
-    private configuredSearchClusterName = element(by.id('sc-configured-search-cluster-name'));
     private searchEndpointIsReachable = element(by.id('sc-search-endpoint-is-reachable'));
 
     async goToPage() {
@@ -15,7 +14,6 @@ class GeneralSettingsPage {
 
     async assertSearchEndpointConfiguredAndReachable() {
         await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9200');
-        await expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
         await expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
     }
 
