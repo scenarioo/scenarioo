@@ -21,13 +21,12 @@ You can either install it on the same machine where you host Scenarioo or on a s
 
 ## Configure Elasticsearch in Scenarioo
 
-You have to configure the endpoint URL and cluster name of the Elasticsearch cluster.
+You have to configure the endpoint URL of the Elasticsearch cluster.
 
-By default following values are preconfigured for you:
+By default the following value is preconfigured for you:
 * elasticSearchEndpoint: localhost:9200 (usually the default of elasticsearch installations)
-* elasticSearchClusterName: elasticsearch (usually the default of elasticsearch installations)
 
-You can change those values in the `config.xml` file of Scenarioo in your Scenarioo data directory.
+You can change this value in the `config.xml` file of Scenarioo in your Scenarioo data directory.
 
 Here's an example configuration for the search feature in the `config.xml`:
 
@@ -35,7 +34,6 @@ Here's an example configuration for the search feature in the `config.xml`:
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
     <elasticSearchEndpoint>localhost:9200</elasticSearchEndpoint>
-    <elasticSearchClusterName>scenarioo</elasticSearchClusterName>
     <!-- omitted other config tags -->
 </configuration>
 ```
@@ -51,7 +49,7 @@ check the Elasticsearch configuration and status.
 
 For making search available for a build you have to let Scenarioo calculate its search index. This is done automatically, when a new build is published & imported to scenarioo.
 
-But for making the search index also available for your old builds, that do not have a search index yet, you have to do following manual steps:
+However, to make the search index also available for your old builds, which do not have a search index yet, you have to do the following manual steps:
 
 1. Go to: `Manage` / Tab `Builds`
 2. Select `Reimport` (icon at the right end of a build row) for reimporting and calculating the index for a build

@@ -4,7 +4,6 @@
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
     <elasticSearchEndpoint>localhost:9200</elasticSearchEndpoint>
-    <elasticSearchClusterName>elasticsearch</elasticSearchClusterName>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
