@@ -167,12 +167,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 		for (String index : existingIndices) {
 			if (!availableBuildNames.contains(index)) {
-				try {
-					deleteIndex(index);
-					LOGGER.debug("Removed index " + index);
-				} catch (Exception e) {
-					LOGGER.error("Could not remove index " + index, e);
-				}
+				deleteIndex(index);
 			}
 		}
 	}
@@ -217,8 +212,13 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		return buildNames;
 	}
 
-	private void deleteIndex(final String indexName) throws IOException {
-		restClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+	private void deleteIndex(final String indexName) {
+		try {
+			restClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+			LOGGER.debug("Removed index " + indexName);
+		} catch (Exception e) {
+			LOGGER.error("Could not remove index " + indexName, e);
+		}
 	}
 
 	private String getIndexName(final BuildIdentifier buildIdentifier) {
