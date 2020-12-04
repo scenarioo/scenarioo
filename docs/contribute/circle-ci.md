@@ -50,3 +50,6 @@ To deploy the server using ansible we need an authorized key pair of the host we
         * `ps -eo size,pid,user,command --sort -size | awk '{ hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ",$x) } print "" }' |cut -d "" -f2 | cut -d "-" -f1`
         * `top`
         * Limit memory of gradle, elastic search and wherever else you can
+
+## Update Chrome Version
+The currently used chrome version for testing may be updated in the circleci configuration. Search for the currently used version and replace all occurrences.

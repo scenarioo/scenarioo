@@ -12,16 +12,16 @@ test {
 }
 
 dependencies {
-    compile 'org.scenarioo:scenarioo-java'
-    compile 'org.apache.commons:commons-lang3'
-    compile 'commons-io:commons-io'
-    compile 'commons-codec:commons-codec'
-    compile 'log4j:log4j'
-    testCompile 'junit:junit'
-    testCompile 'org.junit.vintage:junit-vintage-engine'
-    testCompile 'org.junit.jupiter:junit-jupiter-api'
-    testRuntime'org.junit.jupiter:junit-jupiter-engine'
-    testCompile 'org.assertj:assertj-core'
+    implementation 'org.scenarioo:scenarioo-java'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-io:commons-io'
+    implementation 'commons-codec:commons-codec'
+    implementation 'log4j:log4j'
+    testImplementation 'junit:junit'
+    testImplementation 'org.junit.vintage:junit-vintage-engine'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.assertj:assertj-core'
 }
 
 sourceCompatibility = '1.8'
