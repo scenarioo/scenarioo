@@ -82,8 +82,8 @@ class ElasticSearchSearcher {
 		for (SearchHit searchHit : hits) {
 			try {
 				//parse without class information to retrieve the type of the search result.
-				SearchableObject searchableObject = parseSearchableObject(searchHit);
-				switch (searchableObject.getType()) {
+				SearchableObjectType type = getType(searchHit);
+				switch (type) {
 					case SCENARIO:
 						results.add(parseScenario(searchHit));
 						break;
@@ -94,7 +94,7 @@ class ElasticSearchSearcher {
 						results.add(parseStep(searchHit));
 						break;
 					default:
-						LOGGER.error("No type mapping for " + searchableObject.getType() + " known.");
+						LOGGER.error("No type mapping for " + type + " known.");
 				}
 			} catch (IOException e) {
 				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
@@ -128,8 +128,8 @@ class ElasticSearchSearcher {
 		}
 	}
 
-	private SearchableObject parseSearchableObject(final SearchHit searchHit) throws IOException {
-		return useCaseReader.readValue(searchHit.getSourceRef().streamInput());
+	private SearchableObjectType getType(final SearchHit searchHit) throws IOException {
+		return useCaseReader.<SearchableObject>readValue(searchHit.getSourceRef().streamInput()).getType();
 	}
 
 	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
