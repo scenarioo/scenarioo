@@ -82,12 +82,12 @@ class ElasticSearchSearcher {
 		List<SearchableObject> results = new ArrayList<>();
 		for (SearchHit searchHit : hits) {
 			try {
-				String stringRepresentation = searchHit.toString();
-				if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.SCENARIO + "\"")) {
+				String stringRepresentation = searchHit.getSourceAsString();
+				if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.SCENARIO + "\"}")) {
 					results.add(parseScenario(searchHit));
-				} else if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.USECASE + "\"")) {
+				} else if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.USECASE + "\"}")) {
 					results.add(parseUseCase(searchHit));
-				} else if (stringRepresentation.contains("\"type\" : \"" + FullTextSearch.STEP + "\"")) {
+				} else if (stringRepresentation.endsWith("\"type\":\"" + FullTextSearch.STEP + "\"}")) {
 					results.add(parseStep(searchHit));
 				} else {
 					LOGGER.error("No type mapping for " + stringRepresentation + " known.");
