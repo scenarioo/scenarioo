@@ -1,9 +1,11 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.1.1
 jobs:
   build:
     docker:
-      # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-browsers
+      # See https://circleci.com/developer/images/image/cimg/openjdk
+      - image: cimg/openjdk:8.0.275-browsers
       - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
         environment:
           cluster.name: elasticsearch
@@ -12,6 +14,8 @@ jobs:
           ES_JAVA_OPTS: -Xms512m -Xmx512m
     working_directory: ~/repo
     steps:
+      - browser-tools/install-browser-tools:
+          chrome-version: 86.0.4240.111
       - checkout
       - run:
           name: Configure Environment for Job
@@ -62,6 +66,7 @@ jobs:
               done
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
+            export CHROME_VERSION=86.0.4240.111
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
 
@@ -145,8 +150,8 @@ jobs:
       #  Add private key on Circle CI: https://circleci.com/gh/scenarioo/scenarioo/edit#ssh
       #  And public key on Github: https://github.com/scenarioo/scenarioo-infrastructure/settings/keys
       - add_ssh_keys:
-            fingerprints:
-              - "6c:90:aa:bc:f6:16:a2:10:0c:95:80:7a:b7:b7:3c:0f"
+          fingerprints:
+            - "6c:90:aa:bc:f6:16:a2:10:0c:95:80:7a:b7:b7:3c:0f"
       - run:
           name: Checkout scenarioo-infrastructure
           command: |
@@ -179,8 +184,8 @@ jobs:
       #  Add private key on Circle CI: https://circleci.com/gh/scenarioo/scenarioo/edit#ssh
       #  And public key on Github: https://github.com/scenarioo/scenarioo.github.io/settings/keys
       - add_ssh_keys:
-            fingerprints:
-              - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
+          fingerprints:
+            - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
       - run:
           name: Configure git && github ssh connection for docs deployment
           command: |
@@ -210,10 +215,12 @@ jobs:
           destination: /logs
   smoketest:
     docker:
-      # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-browsers
+      # See https://circleci.com/developer/images/image/cimg/openjdk
+      - image: cimg/openjdk:8.0.275-browsers
     working_directory: ~/smoketest
     steps:
+      - browser-tools/install-browser-tools:
+          chrome-version: 86.0.4240.111
       - checkout
       - run:
           name: Prepare environemnt
