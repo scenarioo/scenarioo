@@ -260,10 +260,10 @@ jobs:
       - run:
           name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-master
           command: |
-            export ARTIFACTS=`curl https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
+            export ARTIFACTS=`curl -L https://circleci.com/api/v1.1/project/github/scenarioo/scenarioo/$(cat BUILD_NUM)/artifacts`
             export DOCU_ARTIFACT=`echo $ARTIFACTS | jq -r '.[] | select(.path=="e2eScenariooDocu.zip") | .url'`
             echo -e "docu artifact to be downloaded: ${DOCU_ARTIFACT}"
-            curl $DOCU_ARTIFACT >> e2eScenariooDocu.zip
+            curl -L $DOCU_ARTIFACT >> e2eScenariooDocu.zip
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-master/rest/builds
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-${BRANCH}&build=build-$(cat BUILD_NUM)"
           when: always
