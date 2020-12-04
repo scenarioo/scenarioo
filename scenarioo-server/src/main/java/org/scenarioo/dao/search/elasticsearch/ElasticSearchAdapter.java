@@ -57,22 +57,22 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	// the endpoint config in the UI (i.e. at runtime) then the client can not be created only
 	// once anymore but has to be recreated when changing the config.
 	private static RestHighLevelClient restClient;
-	private static boolean elasticSearchConfigured = true;
+	private static boolean elasticSearchConfigurationMissing = false;
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-		.getConfigurationRepository();
+			.getConfigurationRepository();
 
 	private final String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
 
 	public ElasticSearchAdapter() {
-		if (restClient != null || !elasticSearchConfigured) {
+		if (restClient != null || elasticSearchConfigurationMissing) {
 			// already initialized or no configuration provided.
 			return;
 		}
 
 		if (!isSearchEndpointConfigured()) {
 			LOGGER.info("no valid elasticsearch endpoint configured.");
-			elasticSearchConfigured = false;
+			elasticSearchConfigurationMissing = true;
 			return;
 		}
 
