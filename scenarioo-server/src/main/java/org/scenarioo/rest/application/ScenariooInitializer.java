@@ -84,24 +84,14 @@ public class ScenariooInitializer implements ServletContextInitializer {
 	}
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {
-		final Properties properties = new Properties();
-
 		final InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 		if (inputStream == null) {
 			// just try using class context, which should work for spring boot app.
 			ApplicationVersionHolder.INSTANCE.initializeFromClassContext();
 		} else {
-			try {
-				properties.load(inputStream);
-				ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
-			} catch (final Exception e) {
-				ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
-				LOGGER.warn("  version.properties not found, no version information available", e);
-			}
+			// load from input stream from servlet context otherwise
+			ApplicationVersionHolder.INSTANCE.initializeFromVersionPropertiesInputStream(inputStream);
 		}
-
-		LOGGER.info("  Version: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getVersion());
-		LOGGER.info("  Build date: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getBuildDate());
 	}
 
 	private void initializeContextPath(ServletContext servletContext) {
