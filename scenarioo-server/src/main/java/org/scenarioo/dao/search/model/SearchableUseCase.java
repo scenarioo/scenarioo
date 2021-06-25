@@ -19,14 +19,16 @@ package org.scenarioo.dao.search.model;
 
 import org.scenarioo.model.docu.entities.UseCase;
 
-public class SearchableUseCase implements SearchableObject {
+public class SearchableUseCase extends SearchableObject {
 
 	private UseCase useCase;
 
 	public SearchableUseCase() {
+		super(SearchableObjectType.USECASE);
 	}
 
 	public SearchableUseCase(UseCase useCase) {
+		this();
 		this.useCase = useCase;
 	}
 
@@ -37,5 +39,4 @@ public class SearchableUseCase implements SearchableObject {
 	public void setUseCase(final UseCase useCase) {
 		this.useCase = useCase;
 	}
-
 }

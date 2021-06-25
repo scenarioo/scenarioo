@@ -75,7 +75,7 @@ dependencies {
     implementation 'org.apache.xmlgraphics:xmlgraphics-commons'
     implementation 'com.thetransactioncompany:cors-filter'
     implementation 'org.elasticsearch:elasticsearch'
-    implementation 'org.elasticsearch.client:transport'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 

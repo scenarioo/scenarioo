@@ -6,9 +6,9 @@ jobs:
     docker:
       # See https://circleci.com/developer/images/image/cimg/openjdk
       - image: cimg/openjdk:8.0.275-browsers
-      - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
         environment:
-          cluster.name: elasticsearch
+          discovery.type: single-node
           xpack.ml.enabled: false
           xpack.security.enabled: false
           ES_JAVA_OPTS: -Xms512m -Xmx512m

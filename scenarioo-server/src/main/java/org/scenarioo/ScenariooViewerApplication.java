@@ -1,6 +1,7 @@
 package org.scenarioo;
 
 import com.thetransactioncompany.cors.CORSFilter;
+import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.rest.application.ScenariooInitializer;
 import org.scenarioo.rest.base.logging.RequestLoggingFilter;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Collections;
 
 @Configuration
@@ -77,5 +79,10 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 		StrictHttpFirewall firewall = new StrictHttpFirewall();
 		firewall.setAllowUrlEncodedPercent(true);
 		return firewall;
+	}
+
+	@PreDestroy
+	public void cleanup() {
+		new ElasticSearchAdapter().close();
 	}
 }

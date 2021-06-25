@@ -17,6 +17,22 @@
 
 package org.scenarioo.dao.search.model;
 
-public interface SearchableObject {
-	// Marker
+public abstract class SearchableObject {
+
+	private SearchableObjectType type;
+
+	public SearchableObject() {
+	}
+
+	public SearchableObject(SearchableObjectType type) {
+		this.type = type;
+	}
+
+	public void setType(SearchableObjectType type) {
+		this.type = type;
+	}
+
+	public SearchableObjectType getType() {
+		return type;
+	}
 }

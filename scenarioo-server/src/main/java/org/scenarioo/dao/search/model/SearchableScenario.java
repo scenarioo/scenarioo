@@ -19,15 +19,17 @@ package org.scenarioo.dao.search.model;
 
 import org.scenarioo.model.docu.entities.Scenario;
 
-public class SearchableScenario implements SearchableObject {
+public class SearchableScenario extends SearchableObject {
 
 	private Scenario scenario;
 	private SearchableObjectContext searchableObjectContext;
 
 	public SearchableScenario() {
+		super(SearchableObjectType.SCENARIO);
 	}
 
 	public SearchableScenario(final Scenario scenario, final String usecaseName) {
+		this();
 		this.scenario = scenario;
 		this.searchableObjectContext = new SearchableObjectContext(usecaseName);
 	}

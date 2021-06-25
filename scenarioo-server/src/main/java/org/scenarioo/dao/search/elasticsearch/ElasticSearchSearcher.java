@@ -21,15 +21,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.Requests;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.scenarioo.dao.search.FullTextSearch;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
 import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -45,93 +46,105 @@ class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
 	private final static int MAX_SEARCH_RESULTS = 200;
 
-	private String indexName;
-    private TransportClient client;
+	private final String indexName;
+	private final RestHighLevelClient restClient;
 
-    private ObjectReader useCaseReader;
-    private ObjectReader scenarioReader;
-    private ObjectReader stepReader;
+	private final ObjectReader useCaseReader;
+	private final ObjectReader scenarioReader;
+	private final ObjectReader stepReader;
 
-    ElasticSearchSearcher(final String indexName, TransportClient client) {
-            this.client = client;
-            this.indexName = indexName;
+	ElasticSearchSearcher(final String indexName, RestHighLevelClient restClient) {
+		this.indexName = indexName;
+		this.restClient = restClient;
 
-			useCaseReader = generateStandardReaders(UseCase.class, SearchableUseCase.class);
-			scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
-			stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
-    }
+		useCaseReader = generateStandardReaders(UseCase.class, SearchableUseCase.class);
+		scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
+		stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
+	}
 
-    SearchResults search(final SearchRequest searchRequest) {
-        SearchResponse searchResponse = executeSearch(searchRequest);
+	SearchResults search(final SearchRequest searchRequest) {
+		SearchResponse searchResponse;
+		try {
+			searchResponse = executeSearch(searchRequest);
+		} catch (Exception e) {
+			LOGGER.error("Search failed", e);
+			return SearchResults.noHits();
+		}
 
-        if (searchResponse.getHits().getHits().length == 0) {
-            LOGGER.debug("No results found for " + searchRequest);
-            return SearchResults.noHits();
-        }
+		if (searchResponse.getHits().getHits().length == 0) {
+			LOGGER.debug("No results found for " + searchRequest);
+			return SearchResults.noHits();
+		}
 
-        SearchHit[] hits = searchResponse.getHits().getHits();
+		SearchHit[] hits = searchResponse.getHits().getHits();
 
-        List<SearchableObject> results = new ArrayList<>();
-        for (SearchHit searchHit : hits) {
-            try {
-                String type = searchHit.getType();
+		List<SearchableObject> results = new ArrayList<>();
+		for (SearchHit searchHit : hits) {
+			try {
+				//parse without class information to retrieve the type of the search result.
+				SearchableObjectType type = getType(searchHit);
 				switch (type) {
-					case FullTextSearch.USECASE:
-						results.add(parseUseCase(searchHit));
-						break;
-					case FullTextSearch.SCENARIO:
+					case SCENARIO:
 						results.add(parseScenario(searchHit));
 						break;
-					case FullTextSearch.STEP:
+					case USECASE:
+						results.add(parseUseCase(searchHit));
+						break;
+					case STEP:
 						results.add(parseStep(searchHit));
 						break;
 					default:
-						LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
-						break;
+						LOGGER.error("No type mapping for " + type + " known.");
 				}
-            } catch (IOException e) {
-                LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
-            }
-        }
+			} catch (IOException e) {
+				LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
+			}
+		}
 
-        return new SearchResults(results, hits.length, searchResponse.getHits().getTotalHits());
-    }
+		return new SearchResults(results, hits.length, searchResponse.getHits().getTotalHits().value);
+	}
 
-    private SearchResponse executeSearch(final SearchRequest searchRequest) {
-        LOGGER.debug("Search in index " + indexName + " for " + searchRequest.getQ());
+	private SearchResponse executeSearch(final SearchRequest searchRequest) throws IOException {
+		LOGGER.debug("Search in index " + indexName + " for " + searchRequest.getQ());
 
-		SearchRequestBuilder setQuery = client.prepareSearch()
-                .setIndices(indexName)
-                .setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setSize(MAX_SEARCH_RESULTS)
-				.setQuery(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
-					.fuzziness(Fuzziness.AUTO)
-					.operator(Operator.AND));
+		org.elasticsearch.action.search.SearchRequest elasticSearchRequest = Requests.searchRequest(indexName)
+				.searchType(SearchType.QUERY_THEN_FETCH)
+				.source(new SearchSourceBuilder()
+						.size(MAX_SEARCH_RESULTS)
+						.query(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
+								.fuzziness(Fuzziness.AUTO)
+								.operator(Operator.AND)
+						)
+				);
 
-        return setQuery.execute().actionGet();
-    }
+		return restClient.search(elasticSearchRequest, RequestOptions.DEFAULT);
+	}
 
 	private String[] getFieldNames(SearchRequest searchRequest) {
-		if(searchRequest.includeHtml()) {
-			return new String[]{"_all", "step.html.htmlSource"};
+		if (searchRequest.includeHtml()) {
+			return new String[]{"catch_all", "step.html.htmlSource"};
 		} else {
-			return new String[]{"_all"};
+			return new String[]{"catch_all"};
 		}
+	}
+
+	private SearchableObjectType getType(final SearchHit searchHit) throws IOException {
+		return useCaseReader.<SearchableObject>readValue(searchHit.getSourceRef().streamInput()).getType();
 	}
 
 	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
 		return useCaseReader.<SearchableUseCase>readValue(searchHit.getSourceRef().streamInput());
-    }
+	}
 
-    private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
+	private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
 		return scenarioReader.<SearchableScenario>readValue(searchHit.getSourceRef()
 				.streamInput());
-    }
+	}
 
-    private SearchableObject parseStep(final SearchHit searchHit) throws IOException {
+	private SearchableObject parseStep(final SearchHit searchHit) throws IOException {
 		return stepReader.<SearchableStep>readValue(searchHit.getSourceRef()
 				.streamInput());
-    }
+	}
 
 	// TODO #552 Remove the IgnoreUseCaseSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
 	// as soon as we change the Scenarioo format to JSON. Then add the @JsonIgnore attribute

@@ -17,15 +17,17 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.log4j.Logger;
-import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
-import org.scenarioo.dao.search.FullTextSearch;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
 import org.scenarioo.dao.search.model.SearchableUseCase;
@@ -37,37 +39,37 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
+import java.io.IOException;
+import java.util.List;
+
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
 
-	private final TransportClient client;
 	private final String indexName;
+	private final RestHighLevelClient restClient;
 
-	ElasticSearchIndexer(final String indexName, final TransportClient client) {
-		this.client = client;
+	ElasticSearchIndexer(final String indexName, RestHighLevelClient restClient) {
 		this.indexName = indexName;
+		this.restClient = restClient;
 	}
 
 	void setupCleanIndex(final String indexName) {
-		if (indexExists(indexName)) {
-			client.admin().indices().prepareDelete(indexName).get();
+		try {
+			if (indexExists(indexName)) {
+				restClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+				LOGGER.debug("Removed existing index " + indexName);
+			}
 
-			LOGGER.debug("Removed existing index " + indexName);
+			CreateIndexRequest request = new CreateIndexRequest(indexName)
+					.settings(Settings.builder()
+							.put("index.number_of_shards", 1)
+							.put("index.number_of_replicas", 0))
+					.mapping(createMapping(), XContentType.JSON);
+			restClient.indices().create(request, RequestOptions.DEFAULT);
+			LOGGER.debug("Added new index " + indexName);
+		} catch (Exception e) {
+			LOGGER.error("Could not add index " + indexName, e);
 		}
-
-		client.admin().indices().prepareCreate(indexName)
-			.setSettings(Settings.builder()
-				.put("index.number_of_shards", 1)
-				.put("index.number_of_replicas", 1))
-			// Multi types are deprecated and not supported anymore in elasticsearch 6.x
-			// In the future we need the new join datatype for parent child relations
-			// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
-			// https://www.elastic.co/guide/en/elasticsearch/reference/master/parent-join.html
-			.addMapping("scenario", createMappingForType("scenario"))
-			.addMapping("page", createMappingForType("page"))
-			.addMapping("step", createMappingForType("step"))
-			.get();
-		LOGGER.debug("Added new index " + indexName);
 	}
 
 	void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
@@ -90,61 +92,66 @@ class ElasticSearchIndexer {
 	}
 
 	private void indexUseCase(final SearchableUseCase searchableUseCase) {
-		indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
+		indexDocument(searchableUseCase, searchableUseCase.getUseCase().getName());
 	}
 
 	private void indexScenario(final SearchableScenario scenariosearchDao) {
-		indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
+		indexDocument(scenariosearchDao, scenariosearchDao.getScenario().getName());
 	}
 
 	private void indexStep(final SearchableStep stepSearchDao) {
-		indexDocument(FullTextSearch.STEP, stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
+		indexDocument(stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
 	}
 
-	private <T> void indexDocument(final String type, final T document, final String documentName) {
+	private <T> void indexDocument(final T document, final String documentName) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter writer = objectMapper.writer();
 
-			client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
-
-//            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
-		} catch (IOException e) {
+			IndexRequest indexRequest = new IndexRequest(indexName)
+					.source(writer.writeValueAsBytes(document), XContentType.JSON);
+			restClient.index(indexRequest, RequestOptions.DEFAULT);
+		} catch (Exception e) {
 			LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
 		}
 	}
 
-	private boolean indexExists(final String indexName) {
-		return client.admin().indices()
-			.prepareExists(indexName)
-			.execute().actionGet().isExists();
+	private boolean indexExists(final String indexName) throws IOException {
+		return restClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
 	}
 
-	private String createMappingForType(final String type) {
+	private String createMapping() {
 
 		return "{" +
-			"	\"" + type + "\":	{" +
-			"		\"dynamic_templates\": [" +
-			"			{" +
-			"				\"ignore_meta_data\": {" +
-			"					\"path_match\": \"SearchableObjectContext.*\"," +
-			"					\"mapping\": {" +
-			"						\"index\": \"no\"" +
-			"					}" +
-			"				}" +
-			"			}" +
-			"		]," +
-			"		\"properties\": {" +
-			"			\"step\": {" +
-			"				\"properties\": {" +
-			"					\"html\": {" +
-			"						\"type\": \"object\"," +
-			"						\"include_in_all\": false" +
-			"					}" +
-			"				}" +
-			"			}" +
-			"		}" +
-			"	}" +
-			"}";
+				"		\"dynamic_templates\": [" +
+				"			{" +
+				"				\"strings\": {\n" +
+				"            		\"match_mapping_type\": \"string\",\n" +
+				"            		\"unmatch\": \"htmlSource\",\n" +
+				"		            \"mapping\": {\n" +
+				"       		       \"type\": \"text\",\n" +
+				"              			\"copy_to\": \"catch_all\"\n" +
+				"            		}\n" +
+				"          		}" +
+				"			}," +
+				"			{" +
+				"				\"ignore_meta_data\": {" +
+				"					\"path_match\": \"SearchableObjectContext.*\"," +
+				"					\"mapping\": {" +
+				"						\"index\": \"no\"" +
+				"					}" +
+				"				}" +
+				"			}" +
+				"		]," +
+				"		\"properties\": {" +
+				"			\"step\": {" +
+				"				\"properties\": {" +
+				"					\"html\": {" +
+				"						\"type\": \"object\"" +
+				"					}" +
+				"				}" +
+				"			}" +
+				"		}" +
+				"}";
 	}
 }

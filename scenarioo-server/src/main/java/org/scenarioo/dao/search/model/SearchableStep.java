@@ -22,26 +22,28 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
-public class SearchableStep implements SearchableObject {
+public class SearchableStep extends SearchableObject {
 
 	private Step step;
 	private SearchableObjectContext searchableObjectContext;
 
-    public SearchableStep() {
-    }
+	public SearchableStep() {
+		super(SearchableObjectType.STEP);
+	}
 
-    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
-        this.step = step;
-        this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
-    }
+	public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
+		this();
+		this.step = step;
+		this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
+	}
 
-    public Step getStep() {
-        return step;
-    }
+	public Step getStep() {
+		return step;
+	}
 
-    public void setStep(final Step step) {
-        this.step = step;
-    }
+	public void setStep(final Step step) {
+		this.step = step;
+	}
 
 	public void setSearchableObjectContext(final SearchableObjectContext searchableObjectContext) {
         this.searchableObjectContext = searchableObjectContext;

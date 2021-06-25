@@ -24,4 +24,13 @@ public class SearchRequest {
 	public boolean includeHtml() {
 		return includeHtml;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchRequest{" +
+			"buildIdentifier=" + buildIdentifier +
+			", query='" + q + '\'' +
+			", includeHtml=" + includeHtml +
+			'}';
+	}
 }

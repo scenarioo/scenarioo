@@ -17,9 +17,6 @@
 
 package org.scenarioo.dao.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
@@ -31,6 +28,9 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FullTextSearch {
 
@@ -89,13 +89,13 @@ public class FullTextSearch {
 	}
 
 	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
-		if(!searchAdapter.isEngineRunning()) {
+		if (!searchAdapter.isEngineRunning()) {
 			return;
 		}
 
 		searchAdapter.indexSteps(steps, stepLinkList, scenario, usecase, buildIdentifier);
 
-		LOGGER.debug("Indexed steps for use case " + usecase.getName());
+		LOGGER.debug(String.format("Indexed steps for use case '%s' and scenario '%s'", usecase.getName(), scenario.getName()));
 	}
 
 	public void updateAvailableBuilds(final List<BuildImportSummary> availableBuilds) {
