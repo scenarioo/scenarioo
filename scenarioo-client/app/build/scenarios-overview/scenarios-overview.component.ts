@@ -234,14 +234,14 @@ export class ScenariosOverviewComponent {
                 isFirstOpen: true,
                 detailSectionType: 'treeComponent',
             },
-            {
+            {...(usecaseLabels.length > 0)  && {
                 name: 'Labels',
                 key: 'labels',
                 dataTree: {nodeLabel: 'label', childNodes: [this.createLabelInformationTree(usecaseLabels)]},
                 isFirstOpen: false,
                 detailSectionType: 'treeComponent',
                 labelConfigurations: this.labelConfigurations,
-            },
+            }},
             {
                 name: 'Related Sketches',
                 key: '-relatedSketches',
