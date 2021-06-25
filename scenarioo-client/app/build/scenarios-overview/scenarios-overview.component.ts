@@ -244,7 +244,7 @@ export class ScenariosOverviewComponent {
             }},
             {
                 name: 'Related Sketches',
-                key: '-relatedSketches',
+                key: 'relatedSketches',
                 values: relatedIssues,
                 isFirstOpen: false,
                 detailSectionType: 'sketchesComponent',
