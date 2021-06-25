@@ -105,34 +105,28 @@ eclipse {
   }
 }
 
-task createVersionPropertiesFile {
-	doLast {
-		def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
-		def apiVersion = project.scenariooApiVersion
-		def documentationVersion = project.documentationVersion
-
-		File versionFile = new File(sourceSets.main.output.classesDirs.getSingleFile().absolutePath + '/version.properties');
-		versionFile.write('version=' + versionWithGitCommit + '\n' +
-				'build-date=' + new Date() + '\n' +
-				'apiVersion=' + apiVersion + '\n' +
-				'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-				'documentationVersion=' + documentationVersion + '\n')
-	}
+/**
+ * Replace properties in important resource files
+ */
+processResources {
+    filesMatching(['version.properties', 'banner.txt']) {
+        expand(project.properties)
+    }
 }
 
 bootJar {
     from('../scenarioo-client/dist') {
         into('static')
     }
-    archiveFileName = 'scenarioo-viewer-' + versionWithGitCommit + '.jar'
+    archiveFileName = 'scenarioo-viewer-' + archiveVersion.get() + '.jar'
 }
 
 bootJar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-viewer-' + version + '.jar')
-        rename('scenarioo-viewer-' + version + '.jar', 'scenarioo-latest.jar')
+        include('scenarioo-viewer-' + archiveVersion.get() + '.jar')
+        rename('scenarioo-viewer-' + archiveVersion.get() + '.jar', 'scenarioo-latest.jar')
     }
 }
 
@@ -140,20 +134,18 @@ bootWar {
     from('../scenarioo-client/dist') {
         into('WEB-INF/classes/static')
     }
-    archiveFileName = 'scenarioo-viewer-' + versionWithGitCommit + '.war'
+    archiveFileName = 'scenarioo-viewer-' + archiveVersion.get() + '.war'
 }
 
 bootWar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-viewer-' + versionWithGitCommit + '.war')
-        rename('scenarioo-viewer-' + versionWithGitCommit + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + archiveVersion.get() + '.war')
+        rename('scenarioo-viewer-' + archiveVersion.get() + '.war', 'scenarioo-latest.war')
     }
 }
 
-assemble.dependsOn createVersionPropertiesFile
-war.dependsOn createVersionPropertiesFile
 bootWar.dependsOn ":scenarioo-client:build"
 war.dependsOn ":scenarioo-client:build"
 
