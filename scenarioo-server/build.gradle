@@ -148,11 +148,6 @@ war.dependsOn createVersionPropertiesFile
 bootWar.dependsOn ":scenarioo-client:build"
 war.dependsOn ":scenarioo-client:build"
 
-if (ossrhPassword) {
-    signing {
-        sign bootWar
-    }
-}
 
 tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
@@ -160,12 +155,12 @@ tasks.withType(Javadoc) {
 
 publishing {
     publications {
-        myPublication(MavenPublication) {
+        mavenJava(MavenPublication) {
             artifact bootWar
 
             groupId 'org.scenarioo'
             artifactId 'scenarioo-viewer'
-            version '5.0.2'
+            version versionWithGitCommit
 
             pom {
                 name = 'Scenarioo Viewer'
@@ -206,5 +201,11 @@ publishing {
                 password ossrhPassword
             }
         }
+    }
+}
+
+if (ossrhPassword) {
+    signing {
+        sign publishing.publications.mavenJava
     }
 }
