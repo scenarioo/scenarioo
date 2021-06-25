@@ -23,17 +23,15 @@ public enum ApplicationVersionHolder {
 		if (inputStream == null) {
 			LOGGER.warn("version.properties not found, no real version information available.");
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
-			return;
+		} else {
+			try {
+				properties.load(inputStream);
+				ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
+			} catch (final Exception e) {
+				LOGGER.warn("version.properties not found, no real version information available.", e);
+				ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
+			}
 		}
-
-		try {
-			properties.load(inputStream);
-			ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
-		} catch (final Exception e) {
-			LOGGER.warn("version.properties not found, no real version information available.", e);
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
-		}
-
 	}
 
 	public void initialize(final String version, final String buildDate, final String apiVersion,
