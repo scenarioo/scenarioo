@@ -89,7 +89,7 @@ public class ScenariooInitializer implements ServletContextInitializer {
 			// just try using class context, which should work for spring boot app.
 			ApplicationVersionHolder.INSTANCE.initializeFromClassContext();
 		} else {
-			// load from input stream from servlet context otherwise
+			// load from input stream from servlet context otherwise (needed for some war deployment scenarios in a web server as a WAR)
 			ApplicationVersionHolder.INSTANCE.initializeFromVersionPropertiesInputStream(inputStream);
 		}
 	}
