@@ -24,21 +24,21 @@ jobs:
           name: Clean & install
           command: |
             mkdir -p test-results
-            ./gradlew clean build -x test --no-daemon -s
+            ./gradlew clean build -x test -s
       - run:
           name: Unit tests
-          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s --info
+          command: ./gradlew test -x scenarioo-client:npm_test --continue -s --info
       - run:
           name: JS tests
-          command: ./gradlew scenarioo-client:npm_test --no-daemon -s
+          command: ./gradlew scenarioo-client:npm_test -s
           when: always
       - run:
           name: JS/TS lint
-          command: ./gradlew scenarioo-client:runLinter --no-daemon -s
+          command: ./gradlew scenarioo-client:runLinter -s
           when: always
       - run:
           name: TS lint App
-          command: ./gradlew scenarioo-client:runTsLint --no-daemon -s
+          command: ./gradlew scenarioo-client:runTsLint -s
           when: always
       - run:
           name: Archive generated example scenarioo docu data of Wikipedia
@@ -72,7 +72,7 @@ jobs:
 
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
-            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
+            ./gradlew scenarioo-client:runE2eCircleCi -s
 
             echo "Test the self docu e2e test reports are uploadable to current scenarioo product version under test - to ensure the changes will not break uploading of self docu."
             pushd e2eScenariooDocu
@@ -225,7 +225,7 @@ jobs:
       - run:
           name: Prepare environemnt
           command: |
-            ./gradlew scenarioo-client:npmInstall --no-daemon -s
+            ./gradlew scenarioo-client:npmInstall -s
       - run:
           name: Smoketest develop demo
           command: |
@@ -234,7 +234,7 @@ jobs:
 
             echo "Running smoketests for develop demo"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
-              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
+              ./gradlew scenarioo-client:runSmoketest -s
       - run:
           name: Smoketest master demo
           command: |
@@ -243,7 +243,7 @@ jobs:
 
             echo "Running smoketests for master demo"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
-              ./gradlew scenarioo-client:runSmoketest --no-daemon -s
+              ./gradlew scenarioo-client:runSmoketest -s
 
   publish_selfdocu_to_master:
     docker:
