@@ -22,7 +22,7 @@ import {
     LabelConfigurationMap,
     LabelConfigurationsResource,
 } from '../../shared/services/labelConfigurationsResource.service';
-import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {SelectedComparisonService} from '../../diffViewer/selectedComparison.service';
 import {LocationService} from '../../shared/location.service';
 import {
     ILabelConfiguration,
@@ -81,7 +81,7 @@ export class ScenariosOverviewComponent {
 
     constructor(private selectedBranchAndBuildService: SelectedBranchAndBuildService,
                 private scenarioResource: ScenarioResource,
-                private selectedComparison: SelectedComparison,
+                private selectedComparisonService: SelectedComparisonService,
                 private locationService: LocationService,
                 private configurationService: ConfigurationService,
                 private orderPipe: OrderPipe,
@@ -116,10 +116,10 @@ export class ScenariosOverviewComponent {
             this.useCaseName,
         ).subscribe((useCaseScenarios: IUseCaseScenarios) => {
 
-            this.isComparisonExisting = this.selectedComparison.isDefined();
+            this.isComparisonExisting = this.selectedComparisonService.isDefined();
 
             if (this.isComparisonExisting) {
-                this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparison.selected(), this.useCaseName);
+                this.loadDiffInfoData(useCaseScenarios.scenarios, selection.branch, selection.build, this.selectedComparisonService.selected(), this.useCaseName);
             } else {
                 this.scenarios = useCaseScenarios.scenarios;
             }

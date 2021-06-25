@@ -31,7 +31,7 @@ angular.module('scenarioo.directives')
         controller: ComparisonViewComponent,
     });
 function ComparisonViewComponent($scope, $routeParams, localStorageService, SelectedBranchAndBuildService, ScreenshotUrlService,
-                                 SelectedComparison, BranchesAndBuildsService, DiffInfoService,
+                                 SelectedComparisonService, BranchesAndBuildsService, DiffInfoService,
                                  BuildDiffInfoResource: BuildDiffInfoService,
                                  StepDiffInfoResource: StepDiffInfoService) {
     const ctrl = this;
@@ -57,7 +57,7 @@ function ComparisonViewComponent($scope, $routeParams, localStorageService, Sele
 
     function updateStep() {
         const selectedBranchAndBuild = SelectedBranchAndBuildService.selected();
-        loadDiffInfoData(selectedBranchAndBuild.branch, selectedBranchAndBuild.build, SelectedComparison.selected());
+        loadDiffInfoData(selectedBranchAndBuild.branch, selectedBranchAndBuild.build, SelectedComparisonService.selected());
     }
 
     function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
@@ -116,7 +116,7 @@ function ComparisonViewComponent($scope, $routeParams, localStorageService, Sele
             ctrl.diffScreenShotUrl = ctrl.screenShotUrl;
         } else if (ctrl.stepIdentifier) {
             const branchAndBuild = SelectedBranchAndBuildService.selected();
-            const comparisonName = SelectedComparison.selected();
+            const comparisonName = SelectedComparisonService.selected();
             ctrl.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl(ctrl.step, branchAndBuild, comparisonName, ctrl.stepIdentifier.usecaseName, ctrl.stepIdentifier.scenarioName, ctrl.stepIndex);
         }
     }

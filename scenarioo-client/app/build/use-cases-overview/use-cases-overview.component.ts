@@ -21,7 +21,7 @@ import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuild
 import {UseCasesResource} from '../../shared/services/useCasesResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
-import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {SelectedComparisonService} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
@@ -71,7 +71,7 @@ export class UseCasesOverviewComponent {
                 private orderPipe: OrderPipe,
                 private dateTimePipe: DateTimePipe,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison,
+                private selectedComparisonService: SelectedComparisonService,
                 private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
@@ -91,10 +91,10 @@ export class UseCasesOverviewComponent {
                     buildName: selection.build,
                 }).subscribe((useCaseSummaries: IUseCaseSummary[]) => {
 
-                    this.isComparisonExisting = this.selectedComparison.isDefined();
+                    this.isComparisonExisting = this.selectedComparisonService.isDefined();
 
                     if (this.isComparisonExisting) {
-                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
+                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparisonService.selected());
                     } else {
                         this.usecases = useCaseSummaries;
                     }

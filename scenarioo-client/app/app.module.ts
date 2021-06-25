@@ -25,7 +25,7 @@ import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.servic
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
 import {SelectedBranchAndBuildService} from './shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from './shared/navigation/branchesAndBuilds.service';
-import {SelectedComparison} from './diffViewer/selectedComparison.service';
+import {SelectedComparisonService} from './diffViewer/selectedComparison.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {ScSearchFilterPipe} from './pipes/searchFilter.pipe';
 import {HumanReadablePipe} from './pipes/humanReadable.pipe';
@@ -155,7 +155,7 @@ import {ComparisonViewDirective} from './step/comparison/comparisonView.directiv
         LocalStorageService,
         UrlContextExtractorService,
         HumanReadablePipe,
-        SelectedComparison,
+        SelectedComparisonService,
         {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},

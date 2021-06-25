@@ -27,7 +27,7 @@ declare var angular: angular.IAngularStatic;
  * Service to access current selected comparison.
  */
 @Injectable()
-export class SelectedComparison {
+export class SelectedComparisonService {
 
     COMPARISON_URL_PARAM_KEY: string = 'comparison';
 
@@ -109,4 +109,4 @@ export interface DiffInfo {
 }
 
 angular.module('scenarioo.services')
-    .factory('SelectedComparison', downgradeInjectable(SelectedComparison));
+    .factory('SelectedComparisonService', downgradeInjectable(SelectedComparisonService));

@@ -27,7 +27,7 @@ angular.module('scenarioo.controllers').controller('StepController', OldstepCont
 function OldstepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                            $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
                            SharePageService, SketcherContextService, SketchIdsResource,
-                           SketcherLinkService, SelectedComparison,
+                           SketcherLinkService, SelectedComparisonService,
                            RelatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -42,7 +42,7 @@ function OldstepController($scope, $routeParams, $location, $route, StepResource
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
-    $scope.comparisonInfo = SelectedComparison.info;
+    $scope.comparisonInfo = SelectedComparisonService.info;
     $scope.activeTab = getActiveTab();
     $scope.refreshIfComparisonActive = refreshIfComparisonActive;
     $scope.goToNextStep = goToNextStep;

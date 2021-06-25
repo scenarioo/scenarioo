@@ -26,7 +26,7 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../../shared/services/r
 import {LocationService} from '../../shared/location.service';
 import {IDetailsSections} from '../../components/detailarea/IDetailsSections';
 import {MetadataTreeListCreatorPipe} from '../../pipes/metadata/metadataTreeListCreator.pipe';
-import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {SelectedComparisonService} from '../../diffViewer/selectedComparison.service';
 import {LocalStorageService} from '../../services/localStorage.service';
 import {TabsetComponent} from 'ngx-bootstrap';
 import {
@@ -82,7 +82,7 @@ export class StepViewComponent {
                 private metadataTreeListCreatorPipe: MetadataTreeListCreatorPipe,
                 private relatedIssueResource: RelatedIssueResource,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison,
+                private selectedComparisonService: SelectedComparisonService,
                 private localStorageService: LocalStorageService) {
     }
 
@@ -114,7 +114,7 @@ export class StepViewComponent {
             this.stepIdentifier = stepDetails.stepIdentifier;
             this.stepStatistics = stepDetails.stepStatistics;
 
-            this.isComparisonExisting = this.selectedComparison.isDefined();
+            this.isComparisonExisting = this.selectedComparisonService.isDefined();
 
             this.initScreenshotUrl(selection);
 
