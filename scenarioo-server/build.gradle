@@ -152,7 +152,7 @@ publishing {
 
             groupId 'org.scenarioo'
             artifactId 'scenarioo-viewer'
-            version versionWithGitCommit
+            version scenariooViewerVersion
 
             pom {
                 name = 'Scenarioo Viewer'
