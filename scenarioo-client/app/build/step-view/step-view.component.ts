@@ -93,7 +93,6 @@ export class StepViewComponent {
         this.pageOccurrence = parseInt(this.routeParams.pageOccurrence, 10);
         this.stepInPageOccurrence = parseInt(this.routeParams.stepInPageOccurrence, 10);
         this.labels = this.locationService.search().labels;
-        console.log(this.labels);
         this.selectedBranchAndBuildService.callOnSelectionChange((selection) => this.loadStep(selection));
     }
 
