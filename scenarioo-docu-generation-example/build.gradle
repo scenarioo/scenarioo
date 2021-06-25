@@ -27,7 +27,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-apply plugin: 'maven'
 apply from: "${rootProject.projectDir}/build-java.gradle"
 
 test {

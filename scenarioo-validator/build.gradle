@@ -41,7 +41,7 @@ dependencies {
 
 distZip.doLast {
     copy {
-        String originalZipName = 'scenarioo-validator-' + versionWithGitCommit + '.zip';
+        String originalZipName = 'scenarioo-validator-' + archiveVersion.get() + '.zip';
         from('build/distributions/')
         into('build/distributions/')
         include(originalZipName)
