@@ -191,7 +191,7 @@ export class StepViewComponent {
                 isFirstOpen: true,
                 detailSectionType: 'treeComponent',
             },
-            {
+            {...(useCaseLabels.length > 0)  && {
                 name: 'Labels',
                 key: 'labels',
                 dataTree: {
@@ -200,7 +200,7 @@ export class StepViewComponent {
                 },
                 isFirstOpen: false,
                 detailSectionType: 'treeComponent',
-            },
+            }},
             {
                 name: 'Related Sketches',
                 key: '-relatedSketches',
