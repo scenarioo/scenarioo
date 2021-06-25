@@ -122,16 +122,18 @@ signing.secretKeyRingFile=#secret key file goes here#
 ossrhUsername=scenarioo
 ossrhPassword=#sonatype password goes here#
 ```
+The credentials can be found in the internal MS Teams Channel.
 
 2. Change the version appropriately in the build.gradle
-3. `gradlew clean uploadArchives`
+3. `gradlew clean publish`
 4. Promote build to maven central:
-http://central.sonatype.org/pages/releasing-the-deployment.html
+http://central.sonatype.org/pages/releasing-the-deployment.html  
+   Please note, we're using the old server https://oss.sonatype.org.
 
 ### Publish the Release on Webpage, Twitter and Newsletter
 
 * **Update the Webpage (if needed):** Merge the prepared changes for the webpage for the release (release branch on scenarioo.github.io repository) to master to update the webpage for the release (if needed)
-* **Post on Twitter:** Send out a notfication about the new released version on our Twitter news channel: scenarioo_org (Login with our master password)
+* **Post on Twitter:** Send out a notification about the new released version on our Twitter news channel: scenarioo_org (Login with our master password)
 * **Send out Newsletter** to scenarioo-news@googlegroups.com
 * **Post it on Yammer and other important news channels**
 
