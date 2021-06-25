@@ -122,11 +122,13 @@ signing.secretKeyRingFile=#secret key file goes here#
 ossrhUsername=scenarioo
 ossrhPassword=#sonatype password goes here#
 ```
+The credentials can be found in the internal MS Teams Channel.
 
 2. Change the version appropriately in the build.gradle
-3. `gradlew clean uploadArchives`
+3. `gradlew clean publish`
 4. Promote build to maven central:
-http://central.sonatype.org/pages/releasing-the-deployment.html
+http://central.sonatype.org/pages/releasing-the-deployment.html  
+   Please note, we're using the old server https://oss.sonatype.org.
 
 ### Publish the Release on Webpage, Twitter and Newsletter
 
