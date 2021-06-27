@@ -13,5 +13,9 @@
 sy-    :ho  .yy:`   `:y+  /hs-    .+s.   /h:      yy   /ho-    .+hho   oh.      /h:   /ho- `- .+ho   :hs:`   ./hs`
 `/shyyhs/     :oyyyhyo:    `/syyyhy+-    /h:      yy    `/shyyhs+:ho   oh.      /h:    `/shyyhs+.     `/syhyhyo-
 
-
-:: Spring Boot ::		${spring-boot.formatted-version}
+:: Scenarioo Version                  ::  ${project.scenariooViewerVersion}
+:: Scenarioo Release Build Date       ::  ${project.buildDate}
+:: Scenarioo Documentation Version    ::  ${project.documentationVersion}
+:: Scenarioo Data Format Version      ::  ${project.scenariooApiVersion}
+:: Scenarioo Internal Format Version  ::  ${project.scenariooAggregatedDataFormatVersion}
+:: Spring Boot Version                :: \${spring-boot.formatted-version}

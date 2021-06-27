@@ -1,4 +1,4 @@
-# Ignore .idea files except basic run configurations
+# Ignore .idea files except important common settings and run configurations
 /.idea
 !/.idea/codeStyleSettings.xml
 !/.idea/encodings.xml
@@ -7,7 +7,7 @@
 !/.idea/codeStyles
 !/.idea/runConfigurations
 !/.idea/inspectionProfiles
-
+!/.idea/gradle.xml
 
 classes/
 bin/

@@ -16,39 +16,49 @@ public enum ApplicationVersionHolder {
 
 	private ApplicationVersion applicationVersion;
 
+	/**
+	 * Use this to simply initialize in spring boot app from resource files in class path
+	 */
 	public void initializeFromClassContext() {
-
-		final Properties properties = new Properties();
 		final InputStream inputStream = ApplicationVersionHolder.class.getResourceAsStream("/version.properties");
+		ApplicationVersionHolder.INSTANCE.initializeFromVersionPropertiesInputStream(inputStream);
+	}
+
+	/**
+	 * Use this to initialize from any input stream (e.g. from servlet context resource in a different web server scenario, like a tomcat war deployment)
+	 */
+	public void initializeFromVersionPropertiesInputStream(InputStream inputStream) {
 		if (inputStream == null) {
-			LOGGER.warn("version.properties not found, no real version information available.");
+			LOGGER.warn("version.properties not found, no real version information available. Continue with unknown version.");
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
-			return;
+		} else {
+			try {
+				final Properties properties = new Properties();
+				properties.load(inputStream);
+				ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
+			} catch (final Exception e) {
+				LOGGER.warn("Could not load version.properties - no real version information available.", e);
+				ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
+			}
 		}
-
-		try {
-			properties.load(inputStream);
-			ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
-		} catch (final Exception e) {
-			LOGGER.warn("version.properties not found, no real version information available.", e);
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
-		}
-
+		LOGGER.info("Version info loaded from version.properties:");
+		LOGGER.info("  Version: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getVersion());
+		LOGGER.info("  Build date: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getBuildDate());
 	}
 
-	public void initialize(final String version, final String buildDate, final String apiVersion,
-			final String aggregatedDataFormatVersion, String documentationVersion) {
-		applicationVersion = new ApplicationVersion(version, buildDate, apiVersion,
-				aggregatedDataFormatVersion, documentationVersion);
-	}
-
-	public void initializeFromProperties(final Properties versionProperties) {
+	private void initializeFromProperties(final Properties versionProperties) {
 		String version = versionProperties.getProperty("version");
 		String buildDate = versionProperties.getProperty("build-date");
 		String apiVersion = versionProperties.getProperty("apiVersion");
 		String aggregatedDataFormatVersion = versionProperties.getProperty("aggregatedDataFormatVersion");
 		String documentationVersion = versionProperties.getProperty("documentationVersion");
 		initialize(version, buildDate, apiVersion, aggregatedDataFormatVersion, documentationVersion);
+	}
+
+	private void initialize(final String version, final String buildDate, final String apiVersion,
+							final String aggregatedDataFormatVersion, String documentationVersion) {
+		applicationVersion = new ApplicationVersion(version, buildDate, apiVersion,
+				aggregatedDataFormatVersion, documentationVersion);
 	}
 
 	public ApplicationVersion getApplicationVersion() {
