@@ -122,13 +122,13 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
         }
     }
     function initBaseBuildName() {
-        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then((result) => {
+        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).subscribe((result) => {
             ctrl.baseBuildName = result;
         });
     }
 
     function initBaseBuild() {
-        BranchesAndBuildsService.getBuild(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then((result) => {
+        BranchesAndBuildsService.getBuild(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).subscribe((result) => {
             if (result) {
                 ctrl.baseBuild = result.build;
             }
@@ -136,7 +136,7 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
     }
 
     function initComparisonBuild() {
-        BranchesAndBuildsService.getBuild(ctrl.comparisonBranchName, ctrl.comparisonBuildName).then((result) => {
+        BranchesAndBuildsService.getBuild(ctrl.comparisonBranchName, ctrl.comparisonBuildName).subscribe((result) => {
             if (result) {
                 ctrl.comparisonBuild = result.build;
             }

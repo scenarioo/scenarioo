@@ -56,6 +56,8 @@ import {BuildImportStatusService} from './services/build-import-status.service';
 import {Breadcrumbs} from './shared/navigation/breadcrumbs/breadcrumbs.component';
 import {SketcherLinkService} from './shared/navigation/breadcrumbs/sketcherLink.service';
 import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.service';
+import {RootScopeService} from './shared/rootScope.service';
+import {RoutingWrapperService} from './shared/routing-wrapper.service';
 
 @NgModule({
     declarations: [
@@ -142,24 +144,18 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         LocalStorageService,
         UrlContextExtractorService,
         HumanReadablePipe,
+        BranchesAndBuildsService,
+        SelectedBranchAndBuildService,
+        RoutingWrapperService,
         {provide: LocationService, useFactory: (i: any) => i.get('$location'), deps: ['$injector']},
         {provide: RouteParamsService, useFactory: (i: any) => i.get('$routeParams'), deps: ['$injector']},
-        {
-            provide: SelectedBranchAndBuildService,
-            useFactory: (i: any) => i.get('SelectedBranchAndBuildService'),
-            deps: ['$injector'],
-        },
-        {
-            provide: BranchesAndBuildsService,
-            useFactory: (i: any) => i.get('BranchesAndBuildsService'),
-            deps: ['$injector'],
-        },
         {
             provide: SketcherLinkService,
             useFactory: (i: any) => i.get('SketcherLinkService'),
             deps: ['$injector'],
         },
         {provide: SelectedComparison, useFactory: (i: any) => i.get('SelectedComparison'), deps: ['$injector']},
+        {provide: RootScopeService, useFactory: (i: any) => i.get('$rootScope'), deps: ['$injector']},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -48,7 +48,7 @@ function CreateComparisonModalController($route, $location, $uibModalInstance, B
     activate();
 
     function activate() {
-        BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
+        BranchesAndBuildsService.getBranchesAndBuilds().subscribe(function onSuccess(branchesAndBuilds) {
             vm.branchesAndBuilds = branchesAndBuilds;
             vm.baseBranch = branchesAndBuilds.selectedBranch;
             vm.baseBuild = branchesAndBuilds.selectedBuild;

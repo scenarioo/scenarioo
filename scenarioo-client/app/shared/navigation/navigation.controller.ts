@@ -74,7 +74,7 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
     ctrl.isSearchEngineRunning = loadSearchEngineRunning();
 
     function loadBranchesAndBuilds() {
-        BranchesAndBuildsService.getBranchesAndBuilds().then((branchesAndBuilds) => {
+        BranchesAndBuildsService.getBranchesAndBuilds().subscribe((branchesAndBuilds) => {
             ctrl.branchesAndBuilds = branchesAndBuilds;
             loadComparisonBuilds();
         });

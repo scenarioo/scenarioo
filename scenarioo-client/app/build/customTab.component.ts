@@ -80,7 +80,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
     function loadContent() {
 
         BranchesAndBuildsService.getBranchesAndBuilds()
-            .then((branchesAndBuilds) => {
+            .subscribe((branchesAndBuilds) => {
                 ctrl.branchesAndBuilds = branchesAndBuilds;
 
                 CustomTabContentResource

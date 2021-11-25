@@ -131,6 +131,7 @@ export interface IUseCaseSummary {
 export interface IBranchBuilds {
     branch: IBranch;
     builds: IBuildLink[];
+    // TODO: What is the difference?
     alias: boolean;
     isAlias: boolean;
 }
