@@ -1,0 +1,83 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div>
+    <a class="link" (click)="openComparison(comparisonDetails)" tooltip="Show comparison log and Details"
+       data-placement="left"><i class="fas fa-list-alt fa-fw"></i> Details & Log</a>
+
+    <ng-template #comparisonDetails>
+        <div class="modal-header">
+            <h1 class="modal-title">Comparison {{ comparison.name }}
+                on Build {{ comparison.baseBuild.branchName}}/{{ comparison.baseBuild.buildName }}</h1>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-2"><p>Status</p></div>
+                <div class="col-md-3">
+                    <span
+                        ng-class="[getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"><p>Change Rate</p></div>
+                <div class="col-md-6">
+                    <sc-diff-info-icon ng-if="comparison.status=='SUCCESS'" [diffInfo]="comparison"
+                                       element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                    <br/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"><p>Calculation Date</p></div>
+                <div class="col-md-6">{{ comparison.calculationDate | scDateTime }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Build</h3>
+
+                    <p id="buildDetail">
+                        Branch: {{ comparison.baseBuild.branchName }}<br/>
+                        Build: {{ comparison.baseBuild.buildName }}<br/>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Compared Build</h3>
+
+                    <p id="comparedBuildDetail">
+                        Branch: {{ comparison.compareBuild.branchName }}<br/>
+                        Build: {{ comparison.compareBuild.buildName }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Comparison Log</h3>
+                    <textarea id="comparisonLog" class="form-control" rows="10" wrap="soft"
+                              title="the output of the comparison task on the server" readonly>{{ log }}</textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button (click)="modalRef.hide()" class="btn btn-primary" type="button">Close</button>
+        </div>
+    </ng-template>
+
+</div>

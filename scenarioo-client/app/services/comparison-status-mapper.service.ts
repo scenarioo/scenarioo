@@ -15,24 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ComparisonDetailsController', ComparisonDetailsController);
+import {Injectable} from '@angular/core';
 
-function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, ComparisonLogResource, comparison) {
+@Injectable()
+export class ComparisonStatusMapperService {
 
-    const vm = this;
-    vm.comparison = comparison;
-    vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
-    vm.cancel = cancel;
+    private readonly styleClassesForComparisonStatus = {
+        QUEUED_FOR_PROCESSING: 'label-info',
+        PROCESSING: 'label-primary',
+        SKIPPED: 'label-default',
+        SUCCESS: 'label-success',
+        FAILED: 'label-danger',
+    };
 
-    activate();
-
-    function activate() {
-        ComparisonLogResource.logComparision(comparison.name, comparison.baseBuild)
-            .subscribe((log) => vm.log = log);
+    getStyleClassForComparisonStatus(status: string) {
+        const styleClassFromMapping = this.styleClassesForComparisonStatus[status];
+        if (styleClassFromMapping === undefined) {
+            return 'label-warning';
+        } else {
+            return styleClassFromMapping;
+        }
     }
-
-    function cancel() {
-        $uibModalInstance.dismiss('cancel');
-    }
-
 }

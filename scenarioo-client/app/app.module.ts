@@ -17,7 +17,8 @@ import {UseCasesOverviewComponent} from './build/use-cases-overview/use-cases-ov
 import {ManageTabsComponent} from './manage/manage-tabs/manage-tabs.component';
 import {LabelColorsComponent} from './manage/label-colors/label-colors.component';
 import {BuildListComponent} from './manage/builds/build-list.component';
-import {ComparisonsDirective} from './manage/comparisons/comparisons.directive';
+import {ComparisonListComponent} from './manage/comparisons/comparison-list.component';
+import {ComparisonDetailComponent} from './manage/comparisons/comparison-detail.component';
 import {LocationService} from './shared/location.service';
 import {BuildDiffInfoService} from './diffViewer/services/build-diff-info.service';
 import {BuildDiffInfosService} from './diffViewer/services/build-diff-infos.service';
@@ -53,6 +54,7 @@ import {LocalStorageService} from './services/localStorage.service';
 import {GeneralSettingsComponent} from './manage/general-settings/general-settings.component';
 import {BuildDetailComponent} from './manage/builds/build-detail.component';
 import {BuildImportStatusService} from './services/build-import-status.service';
+import {ComparisonStatusMapperService} from './services/comparison-status-mapper.service';
 import {Breadcrumbs} from './shared/navigation/breadcrumbs/breadcrumbs.component';
 import {SketcherLinkService} from './shared/navigation/breadcrumbs/sketcherLink.service';
 import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.service';
@@ -64,7 +66,8 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         LabelColorsComponent,
         BuildListComponent,
         BuildDetailComponent,
-        ComparisonsDirective,
+        ComparisonListComponent,
+        ComparisonDetailComponent,
         MainpageComponent,
         ShareLinkComponent,
         UseCasesOverviewComponent,
@@ -127,6 +130,7 @@ import {BreadcrumbsService} from './shared/navigation/breadcrumbs/breadcrumbs.se
         },
         BreadcrumbsService,
         LabelConfigurationService,
+        ComparisonStatusMapperService,
         BuildImportStatusService,
         BuildDiffInfoService,
         BuildDiffInfosService,
