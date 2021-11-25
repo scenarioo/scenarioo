@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
+import {Url} from '../utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -19,15 +20,18 @@ export class RelatedIssueResource {
     }
 
     get(build: BuildInfo, useCaseName: string, scenarioName: string, pageName: string, pageOccurence: number, stepInPageOccurrence: number): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence}/${stepInPageOccurrence}`);
+        const url = Url.encodeComponents `rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}/${pageName}/${pageOccurence.toString()}/${stepInPageOccurrence.toString()}`;
+        return this.httpClient.get<RelatedIssueSummary[]>(url);
     }
 
     getForStepsOverview(build: BuildInfo, useCaseName: string, scenarioName: string): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}`);
+        const url = Url.encodeComponents `rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}/${scenarioName}`;
+        return this.httpClient.get<RelatedIssueSummary[]>(url);
     }
 
     getForScenariosOverview(build: BuildInfo, useCaseName: string): Observable<RelatedIssueSummary[]> {
-        return this.httpClient.get<RelatedIssueSummary[]>(`rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}`);
+        const url = Url.encodeComponents `rest/branch/${build.branchName}/issue/related/${build.buildName}/${useCaseName}`;
+        return this.httpClient.get<RelatedIssueSummary[]>(url);
     }
 }
 

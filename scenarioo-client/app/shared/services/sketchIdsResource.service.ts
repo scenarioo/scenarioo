@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {ISketchIds} from '../../generated-types/backend-types';
+import {Url} from '../utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -13,7 +14,8 @@ export class SketchIdsResource {
     }
 
     get(branchName: string, issueId: number): Observable<ISketchIds> {
-        return this.httpClient.get<ISketchIds>(`rest/branch/${branchName}/issue/${issueId}/ids`);
+        const url = Url.encodeComponents `rest/branch/${branchName}/issue/${issueId.toString()}/ids`;
+        return this.httpClient.get<ISketchIds>(url);
     }
 }
 

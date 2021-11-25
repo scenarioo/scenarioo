@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {Url} from '../shared/utils/url';
+
 angular.module('scenarioo.controllers').controller('StepSketchController', StepSketchController);
 
 function StepSketchController($scope, $routeParams, $location, SelectedBranchAndBuildService,
@@ -47,7 +49,7 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
 
     function editSketch() {
         $location.path('/editor/' + issueId + '/' + scenarioSketchId + '/' + stepSketchId).search('mode', 'edit');
-    };
+    }
 
     function loadIssueAndSketch() {
         IssueResource.get(
@@ -74,7 +76,7 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
 
     function getCurrentUrlForSharing() {
         return $location.absUrl();
-    };
+    }
 
     function getSketchScreenshotUrlForSharing() {
         if (angular.isUndefined(vm.stepSketch)) {
@@ -89,8 +91,9 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + encodeURIComponent(selected.branch) + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
-    };
+        const relativeUrl = Url.encodeComponents `rest/branch/${selected.branch}/issue/${issueId}/scenariosketch/${scenarioSketchId}/stepsketch/${stepSketchId}/image/sketch.png`;
+        return getUrlPartBeforeHash($location.absUrl()) + relativeUrl;
+    }
 
     function getUrlPartBeforeHash(url) {
         return url.split('#')[0];
@@ -102,8 +105,8 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
-    };
+        return Url.encodeComponents `rest/branch/${selected.branch}/issue/${issueId}/scenariosketch/${scenarioSketchId}/stepsketch/${stepSketchId}/image/sketch.png`;
+    }
 
     function getOriginalScreenshotUrl() {
         if (angular.isUndefined(vm.stepSketch)) {
@@ -111,29 +114,29 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
-    };
+        return Url.encodeComponents `rest/branch/${selected.branch}/issue/${issueId}/scenariosketch/${scenarioSketchId}/stepsketch/${stepSketchId}/image/original.png`;
+    }
 
     function getUseCaseUrl() {
         if(vm.stepSketch == null) {
             return undefined;
         }
-        return '#/usecase/' + encodeURIComponent(vm.stepSketch.relatedStep.usecaseName);
-    };
+        return Url.encodeComponents `#/usecase/${vm.stepSketch.relatedStep.usecaseName}`;
+    }
 
     function getScenarioUrl() {
         if(vm.stepSketch == null) {
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/scenario/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName);
-    };
+        return Url.encodeComponents `#/scenario/${step.usecaseName}/${step.scenarioName}`;
+    }
 
     function getStepUrl(){
         if(vm.stepSketch == null) {
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/step/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
-    };
-};
+        return Url.encodeComponents `#/step/${step.usecaseName}/${step.scenarioName}/${step.pageName}/${step.pageOccurrence}/${step.stepInPageOccurrence}`;
+    }
+}

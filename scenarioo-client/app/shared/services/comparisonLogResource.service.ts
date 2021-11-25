@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
 import {Observable} from 'rxjs';
+import {Url} from '../utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -13,9 +14,9 @@ export class ComparisonLogResource {
     }
 
     logComparision(comparisonName: string, branchInfo: BuildInfo): Observable<string> {
-
+        const url = Url.encodeComponents`rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/log`;
         return this.httpClient
-            .get(`rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/log`,
+            .get(url,
                 {
                     responseType: 'text',
                 });

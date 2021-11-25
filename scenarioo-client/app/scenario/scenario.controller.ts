@@ -24,6 +24,7 @@ import {forkJoin} from 'rxjs';
 import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/relatedIssueResource.service';
 import {SketchIdsResource} from '../shared/services/sketchIdsResource.service';
 import {ISketchIds} from '../generated-types/backend-types';
+import {Url} from '../shared/utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -187,13 +188,11 @@ function ScenarioController($filter, $routeParams,
             build = comparisonBuildName;
         }
 
-        return 'rest/branch/' + branch + '/build/' + build +
-            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
+        return Url.encodeComponents `rest/branch/${branch}/build/${build}/usecase/${useCaseName}/scenario/${scenarioName}/image/${imgName}`;
     }
 
     function getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
-        return '#/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
-            '/' + pageOccurrence + '/' + stepInPageOccurrence;
+        return Url.encodeComponents `#/step/${useCaseName}/${scenarioName}/${pageName}/${pageOccurrence}/${stepInPageOccurrence}`;
     }
 
     function resetSearchField() {

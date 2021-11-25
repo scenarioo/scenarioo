@@ -16,6 +16,8 @@
  */
 
 
+import {Url} from '../shared/utils/url';
+
 angular.module('scenarioo.controllers').controller('SketcherEditorController', SketcherEditorController);
 
 function SketcherEditorController($rootScope, $scope, $location, $filter, $interval, $routeParams,
@@ -86,8 +88,7 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return 'rest/branch/' + selected.branch + '/issue/' + vm.currentIssue.issueId
-            + '/scenariosketch/' + vm.scenarioSketchId + '/stepsketch/' + vm.stepSketchId + '/svg/1';
+        return Url.encodeComponents `rest/branch/${selected.branch}/issue/${vm.currentIssue.issueId}/scenariosketch/${vm.scenarioSketchId}/stepsketch/${vm.stepSketchId}/svg/1`;
     }
 
     function setAuthorFromLocalStorageIfAvailable() {

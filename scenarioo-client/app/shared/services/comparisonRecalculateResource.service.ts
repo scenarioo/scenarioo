@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {BuildInfo} from './comparisonCreateResource.service';
 import {Observable} from 'rxjs';
+import {Url} from '../utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -13,9 +14,9 @@ export class ComparisonRecalculateResource {
     }
 
     recalculate(comparisonName: string, branchInfo: BuildInfo): Observable<void> {
-
+        const url = Url.encodeComponents `rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/recalculate`;
         return this.httpClient
-            .post<void>(`rest/builds/${branchInfo.branchName}/${branchInfo.buildName}/comparisons/${comparisonName}/recalculate`,
+            .post<void>(url,
                 {
                     responseType: 'text',
                 });

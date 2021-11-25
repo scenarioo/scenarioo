@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import handleError from '../../shared/utils/httpErrorHandling';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {Url} from '../../shared/utils/url';
 
 declare var angular: angular.IAngularStatic;
 
@@ -14,8 +15,9 @@ export class BuildDiffInfoService {
     }
 
     get(baseBranchName: string, baseBuildName: string, comparisonName: string): Observable<IBuildDiffInfo> {
+        const url = Url.encodeComponents `rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/buildDiffInfo`;
         return this.http
-            .get<IBuildDiffInfo>(`rest/diffViewer/baseBranchName/${baseBranchName}/baseBuildName/${baseBuildName}/comparisonName/${comparisonName}/buildDiffInfo`)
+            .get<IBuildDiffInfo>(url)
             .pipe(catchError(handleError));
     }
 }
