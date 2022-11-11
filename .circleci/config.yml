@@ -185,7 +185,7 @@ jobs:
       #  And public key on Github: https://github.com/scenarioo/scenarioo.github.io/settings/keys
       - add_ssh_keys:
           fingerprints:
-            - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
+            - "19:98:49:95:5e:57:6d:01:1d:69:8f:d4:d9:bb:3c:ac"
       - run:
           name: Configure git && github ssh connection for docs deployment
           command: |
