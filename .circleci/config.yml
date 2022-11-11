@@ -15,7 +15,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - browser-tools/install-browser-tools:
-          chrome-version: 86.0.4240.111
+          chrome-version: 107.0.5304.110
       - checkout
       - run:
           name: Configure Environment for Job
@@ -66,7 +66,7 @@ jobs:
               done
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
-            export CHROME_VERSION=86.0.4240.111
+            export CHROME_VERSION=107.0.5304.110
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
 
@@ -220,7 +220,7 @@ jobs:
     working_directory: ~/smoketest
     steps:
       - browser-tools/install-browser-tools:
-          chrome-version: 86.0.4240.111
+          chrome-version: 107.0.5304.110
       - checkout
       - run:
           name: Prepare environemnt
@@ -230,7 +230,7 @@ jobs:
           name: Smoketest develop demo
           command: |
             export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-develop
-            export CHROME_VERSION=86.0.4240.111
+            export CHROME_VERSION=107.0.5304.110
 
             echo "Running smoketests for develop demo"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
@@ -239,7 +239,7 @@ jobs:
           name: Smoketest master demo
           command: |
             export PROTRACTOR_BASE_URL=http://demo.scenarioo.org/scenarioo-master
-            export CHROME_VERSION=86.0.4240.111
+            export CHROME_VERSION=107.0.5304.110
 
             echo "Running smoketests for master demo"
             export GRADLE_OPTS="-Xms300m -Xmx1000m"
