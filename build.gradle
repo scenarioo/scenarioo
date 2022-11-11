@@ -88,10 +88,9 @@ allprojects {
 			dependency 'com.sun.xml.bind:jaxb-impl:2.2.11'
 			dependency 'javax.activation:activation:1.1.1'
 
-			dependency 'log4j:log4j:1.2.17'
 			//Spring Boot 2.0.2 uses log4j 2.10.0 which has a known bug which is fixed in 2.11.0
-			dependency 'org.apache.logging.log4j:log4j-api:2.11.0'
-			dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
+			dependency 'org.apache.logging.log4j:log4j-api:2.17.2'
+			dependency 'org.apache.logging.log4j:log4j-core:2.17.2'
 
 			dependency 'junit:junit:4.12'
 			dependency 'org.assertj:assertj-core:3.10.0'

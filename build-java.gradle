@@ -12,7 +12,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3'
     compile 'commons-io:commons-io'
     compile 'commons-codec:commons-codec'
-    compile 'log4j:log4j'
+    compile 'org.apache.logging.log4j:log4j-core'
     testCompile 'junit:junit'
     testCompile 'org.assertj:assertj-core'
 }
