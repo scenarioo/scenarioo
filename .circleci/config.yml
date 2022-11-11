@@ -151,7 +151,7 @@ jobs:
       #  And public key on Github: https://github.com/scenarioo/scenarioo-infrastructure/settings/keys
       - add_ssh_keys:
           fingerprints:
-            - "6c:90:aa:bc:f6:16:a2:10:0c:95:80:7a:b7:b7:3c:0f"
+            - "d0:c5:44:ab:20:4a:8f:dd:d0:a2:09:b2:c0:f4:e3:fb"
       - run:
           name: Checkout scenarioo-infrastructure
           command: |
