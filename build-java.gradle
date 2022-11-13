@@ -17,5 +17,9 @@ dependencies {
     testCompile 'org.assertj:assertj-core'
 }
 
+test {
+    minHeapSize = "1G"
+}
+
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
