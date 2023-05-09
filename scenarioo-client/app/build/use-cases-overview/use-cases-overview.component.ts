@@ -18,10 +18,10 @@
 import {Component, HostListener} from '@angular/core';
 import {SelectedBranchAndBuildService} from '../../shared/navigation/selectedBranchAndBuild.service';
 import {BranchesAndBuildsService} from '../../shared/navigation/branchesAndBuilds.service';
-import {UseCasesResource, UseCaseSummary} from '../../shared/services/useCasesResource.service';
+import {UseCasesResource} from '../../shared/services/useCasesResource.service';
 import {LabelConfigurationMap, LabelConfigurationsResource} from '../../shared/services/labelConfigurationsResource.service';
 import {ConfigurationService} from '../../services/configuration.service';
-import {SelectedComparison} from '../../diffViewer/selectedComparison.service';
+import {SelectedComparisonService} from '../../diffViewer/selectedComparison.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {LocationService} from '../../shared/location.service';
 import {MetadataTreeCreatorPipe} from '../../pipes/metadata/metadataTreeCreator.pipe';
@@ -31,7 +31,7 @@ import {forkJoin} from 'rxjs';
 import {DiffInfoService} from '../../diffViewer/diffInfo.service';
 import {DateTimePipe} from '../../pipes/dateTime.pipe';
 import {ScSearchFilterPipe} from '../../pipes/searchFilter.pipe';
-import {IBranchBuilds} from '../../generated-types/backend-types';
+import {IBranchBuilds, IUseCaseSummary} from '../../generated-types/backend-types';
 import {IMainDetailsSection} from '../../components/detailarea/IMainDetailsSection';
 
 declare var angular: angular.IAngularStatic;
@@ -44,7 +44,7 @@ declare var angular: angular.IAngularStatic;
 
 export class UseCasesOverviewComponent {
 
-    usecases: UseCaseSummary[] = [];
+    usecases: IUseCaseSummary[] = [];
 
     searchTerm: string;
 
@@ -71,7 +71,7 @@ export class UseCasesOverviewComponent {
                 private orderPipe: OrderPipe,
                 private dateTimePipe: DateTimePipe,
                 private locationService: LocationService,
-                private selectedComparison: SelectedComparison,
+                private selectedComparisonService: SelectedComparisonService,
                 private metadataTreeCreaterPipe: MetadataTreeCreatorPipe,
                 private buildDiffInfoService: BuildDiffInfoService,
                 private useCaseDiffInfosService: UseCaseDiffInfosService,
@@ -89,12 +89,12 @@ export class UseCasesOverviewComponent {
                 this.useCasesResource.query({
                     branchName: selection.branch,
                     buildName: selection.build,
-                }).subscribe((useCaseSummaries: UseCaseSummary[]) => {
+                }).subscribe((useCaseSummaries: IUseCaseSummary[]) => {
 
-                    this.isComparisonExisting = this.selectedComparison.isDefined();
+                    this.isComparisonExisting = this.selectedComparisonService.isDefined();
 
                     if (this.isComparisonExisting) {
-                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparison.selected());
+                        this.loadDiffInfoData(useCaseSummaries, selection.branch, selection.build, this.selectedComparisonService.selected());
                     } else {
                         this.usecases = useCaseSummaries;
                     }
@@ -120,7 +120,7 @@ export class UseCasesOverviewComponent {
         return this.configurationService.getStatusStyleClass(state);
     }
 
-    loadDiffInfoData(useCases: UseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
+    loadDiffInfoData(useCases: IUseCaseSummary[], baseBranchName: string, baseBuildName: string, comparisonName: string) {
         if (useCases && baseBranchName && baseBuildName) {
             forkJoin([
                 this.buildDiffInfoService.get(baseBranchName, baseBuildName, comparisonName),

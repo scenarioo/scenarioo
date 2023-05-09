@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scMetadataTreeListCreator', function ($filter) {
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {INeighborStep} from '../../generated-types/backend-types';
 
-    var transformToOptimizedTree = $filter('scMetadataTreeCreator');
+@Directive({
+    selector: 'sc-annotated-screenshot',
+})
+export class AnnotatedScreenshotDirective extends UpgradeComponent {
 
-    function transformMetadataToTreeArray(metadata) {
-        const metadataTrees = {};
+    @Input() screenAnnotations;
+    @Input() screenShotUrl: string;
+    @Input() visibilityToggle: boolean;
+    @Input() toNextStepAction: INeighborStep;
 
-        angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToOptimizedTree(value);
-        });
-
-        return metadataTrees;
+    constructor(elementRef: ElementRef, injector: Injector) {
+        super('scAnnotatedScreenshot', elementRef, injector);
     }
-
-    return transformMetadataToTreeArray;
-
-});
+}

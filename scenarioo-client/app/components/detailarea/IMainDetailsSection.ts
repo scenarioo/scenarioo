@@ -13,7 +13,7 @@ export interface IMainDetailsSection {
     dataTree?: IDetailsTreeNode;
 
     /**
-     * Other values to display for labels or issues section type
+     * Other values to display for issues section type
      */
     values?: any[];
 

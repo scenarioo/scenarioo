@@ -11,7 +11,6 @@ import './filterableTableTree/referenceTreeNavigation.service';
 import './navigation/breadcrumbs/breadcrumbs.component';
 import './navigation/breadcrumbs/sketcherLink.service';
 import './sortableColumn.directive';
-import './metadata/tree.component';
 import './filterableTableTree/filterableTableTree.component';
 import './keyboardNavigatableTable.directive';
 import './debounce.directive';

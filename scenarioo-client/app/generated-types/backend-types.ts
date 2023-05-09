@@ -102,13 +102,6 @@ export interface IUseCaseScenarios {
     scenarios: IScenarioSummary[];
 }
 
-export interface IScenarioDetails {
-    scenario: IScenario;
-    scenarioStatistics: IScenarioStatistics;
-    useCase: IUseCase;
-    pagesAndSteps: IPageWithSteps[];
-}
-
 export interface ISearchResponse {
     searchTree: ISearchTree;
     errorMessage: string;
@@ -135,9 +128,59 @@ export interface IBranchBuilds {
     isAlias: boolean;
 }
 
+export interface IPageSummary {
+    name: string;
+    pageOccurrence: number;
+}
+
+export interface IPageWithSteps {
+    page: IPageSummary;
+    steps: IStepDescription[];
+}
+
+export interface IScenarioDetails {
+    scenario: IScenario;
+    scenarioStatistics: IScenarioStatistics;
+    useCase: IUseCase;
+    pagesAndSteps: IPageWithSteps[];
+}
+
+export interface IIssueSummary {
+    id: string;
+    name: string;
+    description: string;
+    author: string;
+    relatedUseCaseName: string;
+    relatedScenarioName: string;
+    relatedStep: IStepIdentifier;
+    dateCreated: Date;
+    dateModified: Date;
+}
+
+export interface IIssueWithSketch {
+    issue: IIssue;
+    scenarioSketch: IScenarioSketch;
+    stepSketch: IStepSketch;
+}
+
+export interface IScenarioSketchSummary {
+    scenarioSketch: IScenarioSketch;
+    numberOfSteps: number;
+}
+
 export interface ISketchIds {
     scenarioSketchId: string;
     stepSketchId: string;
+}
+
+export interface IStepDetails {
+    stepIdentifier: IStepIdentifier;
+    fallback: boolean;
+    step: IStep;
+    stepNavigation: IStepNavigation;
+    stepStatistics: IStepStatistics;
+    useCaseLabels: ILabels;
+    scenarioLabels: ILabels;
 }
 
 export interface IComparisonConfiguration {
@@ -210,22 +253,6 @@ export interface IScenarioSummary {
     numberOfSteps: number;
 }
 
-export interface IScenario extends ISerializable, ILabelable, IDetailable {
-    name: string;
-    description: string;
-    status: string;
-}
-
-export interface IScenarioStatistics extends ISerializable {
-    numberOfPages: number;
-    numberOfSteps: number;
-}
-
-export interface IPageWithSteps {
-    page: IPageSummary;
-    steps: IStepDescription[];
-}
-
 export interface ISearchTree {
     results: IObjectTreeNode<IObjectReference>;
     hits: number;
@@ -247,6 +274,104 @@ export interface IBuildLink extends ISerializable {
     displayName: string;
     linkName: string;
     build: IBuild;
+}
+
+export interface IStepDescription extends ISerializable, ILabelable, IDetailable {
+    index: number;
+    title: string;
+    status: string;
+    screenshotFileName: string;
+}
+
+export interface IScenario extends ISerializable, ILabelable, IDetailable {
+    name: string;
+    description: string;
+    status: string;
+}
+
+export interface IScenarioStatistics extends ISerializable {
+    numberOfPages: number;
+    numberOfSteps: number;
+}
+
+export interface IStepIdentifier {
+    pageName: string;
+    pageOccurrence: number;
+    stepInPageOccurrence: number;
+    labels: string[];
+    buildName: string;
+    branchName: string;
+    scenarioName: string;
+    usecaseName: string;
+}
+
+export interface IIssue extends ISerializable {
+    issueId: string;
+    name: string;
+    description: string;
+    author: string;
+    dateCreated: Date;
+    dateModified: Date;
+    relatedStep: IStepIdentifier;
+    branchName: string;
+}
+
+export interface IScenarioSketch extends ISerializable {
+    scenarioSketchId: string;
+    issueId: string;
+    author: string;
+    dateCreated: Date;
+    dateModified: Date;
+}
+
+export interface IStepSketch extends ISerializable {
+    sketchFileName: string;
+    stepSketchId: string;
+    dateCreated: Date;
+    dateModified: Date;
+    svgXmlString: string;
+    relatedStep: IStepIdentifier;
+    branchName: string;
+    issueName: string;
+    issueId: string;
+    scenarioSketchId: string;
+}
+
+export interface IStep extends ISerializable {
+    page: IPage;
+    stepDescription: IStepDescription;
+    html: IStepHtml;
+    metadata: IStepMetadata;
+    screenAnnotations: IScreenAnnotation[];
+}
+
+export interface IStepNavigation {
+    pageName: string;
+    pageIndex: number;
+    stepIndex: number;
+    pageOccurrence: number;
+    stepInPageOccurrence: number;
+    pageVariantIndex: number;
+    pageVariantScenarioIndex: number;
+    previousStepVariant: IStepLink;
+    nextStepVariant: IStepLink;
+    previousStepVariantInOtherScenario: IStepLink;
+    nextStepVariantInOtherScenario: IStepLink;
+    pageVariantsCount: number;
+    pageVariantScenariosCount: number;
+    firstStep: INeighborStep;
+    previousPage: INeighborStep;
+    previousStep: INeighborStep;
+    nextStep: INeighborStep;
+    nextPage: INeighborStep;
+    lastStep: INeighborStep;
+    pageOccurrenceIndex: number;
+}
+
+export interface IStepStatistics {
+    totalNumberOfStepsInScenario: number;
+    totalNumberOfStepsInPageOccurrence: number;
+    totalNumberOfPagesInScenario: number;
 }
 
 export interface ICustomObjectDetailColumn {
@@ -272,21 +397,32 @@ export interface ILabelable {
     labels: ILabels;
 }
 
-export interface IPageSummary {
-    name: string;
-    pageOccurrence: number;
-}
-
-export interface IStepDescription extends ISerializable, ILabelable, IDetailable {
-    index: number;
-    title: string;
-    status: string;
-    screenshotFileName: string;
-}
-
 export interface ISearchRequest {
     buildIdentifier: IBuildIdentifier;
     q: string;
+}
+
+export interface IPage extends ISerializable, ILabelable, IDetailable {
+    name: string;
+}
+
+export interface IStepHtml extends ISerializable {
+    htmlSource: string;
+}
+
+export interface IStepMetadata extends ISerializable, IDetailable {
+    visibleText: string;
+}
+
+export interface IScreenAnnotation extends IDetailable {
+    region: IScreenRegion;
+    style: IScreenAnnotationStyle;
+    screenText: string;
+    title: string;
+    description: string;
+    clickAction: IScreenAnnotationClickAction;
+    clickActionUrl: string;
+    clickActionText: string;
 }
 
 export interface IStepLink {
@@ -300,6 +436,23 @@ export interface IStepLink {
     stepIdentifierForObjectRepository: string;
 }
 
+export interface INeighborStep {
+    pageName: string;
+    pageOccurrence: number;
+    stepInPageOccurrence: number;
+}
+
+export interface IScreenRegion {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
 export type IBuildImportStatus = "UNPROCESSED" | "QUEUED_FOR_PROCESSING" | "PROCESSING" | "SUCCESS" | "FAILED" | "OUTDATED";
 
 export type IComparisonCalculationStatus = "QUEUED_FOR_PROCESSING" | "PROCESSING" | "SKIPPED" | "SUCCESS" | "FAILED";
+
+export type IScreenAnnotationStyle = "CLICK" | "KEYBOARD" | "EXPECTED" | "NAVIGATE_TO_URL" | "ERROR" | "WARN" | "INFO" | "HIGHLIGHT" | "DEFAULT";
+
+export type IScreenAnnotationClickAction = "TO_NEXT_STEP" | "TO_URL";

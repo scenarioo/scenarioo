@@ -14,23 +14,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
-
-<div class="modal-header">
-    <h1 class="modal-title"> <i class="fas fa-lg" ng-class="[annotationPopup.getIconClass()]"></i> &nbsp; {{annotationPopup.getTitleText()}}</h1>
-</div>
-
-<div class="modal-body info-popup">
-    <p>
-        {{annotationPopup.getDescriptionSection()}}
-    </p>
-
-    <p ng-if="annotationPopup.annotation.clickAction">
-        <a ng-click="annotationPopup.doClickAction()" class="link-no-hover"><i class="fas fa-fw {{annotationPopup.getClickActionIconStyle()}}"></i> {{annotationPopup.getClickActionText()}}</a>
-    </p>
-
-    <p ng-show="annotationPopup.hasDetails()">
-        <sc-tree [information-tree]="annotationPopup.detailsTrees"></sc-tree>
-    </p>
-
-</div>
+<div [innerHTML]=this.treeHtml class="sc-tree"></div>

@@ -1,0 +1,64 @@
+sc-step-view #sc-meta-data-panel {
+    margin-top: 35px;
+}
+
+sc-step-view .step-view-container {
+    margin-top: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+sc-step-view .step-nav-button {
+    background-color: #eeeeee;
+    width: 30px;
+    font-size: 40px;
+    color: #337AB7;
+    cursor: pointer;
+    border: 2px solid #DDDDDD;
+    vertical-align: top;
+}
+
+sc-step-view .no-border-right {
+    border-right: 0;
+    padding-left: 5px;
+}
+
+sc-step-view .no-border-left {
+    border-left: 0;
+}
+
+sc-step-view .step-arrow {
+    color: #337ab7;
+    cursor: pointer;
+}
+
+sc-step-view .step-arrow-grey {
+    color: #FFFFFF;
+    cursor: default;
+}
+
+sc-step-view .sc-label-after-text {
+    float: right;
+    margin-left: 5px;
+    width: 50px;
+    margin-top: -5px;
+}
+
+sc-step-view .sticky-arrow-container {
+    height: 100%;
+}
+
+sc-step-view .sticky-arrow-icon-area {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10vh; /* 2 times this plus the height should add to 100vh => sticky arrow is centered once full container is scrolled into view */
+    height: 80vh;
+    /* reasons for choosen height - it seems a good compromise between:
+     * 100vh = having to scroll too far down on small screens until you see the arrow
+     * 50vh = having the arrow too near to the top of the details panel (as long as not yet scrolled down)
+     */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+

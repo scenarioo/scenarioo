@@ -17,6 +17,7 @@
 
 import {ConfigurationService} from '../../services/configuration.service';
 import {BuildDiffInfosService} from '../../diffViewer/services/build-diff-infos.service';
+import {SelectedComparisonService} from '../../diffViewer/selectedComparison.service';
 
 declare var angular: angular.IAngularStatic;
 
@@ -26,8 +27,12 @@ angular.module('scenarioo.controllers')
         controller: NavigationController,
     });
 
-function NavigationController($location, LocalStorageService, BranchesAndBuildsService,
-                              SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService,
+function NavigationController($location,
+                              LocalStorageService,
+                              BranchesAndBuildsService,
+                              SelectedBranchAndBuildService,
+                              SelectedComparisonService: SelectedComparisonService,
+                              ApplicationInfoPopupService,
                               ConfigurationService: ConfigurationService,
                               GlobalHotkeysService,
                               BuildDiffInfosResource: BuildDiffInfosService,
@@ -42,8 +47,8 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
 
     ConfigurationService.getConfiguration().subscribe(loadBranchesAndBuilds);
 
-    ctrl.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
-    ctrl.comparisonInfo = SelectedComparison.info;
+    ctrl.COMPARISON_DISABLED = SelectedComparisonService.COMPARISON_DISABLED;
+    ctrl.comparisonInfo = SelectedComparisonService.info;
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuilds);
 
@@ -88,16 +93,16 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
             BuildDiffInfosResource.get(baseBranchName, baseBuildName)
                 .subscribe((buildDiffInfos) => {
                     ctrl.comparisonBuilds = buildDiffInfos;
-                    const preSelectedComparison = SelectedComparison.selected();
-                    let selectedComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
+                    const preSelectedComparison = SelectedComparisonService.selected();
+                    let selectedComparison = {name: SelectedComparisonService.COMPARISON_DISABLED, changeRate: 0};
                     angular.forEach(ctrl.comparisonBuilds, (comparisonBuild) => {
                         if (comparisonBuild.name === preSelectedComparison) {
                             selectedComparison = comparisonBuild;
                         }
                     });
-                    SelectedComparison.setSelected(selectedComparison.name);
-                    if (selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
-                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
+                    SelectedComparisonService.setSelected(selectedComparison.name);
+                    if (selectedComparison.name === SelectedComparisonService.COMPARISON_DISABLED) {
+                        $location.search(SelectedComparisonService.COMPARISON_URL_PARAM_KEY, selectedComparison.name);
                     }
                     ctrl.selectedComparison = selectedComparison;
                 }, () => {
@@ -119,32 +124,32 @@ function NavigationController($location, LocalStorageService, BranchesAndBuildsS
 
     function resetComparisonSelection() {
         ctrl.comparisonBuilds = [];
-        SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
-        $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
+        SelectedComparisonService.setSelected(SelectedComparisonService.COMPARISON_DISABLED);
+        $location.search(SelectedComparisonService.COMPARISON_URL_PARAM_KEY, SelectedComparisonService.COMPARISON_DISABLED);
         ctrl.selectedComparison = undefined;
     }
 
     ctrl.setBranch = (branch) => {
         ctrl.branchesAndBuilds.selectedBranch = branch;
         LocalStorageService.remove(SelectedBranchAndBuildService.BUILD_KEY);
-        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
+        LocalStorageService.remove(SelectedComparisonService.COMPARISON_URL_PARAM_KEY);
         $location.search(SelectedBranchAndBuildService.BRANCH_KEY, branch.branch.name);
     };
 
     ctrl.setBuild = (selectedBranch, build) => {
         ctrl.branchesAndBuilds.selectedBuild = build;
-        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
+        LocalStorageService.remove(SelectedComparisonService.COMPARISON_URL_PARAM_KEY);
         $location.search(SelectedBranchAndBuildService.BUILD_KEY, build.linkName);
         loadComparisonBuilds();
     };
 
     ctrl.setComparisonBuild = (comparisonBuild) => {
-        $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
+        $location.search(SelectedComparisonService.COMPARISON_URL_PARAM_KEY, comparisonBuild.name);
         ctrl.selectedComparison = comparisonBuild;
     };
 
     ctrl.disableComparison = () => {
-        const disabledComparison = {name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0};
+        const disabledComparison = {name: SelectedComparisonService.COMPARISON_DISABLED, changeRate: 0};
         ctrl.setComparisonBuild(disabledComparison);
     };
 

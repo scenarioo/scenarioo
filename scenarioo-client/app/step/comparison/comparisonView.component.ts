@@ -19,8 +19,7 @@ import {StepDiffInfoService} from '../../diffViewer/services/step-diff-info.serv
 
 declare var angular: angular.IAngularStatic;
 
-angular
-    .module('scenarioo.directives')
+angular.module('scenarioo.directives')
     .component('scComparisonView', {
         bindings: {
             step: '<',
@@ -29,12 +28,12 @@ angular
             screenShotUrl: '<',
         },
         template: require('./comparisonView.html'),
-        controller: ComparisonViewController,
+        controller: ComparisonViewComponent,
     });
-function ComparisonViewController($scope, $routeParams, localStorageService, SelectedBranchAndBuildService, ScreenshotUrlService,
-                                  SelectedComparison, BranchesAndBuildsService, DiffInfoService,
-                                  BuildDiffInfoResource: BuildDiffInfoService,
-                                  StepDiffInfoResource: StepDiffInfoService) {
+function ComparisonViewComponent($scope, $routeParams, localStorageService, SelectedBranchAndBuildService, ScreenshotUrlService,
+                                 SelectedComparisonService, BranchesAndBuildsService, DiffInfoService,
+                                 BuildDiffInfoResource: BuildDiffInfoService,
+                                 StepDiffInfoResource: StepDiffInfoService) {
     const ctrl = this;
 
     const useCaseName = $routeParams.useCaseName;
@@ -58,7 +57,7 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
 
     function updateStep() {
         const selectedBranchAndBuild = SelectedBranchAndBuildService.selected();
-        loadDiffInfoData(selectedBranchAndBuild.branch, selectedBranchAndBuild.build, SelectedComparison.selected());
+        loadDiffInfoData(selectedBranchAndBuild.branch, selectedBranchAndBuild.build, SelectedComparisonService.selected());
     }
 
     function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
@@ -117,7 +116,7 @@ function ComparisonViewController($scope, $routeParams, localStorageService, Sel
             ctrl.diffScreenShotUrl = ctrl.screenShotUrl;
         } else if (ctrl.stepIdentifier) {
             const branchAndBuild = SelectedBranchAndBuildService.selected();
-            const comparisonName = SelectedComparison.selected();
+            const comparisonName = SelectedComparisonService.selected();
             ctrl.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl(ctrl.step, branchAndBuild, comparisonName, ctrl.stepIdentifier.usecaseName, ctrl.stepIdentifier.scenarioName, ctrl.stepIndex);
         }
     }

@@ -30,7 +30,7 @@ declare var angular: angular.IAngularStatic;
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-                            $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
+                            $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparisonService,
                             PagesAndStepsService, DiffInfoService, LabelConfigurationsResource,
                             SketchIdsResource: SketchIdsResource,
                             BuildDiffInfoResource: BuildDiffInfoService,
@@ -61,7 +61,7 @@ function ScenarioController($filter, $routeParams,
     vm.getLinkToStep = getLinkToStep;
     vm.resetSearchField = resetSearchField;
     vm.goToIssue = goToIssue;
-    vm.comparisonInfo = SelectedComparison.info;
+    vm.comparisonInfo = SelectedComparisonService.info;
 
     const useCaseName = $routeParams.useCaseName;
     const scenarioName = $routeParams.scenarioName;
@@ -101,9 +101,9 @@ function ScenarioController($filter, $routeParams,
                 vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
                 scenarioStatistics = result.scenarioStatistics;
 
-                if (SelectedComparison.isDefined()) {
+                if (SelectedComparisonService.isDefined()) {
                     const selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
-                    loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
+                    loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparisonService.selected());
                 }
 
                 loadRelatedIssues();
@@ -182,7 +182,7 @@ function ScenarioController($filter, $routeParams,
         }
         let branch = selectedBranchAndBuild.branch;
         let build = selectedBranchAndBuild.build;
-        if (SelectedComparison.isDefined() && stepIsRemoved) {
+        if (SelectedComparisonService.isDefined() && stepIsRemoved) {
             branch = comparisonBranchName;
             build = comparisonBuildName;
         }

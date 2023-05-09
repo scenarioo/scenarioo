@@ -22,13 +22,13 @@ import {RelatedIssueResource, RelatedIssueSummary} from '../shared/services/rela
 
 declare var angular: angular.IAngularStatic;
 
-angular.module('scenarioo.controllers').controller('StepController', StepController);
+angular.module('scenarioo.controllers').controller('StepController', OldstepController);
 
-function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
-                        $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
-                        SharePageService, SketcherContextService, SketchIdsResource,
-                        SketcherLinkService, SelectedComparison,
-                        RelatedIssueResource: RelatedIssueResource) {
+function OldstepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
+                           $filter, ApplicationInfoPopupService, LabelConfigurationsResource,
+                           SharePageService, SketcherContextService, SketchIdsResource,
+                           SketcherLinkService, SelectedComparisonService,
+                           RelatedIssueResource: RelatedIssueResource) {
 
     const transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     const transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -42,10 +42,11 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
-    $scope.comparisonInfo = SelectedComparison.info;
+    $scope.comparisonInfo = SelectedComparisonService.info;
     $scope.activeTab = getActiveTab();
     $scope.refreshIfComparisonActive = refreshIfComparisonActive;
     $scope.goToNextStep = goToNextStep;
+    $scope.collapsePanel = collapsePanel;
 
     activate();
 
@@ -100,6 +101,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         $scope.useCaseLabels = result.useCaseLabels;
         $scope.scenarioLabels = result.scenarioLabels;
         $scope.selectedBuild = selected.buildName;
+        $scope.getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;
         loadRelatedIssues();
         initScreenshotUrl();
 
@@ -324,6 +326,17 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             (result) => {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
+    }
+
+    function collapsePanel(event) {
+        $scope.isPanelCollapsed = event;
+    }
+
+    function getCurrentStepIndexForDisplay() {
+        if (angular.isUndefined($scope.stepNavigation)) {
+            return '?';
+        }
+        return $scope.stepNavigation.stepIndex + 1;
     }
 
 }

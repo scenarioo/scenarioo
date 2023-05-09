@@ -1,0 +1,63 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="navigation-container flex" style="position: absolute; right: 0; top: -35px; ">
+    <div class="flex-fill">
+        <div class="flex-column">
+            <div (click)="goStepBack()" [ngClass]="stepIndex === 1 ? 'step-arrow-grey':'step-arrow'"
+                 class="progressbar-element first"
+                 id="prevStepBtn" [tooltip]="stepIndex === 1 ? '':'Previous Step [Left]'">
+                <span class="navigation">&#9204;</span>
+            </div>
+            <div class="progressbar-element">
+                <progressbar [max]="totalNumberOfSteps - 1" [value]="stepIndex - 1" class="progress">
+                    <span class="text-nowrap" placement="bottom" tooltip="of all steps in this scenario" >Step {{stepIndex}} of {{totalNumberOfSteps}} in Scenario "{{scenarioName | scHumanReadable}}"</span>
+                </progressbar>
+            </div>
+            <div (click)="goStepForward()" [ngClass]="stepIndex === totalNumberOfSteps ? 'step-arrow-grey':'step-arrow'"
+                 class="progressbar-element  last" id="nextStepBtn"
+                 placement="bottom" [tooltip]="stepIndex === totalNumberOfSteps ? '':'Next Step [Right]'">
+                <span class="navigation">&#9205;</span>
+            </div>
+        </div>
+
+        <div class="flex-column">
+            <div class="page-navigation justify-content-between">
+                <span (click)="goPageBack()" [ngClass]="pageIndex === 1 ? 'page-arrow-grey':'page-arrow'" id="prevPageBtn"
+                      placement="bottom" [tooltip]="pageIndex === 1 ? '':'Previous Page [Ctrl+Left]'"> &#9204; </span>
+                <span class="page" placement="bottom" tooltip="of all pages in this scenario">Page {{pageIndex}} of {{totalNumberOfPages}}</span>
+                <span (click)="goPageForward()" [ngClass]="pageIndex === totalNumberOfPages ? 'page-arrow-grey':'page-arrow'"
+                      id="nextPageBtn" placement="bottom"
+                      [tooltip]="pageIndex === totalNumberOfPages ? '':'Next Page [Ctrl+Right]'"> &#9205; </span>
+            </div>
+            <div class="page-variant-navigation justify-content-between">
+                <span (click)="goPageVariantBack()" [ngClass]="pageVariantIndex === 1 ? 'page-arrow-grey':'page-arrow'"
+                      id="prevPageVariantBtn"
+                      placement="bottom"
+                      [tooltip]="pageVariantIndex === 1 ? '':'Previous variant (potentially in other scenario) [Ctrl+Up]'"> &#9206; </span>
+                <a (click)="goPageVariants(_stepNavigation.pageName)" class="page"
+                   id="pageVariantIndicator" placement="bottom" tooltip="Click here to see all Page-Variants">Page-Variant
+                    {{pageVariantIndex}} of {{totalNumberOfPageVariants}}</a>
+                <span (click)="goPageVariantForward()" [ngClass]="pageVariantIndex === totalNumberOfPageVariants ? 'page-arrow-grey':'page-arrow'"
+                      id="nextPageVariantBtn"
+                      placement="bottom"
+                      [tooltip]="pageVariantIndex === totalNumberOfPageVariants ? '':'Next variant (potentially in other scenario) [Ctrl+Down]'"> &#9207; </span>
+            </div>
+        </div>
+    </div>
+
+</div>

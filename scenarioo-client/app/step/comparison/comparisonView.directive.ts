@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters').filter('scMetadataTreeListCreator', function ($filter) {
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {IStep, IStepIdentifier} from '../../generated-types/backend-types';
 
-    var transformToOptimizedTree = $filter('scMetadataTreeCreator');
+@Directive({
+    selector: 'sc-comparison-view',
+})
+export class ComparisonViewDirective extends UpgradeComponent {
 
-    function transformMetadataToTreeArray(metadata) {
-        const metadataTrees = {};
+    @Input() step: IStep;
+    @Input() stepIdentifier: IStepIdentifier;
+    @Input() stepIndex: number;
+    @Input() screenShotUrl: string;
 
-        angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToOptimizedTree(value);
-        });
-
-        return metadataTrees;
+    constructor(elementRef: ElementRef, injector: Injector) {
+        super('scComparisonView', elementRef, injector);
     }
-
-    return transformMetadataToTreeArray;
-
-});
+}

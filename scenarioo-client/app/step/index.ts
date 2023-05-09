@@ -1,19 +1,10 @@
-import {downgradeComponent} from '@angular/upgrade/static';
-import {LabelMetadataComponent} from './label-metadata/label-metadata.component';
-import './screenAnnotations/annotatedScreenshot.component';
-import './screenAnnotations/screenAnnotationsButton.directive';
+import './screenAnnotations/screenAnnotationsButton.component';
 import './screenAnnotations/screenAnnotationInfoPopup.controller';
 import './screenAnnotations/screenAnnotations.service';
+import './screenAnnotations/annotatedScreenshot.component';
 import './stepNotFound/stepNotFound.component';
 import './fallback/fallback.component';
 import './navigation/stepNavigation.component';
 import './comparison/comparisonToolbar.component';
 import './comparison/comparisonView.component';
-import './step.controller';
-
-declare var angular: angular.IAngularStatic;
-
-// If we move this into the component, where it belongs, scenarioo directives won't be available yet for tests.
-angular.module('scenarioo.directives')
-    .directive('scLabelMetadata',
-        downgradeComponent({component: LabelMetadataComponent}) as angular.IDirectiveFactory);
+import './oldstep.controller';

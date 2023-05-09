@@ -15,30 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare var angular: angular.IAngularStatic;
+
 angular
     .module('scenarioo.directives')
-    .directive('scScreenAnnotationsButton', screenAnnotationsButton);
+    .component('scScreenAnnotationsButton', {
+        bindings: {
+            screenAnnotations: '<',
+        },
+        template: require('./screenAnnotationsButton.html'),
+        controller: screenAnnotationsButton,
+    });
 
 function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
 
-    var SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
-
-    return {
-        restrict: 'E',
-        scope: {
-            screenAnnotations: '=',
-            visibilityToggle: '='
-        },
-        template: require('./screenAnnotationsButton.html'),
-        controller: ScreenAnnotationsButtonController,
-        controllerAs: 'screenAnnotationsButton'
-    };
+    const SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
 
     function ScreenAnnotationsButtonController($scope) {
 
         // we should use 'bindToController' here, as soon we upgrade to angular 1.3 or upwards (instead of $scope)
 
-        var vm = this;
+        const vm = this;
         vm.toggleAnnotationsVisible = toggleAnnotationsVisible;
         vm.isAnnotationsButtonVisible = isAnnotationsButtonVisible;
 
@@ -54,11 +51,10 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
         }
 
         function initAnnotationsVisibleFromLocalStorage() {
-            var annotationsVisible = LocalStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
+            const annotationsVisible = LocalStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
             if (annotationsVisible === 'true') {
                 $scope.visibilityToggle = true;
-            }
-            else if (annotationsVisible === 'false') {
+            } else if (annotationsVisible === 'false') {
                 $scope.visibilityToggle = false;
             } else {
                 // default
@@ -72,6 +68,5 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
         }
 
     }
-
 
 }

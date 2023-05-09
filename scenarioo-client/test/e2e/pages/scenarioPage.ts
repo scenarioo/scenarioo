@@ -4,7 +4,7 @@ import { by, element, ElementFinder, $ } from 'protractor';
 
 class ScenarioPage {
 
-    private stepView = $('div.step-view');
+    private stepView = $('div.steps-overview');
     private expandAllButton = element(by.id('expandAllPages'));
     private collapseAllButton =  element(by.id('collapseAllPages'));
 
@@ -22,11 +22,11 @@ class ScenarioPage {
     }
 
     async assertFirstChangedPageDiffIconHasValue() {
-        return expect($('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
+        return expect($('.steps-overview div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
     }
 
     async assertFirstChangedStepDiffIconHasValue() {
-        return expect($('.step-view div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
+        return expect($('.steps-overview div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
     }
 
     async assertAddedPageDiffIconTextEqualsAdded() {

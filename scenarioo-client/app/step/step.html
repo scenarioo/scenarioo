@@ -17,16 +17,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs breadcrumb-id="step"></sc-breadcrumbs>
 
-<sc-step-not-found-div show-component="stepNotFound" response="httpResponse"></sc-step-not-found-div>
+<sc-step-view></sc-step-view>
+
+<!--<sc-step-not-found-div show-component="stepNotFound" response="httpResponse"></sc-step-not-found-div>
 
 <sc-fallback-div show-component="fallback" step-identifier="stepIdentifier"></sc-fallback-div>
 
 <sc-title scenario-name="{{stepIdentifier.scenarioName | scHumanReadable}}" step-index="{{getCurrentStepIndexForDisplay()}}"></sc-title>
 
-<sc-step-navigation-toolbar step-navigation="stepNavigation" step-statistics="stepStatistics" step="step" page-name="pageName" linking-variable="stepShowMetadata" show-screen-annotations="showScreenAnnotations" hide-toolbar="stepNotFound"></sc-step-navigation-toolbar>
+<sc-step-navigation-toolbar step-navigation="stepNavigation" step-statistics="stepStatistics" step="step" page-name="pageName" linking-variable="stepShowMetadata" show-screen-annotations="showScreenAnnotations" hide-toolbar="stepNotFound"></sc-step-navigation-toolbar>-->
 
 <!-- screenshot and information -->
-<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+<!--<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
 
     <div>
         <uib-tabset class="step-panes" active="activeTab">
@@ -37,10 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </uib-tab>
             <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
                 <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
-            </uib-tab>
+            </uib-tab>-->
 
             <!-- Diff Viewer Step Comparison View -->
-            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+            <!--<uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
 
                 <uib-tab-heading>
                     <span class="left">Comparison</span>
@@ -56,9 +58,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </uib-tabset>
     </div>
 
-    <div>
+    <div>-->
         <!-- step -->
-        <sc-collapsable-panel title="Step" key="stepView-step" initially-expanded="false">
+        <!--<sc-collapsable-panel title="Step" key="stepView-step" initially-expanded="false">
             <sc-tree information-tree='stepInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
@@ -67,10 +69,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ul id="relatedSketches">
                 <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
             </ul>
-        </sc-collapsable-panel>
+        </sc-collapsable-panel>-->
 
         <!-- labels -->
-        <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
+        <!--<sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
                               ng-if="hasAnyLabels()">
             <sc-label-metadata [scenario-labels]="scenarioLabels.labels"
                                [use-case-labels]="useCaseLabels.labels"
@@ -78,8 +80,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                [page-labels]="step.page.labels.labels"
                                [label-configurations]="labelConfigurations">
             </sc-label-metadata>
-        </sc-collapsable-panel>
+        </sc-collapsable-panel>-->
         <!-- meta info -->
-        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+        <!--<sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-meta-data-panel>
+</sc-meta-data-panel>-->

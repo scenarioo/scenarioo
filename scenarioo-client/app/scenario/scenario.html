@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-meta-data-panel linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
-        <div class="row step-view">
+        <div class="row steps-overview">
             <div ng-repeat="page in vm.pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'added' : page.page.diffInfo.isAdded, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2 class="sc-scenario-page-title">
@@ -80,9 +80,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- scenario -->
         <sc-collapsable-panel title="Scenario" key="scenarioView-scenario" initially-expanded="true">
-            <sc-tree information-tree='vm.scenarioInformationTree'></sc-tree>
+            <sc-tree [information-tree]="vm.scenarioInformationTree"></sc-tree>
         </sc-collapsable-panel>
 
+        <!-- Related Sketches -->
         <sc-collapsable-panel title="Related Sketches" key="scenarioView-relatedSketches" initially-expanded="true" ng-show="vm.hasAnyRelatedIssues">
             <ul id="relatedSketches">
                 <li ng-repeat="issue in vm.relatedIssues"><a href="" ng-click="vm.goToIssue(issue)">{{issue.name}}</a></li>

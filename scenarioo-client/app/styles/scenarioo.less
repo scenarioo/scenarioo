@@ -103,6 +103,19 @@ h4 {
     flex: 1 1 auto;
 }
 
+.flex-row {
+    flex-direction: row;
+    background-color: red;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
 /** Breadcrumbs (basically styled by bootstrap!) **/
 
 .breadcrumb {
@@ -114,7 +127,7 @@ h4 {
 }
 
 #sc-breadcrumbs {
-  background-color:#eee;
+  background-color: #eee;
   padding: 12px 10px 10px 10px;
   margin-left: -15px;
   margin-right: -15px;
@@ -231,7 +244,7 @@ h4 {
   float: left;
 }
 
-.sc-nav-application-name{
+.sc-nav-application-name {
   margin-left: 3px;
   line-height: 48px;
 }
@@ -292,16 +305,40 @@ h4 {
   padding: 0;
 }
 
-.step-view {
+.step-overview {
   margin: 0 0 0 0;
   padding: 5px;
   border-radius: 3px;
 }
 
-.sc-step-comparison-icon{
-  height: 15px;
-  margin-right: 4px;
-  margin-top: -4px;
+/* As soon as Step-View is migrated, this can be deleted! */
+.step-view {
+
+    .sc-tabs {
+        margin-top: -60px;
+        margin-left: -15px;
+    }
+
+    #left {
+        float: left;
+        margin-right: 100px;
+    }
+
+    #right {
+        float: right;
+        margin-top: 10px;
+        margin-right: -11px;
+    }
+
+    .row {
+        margin-right: -30px;
+    }
+}
+
+.sc-step-comparison-icon {
+    height: 15px;
+    margin-right: 4px;
+    margin-top: -4px;
 }
 
 #sc-diff-viewer-changes-highlight-legend {
@@ -386,16 +423,6 @@ div.sc-screenshot-scenario {
 }
 
 /** Annotations on screenshots */
-
-span.sc-screenshot-annotation {
-  position: absolute;
-  display: block;
-  white-space: nowrap; /** currently ellipsis for overflow only works for single line texts, see following hack for making it work for multilines: http://www.mobify.com/blog/multiline-ellipsis-in-pure-css/ **/
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border: 2px rgb(255, 214, 51) solid;
-  background-color: rgba(255, 214, 51, 0.6);
-}
 
 span.sc-screenshot-annotation-text {
   margin: 0px 1px 0px 1px;
@@ -607,37 +634,40 @@ span.sc-text-before-label {
 .sc-sketcher-bg-color {
   background-color: #1abc9c;
 }
+
 .sc-sketcher-bg-color-light {
   background-color: #d1f2eb;
 }
+
 .sc-sketcher-color {
   color: #1abc9c;
 }
+
 .sc-sketcher-color-light {
   color: #d1f2eb;
 }
 
 .sc-sketcher-container {
-  padding:20px;
-  width:100%;
+  padding: 20px;
+  width: 100%;
   float: left;
 }
 
 #sc-sketcher-toolbar {
-  height:30px;
+  height: 30px;
   margin-bottom: 20px;
 }
 
 .sc-sketcher-toolbar-right {
-  float:right;
+  float: right;
 }
 
 #sc-sketcher-workspace {
-  min-height:600px;
+  min-height: 600px;
 }
 
 #sc-sketcher-workspace #sc-sketcher-viewport {
-  background-color:#fff;
+  background-color: #fff;
   -webkit-box-shadow: 0 0 5px 0 #eee;
   box-shadow: 0 0 5px 0 #eee;
   overflow: hidden;
@@ -656,6 +686,7 @@ span.sc-text-before-label {
   padding: 10px;
   overflow: hidden;
 }
+
 #sc-sketcher-workspace .noteToolText button {
   float: right;
   margin: 5px;
@@ -729,27 +760,35 @@ textarea#issueDescription {
 .tool-icon-select {
   background-position: -450px center;
 }
+
 .tool-icon-border {
   background-position: 0px center;
 }
+
 .tool-icon-rect {
   background-position: -50px center;
 }
+
 .tool-icon-note {
   background-position: -100px center;
 }
+
 .tool-icon-text {
   background-position: -150px center;
 }
+
 .tool-icon-button {
   background-position: -200px center;
 }
+
 .tool-icon-highlight {
   background-position: -500px center;
 }
+
 .tool-icon-line {
   background-position: -550px center;
 }
+
 .tool-icon-arrow {
   background-position: -600px center;
 }
@@ -758,12 +797,15 @@ textarea#issueDescription {
 .property-icon-front {
   background-position: -400px center;
 }
+
 .property-icon-forward {
   background-position: -350px center;
 }
+
 .property-icon-backward {
   background-position: -300px center;
 }
+
 .property-icon-back {
   background-position: -250px center;
 }
